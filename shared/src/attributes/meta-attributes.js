@@ -35,9 +35,10 @@ export const metaAttributes = {
 	},
 
 	/**
-	 * Session-only customization cache
-	 * Preserves customizations during theme switching
-	 * NOT serialized to post content
+	 * Complete snapshot of all themeable attributes
+	 * Auto-updated on every attribute change
+	 * Saved with post content (persists when user saves)
+	 * Lost if user closes without saving (standard WordPress behavior)
 	 */
 	customizationCache: {
 		type: 'object',

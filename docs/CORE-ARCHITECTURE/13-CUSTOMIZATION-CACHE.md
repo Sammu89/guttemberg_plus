@@ -54,6 +54,90 @@ The customizationCache serves two main purposes:
 
 ---
 
+## Critical: Save Behavior
+
+### While Editing (Not Saved)
+
+**Status**: customizationCache exists in memory as a block attribute
+
+**Data**: Complete snapshot auto-updates with every change
+
+**Persistence**: Only in browser memory (WordPress hasn't saved yet)
+
+**If user closes window**: Data is LOST (standard WordPress behavior - changes not saved)
+
+### After Saving Post
+
+**Status**: customizationCache is serialized to post_content in database
+
+**Data**: Saved as part of block attributes (inline block customization)
+
+**Persistence**: Permanent (saved in WordPress database)
+
+**On reload**: customizationCache is restored from database with all other attributes
+
+### Key Points
+
+```
+Before Save:
+- customizationCache in memory only
+- Auto-updating with every change
+- Close window → data lost
+
+After Save:
+- customizationCache in database (post_content)
+- Part of saved block attributes
+- Reload page → data restored
+```
+
+**This is standard WordPress block behavior**: All block attributes (including customizationCache) follow WordPress save lifecycle.
+
+---
+
+## Data Storage Locations
+
+Understanding where data is stored is critical:
+
+### 1. Themes (Permanent, Reusable)
+
+**Location**: WordPress database `wp_options` table
+- Key: `accordion_themes`, `tabs_themes`, `toc_themes`
+- Contains: Theme deltas (differences from defaults)
+- Lifespan: Permanent until deleted
+- Shared: All blocks can use the same theme
+
+```php
+// wp_options
+option_name: "accordion_themes"
+option_value: {
+  "Dark Mode": {
+    name: "Dark Mode",
+    values: { titleColor: "#fff", titleBackgroundColor: "#2c2c2c" },
+    created: "2025-01-15 10:30:00"
+  }
+}
+```
+
+### 2. Block Attributes (Per-Block, Saved with Post)
+
+**Location**: WordPress database `wp_posts` table (post_content field)
+- Contains: All block attributes including customizationCache
+- Lifespan: Saved when user saves post, lost if user closes without saving
+- Per-block: Each block instance has its own values
+
+```html
+<!-- wp:custom/accordion {"currentTheme":"Dark Mode","customizationCache":{"titleColor":"#ff0000","titleFontSize":18,...}} -->
+```
+
+### 3. In-Memory During Editing
+
+**Location**: Browser JavaScript memory
+- Contains: Current working state of block
+- Lifespan: Only while editing, before save
+- Volatile: Lost on page reload or close without save
+
+---
+
 ## Implementation
 
 ### Data Structure
@@ -127,13 +211,26 @@ export function getThemeableSnapshot(attributes, exclude = []) {
 
 ## Usage Scenarios
 
-### Scenario 1: Regular Editing
+### Scenario 1: Regular Editing (Not Saved)
 
 ```
 1. User edits title color → setAttributes({ titleColor: "#ff0000" })
 2. useEffect triggers → calculates new snapshot
 3. customizationCache auto-updates with complete values
-4. All attribute values are preserved
+4. All attribute values preserved IN MEMORY
+5. User closes browser → customizationCache LOST (WordPress didn't save)
+```
+
+### Scenario 1b: Regular Editing (Saved)
+
+```
+1. User edits title color → setAttributes({ titleColor: "#ff0000" })
+2. useEffect triggers → calculates new snapshot
+3. customizationCache auto-updates with complete values
+4. User clicks "Save" or "Publish"
+5. WordPress saves post_content with all block attributes
+6. customizationCache persists in database as inline block customization
+7. User reloads page → customizationCache restored from database
 ```
 
 ### Scenario 2: Saving as New Theme
@@ -142,10 +239,17 @@ export function getThemeableSnapshot(attributes, exclude = []) {
 1. User clicks "Save as New Theme"
 2. Calculate deltas from customizationCache:
    const deltas = calculateDeltas(customizationCache, defaults)
-3. Save deltas to theme
+3. Save deltas to theme (stored in wp_options database)
 4. Clear cache: setAttributes({ customizationCache: {} })
-5. Block now uses clean theme
+5. Block now uses clean theme (no customizations)
+6. customizationCache is now empty object {}
+7. When user saves post:
+   - Block attributes saved with currentTheme = "New Theme"
+   - customizationCache = {} (empty, since using clean theme)
+   - No inline customizations (all values come from theme)
 ```
+
+**Important**: After "Save as New Theme", the customizations are now PART OF THE THEME (in wp_options), not part of the block. The block just has `currentTheme` pointing to the new theme.
 
 ### Scenario 3: Updating Theme
 
