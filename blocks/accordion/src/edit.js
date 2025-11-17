@@ -247,21 +247,21 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	/**
 	 * Handle theme change
-	 * Restores customizations from session cache if available, otherwise clean theme
+	 * User can select either clean theme or customized variant from dropdown
+	 * @param {string} newThemeName - Theme name to switch to
+	 * @param {boolean} useCustomized - Whether user selected customized variant
 	 */
-	const handleThemeChange = ( newThemeName ) => {
+	const handleThemeChange = ( newThemeName, useCustomized = false ) => {
 		const newTheme = themes[ newThemeName ];
 		const newThemeKey = newThemeName || '';
 
-		// Check if we have cached customizations for this theme
-		const cachedSnapshot = sessionCache[ newThemeKey ];
-
 		let valuesToApply;
-		if ( cachedSnapshot ) {
-			// Restore from cache (user's customizations preserved)
-			valuesToApply = cachedSnapshot;
+
+		if ( useCustomized && sessionCache[ newThemeKey ] ) {
+			// User selected customized variant - restore from session cache
+			valuesToApply = sessionCache[ newThemeKey ];
 		} else {
-			// No cache - use clean theme (defaults + theme deltas)
+			// User selected clean theme - use defaults + theme deltas
 			valuesToApply = newTheme
 				? applyDeltas( allDefaults, newTheme.values || {} )
 				: allDefaults;
@@ -439,6 +439,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						onRename={ handleRenameTheme }
 						onReset={ handleResetCustomizations }
 						onThemeChange={ handleThemeChange }
+						sessionCache={ sessionCache }
 					/>
 				</div>
 
