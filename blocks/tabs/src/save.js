@@ -63,14 +63,20 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'contentBackgroundColor', '--panel-bg' );
 		addIfDefined( 'contentColor', '--panel-color' );
 
-		// Border (from BorderPanel)
-		addIfDefined( 'accordionBorderColor', '--tab-button-border-color' );
-		addIfDefined( 'accordionBorderThickness', '--tab-button-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'accordionBorderStyle', '--tab-button-border-style' );
-		addIfDefined( 'accordionShadow', '--tabs-container-shadow' );
-		addIfDefined( 'dividerBorderColor', '--divider-color' );
-		addIfDefined( 'dividerBorderThickness', '--divider-width', ( val ) => `${ val }px` );
-		addIfDefined( 'dividerBorderStyle', '--divider-style' );
+		// Border (from BorderPanel - using tab-specific attributes)
+		addIfDefined( 'tabBorderColor', '--tab-button-border-color' );
+		addIfDefined( 'tabBorderThickness', '--tab-button-border-width', ( val ) => `${ val }px` );
+		addIfDefined( 'tabBorderStyle', '--tab-button-border-style' );
+		addIfDefined( 'tabShadow', '--tabs-container-shadow' );
+		addIfDefined( 'dividerColor', '--divider-color' );
+		addIfDefined( 'dividerThickness', '--divider-width', ( val ) => `${ val }px` );
+		addIfDefined( 'dividerStyle', '--divider-style' );
+
+		// Border Radius (from BorderPanel)
+		if ( attributes.tabBorderRadius ) {
+			const br = attributes.tabBorderRadius;
+			styles[ '--tab-button-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		}
 
 		// Icon (from IconPanel)
 		addIfDefined( 'iconSize', '--icon-size', ( val ) => `${ val }px` );

@@ -14,7 +14,6 @@
 import {
 	colorAttributes,
 	typographyAttributes,
-	borderAttributes,
 	spacingAttributes,
 	iconAttributes,
 	metaAttributes,
@@ -81,6 +80,32 @@ const tabsSpecificAttributes = {
 	/**
 	 * Customizable Attributes - Tabs-specific (CSS-based, default to null)
 	 */
+
+	// Tab border styling (replaces accordionBorder* from shared attributes)
+	tabBorderColor: {
+		type: 'string',
+		default: null,
+	},
+
+	tabBorderThickness: {
+		type: 'number',
+		default: null,
+	},
+
+	tabBorderStyle: {
+		type: 'string',
+		default: null,
+	},
+
+	tabShadow: {
+		type: 'string',
+		default: null,
+	},
+
+	tabBorderRadius: {
+		type: 'object',
+		default: null, // { topLeft, topRight, bottomRight, bottomLeft }
+	},
 
 	// Tab container styling
 	containerBorderWidth: {
@@ -258,9 +283,6 @@ export const tabsAttributes = {
 
 	// Customizable typography attributes (all default to null)
 	...typographyAttributes,
-
-	// Customizable border attributes (all default to null)
-	...borderAttributes,
 
 	// Customizable spacing attributes (all default to null)
 	...spacingAttributes,
