@@ -89,14 +89,26 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Check if block has customizations using proper cascade comparison
 	// Attributes to exclude from customization check (non-style attributes)
 	const excludeFromCustomizationCheck = [
+		// Structural/meta attributes
 		'accordionId',
+		'uniqueId',
+		'blockId',
 		'title',
 		'content',
 		'currentTheme',
 		'customizations',
 		'customizationCache',
+		// Behavioral attributes
 		'initiallyOpen',
 		'allowMultipleOpen',
+		'headingLevel',
+		'useHeadingStyles',
+		// Icon settings (behavioral, not style)
+		'showIcon',
+		'iconPosition',
+		'iconTypeClosed',
+		'iconTypeOpen',
+		'iconRotation',
 	];
 
 	const isCustomized = hasAnyCustomizations(
@@ -189,18 +201,10 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const handleResetCustomizations = () => {
 		// Reset all customizable attributes to undefined/null
+		// Keep structural, behavioral, and icon settings
 		const resetAttrs = {};
 		Object.keys( attributes ).forEach( ( key ) => {
-			if (
-				key !== 'currentTheme' &&
-				key !== 'title' &&
-				key !== 'content' &&
-				key !== 'accordionId' &&
-				key !== 'customizations' &&
-				key !== 'customizationCache' &&
-				key !== 'initiallyOpen' &&
-				key !== 'allowMultipleOpen'
-			) {
+			if ( ! excludeFromCustomizationCheck.includes( key ) ) {
 				resetAttrs[ key ] = null;
 			}
 		} );

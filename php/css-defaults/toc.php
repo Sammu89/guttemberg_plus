@@ -3,7 +3,7 @@
  * CSS Default Values
  *
  * Auto-generated from assets/css/toc.css
- * Generated: 2025-11-17T21:17:04.123Z
+ * Generated: 2025-11-17T21:26:45.267Z
  *
  * DO NOT EDIT MANUALLY - Changes will be overwritten on build
  */

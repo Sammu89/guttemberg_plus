@@ -109,15 +109,27 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Check if block has customizations using proper cascade comparison
 	// Attributes to exclude from customization check (non-style attributes)
 	const excludeFromCustomizationCheck = [
+		// Structural/meta attributes
 		'tabs',
+		'uniqueId',
+		'blockId',
 		'currentTheme',
 		'customizations',
 		'customizationCache',
+		// Behavioral attributes
 		'orientation',
 		'activationMode',
 		'currentTab',
 		'responsiveBreakpoint',
 		'enableResponsiveFallback',
+		'headingLevel',
+		'useHeadingStyles',
+		// Icon settings (behavioral, not style)
+		'showIcon',
+		'iconPosition',
+		'iconTypeClosed',
+		'iconTypeOpen',
+		'iconRotation',
 	];
 
 	const isCustomized = hasAnyCustomizations(
@@ -210,19 +222,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const handleResetCustomizations = () => {
 		// Reset all customizable attributes to null
+		// Keep structural, behavioral, and icon settings
 		const resetAttrs = {};
 		Object.keys( attributes ).forEach( ( key ) => {
-			if (
-				key !== 'currentTheme' &&
-				key !== 'tabs' &&
-				key !== 'customizations' &&
-				key !== 'customizationCache' &&
-				key !== 'orientation' &&
-				key !== 'activationMode' &&
-				key !== 'currentTab' &&
-				key !== 'responsiveBreakpoint' &&
-				key !== 'enableResponsiveFallback'
-			) {
+			if ( ! excludeFromCustomizationCheck.includes( key ) ) {
 				resetAttrs[ key ] = null;
 			}
 		} );
