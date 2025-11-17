@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "custom/tab-panel",
+	"version": "1.0.0",
+	"title": "Tab Panel",
+	"category": "design",
+	"parent": ["custom/tabs"],
+	"description": "A single tab panel within a tabs block.",
+	"textdomain": "guttemberg-plus",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": false
+	},
+	"attributes": {
+		"tabId": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"isDisabled": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": ["custom/tabs/activeTab"]
+}

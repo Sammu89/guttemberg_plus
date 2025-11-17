@@ -72,29 +72,58 @@ export function BorderPanel( {
 		</span>
 	);
 
+	// Block-specific attribute names
+	const borderAttrs =
+		blockType === 'accordion'
+			? {
+					title: 'Accordion Border',
+					color: 'accordionBorderColor',
+					thickness: 'accordionBorderThickness',
+					style: 'accordionBorderStyle',
+					shadow: 'accordionShadow',
+					radius: 'accordionBorderRadius',
+			  }
+			: blockType === 'tabs'
+			? {
+					title: 'Tab Button Border',
+					color: 'tabBorderColor',
+					thickness: 'tabBorderThickness',
+					style: 'tabBorderStyle',
+					shadow: 'tabShadow',
+					radius: 'tabBorderRadius',
+			  }
+			: {
+					title: 'Wrapper Border',
+					color: 'wrapperBorderColor',
+					thickness: 'wrapperBorderWidth',
+					style: 'wrapperBorderStyle',
+					shadow: 'wrapperShadow',
+					radius: 'wrapperBorderRadius',
+			  };
+
 	return (
 		<PanelBody title="Border" initialOpen={ initialOpen }>
-			<h3>Accordion Border</h3>
+			<h3>{ borderAttrs.title }</h3>
 
 			<CompactColorControl
 				label={
-					isAttrCustomized( 'accordionBorderColor' ) ? 'Color (Customized)' : 'Color'
+					isAttrCustomized( borderAttrs.color ) ? 'Color (Customized)' : 'Color'
 				}
-				value={ effectiveValues.accordionBorderColor }
-				onChange={ ( value ) => handleChange( 'accordionBorderColor', value ) }
+				value={ effectiveValues[ borderAttrs.color ] }
+				onChange={ ( value ) => handleChange( borderAttrs.color, value ) }
 			/>
 
 			<RangeControl
-				label={ <CustomLabel label="Thickness (px)" attrName="accordionBorderThickness" /> }
-				value={ effectiveValues.accordionBorderThickness || 1 }
-				onChange={ ( value ) => handleChange( 'accordionBorderThickness', value ) }
+				label={ <CustomLabel label="Thickness (px)" attrName={ borderAttrs.thickness } /> }
+				value={ effectiveValues[ borderAttrs.thickness ] || 1 }
+				onChange={ ( value ) => handleChange( borderAttrs.thickness, value ) }
 				min={ 0 }
 				max={ 10 }
 			/>
 
 			<SelectControl
-				label={ <CustomLabel label="Style" attrName="accordionBorderStyle" /> }
-				value={ effectiveValues.accordionBorderStyle || 'solid' }
+				label={ <CustomLabel label="Style" attrName={ borderAttrs.style } /> }
+				value={ effectiveValues[ borderAttrs.style ] || 'solid' }
 				options={ [
 					{ label: 'None', value: 'none' },
 					{ label: 'Solid', value: 'solid' },
@@ -102,25 +131,25 @@ export function BorderPanel( {
 					{ label: 'Dotted', value: 'dotted' },
 					{ label: 'Double', value: 'double' },
 				] }
-				onChange={ ( value ) => handleChange( 'accordionBorderStyle', value ) }
+				onChange={ ( value ) => handleChange( borderAttrs.style, value ) }
 			/>
 
 			<TextControl
-				label={ <CustomLabel label="Shadow" attrName="accordionShadow" /> }
-				value={ effectiveValues.accordionShadow || 'none' }
-				onChange={ ( value ) => handleChange( 'accordionShadow', value ) }
+				label={ <CustomLabel label="Shadow" attrName={ borderAttrs.shadow } /> }
+				value={ effectiveValues[ borderAttrs.shadow ] || 'none' }
+				onChange={ ( value ) => handleChange( borderAttrs.shadow, value ) }
 				help="CSS box-shadow value (e.g. '0 2px 4px rgba(0,0,0,0.1)')"
 			/>
 
 			<RangeControl
-				label={ <CustomLabel label="Border Radius (px)" attrName="accordionBorderRadius" /> }
+				label={ <CustomLabel label="Border Radius (px)" attrName={ borderAttrs.radius } /> }
 				value={
-					effectiveValues.accordionBorderRadius?.topLeft ||
-					effectiveValues.accordionBorderRadius ||
+					effectiveValues[ borderAttrs.radius ]?.topLeft ||
+					effectiveValues[ borderAttrs.radius ] ||
 					4
 				}
 				onChange={ ( value ) =>
-					handleChange( 'accordionBorderRadius', {
+					handleChange( borderAttrs.radius, {
 						topLeft: value,
 						topRight: value,
 						bottomRight: value,
@@ -132,35 +161,90 @@ export function BorderPanel( {
 				help="Applies same radius to all corners"
 			/>
 
-			<hr />
-			<h3>Divider Border</h3>
+			{ blockType !== 'toc' && (
+				<>
+					<hr />
+					<h3>Divider Border</h3>
 
-			<CompactColorControl
-				label={ isAttrCustomized( 'dividerBorderColor' ) ? 'Color (Customized)' : 'Color' }
-				value={ effectiveValues.dividerBorderColor }
-				onChange={ ( value ) => handleChange( 'dividerBorderColor', value ) }
-			/>
+					<CompactColorControl
+						label={
+							isAttrCustomized(
+								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor'
+							)
+								? 'Color (Customized)'
+								: 'Color'
+						}
+						value={
+							effectiveValues[
+								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor'
+							]
+						}
+						onChange={ ( value ) =>
+							handleChange(
+								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor',
+								value
+							)
+						}
+					/>
 
-			<RangeControl
-				label={ <CustomLabel label="Thickness (px)" attrName="dividerBorderThickness" /> }
-				value={ effectiveValues.dividerBorderThickness || 0 }
-				onChange={ ( value ) => handleChange( 'dividerBorderThickness', value ) }
-				min={ 0 }
-				max={ 10 }
-			/>
+					<RangeControl
+						label={
+							<CustomLabel
+								label="Thickness (px)"
+								attrName={
+									blockType === 'accordion'
+										? 'dividerBorderThickness'
+										: 'dividerThickness'
+								}
+							/>
+						}
+						value={
+							effectiveValues[
+								blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness'
+							] || 0
+						}
+						onChange={ ( value ) =>
+							handleChange(
+								blockType === 'accordion'
+									? 'dividerBorderThickness'
+									: 'dividerThickness',
+								value
+							)
+						}
+						min={ 0 }
+						max={ 10 }
+					/>
 
-			<SelectControl
-				label={ <CustomLabel label="Style" attrName="dividerBorderStyle" /> }
-				value={ effectiveValues.dividerBorderStyle || 'solid' }
-				options={ [
-					{ label: 'None', value: 'none' },
-					{ label: 'Solid', value: 'solid' },
-					{ label: 'Dashed', value: 'dashed' },
-					{ label: 'Dotted', value: 'dotted' },
-					{ label: 'Double', value: 'double' },
-				] }
-				onChange={ ( value ) => handleChange( 'dividerBorderStyle', value ) }
-			/>
+					<SelectControl
+						label={
+							<CustomLabel
+								label="Style"
+								attrName={
+									blockType === 'accordion' ? 'dividerBorderStyle' : 'dividerStyle'
+								}
+							/>
+						}
+						value={
+							effectiveValues[
+								blockType === 'accordion' ? 'dividerBorderStyle' : 'dividerStyle'
+							] || 'solid'
+						}
+						options={ [
+							{ label: 'None', value: 'none' },
+							{ label: 'Solid', value: 'solid' },
+							{ label: 'Dashed', value: 'dashed' },
+							{ label: 'Dotted', value: 'dotted' },
+							{ label: 'Double', value: 'double' },
+						] }
+						onChange={ ( value ) =>
+							handleChange(
+								blockType === 'accordion' ? 'dividerBorderStyle' : 'dividerStyle',
+								value
+							)
+						}
+					/>
+				</>
+			) }
 		</PanelBody>
 	);
 }

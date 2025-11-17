@@ -16,6 +16,9 @@ import { tabsAttributes } from './tabs-attributes';
 import './style.scss';
 import '../../../assets/css/tabs.css';
 
+// Register the tab-panel child block
+import './tab-panel';
+
 /**
  * Register the tabs block
  *
