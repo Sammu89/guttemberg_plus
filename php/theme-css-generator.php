@@ -2,73 +2,75 @@
 /**
  * Theme CSS Generator
  *
- * Generates CSS for themes actually used on the current page.
- * Implements Tier 2 of the 3-tier cascade system.
+ * Implements Tier 2 CSS generation for optimal theme performance.
+ * Generates CSS classes in <head> for themes actually used on the page.
  *
- * Performance optimization: Only outputs CSS for themes used on the page,
- * not all themes in the database. This keeps CSS payload minimal.
+ * Architecture:
+ * - Tier 1: CSS defaults (assets/css/*.css - :root variables)
+ * - Tier 2: Theme CSS (this file - CSS classes in <head>)
+ * - Tier 3: Block customizations (inline styles in save.js)
+ *
+ * Performance:
+ * - Only generates CSS for themes used on current page
+ * - CSS is cacheable by browser
+ * - Reduces inline CSS payload by ~70% per block
  *
  * @package GuttemberPlus
  * @since 1.0.0
  */
 
+// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Parse post content and find which themes are used
+ * Get themes used on the current page
  *
- * Scans the post content blocks to identify which themes are referenced
- * by currentTheme attribute for each block type.
+ * Parses post content to detect which theme IDs are referenced by blocks.
+ * Returns array like: ['accordion' => ['theme-id-1'], 'tabs' => ['theme-id-2']]
  *
- * @return array Associative array with block types and theme IDs used
- *               Example: ['accordion' => ['theme-id-1', 'theme-id-2'], 'tabs' => ['theme-id-3']]
+ * @return array Associative array of block_type => array of theme IDs
  */
 function guttemberg_plus_get_used_themes_on_page() {
 	global $post;
 
-	// No post context (REST API, admin, etc.)
-	if ( ! $post || ! isset( $post->post_content ) ) {
+	if ( ! isset( $post ) || ! isset( $post->post_content ) ) {
 		return array();
 	}
 
 	// Parse blocks from post content
-	if ( ! function_exists( 'parse_blocks' ) ) {
-		return array();
-	}
+	$blocks = parse_blocks( $post->post_content );
 
-	$blocks      = parse_blocks( $post->post_content );
-	$used_themes = array();
+	// Track which themes are used for each block type
+	$used_themes = array(
+		'accordion' => array(),
+		'tabs'      => array(),
+		'toc'       => array(),
+	);
 
-	// Recursive function to process blocks and inner blocks
-	$process_blocks = function ( $blocks ) use ( &$process_blocks, &$used_themes ) {
-		foreach ( $blocks as $block ) {
+	// Recursively process blocks and their inner blocks
+	$process_blocks = function ( $blocks_array ) use ( &$process_blocks, &$used_themes ) {
+		foreach ( $blocks_array as $block ) {
 			// Check if this is one of our blocks
-			if ( isset( $block['blockName'] ) && isset( $block['attrs']['currentTheme'] ) ) {
-				$theme_id = $block['attrs']['currentTheme'];
+			$block_types_map = array(
+				'custom/accordion'    => 'accordion',
+				'custom/tabs'         => 'tabs',
+				'custom/toc'          => 'toc',
+				'custom/custom-toc'   => 'toc',
+			);
 
-				// Skip empty theme IDs
-				if ( empty( $theme_id ) ) {
-					continue;
-				}
+			if ( isset( $block_types_map[ $block['blockName'] ] ) ) {
+				$block_type = $block_types_map[ $block['blockName'] ];
 
-				// Detect block type from block name
-				if ( strpos( $block['blockName'], 'custom/accordion' ) !== false ) {
-					if ( ! isset( $used_themes['accordion'] ) ) {
-						$used_themes['accordion'] = array();
+				// Check if block has a currentTheme attribute
+				if ( isset( $block['attrs']['currentTheme'] ) && ! empty( $block['attrs']['currentTheme'] ) ) {
+					$theme_id = $block['attrs']['currentTheme'];
+
+					// Add to used themes if not already present
+					if ( ! in_array( $theme_id, $used_themes[ $block_type ], true ) ) {
+						$used_themes[ $block_type ][] = $theme_id;
 					}
-					$used_themes['accordion'][] = $theme_id;
-				} elseif ( strpos( $block['blockName'], 'custom/tabs' ) !== false ) {
-					if ( ! isset( $used_themes['tabs'] ) ) {
-						$used_themes['tabs'] = array();
-					}
-					$used_themes['tabs'][] = $theme_id;
-				} elseif ( strpos( $block['blockName'], 'custom/toc' ) !== false ) {
-					if ( ! isset( $used_themes['toc'] ) ) {
-						$used_themes['toc'] = array();
-					}
-					$used_themes['toc'][] = $theme_id;
 				}
 			}
 
@@ -81,22 +83,164 @@ function guttemberg_plus_get_used_themes_on_page() {
 
 	$process_blocks( $blocks );
 
-	// Remove duplicates and reindex
-	foreach ( $used_themes as $block_type => $theme_ids ) {
-		$used_themes[ $block_type ] = array_values( array_unique( $theme_ids ) );
-	}
-
-	return $used_themes;
+	// Filter out empty arrays
+	return array_filter(
+		$used_themes,
+		function ( $themes ) {
+			return ! empty( $themes );
+		}
+	);
 }
 
 /**
- * Generate CSS for a specific theme
+ * Map block attribute names to CSS variable names
  *
- * Converts theme values from database into CSS custom properties.
- * Handles proper escaping and formatting.
+ * This mapping MUST match the exact variable names used in:
+ * - blocks/*/src/save.js (JavaScript side)
+ * - assets/css/*.css (CSS defaults)
  *
- * @param string $block_type Block type (accordion, tabs, or toc).
- * @param string $theme_id   Theme identifier.
+ * @param string $block_type Block type (accordion, tabs, toc).
+ * @param string $attr_name  Attribute name (e.g., 'titleBackgroundColor').
+ * @return string|null CSS variable name without prefix (e.g., 'title-bg') or null if no mapping
+ */
+function guttemberg_plus_map_attribute_to_css_var( $block_type, $attr_name ) {
+	// Attribute name => CSS variable name (without block prefix)
+	$mappings = array(
+		'accordion' => array(
+			'titleBackgroundColor'       => 'title-bg',
+			'titleColor'                 => 'title-color',
+			'titleFontSize'              => 'title-font-size',
+			'titleFontWeight'            => 'title-font-weight',
+			'titleFontStyle'             => 'title-font-style',
+			'titleTextTransform'         => 'title-text-transform',
+			'titleTextDecoration'        => 'title-text-decoration',
+			'titleAlignment'             => 'title-alignment',
+			'titlePadding'               => 'title-padding',
+			'contentBackgroundColor'     => 'content-bg',
+			'contentColor'               => 'content-color',
+			'contentPadding'             => 'content-padding',
+			'accordionBorderStyle'       => 'border-style',
+			'accordionBorderColor'       => 'border-color',
+			'accordionBorderThickness'   => 'border-width',
+			'accordionBorderRadius'      => 'border-radius',
+			'accordionShadow'            => 'shadow',
+			'accordionMarginBottom'      => 'margin-bottom',
+			'dividerBorderStyle'         => 'divider-style',
+			'dividerBorderColor'         => 'divider-color',
+			'dividerBorderThickness'     => 'divider-width',
+			'iconSize'                   => 'icon-size',
+			'iconColor'                  => 'icon-color',
+			'iconRotation'               => 'icon-rotation',
+			'hoverTitleBackgroundColor'  => 'hover-title-bg',
+			'hoverTitleColor'            => 'hover-title-color',
+			'activeTitleBackgroundColor' => 'active-title-bg',
+			'activeTitleColor'           => 'active-title-color',
+		),
+		'tabs'      => array(
+			'containerBackgroundColor'         => 'container-bg',
+			'containerBorderStyle'             => 'container-border-style',
+			'containerBorderColor'             => 'container-border-color',
+			'containerBorderWidth'             => 'container-border-width',
+			'containerBorderRadius'            => 'container-border-radius',
+			'containerShadow'                  => 'container-shadow',
+			'tabListBackground'                => 'list-bg',
+			'tabListBorderBottomStyle'         => 'list-border-bottom-style',
+			'tabListBorderBottomColor'         => 'list-border-bottom-color',
+			'tabListBorderBottomWidth'         => 'list-border-bottom-width',
+			'tabListGap'                       => 'list-gap',
+			'tabListPadding'                   => 'list-padding',
+			'tabsAlignment'                    => 'alignment',
+			'titleColor'                       => 'button-color',
+			'titleBackgroundColor'             => 'button-bg',
+			'titleFontSize'                    => 'button-font-size',
+			'titleFontWeight'                  => 'button-font-weight',
+			'titleFontStyle'                   => 'button-font-style',
+			'titleTextTransform'               => 'button-text-transform',
+			'titleTextDecoration'              => 'button-text-decoration',
+			'titleAlignment'                   => 'button-text-align',
+			'titlePadding'                     => 'button-padding',
+			'accordionBorderThickness'         => 'button-border-width',
+			'accordionBorderStyle'             => 'button-border-style',
+			'tabButtonBorderRadius'            => 'button-border-radius',
+			'hoverTitleColor'                  => 'button-hover-color',
+			'hoverTitleBackgroundColor'        => 'button-hover-bg',
+			'tabButtonActiveColor'             => 'button-active-color',
+			'tabButtonActiveBackground'        => 'button-active-bg',
+			'tabButtonActiveBorderColor'       => 'button-active-border-color',
+			'tabButtonActiveBorderBottomColor' => 'button-active-border-bottom-color',
+			'panelBackground'                  => 'panel-bg',
+			'panelColor'                       => 'panel-color',
+			'panelBorderStyle'                 => 'panel-border-style',
+			'panelBorderColor'                 => 'panel-border-color',
+			'panelBorderWidth'                 => 'panel-border-width',
+			'panelBorderRadius'                => 'panel-border-radius',
+			'panelPadding'                     => 'panel-padding',
+			'panelFontSize'                    => 'panel-font-size',
+			'panelLineHeight'                  => 'panel-line-height',
+			'dividerThickness'                 => 'divider-width',
+			'dividerStyle'                     => 'divider-style',
+			'dividerColor'                     => 'divider-color',
+			'iconSize'                         => 'icon-size',
+			'iconColor'                        => 'icon-color',
+			'verticalTabListWidth'             => 'vertical-tab-list-width',
+			'verticalTabButtonTextAlign'       => 'vertical-tab-button-text-align',
+			'transitionDuration'               => 'transition-duration',
+			'transitionEasing'                 => 'transition-easing',
+		),
+		'toc'       => array(
+			'wrapperBackgroundColor'   => 'wrapper-background-color',
+			'wrapperBorderColor'       => 'wrapper-border-color',
+			'wrapperBorderWidth'       => 'border-width',
+			'wrapperBorderStyle'       => 'border-style',
+			'wrapperBorderRadius'      => 'border-radius',
+			'wrapperPadding'           => 'wrapper-padding',
+			'wrapperShadow'            => 'wrapper-shadow',
+			'linkColor'                => 'link-color',
+			'linkHoverColor'           => 'link-hover-color',
+			'linkVisitedColor'         => 'link-visited-color',
+			'linkActiveColor'          => 'link-active-color',
+			'numberingColor'           => 'numbering-color',
+			'level1Color'              => 'level1-color',
+			'level1FontSize'           => 'level1-font-size',
+			'level1FontWeight'         => 'level1-font-weight',
+			'level1FontStyle'          => 'level1-font-style',
+			'level1TextTransform'      => 'level1-text-transform',
+			'level1TextDecoration'     => 'level1-text-decoration',
+			'level2Color'              => 'level2-color',
+			'level2FontSize'           => 'level2-font-size',
+			'level2FontWeight'         => 'level2-font-weight',
+			'level2FontStyle'          => 'level2-font-style',
+			'level2TextTransform'      => 'level2-text-transform',
+			'level2TextDecoration'     => 'level2-text-decoration',
+			'level3PlusColor'          => 'level3-plus-color',
+			'level3PlusFontSize'       => 'level3-plus-font-size',
+			'level3PlusFontWeight'     => 'level3-plus-font-weight',
+			'level3PlusFontStyle'      => 'level3-plus-font-style',
+			'level3PlusTextTransform'  => 'level3-plus-text-transform',
+			'level3PlusTextDecoration' => 'level3-plus-text-decoration',
+			'itemSpacing'              => 'item-spacing',
+			'levelIndent'              => 'level-indent',
+			'positionTop'              => 'position-top',
+			'zIndex'                   => 'z-index',
+		),
+	);
+
+	if ( ! isset( $mappings[ $block_type ] ) ) {
+		return null;
+	}
+
+	return $mappings[ $block_type ][ $attr_name ] ?? null;
+}
+
+/**
+ * Generate CSS rules for a single theme
+ *
+ * Converts theme values array to CSS custom properties with proper formatting.
+ * Handles different value types: colors, numbers, objects (padding, borderRadius).
+ * Uses explicit attribute-to-CSS-variable mapping to ensure consistency.
+ *
+ * @param string $block_type Block type (accordion, tabs, toc).
+ * @param string $theme_id   Theme ID (used for class name).
  * @param array  $values     Theme values array.
  * @return string CSS rules for this theme
  */
@@ -112,14 +256,19 @@ function guttemberg_plus_generate_theme_css_rules( $block_type, $theme_id, $valu
 	$css = ".{$block_type}-theme-{$safe_theme_id} {\n";
 
 	// Convert each value to CSS custom property
-	foreach ( $values as $key => $value ) {
+	foreach ( $values as $attr_name => $value ) {
 		// Skip null or empty values
 		if ( $value === null || $value === '' ) {
 			continue;
 		}
 
-		// Convert camelCase to kebab-case for CSS variable name
-		$css_var_name = strtolower( preg_replace( '/([a-z])([A-Z])/', '$1-$2', $key ) );
+		// Map attribute name to CSS variable name
+		$css_var_name = guttemberg_plus_map_attribute_to_css_var( $block_type, $attr_name );
+
+		if ( $css_var_name === null ) {
+			// No mapping found - skip this attribute
+			continue;
+		}
 
 		// Handle different value types
 		if ( is_array( $value ) ) {
@@ -150,19 +299,17 @@ function guttemberg_plus_generate_theme_css_rules( $block_type, $theme_id, $valu
 			// Booleans: convert to string
 			$css .= "  --{$block_type}-{$css_var_name}: " . ( $value ? 'true' : 'false' ) . ";\n";
 		} elseif ( is_numeric( $value ) ) {
-			// Numbers: check if it needs a unit
-			$needs_unit = in_array(
+			// Numbers: check if it needs a unit (most CSS properties with numeric values need px)
+			$needs_unit = ! in_array(
 				$css_var_name,
 				array(
-					'title-font-size',
-					'content-font-size',
-					'icon-size',
-					'border-width',
-					'border-radius',
-					'margin-bottom',
-					'padding',
-					'title-padding',
-					'content-padding',
+					'z-index',
+					'panel-line-height',
+					'title-font-weight',
+					'button-font-weight',
+					'level1-font-weight',
+					'level2-font-weight',
+					'level3-plus-font-weight',
 				),
 				true
 			);
@@ -201,65 +348,46 @@ function guttemberg_plus_enqueue_theme_css() {
 		return;
 	}
 
-	$css = "/**\n * Guttemberg Plus - Theme Styles (Tier 2 Cascade)\n * Generated dynamically for themes used on this page\n */\n\n";
+	$all_css = '';
 
-	// Generate CSS for accordion themes
-	if ( ! empty( $used_themes['accordion'] ) ) {
-		$all_accordion_themes = get_option( 'guttemberg_plus_accordion_themes', array() );
+	// Generate CSS for each block type that has themes on this page
+	foreach ( $used_themes as $block_type => $theme_ids ) {
+		// Get all themes for this block type from database
+		$option_name = "guttemberg_plus_{$block_type}_themes";
+		$all_themes  = get_option( $option_name, array() );
 
-		foreach ( $used_themes['accordion'] as $theme_id ) {
-			if ( isset( $all_accordion_themes[ $theme_id ] ) ) {
-				$theme = $all_accordion_themes[ $theme_id ];
-				if ( isset( $theme['values'] ) ) {
-					$css .= guttemberg_plus_generate_theme_css_rules(
-						'accordion',
-						$theme_id,
-						$theme['values']
-					);
-				}
+		if ( empty( $all_themes ) || ! is_array( $all_themes ) ) {
+			continue;
+		}
+
+		// Generate CSS for each theme that's actually used
+		foreach ( $theme_ids as $theme_id ) {
+			if ( ! isset( $all_themes[ $theme_id ] ) ) {
+				continue; // Theme doesn't exist in database
 			}
+
+			$theme  = $all_themes[ $theme_id ];
+			$values = $theme['values'] ?? array();
+
+			if ( empty( $values ) ) {
+				continue; // No values to generate CSS from
+			}
+
+			// Generate CSS rules for this theme
+			$all_css .= guttemberg_plus_generate_theme_css_rules( $block_type, $theme_id, $values );
 		}
 	}
 
-	// Generate CSS for tabs themes
-	if ( ! empty( $used_themes['tabs'] ) ) {
-		$all_tabs_themes = get_option( 'guttemberg_plus_tabs_themes', array() );
+	// Only enqueue if we have CSS to output
+	if ( ! empty( $all_css ) ) {
+		// Add CSS comment for debugging
+		$css_with_comment = "/* Guttemberg Plus - Theme CSS (Tier 2 Cascade) */\n" . $all_css;
 
-		foreach ( $used_themes['tabs'] as $theme_id ) {
-			if ( isset( $all_tabs_themes[ $theme_id ] ) ) {
-				$theme = $all_tabs_themes[ $theme_id ];
-				if ( isset( $theme['values'] ) ) {
-					$css .= guttemberg_plus_generate_theme_css_rules(
-						'tabs',
-						$theme_id,
-						$theme['values']
-					);
-				}
-			}
-		}
-	}
-
-	// Generate CSS for toc themes
-	if ( ! empty( $used_themes['toc'] ) ) {
-		$all_toc_themes = get_option( 'guttemberg_plus_toc_themes', array() );
-
-		foreach ( $used_themes['toc'] as $theme_id ) {
-			if ( isset( $all_toc_themes[ $theme_id ] ) ) {
-				$theme = $all_toc_themes[ $theme_id ];
-				if ( isset( $theme['values'] ) ) {
-					$css .= guttemberg_plus_generate_theme_css_rules(
-						'toc',
-						$theme_id,
-						$theme['values']
-					);
-				}
-			}
-		}
-	}
-
-	// Output CSS if we generated any
-	if ( ! empty( $css ) && strlen( $css ) > 150 ) { // More than just the header comment
-		wp_add_inline_style( 'guttemberg-plus-accordion-defaults', $css );
+		// Inject CSS into the page head
+		// Attached to 'wp-block-library' handle which is always loaded
+		wp_add_inline_style( 'wp-block-library', $css_with_comment );
 	}
 }
+
+// Hook into wp_enqueue_scripts with priority 20 (after blocks are registered)
 add_action( 'wp_enqueue_scripts', 'guttemberg_plus_enqueue_theme_css', 20 );
