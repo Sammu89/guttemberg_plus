@@ -112,6 +112,26 @@ export function BorderPanel( {
 				help="CSS box-shadow value (e.g. '0 2px 4px rgba(0,0,0,0.1)')"
 			/>
 
+			<RangeControl
+				label={ <CustomLabel label="Border Radius (px)" attrName="accordionBorderRadius" /> }
+				value={
+					effectiveValues.accordionBorderRadius?.topLeft ||
+					effectiveValues.accordionBorderRadius ||
+					4
+				}
+				onChange={ ( value ) =>
+					handleChange( 'accordionBorderRadius', {
+						topLeft: value,
+						topRight: value,
+						bottomRight: value,
+						bottomLeft: value,
+					} )
+				}
+				min={ 0 }
+				max={ 50 }
+				help="Applies same radius to all corners"
+			/>
+
 			<hr />
 			<h3>Divider Border</h3>
 
