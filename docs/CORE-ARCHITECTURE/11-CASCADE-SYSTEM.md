@@ -1,70 +1,109 @@
-# The 3-Tier Cascade System
+# The Simplified Value Resolution System
 
-**Purpose**: Single comprehensive reference for how value resolution works
-**Read Time**: 10 minutes
-**Critical For**: Understanding how styling flows through the system
+**Purpose**: Understanding how block values are determined and displayed
+**Read Time**: 5 minutes
+**Critical For**: Understanding the new simplified architecture
 
 ---
 
-## The One and Only Cascade Explanation
+## New Architecture: Attributes as Source of Truth
 
-This is the **definitive explanation** of the cascade system. All other references point here.
+In the simplified architecture, there is **NO complex cascade**. Instead:
+
+**Sidebar = Source of Truth**: The values you see in the sidebar ARE the actual block attributes. What you see is what you get.
 
 ---
 
 ## Visual Model
 
 ```
-┌─────────────────────────────────────────────────┐
-│  TIER 3: Block Customizations (Highest)         │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
-│  Storage: Block attributes in post content       │
-│  Output:  Inline CSS variables (style="...")     │
-│  Example: style="--custom-title-color: #ff0000" │
-└─────────────────────────────────────────────────┘
-                     ↑
-              (overrides if defined)
-                     ↑
-┌─────────────────────────────────────────────────┐
-│  TIER 2: Theme Values (Medium)                  │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
-│  Storage: Database (wp_options table)           │
-│  Output:  CSS classes in <head>                 │
-│  Example: .accordion-theme-dark {...}           │
-└─────────────────────────────────────────────────┘
-                     ↑
-              (overrides if defined)
-                     ↑
-┌─────────────────────────────────────────────────┐
-│  TIER 1: CSS Defaults (Lowest - Fallback)       │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
-│  Storage: CSS file (:root variables)            │
-│  Output:  CSS variables in stylesheet           │
-│  Example: --accordion-default-title-color       │
-└─────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│  BLOCK ATTRIBUTES (Single Source of Truth)               │
+│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│  Storage: Block attributes in post content               │
+│  What:    Complete merged state                          │
+│  Display: Shown directly in sidebar controls             │
+│  Example: { titleColor: "#ff0000", titleFontSize: 18 }   │
+└──────────────────────────────────────────────────────────┘
 ```
+
+**That's it.** No tiers, no cascade, no complex resolution.
 
 ---
 
-## The Resolution Algorithm
+## How It Works
 
-**For each attribute** (e.g., `titleColor`):
+### 1. On Block Mount
 
+When a block loads (fresh or with saved theme):
+
+```javascript
+// Block has currentTheme = "Dark Mode"
+
+// Step 1: Get defaults (CSS + behavioral)
+const allDefaults = getAllDefaults();
+// { titleColor: "#333", titleFontSize: 16, ... }
+
+// Step 2: Get theme (if any)
+const theme = themes[currentTheme];
+// { values: { titleColor: "#fff", titleBackgroundColor: "#2c2c2c" } }
+
+// Step 3: Calculate expected values (defaults + theme deltas)
+const expectedValues = theme
+  ? applyDeltas(allDefaults, theme.values || {})
+  : allDefaults;
+// { titleColor: "#fff", titleFontSize: 16, titleBackgroundColor: "#2c2c2c", ... }
+
+// Step 4: Attributes may already have values (if block was saved before)
+// Use attributes AS-IS - they are the source of truth
+const effectiveValues = attributes;
 ```
-1. Check Tier 3 (Block Customizations)
-   ├─ If defined (not null/undefined) → USE IT and STOP
-   └─ Else continue to Tier 2
 
-2. Check Tier 2 (Theme Values)
-   ├─ If defined (not null/undefined) → USE IT and STOP
-   └─ Else continue to Tier 1
+### 2. Rendering in Sidebar
 
-3. Check Tier 1 (CSS Defaults)
-   ├─ If defined (not null/undefined) → USE IT and STOP
-   └─ Else return null (shouldn't happen with proper defaults)
+```javascript
+// Display attributes directly in controls
+<ColorPicker
+  value={attributes.titleColor}  // Direct from attributes
+  onChange={(color) => setAttributes({ titleColor: color })}
+/>
+
+// Or use effectiveValues (which is just attributes)
+<ColorPicker
+  value={effectiveValues.titleColor}  // Same as attributes.titleColor
+  onChange={(color) => setAttributes({ titleColor: color })}
+/>
 ```
 
-**Critical**: First match wins. **NO MERGING**. As soon as a value is found, stop checking.
+### 3. User Makes Changes
+
+```javascript
+// User changes title color to red
+setAttributes({ titleColor: "#ff0000" });
+
+// That's it! The attribute is updated.
+// Sidebar shows the new value immediately.
+// customizationCache auto-updates with complete snapshot.
+```
+
+### 4. Customization Detection
+
+```javascript
+// System compares attributes to expected values
+const isCustomized = Object.keys(attributes).some(key => {
+  const attrValue = attributes[key];
+  const expectedValue = expectedValues[key];
+
+  // Skip if undefined/null
+  if (attrValue === undefined || attrValue === null) return false;
+
+  // Compare
+  return attrValue !== expectedValue;
+});
+
+// If ANY attribute differs from expected → isCustomized = true
+// Theme dropdown shows "(customized)" suffix
+```
 
 ---
 
@@ -73,584 +112,352 @@ This is the **definitive explanation** of the cascade system. All other referenc
 ### Scenario
 
 User has:
-- Accordion block with Dark Mode theme
+- Accordion block with "Dark Mode" theme
 - Customized title color to red
 
 ### Data State
 
 ```javascript
-// Tier 3: Block Attributes
-attributes = {
-  titleColor: '#ff0000',  // ← Explicit customization
-  titleFontSize: null     // ← Not customized
+// Defaults (CSS + behavioral)
+allDefaults = {
+  titleColor: "#333333",
+  titleFontSize: 16,
+  titleBackgroundColor: "#f5f5f5"
 }
 
-// Tier 2: Theme (from database)
+// Theme deltas (stored in database)
 theme = {
-  titleColor: '#ffffff',     // ← Will be ignored
-  titleFontSize: 18,         // ← Will be used
-  titleBackgroundColor: '#222'
+  name: "Dark Mode",
+  values: {
+    titleColor: "#ffffff",           // Delta from default
+    titleBackgroundColor: "#2c2c2c"  // Delta from default
+    // titleFontSize not included (uses default)
+  }
 }
 
-// Tier 1: CSS Defaults (from accordion.css)
-cssDefaults = {
-  titleColor: '#333333',          // ← Will be ignored
-  titleFontSize: 16,              // ← Will be ignored
-  titleBackgroundColor: '#f5f5f5' // ← Will be used
+// Expected values (defaults + theme deltas)
+expectedValues = {
+  titleColor: "#ffffff",           // From theme
+  titleFontSize: 16,               // From defaults
+  titleBackgroundColor: "#2c2c2c"  // From theme
+}
+
+// Actual block attributes (source of truth)
+attributes = {
+  currentTheme: "Dark Mode",
+  titleColor: "#ff0000",          // ← User customized this!
+  titleFontSize: 16,              // Matches expected (not customized)
+  titleBackgroundColor: "#2c2c2c" // Matches expected (not customized)
 }
 ```
 
-### Resolution Results
+### Results
 
 ```javascript
-// titleColor resolution:
-Step 1: Check Tier 3 → '#ff0000' (defined) → USE IT, STOP
-Effective Value: '#ff0000'
+// What shows in sidebar:
+titleColor: "#ff0000"          // Red (customized)
+titleFontSize: 16              // From expected values
+titleBackgroundColor: "#2c2c2c" // From theme
 
-// titleFontSize resolution:
-Step 1: Check Tier 3 → null (not defined) → Continue
-Step 2: Check Tier 2 → 18 (defined) → USE IT, STOP
-Effective Value: 18
-
-// titleBackgroundColor resolution:
-Step 1: Check Tier 3 → undefined (not defined) → Continue
-Step 2: Check Tier 2 → '#222' (defined) → USE IT, STOP
-Effective Value: '#222'
+// Customization detection:
+isCustomized = true  // Because titleColor differs from expected
+// Dropdown shows "Dark Mode (customized)"
 ```
 
-### Final Output
+---
 
-```html
-<div class="accordion accordion-theme-dark-mode"
-     style="--custom-title-color: #ff0000;">
-  <!-- Only explicit customization in inline style -->
-  <!-- Theme provides titleBackgroundColor via CSS class -->
-  <!-- titleFontSize also from theme -->
+## Key Operations
+
+### Loading a Theme
+
+When user selects a theme from dropdown:
+
+```javascript
+// User selects "Dark Mode"
+setAttributes({ currentTheme: "Dark Mode" });
+
+// That's all! ThemeSelector just updates currentTheme.
+// Block continues showing current attribute values.
+// User can manually reset if desired.
+```
+
+**No automatic reset** - theme switching just changes `currentTheme`. User's current customizations remain until they click "Reset Modifications".
+
+### Resetting to Clean Theme
+
+When user clicks "Reset Modifications":
+
+```javascript
+// Calculate expected values
+const expectedValues = theme
+  ? applyDeltas(allDefaults, theme.values || {})
+  : allDefaults;
+
+// Apply expected values (reset-and-apply pattern)
+const resetAttrs = { ...expectedValues, customizationCache: {} };
+
+// Remove excluded attributes (keep structural/meta)
+excludeFromCustomizationCheck.forEach(key => delete resetAttrs[key]);
+
+setAttributes(resetAttrs);
+
+// Now attributes match expected values exactly
+// isCustomized becomes false
+// Dropdown shows clean "Dark Mode"
+```
+
+### Saving as New Theme
+
+When user clicks "Save as New Theme":
+
+```javascript
+// Take complete snapshot of current state
+const snapshot = getThemeableSnapshot(attributes, excludeList);
+// { titleColor: "#ff0000", titleFontSize: 16, titleBackgroundColor: "#2c2c2c", ... }
+
+// Calculate deltas from defaults (optimized storage)
+const deltas = calculateDeltas(snapshot, allDefaults, excludeList);
+// { titleColor: "#ff0000", titleBackgroundColor: "#2c2c2c" }
+// titleFontSize NOT included (matches default)
+
+// Save theme with deltas only
+await createTheme('accordion', 'My Custom Theme', deltas);
+
+// Switch block to new theme (clear customizations)
+setAttributes({
+  currentTheme: 'My Custom Theme',
+  customizationCache: {}
+});
+// Now attributes match theme exactly (isCustomized = false)
+```
+
+### Updating a Theme
+
+When user clicks "Update Theme":
+
+```javascript
+// Take complete snapshot
+const snapshot = getThemeableSnapshot(attributes, excludeList);
+
+// Calculate new deltas
+const deltas = calculateDeltas(snapshot, allDefaults, excludeList);
+
+// Update theme
+await updateTheme('accordion', currentTheme, deltas);
+
+// Clear cache (block now uses clean updated theme)
+setAttributes({ customizationCache: {} });
+```
+
+---
+
+## Auto-Updating customizationCache
+
+The `customizationCache` automatically saves a complete snapshot on every change:
+
+```javascript
+// useEffect watches for attribute changes
+useEffect(() => {
+  const snapshot = getThemeableSnapshot(attributes, excludeList);
+  const currentCache = attributes.customizationCache || {};
+
+  // Only update if changed
+  if (JSON.stringify(snapshot) !== JSON.stringify(currentCache)) {
+    setAttributes({ customizationCache: snapshot });
+  }
+}, [attributes, excludeList, setAttributes]);
+```
+
+**Purpose**: Safety/restoration. Even though we use deltas for themes, we keep complete snapshots in cache to ensure no data loss during sessions.
+
+---
+
+## Comparison with Old Architecture
+
+### Old (Complex Cascade)
+
+```javascript
+// Three-tier cascade resolution
+Tier 3: Block Customizations (separate object)
+Tier 2: Theme Values
+Tier 1: CSS Defaults
+
+// Complex resolution for each attribute
+getEffectiveValue('titleColor', customizations, theme, cssDefaults)
+
+// Separate storage for customizations
+attributes.customizations = { titleColor: "#ff0000" }
+
+// applyCustomizations flag to toggle
+attributes.applyCustomizations = true
+```
+
+### New (Simple Attributes)
+
+```javascript
+// Single source of truth
+attributes = { titleColor: "#ff0000", ... }
+
+// Direct reading
+const value = attributes.titleColor
+
+// No separate storage, no flags
+// Customization detected by comparing to expected values
+```
+
+---
+
+## Benefits of New Architecture
+
+1. **Simpler Code**: No complex cascade resolver, no getAllEffectiveValues()
+2. **Clearer Intent**: What you see in sidebar IS the block state
+3. **Better Performance**: No cascade resolution on every render
+4. **Easier Debugging**: Just inspect attributes - no hidden state
+5. **Standard WordPress**: Uses setAttributes like normal blocks
+6. **Auto-Detection**: No manual tracking of what's customized
+7. **Complete Safety**: customizationCache keeps full snapshots
+
+---
+
+## Common Patterns
+
+### Reading Values for Display
+
+```javascript
+// Simple - just use attributes
+<div style={{ color: attributes.titleColor }}>
+  {attributes.title}
+</div>
+
+// Or use effectiveValues alias (same thing)
+<div style={{ color: effectiveValues.titleColor }}>
+  {attributes.title}
 </div>
 ```
 
----
-
-## Tier Details
-
-### Tier 1: CSS Defaults (Base Fallback)
-
-**What**: Default values defined in CSS files as `:root` variables
-
-**Files**:
-- Accordion: `assets/css/accordion.css`
-- Tabs: `assets/css/tabs.css`
-- TOC: `assets/css/toc.css`
-
-**Example**:
-```css
-:root {
-  --accordion-default-title-color: #333333;
-  --accordion-default-title-size: 16px;
-  --accordion-default-border-width: 1px;
-}
-```
-
-**How it works**:
-1. PHP parses CSS file on first request
-2. Caches values in transient with file modification time
-3. JavaScript receives via `wp_localize_script`
-4. Available as `window.accordionDefaults`
-
-**When used**: Only when no theme and no block customization
-
-### Tier 2: Theme Values (Reusable Templates)
-
-**What**: User-created themes stored in database
-
-**Storage**: `wp_options` table
-- Accordion: `accordion_themes`
-- Tabs: `tabs_themes`
-- TOC: `toc_themes`
-
-**Structure**:
-```php
-array(
-  'theme-id-abc' => array(
-    'name' => 'Dark Mode',
-    'values' => array(
-      'titleColor' => '#ffffff',
-      'titleFontSize' => 18,
-      // ... ALL attributes with explicit values
-    )
-  )
-)
-```
-
-**Output**: Generated as CSS classes in `<head>` via `php/theme-css-generator.php`:
-```css
-.accordion-theme-dark-mode {
-  border-width: var(--custom-border-width, 1px);
-}
-.accordion-theme-dark-mode .accordion-title {
-  color: var(--custom-title-color, #ffffff);
-  font-size: var(--custom-title-size, 18px);
-}
-```
-
-**Generation Process**:
-1. PHP scans post content for blocks with `currentTheme` attribute
-2. Extracts unique theme names used on current page
-3. Loads only those themes from database
-4. Maps attribute names to CSS variable names (106 explicit mappings)
-5. Generates CSS with fallback pattern and outputs in `<head>`
-
-**Performance**: Only themes used on current page are generated (~2-3KB per theme, cached)
-
-**When used**: When block has `currentTheme` attribute set
-
-**Special Case - Default Theme**:
-- "Default" is represented by empty string (`currentTheme = ''`)
-- Empty string causes `themes['']` to be `undefined`
-- Tier 2 is **skipped entirely** (no theme to check)
-- Cascade falls directly from Tier 3 to Tier 1
-- More efficient than checking nulls in stored theme object
-
-### Tier 3: Block Customizations (Per-Block Overrides)
-
-**What**: Inline attribute values on specific blocks
-
-**Storage**: Block attributes in post content
-
-**Output**: Inline CSS variables:
-```html
-<div style="--custom-title-color: #ff0000; --custom-title-size: 20px;">
-```
-
-**When used**: When user customizes individual block
-
-**Important**: Only **explicit** customizations output (not all attributes)
-
----
-
-## Key Properties
-
-### 1. First Match Wins
+### Updating Values
 
 ```javascript
-// Once a value is found, stop checking other tiers
-if (attributes.titleColor !== null) {
-  return attributes.titleColor; // Stop here
-}
-// Don't check theme or CSS defaults
+// Direct writes
+setAttributes({ titleColor: "#ff0000" });
+
+// Multiple attributes
+setAttributes({
+  titleColor: "#ff0000",
+  titleFontSize: 20
+});
 ```
 
-### 2. No Merging
+### Checking Customization Status
 
 ```javascript
-// WRONG: Don't merge objects
-titlePadding = {
-  ...cssDefaults.titlePadding,
-  ...theme.titlePadding,
-  ...attributes.titlePadding
-}
-
-// RIGHT: Use first complete object
-if (attributes.titlePadding !== null) {
-  return attributes.titlePadding; // Complete object
-}
-if (theme.titlePadding !== undefined) {
-  return theme.titlePadding; // Complete object
-}
-return cssDefaults.titlePadding; // Complete object
-```
-
-### 3. Independent Per-Attribute
-
-Each attribute resolves independently:
-
-```javascript
-// These resolve separately
-titleColor → Tier 3 (#ff0000)
-titleFontSize → Tier 2 (18)
-titleBackgroundColor → Tier 2 (#222)
-```
-
-### 4. Works for All Types
-
-Same cascade for:
-- Strings: `'#ff0000'`, `'bold'`, `'left'`
-- Numbers: `16`, `180`, `12`
-- Booleans: `true`, `false`
-- Objects: `{ top: 12, right: 12, bottom: 12, left: 12 }`
-
-**No special cases for booleans**:
-```javascript
-// showIcon follows same cascade as titleColor
-if (attributes.showIcon !== null && attributes.showIcon !== undefined) {
-  return attributes.showIcon; // true or false
-}
+// Compare to expected values
+const isCustomized = Object.keys(attributes).some(key => {
+  if (excludeList.includes(key)) return false;
+  const attrValue = attributes[key];
+  const expectedValue = expectedValues[key];
+  return attrValue !== undefined &&
+         attrValue !== null &&
+         attrValue !== expectedValue;
+});
 ```
 
 ---
 
-## Implementation Reference
+## Implementation Files
 
-### Pure Function (cascade-resolver.js)
+### Core Utilities
 
-```javascript
-/**
- * Get effective value for single attribute
- * <5ms performance target
- */
-export function getEffectiveValue(name, attributes, theme, defaults) {
-  // Tier 3: Block customization
-  if (attributes[name] !== null && attributes[name] !== undefined) {
-    return attributes[name];
-  }
+**shared/src/utils/delta-calculator.js**:
+- `calculateDeltas()` - Compare snapshot to defaults, return only differences
+- `applyDeltas()` - Merge defaults + deltas
+- `getThemeableSnapshot()` - Extract all themeable attributes
 
-  // Tier 2: Theme value
-  if (theme && theme[name] !== null && theme[name] !== undefined) {
-    return theme[name];
-  }
+**shared/src/attributes/attribute-defaults.js**:
+- `getAllDefaults()` - Get combined CSS + behavioral defaults
 
-  // Tier 1: CSS default
-  if (defaults && defaults[name] !== null && defaults[name] !== undefined) {
-    return defaults[name];
-  }
+### Block Edit Components
 
-  // Nothing found
-  return null;
-}
-
-/**
- * Get all effective values
- */
-export function getAllEffectiveValues(attributes, theme, defaults) {
-  const effectiveValues = {};
-
-  // Get all attribute names from all sources
-  const allNames = new Set([
-    ...Object.keys(attributes || {}),
-    ...Object.keys(theme || {}),
-    ...Object.keys(defaults || {})
-  ]);
-
-  // Resolve each
-  for (const name of allNames) {
-    effectiveValues[name] = getEffectiveValue(name, attributes, theme, defaults);
-  }
-
-  return effectiveValues;
-}
-```
-
-### Usage in Editor
+**blocks/accordion/src/edit.js**, **blocks/tabs/src/edit.js**, **blocks/toc/src/edit.js**:
 
 ```javascript
-import { getAllEffectiveValues } from '@shared/theme-system/cascade-resolver';
+// Get defaults
+const allDefaults = getAllDefaults();
 
-function Edit({ attributes, setAttributes }) {
-  const blockType = 'accordion';
-  const cssDefaults = window.accordionDefaults || {};
-  const currentTheme = themes[attributes.currentTheme];
+// SOURCE OF TRUTH: attributes
+const effectiveValues = attributes;
 
-  // Resolve effective values
-  const effectiveValues = getAllEffectiveValues(
-    attributes,
-    currentTheme,
-    cssDefaults
-  );
+// Calculate expected values
+const expectedValues = theme
+  ? applyDeltas(allDefaults, theme.values || {})
+  : allDefaults;
 
-  // ALWAYS use effectiveValues in UI, NEVER raw attributes
-  return (
-    <ColorPicker
-      value={effectiveValues.titleColor} // ✅ Correct
-      onChange={(color) => setAttributes({ titleColor: color })}
-    />
-  );
-}
+// Auto-detect customizations
+const isCustomized = /* compare attributes to expectedValues */;
+
+// Auto-update cache
+useEffect(() => {
+  const snapshot = getThemeableSnapshot(attributes, excludeList);
+  setAttributes({ customizationCache: snapshot });
+}, [attributes]);
 ```
 
 ---
 
-## CSS Implementation
+## Testing
 
-### Two-Level CSS Variable Pattern
-
-```css
-/* Tier 1: CSS Defaults */
-:root {
-  --accordion-default-title-color: #333333;
-}
-
-/* Tier 2: Theme (generated in <head>) */
-.accordion-theme-dark-mode .accordion-title {
-  color: var(--custom-title-color, #ffffff);
-  /*      ↑ Tier 3 override   ↑ Tier 2 fallback */
-}
-
-/* Tier 3: Inline (on element) */
-/* Automatically wins via CSS specificity */
-```
-
-### How Browser Resolves
-
-```html
-<div class="accordion-theme-dark-mode"
-     style="--custom-title-color: #ff0000;">
-  <div class="accordion-title">Title</div>
-</div>
-```
-
-Browser cascade:
-1. Check inline `--custom-title-color` → `#ff0000` (found, use it)
-2. Theme fallback `#ffffff` ignored
-3. CSS default `#333333` ignored
-
-**Result**: Title color is `#ff0000`
-
----
-
-## Null vs Undefined
-
-### In Attributes
+### Test: Fresh Block
 
 ```javascript
-attributes = {
-  titleColor: null,      // NOT customized (use cascade)
-  titleColor: undefined, // NOT customized (use cascade)
-  titleColor: '#ff0000'  // IS customized (use this value)
-}
+// New block, no theme
+currentTheme = ""
+attributes = {}  // Empty or with defaults from schema
+
+// Expected: attributes get populated with defaults on mount
+// isCustomized = false
 ```
 
-Both `null` and `undefined` mean "not customized" → continue to next tier.
-
-### In Themes
-
-Themes should **never** have null values (complete snapshot):
+### Test: Block with Theme
 
 ```javascript
-// ✅ Correct: Theme has explicit values
-theme = {
-  titleColor: '#ffffff',
-  titleFontSize: 18,
-  showIcon: true
-}
+// Block with theme, no customizations
+currentTheme = "Dark Mode"
+attributes = { titleColor: "#fff", titleBackgroundColor: "#2c2c2c" }
+expectedValues = { titleColor: "#fff", titleBackgroundColor: "#2c2c2c", ... }
 
-// ❌ Wrong: Theme has nulls
-theme = {
-  titleColor: '#ffffff',
-  titleFontSize: null  // Don't do this
-}
+// Expected: attributes match expected
+// isCustomized = false
 ```
 
-### Special Case: Default Theme
-
-**Default is NOT a stored theme**:
+### Test: Block with Customizations
 
 ```javascript
-// When user selects "Default" in UI
-attributes.currentTheme = '';  // Empty string
+// Block with theme + customizations
+currentTheme = "Dark Mode"
+attributes = { titleColor: "#ff0000", titleBackgroundColor: "#2c2c2c" }
+expectedValues = { titleColor: "#fff", titleBackgroundColor: "#2c2c2c" }
 
-// In cascade resolver
-const currentTheme = themes[''];  // undefined (no key exists)
-
-// Cascade behavior
-if (currentTheme && currentTheme.titleColor !== null) {
-  // This is skipped because currentTheme is undefined
-}
-// Falls through to CSS defaults (Tier 1)
+// Expected: titleColor differs
+// isCustomized = true
+// Dropdown shows "Dark Mode (customized)"
 ```
 
-**Result**: Empty string effectively skips Tier 2, using CSS defaults directly.
-
----
-
-## Attribute-to-CSS-Variable Mapping
-
-### The Mapping Challenge
-
-**Problem**: JavaScript attribute names don't match CSS variable names
-
-**Examples**:
-- Attribute: `titleBackgroundColor` → CSS: `--accordion-title-bg`
-- Attribute: `contentBackgroundColor` → CSS: `--accordion-content-bg`
-- Attribute: `titleColor` (tabs) → CSS: `--tabs-button-color`
-
-### Implementation
-
-**PHP Function**: `guttemberg_plus_map_attribute_to_css_var( $block_type, $attr_name )`
-
-**Mappings**:
-- 27 accordion attribute mappings
-- 49 tabs attribute mappings
-- 30 toc attribute mappings
-- 106 total explicit mappings
-
-**Usage** (in `php/theme-css-generator.php`):
-```php
-// Convert attribute name to CSS variable name
-$css_var_name = guttemberg_plus_map_attribute_to_css_var( 'accordion', 'titleBackgroundColor' );
-// Returns: 'title-bg'
-
-// Generate CSS variable
-$css_var = "--accordion-{$css_var_name}";
-// Result: '--accordion-title-bg'
-```
-
-**Why Explicit Mappings**:
-- Simple camelCase-to-kebab-case conversion doesn't work
-- Historical naming decisions (e.g., "button" vs "title" in tabs)
-- Abbreviations for brevity (e.g., "bg" instead of "background-color")
-- Ensures frontend themes work correctly
-
----
-
-## Common Pitfalls
-
-### ❌ Reading Raw Attributes in UI
+### Test: Save as New Theme
 
 ```javascript
-// WRONG
-<ColorPicker value={attributes.titleColor} />
-// Shows undefined when not customized
-```
+// Block with customizations
+attributes = { titleColor: "#ff0000", titleFontSize: 16, ... }
+defaults = { titleColor: "#333", titleFontSize: 16, ... }
 
-```javascript
-// CORRECT
-const effectiveValues = getAllEffectiveValues(...);
-<ColorPicker value={effectiveValues.titleColor} />
-// Always shows actual value
-```
+// Save as "My Theme"
+const deltas = calculateDeltas(attributes, defaults);
+// deltas = { titleColor: "#ff0000" }
+// titleFontSize NOT included (matches default)
 
-### ❌ Merging Tiers
-
-```javascript
-// WRONG
-const finalValue = attributes.titleColor || theme.titleColor || defaults.titleColor;
-// Works for simple cases but fails for booleans and zeros
-```
-
-```javascript
-// CORRECT
-return getEffectiveValue('titleColor', attributes, theme, defaults);
-// Handles all types correctly
-```
-
-### ❌ Special-Casing Booleans
-
-```javascript
-// WRONG
-if (attributes.showIcon) {
-  return attributes.showIcon;
-}
-// Fails when showIcon is explicitly false
-```
-
-```javascript
-// CORRECT
-if (attributes.showIcon !== null && attributes.showIcon !== undefined) {
-  return attributes.showIcon;
-}
-// Works for true, false, and null
-```
-
----
-
-## Testing Cascade
-
-### Test Cases
-
-```javascript
-// Test 1: Block customization wins
-attributes.titleColor = '#ff0000';
-theme.titleColor = '#00ff00';
-defaults.titleColor = '#333333';
-// Expected: '#ff0000'
-
-// Test 2: Theme wins when no block customization
-attributes.titleColor = null;
-theme.titleColor = '#00ff00';
-defaults.titleColor = '#333333';
-// Expected: '#00ff00'
-
-// Test 3: Default wins when neither above
-attributes.titleColor = null;
-theme.titleColor = undefined;
-defaults.titleColor = '#333333';
-// Expected: '#333333'
-
-// Test 4: Boolean handling
-attributes.showIcon = false; // Explicit false
-theme.showIcon = true;
-// Expected: false (not true!)
-
-// Test 5: Object handling
-attributes.titlePadding = { top: 20, right: 20, bottom: 20, left: 20 };
-theme.titlePadding = { top: 12, right: 12, bottom: 12, left: 12 };
-// Expected: attributes.titlePadding (first complete object)
-```
-
-### Performance Test
-
-```javascript
-// Target: <5ms for getAllEffectiveValues()
-const start = performance.now();
-const effective = getAllEffectiveValues(attributes, theme, defaults);
-const duration = performance.now() - start;
-
-console.assert(duration < 5, 'Cascade too slow!');
-```
-
----
-
-## Workflow Examples
-
-### Creating Customization
-
-```
-1. User changes title color in sidebar
-   ↓
-2. setAttributes({ titleColor: '#ff0000' })
-   ↓
-3. Cascade resolves:
-   - Check attributes.titleColor → '#ff0000' (found)
-   - Stop checking
-   ↓
-4. UI updates to show #ff0000
-   ↓
-5. isCustomized becomes true
-```
-
-### Switching Themes
-
-```
-1. User selects different theme
-   ↓
-2. Customizations saved to cache
-   ↓
-3. Attributes cleared (set to null)
-   ↓
-4. currentTheme updated
-   ↓
-5. Cascade resolves:
-   - Check attributes.titleColor → null (continue)
-   - Check theme.titleColor → '#ffffff' (found)
-   - Stop checking
-   ↓
-6. UI updates to show #ffffff
-```
-
-### Updating Theme
-
-```
-1. User clicks "Update Theme"
-   ↓
-2. Collect all effective values
-   ↓
-3. Save to database (complete snapshot)
-   ↓
-4. Clear block customizations
-   ↓
-5. Cascade now resolves from theme tier
-   ↓
-6. Other blocks using theme update automatically
+// After save:
+currentTheme = "My Theme"
+isCustomized = false
+customizationCache = {}
 ```
 
 ---
@@ -659,32 +466,26 @@ console.assert(duration < 5, 'Cascade too slow!');
 
 ### The Rules
 
-1. **Check Tier 3 first** (block customizations)
-2. **Then Tier 2** (theme values)
-3. **Finally Tier 1** (CSS defaults)
-4. **First match wins** (stop checking)
-5. **No merging** (use complete value)
-6. **All types same** (no special cases)
+1. **Attributes = source of truth** (what you see is what's stored)
+2. **Themes = deltas** (optimized storage)
+3. **Expected values = defaults + theme deltas** (for comparison)
+4. **Customization = difference from expected** (auto-detected)
+5. **customizationCache = complete snapshot** (auto-updated, safety)
 
-### The Implementation
+### The Flow
 
-- **Pure function** in cascade-resolver.js
-- **<5ms performance** target
-- **No side effects** (reads only)
-- **No Redux integration** (kept separate)
+1. User edits → writes to attributes
+2. customizationCache auto-updates
+3. System compares to expected → detects customizations
+4. Save theme → calculate deltas → store deltas
+5. Load theme → merge defaults + deltas → use as expected values
 
-### The Usage
+### No Complex Cascade
 
-- **Always** use `getAllEffectiveValues()` in UI
-- **Never** read raw attributes directly
-- **Always** pass all three tiers to resolver
+The old three-tier cascade (Block → Theme → CSS) is **gone**. Replaced with simple direct attribute usage.
 
 ---
 
-**This is the definitive cascade reference. All other docs point here.**
-
----
-
-**Document Version**: 1.0
-**Last Updated**: 2025-10-17
+**Document Version**: 2.0 (Simplified Architecture)
+**Last Updated**: 2025-11-17
 **Part of**: WordPress Gutenberg Blocks Documentation Suite

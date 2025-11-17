@@ -6,17 +6,17 @@
 
 ## Design Rationale
 
-### Why Complete Snapshots (Not Partial Themes)?
+### Why Delta Storage (Not Complete Snapshots)?
 
-**Decision**: All saved themes contain explicit values for ALL attributes
+**Decision**: All saved themes contain ONLY differences from defaults (deltas)
 
 **Why**:
-- Self-contained (no dependency on CSS state at creation time)
-- Portable (can export/import themes)
-- Predictable (theme always looks the same)
-- Simpler cascade (no null propagation in saved themes)
+- **Optimized storage**: Only save what changes (~1-2KB vs ~5KB per theme)
+- **CSS follows defaults**: When CSS defaults change, themes inherit those changes
+- **Simpler theme updates**: Only modified attributes in theme
+- **Clear intent**: Theme shows exactly what the user changed
 
-**Trade-off**: Larger database storage, but negligible (~5KB per theme)
+**Trade-off**: Must combine defaults + deltas when loading, but this is fast (<5ms)
 
 ### Why Separate Storage Per Block Type?
 
@@ -35,43 +35,85 @@
 **Decision**: "Default" is represented by empty string (`currentTheme = ''`) with NO database storage
 
 **Why**:
-- Skips theme tier entirely in cascade (better performance)
+- No theme tier in cascade (better performance)
 - No database storage needed (smaller footprint)
 - CSS changes propagate immediately to Default-themed blocks
 - True "CSS as single source of truth" for uncustomized blocks
-- Consistent with attribute philosophy (no theme = cascade to CSS)
+- Consistent with attribute philosophy (no theme = use defaults)
 
 **Implementation**:
 - UI shows "Default" label for empty string value
-- Empty string → cascade skips Tier 2 (theme) → uses Tier 1 (CSS defaults)
-- More efficient than checking nulls in a stored theme object
+- Empty string → uses CSS + behavioral defaults
+- More efficient than storing a theme with all default values
 
-**Behavior**: User can customize → creates block-level customizations, but cannot save modifications to create a "Default" theme
+---
+
+## New Simplified Architecture
+
+### Core Principles
+
+1. **Sidebar = Source of Truth**: All attribute values shown in sidebar are the actual block attributes
+2. **Themes = Deltas**: Themes save only differences from defaults (optimized storage)
+3. **customizationCache = Complete Snapshot**: Auto-updated on every change (safety/restoration)
+4. **Auto-Detection**: System automatically detects customizations by comparing to expected values
+5. **Reset-and-Apply**: Theme switching resets to defaults then applies theme deltas
+
+### Data Flow
+
+```
+User edits sidebar
+   ↓
+Writes directly to attributes (source of truth)
+   ↓
+customizationCache auto-updates with complete snapshot
+   ↓
+User saves as theme
+   ↓
+Calculate deltas from defaults
+   ↓
+Store deltas only in database
+   ↓
+Block switches to clean theme (cache cleared)
+```
 
 ---
 
 ## Theme Data Structure
 
-### Complete Snapshot Principle
+### Delta Storage Principle
 
-Themes are **complete, self-contained snapshots** containing explicit values for ALL customizable attributes.
+Themes are **optimized deltas** containing only attributes that differ from defaults.
 
 **Exception**: "Default" is represented by empty string (`currentTheme = ''`) with no database storage
 
 ```javascript
+// Defaults (CSS + behavioral)
+defaults = {
+  titleColor: "#333333",
+  titleFontSize: 16,
+  titleBackgroundColor: "#f5f5f5",
+  showIcon: true,
+  // ... 40+ more attributes
+}
+
+// Saved theme (ONLY deltas)
 {
   "Dark Mode": {
     name: "Dark Mode",
-    titleColor: "#ffffff",
-    titleBackgroundColor: "#2c2c2c",
-    titleFontSize: "18px",
-    // ... ALL 40+ attributes with explicit values
+    values: {
+      titleColor: "#ffffff",           // Different from default
+      titleBackgroundColor: "#2c2c2c"  // Different from default
+      // titleFontSize NOT included (matches default)
+      // showIcon NOT included (matches default)
+    },
     created: "2025-01-15 10:30:00",
     modified: "2025-01-15 10:30:00"
   }
-  // No "Default" object stored in database
-  // Empty string ("") represents Default in block attributes
 }
+
+// When loading theme:
+effectiveValues = applyDeltas(defaults, theme.values)
+// Results in complete values for rendering
 ```
 
 ## Storage Architecture
@@ -91,52 +133,67 @@ Themes are **complete, self-contained snapshots** containing explicit values for
 
 **Storage**: NOT stored in database. Represented by empty string (`currentTheme = ''`)
 
-**Purpose**: Allows blocks to read directly from CSS defaults by skipping theme tier
+**Purpose**: Allows blocks to use CSS + behavioral defaults directly
 
 **How It Works**:
 - Block has `currentTheme = ''` (empty string)
-- Cascade resolver receives empty theme object (`themes['']` = `undefined`)
-- Tier 2 (theme) is skipped entirely
-- Cascade falls through to Tier 1 (CSS defaults)
+- System calculates expected values = defaults (no theme deltas)
+- Block attributes compared to defaults for customization detection
 
 **When CSS Changes**: All Default-themed blocks automatically reflect changes (on page refresh)
 
-**Customization**: Can customize → creates block-level customizations (Tier 3), but cannot save as "Default" theme
+**Customization**: User can customize → attributes diverge from defaults → auto-detected as customized
+
+---
 
 ## Theme Operations
 
-### 1. Create Theme
+### 1. Create Theme (Save as New Theme)
 
-**Input**: Block type, theme name, complete snapshot values
+**Input**: Block type, theme name, current block state
 
 **Process**:
-1. Resolve ALL effective values via cascade
-2. Create complete snapshot (no `null` values)
+1. Take complete snapshot of current attributes (via `getThemeableSnapshot`)
+2. Calculate deltas from defaults (via `calculateDeltas`)
 3. Validate theme name (alphanumeric + spaces/dashes)
 4. Check for duplicates
-5. Save to database with timestamps
+5. Save deltas to database with timestamps
+6. **Switch block to new theme** (clear customizationCache)
 
-**Output**: New theme in `{blockType}_themes`
+**Output**: New theme in `{blockType}_themes`, block uses clean theme
 
 ```javascript
-await createTheme('accordion', 'Corporate Blue', effectiveValues);
+const snapshot = getThemeableSnapshot(attributes, excludeList);
+const deltas = calculateDeltas(snapshot, allDefaults, excludeList);
+await createTheme('accordion', 'Corporate Blue', deltas);
+
+// Block now uses clean theme
+setAttributes({
+  currentTheme: 'Corporate Blue',
+  customizationCache: {}
+});
 ```
 
 ### 2. Update Theme
 
-**Input**: Block type, theme name, new values
+**Input**: Block type, theme name, current block state
 
 **Process**:
-1. Resolve ALL effective values
-2. Replace theme with new complete snapshot
-3. Update `modified` timestamp
-4. **Clear all block-level customizations** for blocks using this theme
+1. Take complete snapshot of current attributes
+2. Calculate deltas from defaults
+3. Replace theme with new deltas
+4. Update `modified` timestamp
+5. **Clear customizationCache** (block now uses clean updated theme)
 
-**Output**: Updated theme, blocks re-render with new values
+**Output**: Updated theme, block uses clean theme
 
 ```javascript
-await updateTheme('accordion', 'Corporate Blue', newValues);
-setAttributes({ customizations: {} }); // Clear overrides
+const snapshot = getThemeableSnapshot(attributes, excludeList);
+const deltas = calculateDeltas(snapshot, allDefaults, excludeList);
+await updateTheme('accordion', 'Corporate Blue', deltas);
+
+// Clear cache
+setAttributes({ customizationCache: {} });
 ```
 
 ### 3. Delete Theme
@@ -152,7 +209,7 @@ setAttributes({ customizations: {} }); // Clear overrides
 
 ```javascript
 await deleteTheme('accordion', 'Corporate Blue');
-// Blocks with currentTheme="Corporate Blue" now use "Default"
+setAttributes({ currentTheme: '' }); // Fall back to Default
 ```
 
 ### 4. Rename Theme
@@ -163,39 +220,105 @@ await deleteTheme('accordion', 'Corporate Blue');
 1. Validate both names
 2. Check new name not duplicate
 3. Update theme name in database
-4. **Update currentTheme in ALL blocks using old name**
+4. Update `currentTheme` in current block
 
-**Output**: Renamed theme, blocks continue working
+**Output**: Renamed theme, block continues working
 
 ```javascript
 await renameTheme('accordion', 'Corporate Blue', 'Company Brand');
+setAttributes({ currentTheme: 'Company Brand' });
 ```
 
 ### 5. Switch Theme
 
-**Input**: New theme name via block attributes
+**Input**: New theme name via dropdown
 
 **Process**:
-1. Update `currentTheme` attribute
-2. Cascade resolver automatically uses new theme
-3. UI re-renders with new effective values
+1. Update `currentTheme` attribute only
+2. Block logic handles the rest automatically
 
-**No Database Write**: Theme switch only updates block attributes in post content
+**No Reset-and-Apply in ThemeSelector**: The block itself doesn't automatically reset values when theme changes - it just changes the currentTheme attribute. The UI shows values as they are.
+
+**User Can Manually Reset**: User clicks "Reset Modifications" to apply clean theme
 
 ```javascript
+// Simple theme change in ThemeSelector
 setAttributes({ currentTheme: 'Dark Mode' });
+
+// User sees current attributes (may be customized)
+// User can click "Reset Modifications" to get clean theme
 ```
 
-## Theme Not Found Behavior
+### 6. Reset Customizations
 
-**Scenario**: Block has `currentTheme = "Missing Theme"` but theme doesn't exist
+**Input**: User clicks "Reset Modifications" button
 
-**Fallback**:
-1. Set `currentTheme = ""`
-2. Cascade falls through theme tier to CSS defaults
-3. Block renders with Default appearance
+**Process**:
+1. Calculate expected values (defaults + current theme deltas)
+2. Apply expected values to attributes (reset-and-apply pattern)
+3. Clear customizationCache
 
-**User Notification**: "Theme 'Missing Theme' not found, using Default"
+**Output**: Block shows clean theme
+
+```javascript
+const expectedValues = theme
+  ? applyDeltas(allDefaults, theme.values || {})
+  : allDefaults;
+
+const resetAttrs = { ...expectedValues, customizationCache: {} };
+
+// Remove excluded attributes (structural/meta)
+excludeFromCustomizationCheck.forEach(key => delete resetAttrs[key]);
+
+setAttributes(resetAttrs);
+```
+
+---
+
+## Customization Detection
+
+### Auto-Detection Algorithm
+
+System automatically detects customizations by comparing current attributes to expected values:
+
+```javascript
+// Expected values = defaults + current theme deltas
+const expectedValues = theme
+  ? applyDeltas(allDefaults, theme.values || {})
+  : allDefaults;
+
+// Compare each attribute to expected value
+const isCustomized = Object.keys(attributes).some(key => {
+  if (excludeList.includes(key)) return false;
+
+  const attrValue = attributes[key];
+  const expectedValue = expectedValues[key];
+
+  if (attrValue === undefined || attrValue === null) return false;
+
+  // Deep comparison for objects
+  if (typeof attrValue === 'object' && attrValue !== null) {
+    return JSON.stringify(attrValue) !== JSON.stringify(expectedValue);
+  }
+
+  // Simple comparison for primitives
+  return attrValue !== expectedValue;
+});
+```
+
+### Customization Display
+
+**Theme Dropdown**: Shows "(customized)" suffix when block has customizations
+
+```
+Theme Selector:
+- Default (customized)  ← if Default has customizations
+- Dark Mode             ← clean theme
+- Dark Mode (customized) ← theme with customizations
+- Light Mode
+```
+
+---
 
 ## Database Schema
 
@@ -205,10 +328,8 @@ setAttributes({ currentTheme: 'Dark Mode' });
 array(
   'name' => 'Dark Mode',
   'values' => array(
-    'titleColor' => '#ffffff',
-    'titleBackgroundColor' => '#2c2c2c',
-    'titleFontSize' => '18',
-    // ... all attributes
+    'titleColor' => '#ffffff',           // Only deltas stored
+    'titleBackgroundColor' => '#2c2c2c'  // Not ALL attributes
   ),
   'created' => '2025-01-15 10:30:00',
   'modified' => '2025-01-15 10:30:00'
@@ -223,68 +344,7 @@ option_value: {serialized PHP array of all themes}
 autoload: no
 ```
 
-## Theme CSS Generation
-
-### Output Location
-
-Generated CSS in `<head>` section via `php/theme-css-generator.php`:
-
-```css
-/* Theme: Dark Mode */
-.accordion-theme-dark-mode {
-  border-width: var(--custom-border-width, 1px);
-  border-color: var(--custom-border-color, #2c2c2c);
-}
-
-.accordion-theme-dark-mode .accordion-title {
-  color: var(--custom-title-color, #ffffff);
-  background-color: var(--custom-title-bg, #2c2c2c);
-  font-size: var(--custom-title-size, 18px);
-}
-```
-
-### Generation Process
-
-**PHP Implementation** (`php/theme-css-generator.php`):
-1. Scans post content for all blocks on current page
-2. Extracts unique `currentTheme` values
-3. Loads themes from database (only used themes)
-4. Maps attribute names to CSS variable names (explicit mappings)
-5. Generates CSS classes with fallback pattern
-6. Outputs in `<head>` via `wp_enqueue_scripts` hook
-
-**Performance**:
-- Only themes used on current page are generated (~2-3KB per theme)
-- Cached with version-based invalidation
-- Better than inline styles (shared classes vs repeated styles)
-
-### Attribute-to-CSS-Variable Mapping
-
-**Critical**: Block attributes use different names than CSS variables
-
-**Examples**:
-```php
-// Accordion mappings
-'titleBackgroundColor' => 'title-bg'           // --accordion-title-bg
-'contentBackgroundColor' => 'content-bg'       // --accordion-content-bg
-'titleFontSize' => 'title-font-size'          // --accordion-title-font-size
-
-// Tabs mappings
-'titleColor' => 'button-color'                 // --tabs-button-color
-'activeTabColor' => 'active-button-color'      // --tabs-active-button-color
-
-// TOC mappings
-'wrapperBackgroundColor' => 'wrapper-background-color'  // --toc-wrapper-background-color
-```
-
-**Implementation**: `guttemberg_plus_map_attribute_to_css_var()` function with 106 explicit mappings across all block types
-
-### Fallback Pattern
-
-Two-level CSS variable pattern:
-1. Inline `--custom-*` variables (block-level customizations - Tier 3)
-2. Theme CSS in `<head>` (theme values - Tier 2)
-3. CSS defaults (accordion.css `:root` variables - Tier 1)
+---
 
 ## Theme Validation
 
@@ -302,10 +362,12 @@ Two-level CSS variable pattern:
 ### Values Validation
 
 **Rules**:
-- All required attributes present
+- Must be valid object (deltas)
 - Correct data types (string, number, object)
 - Color values: hex, rgb, rgba, named
-- Numeric values: valid numbers with optional units
+- Numeric values: valid numbers
+
+---
 
 ## Event Isolation
 
@@ -314,7 +376,7 @@ Two-level CSS variable pattern:
 **Example**:
 ```javascript
 // Create accordion theme
-await createTheme('accordion', 'Test', values);
+await createTheme('accordion', 'Test', deltas);
 
 // Tabs themes unchanged
 const tabsThemes = getThemes('tabs');
@@ -323,18 +385,26 @@ const tabsThemes = getThemes('tabs');
 
 **Implementation**: Separate Redux store keys + separate database options
 
+---
+
 ## Performance Considerations
 
 ### Caching
 
-**PHP**: Theme CSS cached in transients with version-based invalidation
-
 **JavaScript**: Themes loaded once on editor mount, cached in Redux store
+
+**customizationCache**: Auto-updates on every attribute change (complete snapshot for safety)
 
 ### Optimization
 
-**Theme Switch**: <100ms target (no database write)
+**Theme Switch**: Instant (just updates currentTheme attribute)
 
-**Theme Create/Update**: <500ms target (includes database write)
+**Theme Create/Update**: <500ms target (includes delta calculation + database write)
 
-**Multiple Blocks**: Shared theme CSS (one class, many blocks)
+**Delta Calculation**: <5ms (lightweight comparison operation)
+
+---
+
+**Document Version**: 2.0 (Simplified Architecture)
+**Last Updated**: 2025-11-17
+**Part of**: WordPress Gutenberg Blocks Documentation Suite
