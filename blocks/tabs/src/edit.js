@@ -127,6 +127,64 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		excludeFromCustomizationCheck
 	);
 
+	// DEBUG: Log customization detection details
+	useEffect( () => {
+		console.group( '🔍 TABS Customization Detection Debug' );
+		console.log( 'Current Theme:', attributes.currentTheme || '(none - using Default)' );
+		console.log( 'Is Customized:', isCustomized );
+		console.log( 'All Attributes:', attributes );
+		console.log( 'Excluded from Check:', excludeFromCustomizationCheck );
+
+		// Find which attributes are customized
+		const customizedAttrs = [];
+		Object.keys( attributes ).forEach( ( key ) => {
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return; // Skip excluded
+			}
+
+			const attrValue = attributes[ key ];
+			const themeValue = themes[ attributes.currentTheme ]?.values?.[ key ];
+			const cssDefault = cssDefaults[ key ];
+
+			// Check if attribute is defined
+			if ( attrValue !== null && attrValue !== undefined ) {
+				// Compare against theme or CSS default
+				let isDifferent = false;
+				if ( themeValue !== null && themeValue !== undefined ) {
+					if ( typeof attrValue === 'object' ) {
+						isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( themeValue );
+					} else {
+						isDifferent = attrValue !== themeValue;
+					}
+				} else if ( cssDefault !== null && cssDefault !== undefined ) {
+					if ( typeof attrValue === 'object' ) {
+						isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( cssDefault );
+					} else {
+						isDifferent = attrValue !== cssDefault;
+					}
+				} else {
+					isDifferent = true; // No default to compare against
+				}
+
+				if ( isDifferent ) {
+					customizedAttrs.push( {
+						key,
+						blockValue: attrValue,
+						themeValue,
+						cssDefault,
+					} );
+				}
+			}
+		} );
+
+		if ( customizedAttrs.length > 0 ) {
+			console.log( '❌ Customized Attributes:', customizedAttrs );
+		} else {
+			console.log( '✅ No customizations detected' );
+		}
+		console.groupEnd();
+	}, [ attributes, isCustomized, themes, cssDefaults, excludeFromCustomizationCheck ] );
+
 	/**
 	 * Theme callback handlers
 	 * @param themeName
