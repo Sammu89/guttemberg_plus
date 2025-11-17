@@ -1,94 +1,72 @@
-/*
- Accordion Block - CSS Default Values
- These :root variables serve as the default values (Tier 3 in cascade)
- They will be parsed by the CSS variables parser loader and converted to PHP arrays
-*/
+/**
+ * Accordion Block - CSS Default Values (Tier 1 - Cascade)
+ *
+ * IMPORTANT: This file defines ONLY default values for the cascade system.
+ * It does NOT contain styling rules - those are in blocks/accordion/src/style.scss
+ *
+ * These variables are:
+ * - Parsed by webpack CSS variables parser loader
+ * - Converted to PHP arrays (php/css-defaults/accordion.php)
+ * - Exposed as window.accordionDefaults in JavaScript
+ * - Used as Tier 1 (lowest priority) in the 3-tier cascade
+ *
+ * Variable naming convention:
+ * - Use the SAME names that save.js sets inline
+ * - Use abbreviations: bg (background), color (text color)
+ * - Format: --accordion-{property-name}
+ *
+ * @package GuttemberPlus
+ */
 
 :root {
-
 	/* Title Colors */
-	--accordion-default-title-color: #333;
-	--accordion-default-title-background-color: #f5f5f5;
-	--accordion-default-title-color-hover: #000;
-	--accordion-default-title-background-color-hover: #e0e0e0;
+	--accordion-title-color: #333333;
+	--accordion-title-bg: #f5f5f5;
+
+	/* Title Hover States */
+	--accordion-title-hover-color: #000000;
+	--accordion-title-hover-bg: #e8e8e8;
+
+	/* Title Active States */
+	--accordion-title-active-color: #000000;
+	--accordion-title-active-bg: #e0e0e0;
 
 	/* Content Colors */
-	--accordion-default-content-color: #333;
-	--accordion-default-content-background-color: #fff;
+	--accordion-content-color: #333333;
+	--accordion-content-bg: #ffffff;
 
 	/* Border */
-	--accordion-default-border-color: #ddd;
-	--accordion-default-border-width: 1px;
-	--accordion-default-border-style: solid;
-	--accordion-default-border-radius: 4px;
-
-	/* Typography */
-	--accordion-default-title-font-size: 18px;
-	--accordion-default-title-font-weight: 600;
-	--accordion-default-content-font-size: 16px;
-	--accordion-default-content-line-height: 1.6;
+	--accordion-border: 1px solid #dddddd;
+	--accordion-border-radius: 4px;
 
 	/* Spacing */
-	--accordion-default-title-padding: 16px;
-	--accordion-default-content-padding: 16px;
-	--accordion-default-item-spacing: 8px;
+	--accordion-margin-bottom: 8px;
+	--accordion-title-padding: 16px;
+	--accordion-content-padding: 16px;
+
+	/* Typography */
+	--accordion-title-font-size: 18px;
+	--accordion-title-font-weight: 600;
+	--accordion-title-font-style: normal;
+	--accordion-title-text-transform: none;
+	--accordion-title-text-decoration: none;
+	--accordion-title-alignment: left;
+
+	--accordion-content-font-size: 16px;
+	--accordion-content-line-height: 1.6;
 
 	/* Icon */
-	--accordion-default-icon-type-closed: "▾";
-	--accordion-default-icon-size: 20px;
-	--accordion-default-icon-color: #666;
-	--accordion-default-icon-rotation: 0deg;
+	--accordion-icon-size: 20px;
+	--accordion-icon-color: #666666;
+	--accordion-icon-rotation: 180deg;
+
+	/* Effects */
+	--accordion-shadow: none;
+	--accordion-focus-color: #007cba;
+
+	/* Divider */
+	--accordion-divider-border: none;
 
 	/* Animation */
-	--accordion-default-animation-duration: 300;
-	--accordion-default-animation-easing: ease-in-out;
-}
-
-/* Basic accordion styles */
-.wp-block-accordion {
-	margin: 1em 0;
-}
-
-.accordion-item {
-	border: var(--accordion-default-border-width) var(--accordion-default-border-style) var(--accordion-default-border-color);
-	border-radius: var(--accordion-default-border-radius);
-	margin-bottom: var(--accordion-default-item-spacing);
-}
-
-.accordion-title {
-	background-color: var(--accordion-default-title-background-color);
-	color: var(--accordion-default-title-color);
-	padding: var(--accordion-default-title-padding);
-	font-size: var(--accordion-default-title-font-size);
-	font-weight: var(--accordion-default-title-font-weight);
-	cursor: pointer;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border: none;
-	width: 100%;
-	text-align: left;
-}
-
-.accordion-title:hover {
-	background-color: var(--accordion-default-title-background-color-hover);
-	color: var(--accordion-default-title-color-hover);
-}
-
-.accordion-content {
-	background-color: var(--accordion-default-content-background-color);
-	color: var(--accordion-default-content-color);
-	padding: var(--accordion-default-content-padding);
-	font-size: var(--accordion-default-content-font-size);
-	line-height: var(--accordion-default-content-line-height);
-}
-
-.accordion-icon {
-	font-size: var(--accordion-default-icon-size);
-	color: var(--accordion-default-icon-color);
-	transition: transform calc(var(--accordion-default-animation-duration) * 1ms) var(--accordion-default-animation-easing);
-}
-
-.accordion-item.is-open .accordion-icon {
-	transform: rotate(calc(var(--accordion-default-icon-rotation) * 1deg + 180deg));
+	--accordion-animation-duration: 300ms;
 }
