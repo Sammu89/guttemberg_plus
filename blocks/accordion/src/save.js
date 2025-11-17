@@ -66,10 +66,10 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'dividerBorderStyle', '--accordion-divider-style' );
 		addIfDefined( 'dividerBorderColor', '--accordion-divider-color' );
 		addIfDefined( 'iconColor', '--accordion-icon-color' );
-		addIfDefined( 'hoverTitleBackgroundColor', '--accordion-hover-title-bg' );
-		addIfDefined( 'hoverTitleColor', '--accordion-hover-title-color' );
-		addIfDefined( 'activeTitleBackgroundColor', '--accordion-active-title-bg' );
-		addIfDefined( 'activeTitleColor', '--accordion-active-title-color' );
+		addIfDefined( 'hoverTitleBackgroundColor', '--accordion-title-hover-bg' );
+		addIfDefined( 'hoverTitleColor', '--accordion-title-hover-color' );
+		addIfDefined( 'activeTitleBackgroundColor', '--accordion-title-active-bg' );
+		addIfDefined( 'activeTitleColor', '--accordion-title-active-color' );
 
 		// Numeric values with units
 		addIfDefined( 'titleFontSize', '--accordion-title-font-size', ( val ) => `${ val }px` );

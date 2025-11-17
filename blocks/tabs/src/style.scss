@@ -34,20 +34,20 @@
 
 /* Tab button */
 .tab-button {
-	padding: var(--tabs-button-padding, 0.75rem 1.5rem);
-	background-color: var(--tabs-button-bg, transparent);
-	color: var(--tabs-button-color, #666);
-	font-size: var(--tabs-button-font-size, 1rem);
-	font-weight: var(--tabs-button-font-weight, 500);
+	padding: var(--tab-button-padding, 0.75rem 1.5rem);
+	background-color: var(--tab-button-bg, transparent);
+	color: var(--tab-button-color, #666);
+	font-size: var(--tab-button-font-size, 1rem);
+	font-weight: var(--tab-button-font-weight, 500);
 	border: none;
-	border-bottom: var(--tabs-button-border-width, 3px) solid transparent;
+	border-bottom: var(--tab-button-border-width, 3px) solid transparent;
 	cursor: pointer;
 	white-space: nowrap;
 	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 
 	&:hover:not(:disabled) {
-		color: var(--tabs-button-hover-color, #333);
-		background-color: var(--tabs-button-hover-bg, rgba(0, 0, 0, 0.05));
+		color: var(--tab-button-hover-color, #333);
+		background-color: var(--tab-button-hover-bg, rgba(0, 0, 0, 0.05));
 	}
 
 	&:focus {
@@ -58,9 +58,9 @@
 
 	&.active,
 	&[aria-selected="true"] {
-		color: var(--tabs-button-active-color, #007cba);
-		border-bottom-color: var(--tabs-button-active-border-color, #007cba);
-		font-weight: var(--tabs-button-active-font-weight, 600);
+		color: var(--tab-button-active-color, #007cba);
+		border-bottom-color: var(--tab-button-active-border-color, #007cba);
+		font-weight: var(--tab-button-active-font-weight, 600);
 	}
 
 	&:disabled {
@@ -71,11 +71,11 @@
 	/* Vertical orientation */
 	.tabs-list[aria-orientation="vertical"] & {
 		border-bottom: none;
-		border-right: var(--tabs-button-border-width, 3px) solid transparent;
+		border-right: var(--tab-button-border-width, 3px) solid transparent;
 
 		&.active,
 		&[aria-selected="true"] {
-			border-right-color: var(--tabs-button-active-border-color, #007cba);
+			border-right-color: var(--tab-button-active-border-color, #007cba);
 		}
 	}
 }
@@ -199,8 +199,8 @@
 @media (max-width: 768px) {
 
 	.tab-button {
-		padding: var(--tabs-button-padding-mobile, 0.625rem 1rem);
-		font-size: var(--tabs-button-font-size-mobile, 0.95rem);
+		padding: var(--tab-button-padding-mobile, 0.625rem 1rem);
+		font-size: var(--tab-button-font-size-mobile, 0.95rem);
 	}
 
 	.tab-panel {
