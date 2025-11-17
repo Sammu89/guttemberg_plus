@@ -182,7 +182,7 @@ array(
 )
 ```
 
-**Output**: Generated as CSS in `<head>`:
+**Output**: Generated as CSS classes in `<head>` via `php/theme-css-generator.php`:
 ```css
 .accordion-theme-dark-mode {
   border-width: var(--custom-border-width, 1px);
@@ -193,7 +193,23 @@ array(
 }
 ```
 
+**Generation Process**:
+1. PHP scans post content for blocks with `currentTheme` attribute
+2. Extracts unique theme names used on current page
+3. Loads only those themes from database
+4. Maps attribute names to CSS variable names (106 explicit mappings)
+5. Generates CSS with fallback pattern and outputs in `<head>`
+
+**Performance**: Only themes used on current page are generated (~2-3KB per theme, cached)
+
 **When used**: When block has `currentTheme` attribute set
+
+**Special Case - Default Theme**:
+- "Default" is represented by empty string (`currentTheme = ''`)
+- Empty string causes `themes['']` to be `undefined`
+- Tier 2 is **skipped entirely** (no theme to check)
+- Cascade falls directly from Tier 3 to Tier 1
+- More efficient than checking nulls in stored theme object
 
 ### Tier 3: Block Customizations (Per-Block Overrides)
 
@@ -423,6 +439,66 @@ theme = {
   titleFontSize: null  // Don't do this
 }
 ```
+
+### Special Case: Default Theme
+
+**Default is NOT a stored theme**:
+
+```javascript
+// When user selects "Default" in UI
+attributes.currentTheme = '';  // Empty string
+
+// In cascade resolver
+const currentTheme = themes[''];  // undefined (no key exists)
+
+// Cascade behavior
+if (currentTheme && currentTheme.titleColor !== null) {
+  // This is skipped because currentTheme is undefined
+}
+// Falls through to CSS defaults (Tier 1)
+```
+
+**Result**: Empty string effectively skips Tier 2, using CSS defaults directly.
+
+---
+
+## Attribute-to-CSS-Variable Mapping
+
+### The Mapping Challenge
+
+**Problem**: JavaScript attribute names don't match CSS variable names
+
+**Examples**:
+- Attribute: `titleBackgroundColor` → CSS: `--accordion-title-bg`
+- Attribute: `contentBackgroundColor` → CSS: `--accordion-content-bg`
+- Attribute: `titleColor` (tabs) → CSS: `--tabs-button-color`
+
+### Implementation
+
+**PHP Function**: `guttemberg_plus_map_attribute_to_css_var( $block_type, $attr_name )`
+
+**Mappings**:
+- 27 accordion attribute mappings
+- 49 tabs attribute mappings
+- 30 toc attribute mappings
+- 106 total explicit mappings
+
+**Usage** (in `php/theme-css-generator.php`):
+```php
+// Convert attribute name to CSS variable name
+$css_var_name = guttemberg_plus_map_attribute_to_css_var( 'accordion', 'titleBackgroundColor' );
+// Returns: 'title-bg'
+
+// Generate CSS variable
+$css_var = "--accordion-{$css_var_name}";
+// Result: '--accordion-title-bg'
+```
+
+**Why Explicit Mappings**:
+- Simple camelCase-to-kebab-case conversion doesn't work
+- Historical naming decisions (e.g., "button" vs "title" in tabs)
+- Abbreviations for brevity (e.g., "bg" instead of "background-color")
+- Ensures frontend themes work correctly
 
 ---
 

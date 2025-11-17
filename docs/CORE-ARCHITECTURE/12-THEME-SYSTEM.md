@@ -30,16 +30,23 @@
 
 **Alternative Rejected**: Single `gutenberg_blocks_themes` table - would violate event isolation, more complex
 
-### Why Default Theme Has All Null?
+### Why Default Uses Empty String?
 
-**Decision**: "Default" theme stored in database with all attributes = `null`
+**Decision**: "Default" is represented by empty string (`currentTheme = ''`) with NO database storage
 
 **Why**:
-- Allows CSS changes to propagate immediately to Default-themed blocks
+- Skips theme tier entirely in cascade (better performance)
+- No database storage needed (smaller footprint)
+- CSS changes propagate immediately to Default-themed blocks
 - True "CSS as single source of truth" for uncustomized blocks
-- Consistent with attribute philosophy (null = cascade)
+- Consistent with attribute philosophy (no theme = cascade to CSS)
 
-**Behavior**: User can customize → creates "Default (Custom)" session variant, but cannot save modifications to Default itself
+**Implementation**:
+- UI shows "Default" label for empty string value
+- Empty string → cascade skips Tier 2 (theme) → uses Tier 1 (CSS defaults)
+- More efficient than checking nulls in a stored theme object
+
+**Behavior**: User can customize → creates block-level customizations, but cannot save modifications to create a "Default" theme
 
 ---
 
@@ -49,7 +56,7 @@
 
 Themes are **complete, self-contained snapshots** containing explicit values for ALL customizable attributes.
 
-**Exception**: "Default" theme has all attributes = `null` (CSS pass-through)
+**Exception**: "Default" is represented by empty string (`currentTheme = ''`) with no database storage
 
 ```javascript
 {
@@ -61,13 +68,9 @@ Themes are **complete, self-contained snapshots** containing explicit values for
     // ... ALL 40+ attributes with explicit values
     created: "2025-01-15 10:30:00",
     modified: "2025-01-15 10:30:00"
-  },
-  "Default": {
-    name: "Default",
-    titleColor: null,
-    titleBackgroundColor: null,
-    // ... ALL attributes = null
   }
+  // No "Default" object stored in database
+  // Empty string ("") represents Default in block attributes
 }
 ```
 
@@ -86,13 +89,19 @@ Themes are **complete, self-contained snapshots** containing explicit values for
 
 ### Default Theme Behavior
 
-**Storage**: Stored in database with all attributes = `null`
+**Storage**: NOT stored in database. Represented by empty string (`currentTheme = ''`)
 
-**Purpose**: Allows blocks to read directly from CSS defaults
+**Purpose**: Allows blocks to read directly from CSS defaults by skipping theme tier
+
+**How It Works**:
+- Block has `currentTheme = ''` (empty string)
+- Cascade resolver receives empty theme object (`themes['']` = `undefined`)
+- Tier 2 (theme) is skipped entirely
+- Cascade falls through to Tier 1 (CSS defaults)
 
 **When CSS Changes**: All Default-themed blocks automatically reflect changes (on page refresh)
 
-**Customization**: Can customize → creates "Default (Custom)" session variant, but cannot save modifications to Default itself
+**Customization**: Can customize → creates block-level customizations (Tier 3), but cannot save as "Default" theme
 
 ## Theme Operations
 
@@ -218,7 +227,7 @@ autoload: no
 
 ### Output Location
 
-Generated CSS in `<head>` section:
+Generated CSS in `<head>` section via `php/theme-css-generator.php`:
 
 ```css
 /* Theme: Dark Mode */
@@ -234,12 +243,48 @@ Generated CSS in `<head>` section:
 }
 ```
 
+### Generation Process
+
+**PHP Implementation** (`php/theme-css-generator.php`):
+1. Scans post content for all blocks on current page
+2. Extracts unique `currentTheme` values
+3. Loads themes from database (only used themes)
+4. Maps attribute names to CSS variable names (explicit mappings)
+5. Generates CSS classes with fallback pattern
+6. Outputs in `<head>` via `wp_enqueue_scripts` hook
+
+**Performance**:
+- Only themes used on current page are generated (~2-3KB per theme)
+- Cached with version-based invalidation
+- Better than inline styles (shared classes vs repeated styles)
+
+### Attribute-to-CSS-Variable Mapping
+
+**Critical**: Block attributes use different names than CSS variables
+
+**Examples**:
+```php
+// Accordion mappings
+'titleBackgroundColor' => 'title-bg'           // --accordion-title-bg
+'contentBackgroundColor' => 'content-bg'       // --accordion-content-bg
+'titleFontSize' => 'title-font-size'          // --accordion-title-font-size
+
+// Tabs mappings
+'titleColor' => 'button-color'                 // --tabs-button-color
+'activeTabColor' => 'active-button-color'      // --tabs-active-button-color
+
+// TOC mappings
+'wrapperBackgroundColor' => 'wrapper-background-color'  // --toc-wrapper-background-color
+```
+
+**Implementation**: `guttemberg_plus_map_attribute_to_css_var()` function with 106 explicit mappings across all block types
+
 ### Fallback Pattern
 
 Two-level CSS variable pattern:
-1. Inline `--custom-*` variables (block-level customizations)
-2. Theme CSS variables (theme values)
-3. CSS defaults (accordion.css `:root` variables)
+1. Inline `--custom-*` variables (block-level customizations - Tier 3)
+2. Theme CSS in `<head>` (theme values - Tier 2)
+3. CSS defaults (accordion.css `:root` variables - Tier 1)
 
 ## Theme Validation
 
