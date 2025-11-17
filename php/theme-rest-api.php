@@ -9,6 +9,10 @@
  * @see docs/IMPLEMENTATION/24-WORDPRESS-INTEGRATION.md
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 namespace GutenbergBlocks\ThemeRestAPI;
 
 use GutenbergBlocks\ThemeStorage;

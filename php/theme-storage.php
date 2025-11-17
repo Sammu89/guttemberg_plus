@@ -9,6 +9,10 @@
  * @see docs/CORE-ARCHITECTURE/12-THEME-SYSTEM.md
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 namespace GutenbergBlocks\ThemeStorage;
 
 /**
