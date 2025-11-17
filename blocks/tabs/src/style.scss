@@ -13,6 +13,7 @@
 .wp-block-tabs {
 	margin: 1em 0;
 	width: 100%;
+	box-shadow: var(--tabs-container-shadow, none);
 }
 
 /* Tab list (navigation) */
@@ -39,8 +40,8 @@
 	color: var(--tab-button-color, #666);
 	font-size: var(--tab-button-font-size, 1rem);
 	font-weight: var(--tab-button-font-weight, 500);
-	border: none;
-	border-bottom: var(--tab-button-border-width, 3px) solid transparent;
+	border: var(--tab-button-border-width, 1px) var(--tab-button-border-style, solid) var(--tab-button-border-color, transparent);
+	border-radius: var(--tab-button-border-radius, 0);
 	cursor: pointer;
 	white-space: nowrap;
 	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
@@ -70,19 +71,14 @@
 
 	/* Vertical orientation */
 	.tabs-list[aria-orientation="vertical"] & {
-		border-bottom: none;
-		border-right: var(--tab-button-border-width, 3px) solid transparent;
-
-		&.active,
-		&[aria-selected="true"] {
-			border-right-color: var(--tab-button-active-border-color, #007cba);
-		}
+		border-right-color: var(--tab-button-active-border-color, currentColor);
 	}
 }
 
 /* Tabs panels container */
 .tabs-panels {
 	position: relative;
+	border-top: var(--divider-width, 0) var(--divider-style, solid) var(--divider-color, transparent);
 }
 
 /* Tab panel */
