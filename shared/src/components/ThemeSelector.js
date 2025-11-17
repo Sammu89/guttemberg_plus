@@ -73,19 +73,21 @@ export function ThemeSelector( {
 	};
 
 	// Prepare theme options for dropdown
-	const themeOptions = Object.keys( themes || {} ).map( ( name ) => ( {
-		label: name,
-		value: name,
-	} ) );
+	const themeOptions = Object.keys( themes || {} ).map( ( name ) => {
+		// Add (customized) suffix to the current theme if it's customized
+		const isCurrentTheme = name === currentTheme;
+		const label = isCurrentTheme && isCustomized ? `${ name } (customized)` : name;
+		return {
+			label,
+			value: name,
+		};
+	} );
 
 	// Add "Default" option if not present
 	if ( ! themeOptions.find( ( opt ) => opt.value === '' ) ) {
-		themeOptions.unshift( { label: 'Default', value: '' } );
+		const defaultLabel = currentTheme === '' && isCustomized ? 'Default (customized)' : 'Default';
+		themeOptions.unshift( { label: defaultLabel, value: '' } );
 	}
-
-	// Display label with (customized) suffix
-	const displayLabel = currentTheme === '' ? 'Default' : currentTheme;
-	const label = isCustomized ? `${ displayLabel } (customized)` : displayLabel;
 
 	return (
 		<div className="theme-selector">
@@ -94,10 +96,9 @@ export function ThemeSelector( {
 				value={ currentTheme }
 				options={ themeOptions }
 				onChange={ handleThemeChange }
-				help={ label }
 			/>
 
-			<div className="theme-actions">
+			<div className="theme-actions" style={ { display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' } }>
 				<Button
 					variant="secondary"
 					onClick={ () => setShowCreateModal( true ) }

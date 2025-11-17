@@ -108,22 +108,22 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * Theme callback handlers
 	 * @param themeName
 	 */
-	const handleSaveNewTheme = ( themeName ) => {
-		createTheme( 'accordion', themeName, effectiveValues );
+	const handleSaveNewTheme = async ( themeName ) => {
+		await createTheme( 'accordion', themeName, effectiveValues );
 		setAttributes( { currentTheme: themeName } );
 	};
 
-	const handleUpdateTheme = () => {
-		updateTheme( 'accordion', attributes.currentTheme, effectiveValues );
+	const handleUpdateTheme = async () => {
+		await updateTheme( 'accordion', attributes.currentTheme, effectiveValues );
 	};
 
-	const handleDeleteTheme = () => {
-		deleteTheme( 'accordion', attributes.currentTheme );
+	const handleDeleteTheme = async () => {
+		await deleteTheme( 'accordion', attributes.currentTheme );
 		setAttributes( { currentTheme: '' } );
 	};
 
-	const handleRenameTheme = ( oldName, newName ) => {
-		renameTheme( 'accordion', oldName, newName );
+	const handleRenameTheme = async ( oldName, newName ) => {
+		await renameTheme( 'accordion', oldName, newName );
 		setAttributes( { currentTheme: newName } );
 	};
 
