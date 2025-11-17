@@ -1,243 +1,86 @@
-/*
- Tabs Block - CSS Default Values
- These :root variables serve as the default values (Tier 1 in 3-tier cascade)
- They will be parsed by the CSS variables parser loader and converted to PHP arrays
-*/
+/**
+ * Tabs Block - CSS Default Values (Tier 1 - Cascade)
+ *
+ * IMPORTANT: This file defines ONLY default values for the cascade system.
+ * It does NOT contain styling rules - those are in blocks/tabs/src/style.scss
+ *
+ * These variables are:
+ * - Parsed by webpack CSS variables parser loader
+ * - Converted to PHP arrays (php/css-defaults/tabs.php)
+ * - Exposed as window.tabsDefaults in JavaScript
+ * - Used as Tier 1 (lowest priority) in the 3-tier cascade
+ *
+ * Variable naming convention:
+ * - Use the SAME names that save.js sets inline
+ * - Use abbreviations: bg (background), color (text color)
+ * - Format: --tabs-{property-name} or --tab-button-{property-name}
+ *
+ * @package GuttemberPlus
+ */
 
 :root {
-
-	/* Tab Container */
-	--tabs-default-container-background: transparent;
-	--tabs-default-container-padding: 0;
-	--tabs-default-container-border-width: 0;
-	--tabs-default-container-border-style: solid;
-	--tabs-default-container-border-color: transparent;
-	--tabs-default-container-border-radius: 4px;
-	--tabs-default-container-shadow: none;
+	/* Container */
+	--tabs-container-bg: transparent;
+	--tabs-container-border: 0px solid transparent;
+	--tabs-container-border-radius: 4px;
+	--tabs-container-shadow: none;
 
 	/* Tab List (Navigation Bar) */
-	--tabs-default-tab-list-background: #f5f5f5;
-	--tabs-default-tab-list-border-bottom-width: 2px;
-	--tabs-default-tab-list-border-bottom-style: solid;
-	--tabs-default-tab-list-border-bottom-color: #ddd;
-	--tabs-default-tab-list-gap: 4px;
-	--tabs-default-tab-list-padding: 8px;
-	--tabs-default-tabs-alignment: left;
+	--tabs-list-bg: #f5f5f5;
+	--tabs-list-border-bottom: 2px solid #dddddd;
+	--tabs-list-gap: 4px;
+	--tabs-list-padding: 8px;
+	--tabs-alignment: left;
 
 	/* Tab Button (Inactive) */
-	--tabs-default-tab-button-color: #666;
-	--tabs-default-tab-button-background: transparent;
-	--tabs-default-tab-button-border-width: 1px;
-	--tabs-default-tab-button-border-style: solid;
-	--tabs-default-tab-button-border-color: transparent;
-	--tabs-default-tab-button-border-radius-top-left: 4px;
-	--tabs-default-tab-button-border-radius-top-right: 4px;
-	--tabs-default-tab-button-border-radius-bottom-left: 0;
-	--tabs-default-tab-button-border-radius-bottom-right: 0;
-	--tabs-default-tab-button-padding: 12px 24px;
-	--tabs-default-tab-button-font-size: 16px;
-	--tabs-default-tab-button-font-weight: 500;
-	--tabs-default-tab-button-font-style: normal;
-	--tabs-default-tab-button-text-transform: none;
-	--tabs-default-tab-button-text-decoration: none;
-	--tabs-default-tab-button-text-align: center;
+	--tab-button-color: #666666;
+	--tab-button-bg: transparent;
+	--tab-button-border: 1px solid transparent;
+	--tab-button-border-radius: 4px 4px 0 0;
+	--tab-button-padding: 12px 24px;
+	--tab-button-font-size: 16px;
+	--tab-button-font-weight: 500;
+	--tab-button-font-style: normal;
+	--tab-button-text-transform: none;
+	--tab-button-text-decoration: none;
+	--tab-button-text-align: center;
 
 	/* Tab Button (Hover) */
-	--tabs-default-tab-button-hover-color: #333;
-	--tabs-default-tab-button-hover-background: #e8e8e8;
-	--tabs-default-tab-button-hover-border-color: #ccc;
+	--tab-button-hover-color: #333333;
+	--tab-button-hover-bg: #e8e8e8;
+	--tab-button-hover-border-color: #cccccc;
 
 	/* Tab Button (Active) */
-	--tabs-default-tab-button-active-color: #000;
-	--tabs-default-tab-button-active-background: #fff;
-	--tabs-default-tab-button-active-border-color: #ddd;
-	--tabs-default-tab-button-active-border-bottom-color: transparent;
+	--tab-button-active-color: #000000;
+	--tab-button-active-bg: #ffffff;
+	--tab-button-active-border-color: #dddddd;
+	--tab-button-active-border-bottom-color: transparent;
 
-	/* Tab Panel */
-	--tabs-default-panel-background: #fff;
-	--tabs-default-panel-color: #333;
-	--tabs-default-panel-border-width: 1px;
-	--tabs-default-panel-border-style: solid;
-	--tabs-default-panel-border-color: #ddd;
-	--tabs-default-panel-border-radius: 0;
-	--tabs-default-panel-padding: 24px;
-	--tabs-default-panel-font-size: 16px;
-	--tabs-default-panel-line-height: 1.6;
+	/* Panel */
+	--panel-bg: #ffffff;
+	--panel-color: #333333;
+	--panel-border: 1px solid #dddddd;
+	--panel-border-radius: 0px;
+	--panel-padding: 24px;
+	--panel-font-size: 16px;
+	--panel-line-height: 1.6;
 
-	/* Divider (between tab list and panels) */
-	--tabs-default-divider-thickness: 0;
-	--tabs-default-divider-style: solid;
-	--tabs-default-divider-color: #ddd;
+	/* Divider */
+	--divider-border: none;
 
 	/* Icon */
-	--tabs-default-icon-size: 18px;
-	--tabs-default-icon-color: inherit;
-	--tabs-default-icon-spacing: 8px;
+	--icon-size: 18px;
+	--icon-color: inherit;
+	--icon-spacing: 8px;
 
 	/* Animation */
-	--tabs-default-transition-duration: 200;
-	--tabs-default-transition-easing: ease-in-out;
+	--transition-duration: 200ms;
+	--transition-easing: ease-in-out;
 
 	/* Responsive */
-	--tabs-default-responsive-breakpoint: 768px;
+	--responsive-breakpoint: 768px;
 
-	/* Orientation-specific (Vertical) */
-	--tabs-default-vertical-tab-list-width: 200px;
-	--tabs-default-vertical-tab-button-text-align: left;
-}
-
-/* Base Tabs Container */
-.wp-block-tabs {
-	display: flex;
-	flex-direction: column;
-	margin: 1em 0;
-}
-
-/* Horizontal Orientation (Default) */
-.wp-block-tabs[data-orientation="horizontal"] {
-	flex-direction: column;
-}
-
-.wp-block-tabs[data-orientation="horizontal"] .tabs-list {
-	display: flex;
-	flex-direction: row;
-	background-color: var(--tabs-default-tab-list-background);
-	gap: var(--tabs-default-tab-list-gap);
-	padding: var(--tabs-default-tab-list-padding);
-	border-bottom:
-		var(--tabs-default-tab-list-border-bottom-width)
-		var(--tabs-default-tab-list-border-bottom-style)
-		var(--tabs-default-tab-list-border-bottom-color);
-}
-
-.wp-block-tabs[data-orientation="horizontal"] .tabs-list[data-alignment="left"] {
-	justify-content: flex-start;
-}
-
-.wp-block-tabs[data-orientation="horizontal"] .tabs-list[data-alignment="center"] {
-	justify-content: center;
-}
-
-.wp-block-tabs[data-orientation="horizontal"] .tabs-list[data-alignment="right"] {
-	justify-content: flex-end;
-}
-
-/* Vertical Orientation */
-.wp-block-tabs[data-orientation="vertical"] {
-	flex-direction: row;
-}
-
-.wp-block-tabs[data-orientation="vertical"] .tabs-list {
-	display: flex;
-	flex-direction: column;
-	width: var(--tabs-default-vertical-tab-list-width);
-	background-color: var(--tabs-default-tab-list-background);
-	gap: var(--tabs-default-tab-list-gap);
-	padding: var(--tabs-default-tab-list-padding);
-	border-right:
-		var(--tabs-default-tab-list-border-bottom-width)
-		var(--tabs-default-tab-list-border-bottom-style)
-		var(--tabs-default-tab-list-border-bottom-color);
-}
-
-.wp-block-tabs[data-orientation="vertical"] .tabs-panels {
-	flex: 1;
-}
-
-/* Tab Button */
-.tab-button {
-	background-color: var(--tabs-default-tab-button-background);
-	color: var(--tabs-default-tab-button-color);
-	border:
-		var(--tabs-default-tab-button-border-width)
-		var(--tabs-default-tab-button-border-style)
-		var(--tabs-default-tab-button-border-color);
-	border-radius:
-		var(--tabs-default-tab-button-border-radius-top-left)
-		var(--tabs-default-tab-button-border-radius-top-right)
-		var(--tabs-default-tab-button-border-radius-bottom-right)
-		var(--tabs-default-tab-button-border-radius-bottom-left);
-	padding: var(--tabs-default-tab-button-padding);
-	font-size: var(--tabs-default-tab-button-font-size);
-	font-weight: var(--tabs-default-tab-button-font-weight);
-	font-style: var(--tabs-default-tab-button-font-style);
-	text-transform: var(--tabs-default-tab-button-text-transform);
-	text-decoration: var(--tabs-default-tab-button-text-decoration);
-	text-align: var(--tabs-default-tab-button-text-align);
-	cursor: pointer;
-	transition:
-		all calc(var(--tabs-default-transition-duration) * 1ms)
-		var(--tabs-default-transition-easing);
-	white-space: nowrap;
-}
-
-.tab-button:hover {
-	background-color: var(--tabs-default-tab-button-hover-background);
-	color: var(--tabs-default-tab-button-hover-color);
-	border-color: var(--tabs-default-tab-button-hover-border-color);
-}
-
-.tab-button[aria-selected="true"] {
-	background-color: var(--tabs-default-tab-button-active-background);
-	color: var(--tabs-default-tab-button-active-color);
-	border-color: var(--tabs-default-tab-button-active-border-color);
-	border-bottom-color: var(--tabs-default-tab-button-active-border-bottom-color);
-}
-
-/* Tab Panel */
-.tab-panel {
-	background-color: var(--tabs-default-panel-background);
-	color: var(--tabs-default-panel-color);
-	border:
-		var(--tabs-default-panel-border-width)
-		var(--tabs-default-panel-border-style)
-		var(--tabs-default-panel-border-color);
-	border-radius: var(--tabs-default-panel-border-radius);
-	padding: var(--tabs-default-panel-padding);
-	font-size: var(--tabs-default-panel-font-size);
-	line-height: var(--tabs-default-panel-line-height);
-}
-
-.tab-panel[hidden] {
-	display: none;
-}
-
-/* Tab Icon */
-.tab-icon {
-	font-size: var(--tabs-default-icon-size);
-	color: var(--tabs-default-icon-color);
-	margin-right: var(--tabs-default-icon-spacing);
-}
-
-.tab-icon.icon-right {
-	margin-right: 0;
-	margin-left: var(--tabs-default-icon-spacing);
-}
-
-/* Responsive: Convert to Accordion at Breakpoint */
-@media (max-width: 768px) {
-
-	.wp-block-tabs.responsive-accordion .tabs-list {
-		display: none;
-	}
-
-	.wp-block-tabs.responsive-accordion .tabs-panels {
-		display: block;
-	}
-
-	.wp-block-tabs.responsive-accordion .tab-panel {
-		margin-bottom: 8px;
-	}
-
-	.wp-block-tabs.responsive-accordion .accordion-button {
-		display: block;
-		width: 100%;
-		text-align: left;
-	}
-}
-
-/* Disabled Tab */
-.tab-button:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
+	/* Vertical Orientation */
+	--vertical-tab-list-width: 200px;
+	--vertical-tab-button-text-align: left;
 }

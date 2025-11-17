@@ -9,9 +9,9 @@
 	"description": "Create a tabbed content interface with horizontal/vertical orientation and customizable themes.",
 	"keywords": ["tabs", "tabbed", "navigation", "panel", "switcher"],
 	"textdomain": "guttemberg-plus",
-	"editorScript": "file:./build/index.js",
-	"viewScript": "file:./build/frontend.js",
-	"style": "file:./build/style-index.css",
+	"editorScript": "file:../../build/blocks/tabs/index.js",
+	"viewScript": "file:../../build/blocks/tabs/frontend.js",
+	"style": "file:../../build/blocks/tabs/style-index.css",
 	"supports": {
 		"html": false,
 		"align": ["wide", "full"],

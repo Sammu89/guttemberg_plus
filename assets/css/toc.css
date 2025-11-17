@@ -1,231 +1,85 @@
-/*
- * Table of Contents (TOC) Block - CSS Default Values
+/**
+ * TOC Block - CSS Default Values (Tier 1 - Cascade)
  *
- * Single source of truth for all TOC styling defaults.
- * These variables are parsed by build-tools/css-vars-parser-loader.js
- * and converted to PHP array in php/css-defaults/toc.php
+ * IMPORTANT: This file defines ONLY default values for the cascade system.
+ * It does NOT contain styling rules - those are in blocks/toc/src/toc-styles.js
  *
- * Architecture: CSS → Webpack Loader → PHP Array → JavaScript → Cascade Resolver
+ * These variables are:
+ * - Parsed by webpack CSS variables parser loader
+ * - Converted to PHP arrays (php/css-defaults/toc.php)
+ * - Exposed as window.tocDefaults in JavaScript
+ * - Used as Tier 1 (lowest priority) in the 3-tier cascade
+ *
+ * Variable naming convention:
+ * - Use the SAME names that save.js sets inline
+ * - Standardized to --toc- prefix (consistent with accordion/tabs pattern)
+ * - Format: --toc-{property-name}
+ *
+ * @package GuttemberPlus
  */
 
 :root {
-
 	/* Wrapper Colors */
-	--toc-default-wrapper-background-color: #fff;
-	--toc-default-wrapper-border-color: #ddd;
+	--toc-wrapper-background-color: #ffffff;
+	--toc-wrapper-border-color: #dddddd;
 
-	/* Title Styling (optional heading) */
-	--toc-default-title-text-color: #333;
-	--toc-default-title-background-color: transparent;
-	--toc-default-title-font-size: 20px;
-	--toc-default-title-font-weight: 700;
-	--toc-default-title-alignment: left;
+	/* Title Styling */
+	--toc-title-color: #333333;
+	--toc-title-background-color: transparent;
+	--toc-title-font-size: 20px;
+	--toc-title-font-weight: 700;
+	--toc-title-alignment: left;
+	--toc-title-padding: 12px;
 
 	/* Link Colors */
-	--toc-default-link-color: #0073aa;
-	--toc-default-link-hover-color: #005177;
-	--toc-default-link-visited-color: #0073aa;
+	--toc-link-color: #0073aa;
+	--toc-link-hover-color: #005177;
+	--toc-link-visited-color: #0073aa;
+	--toc-link-active-color: #005177;
 
 	/* Numbering Color */
-	--toc-default-numbering-color: #0073aa;
+	--toc-numbering-color: #0073aa;
 
 	/* Level 1 Typography (H2) */
-	--toc-default-level1-font-size: 18px;
-	--toc-default-level1-font-weight: 600;
-	--toc-default-level1-font-style: normal;
-	--toc-default-level1-text-transform: none;
-	--toc-default-level1-text-decoration: none;
-	--toc-default-level1-color: #0073aa;
+	--toc-level1-font-size: 18px;
+	--toc-level1-font-weight: 600;
+	--toc-level1-font-style: normal;
+	--toc-level1-text-transform: none;
+	--toc-level1-text-decoration: none;
+	--toc-level1-color: #0073aa;
 
 	/* Level 2 Typography (H3) */
-	--toc-default-level2-font-size: 16px;
-	--toc-default-level2-font-weight: normal;
-	--toc-default-level2-font-style: normal;
-	--toc-default-level2-text-transform: none;
-	--toc-default-level2-text-decoration: none;
-	--toc-default-level2-color: #0073aa;
+	--toc-level2-font-size: 16px;
+	--toc-level2-font-weight: normal;
+	--toc-level2-font-style: normal;
+	--toc-level2-text-transform: none;
+	--toc-level2-text-decoration: none;
+	--toc-level2-color: #0073aa;
 
 	/* Level 3+ Typography (H4-H6) */
-	--toc-default-level3-plus-font-size: 14px;
-	--toc-default-level3-plus-font-weight: normal;
-	--toc-default-level3-plus-font-style: normal;
-	--toc-default-level3-plus-text-transform: none;
-	--toc-default-level3-plus-text-decoration: none;
-	--toc-default-level3-plus-color: #0073aa;
+	--toc-level3-plus-font-size: 14px;
+	--toc-level3-plus-font-weight: normal;
+	--toc-level3-plus-font-style: normal;
+	--toc-level3-plus-text-transform: none;
+	--toc-level3-plus-text-decoration: none;
+	--toc-level3-plus-color: #0073aa;
 
 	/* Border Settings */
-	--toc-default-border-width: 1px;
-	--toc-default-border-style: solid;
-	--toc-default-border-radius: 4px;
-	--toc-default-wrapper-shadow: none;
+	--toc-border-width: 1px;
+	--toc-border-style: solid;
+	--toc-border-radius: 4px;
+	--toc-wrapper-shadow: none;
 
 	/* Spacing */
-	--toc-default-wrapper-padding: 20px;
-	--toc-default-title-padding: 12px;
-	--toc-default-list-padding-left: 24px;
-	--toc-default-item-spacing: 8px;
-	--toc-default-level-indent: 20px;
-
-	/* List Styling */
-	--toc-default-list-style-type: disc;
-	--toc-default-bullet-color: #666;
-
-	/* Scroll Behavior */
-	--toc-default-scroll-offset: 20px;
-	--toc-default-scroll-duration: 600ms;
+	--toc-wrapper-padding: 20px;
+	--toc-item-spacing: 8px;
+	--toc-level-indent: 20px;
 
 	/* Positioning (sticky/fixed) */
-	--toc-default-position-top: 100px;
-	--toc-default-position-max-width: 300px;
+	--toc-position-top: 100px;
+	--toc-z-index: 100;
 
-	/* Mobile Responsiveness */
-	--toc-default-mobile-breakpoint: 768px;
-	--toc-default-mobile-padding: 12px;
-
-	/* Collapsible Behavior (optional) */
-	--toc-default-collapse-icon-size: 20px;
-	--toc-default-collapse-icon-color: #666;
-	--toc-default-collapse-animation-duration: 300ms;
-	--toc-default-collapse-animation-easing: ease-in-out;
-}
-
-/* Base TOC Structure */
-.wp-block-custom-toc {
-	background-color: var(--custom-wrapper-background-color, var(--toc-default-wrapper-background-color));
-	border: var(--custom-border-width, var(--toc-default-border-width)) var(--custom-border-style, var(--toc-default-border-style)) var(--custom-wrapper-border-color, var(--toc-default-wrapper-border-color));
-	border-radius: var(--custom-border-radius, var(--toc-default-border-radius));
-	padding: var(--custom-wrapper-padding, var(--toc-default-wrapper-padding));
-	box-shadow: var(--custom-wrapper-shadow, var(--toc-default-wrapper-shadow));
-}
-
-/* Title Styling */
-.toc-title {
-	color: var(--custom-title-text-color, var(--toc-default-title-text-color));
-	background-color: var(--custom-title-background-color, var(--toc-default-title-background-color));
-	font-size: var(--custom-title-font-size, var(--toc-default-title-font-size));
-	font-weight: var(--custom-title-font-weight, var(--toc-default-title-font-weight));
-	text-align: var(--custom-title-alignment, var(--toc-default-title-alignment));
-	padding: var(--custom-title-padding, var(--toc-default-title-padding));
-	margin: 0 0 16px 0;
-}
-
-/* TOC List */
-.toc-list {
-	list-style-type: var(--custom-list-style-type, var(--toc-default-list-style-type));
-	padding-left: var(--custom-list-padding-left, var(--toc-default-list-padding-left));
-	margin: 0;
-}
-
-.toc-item {
-	margin-bottom: var(--custom-item-spacing, var(--toc-default-item-spacing));
-}
-
-/* Nested List Indentation */
-.toc-list .toc-list {
-	padding-left: var(--custom-level-indent, var(--toc-default-level-indent));
-	margin-top: var(--custom-item-spacing, var(--toc-default-item-spacing));
-}
-
-/* Link Styling */
-.toc-link {
-	color: var(--custom-link-color, var(--toc-default-link-color));
-	text-decoration: none;
-	transition: color 200ms ease;
-}
-
-.toc-link:hover {
-	color: var(--custom-link-hover-color, var(--toc-default-link-hover-color));
-}
-
-.toc-link:visited {
-	color: var(--custom-link-visited-color, var(--toc-default-link-visited-color));
-}
-
-/* Level-Specific Styling */
-.toc-item-level-1 > .toc-link {
-	font-size: var(--custom-level1-font-size, var(--toc-default-level1-font-size));
-	font-weight: var(--custom-level1-font-weight, var(--toc-default-level1-font-weight));
-	font-style: var(--custom-level1-font-style, var(--toc-default-level1-font-style));
-	text-transform: var(--custom-level1-text-transform, var(--toc-default-level1-text-transform));
-	text-decoration: var(--custom-level1-text-decoration, var(--toc-default-level1-text-decoration));
-	color: var(--custom-level1-color, var(--toc-default-level1-color));
-}
-
-.toc-item-level-2 > .toc-link {
-	font-size: var(--custom-level2-font-size, var(--toc-default-level2-font-size));
-	font-weight: var(--custom-level2-font-weight, var(--toc-default-level2-font-weight));
-	font-style: var(--custom-level2-font-style, var(--toc-default-level2-font-style));
-	text-transform: var(--custom-level2-text-transform, var(--toc-default-level2-text-transform));
-	text-decoration: var(--custom-level2-text-decoration, var(--toc-default-level2-text-decoration));
-	color: var(--custom-level2-color, var(--toc-default-level2-color));
-}
-
-.toc-item-level-3 > .toc-link,
-.toc-item-level-4 > .toc-link,
-.toc-item-level-5 > .toc-link,
-.toc-item-level-6 > .toc-link {
-	font-size: var(--custom-level3-plus-font-size, var(--toc-default-level3-plus-font-size));
-	font-weight: var(--custom-level3-plus-font-weight, var(--toc-default-level3-plus-font-weight));
-	font-style: var(--custom-level3-plus-font-style, var(--toc-default-level3-plus-font-style));
-	text-transform: var(--custom-level3-plus-text-transform, var(--toc-default-level3-plus-text-transform));
-	text-decoration: var(--custom-level3-plus-text-decoration, var(--toc-default-level3-plus-text-decoration));
-	color: var(--custom-level3-plus-color, var(--toc-default-level3-plus-color));
-}
-
-/* Numbering Styles */
-.toc-list.numbering-decimal {
-	counter-reset: toc-counter;
-	list-style-type: none;
-}
-
-.toc-list.numbering-decimal .toc-item {
-	counter-increment: toc-counter;
-}
-
-.toc-list.numbering-decimal .toc-item::before {
-	content: counter(toc-counter) ". ";
-	color: var(--custom-numbering-color, var(--toc-default-numbering-color));
-}
-
-/* Collapsible State (optional) */
-.toc-collapse-icon {
-	font-size: var(--custom-collapse-icon-size, var(--toc-default-collapse-icon-size));
-	color: var(--custom-collapse-icon-color, var(--toc-default-collapse-icon-color));
-	transition: transform var(--custom-collapse-animation-duration, var(--toc-default-collapse-animation-duration)) var(--custom-collapse-animation-easing, var(--toc-default-collapse-animation-easing));
-}
-
-.toc-wrapper.is-collapsed .toc-collapse-icon {
-	transform: rotate(-90deg);
-}
-
-/* Sticky/Fixed Positioning */
-.toc-wrapper.is-sticky {
-	position: sticky;
-	top: var(--custom-position-top, var(--toc-default-position-top));
-	max-width: var(--custom-position-max-width, var(--toc-default-position-max-width));
-}
-
-.toc-wrapper.is-fixed {
-	position: fixed;
-	top: var(--custom-position-top, var(--toc-default-position-top));
-	max-width: var(--custom-position-max-width, var(--toc-default-position-max-width));
-}
-
-/* Mobile Responsiveness */
-@media ( max-width: 768px ) {
-
-	.wp-block-custom-toc {
-		padding: var(--custom-mobile-padding, var(--toc-default-mobile-padding));
-	}
-
-	.toc-wrapper.is-sticky,
-	.toc-wrapper.is-fixed {
-		position: static;
-		max-width: 100%;
-	}
-}
-
-/* Smooth Scroll */
-html {
-	scroll-behavior: smooth;
+	/* Collapsible */
+	--toc-collapse-icon-size: 20px;
+	--toc-collapse-icon-color: #666666;
 }
