@@ -13,6 +13,7 @@ import metadata from '../block.json';
 import edit from './edit';
 import save from './save';
 import { accordionAttributes } from './accordion-attributes';
+import './style.scss';
 import '../../../assets/css/accordion.css';
 
 /**

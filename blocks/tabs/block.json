@@ -11,6 +11,7 @@
 	"textdomain": "guttemberg-plus",
 	"editorScript": "file:../../build/blocks/tabs/index.js",
 	"viewScript": "file:../../build/blocks/tabs/frontend.js",
+	"style": "file:../../build/blocks/tabs/style-index.css",
 	"supports": {
 		"html": false,
 		"align": ["wide", "full"],
