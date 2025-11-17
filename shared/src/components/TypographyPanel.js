@@ -9,12 +9,7 @@
  * @since 1.0.0
  */
 
-import {
-	PanelBody,
-	RangeControl,
-	SelectControl,
-	BaseControl,
-} from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl, BaseControl } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 
 /**
@@ -58,12 +53,7 @@ export function TypographyPanel( {
 	 * @param attrName
 	 */
 	const isAttrCustomized = ( attrName ) => {
-		return isCustomizedFromDefaults(
-			attrName,
-			attributes,
-			theme,
-			cssDefaults
-		);
+		return isCustomizedFromDefaults( attrName, attributes, theme, cssDefaults );
 	};
 
 	/**
@@ -84,12 +74,7 @@ export function TypographyPanel( {
 	return (
 		<PanelBody title="Title" initialOpen={ initialOpen }>
 			<SelectControl
-				label={
-					<CustomLabel
-						label="Heading Level"
-						attrName="headingLevel"
-					/>
-				}
+				label={ <CustomLabel label="Heading Level" attrName="headingLevel" /> }
 				value={ effectiveValues.headingLevel || 'none' }
 				options={ [
 					{ label: 'None', value: 'none' },
@@ -104,9 +89,7 @@ export function TypographyPanel( {
 			/>
 
 			<RangeControl
-				label={
-					<CustomLabel label="Font Size" attrName="titleFontSize" />
-				}
+				label={ <CustomLabel label="Font Size" attrName="titleFontSize" /> }
 				value={ effectiveValues.titleFontSize || 16 }
 				onChange={ ( value ) => handleChange( 'titleFontSize', value ) }
 				min={ 12 }
@@ -114,12 +97,7 @@ export function TypographyPanel( {
 			/>
 
 			<SelectControl
-				label={
-					<CustomLabel
-						label="Font Weight"
-						attrName="titleFontWeight"
-					/>
-				}
+				label={ <CustomLabel label="Font Weight" attrName="titleFontWeight" /> }
 				value={ effectiveValues.titleFontWeight || '600' }
 				options={ [
 					{ label: 'Normal', value: 'normal' },
@@ -134,33 +112,22 @@ export function TypographyPanel( {
 					{ label: '800', value: '800' },
 					{ label: '900', value: '900' },
 				] }
-				onChange={ ( value ) =>
-					handleChange( 'titleFontWeight', value )
-				}
+				onChange={ ( value ) => handleChange( 'titleFontWeight', value ) }
 			/>
 
 			<SelectControl
-				label={
-					<CustomLabel label="Font Style" attrName="titleFontStyle" />
-				}
+				label={ <CustomLabel label="Font Style" attrName="titleFontStyle" /> }
 				value={ effectiveValues.titleFontStyle || 'normal' }
 				options={ [
 					{ label: 'Normal', value: 'normal' },
 					{ label: 'Italic', value: 'italic' },
 					{ label: 'Oblique', value: 'oblique' },
 				] }
-				onChange={ ( value ) =>
-					handleChange( 'titleFontStyle', value )
-				}
+				onChange={ ( value ) => handleChange( 'titleFontStyle', value ) }
 			/>
 
 			<SelectControl
-				label={
-					<CustomLabel
-						label="Text Transform"
-						attrName="titleTextTransform"
-					/>
-				}
+				label={ <CustomLabel label="Text Transform" attrName="titleTextTransform" /> }
 				value={ effectiveValues.titleTextTransform || 'none' }
 				options={ [
 					{ label: 'None', value: 'none' },
@@ -168,18 +135,11 @@ export function TypographyPanel( {
 					{ label: 'Lowercase', value: 'lowercase' },
 					{ label: 'Capitalize', value: 'capitalize' },
 				] }
-				onChange={ ( value ) =>
-					handleChange( 'titleTextTransform', value )
-				}
+				onChange={ ( value ) => handleChange( 'titleTextTransform', value ) }
 			/>
 
 			<SelectControl
-				label={
-					<CustomLabel
-						label="Text Decoration"
-						attrName="titleTextDecoration"
-					/>
-				}
+				label={ <CustomLabel label="Text Decoration" attrName="titleTextDecoration" /> }
 				value={ effectiveValues.titleTextDecoration || 'none' }
 				options={ [
 					{ label: 'None', value: 'none' },
@@ -187,27 +147,18 @@ export function TypographyPanel( {
 					{ label: 'Overline', value: 'overline' },
 					{ label: 'Line Through', value: 'line-through' },
 				] }
-				onChange={ ( value ) =>
-					handleChange( 'titleTextDecoration', value )
-				}
+				onChange={ ( value ) => handleChange( 'titleTextDecoration', value ) }
 			/>
 
 			<SelectControl
-				label={
-					<CustomLabel
-						label="Text Alignment"
-						attrName="titleAlignment"
-					/>
-				}
+				label={ <CustomLabel label="Text Alignment" attrName="titleAlignment" /> }
 				value={ effectiveValues.titleAlignment || 'left' }
 				options={ [
 					{ label: 'Left', value: 'left' },
 					{ label: 'Center', value: 'center' },
 					{ label: 'Right', value: 'right' },
 				] }
-				onChange={ ( value ) =>
-					handleChange( 'titleAlignment', value )
-				}
+				onChange={ ( value ) => handleChange( 'titleAlignment', value ) }
 			/>
 		</PanelBody>
 	);

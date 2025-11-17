@@ -59,8 +59,7 @@ export function isValidColor( color ) {
 	}
 
 	// HSL/HSLA: hsl(0, 100%, 50%), hsla(0, 100%, 50%, 0.5)
-	const hslRegex =
-		/^hsla?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*(,\s*[\d.]+\s*)?\)$/;
+	const hslRegex = /^hsla?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*(,\s*[\d.]+\s*)?\)$/;
 	if ( hslRegex.test( color ) ) {
 		return true;
 	}
@@ -156,9 +155,7 @@ export function isValidSpacing( value ) {
 		return false;
 	}
 
-	return requiredKeys.every(
-		( key ) => typeof value[ key ] === 'number' && value[ key ] >= 0
-	);
+	return requiredKeys.every( ( key ) => typeof value[ key ] === 'number' && value[ key ] >= 0 );
 }
 
 /**
@@ -181,9 +178,7 @@ export function isValidBorderRadius( value ) {
 		return false;
 	}
 
-	return requiredKeys.every(
-		( key ) => typeof value[ key ] === 'number' && value[ key ] >= 0
-	);
+	return requiredKeys.every( ( key ) => typeof value[ key ] === 'number' && value[ key ] >= 0 );
 }
 
 /**
@@ -312,9 +307,7 @@ export function sanitizeAttributeValue( value, type ) {
 			return Boolean( value );
 
 		case 'object':
-			return typeof value === 'object' && value !== null
-				? { ...value }
-				: {};
+			return typeof value === 'object' && value !== null ? { ...value } : {};
 
 		default:
 			return value;

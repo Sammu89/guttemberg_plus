@@ -76,31 +76,21 @@ export function getThemeManager( blockType ) {
 		async create( name, values ) {
 			// Validate inputs
 			if ( ! name || typeof name !== 'string' ) {
-				throw new Error(
-					'Theme name is required and must be a string.'
-				);
+				throw new Error( 'Theme name is required and must be a string.' );
 			}
 
 			if ( ! values || typeof values !== 'object' ) {
-				throw new Error(
-					'Theme values are required and must be an object.'
-				);
+				throw new Error( 'Theme values are required and must be an object.' );
 			}
 
 			// Check if theme already exists
 			const exists = select( STORE_NAME ).hasTheme( blockType, name );
 			if ( exists ) {
-				throw new Error(
-					`Theme "${ name }" already exists for ${ blockType }.`
-				);
+				throw new Error( `Theme "${ name }" already exists for ${ blockType }.` );
 			}
 
 			// Create theme via store
-			return await dispatch( STORE_NAME ).createTheme(
-				blockType,
-				name,
-				values
-			);
+			return await dispatch( STORE_NAME ).createTheme( blockType, name, values );
 		},
 
 		/**
@@ -114,31 +104,21 @@ export function getThemeManager( blockType ) {
 		async update( name, values ) {
 			// Validate inputs
 			if ( ! name || typeof name !== 'string' ) {
-				throw new Error(
-					'Theme name is required and must be a string.'
-				);
+				throw new Error( 'Theme name is required and must be a string.' );
 			}
 
 			if ( ! values || typeof values !== 'object' ) {
-				throw new Error(
-					'Theme values are required and must be an object.'
-				);
+				throw new Error( 'Theme values are required and must be an object.' );
 			}
 
 			// Check if theme exists
 			const exists = select( STORE_NAME ).hasTheme( blockType, name );
 			if ( ! exists ) {
-				throw new Error(
-					`Theme "${ name }" does not exist for ${ blockType }.`
-				);
+				throw new Error( `Theme "${ name }" does not exist for ${ blockType }.` );
 			}
 
 			// Update theme via store
-			return await dispatch( STORE_NAME ).updateTheme(
-				blockType,
-				name,
-				values
-			);
+			return await dispatch( STORE_NAME ).updateTheme( blockType, name, values );
 		},
 
 		/**
@@ -151,9 +131,7 @@ export function getThemeManager( blockType ) {
 		async delete( name ) {
 			// Validate input
 			if ( ! name || typeof name !== 'string' ) {
-				throw new Error(
-					'Theme name is required and must be a string.'
-				);
+				throw new Error( 'Theme name is required and must be a string.' );
 			}
 
 			// Prevent deletion of Default theme
@@ -164,9 +142,7 @@ export function getThemeManager( blockType ) {
 			// Check if theme exists
 			const exists = select( STORE_NAME ).hasTheme( blockType, name );
 			if ( ! exists ) {
-				throw new Error(
-					`Theme "${ name }" does not exist for ${ blockType }.`
-				);
+				throw new Error( `Theme "${ name }" does not exist for ${ blockType }.` );
 			}
 
 			// Delete theme via store
@@ -184,15 +160,11 @@ export function getThemeManager( blockType ) {
 		async rename( oldName, newName ) {
 			// Validate inputs
 			if ( ! oldName || typeof oldName !== 'string' ) {
-				throw new Error(
-					'Old theme name is required and must be a string.'
-				);
+				throw new Error( 'Old theme name is required and must be a string.' );
 			}
 
 			if ( ! newName || typeof newName !== 'string' ) {
-				throw new Error(
-					'New theme name is required and must be a string.'
-				);
+				throw new Error( 'New theme name is required and must be a string.' );
 			}
 
 			// Prevent renaming Default theme
@@ -206,33 +178,19 @@ export function getThemeManager( blockType ) {
 			}
 
 			// Check if old theme exists
-			const oldExists = select( STORE_NAME ).hasTheme(
-				blockType,
-				oldName
-			);
+			const oldExists = select( STORE_NAME ).hasTheme( blockType, oldName );
 			if ( ! oldExists ) {
-				throw new Error(
-					`Theme "${ oldName }" does not exist for ${ blockType }.`
-				);
+				throw new Error( `Theme "${ oldName }" does not exist for ${ blockType }.` );
 			}
 
 			// Check if new name already exists
-			const newExists = select( STORE_NAME ).hasTheme(
-				blockType,
-				newName
-			);
+			const newExists = select( STORE_NAME ).hasTheme( blockType, newName );
 			if ( newExists ) {
-				throw new Error(
-					`Theme "${ newName }" already exists for ${ blockType }.`
-				);
+				throw new Error( `Theme "${ newName }" already exists for ${ blockType }.` );
 			}
 
 			// Rename theme via store
-			await dispatch( STORE_NAME ).renameTheme(
-				blockType,
-				oldName,
-				newName
-			);
+			await dispatch( STORE_NAME ).renameTheme( blockType, oldName, newName );
 		},
 
 		/**

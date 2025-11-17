@@ -9,12 +9,7 @@
  * @since 1.0.0
  */
 
-import {
-	SelectControl,
-	Button,
-	Modal,
-	TextControl,
-} from '@wordpress/components';
+import { SelectControl, Button, Modal, TextControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { debug } from '../utils/debug';
 
@@ -90,9 +85,7 @@ export function ThemeSelector( {
 
 	// Display label with (customized) suffix
 	const displayLabel = currentTheme === '' ? 'Default' : currentTheme;
-	const label = isCustomized
-		? `${ displayLabel } (customized)`
-		: displayLabel;
+	const label = isCustomized ? `${ displayLabel } (customized)` : displayLabel;
 
 	return (
 		<div className="theme-selector">
@@ -138,11 +131,7 @@ export function ThemeSelector( {
 					Delete Theme
 				</Button>
 
-				<Button
-					variant="tertiary"
-					onClick={ onReset }
-					disabled={ ! isCustomized }
-				>
+				<Button variant="tertiary" onClick={ onReset } disabled={ ! isCustomized }>
 					Reset Modifications
 				</Button>
 			</div>
@@ -172,10 +161,7 @@ export function ThemeSelector( {
 			) }
 
 			{ showRenameModal && (
-				<Modal
-					title="Rename Theme"
-					onRequestClose={ () => setShowRenameModal( false ) }
-				>
+				<Modal title="Rename Theme" onRequestClose={ () => setShowRenameModal( false ) }>
 					<TextControl
 						label="New Theme Name"
 						value={ newThemeName }

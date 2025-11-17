@@ -9,11 +9,7 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import {
-	useBlockProps,
-	InspectorControls,
-	RichText,
-} from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
@@ -179,13 +175,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				} ${ effectiveValues.accordionBorderColor || '#dddddd' }`,
 				borderRadius: `${ borderRadius.topLeft }px ${ borderRadius.topRight }px ${ borderRadius.bottomRight }px ${ borderRadius.bottomLeft }px`,
 				boxShadow: effectiveValues.accordionShadow || 'none',
-				marginBottom: `${
-					effectiveValues.accordionMarginBottom || 8
-				}px`,
+				marginBottom: `${ effectiveValues.accordionMarginBottom || 8 }px`,
 			},
 			title: {
-				backgroundColor:
-					effectiveValues.titleBackgroundColor || '#f5f5f5',
+				backgroundColor: effectiveValues.titleBackgroundColor || '#f5f5f5',
 				color: effectiveValues.titleColor || '#333333',
 				fontSize: `${ effectiveValues.titleFontSize || 18 }px`,
 				fontWeight: effectiveValues.titleFontWeight || '600',
@@ -202,29 +195,19 @@ export default function Edit( { attributes, setAttributes } ) {
 				border: 'none',
 			},
 			content: {
-				backgroundColor:
-					effectiveValues.contentBackgroundColor || '#ffffff',
+				backgroundColor: effectiveValues.contentBackgroundColor || '#ffffff',
 				color: effectiveValues.contentColor || '#333333',
 				padding: `${ contentPadding.top }px ${ contentPadding.right }px ${ contentPadding.bottom }px ${ contentPadding.left }px`,
 				borderTop:
 					effectiveValues.dividerBorderThickness > 0
 						? `${ effectiveValues.dividerBorderThickness }px ${
 								effectiveValues.dividerBorderStyle || 'solid'
-						  } ${
-								effectiveValues.dividerBorderColor || '#dddddd'
-						  }`
+						  } ${ effectiveValues.dividerBorderColor || '#dddddd' }`
 						: 'none',
 			},
 			icon: {
-				fontSize: `${
-					effectiveValues.iconSize ||
-					effectiveValues.titleFontSize ||
-					20
-				}px`,
-				color:
-					effectiveValues.iconColor ||
-					effectiveValues.titleColor ||
-					'#666666',
+				fontSize: `${ effectiveValues.iconSize || effectiveValues.titleFontSize || 20 }px`,
+				color: effectiveValues.iconColor || effectiveValues.titleColor || '#666666',
 				display: effectiveValues.showIcon ? 'inline-block' : 'none',
 			},
 		};
@@ -259,11 +242,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		}
 
 		return (
-			<span
-				className="accordion-icon"
-				aria-hidden="true"
-				style={ styles.icon }
-			>
+			<span className="accordion-icon" aria-hidden="true" style={ styles.icon }>
 				{ iconContent }
 			</span>
 		);
@@ -278,30 +257,23 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		const titleContent = (
 			<div className="accordion-title-wrapper" style={ styles.title }>
-				{ ( iconPosition === 'left' ||
-					iconPosition === 'extreme-left' ) &&
-					renderIcon() }
+				{ ( iconPosition === 'left' || iconPosition === 'extreme-left' ) && renderIcon() }
 				<RichText
 					tagName="span"
 					value={ attributes.title || '' }
 					onChange={ ( value ) => setAttributes( { title: value } ) }
-					placeholder={ __( 'Accordion title…', 'custom-accordion' ) }
+					placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 					className="accordion-title-text"
 					style={ { flex: 1 } }
 				/>
-				{ ( iconPosition === 'right' ||
-					iconPosition === 'extreme-right' ) &&
-					renderIcon() }
+				{ ( iconPosition === 'right' || iconPosition === 'extreme-right' ) && renderIcon() }
 			</div>
 		);
 
 		if ( headingLevel !== 'none' ) {
 			const HeadingTag = headingLevel;
 			return (
-				<HeadingTag
-					className="accordion-heading"
-					style={ { margin: 0 } }
-				>
+				<HeadingTag className="accordion-heading" style={ { margin: 0 } }>
 					{ titleContent }
 				</HeadingTag>
 			);
@@ -335,35 +307,25 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</div>
 
-				<PanelBody
-					title={ __( 'Settings', 'custom-accordion' ) }
-					initialOpen={ true }
-				>
+				<PanelBody title={ __( 'Settings', 'guttemberg-plus' ) } initialOpen={ true }>
 					<ToggleControl
-						label={ __( 'Initially Open', 'custom-accordion' ) }
+						label={ __( 'Initially Open', 'guttemberg-plus' ) }
 						help={ __(
 							'Whether the accordion starts expanded on page load',
-							'custom-accordion'
+							'guttemberg-plus'
 						) }
 						checked={ attributes.initiallyOpen || false }
-						onChange={ ( value ) =>
-							setAttributes( { initiallyOpen: value } )
-						}
+						onChange={ ( value ) => setAttributes( { initiallyOpen: value } ) }
 					/>
 
 					<ToggleControl
-						label={ __(
-							'Allow Multiple Open',
-							'custom-accordion'
-						) }
+						label={ __( 'Allow Multiple Open', 'guttemberg-plus' ) }
 						help={ __(
 							'Allow multiple accordion items to be open simultaneously',
-							'custom-accordion'
+							'guttemberg-plus'
 						) }
 						checked={ attributes.allowMultipleOpen || false }
-						onChange={ ( value ) =>
-							setAttributes( { allowMultipleOpen: value } )
-						}
+						onChange={ ( value ) => setAttributes( { allowMultipleOpen: value } ) }
 					/>
 				</PanelBody>
 
@@ -404,9 +366,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 
 				{ isCustomized && (
-					<PanelBody
-						title={ __( 'Customization Info', 'custom-accordion' ) }
-					>
+					<PanelBody title={ __( 'Customization Info', 'guttemberg-plus' ) }>
 						<CustomizationWarning
 							currentTheme={ attributes.currentTheme }
 							themes={ themes }
@@ -418,7 +378,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<div { ...blockProps }>
 				{ ! themesLoaded && (
 					<div className="accordion-loading">
-						<p>{ __( 'Loading themes…', 'custom-accordion' ) }</p>
+						<p>{ __( 'Loading themes…', 'guttemberg-plus' ) }</p>
 					</div>
 				) }
 
@@ -426,20 +386,12 @@ export default function Edit( { attributes, setAttributes } ) {
 					<div className="accordion-item" style={ styles.container }>
 						{ renderTitle() }
 
-						<div
-							className="accordion-content"
-							style={ styles.content }
-						>
+						<div className="accordion-content" style={ styles.content }>
 							<RichText
 								tagName="div"
 								value={ attributes.content || '' }
-								onChange={ ( value ) =>
-									setAttributes( { content: value } )
-								}
-								placeholder={ __(
-									'Add accordion content…',
-									'custom-accordion'
-								) }
+								onChange={ ( value ) => setAttributes( { content: value } ) }
+								placeholder={ __( 'Add accordion content…', 'guttemberg-plus' ) }
 								className="accordion-content-text"
 							/>
 						</div>

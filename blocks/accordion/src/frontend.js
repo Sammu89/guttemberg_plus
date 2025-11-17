@@ -8,8 +8,6 @@
  * @since 1.0.0
  */
 
-/* global getComputedStyle */
-
 /**
  * Initialize accordion functionality
  * Runs when DOM is ready
@@ -53,8 +51,7 @@ function initializeSingleAccordion( block ) {
 		return;
 	}
 
-	const allowMultiple =
-		block.getAttribute( 'data-allow-multiple' ) === 'true';
+	const allowMultiple = block.getAttribute( 'data-allow-multiple' ) === 'true';
 
 	// Find all accordion items within this block
 	const items = block.querySelectorAll( '.accordion-item' );
@@ -78,13 +75,7 @@ function initializeSingleAccordion( block ) {
 			button.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
 				try {
-					toggleAccordion(
-						item,
-						button,
-						panel,
-						block,
-						allowMultiple
-					);
+					toggleAccordion( item, button, panel, block, allowMultiple );
 				} catch ( error ) {
 					console.error( 'Failed to toggle accordion:', error );
 				}
@@ -252,9 +243,7 @@ function updateIcon( button, isOpen ) {
 function animateOpen( panel ) {
 	// Get animation duration from CSS variable
 	const duration = parseInt(
-		getComputedStyle( panel ).getPropertyValue(
-			'--accordion-animation-duration'
-		) || '300'
+		getComputedStyle( panel ).getPropertyValue( '--accordion-animation-duration' ) || '300'
 	);
 
 	// Set initial state
@@ -290,9 +279,7 @@ function animateOpen( panel ) {
 function animateClose( panel, callback ) {
 	// Get animation duration from CSS variable
 	const duration = parseInt(
-		getComputedStyle( panel ).getPropertyValue(
-			'--accordion-animation-duration'
-		) || '300'
+		getComputedStyle( panel ).getPropertyValue( '--accordion-animation-duration' ) || '300'
 	);
 
 	// Get current height
@@ -367,8 +354,7 @@ function handleKeyboardNavigation( e, button, block ) {
 		case 'ArrowUp':
 		case 'ArrowLeft':
 			e.preventDefault();
-			targetIndex =
-				( currentIndex - 1 + buttons.length ) % buttons.length;
+			targetIndex = ( currentIndex - 1 + buttons.length ) % buttons.length;
 			break;
 
 		case 'Home':
@@ -405,9 +391,4 @@ window.reinitializeAccordions = initializeAccordions;
 /**
  * Export for potential imports
  */
-export {
-	initializeAccordions,
-	toggleAccordion,
-	openAccordionItem,
-	closeAccordionItem,
-};
+export { initializeAccordions, toggleAccordion, openAccordionItem, closeAccordionItem };

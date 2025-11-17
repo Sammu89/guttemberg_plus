@@ -93,10 +93,7 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 			const stateKey = getStateKey( action.blockType );
 			// Guard against undefined theme object
 			if ( ! action.theme || ! action.theme.name ) {
-				console.error(
-					'[Theme Store] THEME_CREATED: Invalid theme object',
-					action
-				);
+				console.error( '[Theme Store] THEME_CREATED: Invalid theme object', action );
 				return state;
 			}
 			return {
@@ -112,10 +109,7 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 			const stateKey = getStateKey( action.blockType );
 			// Guard against undefined theme object
 			if ( ! action.theme || ! action.theme.name ) {
-				console.error(
-					'[Theme Store] THEME_UPDATED: Invalid theme object',
-					action
-				);
+				console.error( '[Theme Store] THEME_UPDATED: Invalid theme object', action );
 				return state;
 			}
 			return {

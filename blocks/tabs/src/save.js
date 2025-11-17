@@ -10,11 +10,7 @@
  */
 
 import { useBlockProps, RichText } from '@wordpress/block-editor';
-import {
-	getAllEffectiveValues,
-	getTabButtonAria,
-	getTabPanelAria,
-} from '@shared';
+import { getAllEffectiveValues, getTabButtonAria, getTabPanelAria } from '@shared';
 
 /**
  * Tabs Save Component
@@ -73,72 +69,50 @@ export default function Save( { attributes } ) {
 
 		return {
 			// Container
-			'--tabs-container-bg':
-				effectiveValues.containerBackgroundColor || 'transparent',
-			'--tabs-container-border': `${
-				effectiveValues.containerBorderWidth || 0
-			}px ${ effectiveValues.containerBorderStyle || 'solid' } ${
-				effectiveValues.containerBorderColor || 'transparent'
-			}`,
+			'--tabs-container-bg': effectiveValues.containerBackgroundColor || 'transparent',
+			'--tabs-container-border': `${ effectiveValues.containerBorderWidth || 0 }px ${
+				effectiveValues.containerBorderStyle || 'solid'
+			} ${ effectiveValues.containerBorderColor || 'transparent' }`,
 			'--tabs-container-border-radius': `${ containerBorderRadius.topLeft }px ${ containerBorderRadius.topRight }px ${ containerBorderRadius.bottomRight }px ${ containerBorderRadius.bottomLeft }px`,
-			'--tabs-container-shadow':
-				effectiveValues.containerShadow || 'none',
+			'--tabs-container-shadow': effectiveValues.containerShadow || 'none',
 
 			// Tab List
 			'--tabs-list-bg': effectiveValues.tabListBackground || '#f5f5f5',
-			'--tabs-list-border-bottom': `${
-				effectiveValues.tabListBorderBottomWidth || 2
-			}px ${ effectiveValues.tabListBorderBottomStyle || 'solid' } ${
-				effectiveValues.tabListBorderBottomColor || '#dddddd'
-			}`,
+			'--tabs-list-border-bottom': `${ effectiveValues.tabListBorderBottomWidth || 2 }px ${
+				effectiveValues.tabListBorderBottomStyle || 'solid'
+			} ${ effectiveValues.tabListBorderBottomColor || '#dddddd' }`,
 			'--tabs-list-gap': `${ effectiveValues.tabListGap || 4 }px`,
 			'--tabs-list-padding': `${ tabListPadding.top }px ${ tabListPadding.right }px ${ tabListPadding.bottom }px ${ tabListPadding.left }px`,
 			'--tabs-alignment': effectiveValues.tabsAlignment || 'left',
 
 			// Tab Button (inactive)
 			'--tab-button-color': effectiveValues.titleColor || '#666666',
-			'--tab-button-bg':
-				effectiveValues.titleBackgroundColor || 'transparent',
-			'--tab-button-border': `${
-				effectiveValues.accordionBorderThickness || 1
-			}px ${
+			'--tab-button-bg': effectiveValues.titleBackgroundColor || 'transparent',
+			'--tab-button-border': `${ effectiveValues.accordionBorderThickness || 1 }px ${
 				effectiveValues.accordionBorderStyle || 'solid'
 			} transparent`,
 			'--tab-button-border-radius': `${ tabButtonBorderRadius.topLeft }px ${ tabButtonBorderRadius.topRight }px ${ tabButtonBorderRadius.bottomRight }px ${ tabButtonBorderRadius.bottomLeft }px`,
 			'--tab-button-padding': `${ tabButtonPadding.top }px ${ tabButtonPadding.right }px ${ tabButtonPadding.bottom }px ${ tabButtonPadding.left }px`,
-			'--tab-button-font-size': `${
-				effectiveValues.titleFontSize || 16
-			}px`,
-			'--tab-button-font-weight':
-				effectiveValues.titleFontWeight || '500',
-			'--tab-button-font-style':
-				effectiveValues.titleFontStyle || 'normal',
-			'--tab-button-text-transform':
-				effectiveValues.titleTextTransform || 'none',
-			'--tab-button-text-decoration':
-				effectiveValues.titleTextDecoration || 'none',
-			'--tab-button-text-align':
-				effectiveValues.titleAlignment || 'center',
+			'--tab-button-font-size': `${ effectiveValues.titleFontSize || 16 }px`,
+			'--tab-button-font-weight': effectiveValues.titleFontWeight || '500',
+			'--tab-button-font-style': effectiveValues.titleFontStyle || 'normal',
+			'--tab-button-text-transform': effectiveValues.titleTextTransform || 'none',
+			'--tab-button-text-decoration': effectiveValues.titleTextDecoration || 'none',
+			'--tab-button-text-align': effectiveValues.titleAlignment || 'center',
 
 			// Tab Button (hover)
 			'--tab-button-hover-color':
-				effectiveValues.hoverTitleColor ||
-				effectiveValues.titleColor ||
-				'#333333',
-			'--tab-button-hover-bg':
-				effectiveValues.hoverTitleBackgroundColor || '#e8e8e8',
+				effectiveValues.hoverTitleColor || effectiveValues.titleColor || '#333333',
+			'--tab-button-hover-bg': effectiveValues.hoverTitleBackgroundColor || '#e8e8e8',
 			'--tab-button-hover-border-color': '#cccccc',
 
 			// Tab Button (active)
-			'--tab-button-active-color':
-				effectiveValues.tabButtonActiveColor || '#000000',
-			'--tab-button-active-bg':
-				effectiveValues.tabButtonActiveBackground || '#ffffff',
+			'--tab-button-active-color': effectiveValues.tabButtonActiveColor || '#000000',
+			'--tab-button-active-bg': effectiveValues.tabButtonActiveBackground || '#ffffff',
 			'--tab-button-active-border-color':
 				effectiveValues.tabButtonActiveBorderColor || '#dddddd',
 			'--tab-button-active-border-bottom-color':
-				effectiveValues.tabButtonActiveBorderBottomColor ||
-				'transparent',
+				effectiveValues.tabButtonActiveBorderBottomColor || 'transparent',
 
 			// Panel
 			'--panel-bg': effectiveValues.panelBackground || '#ffffff',
@@ -146,9 +120,7 @@ export default function Save( { attributes } ) {
 			'--panel-border': `${ effectiveValues.panelBorderWidth || 1 }px ${
 				effectiveValues.panelBorderStyle || 'solid'
 			} ${ effectiveValues.panelBorderColor || '#dddddd' }`,
-			'--panel-border-radius': `${
-				effectiveValues.panelBorderRadius || 0
-			}px`,
+			'--panel-border-radius': `${ effectiveValues.panelBorderRadius || 0 }px`,
 			'--panel-padding': `${ panelPadding.top }px ${ panelPadding.right }px ${ panelPadding.bottom }px ${ panelPadding.left }px`,
 			'--panel-font-size': `${ effectiveValues.panelFontSize || 16 }px`,
 			'--panel-line-height': effectiveValues.panelLineHeight || 1.6,
@@ -162,33 +134,21 @@ export default function Save( { attributes } ) {
 					: 'none',
 
 			// Icon
-			'--icon-size': `${
-				effectiveValues.iconSize || effectiveValues.titleFontSize || 18
-			}px`,
-			'--icon-color':
-				effectiveValues.iconColor ||
-				effectiveValues.titleColor ||
-				'inherit',
+			'--icon-size': `${ effectiveValues.iconSize || effectiveValues.titleFontSize || 18 }px`,
+			'--icon-color': effectiveValues.iconColor || effectiveValues.titleColor || 'inherit',
 			'--icon-spacing': '8px',
 
 			// Vertical specific
-			'--vertical-tab-list-width': `${
-				effectiveValues.verticalTabListWidth || 200
-			}px`,
+			'--vertical-tab-list-width': `${ effectiveValues.verticalTabListWidth || 200 }px`,
 			'--vertical-tab-button-text-align':
 				effectiveValues.verticalTabButtonTextAlign || 'left',
 
 			// Animation
-			'--transition-duration': `${
-				effectiveValues.transitionDuration || 200
-			}ms`,
-			'--transition-easing':
-				effectiveValues.transitionEasing || 'ease-in-out',
+			'--transition-duration': `${ effectiveValues.transitionDuration || 200 }ms`,
+			'--transition-easing': effectiveValues.transitionEasing || 'ease-in-out',
 
 			// Responsive
-			'--responsive-breakpoint': `${
-				attributes.responsiveBreakpoint || 768
-			}px`,
+			'--responsive-breakpoint': `${ attributes.responsiveBreakpoint || 768 }px`,
 		};
 	};
 
@@ -261,9 +221,9 @@ export default function Save( { attributes } ) {
 						<button
 							key={ tab.id }
 							type="button"
-							className={ `tab-button ${
-								isActive ? 'active' : ''
-							} ${ tab.isDisabled ? 'disabled' : '' }` }
+							className={ `tab-button ${ isActive ? 'active' : '' } ${
+								tab.isDisabled ? 'disabled' : ''
+							}` }
 							disabled={ tab.isDisabled }
 							{ ...buttonAria }
 						>
@@ -289,9 +249,7 @@ export default function Save( { attributes } ) {
 					return (
 						<div
 							key={ tab.id }
-							className={ `tab-panel ${
-								isActive ? 'active' : ''
-							}` }
+							className={ `tab-panel ${ isActive ? 'active' : '' }` }
 							{ ...panelAria }
 							{ ...( ! isActive && { hidden: true } ) }
 						>
@@ -307,20 +265,14 @@ export default function Save( { attributes } ) {
 
 			{ /* Hidden accordion buttons for responsive fallback */ }
 			{ attributes.enableResponsiveFallback && (
-				<div
-					className="accordion-fallback"
-					style={ { display: 'none' } }
-				>
+				<div className="accordion-fallback" style={ { display: 'none' } }>
 					{ attributes.tabs.map( ( tab, index ) => {
 						const accordionBtnId = `accordion-btn-${ tab.id }`;
 						const accordionPanelId = `accordion-panel-${ tab.id }`;
 						const isOpen = index === ( attributes.currentTab || 0 );
 
 						return (
-							<div
-								key={ `accordion-${ tab.id }` }
-								className="accordion-item"
-							>
+							<div key={ `accordion-${ tab.id }` } className="accordion-item">
 								<button
 									type="button"
 									className="accordion-button"
@@ -337,10 +289,7 @@ export default function Save( { attributes } ) {
 									aria-labelledby={ accordionBtnId }
 									{ ...( ! isOpen && { hidden: true } ) }
 								>
-									<RichText.Content
-										tagName="div"
-										value={ tab.content || '' }
-									/>
+									<RichText.Content tagName="div" value={ tab.content || '' } />
 								</div>
 							</div>
 						);

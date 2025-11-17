@@ -45,16 +45,11 @@ module.exports = function cssVarsParserLoader( source ) {
 		fs.writeFileSync( phpPath, phpContent );
 
 		console.log(
-			`✓ Generated ${ blockType }.php with ${
-				Object.keys( rootVars ).length
-			} CSS defaults`
+			`✓ Generated ${ blockType }.php with ${ Object.keys( rootVars ).length } CSS defaults`
 		);
 
 		// Return empty JavaScript module (we only need the PHP file)
-		callback(
-			null,
-			'// CSS variables parsed and saved to PHP\nexport default {};'
-		);
+		callback( null, '// CSS variables parsed and saved to PHP\nexport default {};' );
 	} catch ( error ) {
 		console.error( 'CSS Variables Parser Error:', error );
 		callback( error );
@@ -110,9 +105,7 @@ function convertVarNameToAttribute( varName ) {
 	const cleaned = varName.replace( /^(accordion|tabs|toc)-default-/, '' );
 
 	// Convert kebab-case to camelCase
-	return cleaned.replace( /-([a-z])/g, ( match, letter ) =>
-		letter.toUpperCase()
-	);
+	return cleaned.replace( /-([a-z])/g, ( match, letter ) => letter.toUpperCase() );
 }
 
 /**
@@ -129,9 +122,7 @@ function cleanCSSValue( value ) {
 
 	// For numeric values with units, extract just the number
 	// (PHP will handle units separately if needed)
-	const numericMatch = value.match(
-		/^([-\d.]+)(px|rem|em|%|deg|turn|rad)?$/
-	);
+	const numericMatch = value.match( /^([-\d.]+)(px|rem|em|%|deg|turn|rad)?$/ );
 	if ( numericMatch ) {
 		const number = numericMatch[ 1 ];
 		const unit = numericMatch[ 2 ] || '';
@@ -184,10 +175,7 @@ function generatePHPArray( vars, sourcePath ) {
 
 	// Generate PHP array entries
 	const entries = Object.entries( vars )
-		.map(
-			( [ key, value ] ) =>
-				`  '${ key }' => '${ escapePHPValue( value ) }',`
-		)
+		.map( ( [ key, value ] ) => `  '${ key }' => '${ escapePHPValue( value ) }',` )
 		.join( '\n' );
 
 	return `<?php
