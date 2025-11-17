@@ -194,51 +194,46 @@ export function isCustomized( name, attributes, theme ) {
 }
 
 /**
- * Check if an attribute value differs from both theme and CSS defaults
+ * Check if an attribute value differs from both theme and defaults
  *
  * This is the CORRECT way to determine if a block has actual customizations
  * that differ from the default cascade resolution.
  *
  * CRITICAL: A value is only "customized" if it differs from what the cascade
- * would naturally resolve (either theme value OR CSS default).
+ * would naturally resolve (either theme value OR defaults - CSS or behavioral).
+ *
+ * NOTE: defaults parameter should include BOTH CSS defaults AND behavioral defaults
+ * (from attribute schemas). Use getAllDefaults() to merge them.
  *
  * @param {string} name       - Attribute name
  * @param {Object} attributes - Block-level customizations
  * @param {Object} theme      - Theme values (can be null/undefined if no theme)
- * @param {Object} defaults   - CSS default values
+ * @param {Object} defaults   - Combined CSS + behavioral default values
  * @return {boolean} True if attribute is explicitly customized and differs from cascade
  *
  * @example
- * // Value matches CSS default - NOT customized
- * isCustomizedFromDefaults('titleColor',
- *   { titleColor: '#333333' },
+ * // Value matches default - NOT customized
+ * isCustomizedFromDefaults('showIcon',
+ *   { showIcon: true },
  *   {},
- *   { titleColor: '#333333' }
+ *   { showIcon: true }
  * ); // Returns: false
  *
  * @example
  * // Value matches theme - NOT customized
- * isCustomizedFromDefaults('titleColor',
- *   { titleColor: '#ffffff' },
- *   { titleColor: '#ffffff' },
- *   { titleColor: '#333333' }
+ * isCustomizedFromDefaults('showIcon',
+ *   { showIcon: false },
+ *   { showIcon: false },
+ *   { showIcon: true }
  * ); // Returns: false
  *
  * @example
  * // Value differs from both - IS customized
- * isCustomizedFromDefaults('titleColor',
- *   { titleColor: '#ff0000' },
- *   { titleColor: '#ffffff' },
- *   { titleColor: '#333333' }
+ * isCustomizedFromDefaults('iconPosition',
+ *   { iconPosition: 'left' },
+ *   { iconPosition: 'right' },
+ *   { iconPosition: 'right' }
  * ); // Returns: true
- *
- * @example
- * // No theme, matches CSS default - NOT customized
- * isCustomizedFromDefaults('titleColor',
- *   { titleColor: '#333333' },
- *   null,
- *   { titleColor: '#333333' }
- * ); // Returns: false
  */
 export function isCustomizedFromDefaults( name, attributes, theme, defaults ) {
 	// If attribute is not set at block level, it's not customized
@@ -257,7 +252,7 @@ export function isCustomizedFromDefaults( name, attributes, theme, defaults ) {
 		return blockValue !== theme[ name ];
 	}
 
-	// No theme, so compare against CSS defaults
+	// No theme, so compare against combined defaults (CSS + behavioral)
 	if ( defaults && isDefined( defaults[ name ] ) ) {
 		// Deep equality check for objects
 		if ( typeof blockValue === 'object' && blockValue !== null ) {
@@ -267,7 +262,7 @@ export function isCustomizedFromDefaults( name, attributes, theme, defaults ) {
 	}
 
 	// Value exists but no theme or default to compare against
-	// This means it IS a customization
+	// This is unusual but technically means it IS a customization
 	return true;
 }
 
