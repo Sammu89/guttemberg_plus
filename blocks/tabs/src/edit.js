@@ -616,6 +616,7 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 														'Tab title…',
 														'guttemberg-plus'
 													) }
+													keepPlaceholderOnFocus={ false }
 												/>
 											</div>
 											<RichText
@@ -628,6 +629,7 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 													'Add tab content…',
 													'guttemberg-plus'
 												) }
+												keepPlaceholderOnFocus={ false }
 											/>
 										</>
 									) }

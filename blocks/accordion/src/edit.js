@@ -263,6 +263,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					value={ attributes.title || '' }
 					onChange={ ( value ) => setAttributes( { title: value } ) }
 					placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+					keepPlaceholderOnFocus={ false }
 					className="accordion-title-text"
 					style={ { flex: 1 } }
 				/>
@@ -392,6 +393,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								value={ attributes.content || '' }
 								onChange={ ( value ) => setAttributes( { content: value } ) }
 								placeholder={ __( 'Add accordion content…', 'guttemberg-plus' ) }
+								keepPlaceholderOnFocus={ false }
 								className="accordion-content-text"
 							/>
 						</div>
