@@ -126,22 +126,22 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 	 * Theme callback handlers
 	 * @param themeName
 	 */
-	const handleSaveNewTheme = ( themeName ) => {
-		createTheme( 'tabs', themeName, effectiveValues );
+	const handleSaveNewTheme = async ( themeName ) => {
+		await createTheme( 'tabs', themeName, effectiveValues );
 		setAttributes( { currentTheme: themeName } );
 	};
 
-	const handleUpdateTheme = () => {
-		updateTheme( 'tabs', attributes.currentTheme, effectiveValues );
+	const handleUpdateTheme = async () => {
+		await updateTheme( 'tabs', attributes.currentTheme, effectiveValues );
 	};
 
-	const handleDeleteTheme = () => {
-		deleteTheme( 'tabs', attributes.currentTheme );
+	const handleDeleteTheme = async () => {
+		await deleteTheme( 'tabs', attributes.currentTheme );
 		setAttributes( { currentTheme: '' } );
 	};
 
-	const handleRenameTheme = ( oldName, newName ) => {
-		renameTheme( 'tabs', oldName, newName );
+	const handleRenameTheme = async ( oldName, newName ) => {
+		await renameTheme( 'tabs', oldName, newName );
 		setAttributes( { currentTheme: newName } );
 	};
 
