@@ -18,6 +18,7 @@ import {
 	getAllEffectiveValues,
 	hasAnyCustomizations,
 	generateUniqueId,
+	getAllDefaults,
 	STORE_NAME,
 	ThemeSelector,
 	ColorPanel,
@@ -76,45 +77,41 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Get CSS defaults from window (parsed by PHP)
 	const cssDefaults = window.accordionDefaults || {};
 
+	// Merge CSS defaults with behavioral defaults from attribute schemas
+	const allDefaults = getAllDefaults( cssDefaults );
+
 	// Resolve effective values through cascade (pure cascade - no normalization)
-	// Source of truth: CSS defaults -> Theme values -> Block customizations
+	// Source of truth: All defaults (CSS + behavioral) -> Theme values -> Block customizations
 	const effectiveValues = getAllEffectiveValues(
 		attributes,
 		themes[ attributes.currentTheme ]?.values || {},
-		cssDefaults
+		allDefaults
 	);
 
 	debug( '[DEBUG] Effective values (pure cascade):', effectiveValues );
 
 	// Check if block has customizations using proper cascade comparison
-	// Attributes to exclude from customization check (non-style attributes)
+	// Attributes to exclude from customization check (truly structural, non-themeable attributes)
 	const excludeFromCustomizationCheck = [
-		// Structural/meta attributes
+		// Structural identifiers (not themeable)
 		'accordionId',
 		'uniqueId',
 		'blockId',
 		'title',
 		'content',
+		// Meta attributes (not themeable)
 		'currentTheme',
 		'customizations',
 		'customizationCache',
-		// Behavioral attributes
+		// Behavioral settings (not themeable - per-block only)
 		'initiallyOpen',
 		'allowMultipleOpen',
-		'headingLevel',
-		'useHeadingStyles',
-		// Icon settings (behavioral, not style)
-		'showIcon',
-		'iconPosition',
-		'iconTypeClosed',
-		'iconTypeOpen',
-		'iconRotation',
 	];
 
 	const isCustomized = hasAnyCustomizations(
 		attributes,
 		themes[ attributes.currentTheme ]?.values || {},
-		cssDefaults,
+		allDefaults,
 		excludeFromCustomizationCheck
 	);
 
@@ -135,7 +132,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			const attrValue = attributes[ key ];
 			const themeValue = themes[ attributes.currentTheme ]?.values?.[ key ];
-			const cssDefault = cssDefaults[ key ];
+			const cssDefault = allDefaults[ key ];
 
 			// Check if attribute is defined
 			if ( attrValue !== null && attrValue !== undefined ) {
@@ -174,7 +171,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			console.log( '✅ No customizations detected' );
 		}
 		console.groupEnd();
-	}, [ attributes, isCustomized, themes, cssDefaults, excludeFromCustomizationCheck ] );
+	}, [ attributes, isCustomized, themes, allDefaults, excludeFromCustomizationCheck ] );
 
 	/**
 	 * Theme callback handlers

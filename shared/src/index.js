@@ -47,6 +47,7 @@ export { borderAttributes } from './attributes/border-attributes';
 export { spacingAttributes } from './attributes/spacing-attributes';
 export { iconAttributes } from './attributes/icon-attributes';
 export { metaAttributes } from './attributes/meta-attributes';
+export { behavioralDefaults, getAllDefaults } from './attributes/attribute-defaults';
 
 // Shared Utilities (Module 1.7)
 export {
