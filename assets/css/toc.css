@@ -12,74 +12,74 @@
  *
  * Variable naming convention:
  * - Use the SAME names that save.js sets inline
- * - TOC uses --custom- prefix (established pattern)
- * - Format: --custom-{property-name}
+ * - Standardized to --toc- prefix (consistent with accordion/tabs pattern)
+ * - Format: --toc-{property-name}
  *
  * @package GuttemberPlus
  */
 
 :root {
 	/* Wrapper Colors */
-	--custom-wrapper-background-color: #ffffff;
-	--custom-wrapper-border-color: #dddddd;
+	--toc-wrapper-background-color: #ffffff;
+	--toc-wrapper-border-color: #dddddd;
 
 	/* Title Styling */
-	--custom-title-color: #333333;
-	--custom-title-background-color: transparent;
-	--custom-title-font-size: 20px;
-	--custom-title-font-weight: 700;
-	--custom-title-alignment: left;
-	--custom-title-padding: 12px;
+	--toc-title-color: #333333;
+	--toc-title-background-color: transparent;
+	--toc-title-font-size: 20px;
+	--toc-title-font-weight: 700;
+	--toc-title-alignment: left;
+	--toc-title-padding: 12px;
 
 	/* Link Colors */
-	--custom-link-color: #0073aa;
-	--custom-link-hover-color: #005177;
-	--custom-link-visited-color: #0073aa;
-	--custom-link-active-color: #005177;
+	--toc-link-color: #0073aa;
+	--toc-link-hover-color: #005177;
+	--toc-link-visited-color: #0073aa;
+	--toc-link-active-color: #005177;
 
 	/* Numbering Color */
-	--custom-numbering-color: #0073aa;
+	--toc-numbering-color: #0073aa;
 
 	/* Level 1 Typography (H2) */
-	--custom-level1-font-size: 18px;
-	--custom-level1-font-weight: 600;
-	--custom-level1-font-style: normal;
-	--custom-level1-text-transform: none;
-	--custom-level1-text-decoration: none;
-	--custom-level1-color: #0073aa;
+	--toc-level1-font-size: 18px;
+	--toc-level1-font-weight: 600;
+	--toc-level1-font-style: normal;
+	--toc-level1-text-transform: none;
+	--toc-level1-text-decoration: none;
+	--toc-level1-color: #0073aa;
 
 	/* Level 2 Typography (H3) */
-	--custom-level2-font-size: 16px;
-	--custom-level2-font-weight: normal;
-	--custom-level2-font-style: normal;
-	--custom-level2-text-transform: none;
-	--custom-level2-text-decoration: none;
-	--custom-level2-color: #0073aa;
+	--toc-level2-font-size: 16px;
+	--toc-level2-font-weight: normal;
+	--toc-level2-font-style: normal;
+	--toc-level2-text-transform: none;
+	--toc-level2-text-decoration: none;
+	--toc-level2-color: #0073aa;
 
 	/* Level 3+ Typography (H4-H6) */
-	--custom-level3-plus-font-size: 14px;
-	--custom-level3-plus-font-weight: normal;
-	--custom-level3-plus-font-style: normal;
-	--custom-level3-plus-text-transform: none;
-	--custom-level3-plus-text-decoration: none;
-	--custom-level3-plus-color: #0073aa;
+	--toc-level3-plus-font-size: 14px;
+	--toc-level3-plus-font-weight: normal;
+	--toc-level3-plus-font-style: normal;
+	--toc-level3-plus-text-transform: none;
+	--toc-level3-plus-text-decoration: none;
+	--toc-level3-plus-color: #0073aa;
 
 	/* Border Settings */
-	--custom-border-width: 1px;
-	--custom-border-style: solid;
-	--custom-border-radius: 4px;
-	--custom-wrapper-shadow: none;
+	--toc-border-width: 1px;
+	--toc-border-style: solid;
+	--toc-border-radius: 4px;
+	--toc-wrapper-shadow: none;
 
 	/* Spacing */
-	--custom-wrapper-padding: 20px;
-	--custom-item-spacing: 8px;
-	--custom-level-indent: 20px;
+	--toc-wrapper-padding: 20px;
+	--toc-item-spacing: 8px;
+	--toc-level-indent: 20px;
 
 	/* Positioning (sticky/fixed) */
-	--custom-position-top: 100px;
-	--custom-z-index: 100;
+	--toc-position-top: 100px;
+	--toc-z-index: 100;
 
 	/* Collapsible */
-	--custom-collapse-icon-size: 20px;
-	--custom-collapse-icon-color: #666666;
+	--toc-collapse-icon-size: 20px;
+	--toc-collapse-icon-color: #666666;
 }
