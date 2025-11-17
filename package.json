@@ -1,0 +1,39 @@
+{
+  "name": "guttemberg-plus",
+  "version": "1.0.0",
+  "description": "Advanced Gutenberg blocks: Accordion, Tabs, and Table of Contents with powerful theming system",
+  "author": "Your Name",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "wordpress",
+    "gutenberg",
+    "blocks",
+    "accordion",
+    "tabs",
+    "table-of-contents"
+  ],
+  "homepage": "https://github.com/yourusername/guttemberg-plus",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/guttemberg-plus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/guttemberg-plus/issues"
+  },
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "lint:js": "wp-scripts lint-js",
+    "lint:css": "wp-scripts lint-style",
+    "format": "wp-scripts format",
+    "packages-update": "wp-scripts packages-update",
+    "plugin-zip": "wp-scripts plugin-zip"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^27.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

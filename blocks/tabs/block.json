@@ -8,7 +8,7 @@
 	"icon": "table-col-before",
 	"description": "Create a tabbed content interface with horizontal/vertical orientation and customizable themes.",
 	"keywords": ["tabs", "tabbed", "navigation", "panel", "switcher"],
-	"textdomain": "custom-tabs",
+	"textdomain": "guttemberg-plus",
 	"editorScript": "file:./build/index.js",
 	"viewScript": "file:./build/frontend.js",
 	"style": "file:./build/style-index.css",
