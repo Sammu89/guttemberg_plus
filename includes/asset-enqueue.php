@@ -2,8 +2,9 @@
 /**
  * Asset Enqueue
  *
- * Handles enqueuing of CSS assets for blocks.
- * JavaScript assets are automatically enqueued via block.json.
+ * Additional asset handling for blocks.
+ * Note: Block JavaScript and CSS are primarily handled via block.json.
+ * This file is for supplementary assets like CSS variable defaults.
  *
  * @package GuttemberPlus
  * @since 1.0.0
@@ -14,28 +15,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Enqueue block editor assets
+ * Enqueue CSS variable defaults in the block editor
  *
- * Loads styles needed in the WordPress block editor.
+ * These CSS files contain :root variables that define default values
+ * for the theme cascade system. They are separate from the block styles.
  */
 function guttemberg_plus_enqueue_editor_assets() {
-	// Enqueue CSS for all blocks in editor
 	wp_enqueue_style(
-		'guttemberg-plus-accordion-editor-style',
+		'guttemberg-plus-accordion-defaults',
 		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion.css',
 		array(),
 		GUTTEMBERG_PLUS_VERSION
 	);
 
 	wp_enqueue_style(
-		'guttemberg-plus-tabs-editor-style',
+		'guttemberg-plus-tabs-defaults',
 		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs.css',
 		array(),
 		GUTTEMBERG_PLUS_VERSION
 	);
 
 	wp_enqueue_style(
-		'guttemberg-plus-toc-editor-style',
+		'guttemberg-plus-toc-defaults',
 		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc.css',
 		array(),
 		GUTTEMBERG_PLUS_VERSION
@@ -44,35 +45,32 @@ function guttemberg_plus_enqueue_editor_assets() {
 add_action( 'enqueue_block_editor_assets', 'guttemberg_plus_enqueue_editor_assets' );
 
 /**
- * Enqueue frontend assets
+ * Enqueue CSS variable defaults on frontend
  *
- * Only loads assets when blocks are actually used on the page.
+ * Only loaded when blocks are actually used on the page.
  */
 function guttemberg_plus_enqueue_frontend_assets() {
-	// Accordion Frontend
 	if ( has_block( 'custom/accordion' ) ) {
 		wp_enqueue_style(
-			'guttemberg-plus-accordion-style',
+			'guttemberg-plus-accordion-defaults',
 			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
 	}
 
-	// Tabs Frontend
 	if ( has_block( 'custom/tabs' ) ) {
 		wp_enqueue_style(
-			'guttemberg-plus-tabs-style',
+			'guttemberg-plus-tabs-defaults',
 			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
 	}
 
-	// TOC Frontend
 	if ( has_block( 'custom/toc' ) ) {
 		wp_enqueue_style(
-			'guttemberg-plus-toc-style',
+			'guttemberg-plus-toc-defaults',
 			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
