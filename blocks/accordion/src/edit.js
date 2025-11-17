@@ -91,8 +91,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		'content',
 		// Meta attributes (not themeable)
 		'currentTheme',
-		'customizations',
-		'customizationCache',
 		// Behavioral settings (not themeable - per-block only)
 		'initiallyOpen',
 		'allowMultipleOpen',
