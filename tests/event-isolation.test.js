@@ -94,16 +94,11 @@ const runEventIsolationTests = () => {
 		Object.keys( tabsThemes ).length === 0 &&
 		Object.keys( tocThemes ).length === 0
 	) {
-		console.log(
-			'  ✅ PASS: Accordion theme created without affecting Tabs/TOC'
-		);
+		console.log( '  ✅ PASS: Accordion theme created without affecting Tabs/TOC' );
 		passed++;
 	} else {
 		console.log( '  ❌ FAIL: Theme leaked to other block types' );
-		console.log(
-			'    Accordion themes:',
-			Object.keys( accordionThemes ).length
-		);
+		console.log( '    Accordion themes:', Object.keys( accordionThemes ).length );
 		console.log( '    Tabs themes:', Object.keys( tabsThemes ).length );
 		console.log( '    TOC themes:', Object.keys( tocThemes ).length );
 		failed++;
@@ -125,9 +120,7 @@ const runEventIsolationTests = () => {
 		Object.keys( tabsThemes2 ).length === 1 &&
 		Object.keys( tocThemes2 ).length === 0
 	) {
-		console.log(
-			'  ✅ PASS: Tabs theme created without affecting Accordion/TOC'
-		);
+		console.log( '  ✅ PASS: Tabs theme created without affecting Accordion/TOC' );
 		passed++;
 	} else {
 		console.log( '  ❌ FAIL: Theme leaked to other block types' );
@@ -151,9 +144,7 @@ const runEventIsolationTests = () => {
 		Object.keys( tabsThemes3 ).length === 1 &&
 		Object.keys( tocThemes3 ).length === 1
 	) {
-		console.log(
-			'  ✅ PASS: TOC theme created without affecting Accordion/Tabs'
-		);
+		console.log( '  ✅ PASS: TOC theme created without affecting Accordion/Tabs' );
 		passed++;
 	} else {
 		console.log( '  ❌ FAIL: Theme leaked to other block types' );
@@ -226,11 +217,7 @@ const runEventIsolationTests = () => {
 	console.log( `Total tests: ${ passed + failed }` );
 	console.log( `Passed: ${ passed }` );
 	console.log( `Failed: ${ failed }` );
-	console.log(
-		`Success rate: ${ Math.round(
-			( passed / ( passed + failed ) ) * 100
-		) }%`
-	);
+	console.log( `Success rate: ${ Math.round( ( passed / ( passed + failed ) ) * 100 ) }%` );
 
 	return { passed, failed, total: passed + failed };
 };

@@ -43,12 +43,9 @@ export function isActivationKey( event ) {
  * @return {boolean} True if arrow key was pressed
  */
 export function isArrowKey( event ) {
-	return [
-		KEYS.ARROW_UP,
-		KEYS.ARROW_DOWN,
-		KEYS.ARROW_LEFT,
-		KEYS.ARROW_RIGHT,
-	].includes( event.key );
+	return [ KEYS.ARROW_UP, KEYS.ARROW_DOWN, KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT ].includes(
+		event.key
+	);
 }
 
 /**
@@ -61,12 +58,7 @@ export function isArrowKey( event ) {
  * @param {Function}      onToggle   - Callback to toggle accordion
  * @param {Function}      onNavigate - Callback to navigate to another accordion
  */
-export function handleAccordionKeyboard(
-	event,
-	element,
-	onToggle,
-	onNavigate
-) {
+export function handleAccordionKeyboard( event, element, onToggle, onNavigate ) {
 	// Activation: Enter or Space
 	if ( isActivationKey( event ) ) {
 		event.preventDefault();
@@ -78,9 +70,7 @@ export function handleAccordionKeyboard(
 	if ( isArrowKey( event ) ) {
 		event.preventDefault();
 		const direction =
-			event.key === KEYS.ARROW_DOWN || event.key === KEYS.ARROW_RIGHT
-				? 'next'
-				: 'prev';
+			event.key === KEYS.ARROW_DOWN || event.key === KEYS.ARROW_RIGHT ? 'next' : 'prev';
 		onNavigate( direction );
 		return;
 	}
@@ -210,9 +200,7 @@ export function getFocusableElements( container ) {
 		'[tabindex]:not([tabindex="-1"])',
 	];
 
-	const elements = container.querySelectorAll(
-		focusableSelectors.join( ',' )
-	);
+	const elements = container.querySelectorAll( focusableSelectors.join( ',' ) );
 
 	return Array.from( elements );
 }

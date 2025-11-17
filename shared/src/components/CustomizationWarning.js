@@ -21,8 +21,7 @@ import { debug } from '../utils/debug';
  */
 export function CustomizationWarning( { currentTheme, themes = {} } ) {
 	// Get the current theme object with null check
-	const theme =
-		themes && themes[ currentTheme ] ? themes[ currentTheme ] : null;
+	const theme = themes && themes[ currentTheme ] ? themes[ currentTheme ] : null;
 	debug( '[DEBUG] CustomizationWarning - currentTheme:', currentTheme );
 	debug( '[DEBUG] CustomizationWarning - themes:', themes );
 	debug( '[DEBUG] CustomizationWarning - theme object:', theme );
@@ -36,15 +35,13 @@ export function CustomizationWarning( { currentTheme, themes = {} } ) {
 				<strong>Notice:</strong> This block has customizations applied.
 			</p>
 			<p>
-				You are currently using the "{ themeName }" theme with custom
-				modifications. These customizations take precedence over the
-				theme defaults.
+				You are currently using the "{ themeName }" theme with custom modifications. These
+				customizations take precedence over the theme defaults.
 			</p>
 			<p>
-				To save your customizations permanently, use the "Save as New
-				Theme" or "Update Theme" buttons. To remove customizations and
-				revert to the theme defaults, use the "Reset Modifications"
-				button.
+				To save your customizations permanently, use the "Save as New Theme" or "Update
+				Theme" buttons. To remove customizations and revert to the theme defaults, use the
+				"Reset Modifications" button.
 			</p>
 		</Notice>
 	);

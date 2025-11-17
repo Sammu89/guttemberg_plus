@@ -9,13 +9,7 @@
  */
 
 import { useState, useEffect } from '@wordpress/element';
-import {
-	BaseControl,
-	Button,
-	ColorPicker,
-	Popover,
-	TextControl,
-} from '@wordpress/components';
+import { BaseControl, Button, ColorPicker, Popover, TextControl } from '@wordpress/components';
 
 /**
  * Compact Color Control
@@ -27,13 +21,7 @@ import {
  * @param {boolean}  props.disableAlpha Whether to disable alpha channel (default: false)
  * @param {string}   props.help         Help text below the control
  */
-export function CompactColorControl( {
-	label,
-	value,
-	onChange,
-	disableAlpha = false,
-	help = '',
-} ) {
+export function CompactColorControl( { label, value, onChange, disableAlpha = false, help = '' } ) {
 	const [ isPickerOpen, setIsPickerOpen ] = useState( false );
 	const [ tempColor, setTempColor ] = useState( value );
 	const [ savedColor, setSavedColor ] = useState( value );
@@ -113,11 +101,7 @@ export function CompactColorControl( {
 	const displayColor = tempColor;
 
 	return (
-		<BaseControl
-			label={ label }
-			help={ help }
-			className="compact-color-control"
-		>
+		<BaseControl label={ label } help={ help } className="compact-color-control">
 			<div
 				style={ {
 					display: 'flex',

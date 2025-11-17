@@ -127,9 +127,7 @@ const runAccessibilityTests = () => {
 		passed++;
 	} else {
 		console.log( '  ❌ FAIL: Accordion missing ARIA attributes:' );
-		accordionIssues.forEach( ( issue ) =>
-			console.log( `    - ${ issue }` )
-		);
+		accordionIssues.forEach( ( issue ) => console.log( `    - ${ issue }` ) );
 		failed++;
 	}
 
@@ -200,15 +198,11 @@ const runAccessibilityTests = () => {
 	const tocCollapsibleIssues = validateARIA( 'toc', tocCollapsibleElement );
 
 	if ( tocCollapsibleIssues.length === 0 ) {
-		console.log(
-			'  ✅ PASS: Collapsible TOC has all required ARIA attributes'
-		);
+		console.log( '  ✅ PASS: Collapsible TOC has all required ARIA attributes' );
 		passed++;
 	} else {
 		console.log( '  ❌ FAIL: Collapsible TOC missing ARIA attributes:' );
-		tocCollapsibleIssues.forEach( ( issue ) =>
-			console.log( `    - ${ issue }` )
-		);
+		tocCollapsibleIssues.forEach( ( issue ) => console.log( `    - ${ issue }` ) );
 		failed++;
 	}
 
@@ -249,9 +243,7 @@ const runAccessibilityTests = () => {
 		passed++;
 	} else {
 		console.log(
-			`  ❌ FAIL: Duplicate IDs detected (${
-				pageIDs.length - uniqueIDs.size
-			} duplicates)`
+			`  ❌ FAIL: Duplicate IDs detected (${ pageIDs.length - uniqueIDs.size } duplicates)`
 		);
 		failed++;
 	}
@@ -279,16 +271,10 @@ const runAccessibilityTests = () => {
 		keyboardSupport.toc.length >= 2;
 
 	if ( hasMinimumKeys ) {
-		console.log(
-			'  ✅ PASS: All blocks support required keyboard patterns'
-		);
-		console.log(
-			`    Accordion: ${ keyboardSupport.accordion.join( ', ' ) }`
-		);
+		console.log( '  ✅ PASS: All blocks support required keyboard patterns' );
+		console.log( `    Accordion: ${ keyboardSupport.accordion.join( ', ' ) }` );
 		console.log( `    Tabs: ${ keyboardSupport.tabs.join( ', ' ) }` );
-		console.log(
-			`    TOC: ${ keyboardSupport.toc.join( ', ' ) } (+ link navigation)`
-		);
+		console.log( `    TOC: ${ keyboardSupport.toc.join( ', ' ) } (+ link navigation)` );
 		passed++;
 	} else {
 		console.log( '  ❌ FAIL: Insufficient keyboard support' );
@@ -299,11 +285,7 @@ const runAccessibilityTests = () => {
 	console.log( '\nTest 8: Semantic HTML elements' );
 	const semanticElements = {
 		accordion: [ 'button', 'div' ], // Button for title, div for panel
-		tabs: [
-			'div[role="tablist"]',
-			'button[role="tab"]',
-			'div[role="tabpanel"]',
-		],
+		tabs: [ 'div[role="tablist"]', 'button[role="tab"]', 'div[role="tabpanel"]' ],
 		toc: [ 'nav', 'ul', 'li', 'a' ],
 	};
 
@@ -353,11 +335,7 @@ const runAccessibilityTests = () => {
 	console.log( `Total tests: ${ passed + failed }` );
 	console.log( `Passed: ${ passed }` );
 	console.log( `Failed: ${ failed }` );
-	console.log(
-		`Success rate: ${ Math.round(
-			( passed / ( passed + failed ) ) * 100
-		) }%`
-	);
+	console.log( `Success rate: ${ Math.round( ( passed / ( passed + failed ) ) * 100 ) }%` );
 
 	console.log( '\n=== WCAG 2.1 AA Compliance ===' );
 	console.log( '✅ 1.3.1 Info and Relationships (Level A)' );
