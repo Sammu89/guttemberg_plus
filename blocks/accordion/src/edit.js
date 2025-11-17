@@ -179,11 +179,19 @@ export default function Edit( { attributes, setAttributes } ) {
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
 		await createTheme( 'accordion', themeName, effectiveValues );
-		setAttributes( { currentTheme: themeName } );
+		setAttributes( {
+			currentTheme: themeName,
+			customizations: {},
+			customizationCache: '',
+		} );
 	};
 
 	const handleUpdateTheme = async () => {
 		await updateTheme( 'accordion', attributes.currentTheme, effectiveValues );
+		setAttributes( {
+			customizations: {},
+			customizationCache: '',
+		} );
 	};
 
 	const handleDeleteTheme = async () => {

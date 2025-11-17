@@ -168,11 +168,19 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	 */
 	const handleSaveNewTheme = ( themeName ) => {
 		createTheme( 'toc', themeName, effectiveValues );
-		setAttributes( { currentTheme: themeName } );
+		setAttributes( {
+			currentTheme: themeName,
+			customizations: {},
+			customizationCache: '',
+		} );
 	};
 
 	const handleUpdateTheme = () => {
 		updateTheme( 'toc', attributes.currentTheme, effectiveValues );
+		setAttributes( {
+			customizations: {},
+			customizationCache: '',
+		} );
 	};
 
 	const handleDeleteTheme = () => {
