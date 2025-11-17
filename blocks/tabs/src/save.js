@@ -10,8 +10,8 @@
  * @since 1.0.0
  */
 
-import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { getAllEffectiveValues, getTabButtonAria, getTabPanelAria } from '@shared';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { getAllEffectiveValues } from '@shared';
 
 /**
  * Tabs Save Component
@@ -63,14 +63,20 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'contentBackgroundColor', '--panel-bg' );
 		addIfDefined( 'contentColor', '--panel-color' );
 
-		// Border (from BorderPanel)
-		addIfDefined( 'accordionBorderColor', '--tab-button-border-color' );
-		addIfDefined( 'accordionBorderThickness', '--tab-button-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'accordionBorderStyle', '--tab-button-border-style' );
-		addIfDefined( 'accordionShadow', '--tabs-container-shadow' );
-		addIfDefined( 'dividerBorderColor', '--divider-color' );
-		addIfDefined( 'dividerBorderThickness', '--divider-width', ( val ) => `${ val }px` );
-		addIfDefined( 'dividerBorderStyle', '--divider-style' );
+		// Border (from BorderPanel - using tab-specific attributes)
+		addIfDefined( 'tabBorderColor', '--tab-button-border-color' );
+		addIfDefined( 'tabBorderThickness', '--tab-button-border-width', ( val ) => `${ val }px` );
+		addIfDefined( 'tabBorderStyle', '--tab-button-border-style' );
+		addIfDefined( 'tabShadow', '--tabs-container-shadow' );
+		addIfDefined( 'dividerColor', '--divider-color' );
+		addIfDefined( 'dividerThickness', '--divider-width', ( val ) => `${ val }px` );
+		addIfDefined( 'dividerStyle', '--divider-style' );
+
+		// Border Radius (from BorderPanel)
+		if ( attributes.tabBorderRadius ) {
+			const br = attributes.tabBorderRadius;
+			styles[ '--tab-button-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		}
 
 		// Icon (from IconPanel)
 		addIfDefined( 'iconSize', '--icon-size', ( val ) => `${ val }px` );
@@ -138,106 +144,18 @@ export default function Save( { attributes } ) {
 
 	return (
 		<div { ...blockProps }>
-			{ /* Tab List (Navigation) */ }
+			{ /* Tab List - populated by frontend JavaScript */ }
 			<div
 				className="tabs-list"
 				role="tablist"
 				aria-orientation={ attributes.orientation || 'horizontal' }
-				data-alignment={ effectiveValues.tabsAlignment || 'left' }
-			>
-				{ attributes.tabs.map( ( tab, index ) => {
-					const tabId = `tab-${ tab.id }`;
-					const panelId = `panel-${ tab.id }`;
-					const isActive = index === ( attributes.currentTab || 0 );
-
-					// ARIA attributes for tab button
-					const buttonAria = getTabButtonAria(
-						tabId,
-						panelId,
-						isActive,
-						index,
-						tab.isDisabled
-					);
-
-					return (
-						<button
-							key={ tab.id }
-							type="button"
-							className={ `tab-button ${ isActive ? 'active' : '' } ${
-								tab.isDisabled ? 'disabled' : ''
-							}` }
-							disabled={ tab.isDisabled }
-							{ ...buttonAria }
-						>
-							{ effectiveValues.showIcon && renderIcon() }
-							<span className="tab-button-text">
-								{ tab.title || `Tab ${ index + 1 }` }
-							</span>
-						</button>
-					);
-				} ) }
-			</div>
+				data-current-tab={ attributes.currentTab || 0 }
+			></div>
 
 			{ /* Tab Panels */ }
 			<div className="tabs-panels">
-				{ attributes.tabs.map( ( tab, index ) => {
-					const tabId = `tab-${ tab.id }`;
-					const panelId = `panel-${ tab.id }`;
-					const isActive = index === ( attributes.currentTab || 0 );
-
-					// ARIA attributes for panel
-					const panelAria = getTabPanelAria( panelId, tabId, index );
-
-					return (
-						<div
-							key={ tab.id }
-							className={ `tab-panel ${ isActive ? 'active' : '' }` }
-							{ ...panelAria }
-							{ ...( ! isActive && { hidden: true } ) }
-						>
-							<RichText.Content
-								tagName="div"
-								value={ tab.content || '' }
-								className="tab-panel-content"
-							/>
-						</div>
-					);
-				} ) }
+				<InnerBlocks.Content />
 			</div>
-
-			{ /* Hidden accordion buttons for responsive fallback */ }
-			{ attributes.enableResponsiveFallback && (
-				<div className="accordion-fallback" style={ { display: 'none' } }>
-					{ attributes.tabs.map( ( tab, index ) => {
-						const accordionBtnId = `accordion-btn-${ tab.id }`;
-						const accordionPanelId = `accordion-panel-${ tab.id }`;
-						const isOpen = index === ( attributes.currentTab || 0 );
-
-						return (
-							<div key={ `accordion-${ tab.id }` } className="accordion-item">
-								<button
-									type="button"
-									className="accordion-button"
-									id={ accordionBtnId }
-									aria-expanded={ isOpen }
-									aria-controls={ accordionPanelId }
-								>
-									{ tab.title || `Tab ${ index + 1 }` }
-								</button>
-								<div
-									id={ accordionPanelId }
-									className="accordion-panel"
-									role="region"
-									aria-labelledby={ accordionBtnId }
-									{ ...( ! isOpen && { hidden: true } ) }
-								>
-									<RichText.Content tagName="div" value={ tab.content || '' } />
-								</div>
-							</div>
-						);
-					} ) }
-				</div>
-			) }
 		</div>
 	);
 }
