@@ -140,6 +140,23 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	debug( '[DEBUG] TOC Effective values:', effectiveValues );
 
+	// Attributes to exclude from theming (structural/behavioral only)
+	const excludeFromCustomizationCheck = [
+		'tocId',
+		'showTitle',
+		'titleText',
+		'currentTheme',
+		'customizations',
+		'customizationCache',
+		'includeH2',
+		'includeH3',
+		'includeH4',
+		'includeH5',
+		'includeH6',
+		'scrollBehavior',
+		'scrollOffset',
+	];
+
 	// Check if block has customizations
 	const isCustomized = Object.keys( attributes ).some( ( key ) => {
 		const value = attributes[ key ];
@@ -148,26 +165,28 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			value !== undefined &&
 			value !== null &&
 			value !== themeValue &&
-			key !== 'tocId' &&
-			key !== 'showTitle' &&
-			key !== 'titleText' &&
-			key !== 'currentTheme' &&
-			key !== 'includeH2' &&
-			key !== 'includeH3' &&
-			key !== 'includeH4' &&
-			key !== 'includeH5' &&
-			key !== 'includeH6' &&
-			key !== 'scrollBehavior' &&
-			key !== 'scrollOffset'
+			! excludeFromCustomizationCheck.includes( key )
 		);
 	} );
+
+	/**
+	 * Helper: Extract only themeable values (exclude structural/meta attributes)
+	 */
+	const getThemeableValues = ( values ) => {
+		const themeable = { ...values };
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete themeable[ key ];
+		} );
+		return themeable;
+	};
 
 	/**
 	 * Theme callback handlers
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = ( themeName ) => {
-		createTheme( 'toc', themeName, effectiveValues );
+		const themeableValues = getThemeableValues( effectiveValues );
+		createTheme( 'toc', themeName, themeableValues );
 		setAttributes( {
 			currentTheme: themeName,
 			customizations: {},
@@ -176,7 +195,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	};
 
 	const handleUpdateTheme = () => {
-		updateTheme( 'toc', attributes.currentTheme, effectiveValues );
+		const themeableValues = getThemeableValues( effectiveValues );
+		updateTheme( 'toc', attributes.currentTheme, themeableValues );
 		setAttributes( {
 			customizations: {},
 			customizationCache: '',
