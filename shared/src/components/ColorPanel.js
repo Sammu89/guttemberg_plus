@@ -92,11 +92,8 @@ export function ColorPanel( {
 		<PanelBody title="Appearance" initialOpen={ initialOpen }>
 			<ColorControl label="Header Background Color" attrName="titleBackgroundColor" />
 			<ColorControl label="Title Text Color" attrName="titleColor" />
-			<ColorControl label="Hover Header Background" attrName="hoverTitleBackgroundColor" />
-			<ColorControl label="Hover Title Text" attrName="hoverTitleColor" />
-			<ColorControl label="Active Header Background" attrName="activeTitleBackgroundColor" />
-			<ColorControl label="Active Title Text" attrName="activeTitleColor" />
 			<ColorControl label="Content Background Color" attrName="contentBackgroundColor" />
+			<ColorControl label="Content Text Color" attrName="contentColor" />
 		</PanelBody>
 	);
 }

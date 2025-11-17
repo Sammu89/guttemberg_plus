@@ -47,26 +47,11 @@ export default function Save( { attributes } ) {
 			}
 		};
 
-		// Container
-		addIfDefined( 'containerBackgroundColor', '--tabs-container-bg' );
-		addIfDefined( 'containerBorderStyle', '--tabs-container-border-style' );
-		addIfDefined( 'containerBorderColor', '--tabs-container-border-color' );
-		addIfDefined( 'containerBorderWidth', '--tabs-container-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'containerShadow', '--tabs-container-shadow' );
-
-		// Tab List
-		addIfDefined( 'tabListBackground', '--tabs-list-bg' );
-		addIfDefined( 'tabListBorderBottomStyle', '--tabs-list-border-bottom-style' );
-		addIfDefined( 'tabListBorderBottomColor', '--tabs-list-border-bottom-color' );
-		addIfDefined( 'tabListBorderBottomWidth', '--tabs-list-border-bottom-width', ( val ) => `${ val }px` );
-		addIfDefined( 'tabListGap', '--tabs-list-gap', ( val ) => `${ val }px` );
-		addIfDefined( 'tabsAlignment', '--tabs-alignment' );
-
-		// Tab Button
+		// Tab Button (title colors from ColorPanel)
 		addIfDefined( 'titleColor', '--tab-button-color' );
 		addIfDefined( 'titleBackgroundColor', '--tab-button-bg' );
-		addIfDefined( 'accordionBorderThickness', '--tab-button-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'accordionBorderStyle', '--tab-button-border-style' );
+
+		// Tab Button Typography (from TypographyPanel)
 		addIfDefined( 'titleFontSize', '--tab-button-font-size', ( val ) => `${ val }px` );
 		addIfDefined( 'titleFontWeight', '--tab-button-font-weight' );
 		addIfDefined( 'titleFontStyle', '--tab-button-font-style' );
@@ -74,66 +59,24 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'titleTextDecoration', '--tab-button-text-decoration' );
 		addIfDefined( 'titleAlignment', '--tab-button-text-align' );
 
-		// Tab Button (hover)
-		addIfDefined( 'hoverTitleColor', '--tab-button-hover-color' );
-		addIfDefined( 'hoverTitleBackgroundColor', '--tab-button-hover-bg' );
+		// Tab Panel (content colors from ColorPanel)
+		addIfDefined( 'contentBackgroundColor', '--panel-bg' );
+		addIfDefined( 'contentColor', '--panel-color' );
 
-		// Tab Button (active)
-		addIfDefined( 'tabButtonActiveColor', '--tab-button-active-color' );
-		addIfDefined( 'tabButtonActiveBackground', '--tab-button-active-bg' );
-		addIfDefined( 'tabButtonActiveBorderColor', '--tab-button-active-border-color' );
-		addIfDefined( 'tabButtonActiveBorderBottomColor', '--tab-button-active-border-bottom-color' );
+		// Border (from BorderPanel)
+		addIfDefined( 'accordionBorderColor', '--tab-button-border-color' );
+		addIfDefined( 'accordionBorderThickness', '--tab-button-border-width', ( val ) => `${ val }px` );
+		addIfDefined( 'accordionBorderStyle', '--tab-button-border-style' );
+		addIfDefined( 'accordionShadow', '--tabs-container-shadow' );
+		addIfDefined( 'dividerBorderColor', '--divider-color' );
+		addIfDefined( 'dividerBorderThickness', '--divider-width', ( val ) => `${ val }px` );
+		addIfDefined( 'dividerBorderStyle', '--divider-style' );
 
-		// Panel
-		addIfDefined( 'panelBackground', '--panel-bg' );
-		addIfDefined( 'panelColor', '--panel-color' );
-		addIfDefined( 'panelBorderStyle', '--panel-border-style' );
-		addIfDefined( 'panelBorderColor', '--panel-border-color' );
-		addIfDefined( 'panelBorderWidth', '--panel-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'panelBorderRadius', '--panel-border-radius', ( val ) => `${ val }px` );
-		addIfDefined( 'panelFontSize', '--panel-font-size', ( val ) => `${ val }px` );
-		addIfDefined( 'panelLineHeight', '--panel-line-height' );
-
-		// Divider
-		addIfDefined( 'dividerThickness', '--divider-width', ( val ) => `${ val }px` );
-		addIfDefined( 'dividerStyle', '--divider-style' );
-		addIfDefined( 'dividerColor', '--divider-color' );
-
-		// Icon
+		// Icon (from IconPanel)
 		addIfDefined( 'iconSize', '--icon-size', ( val ) => `${ val }px` );
 		addIfDefined( 'iconColor', '--icon-color' );
 
-		// Vertical specific
-		addIfDefined( 'verticalTabListWidth', '--vertical-tab-list-width', ( val ) => `${ val }px` );
-		addIfDefined( 'verticalTabButtonTextAlign', '--vertical-tab-button-text-align' );
-
-		// Animation
-		addIfDefined( 'transitionDuration', '--transition-duration', ( val ) => `${ val }ms` );
-		addIfDefined( 'transitionEasing', '--transition-easing' );
-
-		// Object values (padding, border radius)
-		if ( attributes.tabListPadding ) {
-			const p = attributes.tabListPadding;
-			styles[ '--tabs-list-padding' ] = `${ p.top }px ${ p.right }px ${ p.bottom }px ${ p.left }px`;
-		}
-		if ( attributes.titlePadding ) {
-			const p = attributes.titlePadding;
-			styles[ '--tab-button-padding' ] = `${ p.top }px ${ p.right }px ${ p.bottom }px ${ p.left }px`;
-		}
-		if ( attributes.panelPadding ) {
-			const p = attributes.panelPadding;
-			styles[ '--panel-padding' ] = `${ p.top }px ${ p.right }px ${ p.bottom }px ${ p.left }px`;
-		}
-		if ( attributes.containerBorderRadius ) {
-			const br = attributes.containerBorderRadius;
-			styles[ '--tabs-container-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
-		}
-		if ( attributes.tabButtonBorderRadius ) {
-			const br = attributes.tabButtonBorderRadius;
-			styles[ '--tab-button-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
-		}
-
-		// Responsive breakpoint (always include if set)
+		// Responsive breakpoint (from Tab Settings panel)
 		if ( attributes.responsiveBreakpoint ) {
 			styles[ '--responsive-breakpoint' ] = `${ attributes.responsiveBreakpoint }px`;
 		}
