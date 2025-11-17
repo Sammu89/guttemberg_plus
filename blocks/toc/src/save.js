@@ -190,122 +190,122 @@ function buildInlineStyles( effectiveValues ) {
 
 	// Wrapper colors
 	if ( effectiveValues.wrapperBackgroundColor ) {
-		styles[ '--custom-wrapper-background-color' ] = effectiveValues.wrapperBackgroundColor;
+		styles[ '--toc-wrapper-background-color' ] = effectiveValues.wrapperBackgroundColor;
 	}
 	if ( effectiveValues.wrapperBorderColor ) {
-		styles[ '--custom-wrapper-border-color' ] = effectiveValues.wrapperBorderColor;
+		styles[ '--toc-wrapper-border-color' ] = effectiveValues.wrapperBorderColor;
 	}
 
 	// Link colors
 	if ( effectiveValues.linkColor ) {
-		styles[ '--custom-link-color' ] = effectiveValues.linkColor;
+		styles[ '--toc-link-color' ] = effectiveValues.linkColor;
 	}
 	if ( effectiveValues.linkHoverColor ) {
-		styles[ '--custom-link-hover-color' ] = effectiveValues.linkHoverColor;
+		styles[ '--toc-link-hover-color' ] = effectiveValues.linkHoverColor;
 	}
 	if ( effectiveValues.linkVisitedColor ) {
-		styles[ '--custom-link-visited-color' ] = effectiveValues.linkVisitedColor;
+		styles[ '--toc-link-visited-color' ] = effectiveValues.linkVisitedColor;
 	}
 	if ( effectiveValues.linkActiveColor ) {
-		styles[ '--custom-link-active-color' ] = effectiveValues.linkActiveColor;
+		styles[ '--toc-link-active-color' ] = effectiveValues.linkActiveColor;
 	}
 
 	// Numbering color
 	if ( effectiveValues.numberingColor ) {
-		styles[ '--custom-numbering-color' ] = effectiveValues.numberingColor;
+		styles[ '--toc-numbering-color' ] = effectiveValues.numberingColor;
 	}
 
 	// Level colors
 	if ( effectiveValues.level1Color ) {
-		styles[ '--custom-level1-color' ] = effectiveValues.level1Color;
+		styles[ '--toc-level1-color' ] = effectiveValues.level1Color;
 	}
 	if ( effectiveValues.level2Color ) {
-		styles[ '--custom-level2-color' ] = effectiveValues.level2Color;
+		styles[ '--toc-level2-color' ] = effectiveValues.level2Color;
 	}
 	if ( effectiveValues.level3PlusColor ) {
-		styles[ '--custom-level3-plus-color' ] = effectiveValues.level3PlusColor;
+		styles[ '--toc-level3-plus-color' ] = effectiveValues.level3PlusColor;
 	}
 
 	// Typography
 	if ( effectiveValues.level1FontSize ) {
-		styles[ '--custom-level1-font-size' ] = `${ effectiveValues.level1FontSize }px`;
+		styles[ '--toc-level1-font-size' ] = `${ effectiveValues.level1FontSize }px`;
 	}
 	if ( effectiveValues.level1FontWeight ) {
-		styles[ '--custom-level1-font-weight' ] = effectiveValues.level1FontWeight;
+		styles[ '--toc-level1-font-weight' ] = effectiveValues.level1FontWeight;
 	}
 	if ( effectiveValues.level1FontStyle ) {
-		styles[ '--custom-level1-font-style' ] = effectiveValues.level1FontStyle;
+		styles[ '--toc-level1-font-style' ] = effectiveValues.level1FontStyle;
 	}
 	if ( effectiveValues.level1TextTransform ) {
-		styles[ '--custom-level1-text-transform' ] = effectiveValues.level1TextTransform;
+		styles[ '--toc-level1-text-transform' ] = effectiveValues.level1TextTransform;
 	}
 	if ( effectiveValues.level1TextDecoration ) {
-		styles[ '--custom-level1-text-decoration' ] = effectiveValues.level1TextDecoration;
+		styles[ '--toc-level1-text-decoration' ] = effectiveValues.level1TextDecoration;
 	}
 	if ( effectiveValues.level2FontSize ) {
-		styles[ '--custom-level2-font-size' ] = `${ effectiveValues.level2FontSize }px`;
+		styles[ '--toc-level2-font-size' ] = `${ effectiveValues.level2FontSize }px`;
 	}
 	if ( effectiveValues.level2FontWeight ) {
-		styles[ '--custom-level2-font-weight' ] = effectiveValues.level2FontWeight;
+		styles[ '--toc-level2-font-weight' ] = effectiveValues.level2FontWeight;
 	}
 	if ( effectiveValues.level2FontStyle ) {
-		styles[ '--custom-level2-font-style' ] = effectiveValues.level2FontStyle;
+		styles[ '--toc-level2-font-style' ] = effectiveValues.level2FontStyle;
 	}
 	if ( effectiveValues.level2TextTransform ) {
-		styles[ '--custom-level2-text-transform' ] = effectiveValues.level2TextTransform;
+		styles[ '--toc-level2-text-transform' ] = effectiveValues.level2TextTransform;
 	}
 	if ( effectiveValues.level2TextDecoration ) {
-		styles[ '--custom-level2-text-decoration' ] = effectiveValues.level2TextDecoration;
+		styles[ '--toc-level2-text-decoration' ] = effectiveValues.level2TextDecoration;
 	}
 	if ( effectiveValues.level3PlusFontSize ) {
-		styles[ '--custom-level3-plus-font-size' ] = `${ effectiveValues.level3PlusFontSize }px`;
+		styles[ '--toc-level3-plus-font-size' ] = `${ effectiveValues.level3PlusFontSize }px`;
 	}
 	if ( effectiveValues.level3PlusFontWeight ) {
-		styles[ '--custom-level3-plus-font-weight' ] = effectiveValues.level3PlusFontWeight;
+		styles[ '--toc-level3-plus-font-weight' ] = effectiveValues.level3PlusFontWeight;
 	}
 	if ( effectiveValues.level3PlusFontStyle ) {
-		styles[ '--custom-level3-plus-font-style' ] = effectiveValues.level3PlusFontStyle;
+		styles[ '--toc-level3-plus-font-style' ] = effectiveValues.level3PlusFontStyle;
 	}
 	if ( effectiveValues.level3PlusTextTransform ) {
-		styles[ '--custom-level3-plus-text-transform' ] = effectiveValues.level3PlusTextTransform;
+		styles[ '--toc-level3-plus-text-transform' ] = effectiveValues.level3PlusTextTransform;
 	}
 	if ( effectiveValues.level3PlusTextDecoration ) {
-		styles[ '--custom-level3-plus-text-decoration' ] = effectiveValues.level3PlusTextDecoration;
+		styles[ '--toc-level3-plus-text-decoration' ] = effectiveValues.level3PlusTextDecoration;
 	}
 
 	// Border
 	if ( effectiveValues.wrapperBorderWidth ) {
-		styles[ '--custom-border-width' ] = `${ effectiveValues.wrapperBorderWidth }px`;
+		styles[ '--toc-border-width' ] = `${ effectiveValues.wrapperBorderWidth }px`;
 	}
 	if ( effectiveValues.wrapperBorderStyle ) {
-		styles[ '--custom-border-style' ] = effectiveValues.wrapperBorderStyle;
+		styles[ '--toc-border-style' ] = effectiveValues.wrapperBorderStyle;
 	}
 	if ( effectiveValues.wrapperBorderRadius ) {
-		styles[ '--custom-border-radius' ] = `${ effectiveValues.wrapperBorderRadius }px`;
+		styles[ '--toc-border-radius' ] = `${ effectiveValues.wrapperBorderRadius }px`;
 	}
 
 	// Padding & Spacing
 	if ( effectiveValues.wrapperPadding ) {
-		styles[ '--custom-wrapper-padding' ] = `${ effectiveValues.wrapperPadding }px`;
+		styles[ '--toc-wrapper-padding' ] = `${ effectiveValues.wrapperPadding }px`;
 	}
 	if ( effectiveValues.itemSpacing ) {
-		styles[ '--custom-item-spacing' ] = `${ effectiveValues.itemSpacing }px`;
+		styles[ '--toc-item-spacing' ] = `${ effectiveValues.itemSpacing }px`;
 	}
 	if ( effectiveValues.levelIndent ) {
-		styles[ '--custom-level-indent' ] = `${ effectiveValues.levelIndent }px`;
+		styles[ '--toc-level-indent' ] = `${ effectiveValues.levelIndent }px`;
 	}
 
 	// Position
 	if ( effectiveValues.positionTop ) {
-		styles[ '--custom-position-top' ] = `${ effectiveValues.positionTop }px`;
+		styles[ '--toc-position-top' ] = `${ effectiveValues.positionTop }px`;
 	}
 	if ( effectiveValues.zIndex ) {
-		styles[ '--custom-z-index' ] = effectiveValues.zIndex;
+		styles[ '--toc-z-index' ] = effectiveValues.zIndex;
 	}
 
 	// Shadow
 	if ( effectiveValues.wrapperShadow ) {
-		styles[ '--custom-wrapper-shadow' ] = effectiveValues.wrapperShadow;
+		styles[ '--toc-wrapper-shadow' ] = effectiveValues.wrapperShadow;
 	}
 
 	return styles;

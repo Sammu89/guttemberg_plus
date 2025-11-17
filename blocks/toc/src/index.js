@@ -13,6 +13,7 @@ import metadata from '../block.json';
 import edit from './edit';
 import save from './save';
 import { tocAttributes } from './toc-attributes';
+import './style.scss';
 import './frontend';
 import '../../../assets/css/toc.css';
 
