@@ -96,8 +96,8 @@ function guttemberg_plus_get_used_themes_on_page() {
  * Map block attribute names to CSS variable names
  *
  * This mapping MUST match the exact variable names used in:
- * - blocks/*/src/save.js (JavaScript side)
- * - assets/css/*.css (CSS defaults)
+ * - blocks/[block]/src/save.js (JavaScript side)
+ * - assets/css/[block].css (CSS defaults)
  *
  * @param string $block_type Block type (accordion, tabs, toc).
  * @param string $attr_name  Attribute name (e.g., 'titleBackgroundColor').
