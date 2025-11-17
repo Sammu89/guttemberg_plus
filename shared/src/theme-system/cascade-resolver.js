@@ -306,6 +306,12 @@ export function hasAnyCustomizations( attributes, theme, defaults, excludeAttrib
 		return false;
 	}
 
+	// DEBUG: Track which attributes are being checked
+	const debugInfo = {
+		checkedAttributes: [],
+		customizedAttributes: [],
+	};
+
 	// Check each attribute
 	for ( const key of Object.keys( attributes ) ) {
 		// Skip excluded attributes
@@ -313,13 +319,25 @@ export function hasAnyCustomizations( attributes, theme, defaults, excludeAttrib
 			continue;
 		}
 
+		debugInfo.checkedAttributes.push( key );
+
 		// Check if this attribute is customized
 		if ( isCustomizedFromDefaults( key, attributes, theme, defaults ) ) {
-			return true;
+			debugInfo.customizedAttributes.push( {
+				key,
+				value: attributes[ key ],
+				themeValue: theme?.[ key ],
+				defaultValue: defaults?.[ key ],
+			} );
 		}
 	}
 
-	return false;
+	// DEBUG: Log findings
+	if ( debugInfo.customizedAttributes.length > 0 ) {
+		console.log( '🔴 hasAnyCustomizations: FOUND customizations', debugInfo );
+	}
+
+	return debugInfo.customizedAttributes.length > 0;
 }
 
 /**
