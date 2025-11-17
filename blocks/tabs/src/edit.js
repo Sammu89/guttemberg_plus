@@ -200,11 +200,19 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
 		await createTheme( 'tabs', themeName, effectiveValues );
-		setAttributes( { currentTheme: themeName } );
+		setAttributes( {
+			currentTheme: themeName,
+			customizations: {},
+			customizationCache: '',
+		} );
 	};
 
 	const handleUpdateTheme = async () => {
 		await updateTheme( 'tabs', attributes.currentTheme, effectiveValues );
+		setAttributes( {
+			customizations: {},
+			customizationCache: '',
+		} );
 	};
 
 	const handleDeleteTheme = async () => {
