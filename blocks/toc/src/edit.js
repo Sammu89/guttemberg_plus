@@ -23,8 +23,11 @@ import {
 	RangeControl,
 } from '@wordpress/components';
 import {
-	getAllEffectiveValues,
 	generateUniqueId,
+	getAllDefaults,
+	calculateDeltas,
+	applyDeltas,
+	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
 	ColorPanel,
@@ -128,22 +131,19 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		return () => observer.disconnect();
 	}, [ clientId ] );
 
-	// Get CSS defaults
-	const cssDefaults = window.tocDefaults || {};
+	// Get all defaults (CSS + behavioral)
+	const allDefaults = getAllDefaults();
 
-	// Get effective values via cascade
+	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
+	const effectiveValues = attributes;
+
+	// Get current theme
 	const theme = themes[ currentTheme ];
-	debug( '[DEBUG] TOC theme:', theme );
-	debug( '[DEBUG] TOC theme?.values:', theme?.values );
 
-	// Apply customizations only if applyCustomizations flag is true
-	const effectiveValues = getAllEffectiveValues(
-		attributes.applyCustomizations ? attributes.customizations : {},
-		theme?.values,
-		cssDefaults
-	);
-
-	debug( '[DEBUG] TOC Effective values:', effectiveValues );
+	// Calculate expected values: defaults + current theme deltas
+	const expectedValues = theme
+		? applyDeltas( allDefaults, theme.values || {} )
+		: allDefaults;
 
 	// Attributes to exclude from theming (structural/behavioral only)
 	const excludeFromCustomizationCheck = [
@@ -161,53 +161,87 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		'includeH6',
 		'scrollBehavior',
 		'scrollOffset',
+		'filterMode',
+		'includeLevels',
+		'includeClasses',
+		'excludeLevels',
+		'excludeClasses',
+		'depthLimit',
+		'numberingStyle',
+		'isCollapsible',
+		'initiallyCollapsed',
+		'clickBehavior',
 	];
 
-	// Check if block has customizations
+	// Auto-detect customizations by comparing attributes to expected values
 	const isCustomized = Object.keys( attributes ).some( ( key ) => {
-		const value = attributes[ key ];
-		const themeValue = theme?.values?.[ key ];
-		return (
-			value !== undefined &&
-			value !== null &&
-			value !== themeValue &&
-			! excludeFromCustomizationCheck.includes( key )
-		);
+		// Skip excluded attributes
+		if ( excludeFromCustomizationCheck.includes( key ) ) {
+			return false;
+		}
+
+		const attrValue = attributes[ key ];
+		const expectedValue = expectedValues[ key ];
+
+		// Skip undefined/null attributes
+		if ( attrValue === undefined || attrValue === null ) {
+			return false;
+		}
+
+		// Deep comparison for objects
+		if ( typeof attrValue === 'object' && attrValue !== null && ! Array.isArray( attrValue ) ) {
+			return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+		}
+
+		// Simple comparison for primitives
+		return attrValue !== expectedValue;
 	} );
 
-	/**
-	 * Helper: Extract only themeable values (exclude structural/meta attributes)
-	 */
-	const getThemeableValues = ( values ) => {
-		const themeable = { ...values };
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete themeable[ key ];
-		} );
-		return themeable;
-	};
+	debug( '[DEBUG] TOC effective values:', effectiveValues );
+	debug( '[DEBUG] TOC expected values:', expectedValues );
+	debug( '[DEBUG] TOC isCustomized:', isCustomized );
+
+	// Auto-update customizationCache with complete snapshot on every change
+	useEffect( () => {
+		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
+		const currentCache = attributes.customizationCache || {};
+
+		// Only update if snapshot changed
+		if ( JSON.stringify( snapshot ) !== JSON.stringify( currentCache ) ) {
+			setAttributes( { customizationCache: snapshot } );
+		}
+	}, [ attributes, excludeFromCustomizationCheck, setAttributes ] );
 
 	/**
 	 * Theme callback handlers
 	 * @param themeName
 	 */
-	const handleSaveNewTheme = ( themeName ) => {
-		const themeableValues = getThemeableValues( effectiveValues );
-		createTheme( 'toc', themeName, themeableValues );
+	const handleSaveNewTheme = async ( themeName ) => {
+		// Calculate deltas from current snapshot (optimized storage)
+		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
+		const deltas = calculateDeltas( snapshot, allDefaults, excludeFromCustomizationCheck );
+
+		// Save theme with deltas only
+		await createTheme( 'toc', themeName, deltas );
+
+		// Switch to new theme (clear cache, block now uses clean theme)
 		setAttributes( {
 			currentTheme: themeName,
-			customizations: {},
-			customizationCache: '',
-			applyCustomizations: false, // Theme now contains these values
+			customizationCache: {},
 		} );
 	};
 
-	const handleUpdateTheme = () => {
-		const themeableValues = getThemeableValues( effectiveValues );
-		updateTheme( 'toc', attributes.currentTheme, themeableValues );
+	const handleUpdateTheme = async () => {
+		// Calculate deltas from current snapshot
+		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
+		const deltas = calculateDeltas( snapshot, allDefaults, excludeFromCustomizationCheck );
+
+		// Update theme with deltas only
+		await updateTheme( 'toc', attributes.currentTheme, deltas );
+
+		// Clear cache (block now uses clean updated theme)
 		setAttributes( {
-			customizations: {},
-			customizationCache: '',
-			applyCustomizations: false, // Theme now contains these values
+			customizationCache: {},
 		} );
 	};
 
@@ -222,25 +256,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	};
 
 	const handleResetCustomizations = () => {
-		// Reset all customizable attributes to null
-		const resetAttrs = {};
-		Object.keys( attributes ).forEach( ( key ) => {
-			if (
-				key !== 'currentTheme' &&
-				key !== 'tocId' &&
-				key !== 'showTitle' &&
-				key !== 'titleText' &&
-				key !== 'includeH2' &&
-				key !== 'includeH3' &&
-				key !== 'includeH4' &&
-				key !== 'includeH5' &&
-				key !== 'includeH6' &&
-				key !== 'scrollBehavior' &&
-				key !== 'scrollOffset'
-			) {
-				resetAttrs[ key ] = null;
-			}
+		// Reset to clean theme: apply expected values (defaults + current theme)
+		const resetAttrs = { ...expectedValues, customizationCache: {} };
+
+		// Remove excluded attributes from reset (keep structural/meta)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
 		} );
+
 		setAttributes( resetAttrs );
 	};
 

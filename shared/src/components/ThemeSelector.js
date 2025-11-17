@@ -62,69 +62,43 @@ export function ThemeSelector( {
 	const [ showRenameModal, setShowRenameModal ] = useState( false );
 	const [ newThemeName, setNewThemeName ] = useState( '' );
 
-	// Check if customizations exist (non-empty customizations object)
-	const hasCustomizations = attributes.customizations &&
-		Object.keys( attributes.customizations ).length > 0;
-
-	// Handle theme change
-	// Value format: "themeName" for clean, "themeName__customized" for with customizations
-	const handleThemeChange = ( value ) => {
-		const isCustomizedVariant = value.endsWith( '__customized' );
-		const themeName = isCustomizedVariant ? value.replace( '__customized', '' ) : value;
-
+	// Handle theme change - implements reset-and-apply pattern
+	const handleThemeChange = ( themeName ) => {
+		// Simply change the theme - blocks will handle reset-and-apply in their own logic
+		// The customizationCache is preserved automatically
 		if ( setAttributes ) {
-			setAttributes( {
-				currentTheme: themeName,
-				applyCustomizations: isCustomizedVariant,
-			} );
+			setAttributes( { currentTheme: themeName } );
 		} else if ( onChange ) {
-			// Fallback to onChange if provided (deprecated)
 			onChange( themeName );
 		}
 	};
 
-	// Prepare theme options for dropdown
+	// Prepare theme options for dropdown (simple list)
 	const themeOptions = [];
 
-	// Add Default theme options
+	// Add Default option
+	const defaultLabel = currentTheme === '' && isCustomized ? 'Default (customized)' : 'Default';
 	themeOptions.push( {
-		label: 'Default',
+		label: defaultLabel,
 		value: '',
 	} );
-	if ( hasCustomizations ) {
-		themeOptions.push( {
-			label: 'Default (customized)',
-			value: '__customized',
-		} );
-	}
 
 	// Add saved theme options
 	Object.keys( themes || {} ).forEach( ( name ) => {
-		// Add clean theme option
+		const isCurrentTheme = name === currentTheme;
+		const label = isCurrentTheme && isCustomized ? `${ name } (customized)` : name;
+
 		themeOptions.push( {
-			label: name,
+			label,
 			value: name,
 		} );
-
-		// Add customized variant if customizations exist
-		if ( hasCustomizations ) {
-			themeOptions.push( {
-				label: `${ name } (customized)`,
-				value: `${ name }__customized`,
-			} );
-		}
 	} );
-
-	// Determine current selection value
-	const currentValue = attributes.applyCustomizations
-		? `${ currentTheme }__customized`
-		: currentTheme;
 
 	return (
 		<div className="theme-selector">
 			<SelectControl
 				label="Theme"
-				value={ currentValue }
+				value={ currentTheme }
 				options={ themeOptions }
 				onChange={ handleThemeChange }
 			/>
