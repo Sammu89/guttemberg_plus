@@ -111,6 +111,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const excludeFromCustomizationCheck = [
 		'tabs',
 		'currentTheme',
+		'customizations',
 		'customizationCache',
 		'orientation',
 		'activationMode',
@@ -156,6 +157,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			if (
 				key !== 'currentTheme' &&
 				key !== 'tabs' &&
+				key !== 'customizations' &&
 				key !== 'customizationCache' &&
 				key !== 'orientation' &&
 				key !== 'activationMode' &&
