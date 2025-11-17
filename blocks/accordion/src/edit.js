@@ -93,8 +93,10 @@ export default function Edit( { attributes, setAttributes } ) {
 		'title',
 		'content',
 		'currentTheme',
+		'customizations',
 		'customizationCache',
 		'initiallyOpen',
+		'allowMultipleOpen',
 	];
 
 	const isCustomized = hasAnyCustomizations(
@@ -136,8 +138,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				key !== 'title' &&
 				key !== 'content' &&
 				key !== 'accordionId' &&
+				key !== 'customizations' &&
 				key !== 'customizationCache' &&
-				key !== 'initiallyOpen'
+				key !== 'initiallyOpen' &&
+				key !== 'allowMultipleOpen'
 			) {
 				resetAttrs[ key ] = null;
 			}
