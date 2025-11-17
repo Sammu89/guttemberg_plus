@@ -174,11 +174,23 @@ export default function Edit( { attributes, setAttributes } ) {
 	}, [ attributes, isCustomized, themes, allDefaults, excludeFromCustomizationCheck ] );
 
 	/**
+	 * Helper: Extract only themeable values (exclude structural/meta attributes)
+	 */
+	const getThemeableValues = ( values ) => {
+		const themeable = { ...values };
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete themeable[ key ];
+		} );
+		return themeable;
+	};
+
+	/**
 	 * Theme callback handlers
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		await createTheme( 'accordion', themeName, effectiveValues );
+		const themeableValues = getThemeableValues( effectiveValues );
+		await createTheme( 'accordion', themeName, themeableValues );
 		setAttributes( {
 			currentTheme: themeName,
 			customizations: {},
@@ -187,7 +199,8 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	const handleUpdateTheme = async () => {
-		await updateTheme( 'accordion', attributes.currentTheme, effectiveValues );
+		const themeableValues = getThemeableValues( effectiveValues );
+		await updateTheme( 'accordion', attributes.currentTheme, themeableValues );
 		setAttributes( {
 			customizations: {},
 			customizationCache: '',
