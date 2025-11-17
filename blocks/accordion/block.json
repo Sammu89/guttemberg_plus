@@ -36,7 +36,8 @@
 			"type": "boolean"
 		},
 		"currentTheme": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"customizations": {
 			"type": "object"
