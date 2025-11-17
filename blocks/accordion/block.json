@@ -8,7 +8,7 @@
 	"icon": "list-view",
 	"description": "Create an expandable/collapsible content panel with customizable themes.",
 	"keywords": ["accordion", "collapse", "expand", "toggle", "panel"],
-	"textdomain": "custom-accordion",
+	"textdomain": "guttemberg-plus",
 	"editorScript": "file:./build/index.js",
 	"viewScript": "file:./build/frontend.js",
 	"style": "file:./build/style-index.css",

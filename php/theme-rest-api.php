@@ -153,10 +153,27 @@ add_action( 'rest_api_init', __NAMESPACE__ . '\\register_routes' );
 /**
  * Permission callback - Check if user can edit posts
  *
+ * For READ operations: Contributors and above (edit_posts)
+ * For WRITE operations: Editors and above (edit_others_posts)
+ *
+ * @param WP_REST_Request $request Request object.
  * @return bool True if user has permission
  */
-function check_permissions() {
-	return current_user_can( 'edit_posts' );
+function check_permissions( $request ) {
+	$method = $request->get_method();
+
+	// Read operations: contributors and above
+	if ( $method === 'GET' ) {
+		return current_user_can( 'edit_posts' );
+	}
+
+	// Write operations: editors and above
+	// This prevents contributors from modifying site-wide themes
+	if ( in_array( $method, array( 'POST', 'PUT', 'DELETE' ), true ) ) {
+		return current_user_can( 'edit_others_posts' );
+	}
+
+	return false;
 }
 
 /**
@@ -267,7 +284,8 @@ function delete_theme_handler( $request ) {
 	return rest_ensure_response(
 		array(
 			'success' => true,
-			'message' => "Theme '$name' deleted successfully",
+			/* translators: %s: Theme name */
+			'message' => sprintf( __( 'Theme "%s" deleted successfully', 'guttemberg-plus' ), $name ),
 		)
 	);
 }
