@@ -100,6 +100,7 @@ add_action( 'plugins_loaded', 'guttemberg_plus_load_textdomain' );
 require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/css-parser.php';
 require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-storage.php';
 require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-rest-api.php';
+require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-css-generator.php';
 
 /**
  * Load plugin core (will create these next)
