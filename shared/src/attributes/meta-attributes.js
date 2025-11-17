@@ -35,10 +35,9 @@ export const metaAttributes = {
 	},
 
 	/**
-	 * Complete snapshot of all themeable attributes
-	 * Auto-updated on every attribute change
-	 * Saved with post content (persists when user saves)
-	 * Lost if user closes without saving (standard WordPress behavior)
+	 * DEPRECATED - No longer used in new architecture
+	 * Session cache is now React state (not saved to database)
+	 * Kept for backwards compatibility with old blocks
 	 */
 	customizationCache: {
 		type: 'object',

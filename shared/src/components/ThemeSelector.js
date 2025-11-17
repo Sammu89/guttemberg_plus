@@ -31,6 +31,7 @@ import { debug } from '../utils/debug';
  * @param {Function} props.onDelete        Callback to delete theme (optional)
  * @param {Function} props.onRename        Callback to rename theme (optional)
  * @param {Function} props.onReset         Callback to reset customizations (optional)
+ * @param {Function} props.onThemeChange   Callback when theme changes (handles reset-and-apply) (optional)
  */
 export function ThemeSelector( {
 	blockType,
@@ -47,6 +48,7 @@ export function ThemeSelector( {
 	onDelete,
 	onRename,
 	onReset,
+	onThemeChange,
 } ) {
 	debug( '[DEBUG] ThemeSelector props received:' );
 	debug( '  blockType:', blockType );
@@ -62,13 +64,18 @@ export function ThemeSelector( {
 	const [ showRenameModal, setShowRenameModal ] = useState( false );
 	const [ newThemeName, setNewThemeName ] = useState( '' );
 
-	// Handle theme change - implements reset-and-apply pattern
+	// Handle theme change
 	const handleThemeChange = ( themeName ) => {
-		// Simply change the theme - blocks will handle reset-and-apply in their own logic
-		// The customizationCache is preserved automatically
-		if ( setAttributes ) {
+		// If onThemeChange callback provided, use it (new architecture - session-only cache)
+		if ( onThemeChange ) {
+			onThemeChange( themeName );
+		}
+		// Otherwise fall back to simple setAttributes (backwards compatibility)
+		else if ( setAttributes ) {
 			setAttributes( { currentTheme: themeName } );
-		} else if ( onChange ) {
+		}
+		// Deprecated onChange callback
+		else if ( onChange ) {
 			onChange( themeName );
 		}
 	};
