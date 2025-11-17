@@ -3,33 +3,38 @@
  * CSS Default Values
  *
  * Auto-generated from assets/css/accordion.css
- * Generated: 2025-11-17T08:38:41.111Z
+ * Generated: 2025-11-17T12:27:17.525Z
  *
  * DO NOT EDIT MANUALLY - Changes will be overwritten on build
  */
 
 return array(
-  'titleColor' => '#333',
-  'titleBackgroundColor' => '#f5f5f5',
-  'titleColorHover' => '#000',
-  'titleBackgroundColorHover' => '#e0e0e0',
-  'contentColor' => '#333',
-  'contentBackgroundColor' => '#fff',
-  'borderColor' => '#ddd',
-  'borderWidth' => '1',
-  'borderStyle' => 'solid',
-  'borderRadius' => '4',
-  'titleFontSize' => '18',
-  'titleFontWeight' => '600',
-  'contentFontSize' => '16',
-  'contentLineHeight' => '1.6',
-  'titlePadding' => '16',
-  'contentPadding' => '16',
-  'itemSpacing' => '8',
-  'iconTypeClosed' => '▾',
-  'iconSize' => '20',
-  'iconColor' => '#666',
-  'iconRotation' => '0deg',
-  'animationDuration' => '300',
-  'animationEasing' => 'ease-in-out',
+  'accordionTitleColor' => '#333333',
+  'accordionTitleBg' => '#f5f5f5',
+  'accordionTitleHoverColor' => '#000000',
+  'accordionTitleHoverBg' => '#e8e8e8',
+  'accordionTitleActiveColor' => '#000000',
+  'accordionTitleActiveBg' => '#e0e0e0',
+  'accordionContentColor' => '#333333',
+  'accordionContentBg' => '#ffffff',
+  'accordionBorder' => '1px solid #dddddd',
+  'accordionBorderRadius' => '4',
+  'accordionMarginBottom' => '8',
+  'accordionTitlePadding' => '16',
+  'accordionContentPadding' => '16',
+  'accordionTitleFontSize' => '18',
+  'accordionTitleFontWeight' => '600',
+  'accordionTitleFontStyle' => 'normal',
+  'accordionTitleTextTransform' => 'none',
+  'accordionTitleTextDecoration' => 'none',
+  'accordionTitleAlignment' => 'left',
+  'accordionContentFontSize' => '16',
+  'accordionContentLineHeight' => '1.6',
+  'accordionIconSize' => '20',
+  'accordionIconColor' => '#666666',
+  'accordionIconRotation' => '180deg',
+  'accordionShadow' => 'none',
+  'accordionFocusColor' => '#007cba',
+  'accordionDividerBorder' => 'none',
+  'accordionAnimationDuration' => '300ms',
 );

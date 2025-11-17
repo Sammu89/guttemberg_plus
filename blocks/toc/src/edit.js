@@ -732,39 +732,39 @@ function buildInlineStyles( effectiveValues ) {
 
 	// Wrapper colors
 	if ( effectiveValues.wrapperBackgroundColor ) {
-		styles[ '--custom-wrapper-background-color' ] = effectiveValues.wrapperBackgroundColor;
+		styles[ '--toc-wrapper-background-color' ] = effectiveValues.wrapperBackgroundColor;
 	}
 	if ( effectiveValues.wrapperBorderColor ) {
-		styles[ '--custom-wrapper-border-color' ] = effectiveValues.wrapperBorderColor;
+		styles[ '--toc-wrapper-border-color' ] = effectiveValues.wrapperBorderColor;
 	}
 
 	// Link colors
 	if ( effectiveValues.linkColor ) {
-		styles[ '--custom-link-color' ] = effectiveValues.linkColor;
+		styles[ '--toc-link-color' ] = effectiveValues.linkColor;
 	}
 	if ( effectiveValues.linkHoverColor ) {
-		styles[ '--custom-link-hover-color' ] = effectiveValues.linkHoverColor;
+		styles[ '--toc-link-hover-color' ] = effectiveValues.linkHoverColor;
 	}
 
 	// Border
 	if ( effectiveValues.wrapperBorderWidth ) {
-		styles[ '--custom-border-width' ] = `${ effectiveValues.wrapperBorderWidth }px`;
+		styles[ '--toc-border-width' ] = `${ effectiveValues.wrapperBorderWidth }px`;
 	}
 	if ( effectiveValues.wrapperBorderStyle ) {
-		styles[ '--custom-border-style' ] = effectiveValues.wrapperBorderStyle;
+		styles[ '--toc-border-style' ] = effectiveValues.wrapperBorderStyle;
 	}
 	if ( effectiveValues.wrapperBorderRadius ) {
-		styles[ '--custom-border-radius' ] = `${ effectiveValues.wrapperBorderRadius }px`;
+		styles[ '--toc-border-radius' ] = `${ effectiveValues.wrapperBorderRadius }px`;
 	}
 
 	// Padding
 	if ( effectiveValues.wrapperPadding ) {
-		styles[ '--custom-wrapper-padding' ] = `${ effectiveValues.wrapperPadding }px`;
+		styles[ '--toc-wrapper-padding' ] = `${ effectiveValues.wrapperPadding }px`;
 	}
 
 	// Shadow
 	if ( effectiveValues.wrapperShadow ) {
-		styles[ '--custom-wrapper-shadow' ] = effectiveValues.wrapperShadow;
+		styles[ '--toc-wrapper-shadow' ] = effectiveValues.wrapperShadow;
 	}
 
 	return styles;
