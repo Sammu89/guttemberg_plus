@@ -45,6 +45,16 @@ export const metaAttributes = {
 	},
 
 	/**
+	 * Whether to apply customizations on top of current theme
+	 * true: cascade is defaults → theme → customizations
+	 * false: cascade is defaults → theme (customizations preserved but not applied)
+	 */
+	applyCustomizations: {
+		type: 'boolean',
+		default: true,
+	},
+
+	/**
 	 * Unique block identifier
 	 * Auto-generated on block creation
 	 * Format: {prefix}-{4 alphanumeric chars}
