@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls, RichText, InnerBlocks } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 
 import {
 	generateUniqueId,
@@ -134,16 +134,21 @@ export default function Edit( { attributes, setAttributes } ) {
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
 	debug( '[DEBUG] Is customized:', isCustomized );
 
-	// Auto-update customizationCache with complete snapshot on every change
-	// This preserves full state for theme switching
+	// SESSION-ONLY customization cache (not saved to database)
+	// Stores snapshots PER THEME: { "": {...}, "Dark Mode": {...} }
+	// Allows switching between themes and keeping customizations during session
+	// Discarded on page reload (React state only)
+	const [ sessionCache, setSessionCache ] = useState( {} );
+
+	// Auto-update session cache for CURRENT theme
 	useEffect( () => {
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
-		const currentCache = attributes.customizationCache || {};
+		const currentThemeKey = attributes.currentTheme || '';
 
-		// Only update if snapshot changed (prevents infinite loops)
-		if ( JSON.stringify( snapshot ) !== JSON.stringify( currentCache ) ) {
-			setAttributes( { customizationCache: snapshot } );
-		}
+		setSessionCache( ( prev ) => ( {
+			...prev,
+			[ currentThemeKey ]: snapshot,
+		} ) );
 	}, [ attributes, excludeFromCustomizationCheck ] );
 
 	/**
@@ -151,31 +156,62 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
+		// Get current snapshot from session cache
+		const currentThemeKey = attributes.currentTheme || '';
+		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
+
 		// Calculate deltas from current snapshot (optimized storage)
-		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
-		const deltas = calculateDeltas( snapshot, allDefaults, excludeFromCustomizationCheck );
+		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
 		// Save theme with deltas only
 		await createTheme( 'accordion', themeName, deltas );
 
-		// Switch to new theme (clear cache, block now uses clean theme)
-		setAttributes( {
-			currentTheme: themeName,
-			customizationCache: {},
+		// Reset to clean theme: apply defaults + new theme deltas
+		const newTheme = { values: deltas };
+		const newExpectedValues = applyDeltas( allDefaults, newTheme.values || {} );
+		const resetAttrs = { ...newExpectedValues, currentTheme: themeName };
+
+		// Remove excluded attributes
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
+		} );
+
+		setAttributes( resetAttrs );
+
+		// Clear session cache for old theme, new theme starts clean
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
 		} );
 	};
 
 	const handleUpdateTheme = async () => {
+		// Get current snapshot from session cache
+		const currentThemeKey = attributes.currentTheme || '';
+		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
+
 		// Calculate deltas from current snapshot
-		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
-		const deltas = calculateDeltas( snapshot, allDefaults, excludeFromCustomizationCheck );
+		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
 		// Update theme with new deltas
 		await updateTheme( 'accordion', attributes.currentTheme, deltas );
 
-		// Clear cache (block now matches updated theme)
-		setAttributes( {
-			customizationCache: {},
+		// Reset to updated theme: apply defaults + updated theme deltas
+		const resetAttrs = { ...expectedValues };
+
+		// Remove excluded attributes
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
+		} );
+
+		setAttributes( resetAttrs );
+
+		// Clear session cache for this theme (now matches clean theme)
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
 		} );
 	};
 
@@ -191,10 +227,50 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const handleResetCustomizations = () => {
 		// Reset to clean theme: apply expected values (defaults + current theme)
-		// This implements the reset-and-apply pattern
-		const resetAttrs = { ...expectedValues, customizationCache: {} };
+		const resetAttrs = { ...expectedValues };
 
 		// Remove excluded attributes from reset (keep structural/meta)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
+		} );
+
+		setAttributes( resetAttrs );
+
+		// Clear session cache for current theme
+		const currentThemeKey = attributes.currentTheme || '';
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
+		} );
+	};
+
+	/**
+	 * Handle theme change
+	 * Restores customizations from session cache if available, otherwise clean theme
+	 */
+	const handleThemeChange = ( newThemeName ) => {
+		const newTheme = themes[ newThemeName ];
+		const newThemeKey = newThemeName || '';
+
+		// Check if we have cached customizations for this theme
+		const cachedSnapshot = sessionCache[ newThemeKey ];
+
+		let valuesToApply;
+		if ( cachedSnapshot ) {
+			// Restore from cache (user's customizations preserved)
+			valuesToApply = cachedSnapshot;
+		} else {
+			// No cache - use clean theme (defaults + theme deltas)
+			valuesToApply = newTheme
+				? applyDeltas( allDefaults, newTheme.values || {} )
+				: allDefaults;
+		}
+
+		// Apply values
+		const resetAttrs = { ...valuesToApply, currentTheme: newThemeName };
+
+		// Remove excluded attributes
 		excludeFromCustomizationCheck.forEach( ( key ) => {
 			delete resetAttrs[ key ];
 		} );
@@ -362,6 +438,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						onDelete={ handleDeleteTheme }
 						onRename={ handleRenameTheme }
 						onReset={ handleResetCustomizations }
+						onThemeChange={ handleThemeChange }
 					/>
 				</div>
 
