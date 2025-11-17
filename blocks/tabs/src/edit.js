@@ -10,11 +10,7 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import {
-	useBlockProps,
-	InspectorControls,
-	RichText,
-} from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	ToggleControl,
@@ -48,7 +44,7 @@ import {
  * @param {string}   props.clientId      Block client ID
  * @return {JSX.Element} Edit component
  */
-export default function Edit( { attributes, setAttributes, clientId } ) {
+export default function Edit( { attributes, setAttributes, clientId: _clientId } ) {
 	debug( '[DEBUG] Tabs Edit mounted with attributes:', attributes );
 
 	// Local state for active tab in editor
@@ -63,11 +59,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			return tab;
 		} );
 
-		if (
-			updatedTabs.some(
-				( tab, index ) => tab.id !== attributes.tabs[ index ].id
-			)
-		) {
+		if ( updatedTabs.some( ( tab, index ) => tab.id !== attributes.tabs[ index ].id ) ) {
 			setAttributes( { tabs: updatedTabs } );
 		}
 	}, [ attributes.tabs, setAttributes ] );
@@ -205,40 +197,26 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		return {
 			container: {
 				display: 'flex',
-				flexDirection:
-					attributes.orientation === 'vertical' ? 'row' : 'column',
+				flexDirection: attributes.orientation === 'vertical' ? 'row' : 'column',
 				margin: '1em 0',
 			},
 			tabList: {
 				display: 'flex',
-				flexDirection:
-					attributes.orientation === 'vertical' ? 'column' : 'row',
+				flexDirection: attributes.orientation === 'vertical' ? 'column' : 'row',
 				backgroundColor: effectiveValues.tabListBackground || '#f5f5f5',
 				gap: `${ effectiveValues.tabListGap || 4 }px`,
 				padding: `${ tabListPadding.top }px ${ tabListPadding.right }px ${ tabListPadding.bottom }px ${ tabListPadding.left }px`,
 				borderBottom:
 					attributes.orientation === 'horizontal'
-						? `${
-								effectiveValues.tabListBorderBottomWidth || 2
-						  }px ${
-								effectiveValues.tabListBorderBottomStyle ||
-								'solid'
-						  } ${
-								effectiveValues.tabListBorderBottomColor ||
-								'#dddddd'
-						  }`
+						? `${ effectiveValues.tabListBorderBottomWidth || 2 }px ${
+								effectiveValues.tabListBorderBottomStyle || 'solid'
+						  } ${ effectiveValues.tabListBorderBottomColor || '#dddddd' }`
 						: 'none',
 				borderRight:
 					attributes.orientation === 'vertical'
-						? `${
-								effectiveValues.tabListBorderBottomWidth || 2
-						  }px ${
-								effectiveValues.tabListBorderBottomStyle ||
-								'solid'
-						  } ${
-								effectiveValues.tabListBorderBottomColor ||
-								'#dddddd'
-						  }`
+						? `${ effectiveValues.tabListBorderBottomWidth || 2 }px ${
+								effectiveValues.tabListBorderBottomStyle || 'solid'
+						  } ${ effectiveValues.tabListBorderBottomColor || '#dddddd' }`
 						: 'none',
 				justifyContent:
 					attributes.orientation === 'horizontal'
@@ -256,8 +234,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues.accordionBorderStyle || 'solid'
 				} ${
 					isActive
-						? effectiveValues.tabButtonActiveBorderColor ||
-						  '#dddddd'
+						? effectiveValues.tabButtonActiveBorderColor || '#dddddd'
 						: 'transparent'
 				}`,
 				borderRadius: `${ tabButtonBorderRadius.topLeft }px ${ tabButtonBorderRadius.topRight }px ${ tabButtonBorderRadius.bottomRight }px ${ tabButtonBorderRadius.bottomLeft }px`,
@@ -272,9 +249,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				opacity: isDisabled ? 0.5 : 1,
 				whiteSpace: 'nowrap',
 				borderBottom:
-					isActive && attributes.orientation === 'horizontal'
-						? 'none'
-						: undefined,
+					isActive && attributes.orientation === 'horizontal' ? 'none' : undefined,
 			} ),
 			panel: {
 				backgroundColor: effectiveValues.panelBackground || '#ffffff',
@@ -289,15 +264,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				flex: attributes.orientation === 'vertical' ? 1 : undefined,
 			},
 			icon: {
-				fontSize: `${
-					effectiveValues.iconSize ||
-					effectiveValues.titleFontSize ||
-					18
-				}px`,
-				color:
-					effectiveValues.iconColor ||
-					effectiveValues.titleColor ||
-					'inherit',
+				fontSize: `${ effectiveValues.iconSize || effectiveValues.titleFontSize || 18 }px`,
+				color: effectiveValues.iconColor || effectiveValues.titleColor || 'inherit',
 				display: effectiveValues.showIcon ? 'inline-block' : 'none',
 				marginRight: '8px',
 			},
@@ -420,61 +388,48 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					/>
 				</div>
 
-				<PanelBody
-					title={ __( 'Tab Settings', 'custom-tabs' ) }
-					initialOpen={ true }
-				>
+				<PanelBody title={ __( 'Tab Settings', 'guttemberg-plus' ) } initialOpen={ true }>
 					<SelectControl
-						label={ __( 'Orientation', 'custom-tabs' ) }
+						label={ __( 'Orientation', 'guttemberg-plus' ) }
 						value={ attributes.orientation }
 						options={ [
 							{
-								label: __( 'Horizontal', 'custom-tabs' ),
+								label: __( 'Horizontal', 'guttemberg-plus' ),
 								value: 'horizontal',
 							},
 							{
-								label: __( 'Vertical', 'custom-tabs' ),
+								label: __( 'Vertical', 'guttemberg-plus' ),
 								value: 'vertical',
 							},
 						] }
-						onChange={ ( value ) =>
-							setAttributes( { orientation: value } )
-						}
+						onChange={ ( value ) => setAttributes( { orientation: value } ) }
 					/>
 
 					<SelectControl
-						label={ __( 'Activation Mode', 'custom-tabs' ) }
+						label={ __( 'Activation Mode', 'guttemberg-plus' ) }
 						value={ attributes.activationMode }
 						options={ [
 							{
-								label: __(
-									'Automatic (on focus)',
-									'custom-tabs'
-								),
+								label: __( 'Automatic (on focus)', 'guttemberg-plus' ),
 								value: 'auto',
 							},
 							{
-								label: __( 'Manual (on click)', 'custom-tabs' ),
+								label: __( 'Manual (on click)', 'guttemberg-plus' ),
 								value: 'manual',
 							},
 						] }
-						onChange={ ( value ) =>
-							setAttributes( { activationMode: value } )
-						}
+						onChange={ ( value ) => setAttributes( { activationMode: value } ) }
 						help={ __(
 							'Automatic activates tab on arrow key focus, manual requires Enter/Space',
-							'custom-tabs'
+							'guttemberg-plus'
 						) }
 					/>
 
 					<ToggleControl
-						label={ __(
-							'Responsive Accordion Fallback',
-							'custom-tabs'
-						) }
+						label={ __( 'Responsive Accordion Fallback', 'guttemberg-plus' ) }
 						help={ __(
 							'Convert to accordion layout on mobile screens',
-							'custom-tabs'
+							'guttemberg-plus'
 						) }
 						checked={ attributes.enableResponsiveFallback || true }
 						onChange={ ( value ) =>
@@ -484,10 +439,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 					{ attributes.enableResponsiveFallback && (
 						<RangeControl
-							label={ __(
-								'Responsive Breakpoint (px)',
-								'custom-tabs'
-							) }
+							label={ __( 'Responsive Breakpoint (px)', 'guttemberg-plus' ) }
 							value={ attributes.responsiveBreakpoint || 768 }
 							onChange={ ( value ) =>
 								setAttributes( { responsiveBreakpoint: value } )
@@ -499,13 +451,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					) }
 				</PanelBody>
 
-				<PanelBody title={ __( 'Tab Management', 'custom-tabs' ) }>
+				<PanelBody title={ __( 'Tab Management', 'guttemberg-plus' ) }>
 					<div className="tabs-management">
 						{ attributes.tabs.map( ( tab, index ) => (
-							<div
-								key={ tab.id }
-								style={ { marginBottom: '12px' } }
-							>
+							<div key={ tab.id } style={ { marginBottom: '12px' } }>
 								<div
 									style={ {
 										display: 'flex',
@@ -514,36 +463,23 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									} }
 								>
 									<strong>
-										{ __( 'Tab', 'custom-tabs' ) }{ ' ' }
-										{ index + 1 }
+										{ __( 'Tab', 'guttemberg-plus' ) } { index + 1 }
 									</strong>
 									<div>
 										<ToggleControl
-											label={ __(
-												'Disabled',
-												'custom-tabs'
-											) }
+											label={ __( 'Disabled', 'guttemberg-plus' ) }
 											checked={ tab.isDisabled || false }
 											onChange={ ( value ) =>
-												updateTab(
-													index,
-													'isDisabled',
-													value
-												)
+												updateTab( index, 'isDisabled', value )
 											}
 										/>
 										{ attributes.tabs.length > 1 && (
 											<Button
 												isDestructive
 												isSmall
-												onClick={ () =>
-													removeTab( index )
-												}
+												onClick={ () => removeTab( index ) }
 											>
-												{ __(
-													'Remove',
-													'custom-tabs'
-												) }
+												{ __( 'Remove', 'guttemberg-plus' ) }
 											</Button>
 										) }
 									</div>
@@ -551,7 +487,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							</div>
 						) ) }
 						<Button isPrimary onClick={ addTab }>
-							{ __( '+ Add Tab', 'custom-tabs' ) }
+							{ __( '+ Add Tab', 'guttemberg-plus' ) }
 						</Button>
 					</div>
 				</PanelBody>
@@ -593,9 +529,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				/>
 
 				{ isCustomized && (
-					<PanelBody
-						title={ __( 'Customization Info', 'custom-tabs' ) }
-					>
+					<PanelBody title={ __( 'Customization Info', 'guttemberg-plus' ) }>
 						<CustomizationWarning
 							currentTheme={ attributes.currentTheme }
 							themes={ themes }
@@ -607,7 +541,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			<div { ...blockProps }>
 				{ ! themesLoaded && (
 					<div className="tabs-loading">
-						<p>{ __( 'Loading themes…', 'custom-tabs' ) }</p>
+						<p>{ __( 'Loading themes…', 'guttemberg-plus' ) }</p>
 					</div>
 				) }
 
@@ -658,9 +592,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									hidden={ activeTab !== index }
 									tabIndex="0"
 									style={
-										activeTab === index
-											? styles.panel
-											: { display: 'none' }
+										activeTab === index ? styles.panel : { display: 'none' }
 									}
 									className={ `tab-panel ${
 										activeTab === index ? 'active' : ''
@@ -678,15 +610,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 													tagName="span"
 													value={ tab.title }
 													onChange={ ( value ) =>
-														updateTab(
-															index,
-															'title',
-															value
-														)
+														updateTab( index, 'title', value )
 													}
 													placeholder={ __(
 														'Tab title…',
-														'custom-tabs'
+														'guttemberg-plus'
 													) }
 												/>
 											</div>
@@ -694,15 +622,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 												tagName="div"
 												value={ tab.content }
 												onChange={ ( value ) =>
-													updateTab(
-														index,
-														'content',
-														value
-													)
+													updateTab( index, 'content', value )
 												}
 												placeholder={ __(
 													'Add tab content…',
-													'custom-tabs'
+													'guttemberg-plus'
 												) }
 											/>
 										</>

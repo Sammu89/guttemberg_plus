@@ -63,9 +63,7 @@ export function generateUniqueId( prefix = 'block' ) {
 
 		// Prevent infinite loop
 		if ( attempts >= maxAttempts ) {
-			throw new Error(
-				`Failed to generate unique ID after ${ maxAttempts } attempts.`
-			);
+			throw new Error( `Failed to generate unique ID after ${ maxAttempts } attempts.` );
 		}
 	} while ( usedIds.has( id ) );
 

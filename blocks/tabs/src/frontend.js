@@ -9,8 +9,6 @@
  * @since 1.0.0
  */
 
-/* global getComputedStyle */
-
 /**
  * Initialize tabs functionality
  * Runs when DOM is ready
@@ -66,12 +64,9 @@ function initializeSingleTabsBlock( block ) {
 		return;
 	}
 
-	const orientation =
-		block.getAttribute( 'data-orientation' ) || 'horizontal';
-	const activationMode =
-		block.getAttribute( 'data-activation-mode' ) || 'auto';
-	const responsiveFallback =
-		block.getAttribute( 'data-responsive-fallback' ) === 'true';
+	const orientation = block.getAttribute( 'data-orientation' ) || 'horizontal';
+	const activationMode = block.getAttribute( 'data-activation-mode' ) || 'auto';
+	const responsiveFallback = block.getAttribute( 'data-responsive-fallback' ) === 'true';
 
 	// Find tab list and panels
 	const tabList = block.querySelector( '.tabs-list' );
@@ -101,14 +96,7 @@ function initializeSingleTabsBlock( block ) {
 			// Keyboard navigation
 			button.addEventListener( 'keydown', ( e ) => {
 				try {
-					handleTabKeyboard(
-						e,
-						button,
-						tabButtons,
-						orientation,
-						activationMode,
-						block
-					);
+					handleTabKeyboard( e, button, tabButtons, orientation, activationMode, block );
 				} catch ( error ) {
 					console.error( 'Keyboard navigation failed:', error );
 				}
@@ -121,10 +109,7 @@ function initializeSingleTabsBlock( block ) {
 						try {
 							activateTab( block, index );
 						} catch ( error ) {
-							console.error(
-								'Failed to activate tab on focus:',
-								error
-							);
+							console.error( 'Failed to activate tab on focus:', error );
 						}
 					}
 				} );
@@ -139,10 +124,7 @@ function initializeSingleTabsBlock( block ) {
 		try {
 			initializeResponsiveAccordion( block );
 		} catch ( error ) {
-			console.error(
-				'Failed to initialize responsive accordion:',
-				error
-			);
+			console.error( 'Failed to initialize responsive accordion:', error );
 		}
 	}
 }
@@ -219,22 +201,13 @@ function activateTab( block, index ) {
  * @param {string}        activationMode Auto or manual
  * @param {HTMLElement}   block          Parent block
  */
-function handleTabKeyboard(
-	e,
-	currentButton,
-	allButtons,
-	orientation,
-	activationMode,
-	block
-) {
+function handleTabKeyboard( e, currentButton, allButtons, orientation, activationMode, block ) {
 	if ( ! e || ! currentButton || ! allButtons || ! block ) {
 		return;
 	}
 
 	const key = e.key;
-	const buttons = Array.from( allButtons ).filter(
-		( btn ) => ! btn.disabled
-	);
+	const buttons = Array.from( allButtons ).filter( ( btn ) => ! btn.disabled );
 
 	if ( ! buttons || buttons.length === 0 ) {
 		return;
@@ -263,8 +236,7 @@ function handleTabKeyboard(
 		case 'ArrowLeft':
 			if ( orientation === 'horizontal' ) {
 				e.preventDefault();
-				targetIndex =
-					( currentIndex - 1 + buttons.length ) % buttons.length;
+				targetIndex = ( currentIndex - 1 + buttons.length ) % buttons.length;
 				shouldActivate = activationMode === 'auto';
 			}
 			break;
@@ -280,8 +252,7 @@ function handleTabKeyboard(
 		case 'ArrowUp':
 			if ( orientation === 'vertical' ) {
 				e.preventDefault();
-				targetIndex =
-					( currentIndex - 1 + buttons.length ) % buttons.length;
+				targetIndex = ( currentIndex - 1 + buttons.length ) % buttons.length;
 				shouldActivate = activationMode === 'auto';
 			}
 			break;
@@ -324,9 +295,7 @@ function handleTabKeyboard(
 
 		if ( shouldActivate ) {
 			const allButtonsList = Array.from( allButtons );
-			const actualIndex = allButtonsList.indexOf(
-				buttons[ targetIndex ]
-			);
+			const actualIndex = allButtonsList.indexOf( buttons[ targetIndex ] );
 			if ( actualIndex !== -1 && actualIndex < allButtonsList.length ) {
 				activateTab( block, actualIndex );
 			}
@@ -341,8 +310,7 @@ function handleTabKeyboard(
  */
 function animatePanelIn( panel ) {
 	const duration = parseInt(
-		getComputedStyle( panel ).getPropertyValue( '--transition-duration' ) ||
-			'200'
+		getComputedStyle( panel ).getPropertyValue( '--transition-duration' ) || '200'
 	);
 
 	// Set initial state
@@ -380,8 +348,7 @@ function initializeResponsiveAccordion( block ) {
 		return;
 	}
 
-	const accordionButtons =
-		accordionFallback.querySelectorAll( '.accordion-button' );
+	const accordionButtons = accordionFallback.querySelectorAll( '.accordion-button' );
 
 	if ( ! accordionButtons || accordionButtons.length === 0 ) {
 		return;
@@ -402,8 +369,7 @@ function initializeResponsiveAccordion( block ) {
 				return;
 			}
 
-			const isExpanded =
-				button.getAttribute( 'aria-expanded' ) === 'true';
+			const isExpanded = button.getAttribute( 'aria-expanded' ) === 'true';
 
 			// Toggle accordion item
 			try {
@@ -427,9 +393,7 @@ function initializeResponsiveAccordion( block ) {
  * Handle responsive mode switching
  */
 function handleResponsiveMode() {
-	const tabsBlocks = document.querySelectorAll(
-		'.wp-block-tabs.responsive-accordion'
-	);
+	const tabsBlocks = document.querySelectorAll( '.wp-block-tabs.responsive-accordion' );
 
 	if ( ! tabsBlocks || tabsBlocks.length === 0 ) {
 		return;
@@ -441,17 +405,12 @@ function handleResponsiveMode() {
 				return;
 			}
 
-			const breakpoint = parseInt(
-				block.getAttribute( 'data-breakpoint' ) || '768',
-				10
-			);
+			const breakpoint = parseInt( block.getAttribute( 'data-breakpoint' ) || '768', 10 );
 			const isMobile = window.innerWidth < breakpoint;
 
 			const tabList = block.querySelector( '.tabs-list' );
 			const tabPanels = block.querySelector( '.tabs-panels' );
-			const accordionFallback = block.querySelector(
-				'.accordion-fallback'
-			);
+			const accordionFallback = block.querySelector( '.accordion-fallback' );
 
 			if ( ! tabList || ! tabPanels || ! accordionFallback ) {
 				return;
@@ -466,12 +425,9 @@ function handleResponsiveMode() {
 				// Sync active tab to accordion
 				const activeTabIndex = Array.from(
 					block.querySelectorAll( '.tab-button' )
-				).findIndex(
-					( btn ) => btn.getAttribute( 'aria-selected' ) === 'true'
-				);
+				).findIndex( ( btn ) => btn.getAttribute( 'aria-selected' ) === 'true' );
 
-				const accordionItems =
-					accordionFallback.querySelectorAll( '.accordion-item' );
+				const accordionItems = accordionFallback.querySelectorAll( '.accordion-item' );
 
 				if ( accordionItems && accordionItems.length > 0 ) {
 					accordionItems.forEach( ( item, index ) => {
@@ -479,8 +435,7 @@ function handleResponsiveMode() {
 							return;
 						}
 
-						const button =
-							item.querySelector( '.accordion-button' );
+						const button = item.querySelector( '.accordion-button' );
 						const panel = item.querySelector( '.accordion-panel' );
 
 						if ( button && panel ) {
@@ -501,10 +456,7 @@ function handleResponsiveMode() {
 				accordionFallback.style.display = 'none';
 			}
 		} catch ( error ) {
-			console.error(
-				'Failed to handle responsive mode for block:',
-				error
-			);
+			console.error( 'Failed to handle responsive mode for block:', error );
 		}
 	} );
 }

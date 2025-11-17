@@ -32,53 +32,31 @@ function initializeTOCBlocks() {
 
 			const tocId = block.getAttribute( 'data-toc-id' );
 			if ( ! tocId ) {
-				console.warn(
-					'TOC block missing data-toc-id attribute, skipping'
-				);
+				console.warn( 'TOC block missing data-toc-id attribute, skipping' );
 				return;
 			}
 
 			// Parse data attributes
 			const config = {
 				tocId,
-				filterMode:
-					block.getAttribute( 'data-filter-mode' ) || 'include-all',
-				includeLevels: (
-					block.getAttribute( 'data-include-levels' ) || '2,3,4,5,6'
-				)
+				filterMode: block.getAttribute( 'data-filter-mode' ) || 'include-all',
+				includeLevels: ( block.getAttribute( 'data-include-levels' ) || '2,3,4,5,6' )
 					.split( ',' )
 					.map( Number ),
-				includeClasses:
-					block.getAttribute( 'data-include-classes' ) || '',
-				excludeLevels: (
-					block.getAttribute( 'data-exclude-levels' ) || ''
-				)
+				includeClasses: block.getAttribute( 'data-include-classes' ) || '',
+				excludeLevels: ( block.getAttribute( 'data-exclude-levels' ) || '' )
 					.split( ',' )
 					.map( Number )
 					.filter( Boolean ),
-				excludeClasses:
-					block.getAttribute( 'data-exclude-classes' ) || '',
-				depthLimit:
-					parseInt(
-						block.getAttribute( 'data-depth-limit' ) || '0',
-						10
-					) || null,
-				numberingStyle:
-					block.getAttribute( 'data-numbering-style' ) || 'none',
-				smoothScroll:
-					block.getAttribute( 'data-smooth-scroll' ) === 'true',
-				scrollOffset: parseInt(
-					block.getAttribute( 'data-scroll-offset' ) || '0',
-					10
-				),
-				autoHighlight:
-					block.getAttribute( 'data-auto-highlight' ) === 'true',
-				isCollapsible:
-					block.getAttribute( 'data-collapsible' ) === 'true',
-				initiallyCollapsed:
-					block.getAttribute( 'data-initially-collapsed' ) === 'true',
-				clickBehavior:
-					block.getAttribute( 'data-click-behavior' ) || 'navigate',
+				excludeClasses: block.getAttribute( 'data-exclude-classes' ) || '',
+				depthLimit: parseInt( block.getAttribute( 'data-depth-limit' ) || '0', 10 ) || null,
+				numberingStyle: block.getAttribute( 'data-numbering-style' ) || 'none',
+				smoothScroll: block.getAttribute( 'data-smooth-scroll' ) === 'true',
+				scrollOffset: parseInt( block.getAttribute( 'data-scroll-offset' ) || '0', 10 ),
+				autoHighlight: block.getAttribute( 'data-auto-highlight' ) === 'true',
+				isCollapsible: block.getAttribute( 'data-collapsible' ) === 'true',
+				initiallyCollapsed: block.getAttribute( 'data-initially-collapsed' ) === 'true',
+				clickBehavior: block.getAttribute( 'data-click-behavior' ) || 'navigate',
 			};
 
 			// Initialize this TOC
@@ -170,9 +148,7 @@ function initTOC( block, config ) {
  */
 function detectHeadings( tocBlock, config ) {
 	// Get all headings in the main content
-	const contentArea = document.querySelector(
-		'.entry-content, main, article, body'
-	);
+	const contentArea = document.querySelector( '.entry-content, main, article, body' );
 	if ( ! contentArea ) {
 		return [];
 	}
@@ -207,12 +183,8 @@ function detectHeadings( tocBlock, config ) {
 
 	// Apply depth limit
 	if ( config.depthLimit ) {
-		const minLevel = Math.min(
-			...detectedHeadings.map( ( h ) => h.level )
-		);
-		return detectedHeadings.filter(
-			( h ) => h.level - minLevel < config.depthLimit
-		);
+		const minLevel = Math.min( ...detectedHeadings.map( ( h ) => h.level ) );
+		return detectedHeadings.filter( ( h ) => h.level - minLevel < config.depthLimit );
 	}
 
 	return detectedHeadings;
@@ -224,21 +196,13 @@ function detectHeadings( tocBlock, config ) {
  * @param config
  */
 function matchesFilter( heading, config ) {
-	const {
-		filterMode,
-		includeLevels,
-		includeClasses,
-		excludeLevels,
-		excludeClasses,
-	} = config;
+	const { filterMode, includeLevels, includeClasses, excludeLevels, excludeClasses } = config;
 
 	if ( filterMode === 'include-only' ) {
 		// Must match level OR class
 		const levelMatches = includeLevels.includes( heading.level );
 		const classMatches = includeClasses
-			? includeClasses
-					.split( ',' )
-					.some( ( cls ) => heading.classes.includes( cls.trim() ) )
+			? includeClasses.split( ',' ).some( ( cls ) => heading.classes.includes( cls.trim() ) )
 			: false;
 
 		return levelMatches || classMatches;
@@ -277,8 +241,7 @@ function renderTOCList( listContainer, headings ) {
 	listContainer.innerHTML = '';
 
 	if ( headings.length === 0 ) {
-		listContainer.innerHTML =
-			'<li class="toc-empty">No headings found.</li>';
+		listContainer.innerHTML = '<li class="toc-empty">No headings found.</li>';
 		return;
 	}
 
@@ -364,27 +327,18 @@ function setupSmoothScroll( block, config ) {
 				targetElement.focus( { preventScroll: true } );
 
 				// Handle click behavior - collapse TOC if configured
-				if (
-					config.clickBehavior === 'navigate-and-collapse' &&
-					config.isCollapsible
-				) {
+				if ( config.clickBehavior === 'navigate-and-collapse' && config.isCollapsible ) {
 					// Wait for scroll to complete before collapsing
 					setTimeout( () => {
 						try {
-							const toggleButton =
-								block.querySelector( '.toc-toggle-button' );
-							const content =
-								block.querySelector( '.toc-content' );
-							const icon =
-								block.querySelector( '.toc-collapse-icon' );
+							const toggleButton = block.querySelector( '.toc-toggle-button' );
+							const content = block.querySelector( '.toc-content' );
+							const icon = block.querySelector( '.toc-collapse-icon' );
 
 							if ( toggleButton && content ) {
 								// Collapse the TOC
 								content.style.display = 'none';
-								toggleButton.setAttribute(
-									'aria-expanded',
-									'false'
-								);
+								toggleButton.setAttribute( 'aria-expanded', 'false' );
 								if ( icon ) {
 									icon.style.transform = 'rotate(-90deg)';
 								}
@@ -417,9 +371,7 @@ function setupScrollSpy( block, headings ) {
 		return;
 	}
 
-	const headingElements = headings
-		.map( ( h ) => h.element )
-		.filter( ( el ) => el );
+	const headingElements = headings.map( ( h ) => h.element ).filter( ( el ) => el );
 
 	if ( headingElements.length === 0 ) {
 		return;
@@ -441,9 +393,7 @@ function setupScrollSpy( block, headings ) {
 		}
 
 		clearActive();
-		const activeLink = block.querySelector(
-			`.toc-link[data-heading-id="${ headingId }"]`
-		);
+		const activeLink = block.querySelector( `.toc-link[data-heading-id="${ headingId }"]` );
 		if ( activeLink ) {
 			activeLink.classList.add( 'active' );
 		}
@@ -587,10 +537,4 @@ if ( document.readyState === 'loading' ) {
 /**
  * Export functions for potential reuse
  */
-export {
-	initializeTOCBlocks,
-	detectHeadings,
-	setupSmoothScroll,
-	setupScrollSpy,
-	setupCollapsible,
-};
+export { initializeTOCBlocks, detectHeadings, setupSmoothScroll, setupScrollSpy, setupCollapsible };

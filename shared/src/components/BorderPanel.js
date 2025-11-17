@@ -9,12 +9,7 @@
  * @since 1.0.0
  */
 
-import {
-	PanelBody,
-	RangeControl,
-	SelectControl,
-	TextControl,
-} from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { CompactColorControl } from './CompactColorControl';
 
@@ -59,12 +54,7 @@ export function BorderPanel( {
 	 * @param attrName
 	 */
 	const isAttrCustomized = ( attrName ) => {
-		return isCustomizedFromDefaults(
-			attrName,
-			attributes,
-			theme,
-			cssDefaults
-		);
+		return isCustomizedFromDefaults( attrName, attributes, theme, cssDefaults );
 	};
 
 	/**
@@ -88,38 +78,22 @@ export function BorderPanel( {
 
 			<CompactColorControl
 				label={
-					isAttrCustomized( 'accordionBorderColor' )
-						? 'Color (Customized)'
-						: 'Color'
+					isAttrCustomized( 'accordionBorderColor' ) ? 'Color (Customized)' : 'Color'
 				}
 				value={ effectiveValues.accordionBorderColor }
-				onChange={ ( value ) =>
-					handleChange( 'accordionBorderColor', value )
-				}
+				onChange={ ( value ) => handleChange( 'accordionBorderColor', value ) }
 			/>
 
 			<RangeControl
-				label={
-					<CustomLabel
-						label="Thickness (px)"
-						attrName="accordionBorderThickness"
-					/>
-				}
+				label={ <CustomLabel label="Thickness (px)" attrName="accordionBorderThickness" /> }
 				value={ effectiveValues.accordionBorderThickness || 1 }
-				onChange={ ( value ) =>
-					handleChange( 'accordionBorderThickness', value )
-				}
+				onChange={ ( value ) => handleChange( 'accordionBorderThickness', value ) }
 				min={ 0 }
 				max={ 10 }
 			/>
 
 			<SelectControl
-				label={
-					<CustomLabel
-						label="Style"
-						attrName="accordionBorderStyle"
-					/>
-				}
+				label={ <CustomLabel label="Style" attrName="accordionBorderStyle" /> }
 				value={ effectiveValues.accordionBorderStyle || 'solid' }
 				options={ [
 					{ label: 'None', value: 'none' },
@@ -128,19 +102,13 @@ export function BorderPanel( {
 					{ label: 'Dotted', value: 'dotted' },
 					{ label: 'Double', value: 'double' },
 				] }
-				onChange={ ( value ) =>
-					handleChange( 'accordionBorderStyle', value )
-				}
+				onChange={ ( value ) => handleChange( 'accordionBorderStyle', value ) }
 			/>
 
 			<TextControl
-				label={
-					<CustomLabel label="Shadow" attrName="accordionShadow" />
-				}
+				label={ <CustomLabel label="Shadow" attrName="accordionShadow" /> }
 				value={ effectiveValues.accordionShadow || 'none' }
-				onChange={ ( value ) =>
-					handleChange( 'accordionShadow', value )
-				}
+				onChange={ ( value ) => handleChange( 'accordionShadow', value ) }
 				help="CSS box-shadow value (e.g. '0 2px 4px rgba(0,0,0,0.1)')"
 			/>
 
@@ -148,36 +116,21 @@ export function BorderPanel( {
 			<h3>Divider Border</h3>
 
 			<CompactColorControl
-				label={
-					isAttrCustomized( 'dividerBorderColor' )
-						? 'Color (Customized)'
-						: 'Color'
-				}
+				label={ isAttrCustomized( 'dividerBorderColor' ) ? 'Color (Customized)' : 'Color' }
 				value={ effectiveValues.dividerBorderColor }
-				onChange={ ( value ) =>
-					handleChange( 'dividerBorderColor', value )
-				}
+				onChange={ ( value ) => handleChange( 'dividerBorderColor', value ) }
 			/>
 
 			<RangeControl
-				label={
-					<CustomLabel
-						label="Thickness (px)"
-						attrName="dividerBorderThickness"
-					/>
-				}
+				label={ <CustomLabel label="Thickness (px)" attrName="dividerBorderThickness" /> }
 				value={ effectiveValues.dividerBorderThickness || 0 }
-				onChange={ ( value ) =>
-					handleChange( 'dividerBorderThickness', value )
-				}
+				onChange={ ( value ) => handleChange( 'dividerBorderThickness', value ) }
 				min={ 0 }
 				max={ 10 }
 			/>
 
 			<SelectControl
-				label={
-					<CustomLabel label="Style" attrName="dividerBorderStyle" />
-				}
+				label={ <CustomLabel label="Style" attrName="dividerBorderStyle" /> }
 				value={ effectiveValues.dividerBorderStyle || 'solid' }
 				options={ [
 					{ label: 'None', value: 'none' },
@@ -186,9 +139,7 @@ export function BorderPanel( {
 					{ label: 'Dotted', value: 'dotted' },
 					{ label: 'Double', value: 'double' },
 				] }
-				onChange={ ( value ) =>
-					handleChange( 'dividerBorderStyle', value )
-				}
+				onChange={ ( value ) => handleChange( 'dividerBorderStyle', value ) }
 			/>
 		</PanelBody>
 	);

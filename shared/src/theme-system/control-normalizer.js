@@ -112,10 +112,7 @@ function getFallbackValue( attrName, controlType = null ) {
 	switch ( type ) {
 		case 'color':
 			// Different defaults for different color types
-			if (
-				attrName.includes( 'Background' ) ||
-				attrName.includes( 'Bg' )
-			) {
+			if ( attrName.includes( 'Background' ) || attrName.includes( 'Bg' ) ) {
 				return CONTROL_DEFAULTS.backgroundColor;
 			}
 			if ( attrName.includes( 'Border' ) ) {
@@ -124,10 +121,7 @@ function getFallbackValue( attrName, controlType = null ) {
 			return CONTROL_DEFAULTS.color;
 
 		case 'number':
-			if (
-				attrName.includes( 'FontSize' ) ||
-				attrName.includes( 'Size' )
-			) {
+			if ( attrName.includes( 'FontSize' ) || attrName.includes( 'Size' ) ) {
 				return CONTROL_DEFAULTS.fontSize;
 			}
 			if ( attrName.includes( 'Padding' ) ) {
@@ -136,10 +130,7 @@ function getFallbackValue( attrName, controlType = null ) {
 			if ( attrName.includes( 'Margin' ) ) {
 				return CONTROL_DEFAULTS.margin;
 			}
-			if (
-				attrName.includes( 'BorderWidth' ) ||
-				attrName.includes( 'Thickness' )
-			) {
+			if ( attrName.includes( 'BorderWidth' ) || attrName.includes( 'Thickness' ) ) {
 				return CONTROL_DEFAULTS.borderWidth;
 			}
 			if ( attrName.includes( 'Radius' ) ) {
@@ -151,10 +142,7 @@ function getFallbackValue( attrName, controlType = null ) {
 			return CONTROL_DEFAULTS.boolean;
 
 		case 'object':
-			if (
-				attrName.includes( 'Padding' ) ||
-				attrName.includes( 'Margin' )
-			) {
+			if ( attrName.includes( 'Padding' ) || attrName.includes( 'Margin' ) ) {
 				return CONTROL_DEFAULTS.paddingObject;
 			}
 			if ( attrName.includes( 'Radius' ) ) {
@@ -170,10 +158,7 @@ function getFallbackValue( attrName, controlType = null ) {
 			if ( attrName.includes( 'FontStyle' ) ) {
 				return CONTROL_DEFAULTS.fontStyle;
 			}
-			if (
-				attrName.includes( 'Alignment' ) ||
-				attrName.includes( 'Align' )
-			) {
+			if ( attrName.includes( 'Alignment' ) || attrName.includes( 'Align' ) ) {
 				return CONTROL_DEFAULTS.textAlign;
 			}
 			if ( attrName.includes( 'Transform' ) ) {
@@ -220,11 +205,7 @@ function getFallbackValue( attrName, controlType = null ) {
  * normalizeValueForControl(null, 'showIcon');
  * // Returns: false
  */
-export function normalizeValueForControl(
-	value,
-	attrName,
-	controlType = null
-) {
+export function normalizeValueForControl( value, attrName, controlType = null ) {
 	// If value is defined (not null/undefined), use it
 	if ( value !== null && value !== undefined ) {
 		return value;
@@ -266,11 +247,7 @@ export function normalizeAllValues( effectiveValues, attributeTypes = {} ) {
 		const value = effectiveValues[ attrName ];
 		const controlType = attributeTypes[ attrName ] || null;
 
-		normalized[ attrName ] = normalizeValueForControl(
-			value,
-			attrName,
-			controlType
-		);
+		normalized[ attrName ] = normalizeValueForControl( value, attrName, controlType );
 	}
 
 	return normalized;

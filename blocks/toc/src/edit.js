@@ -11,8 +11,6 @@
  * @since 1.0.0
  */
 
-/* global MutationObserver */
-
 import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
@@ -80,22 +78,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	useEffect( () => {
 		const detectHeadings = () => {
 			// Get all headings in the post content (excluding this block)
-			const contentArea = document.querySelector(
-				'.editor-styles-wrapper'
-			);
+			const contentArea = document.querySelector( '.editor-styles-wrapper' );
 			if ( ! contentArea ) {
 				return [];
 			}
 
-			const allHeadings =
-				contentArea.querySelectorAll( 'h2, h3, h4, h5, h6' );
+			const allHeadings = contentArea.querySelectorAll( 'h2, h3, h4, h5, h6' );
 			const detectedHeadings = [];
 
 			allHeadings.forEach( ( heading ) => {
 				// Skip headings inside this TOC block
-				const isInThisBlock = heading.closest(
-					`[data-block="${ clientId }"]`
-				);
+				const isInThisBlock = heading.closest( `[data-block="${ clientId }"]` );
 				if ( isInThisBlock ) {
 					return;
 				}
@@ -143,11 +136,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] TOC theme:', theme );
 	debug( '[DEBUG] TOC theme?.values:', theme?.values );
 
-	const effectiveValues = getAllEffectiveValues(
-		attributes,
-		theme?.values,
-		cssDefaults
-	);
+	const effectiveValues = getAllEffectiveValues( attributes, theme?.values, cssDefaults );
 
 	debug( '[DEBUG] TOC Effective values:', effectiveValues );
 
@@ -252,27 +241,21 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<ToggleControl
 						label="Show Title"
 						checked={ showTitle }
-						onChange={ ( value ) =>
-							setAttributes( { showTitle: value } )
-						}
+						onChange={ ( value ) => setAttributes( { showTitle: value } ) }
 					/>
 
 					{ showTitle && (
 						<TextControl
 							label="Title Text"
 							value={ titleText }
-							onChange={ ( value ) =>
-								setAttributes( { titleText: value } )
-							}
+							onChange={ ( value ) => setAttributes( { titleText: value } ) }
 						/>
 					) }
 
 					<ToggleControl
 						label="Collapsible"
 						checked={ attributes.isCollapsible }
-						onChange={ ( value ) =>
-							setAttributes( { isCollapsible: value } )
-						}
+						onChange={ ( value ) => setAttributes( { isCollapsible: value } ) }
 					/>
 
 					{ attributes.isCollapsible && (
@@ -300,9 +283,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 										value: 'navigate-and-collapse',
 									},
 								] }
-								onChange={ ( value ) =>
-									setAttributes( { clickBehavior: value } )
-								}
+								onChange={ ( value ) => setAttributes( { clickBehavior: value } ) }
 							/>
 						</>
 					) }
@@ -324,9 +305,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							},
 							{ label: 'Exclude Selected', value: 'exclude' },
 						] }
-						onChange={ ( value ) =>
-							setAttributes( { filterMode: value } )
-						}
+						onChange={ ( value ) => setAttributes( { filterMode: value } ) }
 					/>
 
 					{ attributes.filterMode === 'include-only' && (
@@ -338,15 +317,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								<CheckboxControl
 									key={ level }
 									label={ `H${ level }` }
-									checked={ attributes.includeLevels.includes(
-										level
-									) }
+									checked={ attributes.includeLevels.includes( level ) }
 									onChange={ ( checked ) => {
 										const levels = checked
-											? [
-													...attributes.includeLevels,
-													level,
-											  ]
+											? [ ...attributes.includeLevels, level ]
 											: attributes.includeLevels.filter(
 													( l ) => l !== level
 											  );
@@ -360,9 +334,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							<TextControl
 								label="Include Classes (comma-separated)"
 								value={ attributes.includeClasses }
-								onChange={ ( value ) =>
-									setAttributes( { includeClasses: value } )
-								}
+								onChange={ ( value ) => setAttributes( { includeClasses: value } ) }
 							/>
 						</>
 					) }
@@ -376,15 +348,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								<CheckboxControl
 									key={ level }
 									label={ `H${ level }` }
-									checked={ attributes.excludeLevels.includes(
-										level
-									) }
+									checked={ attributes.excludeLevels.includes( level ) }
 									onChange={ ( checked ) => {
 										const levels = checked
-											? [
-													...attributes.excludeLevels,
-													level,
-											  ]
+											? [ ...attributes.excludeLevels, level ]
 											: attributes.excludeLevels.filter(
 													( l ) => l !== level
 											  );
@@ -398,9 +365,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							<TextControl
 								label="Exclude Classes (comma-separated)"
 								value={ attributes.excludeClasses }
-								onChange={ ( value ) =>
-									setAttributes( { excludeClasses: value } )
-								}
+								onChange={ ( value ) => setAttributes( { excludeClasses: value } ) }
 							/>
 						</>
 					) }
@@ -436,9 +401,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							{ label: 'Roman Numerals', value: 'roman' },
 							{ label: 'Letters (A, B, C)', value: 'letters' },
 						] }
-						onChange={ ( value ) =>
-							setAttributes( { numberingStyle: value } )
-						}
+						onChange={ ( value ) => setAttributes( { numberingStyle: value } ) }
 					/>
 				</PanelBody>
 
@@ -453,10 +416,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				/>
 
 				{ /* Level 1 Typography Panel */ }
-				<PanelBody
-					title="Level 1 Typography (H2)"
-					initialOpen={ false }
-				>
+				<PanelBody title="Level 1 Typography (H2)" initialOpen={ false }>
 					<SelectControl
 						label="Font Style"
 						value={ attributes.level1FontStyle || '' }
@@ -508,10 +468,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				</PanelBody>
 
 				{ /* Level 2 Typography Panel */ }
-				<PanelBody
-					title="Level 2 Typography (H3)"
-					initialOpen={ false }
-				>
+				<PanelBody title="Level 2 Typography (H3)" initialOpen={ false }>
 					<SelectControl
 						label="Font Style"
 						value={ attributes.level2FontStyle || '' }
@@ -563,10 +520,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				</PanelBody>
 
 				{ /* Level 3+ Typography Panel */ }
-				<PanelBody
-					title="Level 3+ Typography (H4-H6)"
-					initialOpen={ false }
-				>
+				<PanelBody title="Level 3+ Typography (H4-H6)" initialOpen={ false }>
 					<SelectControl
 						label="Font Style"
 						value={ attributes.level3PlusFontStyle || '' }
@@ -639,10 +593,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 				{ /* Customization Warning */ }
 				{ isCustomized && (
-					<CustomizationWarning
-						currentTheme={ currentTheme }
-						themes={ themes }
-					/>
+					<CustomizationWarning currentTheme={ currentTheme } themes={ themes } />
 				) }
 			</InspectorControls>
 
@@ -651,11 +602,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<div
 						className="toc-title"
 						style={ {
-							fontSize: `${
-								effectiveValues.titleFontSize || 20
-							}px`,
-							fontWeight:
-								effectiveValues.titleFontWeight || '700',
+							fontSize: `${ effectiveValues.titleFontSize || 20 }px`,
+							fontWeight: effectiveValues.titleFontWeight || '700',
 							color: effectiveValues.titleColor || '#333333',
 							textAlign: effectiveValues.titleAlignment || 'left',
 						} }
@@ -666,19 +614,15 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 				{ filteredHeadings.length === 0 ? (
 					<p className="toc-empty-message">
-						No headings found. Add H2-H6 headings to your content to
-						populate the table of contents.
+						No headings found. Add H2-H6 headings to your content to populate the table
+						of contents.
 					</p>
 				) : (
 					<nav
 						className="toc-list-wrapper"
 						aria-label={ titleText || 'Table of Contents' }
 					>
-						{ renderHeadingsList(
-							filteredHeadings,
-							effectiveValues,
-							attributes
-						) }
+						{ renderHeadingsList( filteredHeadings, effectiveValues, attributes ) }
 					</nav>
 				) }
 			</div>
@@ -692,14 +636,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
  * @param attributes
  */
 function filterHeadings( headings, attributes ) {
-	const {
-		filterMode,
-		includeLevels,
-		includeClasses,
-		excludeLevels,
-		excludeClasses,
-		depthLimit,
-	} = attributes;
+	const { filterMode, includeLevels, includeClasses, excludeLevels, excludeClasses, depthLimit } =
+		attributes;
 
 	let filtered = headings;
 
@@ -713,12 +651,8 @@ function filterHeadings( headings, attributes ) {
 
 			// Include if any class matches
 			if ( includeClasses ) {
-				const classes = includeClasses
-					.split( ',' )
-					.map( ( c ) => c.trim() );
-				return classes.some( ( cls ) =>
-					heading.classes.includes( cls )
-				);
+				const classes = includeClasses.split( ',' ).map( ( c ) => c.trim() );
+				return classes.some( ( cls ) => heading.classes.includes( cls ) );
 			}
 
 			return false;
@@ -732,12 +666,8 @@ function filterHeadings( headings, attributes ) {
 
 			// Exclude if any class matches
 			if ( excludeClasses ) {
-				const classes = excludeClasses
-					.split( ',' )
-					.map( ( c ) => c.trim() );
-				if (
-					classes.some( ( cls ) => heading.classes.includes( cls ) )
-				) {
+				const classes = excludeClasses.split( ',' ).map( ( c ) => c.trim() );
+				if ( classes.some( ( cls ) => heading.classes.includes( cls ) ) ) {
 					return false;
 				}
 			}
@@ -749,9 +679,7 @@ function filterHeadings( headings, attributes ) {
 	// Apply depth limit
 	if ( depthLimit && depthLimit > 0 ) {
 		const minLevel = Math.min( ...filtered.map( ( h ) => h.level ) );
-		filtered = filtered.filter(
-			( heading ) => heading.level - minLevel < depthLimit
-		);
+		filtered = filtered.filter( ( heading ) => heading.level - minLevel < depthLimit );
 	}
 
 	return filtered;
@@ -768,14 +696,10 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 		return null;
 	}
 
-	const listStyle =
-		attributes.numberingStyle === 'none' ? {} : { listStyleType: 'none' };
+	const listStyle = attributes.numberingStyle === 'none' ? {} : { listStyleType: 'none' };
 
 	return (
-		<ul
-			className={ `toc-list numbering-${ attributes.numberingStyle }` }
-			style={ listStyle }
-		>
+		<ul className={ `toc-list numbering-${ attributes.numberingStyle }` } style={ listStyle }>
 			{ headings.map( ( heading, index ) => {
 				const levelClass = `toc-item-level-${ heading.level - 1 }`;
 				const linkStyle = {
@@ -808,12 +732,10 @@ function buildInlineStyles( effectiveValues ) {
 
 	// Wrapper colors
 	if ( effectiveValues.wrapperBackgroundColor ) {
-		styles[ '--custom-wrapper-background-color' ] =
-			effectiveValues.wrapperBackgroundColor;
+		styles[ '--custom-wrapper-background-color' ] = effectiveValues.wrapperBackgroundColor;
 	}
 	if ( effectiveValues.wrapperBorderColor ) {
-		styles[ '--custom-wrapper-border-color' ] =
-			effectiveValues.wrapperBorderColor;
+		styles[ '--custom-wrapper-border-color' ] = effectiveValues.wrapperBorderColor;
 	}
 
 	// Link colors
@@ -826,24 +748,18 @@ function buildInlineStyles( effectiveValues ) {
 
 	// Border
 	if ( effectiveValues.wrapperBorderWidth ) {
-		styles[
-			'--custom-border-width'
-		] = `${ effectiveValues.wrapperBorderWidth }px`;
+		styles[ '--custom-border-width' ] = `${ effectiveValues.wrapperBorderWidth }px`;
 	}
 	if ( effectiveValues.wrapperBorderStyle ) {
 		styles[ '--custom-border-style' ] = effectiveValues.wrapperBorderStyle;
 	}
 	if ( effectiveValues.wrapperBorderRadius ) {
-		styles[
-			'--custom-border-radius'
-		] = `${ effectiveValues.wrapperBorderRadius }px`;
+		styles[ '--custom-border-radius' ] = `${ effectiveValues.wrapperBorderRadius }px`;
 	}
 
 	// Padding
 	if ( effectiveValues.wrapperPadding ) {
-		styles[
-			'--custom-wrapper-padding'
-		] = `${ effectiveValues.wrapperPadding }px`;
+		styles[ '--custom-wrapper-padding' ] = `${ effectiveValues.wrapperPadding }px`;
 	}
 
 	// Shadow
