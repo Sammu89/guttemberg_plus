@@ -64,7 +64,9 @@ function register_routes() {
 				),
 				'values'    => array(
 					'required'          => true,
-					'validate_callback' => 'is_array',
+					'validate_callback' => function ( $param ) {
+						return is_array( $param );
+					},
 				),
 			),
 		)
@@ -91,7 +93,9 @@ function register_routes() {
 				),
 				'values'    => array(
 					'required'          => true,
-					'validate_callback' => 'is_array',
+					'validate_callback' => function ( $param ) {
+						return is_array( $param );
+					},
 				),
 			),
 		)
