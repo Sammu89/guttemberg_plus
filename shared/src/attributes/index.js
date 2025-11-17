@@ -13,3 +13,4 @@ export { borderAttributes } from './border-attributes';
 export { spacingAttributes } from './spacing-attributes';
 export { iconAttributes } from './icon-attributes';
 export { metaAttributes } from './meta-attributes';
+export { behavioralDefaults, getAllDefaults } from './attribute-defaults';

@@ -25,6 +25,7 @@ import {
 	getAllEffectiveValues,
 	hasAnyCustomizations,
 	generateUniqueId,
+	getAllDefaults,
 	STORE_NAME,
 	ThemeSelector,
 	ColorPanel,
@@ -96,23 +97,31 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Get CSS defaults from window (parsed by PHP)
 	const cssDefaults = window.tabsDefaults || {};
 
+	// Merge CSS defaults with behavioral defaults from attribute schemas
+	const allDefaults = getAllDefaults( cssDefaults );
+
 	// Resolve effective values through cascade (pure cascade - no normalization)
-	// Source of truth: CSS defaults -> Theme values -> Block customizations
+	// Source of truth: All defaults (CSS + behavioral) -> Theme values -> Block customizations
 	const effectiveValues = getAllEffectiveValues(
 		attributes,
 		themes[ attributes.currentTheme ]?.values || {},
-		cssDefaults
+		allDefaults
 	);
 
 	debug( '[DEBUG] Effective values:', effectiveValues );
 
 	// Check if block has customizations using proper cascade comparison
-	// Attributes to exclude from customization check (non-style attributes)
+	// Attributes to exclude from customization check (truly structural, non-themeable attributes)
 	const excludeFromCustomizationCheck = [
+		// Structural identifiers (not themeable)
 		'tabs',
+		'uniqueId',
+		'blockId',
+		// Meta attributes (not themeable)
 		'currentTheme',
 		'customizations',
 		'customizationCache',
+		// Behavioral settings (not themeable - per-block only)
 		'orientation',
 		'activationMode',
 		'currentTab',
@@ -123,7 +132,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const isCustomized = hasAnyCustomizations(
 		attributes,
 		themes[ attributes.currentTheme ]?.values || {},
-		cssDefaults,
+		allDefaults,
 		excludeFromCustomizationCheck
 	);
 
@@ -144,7 +153,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 			const attrValue = attributes[ key ];
 			const themeValue = themes[ attributes.currentTheme ]?.values?.[ key ];
-			const cssDefault = cssDefaults[ key ];
+			const cssDefault = allDefaults[ key ];
 
 			// Check if attribute is defined
 			if ( attrValue !== null && attrValue !== undefined ) {
@@ -183,7 +192,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			console.log( '✅ No customizations detected' );
 		}
 		console.groupEnd();
-	}, [ attributes, isCustomized, themes, cssDefaults, excludeFromCustomizationCheck ] );
+	}, [ attributes, isCustomized, themes, allDefaults, excludeFromCustomizationCheck ] );
 
 	/**
 	 * Theme callback handlers
@@ -210,19 +219,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const handleResetCustomizations = () => {
 		// Reset all customizable attributes to null
+		// Keep structural, behavioral, and icon settings
 		const resetAttrs = {};
 		Object.keys( attributes ).forEach( ( key ) => {
-			if (
-				key !== 'currentTheme' &&
-				key !== 'tabs' &&
-				key !== 'customizations' &&
-				key !== 'customizationCache' &&
-				key !== 'orientation' &&
-				key !== 'activationMode' &&
-				key !== 'currentTab' &&
-				key !== 'responsiveBreakpoint' &&
-				key !== 'enableResponsiveFallback'
-			) {
+			if ( ! excludeFromCustomizationCheck.includes( key ) ) {
 				resetAttrs[ key ] = null;
 			}
 		} );
