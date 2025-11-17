@@ -9,9 +9,8 @@
 	"description": "Create an expandable/collapsible content panel with customizable themes.",
 	"keywords": ["accordion", "collapse", "expand", "toggle", "panel"],
 	"textdomain": "guttemberg-plus",
-	"editorScript": "file:./build/index.js",
-	"viewScript": "file:./build/frontend.js",
-	"style": "file:./build/style-index.css",
+	"editorScript": "file:../../build/blocks/accordion/index.js",
+	"viewScript": "file:../../build/blocks/accordion/frontend.js",
 	"supports": {
 		"html": false,
 		"align": ["wide", "full"],
