@@ -102,8 +102,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Resolve effective values through cascade (pure cascade - no normalization)
 	// Source of truth: All defaults (CSS + behavioral) -> Theme values -> Block customizations
+	// Apply customizations only if applyCustomizations flag is true
 	const effectiveValues = getAllEffectiveValues(
-		attributes,
+		attributes.applyCustomizations ? attributes.customizations : {},
 		themes[ attributes.currentTheme ]?.values || {},
 		allDefaults
 	);
@@ -121,6 +122,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		'currentTheme',
 		'customizations',
 		'customizationCache',
+		'applyCustomizations',
 		// Behavioral settings (not themeable - per-block only)
 		'orientation',
 		'activationMode',
@@ -216,6 +218,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			currentTheme: themeName,
 			customizations: {},
 			customizationCache: '',
+			applyCustomizations: false, // Theme now contains these values
 		} );
 	};
 
@@ -225,6 +228,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		setAttributes( {
 			customizations: {},
 			customizationCache: '',
+			applyCustomizations: false, // Theme now contains these values
 		} );
 	};
 

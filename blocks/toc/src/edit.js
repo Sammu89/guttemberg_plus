@@ -136,7 +136,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] TOC theme:', theme );
 	debug( '[DEBUG] TOC theme?.values:', theme?.values );
 
-	const effectiveValues = getAllEffectiveValues( attributes, theme?.values, cssDefaults );
+	// Apply customizations only if applyCustomizations flag is true
+	const effectiveValues = getAllEffectiveValues(
+		attributes.applyCustomizations ? attributes.customizations : {},
+		theme?.values,
+		cssDefaults
+	);
 
 	debug( '[DEBUG] TOC Effective values:', effectiveValues );
 
@@ -148,6 +153,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		'currentTheme',
 		'customizations',
 		'customizationCache',
+		'applyCustomizations',
 		'includeH2',
 		'includeH3',
 		'includeH4',
@@ -191,6 +197,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			currentTheme: themeName,
 			customizations: {},
 			customizationCache: '',
+			applyCustomizations: false, // Theme now contains these values
 		} );
 	};
 
@@ -200,6 +207,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		setAttributes( {
 			customizations: {},
 			customizationCache: '',
+			applyCustomizations: false, // Theme now contains these values
 		} );
 	};
 

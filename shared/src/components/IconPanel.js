@@ -44,12 +44,19 @@ export function IconPanel( {
 } ) {
 	/**
 	 * Handle attribute change
+	 * Stores changes in customizations object and enables applyCustomizations flag
 	 * @param attrName
 	 * @param value
 	 */
 	const handleChange = ( attrName, value ) => {
 		if ( setAttributes ) {
-			setAttributes( { [ attrName ]: value } );
+			setAttributes( {
+				customizations: {
+					...( attributes.customizations || {} ),
+					[ attrName ]: value,
+				},
+				applyCustomizations: true, // Enable customizations when user makes changes
+			} );
 		} else if ( onChange ) {
 			// Fallback to onChange if provided (deprecated)
 			onChange( attrName, value );

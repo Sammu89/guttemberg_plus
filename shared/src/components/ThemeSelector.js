@@ -62,38 +62,69 @@ export function ThemeSelector( {
 	const [ showRenameModal, setShowRenameModal ] = useState( false );
 	const [ newThemeName, setNewThemeName ] = useState( '' );
 
+	// Check if customizations exist (non-empty customizations object)
+	const hasCustomizations = attributes.customizations &&
+		Object.keys( attributes.customizations ).length > 0;
+
 	// Handle theme change
-	const handleThemeChange = ( newTheme ) => {
+	// Value format: "themeName" for clean, "themeName__customized" for with customizations
+	const handleThemeChange = ( value ) => {
+		const isCustomizedVariant = value.endsWith( '__customized' );
+		const themeName = isCustomizedVariant ? value.replace( '__customized', '' ) : value;
+
 		if ( setAttributes ) {
-			setAttributes( { currentTheme: newTheme } );
+			setAttributes( {
+				currentTheme: themeName,
+				applyCustomizations: isCustomizedVariant,
+			} );
 		} else if ( onChange ) {
 			// Fallback to onChange if provided (deprecated)
-			onChange( newTheme );
+			onChange( themeName );
 		}
 	};
 
 	// Prepare theme options for dropdown
-	const themeOptions = Object.keys( themes || {} ).map( ( name ) => {
-		// Add (customized) suffix to the current theme if it's customized
-		const isCurrentTheme = name === currentTheme;
-		const label = isCurrentTheme && isCustomized ? `${ name } (customized)` : name;
-		return {
-			label,
+	const themeOptions = [];
+
+	// Add Default theme options
+	themeOptions.push( {
+		label: 'Default',
+		value: '',
+	} );
+	if ( hasCustomizations ) {
+		themeOptions.push( {
+			label: 'Default (customized)',
+			value: '__customized',
+		} );
+	}
+
+	// Add saved theme options
+	Object.keys( themes || {} ).forEach( ( name ) => {
+		// Add clean theme option
+		themeOptions.push( {
+			label: name,
 			value: name,
-		};
+		} );
+
+		// Add customized variant if customizations exist
+		if ( hasCustomizations ) {
+			themeOptions.push( {
+				label: `${ name } (customized)`,
+				value: `${ name }__customized`,
+			} );
+		}
 	} );
 
-	// Add "Default" option if not present
-	if ( ! themeOptions.find( ( opt ) => opt.value === '' ) ) {
-		const defaultLabel = currentTheme === '' && isCustomized ? 'Default (customized)' : 'Default';
-		themeOptions.unshift( { label: defaultLabel, value: '' } );
-	}
+	// Determine current selection value
+	const currentValue = attributes.applyCustomizations
+		? `${ currentTheme }__customized`
+		: currentTheme;
 
 	return (
 		<div className="theme-selector">
 			<SelectControl
 				label="Theme"
-				value={ currentTheme }
+				value={ currentValue }
 				options={ themeOptions }
 				onChange={ handleThemeChange }
 			/>
