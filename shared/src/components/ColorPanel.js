@@ -57,12 +57,7 @@ export function ColorPanel( {
 	 * @param attrName
 	 */
 	const isAttrCustomized = ( attrName ) => {
-		return isCustomizedFromDefaults(
-			attrName,
-			attributes,
-			theme,
-			cssDefaults
-		);
+		return isCustomizedFromDefaults( attrName, attributes, theme, cssDefaults );
 	};
 
 	/**
@@ -73,9 +68,7 @@ export function ColorPanel( {
 	 */
 	const ColorControl = ( { label, attrName } ) => {
 		// Add customization badge to label if customized
-		const labelWithBadge = isAttrCustomized( attrName )
-			? `${ label } (Customized)`
-			: label;
+		const labelWithBadge = isAttrCustomized( attrName ) ? `${ label } (Customized)` : label;
 
 		// Normalize value ONLY for the UI control (prevents crashes)
 		// This does NOT affect the cascade or customization detection
@@ -97,28 +90,13 @@ export function ColorPanel( {
 
 	return (
 		<PanelBody title="Appearance" initialOpen={ initialOpen }>
-			<ColorControl
-				label="Header Background Color"
-				attrName="titleBackgroundColor"
-			/>
+			<ColorControl label="Header Background Color" attrName="titleBackgroundColor" />
 			<ColorControl label="Title Text Color" attrName="titleColor" />
-			<ColorControl
-				label="Hover Header Background"
-				attrName="hoverTitleBackgroundColor"
-			/>
+			<ColorControl label="Hover Header Background" attrName="hoverTitleBackgroundColor" />
 			<ColorControl label="Hover Title Text" attrName="hoverTitleColor" />
-			<ColorControl
-				label="Active Header Background"
-				attrName="activeTitleBackgroundColor"
-			/>
-			<ColorControl
-				label="Active Title Text"
-				attrName="activeTitleColor"
-			/>
-			<ColorControl
-				label="Content Background Color"
-				attrName="contentBackgroundColor"
-			/>
+			<ColorControl label="Active Header Background" attrName="activeTitleBackgroundColor" />
+			<ColorControl label="Active Title Text" attrName="activeTitleColor" />
+			<ColorControl label="Content Background Color" attrName="contentBackgroundColor" />
 		</PanelBody>
 	);
 }

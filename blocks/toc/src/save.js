@@ -46,11 +46,7 @@ export default function save( { attributes } ) {
 
 	// Note: In save, we don't have access to themes from the store,
 	// so we pass null as theme. The frontend JS will handle theme loading.
-	const effectiveValues = getAllEffectiveValues(
-		attributes,
-		null,
-		cssDefaults
-	);
+	const effectiveValues = getAllEffectiveValues( attributes, null, cssDefaults );
 
 	// Build inline styles
 	const inlineStyles = buildInlineStyles( effectiveValues );
@@ -94,9 +90,7 @@ export default function save( { attributes } ) {
 						fontSize: `${ effectiveValues.titleFontSize || 20 }px`,
 						fontWeight: effectiveValues.titleFontWeight || '700',
 						color: effectiveValues.titleColor || '#333333',
-						backgroundColor:
-							effectiveValues.titleBackgroundColor ||
-							'transparent',
+						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
 						textAlign: effectiveValues.titleAlignment || 'left',
 						padding: `${ effectiveValues.titlePadding || 12 }px`,
 					} }
@@ -116,9 +110,7 @@ export default function save( { attributes } ) {
 						fontSize: `${ effectiveValues.titleFontSize || 20 }px`,
 						fontWeight: effectiveValues.titleFontWeight || '700',
 						color: effectiveValues.titleColor || '#333333',
-						backgroundColor:
-							effectiveValues.titleBackgroundColor ||
-							'transparent',
+						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
 						textAlign: effectiveValues.titleAlignment || 'left',
 						padding: `${ effectiveValues.titlePadding || 12 }px`,
 						border: 'none',
@@ -134,11 +126,8 @@ export default function save( { attributes } ) {
 						className="toc-collapse-icon"
 						aria-hidden="true"
 						style={ {
-							fontSize: `${
-								effectiveValues.collapseIconSize || 20
-							}px`,
-							color:
-								effectiveValues.collapseIconColor || '#666666',
+							fontSize: `${ effectiveValues.collapseIconSize || 20 }px`,
+							color: effectiveValues.collapseIconColor || '#666666',
 						} }
 					>
 						▾
@@ -161,9 +150,7 @@ export default function save( { attributes } ) {
 						background: 'none',
 						border: 'none',
 						cursor: 'pointer',
-						fontSize: `${
-							effectiveValues.collapseIconSize || 20
-						}px`,
+						fontSize: `${ effectiveValues.collapseIconSize || 20 }px`,
 						color: effectiveValues.collapseIconColor || '#666666',
 					} }
 				>
@@ -176,24 +163,18 @@ export default function save( { attributes } ) {
 				className="toc-content"
 				aria-label={ titleText || 'Table of Contents' }
 				style={ {
-					display:
-						isCollapsible && initiallyCollapsed ? 'none' : 'block',
+					display: isCollapsible && initiallyCollapsed ? 'none' : 'block',
 				} }
 			>
 				<ul
 					className={ `toc-list numbering-${ numberingStyle }` }
 					style={ {
-						listStyleType:
-							numberingStyle === 'none' ? 'disc' : 'none',
-						paddingLeft: `${
-							effectiveValues.listPaddingLeft || 24
-						}px`,
+						listStyleType: numberingStyle === 'none' ? 'disc' : 'none',
+						paddingLeft: `${ effectiveValues.listPaddingLeft || 24 }px`,
 						margin: 0,
 					} }
 				>
-					<li className="toc-placeholder">
-						Loading table of contents...
-					</li>
+					<li className="toc-placeholder">Loading table of contents...</li>
 				</ul>
 			</nav>
 		</div>
@@ -209,12 +190,10 @@ function buildInlineStyles( effectiveValues ) {
 
 	// Wrapper colors
 	if ( effectiveValues.wrapperBackgroundColor ) {
-		styles[ '--custom-wrapper-background-color' ] =
-			effectiveValues.wrapperBackgroundColor;
+		styles[ '--custom-wrapper-background-color' ] = effectiveValues.wrapperBackgroundColor;
 	}
 	if ( effectiveValues.wrapperBorderColor ) {
-		styles[ '--custom-wrapper-border-color' ] =
-			effectiveValues.wrapperBorderColor;
+		styles[ '--custom-wrapper-border-color' ] = effectiveValues.wrapperBorderColor;
 	}
 
 	// Link colors
@@ -225,12 +204,10 @@ function buildInlineStyles( effectiveValues ) {
 		styles[ '--custom-link-hover-color' ] = effectiveValues.linkHoverColor;
 	}
 	if ( effectiveValues.linkVisitedColor ) {
-		styles[ '--custom-link-visited-color' ] =
-			effectiveValues.linkVisitedColor;
+		styles[ '--custom-link-visited-color' ] = effectiveValues.linkVisitedColor;
 	}
 	if ( effectiveValues.linkActiveColor ) {
-		styles[ '--custom-link-active-color' ] =
-			effectiveValues.linkActiveColor;
+		styles[ '--custom-link-active-color' ] = effectiveValues.linkActiveColor;
 	}
 
 	// Numbering color
@@ -246,112 +223,81 @@ function buildInlineStyles( effectiveValues ) {
 		styles[ '--custom-level2-color' ] = effectiveValues.level2Color;
 	}
 	if ( effectiveValues.level3PlusColor ) {
-		styles[ '--custom-level3-plus-color' ] =
-			effectiveValues.level3PlusColor;
+		styles[ '--custom-level3-plus-color' ] = effectiveValues.level3PlusColor;
 	}
 
 	// Typography
 	if ( effectiveValues.level1FontSize ) {
-		styles[
-			'--custom-level1-font-size'
-		] = `${ effectiveValues.level1FontSize }px`;
+		styles[ '--custom-level1-font-size' ] = `${ effectiveValues.level1FontSize }px`;
 	}
 	if ( effectiveValues.level1FontWeight ) {
-		styles[ '--custom-level1-font-weight' ] =
-			effectiveValues.level1FontWeight;
+		styles[ '--custom-level1-font-weight' ] = effectiveValues.level1FontWeight;
 	}
 	if ( effectiveValues.level1FontStyle ) {
-		styles[ '--custom-level1-font-style' ] =
-			effectiveValues.level1FontStyle;
+		styles[ '--custom-level1-font-style' ] = effectiveValues.level1FontStyle;
 	}
 	if ( effectiveValues.level1TextTransform ) {
-		styles[ '--custom-level1-text-transform' ] =
-			effectiveValues.level1TextTransform;
+		styles[ '--custom-level1-text-transform' ] = effectiveValues.level1TextTransform;
 	}
 	if ( effectiveValues.level1TextDecoration ) {
-		styles[ '--custom-level1-text-decoration' ] =
-			effectiveValues.level1TextDecoration;
+		styles[ '--custom-level1-text-decoration' ] = effectiveValues.level1TextDecoration;
 	}
 	if ( effectiveValues.level2FontSize ) {
-		styles[
-			'--custom-level2-font-size'
-		] = `${ effectiveValues.level2FontSize }px`;
+		styles[ '--custom-level2-font-size' ] = `${ effectiveValues.level2FontSize }px`;
 	}
 	if ( effectiveValues.level2FontWeight ) {
-		styles[ '--custom-level2-font-weight' ] =
-			effectiveValues.level2FontWeight;
+		styles[ '--custom-level2-font-weight' ] = effectiveValues.level2FontWeight;
 	}
 	if ( effectiveValues.level2FontStyle ) {
-		styles[ '--custom-level2-font-style' ] =
-			effectiveValues.level2FontStyle;
+		styles[ '--custom-level2-font-style' ] = effectiveValues.level2FontStyle;
 	}
 	if ( effectiveValues.level2TextTransform ) {
-		styles[ '--custom-level2-text-transform' ] =
-			effectiveValues.level2TextTransform;
+		styles[ '--custom-level2-text-transform' ] = effectiveValues.level2TextTransform;
 	}
 	if ( effectiveValues.level2TextDecoration ) {
-		styles[ '--custom-level2-text-decoration' ] =
-			effectiveValues.level2TextDecoration;
+		styles[ '--custom-level2-text-decoration' ] = effectiveValues.level2TextDecoration;
 	}
 	if ( effectiveValues.level3PlusFontSize ) {
-		styles[
-			'--custom-level3-plus-font-size'
-		] = `${ effectiveValues.level3PlusFontSize }px`;
+		styles[ '--custom-level3-plus-font-size' ] = `${ effectiveValues.level3PlusFontSize }px`;
 	}
 	if ( effectiveValues.level3PlusFontWeight ) {
-		styles[ '--custom-level3-plus-font-weight' ] =
-			effectiveValues.level3PlusFontWeight;
+		styles[ '--custom-level3-plus-font-weight' ] = effectiveValues.level3PlusFontWeight;
 	}
 	if ( effectiveValues.level3PlusFontStyle ) {
-		styles[ '--custom-level3-plus-font-style' ] =
-			effectiveValues.level3PlusFontStyle;
+		styles[ '--custom-level3-plus-font-style' ] = effectiveValues.level3PlusFontStyle;
 	}
 	if ( effectiveValues.level3PlusTextTransform ) {
-		styles[ '--custom-level3-plus-text-transform' ] =
-			effectiveValues.level3PlusTextTransform;
+		styles[ '--custom-level3-plus-text-transform' ] = effectiveValues.level3PlusTextTransform;
 	}
 	if ( effectiveValues.level3PlusTextDecoration ) {
-		styles[ '--custom-level3-plus-text-decoration' ] =
-			effectiveValues.level3PlusTextDecoration;
+		styles[ '--custom-level3-plus-text-decoration' ] = effectiveValues.level3PlusTextDecoration;
 	}
 
 	// Border
 	if ( effectiveValues.wrapperBorderWidth ) {
-		styles[
-			'--custom-border-width'
-		] = `${ effectiveValues.wrapperBorderWidth }px`;
+		styles[ '--custom-border-width' ] = `${ effectiveValues.wrapperBorderWidth }px`;
 	}
 	if ( effectiveValues.wrapperBorderStyle ) {
 		styles[ '--custom-border-style' ] = effectiveValues.wrapperBorderStyle;
 	}
 	if ( effectiveValues.wrapperBorderRadius ) {
-		styles[
-			'--custom-border-radius'
-		] = `${ effectiveValues.wrapperBorderRadius }px`;
+		styles[ '--custom-border-radius' ] = `${ effectiveValues.wrapperBorderRadius }px`;
 	}
 
 	// Padding & Spacing
 	if ( effectiveValues.wrapperPadding ) {
-		styles[
-			'--custom-wrapper-padding'
-		] = `${ effectiveValues.wrapperPadding }px`;
+		styles[ '--custom-wrapper-padding' ] = `${ effectiveValues.wrapperPadding }px`;
 	}
 	if ( effectiveValues.itemSpacing ) {
-		styles[
-			'--custom-item-spacing'
-		] = `${ effectiveValues.itemSpacing }px`;
+		styles[ '--custom-item-spacing' ] = `${ effectiveValues.itemSpacing }px`;
 	}
 	if ( effectiveValues.levelIndent ) {
-		styles[
-			'--custom-level-indent'
-		] = `${ effectiveValues.levelIndent }px`;
+		styles[ '--custom-level-indent' ] = `${ effectiveValues.levelIndent }px`;
 	}
 
 	// Position
 	if ( effectiveValues.positionTop ) {
-		styles[
-			'--custom-position-top'
-		] = `${ effectiveValues.positionTop }px`;
+		styles[ '--custom-position-top' ] = `${ effectiveValues.positionTop }px`;
 	}
 	if ( effectiveValues.zIndex ) {
 		styles[ '--custom-z-index' ] = effectiveValues.zIndex;

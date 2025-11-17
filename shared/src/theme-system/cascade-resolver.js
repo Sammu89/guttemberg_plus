@@ -161,12 +161,7 @@ export function getAllEffectiveValues( attributes, theme, defaults ) {
 	// Resolve effective value for each attribute
 	const effectiveValues = {};
 	for ( const name of allNames ) {
-		effectiveValues[ name ] = getEffectiveValue(
-			name,
-			attributes,
-			theme,
-			defaults
-		);
+		effectiveValues[ name ] = getEffectiveValue( name, attributes, theme, defaults );
 	}
 
 	return effectiveValues;
@@ -257,9 +252,7 @@ export function isCustomizedFromDefaults( name, attributes, theme, defaults ) {
 	if ( theme && isDefined( theme[ name ] ) ) {
 		// Deep equality check for objects
 		if ( typeof blockValue === 'object' && blockValue !== null ) {
-			return (
-				JSON.stringify( blockValue ) !== JSON.stringify( theme[ name ] )
-			);
+			return JSON.stringify( blockValue ) !== JSON.stringify( theme[ name ] );
 		}
 		return blockValue !== theme[ name ];
 	}
@@ -268,10 +261,7 @@ export function isCustomizedFromDefaults( name, attributes, theme, defaults ) {
 	if ( defaults && isDefined( defaults[ name ] ) ) {
 		// Deep equality check for objects
 		if ( typeof blockValue === 'object' && blockValue !== null ) {
-			return (
-				JSON.stringify( blockValue ) !==
-				JSON.stringify( defaults[ name ] )
-			);
+			return JSON.stringify( blockValue ) !== JSON.stringify( defaults[ name ] );
 		}
 		return blockValue !== defaults[ name ];
 	}
@@ -311,12 +301,7 @@ export function isCustomizedFromDefaults( name, attributes, theme, defaults ) {
  *   ['currentTheme']
  * ); // Returns: false (titleColor matches theme)
  */
-export function hasAnyCustomizations(
-	attributes,
-	theme,
-	defaults,
-	excludeAttributes = []
-) {
+export function hasAnyCustomizations( attributes, theme, defaults, excludeAttributes = [] ) {
 	if ( ! attributes || typeof attributes !== 'object' ) {
 		return false;
 	}

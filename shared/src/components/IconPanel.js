@@ -60,12 +60,7 @@ export function IconPanel( {
 	 * @param attrName
 	 */
 	const isAttrCustomized = ( attrName ) => {
-		return isCustomizedFromDefaults(
-			attrName,
-			attributes,
-			theme,
-			cssDefaults
-		);
+		return isCustomizedFromDefaults( attrName, attributes, theme, cssDefaults );
 	};
 
 	/**
@@ -96,30 +91,16 @@ export function IconPanel( {
 			{ showIcon && (
 				<>
 					<TextControl
-						label={
-							<CustomLabel
-								label="Closed Icon"
-								attrName="iconTypeClosed"
-							/>
-						}
+						label={ <CustomLabel label="Closed Icon" attrName="iconTypeClosed" /> }
 						value={ effectiveValues.iconTypeClosed || '▾' }
-						onChange={ ( value ) =>
-							handleChange( 'iconTypeClosed', value )
-						}
+						onChange={ ( value ) => handleChange( 'iconTypeClosed', value ) }
 						help="Character, emoji, or image URL"
 					/>
 
 					<TextControl
-						label={
-							<CustomLabel
-								label="Open Icon"
-								attrName="iconTypeOpen"
-							/>
-						}
+						label={ <CustomLabel label="Open Icon" attrName="iconTypeOpen" /> }
 						value={ effectiveValues.iconTypeOpen || 'none' }
-						onChange={ ( value ) =>
-							handleChange( 'iconTypeOpen', value )
-						}
+						onChange={ ( value ) => handleChange( 'iconTypeOpen', value ) }
 						help="'none' uses rotation instead of changing icon"
 					/>
 
@@ -127,27 +108,17 @@ export function IconPanel( {
 						! effectiveValues.iconTypeOpen ) && (
 						<RangeControl
 							label={
-								<CustomLabel
-									label="Rotation (degrees)"
-									attrName="iconRotation"
-								/>
+								<CustomLabel label="Rotation (degrees)" attrName="iconRotation" />
 							}
 							value={ effectiveValues.iconRotation || 180 }
-							onChange={ ( value ) =>
-								handleChange( 'iconRotation', value )
-							}
+							onChange={ ( value ) => handleChange( 'iconRotation', value ) }
 							min={ 0 }
 							max={ 360 }
 						/>
 					) }
 
 					<SelectControl
-						label={
-							<CustomLabel
-								label="Icon Position"
-								attrName="iconPosition"
-							/>
-						}
+						label={ <CustomLabel label="Icon Position" attrName="iconPosition" /> }
 						value={ effectiveValues.iconPosition || 'right' }
 						options={ [
 							{ label: 'Left', value: 'left' },
@@ -158,9 +129,7 @@ export function IconPanel( {
 								value: 'extreme-right',
 							},
 						] }
-						onChange={ ( value ) =>
-							handleChange( 'iconPosition', value )
-						}
+						onChange={ ( value ) => handleChange( 'iconPosition', value ) }
 					/>
 
 					<CompactColorControl
@@ -170,27 +139,14 @@ export function IconPanel( {
 								: 'Icon Color'
 						}
 						value={ effectiveValues.iconColor }
-						onChange={ ( value ) =>
-							handleChange( 'iconColor', value )
-						}
+						onChange={ ( value ) => handleChange( 'iconColor', value ) }
 						help="Leave empty to inherit from title color"
 					/>
 
 					<RangeControl
-						label={
-							<CustomLabel
-								label="Icon Size (px)"
-								attrName="iconSize"
-							/>
-						}
-						value={
-							effectiveValues.iconSize ||
-							effectiveValues.titleFontSize ||
-							16
-						}
-						onChange={ ( value ) =>
-							handleChange( 'iconSize', value )
-						}
+						label={ <CustomLabel label="Icon Size (px)" attrName="iconSize" /> }
+						value={ effectiveValues.iconSize || effectiveValues.titleFontSize || 16 }
+						onChange={ ( value ) => handleChange( 'iconSize', value ) }
 						min={ 12 }
 						max={ 48 }
 						help="Leave null to inherit from title font size"
