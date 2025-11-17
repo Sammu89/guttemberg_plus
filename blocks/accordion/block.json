@@ -1,0 +1,149 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "custom/accordion",
+	"version": "1.0.0",
+	"title": "Accordion",
+	"category": "design",
+	"icon": "list-view",
+	"description": "Create an expandable/collapsible content panel with customizable themes.",
+	"keywords": ["accordion", "collapse", "expand", "toggle", "panel"],
+	"textdomain": "custom-accordion",
+	"editorScript": "file:./build/index.js",
+	"viewScript": "file:./build/frontend.js",
+	"style": "file:./build/style-index.css",
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"anchor": true,
+		"className": true,
+		"customClassName": true
+	},
+	"attributes": {
+		"accordionId": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"content": {
+			"type": "string"
+		},
+		"initiallyOpen": {
+			"type": "boolean"
+		},
+		"allowMultipleOpen": {
+			"type": "boolean"
+		},
+		"currentTheme": {
+			"type": "string"
+		},
+		"customizations": {
+			"type": "object"
+		},
+		"customizationCache": {
+			"type": "object"
+		},
+		"showIcon": {
+			"type": "boolean"
+		},
+		"iconPosition": {
+			"type": "string"
+		},
+		"iconTypeClosed": {
+			"type": "string"
+		},
+		"iconTypeOpen": {
+			"type": "string"
+		},
+		"iconSize": {
+			"type": "number"
+		},
+		"iconColor": {
+			"type": "string"
+		},
+		"iconRotation": {
+			"type": "number"
+		},
+		"headingLevel": {
+			"type": "string"
+		},
+		"titleColor": {
+			"type": "string"
+		},
+		"titleBackgroundColor": {
+			"type": "string"
+		},
+		"contentColor": {
+			"type": "string"
+		},
+		"contentBackgroundColor": {
+			"type": "string"
+		},
+		"accordionBorderColor": {
+			"type": "string"
+		},
+		"accordionBorderThickness": {
+			"type": "number"
+		},
+		"accordionBorderStyle": {
+			"type": "string"
+		},
+		"accordionBorderRadius": {
+			"type": "object"
+		},
+		"accordionShadow": {
+			"type": "string"
+		},
+		"accordionMarginBottom": {
+			"type": "number"
+		},
+		"titlePadding": {
+			"type": "object"
+		},
+		"contentPadding": {
+			"type": "object"
+		},
+		"titleFontSize": {
+			"type": "number"
+		},
+		"titleFontWeight": {
+			"type": "string"
+		},
+		"titleFontStyle": {
+			"type": "string"
+		},
+		"titleTextTransform": {
+			"type": "string"
+		},
+		"titleTextDecoration": {
+			"type": "string"
+		},
+		"titleAlignment": {
+			"type": "string"
+		},
+		"dividerBorderThickness": {
+			"type": "number"
+		},
+		"dividerBorderStyle": {
+			"type": "string"
+		},
+		"dividerBorderColor": {
+			"type": "string"
+		},
+		"hoverTitleBackgroundColor": {
+			"type": "string"
+		},
+		"hoverTitleColor": {
+			"type": "string"
+		},
+		"activeTitleBackgroundColor": {
+			"type": "string"
+		},
+		"activeTitleColor": {
+			"type": "string"
+		}
+	},
+	"providesContext": {},
+	"usesContext": []
+}

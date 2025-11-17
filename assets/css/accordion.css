@@ -1,0 +1,94 @@
+/*
+ Accordion Block - CSS Default Values
+ These :root variables serve as the default values (Tier 3 in cascade)
+ They will be parsed by the CSS variables parser loader and converted to PHP arrays
+*/
+
+:root {
+
+	/* Title Colors */
+	--accordion-default-title-color: #333;
+	--accordion-default-title-background-color: #f5f5f5;
+	--accordion-default-title-color-hover: #000;
+	--accordion-default-title-background-color-hover: #e0e0e0;
+
+	/* Content Colors */
+	--accordion-default-content-color: #333;
+	--accordion-default-content-background-color: #fff;
+
+	/* Border */
+	--accordion-default-border-color: #ddd;
+	--accordion-default-border-width: 1px;
+	--accordion-default-border-style: solid;
+	--accordion-default-border-radius: 4px;
+
+	/* Typography */
+	--accordion-default-title-font-size: 18px;
+	--accordion-default-title-font-weight: 600;
+	--accordion-default-content-font-size: 16px;
+	--accordion-default-content-line-height: 1.6;
+
+	/* Spacing */
+	--accordion-default-title-padding: 16px;
+	--accordion-default-content-padding: 16px;
+	--accordion-default-item-spacing: 8px;
+
+	/* Icon */
+	--accordion-default-icon-type-closed: "▾";
+	--accordion-default-icon-size: 20px;
+	--accordion-default-icon-color: #666;
+	--accordion-default-icon-rotation: 0deg;
+
+	/* Animation */
+	--accordion-default-animation-duration: 300;
+	--accordion-default-animation-easing: ease-in-out;
+}
+
+/* Basic accordion styles */
+.wp-block-accordion {
+	margin: 1em 0;
+}
+
+.accordion-item {
+	border: var(--accordion-default-border-width) var(--accordion-default-border-style) var(--accordion-default-border-color);
+	border-radius: var(--accordion-default-border-radius);
+	margin-bottom: var(--accordion-default-item-spacing);
+}
+
+.accordion-title {
+	background-color: var(--accordion-default-title-background-color);
+	color: var(--accordion-default-title-color);
+	padding: var(--accordion-default-title-padding);
+	font-size: var(--accordion-default-title-font-size);
+	font-weight: var(--accordion-default-title-font-weight);
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: none;
+	width: 100%;
+	text-align: left;
+}
+
+.accordion-title:hover {
+	background-color: var(--accordion-default-title-background-color-hover);
+	color: var(--accordion-default-title-color-hover);
+}
+
+.accordion-content {
+	background-color: var(--accordion-default-content-background-color);
+	color: var(--accordion-default-content-color);
+	padding: var(--accordion-default-content-padding);
+	font-size: var(--accordion-default-content-font-size);
+	line-height: var(--accordion-default-content-line-height);
+}
+
+.accordion-icon {
+	font-size: var(--accordion-default-icon-size);
+	color: var(--accordion-default-icon-color);
+	transition: transform calc(var(--accordion-default-animation-duration) * 1ms) var(--accordion-default-animation-easing);
+}
+
+.accordion-item.is-open .accordion-icon {
+	transform: rotate(calc(var(--accordion-default-icon-rotation) * 1deg + 180deg));
+}

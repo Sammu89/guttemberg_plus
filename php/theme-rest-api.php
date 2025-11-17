@@ -1,0 +1,298 @@
+<?php
+/**
+ * Theme REST API Endpoints
+ *
+ * Registers REST API routes for theme CRUD operations
+ * All endpoints require 'edit_posts' capability
+ *
+ * @package GutenbergBlocks
+ * @see docs/IMPLEMENTATION/24-WORDPRESS-INTEGRATION.md
+ */
+
+namespace GutenbergBlocks\ThemeRestAPI;
+
+use GutenbergBlocks\ThemeStorage;
+
+/**
+ * Register REST API routes
+ */
+function register_routes() {
+	// Base namespace for all routes
+	$namespace = 'gutenberg-blocks/v1';
+
+	// GET /themes/{blockType} - Get all themes
+	register_rest_route(
+		$namespace,
+		'/themes/(?P<blockType>accordion|tabs|toc)',
+		array(
+			'methods'             => 'GET',
+			'callback'            => __NAMESPACE__ . '\\get_themes_handler',
+			'permission_callback' => __NAMESPACE__ . '\\check_permissions',
+			'args'                => array(
+				'blockType' => array(
+					'required'          => true,
+					'validate_callback' => function ( $param ) {
+						return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
+					},
+				),
+			),
+		)
+	);
+
+	// POST /themes - Create new theme
+	register_rest_route(
+		$namespace,
+		'/themes',
+		array(
+			'methods'             => 'POST',
+			'callback'            => __NAMESPACE__ . '\\create_theme_handler',
+			'permission_callback' => __NAMESPACE__ . '\\check_permissions',
+			'args'                => array(
+				'blockType' => array(
+					'required'          => true,
+					'validate_callback' => function ( $param ) {
+						return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
+					},
+				),
+				'name'      => array(
+					'required'          => true,
+					'sanitize_callback' => 'sanitize_text_field',
+				),
+				'values'    => array(
+					'required'          => true,
+					'validate_callback' => 'is_array',
+				),
+			),
+		)
+	);
+
+	// PUT /themes/{blockType}/{name} - Update theme
+	register_rest_route(
+		$namespace,
+		'/themes/(?P<blockType>accordion|tabs|toc)/(?P<name>[^/]+)',
+		array(
+			'methods'             => 'PUT',
+			'callback'            => __NAMESPACE__ . '\\update_theme_handler',
+			'permission_callback' => __NAMESPACE__ . '\\check_permissions',
+			'args'                => array(
+				'blockType' => array(
+					'required'          => true,
+					'validate_callback' => function ( $param ) {
+						return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
+					},
+				),
+				'name'      => array(
+					'required'          => true,
+					'sanitize_callback' => 'sanitize_text_field',
+				),
+				'values'    => array(
+					'required'          => true,
+					'validate_callback' => 'is_array',
+				),
+			),
+		)
+	);
+
+	// DELETE /themes/{blockType}/{name} - Delete theme
+	register_rest_route(
+		$namespace,
+		'/themes/(?P<blockType>accordion|tabs|toc)/(?P<name>[^/]+)',
+		array(
+			'methods'             => 'DELETE',
+			'callback'            => __NAMESPACE__ . '\\delete_theme_handler',
+			'permission_callback' => __NAMESPACE__ . '\\check_permissions',
+			'args'                => array(
+				'blockType' => array(
+					'required'          => true,
+					'validate_callback' => function ( $param ) {
+						return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
+					},
+				),
+				'name'      => array(
+					'required'          => true,
+					'sanitize_callback' => 'sanitize_text_field',
+				),
+			),
+		)
+	);
+
+	// POST /themes/{blockType}/{name}/rename - Rename theme
+	register_rest_route(
+		$namespace,
+		'/themes/(?P<blockType>accordion|tabs|toc)/(?P<name>[^/]+)/rename',
+		array(
+			'methods'             => 'POST',
+			'callback'            => __NAMESPACE__ . '\\rename_theme_handler',
+			'permission_callback' => __NAMESPACE__ . '\\check_permissions',
+			'args'                => array(
+				'blockType' => array(
+					'required'          => true,
+					'validate_callback' => function ( $param ) {
+						return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
+					},
+				),
+				'name'      => array(
+					'required'          => true,
+					'sanitize_callback' => 'sanitize_text_field',
+				),
+				'newName'   => array(
+					'required'          => true,
+					'sanitize_callback' => 'sanitize_text_field',
+				),
+			),
+		)
+	);
+}
+
+add_action( 'rest_api_init', __NAMESPACE__ . '\\register_routes' );
+
+/**
+ * Permission callback - Check if user can edit posts
+ *
+ * @return bool True if user has permission
+ */
+function check_permissions() {
+	return current_user_can( 'edit_posts' );
+}
+
+/**
+ * GET /themes/{blockType} - Get all themes for block type
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return WP_REST_Response|WP_Error Response or error
+ */
+function get_themes_handler( $request ) {
+	$block_type = $request->get_param( 'blockType' );
+
+	$themes = ThemeStorage\get_block_themes( $block_type );
+
+	if ( is_wp_error( $themes ) ) {
+		return new \WP_Error(
+			$themes->get_error_code(),
+			$themes->get_error_message(),
+			array( 'status' => 400 )
+		);
+	}
+
+	return rest_ensure_response( $themes );
+}
+
+/**
+ * POST /themes - Create new theme
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return WP_REST_Response|WP_Error Response or error
+ */
+function create_theme_handler( $request ) {
+	$block_type = $request->get_param( 'blockType' );
+	$name       = $request->get_param( 'name' );
+	$values     = $request->get_param( 'values' );
+
+	$theme = ThemeStorage\create_block_theme( $block_type, $name, $values );
+
+	if ( is_wp_error( $theme ) ) {
+		$status = 400;
+		if ( isset( $theme->error_data[ $theme->get_error_code() ]['status'] ) ) {
+			$status = $theme->error_data[ $theme->get_error_code() ]['status'];
+		}
+
+		return new \WP_Error(
+			$theme->get_error_code(),
+			$theme->get_error_message(),
+			array( 'status' => $status )
+		);
+	}
+
+	return rest_ensure_response( $theme );
+}
+
+/**
+ * PUT /themes/{blockType}/{name} - Update theme
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return WP_REST_Response|WP_Error Response or error
+ */
+function update_theme_handler( $request ) {
+	$block_type = $request->get_param( 'blockType' );
+	$name       = urldecode( $request->get_param( 'name' ) );
+	$values     = $request->get_param( 'values' );
+
+	$theme = ThemeStorage\update_block_theme( $block_type, $name, $values );
+
+	if ( is_wp_error( $theme ) ) {
+		$status = 400;
+		if ( isset( $theme->error_data[ $theme->get_error_code() ]['status'] ) ) {
+			$status = $theme->error_data[ $theme->get_error_code() ]['status'];
+		}
+
+		return new \WP_Error(
+			$theme->get_error_code(),
+			$theme->get_error_message(),
+			array( 'status' => $status )
+		);
+	}
+
+	return rest_ensure_response( $theme );
+}
+
+/**
+ * DELETE /themes/{blockType}/{name} - Delete theme
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return WP_REST_Response|WP_Error Response or error
+ */
+function delete_theme_handler( $request ) {
+	$block_type = $request->get_param( 'blockType' );
+	$name       = urldecode( $request->get_param( 'name' ) );
+
+	$result = ThemeStorage\delete_block_theme( $block_type, $name );
+
+	if ( is_wp_error( $result ) ) {
+		$status = 400;
+		if ( isset( $result->error_data[ $result->get_error_code() ]['status'] ) ) {
+			$status = $result->error_data[ $result->get_error_code() ]['status'];
+		}
+
+		return new \WP_Error(
+			$result->get_error_code(),
+			$result->get_error_message(),
+			array( 'status' => $status )
+		);
+	}
+
+	return rest_ensure_response(
+		array(
+			'success' => true,
+			'message' => "Theme '$name' deleted successfully",
+		)
+	);
+}
+
+/**
+ * POST /themes/{blockType}/{name}/rename - Rename theme
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return WP_REST_Response|WP_Error Response or error
+ */
+function rename_theme_handler( $request ) {
+	$block_type = $request->get_param( 'blockType' );
+	$old_name   = urldecode( $request->get_param( 'name' ) );
+	$new_name   = $request->get_param( 'newName' );
+
+	$theme = ThemeStorage\rename_block_theme( $block_type, $old_name, $new_name );
+
+	if ( is_wp_error( $theme ) ) {
+		$status = 400;
+		if ( isset( $theme->error_data[ $theme->get_error_code() ]['status'] ) ) {
+			$status = $theme->error_data[ $theme->get_error_code() ]['status'];
+		}
+
+		return new \WP_Error(
+			$theme->get_error_code(),
+			$theme->get_error_message(),
+			array( 'status' => $status )
+		);
+	}
+
+	return rest_ensure_response( $theme );
+}

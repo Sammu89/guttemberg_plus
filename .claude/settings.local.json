@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run build:*)",
+      "Bash(rd /s /q node_modules)",
+      "Bash(php:*)",
+      "Bash(npm run lint:js:*)",
+      "Bash(node:*)",
+      "Bash(cat:*)",
+      "Bash(findstr /i \"accordion tabs toc\")",
+      "Bash(findstr /v node_modules)",
+      "Bash(test -d C:UsersSammuDesktopguttemberg-smptblockstocbuild)",
+      "Bash(test -d \"C:\\Users\\Sammu\\Desktop\\guttemberg-smpt\\blocks\\accordion\\build\")",
+      "Bash(test -d \"C:\\Users\\Sammu\\Desktop\\guttemberg-smpt\\blocks\\tabs\\build\")",
+      "Bash(test -d \"C:\\Users\\Sammu\\Desktop\\guttemberg-smpt\\blocks\\toc\\build\")",
+      "Bash(findstr /i \"ColorPicker\" \"C:\\Users\\Sammu\\Desktop\\guttemberg-smpt\\shared\\src\\components\\*.js\")",
+      "Bash(findstr /v \"CompactColorControl\")",
+      "Bash(npx eslint:*)",
+      "Bash(echo:*)",
+      "Bash(npm run lint:css:*)",
+      "Bash(test:*)",
+      "Bash(find:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

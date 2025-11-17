@@ -1,0 +1,142 @@
+/**
+ * Accordion Block - Frontend Styles
+ *
+ * Provides core styling for accordion functionality on the frontend.
+ * Uses CSS custom properties for theming support.
+ *
+ * @package
+ * @since 1.0.0
+ */
+
+/* Block wrapper */
+.wp-block-accordion {
+	margin: 1em 0;
+	width: 100%;
+}
+
+/* Accordion item */
+.accordion-item {
+	margin-bottom: var(--accordion-margin-bottom, 0.5rem);
+	border: var(--accordion-border, 1px solid #ddd);
+	border-radius: var(--accordion-border-radius, 4px);
+	overflow: hidden;
+	transition: box-shadow 0.2s ease;
+
+	&:hover {
+		box-shadow: var(--accordion-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+/* Accordion title/button */
+.accordion-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: var(--accordion-title-padding, 1rem 1.5rem);
+	background-color: var(--accordion-title-bg, #f5f5f5);
+	color: var(--accordion-title-color, #333);
+	font-size: var(--accordion-title-font-size, 1rem);
+	font-weight: var(--accordion-title-font-weight, 600);
+	text-align: left;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease;
+
+	&:hover {
+		background-color: var(--accordion-title-hover-bg, #e8e8e8);
+		color: var(--accordion-title-hover-color, #000);
+	}
+
+	&:focus {
+		outline: 2px solid var(--accordion-focus-color, #007cba);
+		outline-offset: -2px;
+	}
+
+	&[aria-expanded="true"] {
+		background-color: var(--accordion-title-active-bg, #e0e0e0);
+		color: var(--accordion-title-active-color, #000);
+	}
+}
+
+/* Title text */
+.accordion-title-text {
+	flex: 1;
+	margin-right: 1rem;
+}
+
+/* Icon */
+.accordion-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--accordion-icon-size, 1.5rem);
+	height: var(--accordion-icon-size, 1.5rem);
+	font-size: var(--accordion-icon-font-size, 1.25rem);
+	transition: transform var(--accordion-animation-duration, 300ms) ease;
+
+	&.is-rotated {
+		transform: rotate(var(--accordion-icon-rotation, 180deg));
+	}
+}
+
+/* Image icon */
+.accordion-icon-image {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+/* Content panel */
+.accordion-content {
+	padding: var(--accordion-content-padding, 1rem 1.5rem);
+	background-color: var(--accordion-content-bg, #fff);
+	color: var(--accordion-content-color, #333);
+	font-size: var(--accordion-content-font-size, 0.95rem);
+	line-height: var(--accordion-content-line-height, 1.6);
+	overflow: hidden;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+/* Animation variables */
+:root {
+	--accordion-animation-duration: 300ms;
+	--accordion-icon-rotation: 180deg;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+	.accordion-title {
+		padding: var(--accordion-title-padding-mobile, 0.875rem 1.25rem);
+		font-size: var(--accordion-title-font-size-mobile, 0.95rem);
+	}
+
+	.accordion-content {
+		padding: var(--accordion-content-padding-mobile, 0.875rem 1.25rem);
+		font-size: var(--accordion-content-font-size-mobile, 0.9rem);
+	}
+
+	.accordion-icon {
+		width: var(--accordion-icon-size-mobile, 1.25rem);
+		height: var(--accordion-icon-size-mobile, 1.25rem);
+		font-size: var(--accordion-icon-font-size-mobile, 1.1rem);
+	}
+}
+
+/* Accessibility - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+	.accordion-title,
+	.accordion-icon,
+	.accordion-content {
+		transition: none !important;
+	}
+}
