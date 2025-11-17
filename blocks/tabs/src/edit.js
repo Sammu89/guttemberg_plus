@@ -195,11 +195,23 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	}, [ attributes, isCustomized, themes, allDefaults, excludeFromCustomizationCheck ] );
 
 	/**
+	 * Helper: Extract only themeable values (exclude structural/meta attributes)
+	 */
+	const getThemeableValues = ( values ) => {
+		const themeable = { ...values };
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete themeable[ key ];
+		} );
+		return themeable;
+	};
+
+	/**
 	 * Theme callback handlers
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		await createTheme( 'tabs', themeName, effectiveValues );
+		const themeableValues = getThemeableValues( effectiveValues );
+		await createTheme( 'tabs', themeName, themeableValues );
 		setAttributes( {
 			currentTheme: themeName,
 			customizations: {},
@@ -208,7 +220,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	};
 
 	const handleUpdateTheme = async () => {
-		await updateTheme( 'tabs', attributes.currentTheme, effectiveValues );
+		const themeableValues = getThemeableValues( effectiveValues );
+		await updateTheme( 'tabs', attributes.currentTheme, themeableValues );
 		setAttributes( {
 			customizations: {},
 			customizationCache: '',
