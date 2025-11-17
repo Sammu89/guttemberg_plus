@@ -9,16 +9,22 @@
  * @see docs/CORE-ARCHITECTURE/12-THEME-SYSTEM.md
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 namespace GutenbergBlocks\ThemeStorage;
 
 /**
  * Get option name for block type
  *
+ * Prefixed with 'guttemberg_plus_' to avoid conflicts with other plugins.
+ *
  * @param string $block_type Block type ('accordion', 'tabs', 'toc').
  * @return string Option name
  */
 function get_option_name( $block_type ) {
-	return $block_type . '_themes';
+	return 'guttemberg_plus_' . $block_type . '_themes';
 }
 
 /**
@@ -29,16 +35,25 @@ function get_option_name( $block_type ) {
  */
 function validate_theme_name( $name ) {
 	if ( empty( $name ) ) {
-		return new \WP_Error( 'invalid_name', 'Theme name cannot be empty' );
+		return new \WP_Error(
+			'invalid_name',
+			__( 'Theme name cannot be empty', 'guttemberg-plus' )
+		);
 	}
 
 	if ( strlen( $name ) > 50 ) {
-		return new \WP_Error( 'invalid_name', 'Theme name cannot exceed 50 characters' );
+		return new \WP_Error(
+			'invalid_name',
+			__( 'Theme name cannot exceed 50 characters', 'guttemberg-plus' )
+		);
 	}
 
 	// Alphanumeric + spaces, hyphens, underscores only
 	if ( ! preg_match( '/^[a-zA-Z0-9\s\-_]+$/', $name ) ) {
-		return new \WP_Error( 'invalid_name', 'Theme name can only contain letters, numbers, spaces, hyphens, and underscores' );
+		return new \WP_Error(
+			'invalid_name',
+			__( 'Theme name can only contain letters, numbers, spaces, hyphens, and underscores', 'guttemberg-plus' )
+		);
 	}
 
 	return true;
@@ -54,7 +69,57 @@ function validate_block_type( $block_type ) {
 	$valid_types = array( 'accordion', 'tabs', 'toc' );
 
 	if ( ! in_array( $block_type, $valid_types, true ) ) {
-		return new \WP_Error( 'invalid_block_type', 'Block type must be accordion, tabs, or toc' );
+		return new \WP_Error(
+			'invalid_block_type',
+			__( 'Block type must be accordion, tabs, or toc', 'guttemberg-plus' )
+		);
+	}
+
+	return true;
+}
+
+/**
+ * Validate theme values array
+ *
+ * Ensures values is an array and contains only scalar values or arrays
+ * to prevent serialization issues and potential security risks.
+ *
+ * @param mixed $values Theme values to validate.
+ * @return bool|WP_Error True if valid, WP_Error if invalid
+ */
+function validate_theme_values( $values ) {
+	if ( ! is_array( $values ) ) {
+		return new \WP_Error(
+			'invalid_values',
+			__( 'Theme values must be an array', 'guttemberg-plus' )
+		);
+	}
+
+	if ( empty( $values ) ) {
+		return new \WP_Error(
+			'empty_values',
+			__( 'Theme values cannot be empty', 'guttemberg-plus' )
+		);
+	}
+
+	// Validate each value is a safe type (no objects, resources, etc.)
+	foreach ( $values as $key => $value ) {
+		// Allow scalars (string, int, float, bool), null, and arrays
+		if ( ! is_scalar( $value ) && ! is_null( $value ) && ! is_array( $value ) ) {
+			return new \WP_Error(
+				'invalid_value_type',
+				/* translators: %s: Attribute key */
+				sprintf( __( 'Invalid value type for attribute "%s". Only strings, numbers, booleans, null, and arrays are allowed.', 'guttemberg-plus' ), $key )
+			);
+		}
+
+		// If it's an array, validate recursively
+		if ( is_array( $value ) ) {
+			$nested_validation = validate_theme_values( $value );
+			if ( is_wp_error( $nested_validation ) ) {
+				return $nested_validation;
+			}
+		}
 	}
 
 	return true;
@@ -98,7 +163,12 @@ function get_theme( $block_type, $name ) {
 	}
 
 	if ( ! isset( $themes[ $name ] ) ) {
-		return new \WP_Error( 'theme_not_found', "Theme '$name' not found", array( 'status' => 404 ) );
+		return new \WP_Error(
+			'theme_not_found',
+			/* translators: %s: Theme name */
+			sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $name ),
+			array( 'status' => 404 )
+		);
 	}
 
 	return $themes[ $name ];
@@ -124,8 +194,9 @@ function create_block_theme( $block_type, $name, $values ) {
 		return $validation;
 	}
 
-	if ( ! is_array( $values ) ) {
-		return new \WP_Error( 'invalid_values', 'Values must be an array' );
+	$validation = validate_theme_values( $values );
+	if ( is_wp_error( $validation ) ) {
+		return $validation;
 	}
 
 	// Get existing themes
@@ -137,7 +208,12 @@ function create_block_theme( $block_type, $name, $values ) {
 
 	// Check for duplicate
 	if ( isset( $themes[ $name ] ) ) {
-		return new \WP_Error( 'duplicate_theme', "Theme '$name' already exists", array( 'status' => 409 ) );
+		return new \WP_Error(
+			'duplicate_theme',
+			/* translators: %s: Theme name */
+			sprintf( __( 'Theme "%s" already exists', 'guttemberg-plus' ), $name ),
+			array( 'status' => 409 )
+		);
 	}
 
 	// Create theme object with timestamps
@@ -178,8 +254,9 @@ function update_block_theme( $block_type, $name, $values ) {
 		return $validation;
 	}
 
-	if ( ! is_array( $values ) ) {
-		return new \WP_Error( 'invalid_values', 'Values must be an array' );
+	$validation = validate_theme_values( $values );
+	if ( is_wp_error( $validation ) ) {
+		return $validation;
 	}
 
 	// Get existing themes
@@ -191,7 +268,12 @@ function update_block_theme( $block_type, $name, $values ) {
 
 	// Check theme exists
 	if ( ! isset( $themes[ $name ] ) ) {
-		return new \WP_Error( 'theme_not_found', "Theme '$name' not found", array( 'status' => 404 ) );
+		return new \WP_Error(
+			'theme_not_found',
+			/* translators: %s: Theme name */
+			sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $name ),
+			array( 'status' => 404 )
+		);
 	}
 
 	// Update theme (preserve created timestamp)
@@ -239,7 +321,12 @@ function delete_block_theme( $block_type, $name ) {
 
 	// Check theme exists
 	if ( ! isset( $themes[ $name ] ) ) {
-		return new \WP_Error( 'theme_not_found', "Theme '$name' not found", array( 'status' => 404 ) );
+		return new \WP_Error(
+			'theme_not_found',
+			/* translators: %s: Theme name */
+			sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $name ),
+			array( 'status' => 404 )
+		);
 	}
 
 	// Remove theme
@@ -286,12 +373,22 @@ function rename_block_theme( $block_type, $old_name, $new_name ) {
 
 	// Check old theme exists
 	if ( ! isset( $themes[ $old_name ] ) ) {
-		return new \WP_Error( 'theme_not_found', "Theme '$old_name' not found", array( 'status' => 404 ) );
+		return new \WP_Error(
+			'theme_not_found',
+			/* translators: %s: Theme name */
+			sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $old_name ),
+			array( 'status' => 404 )
+		);
 	}
 
 	// Check new name not duplicate (unless same as old)
 	if ( $old_name !== $new_name && isset( $themes[ $new_name ] ) ) {
-		return new \WP_Error( 'duplicate_theme', "Theme '$new_name' already exists", array( 'status' => 409 ) );
+		return new \WP_Error(
+			'duplicate_theme',
+			/* translators: %s: Theme name */
+			sprintf( __( 'Theme "%s" already exists', 'guttemberg-plus' ), $new_name ),
+			array( 'status' => 409 )
+		);
 	}
 
 	// Rename theme

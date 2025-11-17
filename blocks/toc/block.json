@@ -11,6 +11,6 @@
 		"html": false,
 		"multiple": true
 	},
-	"textdomain": "gutenberg-blocks",
+	"textdomain": "guttemberg-plus",
 	"editorScript": "file:./build/index.js"
 }

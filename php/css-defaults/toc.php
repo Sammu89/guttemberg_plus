@@ -2,8 +2,8 @@
 /**
  * CSS Default Values
  *
- * Auto-generated from assets\css\toc.css
- * Generated: 2025-10-27T21:46:25.736Z
+ * Auto-generated from assets/css/toc.css
+ * Generated: 2025-11-17T08:38:41.109Z
  *
  * DO NOT EDIT MANUALLY - Changes will be overwritten on build
  */

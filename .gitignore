@@ -1,1 +1,57 @@
-node_modules/ 
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs (keep these in version control for WordPress.org distribution)
+# Uncomment if you build during deployment instead
+# build/
+# blocks/**/build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+*.code-workspace
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+.nyc_output/
+phpunit.xml
+.phpunit.result.cache
+
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+.cache/
+
+# Package manager lock files (optional - some prefer to commit these)
+# package-lock.json
+# yarn.lock
+# composer.lock
