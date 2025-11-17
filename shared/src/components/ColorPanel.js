@@ -40,19 +40,13 @@ export function ColorPanel( {
 } ) {
 	/**
 	 * Handle color change
-	 * Stores changes in customizations object and enables applyCustomizations flag
+	 * Writes directly to attribute (sidebar is source of truth)
 	 * @param attrName
 	 * @param value
 	 */
 	const handleColorChange = ( attrName, value ) => {
 		if ( setAttributes ) {
-			setAttributes( {
-				customizations: {
-					...( attributes.customizations || {} ),
-					[ attrName ]: value,
-				},
-				applyCustomizations: true, // Enable customizations when user makes changes
-			} );
+			setAttributes( { [ attrName ]: value } );
 		} else if ( onChangeColor ) {
 			// Fallback to onChangeColor if provided (deprecated)
 			onChangeColor( attrName, value );
