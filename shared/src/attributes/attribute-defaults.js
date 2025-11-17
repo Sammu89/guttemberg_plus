@@ -14,13 +14,17 @@ import { metaAttributes } from './meta-attributes';
 /**
  * Extract default values from attribute definitions
  *
+ * Includes ALL attributes with explicit defaults, including null values.
+ * Null is a valid default (means inherit from CSS or use browser default).
+ *
  * @param {Object} attributes - Attribute definitions object
  * @return {Object} Object containing only the default values
  */
 function extractDefaults( attributes ) {
 	const defaults = {};
 	for ( const [ key, definition ] of Object.entries( attributes ) ) {
-		if ( definition.default !== undefined && definition.default !== null ) {
+		// Include all attributes with explicit default property, including null
+		if ( definition.hasOwnProperty( 'default' ) ) {
 			defaults[ key ] = definition.default;
 		}
 	}
