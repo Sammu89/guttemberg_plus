@@ -9,7 +9,7 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, RichText, InnerBlocks } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
@@ -388,13 +388,9 @@ export default function Edit( { attributes, setAttributes } ) {
 						{ renderTitle() }
 
 						<div className="accordion-content" style={ styles.content }>
-							<RichText
-								tagName="div"
-								value={ attributes.content || '' }
-								onChange={ ( value ) => setAttributes( { content: value } ) }
+							<InnerBlocks
+								templateLock={ false }
 								placeholder={ __( 'Add accordion content…', 'guttemberg-plus' ) }
-								keepPlaceholderOnFocus={ false }
-								className="accordion-content-text"
 							/>
 						</div>
 					</div>

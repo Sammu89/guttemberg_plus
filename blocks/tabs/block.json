@@ -104,6 +104,8 @@
 			"type": "string"
 		}
 	},
-	"providesContext": {},
+	"providesContext": {
+		"custom/tabs/activeTab": "currentTab"
+	},
 	"usesContext": []
 }

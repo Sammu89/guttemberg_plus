@@ -10,7 +10,7 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, InnerBlocks } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	ToggleControl,
@@ -44,25 +44,29 @@ import {
  * @param {string}   props.clientId      Block client ID
  * @return {JSX.Element} Edit component
  */
-export default function Edit( { attributes, setAttributes, clientId: _clientId } ) {
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] Tabs Edit mounted with attributes:', attributes );
 
 	// Local state for active tab in editor
 	const [ activeTab, setActiveTab ] = useState( attributes.currentTab || 0 );
 
-	// Generate unique IDs for tabs on mount if not set
-	useEffect( () => {
-		const updatedTabs = attributes.tabs.map( ( tab ) => {
-			if ( ! tab.id ) {
-				return { ...tab, id: `tab-${ generateUniqueId() }` };
-			}
-			return tab;
-		} );
+	// Get tab-panel children
+	const { tabPanels } = useSelect(
+		( select ) => {
+			const { getBlocks } = select( 'core/block-editor' );
+			return {
+				tabPanels: getBlocks( clientId ),
+			};
+		},
+		[ clientId ]
+	);
 
-		if ( updatedTabs.some( ( tab, index ) => tab.id !== attributes.tabs[ index ].id ) ) {
-			setAttributes( { tabs: updatedTabs } );
+	// Update currentTab attribute when activeTab state changes
+	useEffect( () => {
+		if ( attributes.currentTab !== activeTab ) {
+			setAttributes( { currentTab: activeTab } );
 		}
-	}, [ attributes.tabs, setAttributes ] );
+	}, [ activeTab, attributes.currentTab, setAttributes ] );
 
 	// Load themes from store
 	const { themes, themesLoaded } = useSelect(
@@ -274,17 +278,19 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 
 	const styles = getInlineStyles();
 
+	// Get dispatch for block manipulation
+	const { insertBlock, removeBlock, updateBlockAttributes } = useDispatch( 'core/block-editor' );
+
 	/**
 	 * Add new tab
 	 */
 	const addTab = () => {
-		const newTab = {
-			id: `tab-${ generateUniqueId() }`,
-			title: `Tab ${ attributes.tabs.length + 1 }`,
-			content: '',
+		const newBlock = wp.blocks.createBlock( 'custom/tab-panel', {
+			tabId: `tab-${ generateUniqueId() }`,
+			title: `Tab ${ tabPanels.length + 1 }`,
 			isDisabled: false,
-		};
-		setAttributes( { tabs: [ ...attributes.tabs, newTab ] } );
+		} );
+		insertBlock( newBlock, tabPanels.length, clientId );
 	};
 
 	/**
@@ -292,17 +298,16 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 	 * @param index
 	 */
 	const removeTab = ( index ) => {
-		if ( attributes.tabs.length <= 1 ) {
+		if ( tabPanels.length <= 1 ) {
 			return; // Don't allow removing last tab
 		}
 
-		const newTabs = attributes.tabs.filter( ( _, i ) => i !== index );
-		setAttributes( { tabs: newTabs } );
+		const blockToRemove = tabPanels[ index ];
+		removeBlock( blockToRemove.clientId );
 
 		// Adjust active tab if needed
-		if ( activeTab >= newTabs.length ) {
-			setActiveTab( newTabs.length - 1 );
-			setAttributes( { currentTab: newTabs.length - 1 } );
+		if ( activeTab >= tabPanels.length - 1 ) {
+			setActiveTab( Math.max( 0, tabPanels.length - 2 ) );
 		}
 	};
 
@@ -313,9 +318,10 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 	 * @param value
 	 */
 	const updateTab = ( index, property, value ) => {
-		const newTabs = [ ...attributes.tabs ];
-		newTabs[ index ] = { ...newTabs[ index ], [ property ]: value };
-		setAttributes( { tabs: newTabs } );
+		const block = tabPanels[ index ];
+		if ( block ) {
+			updateBlockAttributes( block.clientId, { [ property ]: value } );
+		}
 	};
 
 	/**
@@ -323,9 +329,9 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 	 * @param index
 	 */
 	const switchTab = ( index ) => {
-		if ( ! attributes.tabs[ index ]?.isDisabled ) {
+		const panel = tabPanels[ index ];
+		if ( panel && ! panel.attributes.isDisabled ) {
 			setActiveTab( index );
-			setAttributes( { currentTab: index } );
 		}
 	};
 
@@ -453,8 +459,8 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 
 				<PanelBody title={ __( 'Tab Management', 'guttemberg-plus' ) }>
 					<div className="tabs-management">
-						{ attributes.tabs.map( ( tab, index ) => (
-							<div key={ tab.id } style={ { marginBottom: '12px' } }>
+						{ tabPanels.map( ( panel, index ) => (
+							<div key={ panel.clientId } style={ { marginBottom: '12px' } }>
 								<div
 									style={ {
 										display: 'flex',
@@ -464,16 +470,17 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 								>
 									<strong>
 										{ __( 'Tab', 'guttemberg-plus' ) } { index + 1 }
+										{ panel.attributes.title && `: ${ panel.attributes.title }` }
 									</strong>
 									<div>
 										<ToggleControl
 											label={ __( 'Disabled', 'guttemberg-plus' ) }
-											checked={ tab.isDisabled || false }
+											checked={ panel.attributes.isDisabled || false }
 											onChange={ ( value ) =>
 												updateTab( index, 'isDisabled', value )
 											}
 										/>
-										{ attributes.tabs.length > 1 && (
+										{ tabPanels.length > 1 && (
 											<Button
 												isDestructive
 												isSmall
@@ -558,83 +565,41 @@ export default function Edit( { attributes, setAttributes, clientId: _clientId }
 							aria-orientation={ attributes.orientation }
 							style={ styles.tabList }
 						>
-							{ attributes.tabs.map( ( tab, index ) => (
-								<button
-									key={ tab.id }
-									role="tab"
-									aria-selected={ activeTab === index }
-									aria-controls={ `panel-${ tab.id }` }
-									id={ `tab-${ tab.id }` }
-									disabled={ tab.isDisabled }
-									onClick={ () => switchTab( index ) }
-									style={ styles.tabButton(
-										activeTab === index,
-										tab.isDisabled
-									) }
-									className={ `tab-button ${
-										activeTab === index ? 'active' : ''
-									}` }
-								>
-									{ effectiveValues.showIcon && renderIcon() }
-									{ tab.title || `Tab ${ index + 1 }` }
-								</button>
-							) ) }
+							{ tabPanels.map( ( panel, index ) => {
+								const tabId = panel.attributes.tabId || `tab-${ panel.clientId }`;
+								return (
+									<button
+										key={ panel.clientId }
+										role="tab"
+										aria-selected={ activeTab === index }
+										aria-controls={ `panel-${ tabId }` }
+										id={ `tab-${ tabId }` }
+										disabled={ panel.attributes.isDisabled }
+										onClick={ () => switchTab( index ) }
+										style={ styles.tabButton(
+											activeTab === index,
+											panel.attributes.isDisabled
+										) }
+										className={ `tab-button ${
+											activeTab === index ? 'active' : ''
+										}` }
+									>
+										{ effectiveValues.showIcon && renderIcon() }
+										{ panel.attributes.title || `Tab ${ index + 1 }` }
+									</button>
+								);
+							} ) }
 						</div>
 
 						{ /* Tab Panels */ }
-						<div className="tabs-panels">
-							{ attributes.tabs.map( ( tab, index ) => (
-								<div
-									key={ tab.id }
-									role="tabpanel"
-									id={ `panel-${ tab.id }` }
-									aria-labelledby={ `tab-${ tab.id }` }
-									hidden={ activeTab !== index }
-									tabIndex="0"
-									style={
-										activeTab === index ? styles.panel : { display: 'none' }
-									}
-									className={ `tab-panel ${
-										activeTab === index ? 'active' : ''
-									}` }
-								>
-									{ activeTab === index && (
-										<>
-											<div
-												style={ {
-													marginBottom: '12px',
-													fontWeight: 'bold',
-												} }
-											>
-												<RichText
-													tagName="span"
-													value={ tab.title }
-													onChange={ ( value ) =>
-														updateTab( index, 'title', value )
-													}
-													placeholder={ __(
-														'Tab title…',
-														'guttemberg-plus'
-													) }
-													keepPlaceholderOnFocus={ false }
-												/>
-											</div>
-											<RichText
-												tagName="div"
-												value={ tab.content }
-												onChange={ ( value ) =>
-													updateTab( index, 'content', value )
-												}
-												placeholder={ __(
-													'Add tab content…',
-													'guttemberg-plus'
-												) }
-												keepPlaceholderOnFocus={ false }
-											/>
-										</>
-									) }
-								</div>
-							) ) }
+						<div className="tabs-panels" style={ styles.panel }>
+							<InnerBlocks
+								allowedBlocks={ [ 'custom/tab-panel' ] }
+								template={ [
+									[ 'custom/tab-panel', { tabId: `tab-${ generateUniqueId() }`, title: 'Tab 1' } ],
+								] }
+								renderAppender={ false }
+							/>
 						</div>
 					</div>
 				) }
