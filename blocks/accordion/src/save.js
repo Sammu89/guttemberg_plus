@@ -66,28 +66,15 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'dividerBorderStyle', '--accordion-divider-style' );
 		addIfDefined( 'dividerBorderColor', '--accordion-divider-color' );
 		addIfDefined( 'iconColor', '--accordion-icon-color' );
-		addIfDefined( 'hoverTitleBackgroundColor', '--accordion-hover-title-bg' );
-		addIfDefined( 'hoverTitleColor', '--accordion-hover-title-color' );
-		addIfDefined( 'activeTitleBackgroundColor', '--accordion-active-title-bg' );
-		addIfDefined( 'activeTitleColor', '--accordion-active-title-color' );
 
 		// Numeric values with units
 		addIfDefined( 'titleFontSize', '--accordion-title-font-size', ( val ) => `${ val }px` );
 		addIfDefined( 'accordionBorderThickness', '--accordion-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'accordionMarginBottom', '--accordion-margin-bottom', ( val ) => `${ val }px` );
 		addIfDefined( 'dividerBorderThickness', '--accordion-divider-width', ( val ) => `${ val }px` );
 		addIfDefined( 'iconSize', '--accordion-icon-size', ( val ) => `${ val }px` );
-		addIfDefined( 'iconRotation', '--accordion-icon-rotation', ( val ) => `${ val }deg` );
+		addIfDefined( 'iconRotation', '--accordion-icon-rotation', ( val ) => `${ val }px` );
 
-		// Object values (padding, border radius)
-		if ( attributes.titlePadding ) {
-			const p = attributes.titlePadding;
-			styles[ '--accordion-title-padding' ] = `${ p.top }px ${ p.right }px ${ p.bottom }px ${ p.left }px`;
-		}
-		if ( attributes.contentPadding ) {
-			const p = attributes.contentPadding;
-			styles[ '--accordion-content-padding' ] = `${ p.top }px ${ p.right }px ${ p.bottom }px ${ p.left }px`;
-		}
+		// Object values (border radius)
 		if ( attributes.accordionBorderRadius ) {
 			const br = attributes.accordionBorderRadius;
 			styles[ '--accordion-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
