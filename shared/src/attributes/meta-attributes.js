@@ -26,35 +26,6 @@ export const metaAttributes = {
 	},
 
 	/**
-	 * Block-level customizations
-	 * Stores inline overrides that win in cascade
-	 */
-	customizations: {
-		type: 'object',
-		default: {},
-	},
-
-	/**
-	 * DEPRECATED - No longer used in new architecture
-	 * Session cache is now React state (not saved to database)
-	 * Kept for backwards compatibility with old blocks
-	 */
-	customizationCache: {
-		type: 'object',
-		default: {},
-	},
-
-	/**
-	 * Whether to apply customizations on top of current theme
-	 * true: cascade is defaults → theme → customizations
-	 * false: cascade is defaults → theme (customizations preserved but not applied)
-	 */
-	applyCustomizations: {
-		type: 'boolean',
-		default: true,
-	},
-
-	/**
 	 * Unique block identifier
 	 * Auto-generated on block creation
 	 * Format: {prefix}-{4 alphanumeric chars}
