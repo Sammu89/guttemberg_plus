@@ -9,7 +9,7 @@
  * @since 1.0.0
  */
 
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
 import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria } from '@shared';
 
 /**
@@ -192,11 +192,7 @@ export default function Save( { attributes } ) {
 					{ ...panelAria }
 					{ ...( ! attributes.initiallyOpen && { hidden: true } ) }
 				>
-					<RichText.Content
-						tagName="div"
-						value={ attributes.content || '' }
-						className="accordion-content-text"
-					/>
+					<InnerBlocks.Content />
 				</div>
 			</div>
 		</div>
