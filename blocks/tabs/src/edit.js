@@ -711,6 +711,29 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									</button>
 								);
 							} ) }
+
+							{ /* Add Tab Button */ }
+							<button
+								role="presentation"
+								onClick={ addTab }
+								style={ {
+									...styles.tabButton( false, false ),
+									backgroundColor: 'transparent',
+									borderStyle: 'dashed',
+									opacity: 0.6,
+									minWidth: '40px',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									fontSize: '18px',
+									fontWeight: 'bold',
+								} }
+								className="tab-button-add"
+								title={ __( 'Add new tab', 'guttemberg-plus' ) }
+								aria-label={ __( 'Add new tab', 'guttemberg-plus' ) }
+							>
+								+
+							</button>
 						</div>
 
 						{ /* Tab Panels */ }
