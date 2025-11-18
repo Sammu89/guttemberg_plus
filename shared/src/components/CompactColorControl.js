@@ -8,7 +8,7 @@
  * @since 1.0.0
  */
 
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { BaseControl, Button, ColorPicker, Popover, TextControl } from '@wordpress/components';
 
 /**
@@ -25,6 +25,7 @@ export function CompactColorControl( { label, value, onChange, disableAlpha = fa
 	const [ isPickerOpen, setIsPickerOpen ] = useState( false );
 	const [ tempColor, setTempColor ] = useState( value );
 	const [ savedColor, setSavedColor ] = useState( value );
+	const buttonRef = useRef( null );
 
 	// Update tempColor when value prop changes from parent (only when picker is closed)
 	useEffect( () => {
@@ -133,6 +134,7 @@ export function CompactColorControl( { label, value, onChange, disableAlpha = fa
 
 				{ /* Button to open color picker */ }
 				<Button
+					ref={ buttonRef }
 					variant="secondary"
 					onClick={ handleOpenPicker }
 					aria-expanded={ isPickerOpen }
@@ -144,6 +146,7 @@ export function CompactColorControl( { label, value, onChange, disableAlpha = fa
 			{ /* Popup color picker */ }
 			{ isPickerOpen && (
 				<Popover
+					anchor={ buttonRef.current }
 					position="bottom right"
 					onClose={ handleCancel }
 					focusOnMount={ false }

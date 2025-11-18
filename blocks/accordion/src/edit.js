@@ -132,6 +132,9 @@ export default function Edit( { attributes, setAttributes } ) {
 	debug( '[DEBUG] Accordion attributes (source of truth):', attributes );
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
 	debug( '[DEBUG] Is customized:', isCustomized );
+	console.log( '[THEME DEBUG] Current attributes.currentTheme:', attributes.currentTheme );
+	console.log( '[THEME DEBUG] Themes loaded:', themes );
+	console.log( '[THEME DEBUG] Is customized:', isCustomized );
 
 	// SESSION-ONLY customization cache (not saved to database)
 	// Stores snapshots PER THEME: { "": {...}, "Dark Mode": {...} }
@@ -155,34 +158,47 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
+		console.log( '[THEME CREATE DEBUG] Starting theme creation:', themeName );
+
 		// Get current snapshot from session cache
 		const currentThemeKey = attributes.currentTheme || '';
 		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
+		console.log( '[THEME CREATE DEBUG] Current theme key:', currentThemeKey );
+		console.log( '[THEME CREATE DEBUG] Current snapshot:', currentSnapshot );
 
 		// Calculate deltas from current snapshot (optimized storage)
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
+		console.log( '[THEME CREATE DEBUG] Calculated deltas:', deltas );
 
 		// Save theme with deltas only
-		await createTheme( 'accordion', themeName, deltas );
+		console.log( '[THEME CREATE DEBUG] Calling createTheme API...' );
+		const createdTheme = await createTheme( 'accordion', themeName, deltas );
+		console.log( '[THEME CREATE DEBUG] API response:', createdTheme );
 
 		// Reset to clean theme: apply defaults + new theme deltas
 		const newTheme = { values: deltas };
 		const newExpectedValues = applyDeltas( allDefaults, newTheme.values || {} );
 		const resetAttrs = { ...newExpectedValues, currentTheme: themeName };
+		console.log( '[THEME CREATE DEBUG] New expected values:', newExpectedValues );
+		console.log( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
 
 		// Remove excluded attributes
 		excludeFromCustomizationCheck.forEach( ( key ) => {
 			delete resetAttrs[ key ];
 		} );
 
+		console.log( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
 		setAttributes( resetAttrs );
 
 		// Clear session cache for old theme, new theme starts clean
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
 			delete updated[ currentThemeKey ];
+			console.log( '[THEME CREATE DEBUG] Updated session cache:', updated );
 			return updated;
 		} );
+
+		console.log( '[THEME CREATE DEBUG] Theme creation completed' );
 	};
 
 	const handleUpdateTheme = async () => {
