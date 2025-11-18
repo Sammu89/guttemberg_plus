@@ -199,10 +199,12 @@ export default function Edit( { attributes, setAttributes } ) {
 		console.log( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
 		setAttributes( resetAttrs );
 
-		// Clear session cache for old theme, new theme starts clean
+		// Clear session cache for BOTH old and new themes
+		// This ensures the new theme starts completely clean without appearing customized
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
-			delete updated[ currentThemeKey ];
+			delete updated[ currentThemeKey ]; // Delete old theme cache
+			delete updated[ themeName ]; // Delete new theme cache (prevents showing as customized)
 			console.log( '[THEME CREATE DEBUG] Updated session cache:', updated );
 			return updated;
 		} );
@@ -250,14 +252,24 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	const handleResetCustomizations = () => {
+		console.log( '[RESET DEBUG] Resetting customizations to clean theme' );
+		console.log( '[RESET DEBUG] Current theme:', attributes.currentTheme );
+		console.log( '[RESET DEBUG] Expected values:', expectedValues );
+
 		// Reset to clean theme: apply expected values (defaults + current theme)
 		const resetAttrs = { ...expectedValues };
 
-		// Remove excluded attributes from reset (keep structural/meta)
+		// Remove excluded attributes from reset (except currentTheme which we need to preserve)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
 		} );
 
+		// Preserve the current theme selection
+		resetAttrs.currentTheme = attributes.currentTheme;
+
+		console.log( '[RESET DEBUG] Attributes to set:', resetAttrs );
 		setAttributes( resetAttrs );
 
 		// Clear session cache for current theme
@@ -265,6 +277,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
 			delete updated[ currentThemeKey ];
+			console.log( '[RESET DEBUG] Cleared session cache for theme:', currentThemeKey );
 			return updated;
 		} );
 	};
