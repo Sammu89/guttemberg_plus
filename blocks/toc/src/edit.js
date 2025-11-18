@@ -330,12 +330,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		}
 
 		// Apply values and update currentTheme
-		const resetAttrs = { ...valuesToApply, currentTheme: newThemeName };
+		const resetAttrs = { ...valuesToApply };
 
-		// Remove excluded attributes (keep structural/meta)
+		// Remove excluded attributes (except currentTheme which we need to set)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
 		} );
+
+		// Set the new theme
+		resetAttrs.currentTheme = newThemeName;
 
 		setAttributes( resetAttrs );
 	};
