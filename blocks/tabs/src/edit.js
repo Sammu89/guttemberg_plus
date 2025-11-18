@@ -197,10 +197,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 		setAttributes( resetAttrs );
 
-		// Clear session cache for old theme (no longer needed)
+		// Clear session cache for BOTH old and new themes
+		// This ensures the new theme starts completely clean without appearing customized
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
-			delete updated[ currentThemeKey ];
+			delete updated[ currentThemeKey ]; // Delete old theme cache
+			delete updated[ themeName ]; // Delete new theme cache (prevents showing as customized)
 			return updated;
 		} );
 	};
@@ -235,10 +237,15 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		// Reset to clean theme: apply expected values (defaults + current theme)
 		const resetAttrs = { ...expectedValues };
 
-		// Remove excluded attributes from reset (keep structural/meta)
+		// Remove excluded attributes from reset (except currentTheme which we need to preserve)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
 		} );
+
+		// Preserve the current theme selection
+		resetAttrs.currentTheme = attributes.currentTheme;
 
 		setAttributes( resetAttrs );
 
