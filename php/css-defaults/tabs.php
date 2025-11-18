@@ -3,7 +3,7 @@
  * CSS Default Values
  *
  * Auto-generated from assets/css/tabs.css
- * Generated: 2025-11-17T23:53:05.644Z
+ * Generated: 2025-11-18T07:39:11.946Z
  *
  * DO NOT EDIT MANUALLY - Changes will be overwritten on build
  */

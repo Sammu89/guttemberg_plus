@@ -29,7 +29,8 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	ColorPanel,
+	HeaderColorsPanel,
+	ContentColorsPanel,
 	TypographyPanel,
 	BorderPanel,
 	IconPanel,
@@ -569,7 +570,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					) }
 				</PanelBody>
 
-				<PanelBody title={ __( 'Tab Management', 'guttemberg-plus' ) }>
+				<PanelBody title={ __( 'Tab Management', 'guttemberg-plus' ) } initialOpen={ true }>
 					<div className="tabs-management">
 						{ tabPanels.map( ( panel, index ) => (
 							<div key={ panel.clientId } style={ { marginBottom: '12px' } }>
@@ -611,7 +612,16 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					</div>
 				</PanelBody>
 
-				<ColorPanel
+				<HeaderColorsPanel
+					effectiveValues={ effectiveValues }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					blockType="tabs"
+					theme={ themes[ attributes.currentTheme ]?.values }
+					cssDefaults={ cssDefaults }
+				/>
+
+				<ContentColorsPanel
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
@@ -648,12 +658,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				/>
 
 				{ isCustomized && (
-					<PanelBody title={ __( 'Customization Info', 'guttemberg-plus' ) }>
+					<div className="customization-warning-wrapper">
 						<CustomizationWarning
 							currentTheme={ attributes.currentTheme }
 							themes={ themes }
 						/>
-					</PanelBody>
+					</div>
 				) }
 			</InspectorControls>
 
