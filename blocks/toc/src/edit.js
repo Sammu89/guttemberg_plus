@@ -230,7 +230,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		await createTheme( 'toc', themeName, deltas );
 
 		// Switch to clean theme (reset to defaults + new theme deltas)
-		const newExpectedValues = applyDeltas( allDefaults, { values: deltas } );
+		const newExpectedValues = applyDeltas( allDefaults, deltas );
 		const resetAttrs = { ...newExpectedValues, currentTheme: themeName };
 
 		// Remove excluded attributes (keep structural/meta)

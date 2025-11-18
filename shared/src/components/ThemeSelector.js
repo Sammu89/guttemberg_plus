@@ -131,6 +131,11 @@ export function ThemeSelector( {
 			: `${ currentTheme }::customized`
 		: currentTheme;
 
+	console.log( '[THEME SELECTOR DEBUG] currentTheme:', currentTheme );
+	console.log( '[THEME SELECTOR DEBUG] isCustomized:', isCustomized );
+	console.log( '[THEME SELECTOR DEBUG] dropdownValue:', dropdownValue );
+	console.log( '[THEME SELECTOR DEBUG] themeOptions:', themeOptions );
+
 	return (
 		<div className="theme-selector">
 			<SelectControl
