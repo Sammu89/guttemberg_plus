@@ -23,6 +23,43 @@ attributes.customizationCache = {};
 - Block attributes are saved to database → would persist customizations permanently
 - User gets clean separation: temporary customizations vs saved themes
 
+**Per-Block-Instance Isolation:**
+
+Each block instance has its own independent session cache:
+
+```javascript
+// Block 1 (Accordion #1)
+const [sessionCache, setSessionCache] = useState({
+  "": { titleColor: "#ff0000" }  // Block 1's Default customization
+});
+
+// Block 2 (Accordion #2) - COMPLETELY INDEPENDENT
+const [sessionCache, setSessionCache] = useState({
+  "": { titleColor: "#0000ff" }  // Block 2's Default customization
+});
+```
+
+**Critical:**
+- React `useState` is per-component-instance
+- Block 1's session cache is isolated from Block 2's session cache
+- Each accordion, tab, or TOC block on the page has its own cache
+- No shared state between blocks (even blocks of the same type)
+
+**Example:**
+```
+Post with 2 Accordion blocks:
+
+Accordion Block 1:
+  - User customizes Default: titleColor = red
+  - Session cache: { "": { titleColor: "#ff0000", ... } }
+
+Accordion Block 2:
+  - User customizes Default: titleColor = blue
+  - Session cache: { "": { titleColor: "#0000ff", ... } }
+
+Both can have "Default (customized)" but with different values!
+```
+
 ---
 
 ## Purpose and User Experience
@@ -593,6 +630,45 @@ const [sessionCache, setSessionCache] = useState({})
 expect(sessionCache).toEqual({})
 ```
 
+### Test 6: Per-Block-Instance Isolation
+
+```javascript
+// Post with 2 Accordion blocks
+const accordionBlock1 = mount(<Edit attributes={attrs1} setAttributes={setAttrs1} />);
+const accordionBlock2 = mount(<Edit attributes={attrs2} setAttributes={setAttrs2} />);
+
+// Block 1: User customizes Default with red
+accordionBlock1.setAttributes({ titleColor: "#ff0000" });
+
+// Block 2: User customizes Default with blue
+accordionBlock2.setAttributes({ titleColor: "#0000ff" });
+
+// Verify Block 1's session cache
+expect(accordionBlock1.sessionCache[""]).toHaveProperty("titleColor", "#ff0000");
+
+// Verify Block 2's session cache (INDEPENDENT)
+expect(accordionBlock2.sessionCache[""]).toHaveProperty("titleColor", "#0000ff");
+
+// Verify no cross-contamination
+expect(accordionBlock1.sessionCache[""]).not.toEqual(accordionBlock2.sessionCache[""]);
+
+// Both can have "Default (customized)" in dropdown
+expect(accordionBlock1.themeOptions).toContain({ label: "Default (customized)", value: "::customized" });
+expect(accordionBlock2.themeOptions).toContain({ label: "Default (customized)", value: "::customized" });
+
+// But with different underlying values
+accordionBlock1.handleThemeChange("", true);  // Red
+accordionBlock2.handleThemeChange("", true);  // Blue
+expect(accordionBlock1.attributes.titleColor).toBe("#ff0000");
+expect(accordionBlock2.attributes.titleColor).toBe("#0000ff");
+```
+
+**This test verifies:**
+- Each block instance has its own isolated session cache
+- Block 1's customizations don't affect Block 2
+- Multiple blocks can have "Default (customized)" with different values
+- React useState provides automatic per-component-instance isolation
+
 ---
 
 ## Benefits
@@ -634,6 +710,7 @@ expect(sessionCache).toEqual({})
 6. **Use "themeName::customized" format for customized variants**
 7. **Pass (themeName, useCustomized) to handleThemeChange**
 8. **Only current theme values saved to database on post save**
+9. **Each block instance has its own isolated session cache (per-component-instance)**
 
 ---
 
