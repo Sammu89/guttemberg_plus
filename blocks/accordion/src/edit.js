@@ -132,9 +132,6 @@ export default function Edit( { attributes, setAttributes } ) {
 	debug( '[DEBUG] Accordion attributes (source of truth):', attributes );
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
 	debug( '[DEBUG] Is customized:', isCustomized );
-	console.log( '[THEME DEBUG] Current attributes.currentTheme:', attributes.currentTheme );
-	console.log( '[THEME DEBUG] Themes loaded:', themes );
-	console.log( '[THEME DEBUG] Is customized:', isCustomized );
 
 	// SESSION-ONLY customization cache (not saved to database)
 	// Stores snapshots PER THEME: { "": {...}, "Dark Mode": {...} }
@@ -152,6 +149,13 @@ export default function Edit( { attributes, setAttributes } ) {
 			[ currentThemeKey ]: snapshot,
 		} ) );
 	}, [ attributes, excludeFromCustomizationCheck ] );
+
+	// Log when currentTheme changes (for debugging)
+	useEffect( () => {
+		console.log( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
+		console.log( '[THEME CHANGE] isCustomized:', isCustomized );
+		console.log( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
+	}, [ attributes.currentTheme ] );
 
 	/**
 	 * Theme callback handlers
