@@ -60,6 +60,12 @@ export {
 } from './utils/id-generator';
 
 export {
+	calculateDeltas,
+	applyDeltas,
+	getThemeableSnapshot,
+} from './utils/delta-calculator';
+
+export {
 	getAccordionButtonAria,
 	getAccordionPanelAria,
 	getTabButtonAria,

@@ -26,25 +26,6 @@ export const metaAttributes = {
 	},
 
 	/**
-	 * Block-level customizations
-	 * Stores inline overrides that win in cascade
-	 */
-	customizations: {
-		type: 'object',
-		default: {},
-	},
-
-	/**
-	 * Session-only customization cache
-	 * Preserves customizations during theme switching
-	 * NOT serialized to post content
-	 */
-	customizationCache: {
-		type: 'object',
-		default: {},
-	},
-
-	/**
 	 * Unique block identifier
 	 * Auto-generated on block creation
 	 * Format: {prefix}-{4 alphanumeric chars}

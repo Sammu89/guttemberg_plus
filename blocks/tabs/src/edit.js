@@ -22,10 +22,11 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 
 import {
-	getAllEffectiveValues,
-	hasAnyCustomizations,
 	generateUniqueId,
 	getAllDefaults,
+	calculateDeltas,
+	applyDeltas,
+	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
 	ColorPanel,
@@ -50,6 +51,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Local state for active tab in editor
 	const [ activeTab, setActiveTab ] = useState( attributes.currentTab || 0 );
+
+	// Session-only cache (React state, not saved to database)
+	// Stores complete snapshots PER THEME: { "": {...}, "Dark Mode": {...} }
+	// Lost on page reload (desired behavior)
+	const [ sessionCache, setSessionCache ] = useState( {} );
 
 	// Get tab-panel children
 	const { tabPanels } = useSelect(
@@ -100,18 +106,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Merge CSS defaults with behavioral defaults from attribute schemas
 	const allDefaults = getAllDefaults( cssDefaults );
 
-	// Resolve effective values through cascade (pure cascade - no normalization)
-	// Source of truth: All defaults (CSS + behavioral) -> Theme values -> Block customizations
-	const effectiveValues = getAllEffectiveValues(
-		attributes,
-		themes[ attributes.currentTheme ]?.values || {},
-		allDefaults
-	);
-
-	debug( '[DEBUG] Effective values:', effectiveValues );
-
-	// Check if block has customizations using proper cascade comparison
-	// Attributes to exclude from customization check (truly structural, non-themeable attributes)
+	// Attributes to exclude from theming (structural, meta, behavioral only)
 	const excludeFromCustomizationCheck = [
 		// Structural identifiers (not themeable)
 		'tabs',
@@ -119,8 +114,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		'blockId',
 		// Meta attributes (not themeable)
 		'currentTheme',
-		'customizations',
-		'customizationCache',
 		// Behavioral settings (not themeable - per-block only)
 		'orientation',
 		'activationMode',
@@ -129,102 +122,96 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		'enableResponsiveFallback',
 	];
 
-	const isCustomized = hasAnyCustomizations(
-		attributes,
-		themes[ attributes.currentTheme ]?.values || {},
-		allDefaults,
-		excludeFromCustomizationCheck
-	);
+	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
+	const effectiveValues = attributes;
 
-	// DEBUG: Log customization detection details
-	useEffect( () => {
-		console.group( '🔍 TABS Customization Detection Debug' );
-		console.log( 'Current Theme:', attributes.currentTheme || '(none - using Default)' );
-		console.log( 'Is Customized:', isCustomized );
-		console.log( 'All Attributes:', attributes );
-		console.log( 'Excluded from Check:', excludeFromCustomizationCheck );
+	// Calculate expected values: defaults + current theme deltas
+	const currentTheme = themes[ attributes.currentTheme ];
+	const expectedValues = currentTheme
+		? applyDeltas( allDefaults, currentTheme.values || {} )
+		: allDefaults;
 
-		// Find which attributes are customized
-		const customizedAttrs = [];
-		Object.keys( attributes ).forEach( ( key ) => {
-			if ( excludeFromCustomizationCheck.includes( key ) ) {
-				return; // Skip excluded
-			}
-
-			const attrValue = attributes[ key ];
-			const themeValue = themes[ attributes.currentTheme ]?.values?.[ key ];
-			const cssDefault = allDefaults[ key ];
-
-			// Check if attribute is defined
-			if ( attrValue !== null && attrValue !== undefined ) {
-				// Compare against theme or CSS default
-				let isDifferent = false;
-				if ( themeValue !== null && themeValue !== undefined ) {
-					if ( typeof attrValue === 'object' ) {
-						isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( themeValue );
-					} else {
-						isDifferent = attrValue !== themeValue;
-					}
-				} else if ( cssDefault !== null && cssDefault !== undefined ) {
-					if ( typeof attrValue === 'object' ) {
-						isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( cssDefault );
-					} else {
-						isDifferent = attrValue !== cssDefault;
-					}
-				} else {
-					isDifferent = true; // No default to compare against
-				}
-
-				if ( isDifferent ) {
-					customizedAttrs.push( {
-						key,
-						blockValue: attrValue,
-						themeValue,
-						cssDefault,
-					} );
-				}
-			}
-		} );
-
-		if ( customizedAttrs.length > 0 ) {
-			console.log( '❌ Customized Attributes:', customizedAttrs );
-		} else {
-			console.log( '✅ No customizations detected' );
+	// Auto-detect customizations by comparing attributes to expected values
+	const isCustomized = Object.keys( attributes ).some( ( key ) => {
+		if ( excludeFromCustomizationCheck.includes( key ) ) {
+			return false;
 		}
-		console.groupEnd();
-	}, [ attributes, isCustomized, themes, allDefaults, excludeFromCustomizationCheck ] );
 
-	/**
-	 * Helper: Extract only themeable values (exclude structural/meta attributes)
-	 */
-	const getThemeableValues = ( values ) => {
-		const themeable = { ...values };
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete themeable[ key ];
-		} );
-		return themeable;
-	};
+		const attrValue = attributes[ key ];
+		const expectedValue = expectedValues[ key ];
+
+		if ( attrValue === undefined || attrValue === null ) {
+			return false;
+		}
+
+		if ( typeof attrValue === 'object' && attrValue !== null ) {
+			return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+		}
+
+		return attrValue !== expectedValue;
+	} );
+
+	debug( '[DEBUG] Tabs attributes (source of truth):', attributes );
+	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
+	debug( '[DEBUG] Is customized:', isCustomized );
+
+	// Auto-update session cache for CURRENT theme (session-only, not saved to database)
+	// This preserves customizations across theme switches WITHIN the editing session
+	// Lost on page reload or post save (desired behavior)
+	useEffect( () => {
+		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
+		const currentThemeKey = attributes.currentTheme || '';
+
+		setSessionCache( ( prev ) => ( {
+			...prev,
+			[ currentThemeKey ]: snapshot,
+		} ) );
+	}, [ attributes, excludeFromCustomizationCheck ] );
 
 	/**
 	 * Theme callback handlers
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		const themeableValues = getThemeableValues( effectiveValues );
-		await createTheme( 'tabs', themeName, themeableValues );
-		setAttributes( {
-			currentTheme: themeName,
-			customizations: {},
-			customizationCache: '',
+		// Use session cache snapshot for current theme
+		const currentThemeKey = attributes.currentTheme || '';
+		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
+		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
+
+		await createTheme( 'tabs', themeName, deltas );
+
+		// Switch to clean theme (reset to defaults + new theme deltas)
+		const newExpectedValues = applyDeltas( allDefaults, { values: deltas } );
+		const resetAttrs = { ...newExpectedValues, currentTheme: themeName };
+
+		// Remove excluded attributes (keep structural/meta)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
+		} );
+
+		setAttributes( resetAttrs );
+
+		// Clear session cache for old theme (no longer needed)
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
 		} );
 	};
 
 	const handleUpdateTheme = async () => {
-		const themeableValues = getThemeableValues( effectiveValues );
-		await updateTheme( 'tabs', attributes.currentTheme, themeableValues );
-		setAttributes( {
-			customizations: {},
-			customizationCache: '',
+		// Use session cache snapshot for current theme
+		const currentThemeKey = attributes.currentTheme || '';
+		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
+		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
+
+		await updateTheme( 'tabs', attributes.currentTheme, deltas );
+
+		// Clear session cache (theme now matches current state)
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
 		} );
 	};
 
@@ -239,14 +226,56 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	};
 
 	const handleResetCustomizations = () => {
-		// Reset all customizable attributes to null
-		// Keep structural, behavioral, and icon settings
-		const resetAttrs = {};
-		Object.keys( attributes ).forEach( ( key ) => {
-			if ( ! excludeFromCustomizationCheck.includes( key ) ) {
-				resetAttrs[ key ] = null;
-			}
+		// Reset to clean theme: apply expected values (defaults + current theme)
+		const resetAttrs = { ...expectedValues };
+
+		// Remove excluded attributes from reset (keep structural/meta)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
 		} );
+
+		setAttributes( resetAttrs );
+
+		// Clear session cache for current theme
+		const currentThemeKey = attributes.currentTheme || '';
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
+		} );
+	};
+
+	/**
+	 * Handle theme change from dropdown
+	 * Supports dual variants: clean theme and customized theme
+	 *
+	 * @param {string}  newThemeName   Theme name to switch to
+	 * @param {boolean} useCustomized  Whether to restore from session cache
+	 */
+	const handleThemeChange = ( newThemeName, useCustomized = false ) => {
+		const newTheme = themes[ newThemeName ];
+		const newThemeKey = newThemeName || '';
+
+		let valuesToApply;
+
+		if ( useCustomized && sessionCache[ newThemeKey ] ) {
+			// User selected customized variant - restore from session cache
+			valuesToApply = sessionCache[ newThemeKey ];
+		} else {
+			// User selected clean theme - use defaults + theme deltas
+			valuesToApply = newTheme
+				? applyDeltas( allDefaults, newTheme.values || {} )
+				: allDefaults;
+		}
+
+		// Apply values and update currentTheme
+		const resetAttrs = { ...valuesToApply, currentTheme: newThemeName };
+
+		// Remove excluded attributes (keep structural/meta)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
+		} );
+
 		setAttributes( resetAttrs );
 	};
 
@@ -467,6 +496,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						setAttributes={ setAttributes }
 						themes={ themes }
 						themesLoaded={ themesLoaded }
+						sessionCache={ sessionCache }
+						onThemeChange={ handleThemeChange }
 						onSaveNew={ handleSaveNewTheme }
 						onUpdate={ handleUpdateTheme }
 						onDelete={ handleDeleteTheme }
