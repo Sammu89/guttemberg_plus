@@ -30,7 +30,8 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	ColorPanel,
+	HeaderColorsPanel,
+	ContentColorsPanel,
 	TypographyPanel,
 	BorderPanel,
 	CustomizationWarning,
@@ -339,8 +340,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	return (
 		<>
 			<InspectorControls>
-				{ /* Settings Panel */ }
-				<PanelBody title="Settings" initialOpen={ true }>
+				<div className="toc-settings-panel">
 					<ThemeSelector
 						blockType="toc"
 						currentTheme={ currentTheme }
@@ -358,7 +358,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onRename={ handleRenameTheme }
 						onReset={ handleResetCustomizations }
 					/>
+				</div>
 
+				{ /* TOC Settings Panel */ }
+				<PanelBody title="TOC Settings" initialOpen={ true }>
 					<ToggleControl
 						label="Show Title"
 						checked={ showTitle }
@@ -526,6 +529,26 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					/>
 				</PanelBody>
 
+				{ /* Header Colors */ }
+				<HeaderColorsPanel
+					effectiveValues={ effectiveValues }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					blockType="toc"
+					theme={ theme }
+					cssDefaults={ cssDefaults }
+				/>
+
+				{ /* Content Colors */ }
+				<ContentColorsPanel
+					effectiveValues={ effectiveValues }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					blockType="toc"
+					theme={ theme }
+					cssDefaults={ cssDefaults }
+				/>
+
 				{ /* Typography Panel */ }
 				<TypographyPanel
 					effectiveValues={ effectiveValues }
@@ -533,188 +556,24 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					setAttributes={ setAttributes }
 					blockType="toc"
 					theme={ theme }
-					initialOpen={ false }
+					cssDefaults={ cssDefaults }
 				/>
 
-				{ /* Level 1 Typography Panel */ }
-				<PanelBody title="Level 1 Typography (H2)" initialOpen={ false }>
-					<SelectControl
-						label="Font Style"
-						value={ attributes.level1FontStyle || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'Normal', value: 'normal' },
-							{ label: 'Italic', value: 'italic' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level1FontStyle: value || null,
-							} )
-						}
-					/>
-
-					<SelectControl
-						label="Text Transform"
-						value={ attributes.level1TextTransform || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'None', value: 'none' },
-							{ label: 'Uppercase', value: 'uppercase' },
-							{ label: 'Lowercase', value: 'lowercase' },
-							{ label: 'Capitalize', value: 'capitalize' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level1TextTransform: value || null,
-							} )
-						}
-					/>
-
-					<SelectControl
-						label="Text Decoration"
-						value={ attributes.level1TextDecoration || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'None', value: 'none' },
-							{ label: 'Underline', value: 'underline' },
-							{ label: 'Overline', value: 'overline' },
-							{ label: 'Line Through', value: 'line-through' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level1TextDecoration: value || null,
-							} )
-						}
-					/>
-				</PanelBody>
-
-				{ /* Level 2 Typography Panel */ }
-				<PanelBody title="Level 2 Typography (H3)" initialOpen={ false }>
-					<SelectControl
-						label="Font Style"
-						value={ attributes.level2FontStyle || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'Normal', value: 'normal' },
-							{ label: 'Italic', value: 'italic' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level2FontStyle: value || null,
-							} )
-						}
-					/>
-
-					<SelectControl
-						label="Text Transform"
-						value={ attributes.level2TextTransform || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'None', value: 'none' },
-							{ label: 'Uppercase', value: 'uppercase' },
-							{ label: 'Lowercase', value: 'lowercase' },
-							{ label: 'Capitalize', value: 'capitalize' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level2TextTransform: value || null,
-							} )
-						}
-					/>
-
-					<SelectControl
-						label="Text Decoration"
-						value={ attributes.level2TextDecoration || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'None', value: 'none' },
-							{ label: 'Underline', value: 'underline' },
-							{ label: 'Overline', value: 'overline' },
-							{ label: 'Line Through', value: 'line-through' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level2TextDecoration: value || null,
-							} )
-						}
-					/>
-				</PanelBody>
-
-				{ /* Level 3+ Typography Panel */ }
-				<PanelBody title="Level 3+ Typography (H4-H6)" initialOpen={ false }>
-					<SelectControl
-						label="Font Style"
-						value={ attributes.level3PlusFontStyle || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'Normal', value: 'normal' },
-							{ label: 'Italic', value: 'italic' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level3PlusFontStyle: value || null,
-							} )
-						}
-					/>
-
-					<SelectControl
-						label="Text Transform"
-						value={ attributes.level3PlusTextTransform || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'None', value: 'none' },
-							{ label: 'Uppercase', value: 'uppercase' },
-							{ label: 'Lowercase', value: 'lowercase' },
-							{ label: 'Capitalize', value: 'capitalize' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level3PlusTextTransform: value || null,
-							} )
-						}
-					/>
-
-					<SelectControl
-						label="Text Decoration"
-						value={ attributes.level3PlusTextDecoration || '' }
-						options={ [
-							{ label: 'Default', value: '' },
-							{ label: 'None', value: 'none' },
-							{ label: 'Underline', value: 'underline' },
-							{ label: 'Overline', value: 'overline' },
-							{ label: 'Line Through', value: 'line-through' },
-						] }
-						onChange={ ( value ) =>
-							setAttributes( {
-								level3PlusTextDecoration: value || null,
-							} )
-						}
-					/>
-				</PanelBody>
-
-				{ /* Color Panel */ }
-				<ColorPanel
-					effectiveValues={ effectiveValues }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					blockType="toc"
-					theme={ theme }
-					initialOpen={ false }
-				/>
-
-				{ /* Border Panel */ }
+				{ /* Borders */ }
 				<BorderPanel
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					blockType="toc"
 					theme={ theme }
-					initialOpen={ false }
+					cssDefaults={ cssDefaults }
 				/>
 
 				{ /* Customization Warning */ }
 				{ isCustomized && (
-					<CustomizationWarning currentTheme={ currentTheme } themes={ themes } />
+					<div className="customization-warning-wrapper">
+						<CustomizationWarning currentTheme={ currentTheme } themes={ themes } />
+					</div>
 				) }
 			</InspectorControls>
 
