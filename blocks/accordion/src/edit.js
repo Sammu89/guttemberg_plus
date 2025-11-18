@@ -182,14 +182,19 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Reset to clean theme: apply defaults + new theme deltas
 		const newTheme = { values: deltas };
 		const newExpectedValues = applyDeltas( allDefaults, newTheme.values || {} );
-		const resetAttrs = { ...newExpectedValues, currentTheme: themeName };
+		const resetAttrs = { ...newExpectedValues };
 		console.log( '[THEME CREATE DEBUG] New expected values:', newExpectedValues );
-		console.log( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
 
-		// Remove excluded attributes
+		// Remove excluded attributes (except currentTheme which we need to set)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
 		} );
+
+		// Now set the currentTheme to the new theme name
+		resetAttrs.currentTheme = themeName;
+		console.log( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
 
 		console.log( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
 		setAttributes( resetAttrs );
