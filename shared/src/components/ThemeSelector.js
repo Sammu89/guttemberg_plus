@@ -31,6 +31,8 @@ import { debug } from '../utils/debug';
  * @param {Function} props.onDelete        Callback to delete theme (optional)
  * @param {Function} props.onRename        Callback to rename theme (optional)
  * @param {Function} props.onReset         Callback to reset customizations (optional)
+ * @param {Function} props.onThemeChange   Callback when theme changes (handles reset-and-apply) (optional)
+ * @param {Object}   props.sessionCache    Session-only cache of customizations per theme (optional)
  */
 export function ThemeSelector( {
 	blockType,
@@ -47,6 +49,8 @@ export function ThemeSelector( {
 	onDelete,
 	onRename,
 	onReset,
+	onThemeChange,
+	sessionCache = {},
 } ) {
 	debug( '[DEBUG] ThemeSelector props received:' );
 	debug( '  blockType:', blockType );
@@ -63,37 +67,75 @@ export function ThemeSelector( {
 	const [ newThemeName, setNewThemeName ] = useState( '' );
 
 	// Handle theme change
-	const handleThemeChange = ( newTheme ) => {
-		if ( setAttributes ) {
-			setAttributes( { currentTheme: newTheme } );
-		} else if ( onChange ) {
-			// Fallback to onChange if provided (deprecated)
-			onChange( newTheme );
+	const handleThemeChange = ( value ) => {
+		// Parse value - might be "themeName" or "themeName::customized"
+		const isCustomizedVariant = value.endsWith( '::customized' );
+		const themeName = isCustomizedVariant
+			? value.replace( '::customized', '' )
+			: value;
+
+		// If onThemeChange callback provided, use it (new architecture - session-only cache)
+		if ( onThemeChange ) {
+			// Pass theme name and flag indicating if user wants customized variant
+			onThemeChange( themeName, isCustomizedVariant );
+		}
+		// Otherwise fall back to simple setAttributes (backwards compatibility)
+		else if ( setAttributes ) {
+			setAttributes( { currentTheme: themeName } );
+		}
+		// Deprecated onChange callback
+		else if ( onChange ) {
+			onChange( themeName );
 		}
 	};
 
 	// Prepare theme options for dropdown
-	const themeOptions = Object.keys( themes || {} ).map( ( name ) => {
-		// Add (customized) suffix to the current theme if it's customized
-		const isCurrentTheme = name === currentTheme;
-		const label = isCurrentTheme && isCustomized ? `${ name } (customized)` : name;
-		return {
-			label,
-			value: name,
-		};
+	// Shows BOTH clean and customized variants when sessionCache exists
+	const themeOptions = [];
+
+	// Add Default options
+	themeOptions.push( {
+		label: 'Default',
+		value: '',
 	} );
 
-	// Add "Default" option if not present
-	if ( ! themeOptions.find( ( opt ) => opt.value === '' ) ) {
-		const defaultLabel = currentTheme === '' && isCustomized ? 'Default (customized)' : 'Default';
-		themeOptions.unshift( { label: defaultLabel, value: '' } );
+	// If Default has customizations in session cache, add "Default (customized)"
+	if ( sessionCache[ '' ] ) {
+		themeOptions.push( {
+			label: 'Default (customized)',
+			value: '::customized', // Special marker for customized Default
+		} );
 	}
+
+	// Add saved theme options
+	Object.keys( themes || {} ).forEach( ( name ) => {
+		// Clean theme
+		themeOptions.push( {
+			label: name,
+			value: name,
+		} );
+
+		// Customized variant if exists in session cache
+		if ( sessionCache[ name ] ) {
+			themeOptions.push( {
+				label: `${ name } (customized)`,
+				value: `${ name }::customized`,
+			} );
+		}
+	} );
+
+	// Determine current dropdown value based on whether using customizations
+	const dropdownValue = isCustomized
+		? currentTheme === ''
+			? '::customized'
+			: `${ currentTheme }::customized`
+		: currentTheme;
 
 	return (
 		<div className="theme-selector">
 			<SelectControl
 				label="Theme"
-				value={ currentTheme }
+				value={ dropdownValue }
 				options={ themeOptions }
 				onChange={ handleThemeChange }
 			/>

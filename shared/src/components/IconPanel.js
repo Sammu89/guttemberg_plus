@@ -44,6 +44,7 @@ export function IconPanel( {
 } ) {
 	/**
 	 * Handle attribute change
+	 * Writes directly to attribute (sidebar is source of truth)
 	 * @param attrName
 	 * @param value
 	 */
