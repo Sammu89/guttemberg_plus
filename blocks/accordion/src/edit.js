@@ -305,13 +305,20 @@ export default function Edit( { attributes, setAttributes } ) {
 		}
 
 		// Apply values
-		const resetAttrs = { ...valuesToApply, currentTheme: newThemeName };
+		const resetAttrs = { ...valuesToApply };
 
-		// Remove excluded attributes
+		// Remove excluded attributes (except currentTheme which we need to set)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
 		} );
 
+		// Set the new theme
+		resetAttrs.currentTheme = newThemeName;
+
+		console.log( '[THEME CHANGE DEBUG] Switching to theme:', newThemeName );
+		console.log( '[THEME CHANGE DEBUG] Attributes to set:', resetAttrs );
 		setAttributes( resetAttrs );
 	};
 
