@@ -10,7 +10,7 @@
  */
 
 import { SelectControl, Button, Modal, TextControl } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { debug } from '../utils/debug';
 
 /**
@@ -65,6 +65,18 @@ export function ThemeSelector( {
 	const [ showCreateModal, setShowCreateModal ] = useState( false );
 	const [ showRenameModal, setShowRenameModal ] = useState( false );
 	const [ newThemeName, setNewThemeName ] = useState( '' );
+
+	// Log when currentTheme prop changes (for debugging theme switching)
+	useEffect( () => {
+		console.log( '[THEME SELECTOR] currentTheme prop changed to:', currentTheme );
+		console.log( '[THEME SELECTOR] isCustomized:', isCustomized );
+		const dropdownValue = isCustomized
+			? currentTheme === ''
+				? '::customized'
+				: `${ currentTheme }::customized`
+			: currentTheme;
+		console.log( '[THEME SELECTOR] Dropdown will show:', dropdownValue );
+	}, [ currentTheme, isCustomized ] );
 
 	// Handle theme change
 	const handleThemeChange = ( value ) => {
@@ -130,11 +142,6 @@ export function ThemeSelector( {
 			? '::customized'
 			: `${ currentTheme }::customized`
 		: currentTheme;
-
-	console.log( '[THEME SELECTOR DEBUG] currentTheme:', currentTheme );
-	console.log( '[THEME SELECTOR DEBUG] isCustomized:', isCustomized );
-	console.log( '[THEME SELECTOR DEBUG] dropdownValue:', dropdownValue );
-	console.log( '[THEME SELECTOR DEBUG] themeOptions:', themeOptions );
 
 	return (
 		<div className="theme-selector">
