@@ -91,18 +91,26 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 
 		case TYPES.THEME_CREATED: {
 			const stateKey = getStateKey( action.blockType );
+			console.log( '[REDUCER DEBUG] THEME_CREATED reducer called' );
+			console.log( '[REDUCER DEBUG] Action:', action );
+			console.log( '[REDUCER DEBUG] State key:', stateKey );
+			console.log( '[REDUCER DEBUG] Previous state:', state );
+
 			// Guard against undefined theme object
 			if ( ! action.theme || ! action.theme.name ) {
 				console.error( '[Theme Store] THEME_CREATED: Invalid theme object', action );
 				return state;
 			}
-			return {
+
+			const newState = {
 				...state,
 				[ stateKey ]: {
 					...state[ stateKey ],
 					[ action.theme.name ]: action.theme,
 				},
 			};
+			console.log( '[REDUCER DEBUG] New state after THEME_CREATED:', newState );
+			return newState;
 		}
 
 		case TYPES.THEME_UPDATED: {
@@ -194,6 +202,7 @@ const actions = {
 	 * @param {Object} values    - Complete snapshot of all attribute values
 	 */
 	*createTheme( blockType, name, values ) {
+		console.log( '[REDUX DEBUG] createTheme action called:', { blockType, name, values } );
 		yield actions.setLoading( true );
 		yield actions.setError( null );
 
@@ -211,12 +220,18 @@ const actions = {
 				},
 			};
 
-			return {
+			console.log( '[REDUX DEBUG] API returned theme:', theme );
+
+			const action = {
 				type: TYPES.THEME_CREATED,
 				blockType,
 				theme,
 			};
+			console.log( '[REDUX DEBUG] Dispatching THEME_CREATED action:', action );
+
+			return action;
 		} catch ( error ) {
+			console.error( '[REDUX DEBUG] createTheme error:', error );
 			yield actions.setError( error.message );
 			throw error;
 		} finally {

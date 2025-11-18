@@ -213,9 +213,13 @@ function create_theme_handler( $request ) {
 	$name       = $request->get_param( 'name' );
 	$values     = $request->get_param( 'values' );
 
+	error_log( '[THEME CREATE DEBUG PHP] Creating theme: ' . $name . ' for block: ' . $block_type );
+	error_log( '[THEME CREATE DEBUG PHP] Values: ' . print_r( $values, true ) );
+
 	$theme = ThemeStorage\create_block_theme( $block_type, $name, $values );
 
 	if ( is_wp_error( $theme ) ) {
+		error_log( '[THEME CREATE DEBUG PHP] Error creating theme: ' . $theme->get_error_message() );
 		$status = 400;
 		if ( isset( $theme->error_data[ $theme->get_error_code() ]['status'] ) ) {
 			$status = $theme->error_data[ $theme->get_error_code() ]['status'];
@@ -228,6 +232,7 @@ function create_theme_handler( $request ) {
 		);
 	}
 
+	error_log( '[THEME CREATE DEBUG PHP] Theme created successfully: ' . print_r( $theme, true ) );
 	return rest_ensure_response( $theme );
 }
 
