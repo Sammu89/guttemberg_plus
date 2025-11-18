@@ -183,12 +183,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 		// Switch to clean theme (reset to defaults + new theme deltas)
 		const newExpectedValues = applyDeltas( allDefaults, deltas );
-		const resetAttrs = { ...newExpectedValues, currentTheme: themeName };
+		const resetAttrs = { ...newExpectedValues };
 
-		// Remove excluded attributes (keep structural/meta)
+		// Remove excluded attributes (except currentTheme which we need to set)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
 		} );
+
+		// Now set the currentTheme to the new theme name
+		resetAttrs.currentTheme = themeName;
 
 		setAttributes( resetAttrs );
 
