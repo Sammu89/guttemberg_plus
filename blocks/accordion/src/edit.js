@@ -22,7 +22,8 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	ColorPanel,
+	HeaderColorsPanel,
+	ContentColorsPanel,
 	TypographyPanel,
 	BorderPanel,
 	IconPanel,
@@ -441,7 +442,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</div>
 
-				<PanelBody title={ __( 'Settings', 'guttemberg-plus' ) } initialOpen={ true }>
+				<PanelBody title={ __( 'Accordion Settings', 'guttemberg-plus' ) } initialOpen={ true }>
 					<ToggleControl
 						label={ __( 'Initially Open', 'guttemberg-plus' ) }
 						help={ __(
@@ -463,7 +464,16 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 
-				<ColorPanel
+				<HeaderColorsPanel
+					effectiveValues={ effectiveValues }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					blockType="accordion"
+					theme={ themes[ attributes.currentTheme ]?.values }
+					cssDefaults={ cssDefaults }
+				/>
+
+				<ContentColorsPanel
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
@@ -500,12 +510,12 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 
 				{ isCustomized && (
-					<PanelBody title={ __( 'Customization Info', 'guttemberg-plus' ) }>
+					<div className="customization-warning-wrapper">
 						<CustomizationWarning
 							currentTheme={ attributes.currentTheme }
 							themes={ themes }
 						/>
-					</PanelBody>
+					</div>
 				) }
 			</InspectorControls>
 
