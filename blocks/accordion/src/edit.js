@@ -30,6 +30,7 @@ import {
 	IconPanel,
 	CustomizationWarning,
 	debug,
+	ACCORDION_EXCLUSIONS,
 } from '@shared';
 
 /**
@@ -84,19 +85,9 @@ export default function Edit( { attributes, setAttributes } ) {
 	const allDefaults = getAllDefaults( cssDefaults );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
-	const excludeFromCustomizationCheck = [
-		// Structural identifiers (not themeable)
-		'accordionId',
-		'uniqueId',
-		'blockId',
-		'title',
-		'content',
-		// Meta attributes (not themeable)
-		'currentTheme',
-		// Behavioral settings (not themeable - per-block only)
-		'initiallyOpen',
-		'allowMultipleOpen',
-	];
+	// Attributes to exclude from theme customization checks
+	// Centralized configuration from shared config
+	const excludeFromCustomizationCheck = ACCORDION_EXCLUSIONS;
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	// This is the simpler architecture - no complex cascade, just direct values
