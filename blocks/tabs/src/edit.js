@@ -19,7 +19,7 @@ import {
 	Button,
 } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useMemo } from '@wordpress/element';
 import { flushSync } from 'react-dom';
 
 import {
@@ -134,24 +134,27 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		: allDefaults;
 
 	// Auto-detect customizations by comparing attributes to expected values
-	const isCustomized = Object.keys( attributes ).some( ( key ) => {
-		if ( excludeFromCustomizationCheck.includes( key ) ) {
-			return false;
-		}
+	// Memoized to avoid recalculation on every render
+	const isCustomized = useMemo( () => {
+		return Object.keys( attributes ).some( ( key ) => {
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return false;
+			}
 
-		const attrValue = attributes[ key ];
-		const expectedValue = expectedValues[ key ];
+			const attrValue = attributes[ key ];
+			const expectedValue = expectedValues[ key ];
 
-		if ( attrValue === undefined || attrValue === null ) {
-			return false;
-		}
+			if ( attrValue === undefined || attrValue === null ) {
+				return false;
+			}
 
-		if ( typeof attrValue === 'object' && attrValue !== null ) {
-			return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
-		}
+			if ( typeof attrValue === 'object' && attrValue !== null ) {
+				return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			}
 
-		return attrValue !== expectedValue;
-	} );
+			return attrValue !== expectedValue;
+		} );
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	debug( '[DEBUG] Tabs attributes (source of truth):', attributes );
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );

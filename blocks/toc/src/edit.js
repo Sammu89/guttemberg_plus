@@ -11,7 +11,7 @@
  * @since 1.0.0
  */
 
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useMemo } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { flushSync } from 'react-dom';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
@@ -178,28 +178,31 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	];
 
 	// Auto-detect customizations by comparing attributes to expected values
-	const isCustomized = Object.keys( attributes ).some( ( key ) => {
-		// Skip excluded attributes
-		if ( excludeFromCustomizationCheck.includes( key ) ) {
-			return false;
-		}
+	// Memoized to avoid recalculation on every render
+	const isCustomized = useMemo( () => {
+		return Object.keys( attributes ).some( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return false;
+			}
 
-		const attrValue = attributes[ key ];
-		const expectedValue = expectedValues[ key ];
+			const attrValue = attributes[ key ];
+			const expectedValue = expectedValues[ key ];
 
-		// Skip undefined/null attributes
-		if ( attrValue === undefined || attrValue === null ) {
-			return false;
-		}
+			// Skip undefined/null attributes
+			if ( attrValue === undefined || attrValue === null ) {
+				return false;
+			}
 
-		// Deep comparison for objects
-		if ( typeof attrValue === 'object' && attrValue !== null && ! Array.isArray( attrValue ) ) {
-			return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
-		}
+			// Deep comparison for objects
+			if ( typeof attrValue === 'object' && attrValue !== null && ! Array.isArray( attrValue ) ) {
+				return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			}
 
-		// Simple comparison for primitives
-		return attrValue !== expectedValue;
-	} );
+			// Simple comparison for primitives
+			return attrValue !== expectedValue;
+		} );
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	debug( '[DEBUG] TOC effective values:', effectiveValues );
 	debug( '[DEBUG] TOC expected values:', expectedValues );
