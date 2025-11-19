@@ -159,15 +159,49 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Auto-update session cache for CURRENT theme (session-only, not saved to database)
 	// This preserves customizations across theme switches WITHIN the editing session
 	// Lost on page reload or post save (desired behavior)
+	// ONLY add if there are actual customizations vs expected values
 	useEffect( () => {
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 		const currentThemeKey = attributes.currentTheme || '';
 
-		setSessionCache( ( prev ) => ( {
-			...prev,
-			[ currentThemeKey ]: snapshot,
-		} ) );
-	}, [ attributes, excludeFromCustomizationCheck ] );
+		// Check if snapshot differs from expected values
+		const hasCustomizations = Object.keys( snapshot ).some( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return false;
+			}
+
+			const snapshotValue = snapshot[ key ];
+			const expectedValue = expectedValues[ key ];
+
+			// Skip undefined/null
+			if ( snapshotValue === undefined || snapshotValue === null ) {
+				return false;
+			}
+
+			// Deep comparison for objects
+			if ( typeof snapshotValue === 'object' && snapshotValue !== null ) {
+				return JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
+			}
+
+			return snapshotValue !== expectedValue;
+		} );
+
+		if ( hasCustomizations ) {
+			// Only add to cache if there are actual customizations
+			setSessionCache( ( prev ) => ( {
+				...prev,
+				[ currentThemeKey ]: snapshot,
+			} ) );
+		} else {
+			// Remove from cache if no customizations (clean theme)
+			setSessionCache( ( prev ) => {
+				const updated = { ...prev };
+				delete updated[ currentThemeKey ];
+				return updated;
+			} );
+		}
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	/**
 	 * Theme callback handlers
