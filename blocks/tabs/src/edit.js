@@ -37,6 +37,7 @@ import {
 	IconPanel,
 	CustomizationWarning,
 	debug,
+	TABS_EXCLUSIONS,
 } from '@shared';
 
 /**
@@ -109,20 +110,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const allDefaults = getAllDefaults( cssDefaults );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
-	const excludeFromCustomizationCheck = [
-		// Structural identifiers (not themeable)
-		'tabs',
-		'uniqueId',
-		'blockId',
-		// Meta attributes (not themeable)
-		'currentTheme',
-		// Behavioral settings (not themeable - per-block only)
-		'orientation',
-		'activationMode',
-		'currentTab',
-		'responsiveBreakpoint',
-		'enableResponsiveFallback',
-	];
+	// Attributes to exclude from theme customization checks
+	// Centralized configuration from shared config
+	const excludeFromCustomizationCheck = TABS_EXCLUSIONS;
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;

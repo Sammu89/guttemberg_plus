@@ -40,6 +40,14 @@ export { store, STORE_NAME } from './data';
 // Theme Manager (Module 1.4)
 export { getThemeManager } from './theme-system/theme-manager';
 
+// Theme Configuration
+export {
+	getExclusionsForBlock,
+	ACCORDION_EXCLUSIONS,
+	TABS_EXCLUSIONS,
+	TOC_EXCLUSIONS,
+} from './config/theme-exclusions';
+
 // Shared Attributes (Module 1.5)
 export { colorAttributes } from './attributes/color-attributes';
 export { typographyAttributes } from './attributes/typography-attributes';

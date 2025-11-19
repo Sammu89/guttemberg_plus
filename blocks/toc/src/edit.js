@@ -37,6 +37,7 @@ import {
 	BorderPanel,
 	CustomizationWarning,
 	debug,
+	TOC_EXCLUSIONS,
 } from '@shared';
 
 /**
@@ -153,29 +154,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		: allDefaults;
 
 	// Attributes to exclude from theming (structural/behavioral only)
-	const excludeFromCustomizationCheck = [
-		'tocId',
-		'showTitle',
-		'titleText',
-		'currentTheme',
-		'includeH2',
-		'includeH3',
-		'includeH4',
-		'includeH5',
-		'includeH6',
-		'scrollBehavior',
-		'scrollOffset',
-		'filterMode',
-		'includeLevels',
-		'includeClasses',
-		'excludeLevels',
-		'excludeClasses',
-		'depthLimit',
-		'numberingStyle',
-		'isCollapsible',
-		'initiallyCollapsed',
-		'clickBehavior',
-	];
+	// Attributes to exclude from theme customization checks
+	// Centralized configuration from shared config
+	const excludeFromCustomizationCheck = TOC_EXCLUSIONS;
 
 	// Auto-detect customizations by comparing attributes to expected values
 	// Memoized to avoid recalculation on every render
