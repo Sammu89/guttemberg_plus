@@ -10,6 +10,7 @@
 
 import { createReduxStore, register } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
+import { debug } from '../utils/debug';
 
 /**
  * Store name for theme management
@@ -91,10 +92,10 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 
 		case TYPES.THEME_CREATED: {
 			const stateKey = getStateKey( action.blockType );
-			console.log( '[REDUCER DEBUG] THEME_CREATED reducer called' );
-			console.log( '[REDUCER DEBUG] Action:', action );
-			console.log( '[REDUCER DEBUG] State key:', stateKey );
-			console.log( '[REDUCER DEBUG] Previous state:', state );
+			debug( '[REDUCER DEBUG] THEME_CREATED reducer called' );
+			debug( '[REDUCER DEBUG] Action:', action );
+			debug( '[REDUCER DEBUG] State key:', stateKey );
+			debug( '[REDUCER DEBUG] Previous state:', state );
 
 			// Guard against undefined theme object
 			if ( ! action.theme || ! action.theme.name ) {
@@ -109,7 +110,7 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 					[ action.theme.name ]: action.theme,
 				},
 			};
-			console.log( '[REDUCER DEBUG] New state after THEME_CREATED:', newState );
+			debug( '[REDUCER DEBUG] New state after THEME_CREATED:', newState );
 			return newState;
 		}
 
@@ -202,7 +203,7 @@ const actions = {
 	 * @param {Object} values    - Complete snapshot of all attribute values
 	 */
 	*createTheme( blockType, name, values ) {
-		console.log( '[REDUX DEBUG] createTheme action called:', { blockType, name, values } );
+		debug( '[REDUX DEBUG] createTheme action called:', { blockType, name, values } );
 		yield actions.setLoading( true );
 		yield actions.setError( null );
 
@@ -220,14 +221,14 @@ const actions = {
 				},
 			};
 
-			console.log( '[REDUX DEBUG] API returned theme:', theme );
+			debug( '[REDUX DEBUG] API returned theme:', theme );
 
 			const action = {
 				type: TYPES.THEME_CREATED,
 				blockType,
 				theme,
 			};
-			console.log( '[REDUX DEBUG] Dispatching THEME_CREATED action:', action );
+			debug( '[REDUX DEBUG] Dispatching THEME_CREATED action:', action );
 
 			return action;
 		} catch ( error ) {

@@ -190,9 +190,9 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	// Log when currentTheme changes (for debugging)
 	useEffect( () => {
-		console.log( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
-		console.log( '[THEME CHANGE] isCustomized:', isCustomized );
-		console.log( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
+		debug( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
+		debug( '[THEME CHANGE] isCustomized:', isCustomized );
+		debug( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
 	}, [ attributes.currentTheme ] );
 
 	/**
@@ -200,28 +200,28 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		console.log( '[THEME CREATE DEBUG] Starting theme creation:', themeName );
+		debug( '[THEME CREATE DEBUG] Starting theme creation:', themeName );
 
 		// Get current snapshot from session cache
 		const currentThemeKey = attributes.currentTheme || '';
 		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
-		console.log( '[THEME CREATE DEBUG] Current theme key:', currentThemeKey );
-		console.log( '[THEME CREATE DEBUG] Current snapshot:', currentSnapshot );
+		debug( '[THEME CREATE DEBUG] Current theme key:', currentThemeKey );
+		debug( '[THEME CREATE DEBUG] Current snapshot:', currentSnapshot );
 
 		// Calculate deltas from current snapshot (optimized storage)
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-		console.log( '[THEME CREATE DEBUG] Calculated deltas:', deltas );
+		debug( '[THEME CREATE DEBUG] Calculated deltas:', deltas );
 
 		// Save theme with deltas only
-		console.log( '[THEME CREATE DEBUG] Calling createTheme API...' );
+		debug( '[THEME CREATE DEBUG] Calling createTheme API...' );
 		const createdTheme = await createTheme( 'accordion', themeName, deltas );
-		console.log( '[THEME CREATE DEBUG] API response:', createdTheme );
+		debug( '[THEME CREATE DEBUG] API response:', createdTheme );
 
 		// Reset to clean theme: apply defaults + new theme deltas
 		const newTheme = { values: deltas };
 		const newExpectedValues = applyDeltas( allDefaults, newTheme.values || {} );
 		const resetAttrs = { ...newExpectedValues };
-		console.log( '[THEME CREATE DEBUG] New expected values:', newExpectedValues );
+		debug( '[THEME CREATE DEBUG] New expected values:', newExpectedValues );
 
 		// Remove excluded attributes (except currentTheme which we need to set)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
@@ -232,9 +232,9 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		// Now set the currentTheme to the new theme name
 		resetAttrs.currentTheme = themeName;
-		console.log( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
+		debug( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
 
-		console.log( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
+		debug( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
 		// Use flushSync to force synchronous update BEFORE clearing session cache
 		// This prevents race condition where useEffect repopulates cache after we delete it
 		flushSync( () => {
@@ -248,11 +248,11 @@ export default function Edit( { attributes, setAttributes } ) {
 			const updated = { ...prev };
 			delete updated[ currentThemeKey ]; // Delete old theme cache
 			delete updated[ themeName ]; // Delete new theme cache (prevents showing as customized)
-			console.log( '[THEME CREATE DEBUG] Updated session cache:', updated );
+			debug( '[THEME CREATE DEBUG] Updated session cache:', updated );
 			return updated;
 		} );
 
-		console.log( '[THEME CREATE DEBUG] Theme creation completed' );
+		debug( '[THEME CREATE DEBUG] Theme creation completed' );
 	};
 
 	const handleUpdateTheme = async () => {
@@ -298,9 +298,9 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	const handleResetCustomizations = () => {
-		console.log( '[RESET DEBUG] Resetting customizations to clean theme' );
-		console.log( '[RESET DEBUG] Current theme:', attributes.currentTheme );
-		console.log( '[RESET DEBUG] Expected values:', expectedValues );
+		debug( '[RESET DEBUG] Resetting customizations to clean theme' );
+		debug( '[RESET DEBUG] Current theme:', attributes.currentTheme );
+		debug( '[RESET DEBUG] Expected values:', expectedValues );
 
 		// Reset to clean theme: apply expected values (defaults + current theme)
 		const resetAttrs = { ...expectedValues };
@@ -315,7 +315,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Preserve the current theme selection
 		resetAttrs.currentTheme = attributes.currentTheme;
 
-		console.log( '[RESET DEBUG] Attributes to set:', resetAttrs );
+		debug( '[RESET DEBUG] Attributes to set:', resetAttrs );
 		// Use flushSync to force synchronous update before clearing cache
 		flushSync( () => {
 			setAttributes( resetAttrs );
@@ -327,7 +327,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
 			delete updated[ currentThemeKey ];
-			console.log( '[RESET DEBUG] Cleared session cache for theme:', currentThemeKey );
+			debug( '[RESET DEBUG] Cleared session cache for theme:', currentThemeKey );
 			return updated;
 		} );
 	};
@@ -367,8 +367,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Set the new theme
 		resetAttrs.currentTheme = newThemeName;
 
-		console.log( '[THEME CHANGE DEBUG] Switching to theme:', newThemeName );
-		console.log( '[THEME CHANGE DEBUG] Attributes to set:', resetAttrs );
+		debug( '[THEME CHANGE DEBUG] Switching to theme:', newThemeName );
+		debug( '[THEME CHANGE DEBUG] Attributes to set:', resetAttrs );
 		setAttributes( resetAttrs );
 	};
 
