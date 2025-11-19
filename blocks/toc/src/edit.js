@@ -13,6 +13,7 @@
 
 import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { flushSync } from 'react-dom';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
 	PanelBody,
@@ -277,7 +278,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		// Now set the currentTheme to the new theme name
 		resetAttrs.currentTheme = themeName;
 
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for BOTH old and new themes
 		// This ensures the new theme starts completely clean without appearing customized
@@ -296,6 +300,19 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
 		await updateTheme( 'toc', attributes.currentTheme, deltas );
+
+		// Reset to updated theme: apply defaults + updated theme deltas
+		const resetAttrs = { ...expectedValues };
+
+		// Remove excluded attributes
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
+		} );
+
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache (theme now matches current state)
 		setSessionCache( ( prev ) => {
@@ -329,7 +346,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		// Preserve the current theme selection
 		resetAttrs.currentTheme = attributes.currentTheme;
 
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for current theme
 		const currentThemeKey = attributes.currentTheme || '';

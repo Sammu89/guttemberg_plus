@@ -13,6 +13,7 @@ import { useBlockProps, InspectorControls, RichText, InnerBlocks } from '@wordpr
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
+import { flushSync } from 'react-dom';
 
 import {
 	generateUniqueId,
@@ -231,10 +232,15 @@ export default function Edit( { attributes, setAttributes } ) {
 		console.log( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
 
 		console.log( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update BEFORE clearing session cache
+		// This prevents race condition where useEffect repopulates cache after we delete it
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for BOTH old and new themes
 		// This ensures the new theme starts completely clean without appearing customized
+		// Now safe to do this because setAttributes has completed above
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
 			delete updated[ currentThemeKey ]; // Delete old theme cache
@@ -265,7 +271,10 @@ export default function Edit( { attributes, setAttributes } ) {
 			delete resetAttrs[ key ];
 		} );
 
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for this theme (now matches clean theme)
 		setSessionCache( ( prev ) => {
@@ -304,9 +313,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		resetAttrs.currentTheme = attributes.currentTheme;
 
 		console.log( '[RESET DEBUG] Attributes to set:', resetAttrs );
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for current theme
+		// Safe to do now because setAttributes completed above
 		const currentThemeKey = attributes.currentTheme || '';
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
