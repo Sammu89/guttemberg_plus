@@ -68,14 +68,14 @@ export function ThemeSelector( {
 
 	// Log when currentTheme prop changes (for debugging theme switching)
 	useEffect( () => {
-		console.log( '[THEME SELECTOR] currentTheme prop changed to:', currentTheme );
-		console.log( '[THEME SELECTOR] isCustomized:', isCustomized );
+		debug( '[THEME SELECTOR] currentTheme prop changed to:', currentTheme );
+		debug( '[THEME SELECTOR] isCustomized:', isCustomized );
 		const dropdownValue = isCustomized
 			? currentTheme === ''
 				? '::customized'
 				: `${ currentTheme }::customized`
 			: currentTheme;
-		console.log( '[THEME SELECTOR] Dropdown will show:', dropdownValue );
+		debug( '[THEME SELECTOR] Dropdown will show:', dropdownValue );
 	}, [ currentTheme, isCustomized ] );
 
 	// Handle theme change

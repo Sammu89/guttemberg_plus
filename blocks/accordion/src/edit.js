@@ -12,7 +12,8 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls, RichText, InnerBlocks } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useMemo } from '@wordpress/element';
+import { flushSync } from 'react-dom';
 
 import {
 	generateUniqueId,
@@ -29,6 +30,7 @@ import {
 	IconPanel,
 	CustomizationWarning,
 	debug,
+	ACCORDION_EXCLUSIONS,
 } from '@shared';
 
 /**
@@ -83,51 +85,47 @@ export default function Edit( { attributes, setAttributes } ) {
 	const allDefaults = getAllDefaults( cssDefaults );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
-	const excludeFromCustomizationCheck = [
-		// Structural identifiers (not themeable)
-		'accordionId',
-		'uniqueId',
-		'blockId',
-		'title',
-		'content',
-		// Meta attributes (not themeable)
-		'currentTheme',
-		// Behavioral settings (not themeable - per-block only)
-		'initiallyOpen',
-		'allowMultipleOpen',
-	];
+	// Attributes to exclude from theme customization checks
+	// Centralized configuration from shared config
+	const excludeFromCustomizationCheck = ACCORDION_EXCLUSIONS;
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	// This is the simpler architecture - no complex cascade, just direct values
 	const effectiveValues = attributes;
 
 	// Calculate expected values: defaults + current theme deltas
+	// Memoized to prevent infinite loop in session cache useEffect
 	const currentTheme = themes[ attributes.currentTheme ];
-	const expectedValues = currentTheme
-		? applyDeltas( allDefaults, currentTheme.values || {} )
-		: allDefaults;
+	const expectedValues = useMemo( () => {
+		return currentTheme
+			? applyDeltas( allDefaults, currentTheme.values || {} )
+			: allDefaults;
+	}, [ currentTheme, allDefaults ] );
 
 	// Auto-detect customizations by comparing attributes to expected values
-	const isCustomized = Object.keys( attributes ).some( ( key ) => {
-		if ( excludeFromCustomizationCheck.includes( key ) ) {
-			return false;
-		}
+	// Memoized to avoid recalculation on every render
+	const isCustomized = useMemo( () => {
+		return Object.keys( attributes ).some( ( key ) => {
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return false;
+			}
 
-		const attrValue = attributes[ key ];
-		const expectedValue = expectedValues[ key ];
+			const attrValue = attributes[ key ];
+			const expectedValue = expectedValues[ key ];
 
-		// Skip undefined/null values
-		if ( attrValue === undefined || attrValue === null ) {
-			return false;
-		}
+			// Skip undefined/null values
+			if ( attrValue === undefined || attrValue === null ) {
+				return false;
+			}
 
-		// Compare (deep comparison for objects)
-		if ( typeof attrValue === 'object' && attrValue !== null ) {
-			return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
-		}
+			// Compare (deep comparison for objects)
+			if ( typeof attrValue === 'object' && attrValue !== null ) {
+				return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			}
 
-		return attrValue !== expectedValue;
-	} );
+			return attrValue !== expectedValue;
+		} );
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	debug( '[DEBUG] Accordion attributes (source of truth):', attributes );
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
@@ -140,21 +138,55 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ sessionCache, setSessionCache ] = useState( {} );
 
 	// Auto-update session cache for CURRENT theme
+	// ONLY add if there are actual customizations vs expected values
 	useEffect( () => {
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 		const currentThemeKey = attributes.currentTheme || '';
 
-		setSessionCache( ( prev ) => ( {
-			...prev,
-			[ currentThemeKey ]: snapshot,
-		} ) );
-	}, [ attributes, excludeFromCustomizationCheck ] );
+		// Check if snapshot differs from expected values
+		const hasCustomizations = Object.keys( snapshot ).some( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return false;
+			}
+
+			const snapshotValue = snapshot[ key ];
+			const expectedValue = expectedValues[ key ];
+
+			// Skip undefined/null
+			if ( snapshotValue === undefined || snapshotValue === null ) {
+				return false;
+			}
+
+			// Deep comparison for objects
+			if ( typeof snapshotValue === 'object' && snapshotValue !== null ) {
+				return JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
+			}
+
+			return snapshotValue !== expectedValue;
+		} );
+
+		if ( hasCustomizations ) {
+			// Only add to cache if there are actual customizations
+			setSessionCache( ( prev ) => ( {
+				...prev,
+				[ currentThemeKey ]: snapshot,
+			} ) );
+		} else {
+			// Remove from cache if no customizations (clean theme)
+			setSessionCache( ( prev ) => {
+				const updated = { ...prev };
+				delete updated[ currentThemeKey ];
+				return updated;
+			} );
+		}
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	// Log when currentTheme changes (for debugging)
 	useEffect( () => {
-		console.log( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
-		console.log( '[THEME CHANGE] isCustomized:', isCustomized );
-		console.log( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
+		debug( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
+		debug( '[THEME CHANGE] isCustomized:', isCustomized );
+		debug( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
 	}, [ attributes.currentTheme ] );
 
 	/**
@@ -162,28 +194,28 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		console.log( '[THEME CREATE DEBUG] Starting theme creation:', themeName );
+		debug( '[THEME CREATE DEBUG] Starting theme creation:', themeName );
 
 		// Get current snapshot from session cache
 		const currentThemeKey = attributes.currentTheme || '';
 		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
-		console.log( '[THEME CREATE DEBUG] Current theme key:', currentThemeKey );
-		console.log( '[THEME CREATE DEBUG] Current snapshot:', currentSnapshot );
+		debug( '[THEME CREATE DEBUG] Current theme key:', currentThemeKey );
+		debug( '[THEME CREATE DEBUG] Current snapshot:', currentSnapshot );
 
 		// Calculate deltas from current snapshot (optimized storage)
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-		console.log( '[THEME CREATE DEBUG] Calculated deltas:', deltas );
+		debug( '[THEME CREATE DEBUG] Calculated deltas:', deltas );
 
 		// Save theme with deltas only
-		console.log( '[THEME CREATE DEBUG] Calling createTheme API...' );
+		debug( '[THEME CREATE DEBUG] Calling createTheme API...' );
 		const createdTheme = await createTheme( 'accordion', themeName, deltas );
-		console.log( '[THEME CREATE DEBUG] API response:', createdTheme );
+		debug( '[THEME CREATE DEBUG] API response:', createdTheme );
 
 		// Reset to clean theme: apply defaults + new theme deltas
 		const newTheme = { values: deltas };
 		const newExpectedValues = applyDeltas( allDefaults, newTheme.values || {} );
 		const resetAttrs = { ...newExpectedValues };
-		console.log( '[THEME CREATE DEBUG] New expected values:', newExpectedValues );
+		debug( '[THEME CREATE DEBUG] New expected values:', newExpectedValues );
 
 		// Remove excluded attributes (except currentTheme which we need to set)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
@@ -194,22 +226,27 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		// Now set the currentTheme to the new theme name
 		resetAttrs.currentTheme = themeName;
-		console.log( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
+		debug( '[THEME CREATE DEBUG] Reset attributes to set:', resetAttrs );
 
-		console.log( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
-		setAttributes( resetAttrs );
+		debug( '[THEME CREATE DEBUG] Calling setAttributes with:', resetAttrs );
+		// Use flushSync to force synchronous update BEFORE clearing session cache
+		// This prevents race condition where useEffect repopulates cache after we delete it
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for BOTH old and new themes
 		// This ensures the new theme starts completely clean without appearing customized
+		// Now safe to do this because setAttributes has completed above
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
 			delete updated[ currentThemeKey ]; // Delete old theme cache
 			delete updated[ themeName ]; // Delete new theme cache (prevents showing as customized)
-			console.log( '[THEME CREATE DEBUG] Updated session cache:', updated );
+			debug( '[THEME CREATE DEBUG] Updated session cache:', updated );
 			return updated;
 		} );
 
-		console.log( '[THEME CREATE DEBUG] Theme creation completed' );
+		debug( '[THEME CREATE DEBUG] Theme creation completed' );
 	};
 
 	const handleUpdateTheme = async () => {
@@ -231,7 +268,10 @@ export default function Edit( { attributes, setAttributes } ) {
 			delete resetAttrs[ key ];
 		} );
 
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for this theme (now matches clean theme)
 		setSessionCache( ( prev ) => {
@@ -252,9 +292,9 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	const handleResetCustomizations = () => {
-		console.log( '[RESET DEBUG] Resetting customizations to clean theme' );
-		console.log( '[RESET DEBUG] Current theme:', attributes.currentTheme );
-		console.log( '[RESET DEBUG] Expected values:', expectedValues );
+		debug( '[RESET DEBUG] Resetting customizations to clean theme' );
+		debug( '[RESET DEBUG] Current theme:', attributes.currentTheme );
+		debug( '[RESET DEBUG] Expected values:', expectedValues );
 
 		// Reset to clean theme: apply expected values (defaults + current theme)
 		const resetAttrs = { ...expectedValues };
@@ -269,15 +309,19 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Preserve the current theme selection
 		resetAttrs.currentTheme = attributes.currentTheme;
 
-		console.log( '[RESET DEBUG] Attributes to set:', resetAttrs );
-		setAttributes( resetAttrs );
+		debug( '[RESET DEBUG] Attributes to set:', resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for current theme
+		// Safe to do now because setAttributes completed above
 		const currentThemeKey = attributes.currentTheme || '';
 		setSessionCache( ( prev ) => {
 			const updated = { ...prev };
 			delete updated[ currentThemeKey ];
-			console.log( '[RESET DEBUG] Cleared session cache for theme:', currentThemeKey );
+			debug( '[RESET DEBUG] Cleared session cache for theme:', currentThemeKey );
 			return updated;
 		} );
 	};
@@ -317,8 +361,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Set the new theme
 		resetAttrs.currentTheme = newThemeName;
 
-		console.log( '[THEME CHANGE DEBUG] Switching to theme:', newThemeName );
-		console.log( '[THEME CHANGE DEBUG] Attributes to set:', resetAttrs );
+		debug( '[THEME CHANGE DEBUG] Switching to theme:', newThemeName );
+		debug( '[THEME CHANGE DEBUG] Attributes to set:', resetAttrs );
 		setAttributes( resetAttrs );
 	};
 

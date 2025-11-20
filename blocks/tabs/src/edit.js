@@ -19,7 +19,8 @@ import {
 	Button,
 } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useMemo } from '@wordpress/element';
+import { flushSync } from 'react-dom';
 
 import {
 	generateUniqueId,
@@ -36,6 +37,7 @@ import {
 	IconPanel,
 	CustomizationWarning,
 	debug,
+	TABS_EXCLUSIONS,
 } from '@shared';
 
 /**
@@ -108,49 +110,44 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const allDefaults = getAllDefaults( cssDefaults );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
-	const excludeFromCustomizationCheck = [
-		// Structural identifiers (not themeable)
-		'tabs',
-		'uniqueId',
-		'blockId',
-		// Meta attributes (not themeable)
-		'currentTheme',
-		// Behavioral settings (not themeable - per-block only)
-		'orientation',
-		'activationMode',
-		'currentTab',
-		'responsiveBreakpoint',
-		'enableResponsiveFallback',
-	];
+	// Attributes to exclude from theme customization checks
+	// Centralized configuration from shared config
+	const excludeFromCustomizationCheck = TABS_EXCLUSIONS;
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
 
 	// Calculate expected values: defaults + current theme deltas
+	// Memoized to prevent infinite loop in session cache useEffect
 	const currentTheme = themes[ attributes.currentTheme ];
-	const expectedValues = currentTheme
-		? applyDeltas( allDefaults, currentTheme.values || {} )
-		: allDefaults;
+	const expectedValues = useMemo( () => {
+		return currentTheme
+			? applyDeltas( allDefaults, currentTheme.values || {} )
+			: allDefaults;
+	}, [ currentTheme, allDefaults ] );
 
 	// Auto-detect customizations by comparing attributes to expected values
-	const isCustomized = Object.keys( attributes ).some( ( key ) => {
-		if ( excludeFromCustomizationCheck.includes( key ) ) {
-			return false;
-		}
+	// Memoized to avoid recalculation on every render
+	const isCustomized = useMemo( () => {
+		return Object.keys( attributes ).some( ( key ) => {
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return false;
+			}
 
-		const attrValue = attributes[ key ];
-		const expectedValue = expectedValues[ key ];
+			const attrValue = attributes[ key ];
+			const expectedValue = expectedValues[ key ];
 
-		if ( attrValue === undefined || attrValue === null ) {
-			return false;
-		}
+			if ( attrValue === undefined || attrValue === null ) {
+				return false;
+			}
 
-		if ( typeof attrValue === 'object' && attrValue !== null ) {
-			return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
-		}
+			if ( typeof attrValue === 'object' && attrValue !== null ) {
+				return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			}
 
-		return attrValue !== expectedValue;
-	} );
+			return attrValue !== expectedValue;
+		} );
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	debug( '[DEBUG] Tabs attributes (source of truth):', attributes );
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
@@ -159,15 +156,49 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Auto-update session cache for CURRENT theme (session-only, not saved to database)
 	// This preserves customizations across theme switches WITHIN the editing session
 	// Lost on page reload or post save (desired behavior)
+	// ONLY add if there are actual customizations vs expected values
 	useEffect( () => {
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 		const currentThemeKey = attributes.currentTheme || '';
 
-		setSessionCache( ( prev ) => ( {
-			...prev,
-			[ currentThemeKey ]: snapshot,
-		} ) );
-	}, [ attributes, excludeFromCustomizationCheck ] );
+		// Check if snapshot differs from expected values
+		const hasCustomizations = Object.keys( snapshot ).some( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return false;
+			}
+
+			const snapshotValue = snapshot[ key ];
+			const expectedValue = expectedValues[ key ];
+
+			// Skip undefined/null
+			if ( snapshotValue === undefined || snapshotValue === null ) {
+				return false;
+			}
+
+			// Deep comparison for objects
+			if ( typeof snapshotValue === 'object' && snapshotValue !== null ) {
+				return JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
+			}
+
+			return snapshotValue !== expectedValue;
+		} );
+
+		if ( hasCustomizations ) {
+			// Only add to cache if there are actual customizations
+			setSessionCache( ( prev ) => ( {
+				...prev,
+				[ currentThemeKey ]: snapshot,
+			} ) );
+		} else {
+			// Remove from cache if no customizations (clean theme)
+			setSessionCache( ( prev ) => {
+				const updated = { ...prev };
+				delete updated[ currentThemeKey ];
+				return updated;
+			} );
+		}
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	/**
 	 * Theme callback handlers
@@ -195,7 +226,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		// Now set the currentTheme to the new theme name
 		resetAttrs.currentTheme = themeName;
 
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for BOTH old and new themes
 		// This ensures the new theme starts completely clean without appearing customized
@@ -214,6 +248,19 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
 		await updateTheme( 'tabs', attributes.currentTheme, deltas );
+
+		// Reset to updated theme: apply defaults + updated theme deltas
+		const resetAttrs = { ...expectedValues };
+
+		// Remove excluded attributes
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			delete resetAttrs[ key ];
+		} );
+
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache (theme now matches current state)
 		setSessionCache( ( prev ) => {
@@ -247,7 +294,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		// Preserve the current theme selection
 		resetAttrs.currentTheme = attributes.currentTheme;
 
-		setAttributes( resetAttrs );
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
 		// Clear session cache for current theme
 		const currentThemeKey = attributes.currentTheme || '';
