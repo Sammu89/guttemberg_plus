@@ -79,10 +79,12 @@ export default function Edit( { attributes, setAttributes } ) {
 	}, [ themesLoaded, loadThemes ] );
 
 	// Get CSS defaults from window (parsed by PHP)
-	const cssDefaults = window.accordionDefaults || {};
+	// Memoize to prevent creating new object on every render
+	const cssDefaults = useMemo( () => window.accordionDefaults || {}, [] );
 
 	// Merge CSS defaults with behavioral defaults from attribute schemas
-	const allDefaults = getAllDefaults( cssDefaults );
+	// Memoize to prevent infinite loop in session cache useEffect
+	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
 	// Attributes to exclude from theme customization checks
