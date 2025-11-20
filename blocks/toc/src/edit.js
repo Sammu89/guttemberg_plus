@@ -510,6 +510,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 											includeLevels: levels,
 										} );
 									} }
+									__nextHasNoMarginBottom
 								/>
 							) ) }
 
@@ -541,6 +542,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 											excludeLevels: levels,
 										} );
 									} }
+									__nextHasNoMarginBottom
 								/>
 							) ) }
 
