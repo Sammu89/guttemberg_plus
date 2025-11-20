@@ -94,10 +94,13 @@ export default function Edit( { attributes, setAttributes } ) {
 	const effectiveValues = attributes;
 
 	// Calculate expected values: defaults + current theme deltas
+	// Memoized to prevent infinite loop in session cache useEffect
 	const currentTheme = themes[ attributes.currentTheme ];
-	const expectedValues = currentTheme
-		? applyDeltas( allDefaults, currentTheme.values || {} )
-		: allDefaults;
+	const expectedValues = useMemo( () => {
+		return currentTheme
+			? applyDeltas( allDefaults, currentTheme.values || {} )
+			: allDefaults;
+	}, [ currentTheme, allDefaults ] );
 
 	// Auto-detect customizations by comparing attributes to expected values
 	// Memoized to avoid recalculation on every render

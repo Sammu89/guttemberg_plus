@@ -149,9 +149,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const theme = themes[ currentTheme ];
 
 	// Calculate expected values: defaults + current theme deltas
-	const expectedValues = theme
-		? applyDeltas( allDefaults, theme.values || {} )
-		: allDefaults;
+	// Memoized to prevent infinite loop in session cache useEffect
+	const expectedValues = useMemo( () => {
+		return theme
+			? applyDeltas( allDefaults, theme.values || {} )
+			: allDefaults;
+	}, [ theme, allDefaults ] );
 
 	// Attributes to exclude from theming (structural/behavioral only)
 	// Attributes to exclude from theme customization checks
