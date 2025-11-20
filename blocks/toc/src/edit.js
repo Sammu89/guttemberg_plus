@@ -139,8 +139,13 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		return () => observer.disconnect();
 	}, [ clientId ] );
 
+	// Get CSS defaults from window (parsed by PHP)
+	// Memoize to prevent creating new object on every render
+	const cssDefaults = useMemo( () => window.tocDefaults || {}, [] );
+
 	// Get all defaults (CSS + behavioral)
-	const allDefaults = getAllDefaults();
+	// Memoize to prevent infinite loop in session cache useEffect
+	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
