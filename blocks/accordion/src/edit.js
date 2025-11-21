@@ -140,7 +140,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ sessionCache, setSessionCache ] = useState( {} );
 
 	// Auto-update session cache for CURRENT theme
-	// ONLY add if there are actual customizations vs expected values
+	// Maintains per-block customization memory across theme switches
 	useEffect( () => {
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 		const currentThemeKey = attributes.currentTheme || '';
@@ -168,20 +168,28 @@ export default function Edit( { attributes, setAttributes } ) {
 			return snapshotValue !== expectedValue;
 		} );
 
+		// IMPORTANT: Only UPDATE cache when there ARE customizations
+		// NEVER delete from cache automatically - only manual operations (Reset/Save/Update) should clear cache
+		// This preserves customizations across theme switches
 		if ( hasCustomizations ) {
-			// Only add to cache if there are actual customizations
-			setSessionCache( ( prev ) => ( {
-				...prev,
-				[ currentThemeKey ]: snapshot,
-			} ) );
-		} else {
-			// Remove from cache if no customizations (clean theme)
 			setSessionCache( ( prev ) => {
-				const updated = { ...prev };
-				delete updated[ currentThemeKey ];
-				return updated;
+				// Only update if actually different to avoid unnecessary re-renders
+				const existingCache = prev[ currentThemeKey ];
+				const snapshotStr = JSON.stringify( snapshot );
+				const existingStr = JSON.stringify( existingCache );
+
+				if ( snapshotStr !== existingStr ) {
+					debug( '[SESSION CACHE] Updating cache for theme:', currentThemeKey );
+					return {
+						...prev,
+						[ currentThemeKey ]: snapshot,
+					};
+				}
+				return prev;
 			} );
 		}
+		// If no customizations, DO NOTHING - keep existing cache intact
+		// This prevents accidental cache loss when switching themes
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	// Log when currentTheme changes (for debugging)
@@ -196,22 +204,31 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		debug( '[THEME CREATE DEBUG] Starting theme creation:', themeName );
+		console.warn( '[THEME CREATE] Starting theme creation:', themeName );
 
-		// Get current snapshot from session cache
+		// Get current snapshot from session cache OR current attributes as fallback
 		const currentThemeKey = attributes.currentTheme || '';
-		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
-		debug( '[THEME CREATE DEBUG] Current theme key:', currentThemeKey );
-		debug( '[THEME CREATE DEBUG] Current snapshot:', currentSnapshot );
+		const cachedSnapshot = sessionCache[ currentThemeKey ];
+
+		// IMPORTANT: Use current attributes as fallback if sessionCache is empty
+		// This prevents saving empty themes if cache was cleared
+		const currentSnapshot = cachedSnapshot && Object.keys( cachedSnapshot ).length > 0
+			? cachedSnapshot
+			: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
+
+		console.warn( '[THEME CREATE] Current theme key:', currentThemeKey );
+		console.warn( '[THEME CREATE] Using cached snapshot?', !!cachedSnapshot );
+		console.warn( '[THEME CREATE] Current snapshot:', currentSnapshot );
+		console.warn( '[THEME CREATE] Current attributes:', attributes );
 
 		// Calculate deltas from current snapshot (optimized storage)
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-		debug( '[THEME CREATE DEBUG] Calculated deltas:', deltas );
+		console.warn( '[THEME CREATE] Calculated deltas:', deltas );
 
 		// Save theme with deltas only
-		debug( '[THEME CREATE DEBUG] Calling createTheme API...' );
+		console.warn( '[THEME CREATE] Calling createTheme API...' );
 		const createdTheme = await createTheme( 'accordion', themeName, deltas );
-		debug( '[THEME CREATE DEBUG] API response:', createdTheme );
+		console.warn( '[THEME CREATE] API response:', createdTheme );
 
 		// Reset to clean theme: apply defaults + new theme deltas
 		const newTheme = { values: deltas };
@@ -252,14 +269,25 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	const handleUpdateTheme = async () => {
-		// Get current snapshot from session cache
+		console.warn( '[UPDATE THEME] Starting theme update for:', attributes.currentTheme );
+
+		// Get current snapshot from session cache OR current attributes as fallback
 		const currentThemeKey = attributes.currentTheme || '';
-		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
+		const cachedSnapshot = sessionCache[ currentThemeKey ];
+
+		// IMPORTANT: Use current attributes as fallback if sessionCache is empty
+		// This prevents updating themes with empty data if cache was cleared
+		const currentSnapshot = cachedSnapshot && Object.keys( cachedSnapshot ).length > 0
+			? cachedSnapshot
+			: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
+
+		console.warn( '[UPDATE THEME] Using cached snapshot?', !!cachedSnapshot );
+		console.warn( '[UPDATE THEME] Current snapshot:', currentSnapshot );
 
 		// Calculate deltas from current snapshot
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
-		debug( '[UPDATE THEME DEBUG] Updating theme with deltas:', deltas );
+		console.warn( '[UPDATE THEME] Calculated deltas:', deltas );
 
 		// Update theme with new deltas
 		await updateTheme( 'accordion', attributes.currentTheme, deltas );
