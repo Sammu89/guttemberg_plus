@@ -35,14 +35,12 @@
 .accordion-title {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	width: 100%;
 	padding: var(--accordion-title-padding, 1rem 1.5rem);
 	background-color: var(--accordion-title-bg, #f5f5f5);
 	color: var(--accordion-title-color, #333);
 	font-size: var(--accordion-title-font-size, 1rem);
 	font-weight: var(--accordion-title-font-weight, 600);
-	text-align: left;
 	border: none;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
@@ -58,12 +56,23 @@
 		color: var(--accordion-title-color, #333);
 		outline: none;
 	}
+
+	// Extreme positions: use space-between to push icon to extremes
+	&.icon-extreme-left,
+	&.icon-extreme-right {
+		justify-content: space-between;
+	}
+
+	// Left/right positions: left-aligned, no space-between
+	&.icon-left,
+	&.icon-right {
+		justify-content: flex-start;
+	}
 }
 
 /* Title text */
 .accordion-title-text {
-	flex: 1;
-	margin-right: 1rem;
+	text-align: var(--accordion-title-alignment, left);
 }
 
 /* Icon */
