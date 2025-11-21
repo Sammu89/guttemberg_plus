@@ -517,7 +517,10 @@ export default function Edit( { attributes, setAttributes } ) {
 			icon: {
 				fontSize: `${ effectiveValues.iconSize || effectiveValues.titleFontSize || 20 }px`,
 				color: effectiveValues.iconColor || effectiveValues.titleColor || '#666666',
-				display: effectiveValues.showIcon ? 'inline-block' : 'none',
+				display: effectiveValues.showIcon ? 'flex' : 'none',
+				alignItems: 'center',
+				justifyContent: 'center',
+				flexShrink: 0,
 			},
 		};
 	};
@@ -526,14 +529,22 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	/**
 	 * Render icon based on settings
+	 * @param {string} position - Icon position ('left', 'right', 'extreme-left', 'extreme-right')
 	 */
-	const renderIcon = () => {
+	const renderIcon = ( position = 'right' ) => {
 		if ( ! effectiveValues.showIcon ) {
 			return null;
 		}
 
 		const iconContent = effectiveValues.iconTypeClosed || '▾';
 		const isImage = iconContent.startsWith( 'http' );
+
+		// Determine margin based on position
+		const isLeftPosition = position === 'left' || position === 'extreme-left';
+		const iconStyle = {
+			...styles.icon,
+			margin: isLeftPosition ? '0 8px 0 0' : '0 0 0 8px', // right margin if left, left margin if right
+		};
 
 		if ( isImage ) {
 			return (
@@ -545,13 +556,14 @@ export default function Edit( { attributes, setAttributes } ) {
 						width: '18px',
 						height: '18px',
 						objectFit: 'contain',
+						...( isLeftPosition ? { marginRight: '8px' } : { marginLeft: '8px' } ),
 					} }
 				/>
 			);
 		}
 
 		return (
-			<span className="accordion-icon" aria-hidden="true" style={ styles.icon }>
+			<span className="accordion-icon" aria-hidden="true" style={ iconStyle }>
 				{ iconContent }
 			</span>
 		);
@@ -566,7 +578,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		const titleContent = (
 			<div className="accordion-title-wrapper" style={ styles.title }>
-				{ ( iconPosition === 'left' || iconPosition === 'extreme-left' ) && renderIcon() }
+				{ ( iconPosition === 'left' || iconPosition === 'extreme-left' ) && renderIcon( iconPosition ) }
 				<RichText
 					tagName="span"
 					value={ attributes.title || '' }
@@ -576,7 +588,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					className="accordion-title-text"
 					style={ { flex: 1 } }
 				/>
-				{ ( iconPosition === 'right' || iconPosition === 'extreme-right' ) && renderIcon() }
+				{ ( iconPosition === 'right' || iconPosition === 'extreme-right' ) && renderIcon( iconPosition ) }
 			</div>
 		);
 
