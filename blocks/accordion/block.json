@@ -137,12 +137,6 @@
 		},
 		"hoverTitleColor": {
 			"type": "string"
-		},
-		"activeTitleBackgroundColor": {
-			"type": "string"
-		},
-		"activeTitleColor": {
-			"type": "string"
 		}
 	},
 	"providesContext": {},
