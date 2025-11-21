@@ -4,6 +4,10 @@
  * Provides conditional logging based on environment.
  * In production builds, debug logs are disabled for performance.
  *
+ * Set window.GUTTEMBERG_DEBUG_VERBOSE = true to enable all debug logs
+ * Set window.GUTTEMBERG_DEBUG_VERBOSE = false to disable debug logs
+ * Set window.GUTTEMBERG_DEBUG_TAGS = ['THEME_CREATE', 'BORDER'] to filter logs by tag
+ *
  * @package
  * @since 1.0.0
  */
@@ -21,13 +25,28 @@ const isDevelopment = () => {
 };
 
 /**
+ * Check if verbose debugging is enabled
+ * Defaults to false (quiet) unless explicitly set to true
+ *
+ * @return {boolean} True if verbose debugging should run
+ */
+const isVerboseDebugEnabled = () => {
+	if ( typeof window === 'undefined' ) {
+		return false;
+	}
+	// Explicitly check if GUTTEMBERG_DEBUG_VERBOSE is true
+	return window.GUTTEMBERG_DEBUG_VERBOSE === true;
+};
+
+/**
  * Debug log function
- * Only logs in development mode
+ * Only logs in development mode AND when GUTTEMBERG_DEBUG_VERBOSE is true
+ * This keeps the console clean by default while allowing detailed debugging when needed
  *
  * @param {...any} args - Arguments to log
  */
 export function debug( ...args ) {
-	if ( isDevelopment() ) {
+	if ( isDevelopment() && isVerboseDebugEnabled() ) {
 		console.log( ...args );
 	}
 }

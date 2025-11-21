@@ -72,53 +72,49 @@ function register_routes() {
 		)
 	);
 
-	// PUT /themes/{blockType}/{name} - Update theme
+	// PUT/DELETE /themes/{blockType}/{name} - Update or Delete theme
 	register_rest_route(
 		$namespace,
 		'/themes/(?P<blockType>accordion|tabs|toc)/(?P<name>[^/]+)',
 		array(
-			'methods'             => 'PUT',
-			'callback'            => __NAMESPACE__ . '\\update_theme_handler',
-			'permission_callback' => __NAMESPACE__ . '\\check_permissions',
-			'args'                => array(
-				'blockType' => array(
-					'required'          => true,
-					'validate_callback' => function ( $param ) {
-						return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
-					},
-				),
-				'name'      => array(
-					'required'          => true,
-					'sanitize_callback' => 'sanitize_text_field',
-				),
-				'values'    => array(
-					'required'          => true,
-					'validate_callback' => function ( $param ) {
-						return is_array( $param );
-					},
+			array(
+				'methods'             => 'PUT',
+				'callback'            => __NAMESPACE__ . '\\update_theme_handler',
+				'permission_callback' => __NAMESPACE__ . '\\check_permissions',
+				'args'                => array(
+					'blockType' => array(
+						'required'          => true,
+						'validate_callback' => function ( $param ) {
+							return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
+						},
+					),
+					'name'      => array(
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+					'values'    => array(
+						'required'          => true,
+						'validate_callback' => function ( $param ) {
+							return is_array( $param );
+						},
+					),
 				),
 			),
-		)
-	);
-
-	// DELETE /themes/{blockType}/{name} - Delete theme
-	register_rest_route(
-		$namespace,
-		'/themes/(?P<blockType>accordion|tabs|toc)/(?P<name>[^/]+)',
-		array(
-			'methods'             => 'DELETE',
-			'callback'            => __NAMESPACE__ . '\\delete_theme_handler',
-			'permission_callback' => __NAMESPACE__ . '\\check_permissions',
-			'args'                => array(
-				'blockType' => array(
-					'required'          => true,
-					'validate_callback' => function ( $param ) {
-						return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
-					},
-				),
-				'name'      => array(
-					'required'          => true,
-					'sanitize_callback' => 'sanitize_text_field',
+			array(
+				'methods'             => 'DELETE',
+				'callback'            => __NAMESPACE__ . '\\delete_theme_handler',
+				'permission_callback' => __NAMESPACE__ . '\\check_permissions',
+				'args'                => array(
+					'blockType' => array(
+						'required'          => true,
+						'validate_callback' => function ( $param ) {
+							return in_array( $param, array( 'accordion', 'tabs', 'toc' ), true );
+						},
+					),
+					'name'      => array(
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_text_field',
+					),
 				),
 			),
 		)

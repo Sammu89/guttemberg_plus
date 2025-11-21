@@ -14,6 +14,7 @@
 	width: 100%;
 	border: none;
 	outline: none;
+	min-width: 300px;
 }
 
 /* Accordion item */
@@ -23,7 +24,7 @@
 	border-style: var(--accordion-border-style, solid);
 	border-color: var(--accordion-border-color, #ddd);
 	border-radius: var(--accordion-border-radius, 4px);
-	overflow: visible;
+	overflow: hidden;
 	transition: box-shadow 0.2s ease;
 	outline: none;
 

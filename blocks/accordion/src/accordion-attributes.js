@@ -31,6 +31,16 @@ const accordionSpecificAttributes = {
 		type: 'boolean',
 		default: false,
 	},
+	// Width control (default: 100%)
+	accordionWidth: {
+		type: 'string',
+		default: '100%',
+	},
+	// Horizontal alignment (default: left)
+	accordionHorizontalAlign: {
+		type: 'string',
+		default: 'left',
+	},
 };
 
 /**

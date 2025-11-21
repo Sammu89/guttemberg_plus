@@ -97,6 +97,7 @@ export function IconPanel( {
 						value={ effectiveValues.iconTypeClosed || '▾' }
 						onChange={ ( value ) => handleChange( 'iconTypeClosed', value ) }
 						help="Character, emoji, or image URL"
+						__nextHasNoMarginBottom
 					/>
 
 					<TextControl
@@ -104,6 +105,7 @@ export function IconPanel( {
 						value={ effectiveValues.iconTypeOpen || 'none' }
 						onChange={ ( value ) => handleChange( 'iconTypeOpen', value ) }
 						help="'none' uses rotation instead of changing icon"
+						__nextHasNoMarginBottom
 					/>
 
 					{ ( effectiveValues.iconTypeOpen === 'none' ||
@@ -132,6 +134,7 @@ export function IconPanel( {
 							},
 						] }
 						onChange={ ( value ) => handleChange( 'iconPosition', value ) }
+						__next40pxDefaultSize
 					/>
 
 					<CompactColorControl

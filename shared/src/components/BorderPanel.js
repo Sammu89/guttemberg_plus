@@ -1,7 +1,7 @@
 /**
  * Border Panel Component
  *
- * Panel for border styling (color, thickness, style, radius).
+ * Panel for border styling (color, thickness, style, radius, shadow).
  * Shows effective values via cascade resolution.
  *
  * @see docs/UI-UX/40-EDITOR-UI-PANELS.md
@@ -51,6 +51,30 @@ export function BorderPanel( {
 			onChange( attrName, value );
 		}
 	};
+
+	/**
+	 * Handle corner radius change
+	 * Updates specific corner of border radius object
+	 * @param attrName - the radius attribute name (e.g., 'accordionBorderRadius')
+	 * @param corner - which corner ('topLeft', 'topRight', 'bottomRight', 'bottomLeft')
+	 * @param value - new value
+	 */
+	const handleCornerChange = ( attrName, corner, value ) => {
+		const currentRadius = attributes[ attrName ] || {
+			topLeft: 0,
+			topRight: 0,
+			bottomRight: 0,
+			bottomLeft: 0,
+		};
+
+		const updatedRadius = {
+			...currentRadius,
+			[ corner ]: value,
+		};
+
+		handleChange( attrName, updatedRadius );
+	};
+
 	/**
 	 * Check if attribute is customized (compares against both theme and CSS defaults)
 	 * @param attrName
@@ -82,8 +106,8 @@ export function BorderPanel( {
 					color: 'accordionBorderColor',
 					thickness: 'accordionBorderThickness',
 					style: 'accordionBorderStyle',
-					shadow: 'accordionShadow',
 					radius: 'accordionBorderRadius',
+					shadow: 'accordionShadow',
 			  }
 			: blockType === 'tabs'
 			? {
@@ -91,17 +115,25 @@ export function BorderPanel( {
 					color: 'tabBorderColor',
 					thickness: 'tabBorderThickness',
 					style: 'tabBorderStyle',
-					shadow: 'tabShadow',
 					radius: 'tabBorderRadius',
+					shadow: 'tabShadow',
 			  }
 			: {
 					title: 'Wrapper Border',
 					color: 'wrapperBorderColor',
 					thickness: 'wrapperBorderWidth',
 					style: 'wrapperBorderStyle',
-					shadow: 'wrapperShadow',
 					radius: 'wrapperBorderRadius',
+					shadow: 'wrapperShadow',
 			  };
+
+	// Get current radius values for display
+	const currentRadius = effectiveValues[ borderAttrs.radius ] || {
+		topLeft: 0,
+		topRight: 0,
+		bottomRight: 0,
+		bottomLeft: 0,
+	};
 
 	return (
 		<PanelBody title="Border" initialOpen={ initialOpen }>
@@ -134,6 +166,59 @@ export function BorderPanel( {
 					{ label: 'Double', value: 'double' },
 				] }
 				onChange={ ( value ) => handleChange( borderAttrs.style, value ) }
+				__next40pxDefaultSize
+			/>
+
+			{/* Border Radius - Individual corner controls (0-60px) */}
+			<hr style={ { margin: '16px 0' } } />
+			<h4 style={ { margin: '0 0 12px 0', fontSize: '13px' } }>
+				Border Radius
+				{ isAttrCustomized( borderAttrs.radius ) && (
+					<span className="customization-badge"> (Customized)</span>
+				) }
+			</h4>
+			<p style={ { fontSize: '12px', color: '#666', marginBottom: '12px' } }>
+				Set individual radius for each corner (0-60px)
+			</p>
+
+			<RangeControl
+				label="Top Left (px)"
+				value={ currentRadius.topLeft || 0 }
+				onChange={ ( value ) =>
+					handleCornerChange( borderAttrs.radius, 'topLeft', value )
+				}
+				min={ 0 }
+				max={ 60 }
+			/>
+
+			<RangeControl
+				label="Top Right (px)"
+				value={ currentRadius.topRight || 0 }
+				onChange={ ( value ) =>
+					handleCornerChange( borderAttrs.radius, 'topRight', value )
+				}
+				min={ 0 }
+				max={ 60 }
+			/>
+
+			<RangeControl
+				label="Bottom Right (px)"
+				value={ currentRadius.bottomRight || 0 }
+				onChange={ ( value ) =>
+					handleCornerChange( borderAttrs.radius, 'bottomRight', value )
+				}
+				min={ 0 }
+				max={ 60 }
+			/>
+
+			<RangeControl
+				label="Bottom Left (px)"
+				value={ currentRadius.bottomLeft || 0 }
+				onChange={ ( value ) =>
+					handleCornerChange( borderAttrs.radius, 'bottomLeft', value )
+				}
+				min={ 0 }
+				max={ 60 }
 			/>
 
 			<TextControl
@@ -141,26 +226,7 @@ export function BorderPanel( {
 				value={ effectiveValues[ borderAttrs.shadow ] || 'none' }
 				onChange={ ( value ) => handleChange( borderAttrs.shadow, value ) }
 				help="CSS box-shadow value (e.g. '0 2px 4px rgba(0,0,0,0.1)')"
-			/>
-
-			<RangeControl
-				label={ <CustomLabel label="Border Radius (px)" attrName={ borderAttrs.radius } /> }
-				value={
-					effectiveValues[ borderAttrs.radius ]?.topLeft ||
-					effectiveValues[ borderAttrs.radius ] ||
-					4
-				}
-				onChange={ ( value ) =>
-					handleChange( borderAttrs.radius, {
-						topLeft: value,
-						topRight: value,
-						bottomRight: value,
-						bottomLeft: value,
-					} )
-				}
-				min={ 0 }
-				max={ 50 }
-				help="Applies same radius to all corners"
+				__nextHasNoMarginBottom
 			/>
 
 			{ blockType !== 'toc' && (
@@ -248,6 +314,7 @@ export function BorderPanel( {
 								value
 							)
 						}
+						__next40pxDefaultSize
 					/>
 				</>
 			) }

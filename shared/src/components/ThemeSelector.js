@@ -150,43 +150,48 @@ export function ThemeSelector( {
 				value={ dropdownValue }
 				options={ themeOptions }
 				onChange={ handleThemeChange }
+				__next40pxDefaultSize
 			/>
 
-			<div className="theme-actions" style={ { display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' } }>
+			<div className="theme-actions" style={ { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px' } }>
 				<Button
+					size="small"
 					variant="secondary"
 					onClick={ () => setShowCreateModal( true ) }
 					disabled={ ! isCustomized }
 				>
-					Save as New Theme
+					Save New
 				</Button>
 
 				<Button
+					size="small"
 					variant="secondary"
 					onClick={ onUpdate }
 					disabled={ ! isCustomized || currentTheme === '' }
 				>
-					Update Theme
+					Update
 				</Button>
 
 				<Button
+					size="small"
 					variant="secondary"
 					onClick={ () => setShowRenameModal( true ) }
 					disabled={ currentTheme === '' }
 				>
-					Rename Theme
+					Rename
 				</Button>
 
 				<Button
+					size="small"
 					variant="secondary"
 					onClick={ onDelete }
 					disabled={ currentTheme === '' }
 					isDestructive
 				>
-					Delete Theme
+					Delete
 				</Button>
 
-				<Button variant="tertiary" onClick={ onReset } disabled={ ! isCustomized }>
+				<Button size="small" variant="tertiary" onClick={ onReset } disabled={ ! isCustomized } style={ { gridColumn: '1 / -1' } }>
 					Reset Modifications
 				</Button>
 			</div>
@@ -201,6 +206,7 @@ export function ThemeSelector( {
 						value={ newThemeName }
 						onChange={ setNewThemeName }
 						placeholder="Enter theme name"
+						__nextHasNoMarginBottom
 					/>
 					<Button
 						variant="primary"
@@ -222,6 +228,7 @@ export function ThemeSelector( {
 						value={ newThemeName }
 						onChange={ setNewThemeName }
 						placeholder={ currentTheme }
+						__nextHasNoMarginBottom
 					/>
 					<Button
 						variant="primary"
