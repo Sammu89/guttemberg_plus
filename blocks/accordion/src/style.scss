@@ -57,13 +57,13 @@
 		outline: none;
 	}
 
-	// Extreme positions: use space-between to push icon to extremes
+	// Extreme positions: use space-between to push icon to extremes, text grows with flex
 	&.icon-extreme-left,
 	&.icon-extreme-right {
 		justify-content: space-between;
 	}
 
-	// Left/right positions: left-aligned, no space-between
+	// Left/right of text positions: content left-aligned
 	&.icon-left,
 	&.icon-right {
 		justify-content: flex-start;
@@ -72,6 +72,9 @@
 
 /* Title text */
 .accordion-title-text {
+	/* Always flex to fill available space */
+	flex: 1;
+	/* Apply text alignment from CSS variable or inline style */
 	text-align: var(--accordion-title-alignment, left);
 }
 
