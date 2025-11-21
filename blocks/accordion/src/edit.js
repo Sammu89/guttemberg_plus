@@ -549,6 +549,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				cursor: 'text',
 				width: '100%',
 				border: 'none',
+				boxSizing: 'border-box',
 			},
 			content: {
 				backgroundColor: effectiveValues.contentBackgroundColor || '#ffffff',
@@ -627,10 +628,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Build title content - icon position affects layout structure
 		let titleContent;
 
-		console.log( '[ACCORDION DEBUG] renderTitle - iconPosition:', iconPosition, 'titleAlignment:', titleAlignment );
 
 		if ( iconPosition === 'extreme-left' ) {
-			console.log( '[ACCORDION DEBUG] Rendering extreme-left position' );
 			// Extreme left: icon at far left, text grows and can be aligned
 			titleContent = (
 				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
@@ -646,7 +645,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				</div>
 			);
 		} else if ( iconPosition === 'extreme-right' ) {
-			console.log( '[ACCORDION DEBUG] Rendering extreme-right position' );
 			// Extreme right: text grows and can be aligned, icon at far right
 			titleContent = (
 				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
@@ -714,6 +712,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		return titleContent;
 	};
+
 
 	// Validate width input - accepts pixels or percentage
 	const validateWidth = ( value ) => {
