@@ -213,18 +213,38 @@ function updateIcon( button, isOpen ) {
 	const iconClosed = icon.getAttribute( 'data-icon-closed' ) || '▾';
 	const iconOpen = icon.getAttribute( 'data-icon-open' ) || 'none';
 
-	// If icon is an image
-	if ( icon.classList.contains( 'accordion-icon-image' ) ) {
-		if ( iconOpen !== 'none' ) {
-			icon.src = isOpen ? iconOpen : iconClosed;
-		}
-		// If iconOpen is 'none', icon stays the same (rotation handled by CSS)
+	// Get animation duration from CSS variable
+	const duration = parseInt(
+		getComputedStyle( icon ).getPropertyValue( '--accordion-animation-duration' ) || '300'
+	);
+
+	// Check if icon needs to change (not just rotate)
+	const isImage = icon.classList.contains( 'accordion-icon-image' );
+	const newIcon = isOpen ? iconOpen : iconClosed;
+	const currentIcon = isImage ? icon.src : icon.textContent;
+	const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
+
+	if ( iconIsChanging ) {
+		// Fade out
+		icon.style.opacity = '0';
+
+		// After fade out, change the icon and fade back in
+		setTimeout( () => {
+			if ( isImage ) {
+				icon.src = newIcon;
+			} else {
+				icon.textContent = newIcon;
+			}
+
+			// Trigger reflow to ensure opacity transition works
+			icon.offsetHeight;
+
+			// Fade in
+			icon.style.opacity = '1';
+		}, duration );
 	} else {
-		// Text icon
-		if ( iconOpen !== 'none' ) {
-			icon.textContent = isOpen ? iconOpen : iconClosed;
-		}
-		// If iconOpen is 'none', icon text stays the same (rotation handled by CSS)
+		// No icon change, just ensure opacity is visible
+		icon.style.opacity = '1';
 	}
 
 	// Toggle rotation class for CSS animation

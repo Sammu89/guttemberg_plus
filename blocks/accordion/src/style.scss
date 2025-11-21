@@ -87,7 +87,7 @@
 	height: var(--accordion-icon-size, 1.5rem);
 	font-size: var(--accordion-icon-font-size, 1.25rem);
 	color: var(--accordion-icon-color, currentColor);
-	transition: transform var(--accordion-animation-duration, 300ms) ease;
+	transition: transform var(--accordion-animation-duration, 300ms) ease, opacity var(--accordion-animation-duration, 300ms) ease;
 
 	&.is-rotated {
 		transform: rotate(var(--accordion-icon-rotation, 180deg));
@@ -102,6 +102,7 @@
 	/* Enforce maximum size of 18x18px for image icons */
 	max-width: 18px;
 	max-height: 18px;
+	transition: opacity var(--accordion-animation-duration, 300ms) ease;
 }
 
 /* Content panel */
