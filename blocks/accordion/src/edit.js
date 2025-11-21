@@ -365,6 +365,8 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param {boolean} useCustomized - Whether user selected customized variant
 	 */
 	const handleThemeChange = ( newThemeName, useCustomized = false ) => {
+		debug( '[THEME CHANGE DEBUG] Switching from:', attributes.currentTheme, 'to:', newThemeName );
+
 		const newTheme = themes[ newThemeName ];
 		const newThemeKey = newThemeName || '';
 
@@ -380,21 +382,47 @@ export default function Edit( { attributes, setAttributes } ) {
 				: allDefaults;
 		}
 
-		// Apply values
-		const resetAttrs = { ...valuesToApply };
+		debug( '[THEME CHANGE DEBUG] Values to apply:', valuesToApply );
+		debug( '[THEME CHANGE DEBUG] Current attributes:', attributes );
 
-		// Remove excluded attributes (except currentTheme which we need to set)
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			if ( key !== 'currentTheme' ) {
-				delete resetAttrs[ key ];
+		// IMPORTANT: WordPress setAttributes() ignores null/undefined values!
+		// We need to explicitly clear attributes that differ from the new theme
+
+		const resetAttrs = {};
+
+		// For each attribute in the block
+		Object.keys( attributes ).forEach( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return;
 			}
-		} );
+
+			const currentValue = attributes[ key ];
+			const newValue = valuesToApply[ key ];
+
+			// If value is different, explicitly set it
+			if ( currentValue !== newValue ) {
+				// Set to new value (or undefined to force clear if new value is null/undefined)
+				resetAttrs[ key ] = newValue !== undefined ? newValue : undefined;
+				debug( `[THEME CHANGE DEBUG] Changing ${ key } from ${ JSON.stringify( currentValue ) } to ${ JSON.stringify( newValue ) }` );
+			}
+		});
+
+		// Also set any new attributes from the theme that aren't in current attributes
+		Object.keys( valuesToApply ).forEach( ( key ) => {
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return;
+			}
+			if ( ! attributes.hasOwnProperty( key ) && valuesToApply[ key ] !== undefined ) {
+				resetAttrs[ key ] = valuesToApply[ key ];
+				debug( `[THEME CHANGE DEBUG] Adding new attribute ${ key } = ${ JSON.stringify( valuesToApply[ key ] ) }` );
+			}
+		});
 
 		// Set the new theme
 		resetAttrs.currentTheme = newThemeName;
 
-		debug( '[THEME CHANGE DEBUG] Switching to theme:', newThemeName );
-		debug( '[THEME CHANGE DEBUG] Attributes to set:', resetAttrs );
+		debug( '[THEME CHANGE DEBUG] Final attributes to set:', resetAttrs );
 		setAttributes( resetAttrs );
 	};
 
