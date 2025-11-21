@@ -3,7 +3,7 @@
  * CSS Default Values
  *
  * Auto-generated from assets/css/accordion.css
- * Generated: 2025-11-21T01:52:05.467Z
+ * Generated: 2025-11-21T01:56:01.145Z
  *
  * DO NOT EDIT MANUALLY - Changes will be overwritten on build
  */

@@ -145,19 +145,67 @@ export default function Save( { attributes } ) {
 			attributes.initiallyOpen || false
 		);
 
+		// Build button content with proper icon positioning and text alignment
+		let titleTextClass = `accordion-title-text`;
+		let buttonChildren;
+
+		if ( iconPosition === 'extreme-left' ) {
+			// Extreme left: icon at far left, text with flex grows to fill
+			buttonChildren = (
+				<>
+					{ renderIcon() }
+					<RichText.Content
+						tagName="span"
+						value={ attributes.title || '' }
+						className={ titleTextClass }
+					/>
+				</>
+			);
+		} else if ( iconPosition === 'extreme-right' ) {
+			// Extreme right: text with flex grows, icon at far right
+			buttonChildren = (
+				<>
+					<RichText.Content
+						tagName="span"
+						value={ attributes.title || '' }
+						className={ titleTextClass }
+					/>
+					{ renderIcon() }
+				</>
+			);
+		} else if ( iconPosition === 'left' ) {
+			// Left of text: both left-aligned, no flex
+			buttonChildren = (
+				<>
+					{ renderIcon() }
+					<RichText.Content
+						tagName="span"
+						value={ attributes.title || '' }
+						className={ titleTextClass }
+					/>
+				</>
+			);
+		} else {
+			// Right of text (default): both left-aligned, icon after text
+			buttonChildren = (
+				<>
+					<RichText.Content
+						tagName="span"
+						value={ attributes.title || '' }
+						className={ titleTextClass }
+					/>
+					{ renderIcon() }
+				</>
+			);
+		}
+
 		const buttonContent = (
 			<button
 				type="button"
 				className={ `accordion-title ${ iconPosition ? `icon-${ iconPosition }` : '' }` }
 				{ ...buttonAria }
 			>
-				{ ( iconPosition === 'left' || iconPosition === 'extreme-left' ) && renderIcon() }
-				<RichText.Content
-					tagName="span"
-					value={ attributes.title || '' }
-					className="accordion-title-text"
-				/>
-				{ ( iconPosition === 'right' || iconPosition === 'extreme-right' ) && renderIcon() }
+				{ buttonChildren }
 			</button>
 		);
 

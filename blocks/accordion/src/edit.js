@@ -576,21 +576,74 @@ export default function Edit( { attributes, setAttributes } ) {
 		const headingLevel = effectiveValues.headingLevel || 'none';
 		const iconPosition = effectiveValues.iconPosition || 'right';
 
-		const titleContent = (
-			<div className="accordion-title-wrapper" style={ styles.title }>
-				{ ( iconPosition === 'left' || iconPosition === 'extreme-left' ) && renderIcon( iconPosition ) }
-				<RichText
-					tagName="span"
-					value={ attributes.title || '' }
-					onChange={ ( value ) => setAttributes( { title: value } ) }
-					placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-					keepPlaceholderOnFocus={ false }
-					className="accordion-title-text"
-					style={ { flex: 1 } }
-				/>
-				{ ( iconPosition === 'right' || iconPosition === 'extreme-right' ) && renderIcon( iconPosition ) }
-			</div>
-		);
+		// Build title content with proper icon positioning
+		let titleContent;
+
+		if ( iconPosition === 'extreme-left' ) {
+			// Extreme left: icon at the far left of the button
+			titleContent = (
+				<div className="accordion-title-wrapper" style={ styles.title }>
+					{ renderIcon( iconPosition ) }
+					<RichText
+						tagName="span"
+						value={ attributes.title || '' }
+						onChange={ ( value ) => setAttributes( { title: value } ) }
+						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+						keepPlaceholderOnFocus={ false }
+						className="accordion-title-text"
+						style={ { flex: 1, textAlign: effectiveValues.titleAlignment || 'left' } }
+					/>
+				</div>
+			);
+		} else if ( iconPosition === 'extreme-right' ) {
+			// Extreme right: icon at the far right of the button
+			titleContent = (
+				<div className="accordion-title-wrapper" style={ styles.title }>
+					<RichText
+						tagName="span"
+						value={ attributes.title || '' }
+						onChange={ ( value ) => setAttributes( { title: value } ) }
+						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+						keepPlaceholderOnFocus={ false }
+						className="accordion-title-text"
+						style={ { flex: 1, textAlign: effectiveValues.titleAlignment || 'left' } }
+					/>
+					{ renderIcon( iconPosition ) }
+				</div>
+			);
+		} else if ( iconPosition === 'left' ) {
+			// Left of text: icon directly left of the title text (not using flex space)
+			titleContent = (
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'flex-start' } }>
+					{ renderIcon( iconPosition ) }
+					<RichText
+						tagName="span"
+						value={ attributes.title || '' }
+						onChange={ ( value ) => setAttributes( { title: value } ) }
+						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+						keepPlaceholderOnFocus={ false }
+						className="accordion-title-text"
+						style={ { textAlign: effectiveValues.titleAlignment || 'left' } }
+					/>
+				</div>
+			);
+		} else {
+			// Right of text (default): icon directly right of the title text
+			titleContent = (
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'flex-start' } }>
+					<RichText
+						tagName="span"
+						value={ attributes.title || '' }
+						onChange={ ( value ) => setAttributes( { title: value } ) }
+						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+						keepPlaceholderOnFocus={ false }
+						className="accordion-title-text"
+						style={ { textAlign: effectiveValues.titleAlignment || 'left' } }
+					/>
+					{ renderIcon( iconPosition ) }
+				</div>
+			);
+		}
 
 		if ( headingLevel !== 'none' ) {
 			const HeadingTag = headingLevel;
