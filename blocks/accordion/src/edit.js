@@ -562,6 +562,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					blockType="accordion"
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
+					showActiveState={ false }
 				/>
 
 				<ContentColorsPanel
