@@ -40,7 +40,9 @@
       "WebFetch(domain:www.tutorjoes.in)",
       "WebFetch(domain:cruip.com)",
       "WebFetch(domain:www.w3.org)",
-      "WebFetch(domain:dev.to)"
+      "WebFetch(domain:dev.to)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:developer.wordpress.org)"
     ],
     "deny": [],
     "ask": []

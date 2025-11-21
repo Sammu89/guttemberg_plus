@@ -30,18 +30,18 @@ export function CustomizationWarning( { currentTheme, themes = {} } ) {
 	debug( '[DEBUG] CustomizationWarning - final themeName:', themeName );
 
 	return (
-		<Notice status="warning" isDismissible={ false }>
+		<Notice status="warning" isDismissible={ false } style={ { marginTop: '50px', marginBottom: '50px' } }>
 			<p>
-				<strong>Notice:</strong> This block has customizations applied.
+				<strong>Note:</strong> This block has custom modifications.
 			</p>
 			<p>
-				You are currently using the "{ themeName }" theme with custom modifications. These
-				customizations take precedence over the theme defaults.
+				You're currently using <strong>{ themeName }</strong> with changes applied specifically to this block. If you update <strong>{ themeName }</strong>, any parts of the theme that aren't overridden by your customizations will change accordingly.
 			</p>
 			<p>
-				To save your customizations permanently, use the "Save as New Theme" or "Update
-				Theme" buttons. To remove customizations and revert to the theme defaults, use the
-				"Reset Modifications" button.
+				To keep your customizations permanently and reuse them across multiple blocks, use <strong>Save as New Theme</strong> or <strong>Update Theme</strong>.
+			</p>
+			<p>
+				To remove all changes and return to the original <strong>{ themeName }</strong> settings, use <strong>Reset Modifications</strong>.
 			</p>
 		</Notice>
 	);
