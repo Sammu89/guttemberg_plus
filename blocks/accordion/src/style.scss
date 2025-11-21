@@ -56,11 +56,6 @@
 		outline: 2px solid var(--accordion-focus-color, #007cba);
 		outline-offset: -2px;
 	}
-
-	&[aria-expanded="true"] {
-		background-color: var(--accordion-title-active-bg, #e0e0e0);
-		color: var(--accordion-title-active-color, #000);
-	}
 }
 
 /* Title text */
