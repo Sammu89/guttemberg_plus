@@ -140,7 +140,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ sessionCache, setSessionCache ] = useState( {} );
 
 	// Auto-update session cache for CURRENT theme
-	// ONLY add if there are actual customizations vs expected values
+	// Maintains per-block customization memory across theme switches
 	useEffect( () => {
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 		const currentThemeKey = attributes.currentTheme || '';
@@ -168,20 +168,28 @@ export default function Edit( { attributes, setAttributes } ) {
 			return snapshotValue !== expectedValue;
 		} );
 
+		// IMPORTANT: Only UPDATE cache when there ARE customizations
+		// NEVER delete from cache automatically - only manual operations (Reset/Save/Update) should clear cache
+		// This preserves customizations across theme switches
 		if ( hasCustomizations ) {
-			// Only add to cache if there are actual customizations
-			setSessionCache( ( prev ) => ( {
-				...prev,
-				[ currentThemeKey ]: snapshot,
-			} ) );
-		} else {
-			// Remove from cache if no customizations (clean theme)
 			setSessionCache( ( prev ) => {
-				const updated = { ...prev };
-				delete updated[ currentThemeKey ];
-				return updated;
+				// Only update if actually different to avoid unnecessary re-renders
+				const existingCache = prev[ currentThemeKey ];
+				const snapshotStr = JSON.stringify( snapshot );
+				const existingStr = JSON.stringify( existingCache );
+
+				if ( snapshotStr !== existingStr ) {
+					debug( '[SESSION CACHE] Updating cache for theme:', currentThemeKey );
+					return {
+						...prev,
+						[ currentThemeKey ]: snapshot,
+					};
+				}
+				return prev;
 			} );
 		}
+		// If no customizations, DO NOTHING - keep existing cache intact
+		// This prevents accidental cache loss when switching themes
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
 	// Log when currentTheme changes (for debugging)
