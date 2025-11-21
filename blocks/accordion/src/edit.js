@@ -638,7 +638,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 						className="accordion-title-text"
-						style={ { flex: 1, textAlign: titleAlignment } }
+						style={ { flex: '1 1 auto', textAlign: titleAlignment } }
 					/>
 				</div>
 			);
@@ -652,7 +652,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 						className="accordion-title-text"
-						style={ { flex: 1, textAlign: titleAlignment } }
+						style={ { flex: '1 1 auto', textAlign: titleAlignment } }
 					/>
 					{ renderIcon( iconPosition ) }
 				</div>
