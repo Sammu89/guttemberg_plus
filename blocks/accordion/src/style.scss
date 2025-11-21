@@ -56,9 +56,7 @@
 		// Use same colors as normal state to prevent theme CSS override
 		background-color: var(--accordion-title-bg, #f5f5f5);
 		color: var(--accordion-title-color, #333);
-		// Add outline for accessibility (can be customized if needed)
-		outline: 2px solid var(--accordion-title-color, #333);
-		outline-offset: 2px;
+		outline: none;
 	}
 }
 
