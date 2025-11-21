@@ -24,6 +24,7 @@ import { CompactColorControl } from './CompactColorControl';
  * @param {Object}   props.theme           Current theme object (optional)
  * @param {Object}   props.cssDefaults     CSS default values (optional)
  * @param {boolean}  props.initialOpen     Whether panel is initially open
+ * @param {boolean}  props.showActiveState Whether to show active state colors (default: true)
  */
 export function HeaderColorsPanel( {
 	effectiveValues = {},
@@ -33,6 +34,7 @@ export function HeaderColorsPanel( {
 	theme,
 	cssDefaults = {},
 	initialOpen = false,
+	showActiveState = true,
 } ) {
 	/**
 	 * Handle color change
@@ -87,9 +89,13 @@ export function HeaderColorsPanel( {
 			<ColorControl label="Hover Title Text Color" attrName="hoverTitleColor" />
 			<ColorControl label="Hover Title Background" attrName="hoverTitleBackgroundColor" />
 
-			{ /* Active states (for tabs, accordions when open) */ }
-			<ColorControl label="Active Title Text Color" attrName="activeTitleColor" />
-			<ColorControl label="Active Title Background" attrName="activeTitleBackgroundColor" />
+			{ /* Active states (for tabs, not needed for accordion) */ }
+			{ showActiveState && (
+				<>
+					<ColorControl label="Active Title Text Color" attrName="activeTitleColor" />
+					<ColorControl label="Active Title Background" attrName="activeTitleBackgroundColor" />
+				</>
+			) }
 		</PanelBody>
 	);
 }
