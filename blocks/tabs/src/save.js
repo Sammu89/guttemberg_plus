@@ -50,6 +50,10 @@ export default function Save( { attributes } ) {
 		// Tab Button (title colors from ColorPanel)
 		addIfDefined( 'titleColor', '--tab-button-color' );
 		addIfDefined( 'titleBackgroundColor', '--tab-button-bg' );
+		addIfDefined( 'hoverTitleColor', '--tab-button-hover-color' );
+		addIfDefined( 'hoverTitleBackgroundColor', '--tab-button-hover-bg' );
+		addIfDefined( 'activeTitleColor', '--tab-button-active-color' );
+		addIfDefined( 'activeTitleBackgroundColor', '--tab-button-active-bg' );
 
 		// Tab Button Typography (from TypographyPanel)
 		addIfDefined( 'titleFontSize', '--tab-button-font-size', ( val ) => `${ val }px` );
