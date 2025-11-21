@@ -43,10 +43,17 @@ export default function Save( { attributes } ) {
 	const getCustomizationStyles = () => {
 		const styles = {};
 
+		// DEBUG: Log all attributes to see what's being saved
+		console.log( '[ACCORDION SAVE DEBUG] All attributes:', attributes );
+
 		// Helper to add style if attribute is explicitly defined
 		const addIfDefined = ( attrName, cssVar, formatter ) => {
 			if ( attributes[ attrName ] !== null && attributes[ attrName ] !== undefined ) {
-				styles[ cssVar ] = formatter ? formatter( attributes[ attrName ] ) : attributes[ attrName ];
+				const value = formatter ? formatter( attributes[ attrName ] ) : attributes[ attrName ];
+				styles[ cssVar ] = value;
+				console.log( `[ACCORDION SAVE DEBUG] Adding ${ attrName } -> ${ cssVar } = ${ value }` );
+			} else {
+				console.log( `[ACCORDION SAVE DEBUG] Skipping ${ attrName } (value: ${ attributes[ attrName ] })` );
 			}
 		};
 
@@ -185,6 +192,13 @@ export default function Save( { attributes } ) {
 
 	return (
 		<div { ...blockProps }>
+			{ /* DEBUG: Show what attributes are being saved */ }
+			{ /* eslint-disable-next-line react/no-danger */ }
+			<div
+				dangerouslySetInnerHTML={ {
+					__html: `<!-- ACCORDION DEBUG: titleColor=${ attributes.titleColor || 'UNDEFINED' }, titleBackgroundColor=${ attributes.titleBackgroundColor || 'UNDEFINED' }, hoverTitleColor=${ attributes.hoverTitleColor || 'UNDEFINED' }, customizationStyles count=${ Object.keys( customizationStyles ).length } -->`,
+				} }
+			/>
 			<div
 				className={ `accordion-item ${ attributes.initiallyOpen ? 'is-open' : '' }` }
 				data-item-id="0"
