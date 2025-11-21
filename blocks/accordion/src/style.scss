@@ -51,11 +51,6 @@
 		background-color: var(--accordion-title-hover-bg, #e8e8e8);
 		color: var(--accordion-title-hover-color, #000);
 	}
-
-	&:focus {
-		outline: 2px solid var(--accordion-focus-color, #007cba);
-		outline-offset: -2px;
-	}
 }
 
 /* Title text */
