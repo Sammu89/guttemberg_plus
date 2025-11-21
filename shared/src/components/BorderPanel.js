@@ -11,6 +11,7 @@
 
 import { PanelBody, RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
+import { normalizeValueForControl } from '../theme-system/control-normalizer';
 import { CompactColorControl } from './CompactColorControl';
 
 /**
@@ -110,7 +111,7 @@ export function BorderPanel( {
 				label={
 					isAttrCustomized( borderAttrs.color ) ? 'Color (Customized)' : 'Color'
 				}
-				value={ effectiveValues[ borderAttrs.color ] }
+				value={ normalizeValueForControl( effectiveValues[ borderAttrs.color ], borderAttrs.color, 'color' ) }
 				onChange={ ( value ) => handleChange( borderAttrs.color, value ) }
 			/>
 
@@ -176,9 +177,13 @@ export function BorderPanel( {
 								: 'Color'
 						}
 						value={
-							effectiveValues[
-								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor'
-							]
+							normalizeValueForControl(
+								effectiveValues[
+									blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor'
+								],
+								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor',
+								'color'
+							)
 						}
 						onChange={ ( value ) =>
 							handleChange(
