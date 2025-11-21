@@ -81,7 +81,7 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'accordionBorderThickness', '--accordion-border-width', ( val ) => `${ val }px` );
 		addIfDefined( 'dividerBorderThickness', '--accordion-divider-width', ( val ) => `${ val }px` );
 		addIfDefined( 'iconSize', '--accordion-icon-size', ( val ) => `${ val }px` );
-		addIfDefined( 'iconRotation', '--accordion-icon-rotation', ( val ) => `${ val }px` );
+		addIfDefined( 'iconRotation', '--accordion-icon-rotation', ( val ) => `${ val }deg` );
 
 		// Object values (border radius)
 		if ( attributes.accordionBorderRadius ) {

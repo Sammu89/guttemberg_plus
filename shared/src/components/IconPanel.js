@@ -122,11 +122,11 @@ export function IconPanel( {
 						label={ <CustomLabel label="Icon Position" attrName="iconPosition" /> }
 						value={ effectiveValues.iconPosition || 'right' }
 						options={ [
-							{ label: 'Left', value: 'left' },
-							{ label: 'Right', value: 'right' },
-							{ label: 'Extreme Left', value: 'extreme-left' },
+							{ label: 'Left of the text', value: 'left' },
+							{ label: 'Right of the text', value: 'right' },
+							{ label: 'Left of the header', value: 'extreme-left' },
 							{
-								label: 'Extreme Right',
+								label: 'Right of the header',
 								value: 'extreme-right',
 							},
 						] }
