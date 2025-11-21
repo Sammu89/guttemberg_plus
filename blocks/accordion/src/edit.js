@@ -259,16 +259,25 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Calculate deltas from current snapshot
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
+		debug( '[UPDATE THEME DEBUG] Updating theme with deltas:', deltas );
+
 		// Update theme with new deltas
 		await updateTheme( 'accordion', attributes.currentTheme, deltas );
 
-		// Reset to updated theme: apply defaults + updated theme deltas
-		const resetAttrs = { ...expectedValues };
+		// IMPORTANT: Recalculate expected values with the NEW deltas
+		// (can't use expectedValues because it's based on old theme data)
+		const updatedExpectedValues = applyDeltas( allDefaults, deltas );
+		debug( '[UPDATE THEME DEBUG] Updated expected values:', updatedExpectedValues );
+
+		// Reset to updated theme
+		const resetAttrs = { ...updatedExpectedValues };
 
 		// Remove excluded attributes
 		excludeFromCustomizationCheck.forEach( ( key ) => {
 			delete resetAttrs[ key ];
 		} );
+
+		debug( '[UPDATE THEME DEBUG] Attributes to set:', resetAttrs );
 
 		// Use flushSync to force synchronous update before clearing cache
 		flushSync( () => {
@@ -297,14 +306,34 @@ export default function Edit( { attributes, setAttributes } ) {
 		debug( '[RESET DEBUG] Resetting customizations to clean theme' );
 		debug( '[RESET DEBUG] Current theme:', attributes.currentTheme );
 		debug( '[RESET DEBUG] Expected values:', expectedValues );
+		debug( '[RESET DEBUG] Current attributes:', attributes );
 
-		// Reset to clean theme: apply expected values (defaults + current theme)
-		const resetAttrs = { ...expectedValues };
+		// IMPORTANT: WordPress setAttributes() ignores null/undefined values!
+		// So we need to explicitly clear customized attributes first
 
-		// Remove excluded attributes from reset (except currentTheme which we need to preserve)
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			if ( key !== 'currentTheme' ) {
-				delete resetAttrs[ key ];
+		// Start with expected values (defaults + current theme)
+		const resetAttrs = {};
+
+		// For each attribute in the block
+		Object.keys( attributes ).forEach( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return;
+			}
+
+			const currentValue = attributes[ key ];
+			const expectedValue = expectedValues[ key ];
+
+			// If attribute is currently customized (different from expected)
+			const isCurrentlyCustomized =
+				currentValue !== null &&
+				currentValue !== undefined &&
+				currentValue !== expectedValue;
+
+			if ( isCurrentlyCustomized ) {
+				// Explicitly set to expected value (or undefined to clear)
+				resetAttrs[ key ] = expectedValue !== undefined ? expectedValue : undefined;
+				debug( `[RESET DEBUG] Clearing customization: ${ key } from ${ JSON.stringify( currentValue ) } to ${ JSON.stringify( expectedValue ) }` );
 			}
 		} );
 
@@ -312,6 +341,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		resetAttrs.currentTheme = attributes.currentTheme;
 
 		debug( '[RESET DEBUG] Attributes to set:', resetAttrs );
+
 		// Use flushSync to force synchronous update before clearing cache
 		flushSync( () => {
 			setAttributes( resetAttrs );
