@@ -631,7 +631,9 @@ export default function Edit( { attributes, setAttributes } ) {
 			// Extreme left: icon at far left, text grows and can be aligned
 			titleContent = (
 				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
-					{ renderIcon( iconPosition ) }
+					<div style={ { ...styles.icon, marginRight: '8px', minWidth: '1em' } }>
+						{ renderIcon( iconPosition ) }
+					</div>
 					<RichText
 						tagName="span"
 						value={ attributes.title || '' }
@@ -654,7 +656,9 @@ export default function Edit( { attributes, setAttributes } ) {
 						className="accordion-title-text"
 						style={ { flex: 1, textAlign: titleAlignment } }
 					/>
-					{ renderIcon( iconPosition ) }
+					<div style={ { ...styles.icon, marginLeft: '8px', minWidth: '1em' } }>
+						{ renderIcon( iconPosition ) }
+					</div>
 				</div>
 			);
 		} else if ( iconPosition === 'left' ) {
@@ -667,7 +671,6 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ attributes.title || '' }
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						keepPlaceholderOnFocus={ false }
 						className="accordion-title-text"
 						style={ { textAlign: titleAlignment } }
 					/>
@@ -687,7 +690,6 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ attributes.title || '' }
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						keepPlaceholderOnFocus={ false }
 						className="accordion-title-text"
 						style={ { textAlign: titleAlignment } }
 					/>
