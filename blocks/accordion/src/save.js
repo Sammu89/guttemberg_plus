@@ -53,6 +53,10 @@ export default function Save( { attributes } ) {
 		// Simple string/color values
 		addIfDefined( 'titleBackgroundColor', '--accordion-title-bg' );
 		addIfDefined( 'titleColor', '--accordion-title-color' );
+		addIfDefined( 'hoverTitleBackgroundColor', '--accordion-title-hover-bg' );
+		addIfDefined( 'hoverTitleColor', '--accordion-title-hover-color' );
+		addIfDefined( 'activeTitleBackgroundColor', '--accordion-title-active-bg' );
+		addIfDefined( 'activeTitleColor', '--accordion-title-active-color' );
 		addIfDefined( 'titleFontWeight', '--accordion-title-font-weight' );
 		addIfDefined( 'titleFontStyle', '--accordion-title-font-style' );
 		addIfDefined( 'titleTextTransform', '--accordion-title-text-transform' );
