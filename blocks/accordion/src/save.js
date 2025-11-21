@@ -146,7 +146,7 @@ export default function Save( { attributes } ) {
 			attributes.initiallyOpen || false
 		);
 
-		// Build button content - icon position only affects DOM order, text always has flex and alignment
+		// Build button content - icon position affects layout structure
 		let buttonChildren;
 
 		if ( iconPosition === 'extreme-left' ) {
@@ -174,28 +174,28 @@ export default function Save( { attributes } ) {
 				</>
 			);
 		} else if ( iconPosition === 'left' ) {
-			// Left of text: icon then text, both left-aligned
+			// Left of text: wrap icon+text as single group that can be aligned
 			buttonChildren = (
-				<>
+				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
 					{ renderIcon() }
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
 						className="accordion-title-text"
 					/>
-				</>
+				</div>
 			);
 		} else {
-			// Right of text (default): text then icon, both left-aligned
+			// Right of text (default): wrap text+icon as single group that can be aligned
 			buttonChildren = (
-				<>
+				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
 						className="accordion-title-text"
 					/>
 					{ renderIcon() }
-				</>
+				</div>
 			);
 		}
 
@@ -204,6 +204,7 @@ export default function Save( { attributes } ) {
 				type="button"
 				className={ `accordion-title ${ iconPosition ? `icon-${ iconPosition }` : '' }` }
 				{ ...buttonAria }
+				style={ { justifyContent: ( iconPosition === 'extreme-left' || iconPosition === 'extreme-right' ) ? 'space-between' : titleAlignment } }
 			>
 				{ buttonChildren }
 			</button>
