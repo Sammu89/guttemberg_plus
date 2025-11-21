@@ -87,6 +87,7 @@ export function TypographyPanel( {
 					{ label: 'H6', value: 'h6' },
 				] }
 				onChange={ ( value ) => handleChange( 'headingLevel', value ) }
+				__next40pxDefaultSize
 			/>
 
 			<RangeControl
@@ -114,6 +115,7 @@ export function TypographyPanel( {
 					{ label: '900', value: '900' },
 				] }
 				onChange={ ( value ) => handleChange( 'titleFontWeight', value ) }
+				__next40pxDefaultSize
 			/>
 
 			<SelectControl
@@ -125,6 +127,7 @@ export function TypographyPanel( {
 					{ label: 'Oblique', value: 'oblique' },
 				] }
 				onChange={ ( value ) => handleChange( 'titleFontStyle', value ) }
+				__next40pxDefaultSize
 			/>
 
 			<SelectControl
@@ -137,6 +140,7 @@ export function TypographyPanel( {
 					{ label: 'Capitalize', value: 'capitalize' },
 				] }
 				onChange={ ( value ) => handleChange( 'titleTextTransform', value ) }
+				__next40pxDefaultSize
 			/>
 
 			<SelectControl
@@ -149,6 +153,7 @@ export function TypographyPanel( {
 					{ label: 'Line Through', value: 'line-through' },
 				] }
 				onChange={ ( value ) => handleChange( 'titleTextDecoration', value ) }
+				__next40pxDefaultSize
 			/>
 
 			<SelectControl
@@ -160,6 +165,7 @@ export function TypographyPanel( {
 					{ label: 'Right', value: 'right' },
 				] }
 				onChange={ ( value ) => handleChange( 'titleAlignment', value ) }
+				__next40pxDefaultSize
 			/>
 		</PanelBody>
 	);

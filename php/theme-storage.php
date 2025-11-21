@@ -127,6 +127,7 @@ function validate_theme_values( $values ) {
 
 /**
  * Get all themes for a block type
+ * Validates and cleans up broken themes
  *
  * @param string $block_type Block type.
  * @return array|WP_Error Themes array or WP_Error
@@ -145,7 +146,37 @@ function get_block_themes( $block_type ) {
 		$themes = array();
 	}
 
-	return $themes;
+	// Validate and filter out broken themes
+	$valid_themes = array();
+	$cleaned      = false;
+
+	foreach ( $themes as $name => $theme ) {
+		// Check if theme has required structure
+		if ( ! is_array( $theme ) || ! isset( $theme['values'] ) ) {
+			// Invalid theme structure - skip it
+			$cleaned = true;
+			error_log( "[Guttemberg Plus] Removing broken theme '$name' for block type '$block_type' - missing 'values' property" );
+			continue;
+		}
+
+		// Check if values is an array
+		if ( ! is_array( $theme['values'] ) ) {
+			// Invalid values - skip it
+			$cleaned = true;
+			error_log( "[Guttemberg Plus] Removing broken theme '$name' for block type '$block_type' - 'values' is not an array" );
+			continue;
+		}
+
+		// Theme is valid, keep it
+		$valid_themes[ $name ] = $theme;
+	}
+
+	// If we removed broken themes, save the cleaned list
+	if ( $cleaned ) {
+		update_option( $option_name, $valid_themes );
+	}
+
+	return $valid_themes;
 }
 
 /**
@@ -259,32 +290,70 @@ function update_block_theme( $block_type, $name, $values ) {
 		return $validation;
 	}
 
-	// Get existing themes
+	// Get existing themes (this validates and cleans up broken themes)
 	$themes = get_block_themes( $block_type );
 
 	if ( is_wp_error( $themes ) ) {
 		return $themes;
 	}
 
-	// Check theme exists
+	// Check theme exists - if not, try to get raw themes in case theme exists but was broken
+	$actual_name = $name;
 	if ( ! isset( $themes[ $name ] ) ) {
-		return new \WP_Error(
-			'theme_not_found',
-			/* translators: %s: Theme name */
-			sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $name ),
-			array( 'status' => 404 )
-		);
+		// Try to get raw themes without validation (in case theme was just cleaned up)
+		$option_name = get_option_name( $block_type );
+		$raw_themes  = get_option( $option_name, array() );
+
+		if ( is_array( $raw_themes ) && isset( $raw_themes[ $name ] ) ) {
+			// Theme exists but was broken - use it anyway
+			$themes = $raw_themes;
+		} else {
+			// Try case-insensitive match as fallback
+			$found_key = null;
+			if ( is_array( $raw_themes ) ) {
+				foreach ( $raw_themes as $key => $theme ) {
+					// Try multiple matching strategies
+					if ( strtolower( trim( $key ) ) === strtolower( trim( $name ) ) ) {
+						$found_key = $key;
+						break;
+					}
+					// Also try exact match
+					if ( $key === $name ) {
+						$found_key = $key;
+						break;
+					}
+					// Try without spaces
+					if ( str_replace( ' ', '', strtolower( $key ) ) === str_replace( ' ', '', strtolower( $name ) ) ) {
+						$found_key = $key;
+						break;
+					}
+				}
+			}
+
+			if ( $found_key ) {
+				$actual_name = $found_key;
+				$themes = $raw_themes;
+			} else {
+				// Theme truly doesn't exist
+				return new \WP_Error(
+					'theme_not_found',
+					/* translators: %s: Theme name */
+					sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $name ),
+					array( 'status' => 404 )
+				);
+			}
+		}
 	}
 
 	// Update theme (preserve created timestamp)
 	$theme = array(
-		'name'     => $name,
+		'name'     => $actual_name,
 		'values'   => $values,
-		'created'  => $themes[ $name ]['created'] ?? current_time( 'mysql' ),
+		'created'  => $themes[ $actual_name ]['created'] ?? current_time( 'mysql' ),
 		'modified' => current_time( 'mysql' ),
 	);
 
-	$themes[ $name ] = $theme;
+	$themes[ $actual_name ] = $theme;
 
 	// Save to database
 	$option_name = get_option_name( $block_type );
@@ -312,15 +381,54 @@ function delete_block_theme( $block_type, $name ) {
 		return $validation;
 	}
 
-	// Get existing themes
+	// Get existing themes (this validates and cleans up broken themes)
 	$themes = get_block_themes( $block_type );
 
 	if ( is_wp_error( $themes ) ) {
 		return $themes;
 	}
 
-	// Check theme exists
+	// Check theme exists - if not, try to get raw themes in case theme exists but was broken
 	if ( ! isset( $themes[ $name ] ) ) {
+		// Try to get raw themes without validation (in case theme was just cleaned up)
+		$option_name = get_option_name( $block_type );
+		$raw_themes  = get_option( $option_name, array() );
+
+		if ( is_array( $raw_themes ) && isset( $raw_themes[ $name ] ) ) {
+			// Theme exists but was broken - delete it anyway
+			error_log( "[Guttemberg Plus] Deleting broken theme '$name'" );
+			unset( $raw_themes[ $name ] );
+			update_option( $option_name, $raw_themes, false );
+			return true;
+		}
+
+		// Try case-insensitive match as fallback (in case of whitespace or case issues)
+		$found_key = null;
+		if ( is_array( $raw_themes ) ) {
+			foreach ( $raw_themes as $key => $theme ) {
+				// Try multiple matching strategies
+				if ( strtolower( trim( $key ) ) === strtolower( trim( $name ) ) ) {
+					$found_key = $key;
+					break;
+				}
+				// Also try exact match (in case encoding issue)
+				if ( $key === $name ) {
+					$found_key = $key;
+					break;
+				}
+				// Try without spaces
+				if ( str_replace( ' ', '', strtolower( $key ) ) === str_replace( ' ', '', strtolower( $name ) ) ) {
+					$found_key = $key;
+					break;
+				}
+			}
+		}
+
+		if ( $found_key ) {
+			unset( $raw_themes[ $found_key ] );
+			update_option( $option_name, $raw_themes, false );
+			return true;
+		}
 		return new \WP_Error(
 			'theme_not_found',
 			/* translators: %s: Theme name */
@@ -364,25 +472,71 @@ function rename_block_theme( $block_type, $old_name, $new_name ) {
 		return $validation;
 	}
 
-	// Get existing themes
+	// Get existing themes (this validates and cleans up broken themes)
 	$themes = get_block_themes( $block_type );
 
 	if ( is_wp_error( $themes ) ) {
 		return $themes;
 	}
 
-	// Check old theme exists
+	// Check old theme exists - if not, try to get raw themes in case theme exists but was broken
+	$actual_old_name = $old_name;
 	if ( ! isset( $themes[ $old_name ] ) ) {
-		return new \WP_Error(
-			'theme_not_found',
-			/* translators: %s: Theme name */
-			sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $old_name ),
-			array( 'status' => 404 )
-		);
+		// Try to get raw themes without validation (in case theme was just cleaned up)
+		$option_name = get_option_name( $block_type );
+		$raw_themes  = get_option( $option_name, array() );
+
+		if ( ! is_array( $raw_themes ) ) {
+			return new \WP_Error(
+				'theme_not_found',
+				/* translators: %s: Theme name */
+				sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $old_name ),
+				array( 'status' => 404 )
+			);
+		}
+
+		if ( isset( $raw_themes[ $old_name ] ) ) {
+			// Theme exists but is broken - use raw version
+			$themes = $raw_themes;
+		} else {
+			// Try case-insensitive match as fallback
+			$found_key = null;
+
+			foreach ( $raw_themes as $key => $theme ) {
+				// Try multiple matching strategies
+				if ( strtolower( trim( $key ) ) === strtolower( trim( $old_name ) ) ) {
+					$found_key = $key;
+					break;
+				}
+				// Also try exact match
+				if ( $key === $old_name ) {
+					$found_key = $key;
+					break;
+				}
+				// Try without spaces
+				if ( str_replace( ' ', '', strtolower( $key ) ) === str_replace( ' ', '', strtolower( $old_name ) ) ) {
+					$found_key = $key;
+					break;
+				}
+			}
+
+			if ( $found_key ) {
+				$actual_old_name = $found_key;
+				$themes = $raw_themes;
+			} else {
+				// Theme truly doesn't exist
+				return new \WP_Error(
+					'theme_not_found',
+					/* translators: %s: Theme name */
+					sprintf( __( 'Theme "%s" not found', 'guttemberg-plus' ), $old_name ),
+					array( 'status' => 404 )
+				);
+			}
+		}
 	}
 
 	// Check new name not duplicate (unless same as old)
-	if ( $old_name !== $new_name && isset( $themes[ $new_name ] ) ) {
+	if ( $actual_old_name !== $new_name && isset( $themes[ $new_name ] ) ) {
 		return new \WP_Error(
 			'duplicate_theme',
 			/* translators: %s: Theme name */
@@ -392,10 +546,10 @@ function rename_block_theme( $block_type, $old_name, $new_name ) {
 	}
 
 	// Rename theme
-	$theme         = $themes[ $old_name ];
+	$theme         = $themes[ $actual_old_name ];
 	$theme['name'] = $new_name;
 
-	unset( $themes[ $old_name ] );
+	unset( $themes[ $actual_old_name ] );
 	$themes[ $new_name ] = $theme;
 
 	// Save to database

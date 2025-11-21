@@ -249,7 +249,20 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
-		await updateTheme( 'tabs', attributes.currentTheme, deltas );
+		// Update theme with error handling
+		try {
+			await updateTheme( 'tabs', attributes.currentTheme, deltas );
+		} catch ( error ) {
+			console.error( '[UPDATE THEME ERROR]', error );
+			// If theme doesn't exist or is broken, reset to default
+			if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
+				console.warn( '[UPDATE THEME] Theme not found - resetting to default' );
+				setAttributes( { currentTheme: '' } );
+				return;
+			}
+			// Re-throw other errors
+			throw error;
+		}
 
 		// Reset to updated theme: apply defaults + updated theme deltas
 		const resetAttrs = { ...expectedValues };
@@ -274,7 +287,25 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const handleDeleteTheme = async () => {
 		await deleteTheme( 'tabs', attributes.currentTheme );
-		setAttributes( { currentTheme: '' } );
+
+		// Reset to default theme: apply all defaults and clear currentTheme
+		const resetAttrs = { ...allDefaults };
+		resetAttrs.currentTheme = '';
+
+		// Remove excluded attributes (except currentTheme which we just set)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
+		} );
+
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
+
+		// Clear session cache completely
+		setSessionCache( {} );
 	};
 
 	const handleRenameTheme = async ( oldName, newName ) => {
@@ -591,6 +622,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							},
 						] }
 						onChange={ ( value ) => setAttributes( { orientation: value } ) }
+						__next40pxDefaultSize
 					/>
 
 					<SelectControl
@@ -607,6 +639,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							},
 						] }
 						onChange={ ( value ) => setAttributes( { activationMode: value } ) }
+						__next40pxDefaultSize
 						help={ __(
 							'Automatic activates tab on arrow key focus, manual requires Enter/Space',
 							'guttemberg-plus'

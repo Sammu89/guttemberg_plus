@@ -129,6 +129,7 @@ export function CompactColorControl( { label, value, onChange, disableAlpha = fa
 						onChange={ handleTextChange }
 						placeholder="Color value"
 						style={ { marginBottom: 0 } }
+						__nextHasNoMarginBottom
 					/>
 				</div>
 

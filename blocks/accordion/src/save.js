@@ -43,17 +43,11 @@ export default function Save( { attributes } ) {
 	const getCustomizationStyles = () => {
 		const styles = {};
 
-		// DEBUG: Log all attributes to see what's being saved
-		console.log( '[ACCORDION SAVE DEBUG] All attributes:', attributes );
-
 		// Helper to add style if attribute is explicitly defined
 		const addIfDefined = ( attrName, cssVar, formatter ) => {
 			if ( attributes[ attrName ] !== null && attributes[ attrName ] !== undefined ) {
 				const value = formatter ? formatter( attributes[ attrName ] ) : attributes[ attrName ];
 				styles[ cssVar ] = value;
-				console.log( `[ACCORDION SAVE DEBUG] Adding ${ attrName } -> ${ cssVar } = ${ value }` );
-			} else {
-				console.log( `[ACCORDION SAVE DEBUG] Skipping ${ attrName } (value: ${ attributes[ attrName ] })` );
 			}
 		};
 
@@ -87,6 +81,25 @@ export default function Save( { attributes } ) {
 		if ( attributes.accordionBorderRadius ) {
 			const br = attributes.accordionBorderRadius;
 			styles[ '--accordion-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		}
+
+		// Width and alignment (non-CSS variable values as inline styles)
+		if ( attributes.accordionWidth ) {
+			styles.width = attributes.accordionWidth;
+		}
+
+		// Handle horizontal alignment
+		if ( attributes.accordionHorizontalAlign ) {
+			const alignment = attributes.accordionHorizontalAlign;
+			if ( alignment === 'center' ) {
+				styles.margin = '0 auto';
+			} else if ( alignment === 'right' ) {
+				styles.marginLeft = 'auto';
+				styles.marginRight = 0;
+			} else {
+				// left alignment
+				styles.marginRight = 'auto';
+			}
 		}
 
 		return styles;
@@ -232,20 +245,12 @@ export default function Save( { attributes } ) {
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
 		'data-accordion-id': accordionId,
-		'data-allow-multiple': attributes.allowMultipleOpen || false,
 		// Only add inline styles if there are customizations
 		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
 	} );
 
 	return (
 		<div { ...blockProps }>
-			{ /* DEBUG: Show what attributes are being saved */ }
-			{ /* eslint-disable-next-line react/no-danger */ }
-			<div
-				dangerouslySetInnerHTML={ {
-					__html: `<!-- ACCORDION DEBUG: titleColor=${ attributes.titleColor || 'UNDEFINED' }, titleBackgroundColor=${ attributes.titleBackgroundColor || 'UNDEFINED' }, hoverTitleColor=${ attributes.hoverTitleColor || 'UNDEFINED' }, hoverTitleBg=${ attributes.hoverTitleBackgroundColor || 'UNDEFINED' }, styles count=${ Object.keys( customizationStyles ).length } -->`,
-				} }
-			/>
 			<div
 				className={ `accordion-item ${ attributes.initiallyOpen ? 'is-open' : '' }` }
 				data-item-id="0"

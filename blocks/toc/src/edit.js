@@ -291,7 +291,20 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
-		await updateTheme( 'toc', attributes.currentTheme, deltas );
+		// Update theme with error handling
+		try {
+			await updateTheme( 'toc', attributes.currentTheme, deltas );
+		} catch ( error ) {
+			console.error( '[UPDATE THEME ERROR]', error );
+			// If theme doesn't exist or is broken, reset to default
+			if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
+				console.warn( '[UPDATE THEME] Theme not found - resetting to default' );
+				setAttributes( { currentTheme: '' } );
+				return;
+			}
+			// Re-throw other errors
+			throw error;
+		}
 
 		// Reset to updated theme: apply defaults + updated theme deltas
 		const resetAttrs = { ...expectedValues };
@@ -316,7 +329,25 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const handleDeleteTheme = () => {
 		deleteTheme( 'toc', attributes.currentTheme );
-		setAttributes( { currentTheme: '' } );
+
+		// Reset to default theme: apply all defaults and clear currentTheme
+		const resetAttrs = { ...allDefaults };
+		resetAttrs.currentTheme = '';
+
+		// Remove excluded attributes (except currentTheme which we just set)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
+		} );
+
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
+
+		// Clear session cache completely
+		setSessionCache( {} );
 	};
 
 	const handleRenameTheme = ( oldName, newName ) => {
@@ -436,6 +467,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							label="Title Text"
 							value={ titleText }
 							onChange={ ( value ) => setAttributes( { titleText: value } ) }
+							__nextHasNoMarginBottom
 						/>
 					) }
 
@@ -471,6 +503,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									},
 								] }
 								onChange={ ( value ) => setAttributes( { clickBehavior: value } ) }
+								__next40pxDefaultSize
 							/>
 						</>
 					) }
@@ -493,6 +526,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							{ label: 'Exclude Selected', value: 'exclude' },
 						] }
 						onChange={ ( value ) => setAttributes( { filterMode: value } ) }
+						__next40pxDefaultSize
 					/>
 
 					{ attributes.filterMode === 'include-only' && (
@@ -523,6 +557,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								label="Include Classes (comma-separated)"
 								value={ attributes.includeClasses }
 								onChange={ ( value ) => setAttributes( { includeClasses: value } ) }
+								__nextHasNoMarginBottom
 							/>
 						</>
 					) }
@@ -555,6 +590,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								label="Exclude Classes (comma-separated)"
 								value={ attributes.excludeClasses }
 								onChange={ ( value ) => setAttributes( { excludeClasses: value } ) }
+								__nextHasNoMarginBottom
 							/>
 						</>
 					) }
@@ -591,6 +627,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							{ label: 'Letters (A, B, C)', value: 'letters' },
 						] }
 						onChange={ ( value ) => setAttributes( { numberingStyle: value } ) }
+						__next40pxDefaultSize
 					/>
 				</PanelBody>
 

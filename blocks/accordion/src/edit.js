@@ -10,7 +10,7 @@
 
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls, RichText, InnerBlocks } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl } from '@wordpress/components';
+import { PanelBody, ToggleControl, TextControl, SelectControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo } from '@wordpress/element';
 import { flushSync } from 'react-dom';
@@ -138,6 +138,15 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Allows switching between themes and keeping customizations during session
 	// Discarded on page reload (React state only)
 	const [ sessionCache, setSessionCache ] = useState( {} );
+
+	// Local state for width input (allows typing without validation)
+	const [ widthInput, setWidthInput ] = useState( attributes.accordionWidth || '100%' );
+
+	// Sync local input state when attribute changes externally
+	useEffect( () => {
+		const newWidth = attributes.accordionWidth || '100%';
+		setWidthInput( newWidth );
+	}, [ attributes.accordionWidth ] );
 
 	// Auto-update session cache for CURRENT theme
 	// Maintains per-block customization memory across theme switches
@@ -289,8 +298,20 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		console.warn( '[UPDATE THEME] Calculated deltas:', deltas );
 
-		// Update theme with new deltas
-		await updateTheme( 'accordion', attributes.currentTheme, deltas );
+		// Update theme with new deltas - handle errors
+		try {
+			await updateTheme( 'accordion', attributes.currentTheme, deltas );
+		} catch ( error ) {
+			console.error( '[UPDATE THEME ERROR]', error );
+			// If theme doesn't exist or is broken, reset to default
+			if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
+				console.warn( '[UPDATE THEME] Theme not found - resetting to default' );
+				setAttributes( { currentTheme: '' } );
+				return;
+			}
+			// Re-throw other errors
+			throw error;
+		}
 
 		// IMPORTANT: Recalculate expected values with the NEW deltas
 		// (can't use expectedValues because it's based on old theme data)
@@ -322,7 +343,25 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const handleDeleteTheme = async () => {
 		await deleteTheme( 'accordion', attributes.currentTheme );
-		setAttributes( { currentTheme: '' } );
+
+		// Reset to default theme: apply all defaults and clear currentTheme
+		const resetAttrs = { ...allDefaults };
+		resetAttrs.currentTheme = '';
+
+		// Remove excluded attributes (except currentTheme which we just set)
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
+			}
+		} );
+
+		// Use flushSync to force synchronous update before clearing cache
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
+
+		// Clear session cache completely
+		setSessionCache( {} );
 	};
 
 	const handleRenameTheme = async ( oldName, newName ) => {
@@ -394,6 +433,13 @@ export default function Edit( { attributes, setAttributes } ) {
 	 */
 	const handleThemeChange = ( newThemeName, useCustomized = false ) => {
 		debug( '[THEME CHANGE DEBUG] Switching from:', attributes.currentTheme, 'to:', newThemeName );
+
+		// If theme is selected but doesn't exist in loaded themes, reset to default
+		if ( newThemeName && ! themes[ newThemeName ] ) {
+			console.warn( '[THEME CHANGE] Selected theme not found:', newThemeName, '- resetting to default' );
+			setAttributes( { currentTheme: '' } );
+			return;
+		}
 
 		const newTheme = themes[ newThemeName ];
 		const newThemeKey = newThemeName || '';
@@ -485,6 +531,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				borderRadius: `${ borderRadius.topLeft }px ${ borderRadius.topRight }px ${ borderRadius.bottomRight }px ${ borderRadius.bottomLeft }px`,
 				boxShadow: effectiveValues.accordionShadow || 'none',
 				marginBottom: `${ effectiveValues.accordionMarginBottom || 8 }px`,
+				overflow: 'hidden',
 			},
 			title: {
 				backgroundColor: effectiveValues.titleBackgroundColor || '#f5f5f5',
@@ -590,7 +637,6 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ attributes.title || '' }
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						keepPlaceholderOnFocus={ false }
 						className="accordion-title-text"
 						style={ { flex: 1, textAlign: titleAlignment } }
 					/>
@@ -605,7 +651,6 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ attributes.title || '' }
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						keepPlaceholderOnFocus={ false }
 						className="accordion-title-text"
 						style={ { flex: 1, textAlign: titleAlignment } }
 					/>
@@ -668,8 +713,72 @@ export default function Edit( { attributes, setAttributes } ) {
 		return titleContent;
 	};
 
+	// Validate width input - accepts pixels or percentage
+	const validateWidth = ( value ) => {
+		if ( ! value || value.trim() === '' ) {
+			return '100%';
+		}
+
+		// Trim whitespace
+		value = value.trim();
+
+		// Check if it's a valid pixel value (number followed by 'px')
+		const pxMatch = value.match( /^(\d+(?:\.\d+)?)px$/i );
+		if ( pxMatch ) {
+			return value;
+		}
+
+		// Check if it's a valid percentage (number followed by '%')
+		const percentMatch = value.match( /^(\d+(?:\.\d+)?)%$/i );
+		if ( percentMatch ) {
+			return value;
+		}
+
+		// Check if it's just a number (assume pixels)
+		const numberMatch = value.match( /^(\d+(?:\.\d+)?)$/ );
+		if ( numberMatch ) {
+			return `${ value }px`;
+		}
+
+		// Invalid format - default to 100%
+		return '100%';
+	};
+
+	// Helper function to get alignment styles
+	const getAlignmentStyles = () => {
+		const alignment = effectiveValues.accordionHorizontalAlign || 'left';
+		const width = effectiveValues.accordionWidth || '100%';
+
+		const baseStyles = {
+			width,
+			display: 'block',
+			maxWidth: 'none',
+		};
+
+		switch ( alignment ) {
+			case 'center':
+				return {
+					...baseStyles,
+					margin: `0 auto`,
+				};
+			case 'right':
+				return {
+					...baseStyles,
+					marginLeft: 'auto',
+					marginRight: '0',
+				};
+			default: // left
+				return {
+					...baseStyles,
+					marginLeft: '0',
+					marginRight: 'auto',
+				};
+		}
+	};
+
 	const blockProps = useBlockProps( {
 		className: 'wp-block-accordion',
+		style: getAlignmentStyles(),
 	} );
 
 	return (
@@ -706,14 +815,27 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( value ) => setAttributes( { initiallyOpen: value } ) }
 					/>
 
-					<ToggleControl
-						label={ __( 'Allow Multiple Open', 'guttemberg-plus' ) }
-						help={ __(
-							'Allow multiple accordion items to be open simultaneously',
-							'guttemberg-plus'
-						) }
-						checked={ attributes.allowMultipleOpen || false }
-						onChange={ ( value ) => setAttributes( { allowMultipleOpen: value } ) }
+					<TextControl
+						label={ __( 'Width', 'guttemberg-plus' ) }
+						help={ __( 'Enter width in pixels (e.g., 500px), percentage (e.g., 75%), or just a number (e.g., 500). Invalid values default to 100%. Min width is 300px.', 'guttemberg-plus' ) }
+						value={ widthInput }
+						onChange={ ( value ) => setWidthInput( value ) }
+						onBlur={ () => setAttributes( { accordionWidth: validateWidth( widthInput ) } ) }
+						placeholder="100%"
+						__nextHasNoMarginBottom
+					/>
+
+					<SelectControl
+						label={ __( 'Horizontal Alignment', 'guttemberg-plus' ) }
+						help={ __( 'Controls the position of the accordion block', 'guttemberg-plus' ) }
+						value={ attributes.accordionHorizontalAlign || 'left' }
+						options={ [
+							{ label: __( 'Left', 'guttemberg-plus' ), value: 'left' },
+							{ label: __( 'Center', 'guttemberg-plus' ), value: 'center' },
+							{ label: __( 'Right', 'guttemberg-plus' ), value: 'right' },
+						] }
+						onChange={ ( value ) => setAttributes( { accordionHorizontalAlign: value } ) }
+						__next40pxDefaultSize
 					/>
 				</PanelBody>
 

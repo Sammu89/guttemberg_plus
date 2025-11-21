@@ -485,21 +485,16 @@ const store = createReduxStore( STORE_NAME, {
  *
  * Note: This registration code runs in each block's bundle since webpack
  * includes the shared module in each build. The first block to load will
- * successfully register the store. Subsequent blocks will get an "already
- * registered" error which is expected and safely ignored.
+ * successfully register the store. Subsequent blocks will skip registration.
  *
- * Any other error indicates a real problem (e.g., malformed store configuration)
- * and will be logged and re-thrown for debugging.
+ * Any error during registration indicates a real problem (e.g., malformed
+ * store configuration) and will be logged and re-thrown for debugging.
  */
-try {
-	register( store );
-} catch ( error ) {
-	// Only silently ignore "already registered" errors
-	if ( error.message && error.message.includes( 'already registered' ) ) {
-		// Expected when multiple blocks load - safe to ignore
-	} else {
-		// Log and re-throw other errors - they indicate real problems
-		console.error( '[Theme Store] Unexpected registration error:', error );
+if ( ! wp.data.select( STORE_NAME ) ) {
+	try {
+		register( store );
+	} catch ( error ) {
+		console.error( '[Theme Store] Registration error:', error );
 		throw error;
 	}
 }

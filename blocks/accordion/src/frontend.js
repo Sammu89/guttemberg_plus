@@ -51,8 +51,6 @@ function initializeSingleAccordion( block ) {
 		return;
 	}
 
-	const allowMultiple = block.getAttribute( 'data-allow-multiple' ) === 'true';
-
 	// Find all accordion items within this block
 	const items = block.querySelectorAll( '.accordion-item' );
 
@@ -75,7 +73,7 @@ function initializeSingleAccordion( block ) {
 			button.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
 				try {
-					toggleAccordion( item, button, panel, block, allowMultiple );
+					toggleAccordion( item, button, panel, block );
 				} catch ( error ) {
 					console.error( 'Failed to toggle accordion:', error );
 				}
@@ -103,26 +101,21 @@ function initializeSingleAccordion( block ) {
 
 /**
  * Toggle accordion item open/closed
+ * Each item can be independently opened/closed based on its "Initially Open" toggle
  *
- * @param {HTMLElement} item          Accordion item element
- * @param {HTMLElement} button        Toggle button
- * @param {HTMLElement} panel         Content panel
- * @param {HTMLElement} block         Parent block
- * @param {boolean}     allowMultiple Whether multiple items can be open
+ * @param {HTMLElement} item   Accordion item element
+ * @param {HTMLElement} button Toggle button
+ * @param {HTMLElement} panel  Content panel
+ * @param {HTMLElement} block  Parent block
  */
-function toggleAccordion( item, button, panel, block, allowMultiple ) {
+function toggleAccordion( item, button, panel, block ) {
 	const isOpen = item.classList.contains( 'is-open' );
 
 	if ( isOpen ) {
 		// Close this item
 		closeAccordionItem( item, button, panel );
 	} else {
-		// Close other items if allowMultiple is false
-		if ( ! allowMultiple ) {
-			closeAllItems( block );
-		}
-
-		// Open this item
+		// Open this item - other items stay as they are
 		openAccordionItem( item, button, panel, true );
 	}
 }
@@ -226,35 +219,7 @@ function updateIcon( button, isOpen ) {
 	const currentIcon = isImage ? icon.src : icon.textContent;
 	const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
 
-	if ( iconIsChanging ) {
-		// Fade out - set opacity to 0
-		icon.style.opacity = '0';
-
-		// After fade out completes, change the icon and fade back in
-		const handleFadeOutEnd = () => {
-			// Remove the event listener
-			icon.removeEventListener( 'transitionend', handleFadeOutEnd );
-
-			// Change the icon content
-			if ( isImage ) {
-				icon.src = newIcon;
-			} else {
-				icon.textContent = newIcon;
-			}
-
-			// Trigger reflow to ensure opacity transition works
-			icon.offsetHeight;
-
-			// Fade back in
-			icon.style.opacity = '1';
-		};
-
-		// Listen for the fade out to complete
-		icon.addEventListener( 'transitionend', handleFadeOutEnd, { once: true } );
-	} else {
-		// No icon change, just ensure opacity is visible
-		icon.style.opacity = '1';
-	}
+	// Skip icon content change - rotation only (no fade effect)
 
 	// Toggle rotation class for CSS animation (rotates immediately)
 	if ( isOpen ) {
@@ -280,32 +245,38 @@ function animateOpen( panel ) {
 	panel.style.overflow = 'visible';
 	panel.style.height = 'auto';
 	panel.style.opacity = '1';
+	panel.style.borderTopWidth = '';
 
 	// Force reflow to ensure browser has calculated the natural height
 	panel.offsetHeight;
 
-	// NOW get the accurate target height
+	// NOW get the accurate target height and border width
 	const targetHeight = panel.scrollHeight;
+	const targetBorderTopWidth = getComputedStyle( panel ).borderTopWidth;
 
 	// Set initial state - height and opacity to 0 for animation start
 	panel.style.height = '0';
 	panel.style.opacity = '0';
 	panel.style.overflow = 'hidden';
+	panel.style.borderTopWidth = '0';
 
 	// Force reflow to ensure browser registers initial state before transition
 	panel.offsetHeight;
 
 	// Set transition BEFORE animating (critical for CSS transitions to work)
-	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
+	// Include border-top-width to fade in the divider border
+	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out, border-top-width ${ duration }ms ease-in-out`;
 
-	// Animate to full height and opacity
+	// Animate to full height and opacity, and restore border
 	panel.style.height = `${ targetHeight }px`;
 	panel.style.opacity = '1';
+	panel.style.borderTopWidth = targetBorderTopWidth;
 
 	// Clean up after animation completes using transitionend event
 	const handleTransitionEnd = () => {
 		panel.style.height = 'auto';
 		panel.style.overflow = '';
+		panel.style.borderTopWidth = '';
 		panel.style.transition = '';
 		panel.removeEventListener( 'transitionend', handleTransitionEnd );
 		panel.removeEventListener( 'transitioncancel', handleTransitionEnd );
@@ -340,11 +311,13 @@ function animateClose( panel, callback ) {
 	panel.offsetHeight;
 
 	// Set transition BEFORE animating (critical for CSS transitions to work)
-	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
+	// Include border-top-width to fade out the divider border
+	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out, border-top-width ${ duration }ms ease-in-out`;
 
-	// Animate to 0
+	// Animate to 0 - also fade out divider border width
 	panel.style.height = '0';
 	panel.style.opacity = '0';
+	panel.style.borderTopWidth = '0';
 
 	// Execute callback after animation completes using transitionend event
 	const handleTransitionEnd = () => {
