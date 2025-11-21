@@ -631,9 +631,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			// Extreme left: icon at far left, text grows and can be aligned
 			titleContent = (
 				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
-					<div style={ { ...styles.icon, marginRight: '4px', minWidth: '1em', flexShrink: 0, overflow: 'hidden' } }>
-						{ renderIcon( iconPosition ) }
-					</div>
+					{ renderIcon( iconPosition ) }
 					<RichText
 						tagName="span"
 						value={ attributes.title || '' }
@@ -656,9 +654,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						className="accordion-title-text"
 						style={ { flex: 1, textAlign: titleAlignment } }
 					/>
-					<div style={ { ...styles.icon, marginLeft: '4px', minWidth: '1em', flexShrink: 0, overflow: 'hidden' } }>
-						{ renderIcon( iconPosition ) }
-					</div>
+					{ renderIcon( iconPosition ) }
 				</div>
 			);
 		} else if ( iconPosition === 'left' ) {
