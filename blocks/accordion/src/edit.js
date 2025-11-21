@@ -531,7 +531,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				borderRadius: `${ borderRadius.topLeft }px ${ borderRadius.topRight }px ${ borderRadius.bottomRight }px ${ borderRadius.bottomLeft }px`,
 				boxShadow: effectiveValues.accordionShadow || 'none',
 				marginBottom: `${ effectiveValues.accordionMarginBottom || 8 }px`,
-				overflow: 'hidden',
+				overflow: 'visible',
 			},
 			title: {
 				backgroundColor: effectiveValues.titleBackgroundColor || '#f5f5f5',
