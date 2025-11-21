@@ -23,7 +23,9 @@
       "Bash(echo:*)",
       "Bash(npm run lint:css:*)",
       "Bash(test:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
