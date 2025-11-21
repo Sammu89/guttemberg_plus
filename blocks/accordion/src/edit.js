@@ -577,22 +577,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		const iconPosition = effectiveValues.iconPosition || 'right';
 		const titleAlignment = effectiveValues.titleAlignment || 'left';
 
-		// Wrapper style - adjust based on whether icon uses extremes
-		const wrapperStyle = {
-			...styles.title,
-			...(
-				( iconPosition === 'extreme-left' || iconPosition === 'extreme-right' )
-					? { justifyContent: 'space-between' }
-					: { justifyContent: 'flex-start' }
-			),
-		};
-
-		// Build title content - icon position only affects DOM order
+		// Build title content - icon position affects layout structure
 		let titleContent;
 
 		if ( iconPosition === 'extreme-left' ) {
+			// Extreme left: icon at far left, text grows and can be aligned
 			titleContent = (
-				<div className="accordion-title-wrapper" style={ wrapperStyle }>
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
 					{ renderIcon( iconPosition ) }
 					<RichText
 						tagName="span"
@@ -606,8 +597,9 @@ export default function Edit( { attributes, setAttributes } ) {
 				</div>
 			);
 		} else if ( iconPosition === 'extreme-right' ) {
+			// Extreme right: text grows and can be aligned, icon at far right
 			titleContent = (
-				<div className="accordion-title-wrapper" style={ wrapperStyle }>
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
 					<RichText
 						tagName="span"
 						value={ attributes.title || '' }
@@ -621,8 +613,9 @@ export default function Edit( { attributes, setAttributes } ) {
 				</div>
 			);
 		} else if ( iconPosition === 'left' ) {
-			titleContent = (
-				<div className="accordion-title-wrapper" style={ wrapperStyle }>
+			// Left of text: wrap icon+text together, then center/align that group
+			const textGroup = (
+				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
 					{ renderIcon( iconPosition ) }
 					<RichText
 						tagName="span"
@@ -631,14 +624,19 @@ export default function Edit( { attributes, setAttributes } ) {
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 						keepPlaceholderOnFocus={ false }
 						className="accordion-title-text"
-						style={ { flex: 1, textAlign: titleAlignment } }
+						style={ { textAlign: titleAlignment } }
 					/>
 				</div>
 			);
-		} else {
-			// Right of text (default)
 			titleContent = (
-				<div className="accordion-title-wrapper" style={ wrapperStyle }>
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: titleAlignment } }>
+					{ textGroup }
+				</div>
+			);
+		} else {
+			// Right of text: wrap text+icon together, then center/align that group
+			const textGroup = (
+				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
 					<RichText
 						tagName="span"
 						value={ attributes.title || '' }
@@ -646,9 +644,14 @@ export default function Edit( { attributes, setAttributes } ) {
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 						keepPlaceholderOnFocus={ false }
 						className="accordion-title-text"
-						style={ { flex: 1, textAlign: titleAlignment } }
+						style={ { textAlign: titleAlignment } }
 					/>
 					{ renderIcon( iconPosition ) }
+				</div>
+			);
+			titleContent = (
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: titleAlignment } }>
+					{ textGroup }
 				</div>
 			);
 		}

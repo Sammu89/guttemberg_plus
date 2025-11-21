@@ -25,7 +25,8 @@
       "Bash(test:*)",
       "Bash(find:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:localhost)"
     ],
     "deny": [],
     "ask": []
