@@ -83,7 +83,8 @@
 	/* Apply text alignment from CSS variable or inline style */
 	text-align: var(--accordion-title-alignment, left);
 	/* Ensure min-width allows text to take available space */
-	min-width: 0;
+	/* Use !important to override WordPress RichText's inline min-width: 1px */
+	min-width: 0 !important;
 }
 
 /* Icon */
