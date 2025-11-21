@@ -531,7 +531,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				borderRadius: `${ borderRadius.topLeft }px ${ borderRadius.topRight }px ${ borderRadius.bottomRight }px ${ borderRadius.bottomLeft }px`,
 				boxShadow: effectiveValues.accordionShadow || 'none',
 				marginBottom: `${ effectiveValues.accordionMarginBottom || 8 }px`,
-				overflow: 'visible',
+				overflow: 'hidden',
 			},
 			title: {
 				backgroundColor: effectiveValues.titleBackgroundColor || '#f5f5f5',
@@ -631,7 +631,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			// Extreme left: icon at far left, text grows and can be aligned
 			titleContent = (
 				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
-					<div style={ { ...styles.icon, marginRight: '8px', minWidth: '1em', flexShrink: 0 } }>
+					<div style={ { ...styles.icon, marginRight: '4px', minWidth: '1em', flexShrink: 0, overflow: 'hidden' } }>
 						{ renderIcon( iconPosition ) }
 					</div>
 					<RichText
@@ -656,7 +656,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						className="accordion-title-text"
 						style={ { flex: 1, textAlign: titleAlignment } }
 					/>
-					<div style={ { ...styles.icon, marginLeft: '8px', minWidth: '1em', flexShrink: 0 } }>
+					<div style={ { ...styles.icon, marginLeft: '4px', minWidth: '1em', flexShrink: 0, overflow: 'hidden' } }>
 						{ renderIcon( iconPosition ) }
 					</div>
 				</div>
