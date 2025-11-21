@@ -257,7 +257,9 @@ export default function Save( { attributes } ) {
 					{ ...panelAria }
 					{ ...( ! attributes.initiallyOpen && { hidden: true } ) }
 				>
-					<InnerBlocks.Content />
+					<div className="accordion-content-inner">
+						<InnerBlocks.Content />
+					</div>
 				</div>
 			</div>
 		</div>

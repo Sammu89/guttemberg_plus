@@ -26,7 +26,21 @@
       "Bash(find:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "WebFetch(domain:localhost)"
+      "WebFetch(domain:localhost)",
+      "Bash(cd /home/sammu/Local\\ Sites/testing/app/public/wp-content/plugins/guttemberg-plus && git checkout:*)",
+      "Bash(git push -u origin claude/accordion-ui-fixes)",
+      "Bash(cd:*)",
+      "Bash(wp:*)",
+      "Bash(grep:*)",
+      "Bash(comm:*)",
+      "WebSearch",
+      "WebFetch(domain:css-tricks.com)",
+      "WebFetch(domain:jonsuh.com)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:www.tutorjoes.in)",
+      "WebFetch(domain:cruip.com)",
+      "WebFetch(domain:www.w3.org)",
+      "WebFetch(domain:dev.to)"
     ],
     "deny": [],
     "ask": []

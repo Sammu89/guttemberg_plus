@@ -36,7 +36,9 @@
 	--accordion-content-bg: #ffffff;
 
 	/* Border */
-	--accordion-border: 1px solid #dddddd;
+	--accordion-border-width: 1px;
+	--accordion-border-style: solid;
+	--accordion-border-color: #dddddd;
 	--accordion-border-radius: 4px;
 
 	/* Spacing */
@@ -66,6 +68,9 @@
 
 	/* Divider */
 	--accordion-divider-border: none;
+	--accordion-divider-width: 0;
+	--accordion-divider-style: solid;
+	--accordion-divider-color: transparent;
 
 	/* Animation */
 	--accordion-animation-duration: 300ms;

@@ -12,6 +12,5 @@
 		"multiple": true
 	},
 	"textdomain": "guttemberg-plus",
-	"editorScript": "file:../../build/blocks/toc/index.js",
-	"style": "file:../../build/blocks/toc/style-index.css"
+	"editorScript": "file:../../build/blocks/toc/index.js"
 }

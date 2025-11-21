@@ -3,7 +3,7 @@
  * CSS Default Values
  *
  * Auto-generated from assets/css/accordion.css
- * Generated: 2025-11-21T02:10:24.753Z
+ * Generated: 2025-11-21T12:43:43.580Z
  *
  * DO NOT EDIT MANUALLY - Changes will be overwritten on build
  */
@@ -17,7 +17,9 @@ return array(
   'accordionTitleActiveBg' => '#e0e0e0',
   'accordionContentColor' => '#333333',
   'accordionContentBg' => '#ffffff',
-  'accordionBorder' => '1px solid #dddddd',
+  'accordionBorderWidth' => '1',
+  'accordionBorderStyle' => 'solid',
+  'accordionBorderColor' => '#dddddd',
   'accordionBorderRadius' => '4',
   'accordionMarginBottom' => '8',
   'accordionTitlePadding' => '16',
@@ -36,5 +38,8 @@ return array(
   'accordionShadow' => 'none',
   'accordionFocusColor' => '#007cba',
   'accordionDividerBorder' => 'none',
+  'accordionDividerWidth' => '0',
+  'accordionDividerStyle' => 'solid',
+  'accordionDividerColor' => 'transparent',
   'accordionAnimationDuration' => '300ms',
 );
