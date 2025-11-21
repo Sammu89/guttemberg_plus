@@ -94,7 +94,7 @@
 	justify-content: center;
 	width: var(--accordion-icon-size, 1.5rem);
 	height: var(--accordion-icon-size, 1.5rem);
-	font-size: var(--accordion-icon-font-size, 1.25rem);
+	font-size: var(--accordion-icon-size, 1.25rem);
 	color: var(--accordion-icon-color, currentColor);
 	transition: transform var(--accordion-animation-duration, 300ms) ease, opacity var(--accordion-animation-duration, 300ms) ease;
 
@@ -160,7 +160,7 @@
 	.accordion-icon {
 		width: var(--accordion-icon-size-mobile, 1.25rem);
 		height: var(--accordion-icon-size-mobile, 1.25rem);
-		font-size: var(--accordion-icon-font-size-mobile, 1.1rem);
+		font-size: var(--accordion-icon-size-mobile, 1.1rem);
 	}
 }
 

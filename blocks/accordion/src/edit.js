@@ -630,32 +630,38 @@ export default function Edit( { attributes, setAttributes } ) {
 
 
 		if ( iconPosition === 'extreme-left' ) {
-			// Extreme left: icon at far left, text grows and can be aligned
+			// Extreme left: icon on left, text grows and aligns within its space
+			// Wrap text in a container that grows and handles text alignment
 			titleContent = (
-				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'flex-start' } }>
 					{ renderIcon( iconPosition ) }
-					<RichText
-						tagName="span"
-						value={ attributes.title || '' }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
-						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						className="accordion-title-text"
-						style={ { textAlign: titleAlignment } }
-					/>
+					<div style={ { flex: '1 1 auto', minWidth: 0, display: 'flex', alignItems: 'center' } }>
+						<RichText
+							tagName="span"
+							value={ attributes.title || '' }
+							onChange={ ( value ) => setAttributes( { title: value } ) }
+							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+							className="accordion-title-text"
+							style={ { textAlign: titleAlignment, flex: '1 1 auto', minWidth: 0 } }
+						/>
+					</div>
 				</div>
 			);
 		} else if ( iconPosition === 'extreme-right' ) {
-			// Extreme right: text grows and can be aligned, icon at far right
+			// Extreme right: text grows and aligns within its space, icon on right
+			// Wrap text in a container that grows and handles text alignment
 			titleContent = (
-				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'space-between' } }>
-					<RichText
-						tagName="span"
-						value={ attributes.title || '' }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
-						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						className="accordion-title-text"
-						style={ { textAlign: titleAlignment } }
-					/>
+				<div className="accordion-title-wrapper" style={ { ...styles.title, justifyContent: 'flex-start' } }>
+					<div style={ { flex: '1 1 auto', minWidth: 0, display: 'flex', alignItems: 'center' } }>
+						<RichText
+							tagName="span"
+							value={ attributes.title || '' }
+							onChange={ ( value ) => setAttributes( { title: value } ) }
+							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+							className="accordion-title-text"
+							style={ { textAlign: titleAlignment, flex: '1 1 auto', minWidth: 0 } }
+						/>
+					</div>
 					{ renderIcon( iconPosition ) }
 				</div>
 			);
