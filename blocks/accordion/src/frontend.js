@@ -142,6 +142,7 @@ function openAccordionItem( item, button, panel, animate ) {
 	// Update ARIA
 	button.setAttribute( 'aria-expanded', 'true' );
 	panel.removeAttribute( 'hidden' );
+	panel.style.display = '';
 
 	// Update icon
 	updateIcon( button, true );
@@ -176,6 +177,7 @@ function closeAccordionItem( item, button, panel ) {
 	animateClose( panel, () => {
 		// After animation completes
 		panel.setAttribute( 'hidden', '' );
+		panel.style.display = 'none';
 	} );
 }
 
@@ -225,11 +227,15 @@ function updateIcon( button, isOpen ) {
 	const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
 
 	if ( iconIsChanging ) {
-		// Fade out
+		// Fade out - set opacity to 0
 		icon.style.opacity = '0';
 
-		// After fade out, change the icon and fade back in
-		setTimeout( () => {
+		// After fade out completes, change the icon and fade back in
+		const handleFadeOutEnd = () => {
+			// Remove the event listener
+			icon.removeEventListener( 'transitionend', handleFadeOutEnd );
+
+			// Change the icon content
 			if ( isImage ) {
 				icon.src = newIcon;
 			} else {
@@ -239,15 +245,18 @@ function updateIcon( button, isOpen ) {
 			// Trigger reflow to ensure opacity transition works
 			icon.offsetHeight;
 
-			// Fade in
+			// Fade back in
 			icon.style.opacity = '1';
-		}, duration );
+		};
+
+		// Listen for the fade out to complete
+		icon.addEventListener( 'transitionend', handleFadeOutEnd, { once: true } );
 	} else {
 		// No icon change, just ensure opacity is visible
 		icon.style.opacity = '1';
 	}
 
-	// Toggle rotation class for CSS animation
+	// Toggle rotation class for CSS animation (rotates immediately)
 	if ( isOpen ) {
 		icon.classList.add( 'is-rotated' );
 	} else {
@@ -266,28 +275,44 @@ function animateOpen( panel ) {
 		getComputedStyle( panel ).getPropertyValue( '--accordion-animation-duration' ) || '300'
 	);
 
-	// Set initial state
+	// Ensure element is visible and set display property
+	panel.style.display = 'block';
+	panel.style.overflow = 'visible';
+	panel.style.height = 'auto';
+	panel.style.opacity = '1';
+
+	// Force reflow to ensure browser has calculated the natural height
+	panel.offsetHeight;
+
+	// NOW get the accurate target height
+	const targetHeight = panel.scrollHeight;
+
+	// Set initial state - height and opacity to 0 for animation start
 	panel.style.height = '0';
 	panel.style.opacity = '0';
 	panel.style.overflow = 'hidden';
 
-	// Force reflow
+	// Force reflow to ensure browser registers initial state before transition
 	panel.offsetHeight;
 
-	// Get target height
-	const targetHeight = panel.scrollHeight;
-
-	// Animate
+	// Set transition BEFORE animating (critical for CSS transitions to work)
 	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
+
+	// Animate to full height and opacity
 	panel.style.height = `${ targetHeight }px`;
 	panel.style.opacity = '1';
 
-	// Clean up after animation
-	setTimeout( () => {
+	// Clean up after animation completes using transitionend event
+	const handleTransitionEnd = () => {
 		panel.style.height = 'auto';
 		panel.style.overflow = '';
 		panel.style.transition = '';
-	}, duration );
+		panel.removeEventListener( 'transitionend', handleTransitionEnd );
+		panel.removeEventListener( 'transitioncancel', handleTransitionEnd );
+	};
+
+	panel.addEventListener( 'transitionend', handleTransitionEnd, { once: true } );
+	panel.addEventListener( 'transitioncancel', handleTransitionEnd, { once: true } );
 }
 
 /**
@@ -302,29 +327,38 @@ function animateClose( panel, callback ) {
 		getComputedStyle( panel ).getPropertyValue( '--accordion-animation-duration' ) || '300'
 	);
 
-	// Get current height
+	// Get current height BEFORE animation starts
 	const currentHeight = panel.scrollHeight;
 
-	// Set explicit height
-	panel.style.height = `${ currentHeight }px`;
+	// Set overflow hidden for animation
 	panel.style.overflow = 'hidden';
 
-	// Force reflow
+	// Set explicit height (required before animation can work)
+	panel.style.height = `${ currentHeight }px`;
+
+	// Force reflow to ensure browser registers current height
 	panel.offsetHeight;
 
-	// Animate to 0
+	// Set transition BEFORE animating (critical for CSS transitions to work)
 	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
+
+	// Animate to 0
 	panel.style.height = '0';
 	panel.style.opacity = '0';
 
-	// Execute callback after animation
-	setTimeout( () => {
+	// Execute callback after animation completes using transitionend event
+	const handleTransitionEnd = () => {
 		panel.style.transition = '';
 		panel.style.overflow = '';
 		if ( callback ) {
 			callback();
 		}
-	}, duration );
+		panel.removeEventListener( 'transitionend', handleTransitionEnd );
+		panel.removeEventListener( 'transitioncancel', handleTransitionEnd );
+	};
+
+	panel.addEventListener( 'transitionend', handleTransitionEnd, { once: true } );
+	panel.addEventListener( 'transitioncancel', handleTransitionEnd, { once: true } );
 }
 
 /**

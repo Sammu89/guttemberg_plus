@@ -11,7 +11,6 @@
 	"textdomain": "guttemberg-plus",
 	"editorScript": "file:../../build/blocks/accordion/index.js",
 	"viewScript": "file:../../build/blocks/accordion/frontend.js",
-	"style": "file:../../build/blocks/accordion/style-index.css",
 	"supports": {
 		"html": false,
 		"align": ["wide", "full"],

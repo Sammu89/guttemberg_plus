@@ -12,15 +12,20 @@
 .wp-block-accordion {
 	margin: 1em 0;
 	width: 100%;
+	border: none;
+	outline: none;
 }
 
 /* Accordion item */
 .accordion-item {
 	margin-bottom: var(--accordion-margin-bottom, 0.5rem);
-	border: var(--accordion-border, 1px solid #ddd);
+	border-width: var(--accordion-border-width, 1px);
+	border-style: var(--accordion-border-style, solid);
+	border-color: var(--accordion-border-color, #ddd);
 	border-radius: var(--accordion-border-radius, 4px);
-	overflow: hidden;
+	overflow: visible;
 	transition: box-shadow 0.2s ease;
+	outline: none;
 
 	&:hover {
 		box-shadow: var(--accordion-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
@@ -105,9 +110,8 @@
 	transition: opacity var(--accordion-animation-duration, 300ms) ease;
 }
 
-/* Content panel */
+/* Content panel - handles height animation only, no padding */
 .accordion-content {
-	padding: var(--accordion-content-padding, 1rem 1.5rem);
 	background-color: var(--accordion-content-bg, #fff);
 	color: var(--accordion-content-color, #333);
 	font-size: var(--accordion-content-font-size, 0.95rem);
@@ -115,9 +119,19 @@
 	border-top: var(--accordion-divider-width, 0) var(--accordion-divider-style, solid) var(--accordion-divider-color, transparent);
 	overflow: hidden;
 
+	/* Hide divider border when collapsing */
+	&[style*="height: 0"] {
+		border-top-width: 0;
+	}
+
 	&[hidden] {
 		display: none;
 	}
+}
+
+/* Content inner wrapper - has padding */
+.accordion-content-inner {
+	padding: var(--accordion-content-padding, 1rem 1.5rem);
 }
 
 /* Animation variables */

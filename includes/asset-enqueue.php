@@ -45,33 +45,67 @@ function guttemberg_plus_enqueue_editor_assets() {
 add_action( 'enqueue_block_editor_assets', 'guttemberg_plus_enqueue_editor_assets' );
 
 /**
- * Enqueue CSS variable defaults on frontend
+ * Enqueue CSS variable defaults and block styles on frontend
  *
  * Only loaded when blocks are actually used on the page.
  */
 function guttemberg_plus_enqueue_frontend_assets() {
-	if ( has_block( 'custom/accordion' ) ) {
+	// Debug: Log which blocks are detected
+	$has_accordion = has_block( 'custom/accordion' );
+	$has_tabs = has_block( 'custom/tabs' );
+	$has_toc = has_block( 'custom/toc' );
+
+	error_log( '[GUTTEMBERG DEBUG] Block detection: accordion=' . ( $has_accordion ? 'YES' : 'NO' ) . ', tabs=' . ( $has_tabs ? 'YES' : 'NO' ) . ', toc=' . ( $has_toc ? 'YES' : 'NO' ) );
+
+	if ( $has_accordion ) {
+		// Enqueue CSS defaults (Tier 1)
 		wp_enqueue_style(
 			'guttemberg-plus-accordion-defaults',
 			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
+
+		// Enqueue block styles
+		wp_enqueue_style(
+			'guttemberg-plus-accordion-style',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/accordion/style-index.css',
+			array(),
+			GUTTEMBERG_PLUS_VERSION
+		);
 	}
 
-	if ( has_block( 'custom/tabs' ) ) {
+	if ( $has_tabs ) {
+		// Enqueue CSS defaults (Tier 1)
 		wp_enqueue_style(
 			'guttemberg-plus-tabs-defaults',
 			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
+
+		// Enqueue block styles
+		wp_enqueue_style(
+			'guttemberg-plus-tabs-style',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/tabs/style-index.css',
+			array(),
+			GUTTEMBERG_PLUS_VERSION
+		);
 	}
 
-	if ( has_block( 'custom/toc' ) ) {
+	if ( $has_toc ) {
+		// Enqueue CSS defaults (Tier 1)
 		wp_enqueue_style(
 			'guttemberg-plus-toc-defaults',
 			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc.css',
+			array(),
+			GUTTEMBERG_PLUS_VERSION
+		);
+
+		// Enqueue block styles
+		wp_enqueue_style(
+			'guttemberg-plus-toc-style',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/toc/style-index.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
