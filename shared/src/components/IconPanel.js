@@ -17,6 +17,7 @@ import {
 	TextControl,
 } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
+import { normalizeValueForControl } from '../theme-system/control-normalizer';
 import { CompactColorControl } from './CompactColorControl';
 
 /**
@@ -139,7 +140,7 @@ export function IconPanel( {
 								? 'Icon Color (Customized)'
 								: 'Icon Color'
 						}
-						value={ effectiveValues.iconColor }
+						value={ normalizeValueForControl( effectiveValues.iconColor, 'iconColor', 'color' ) }
 						onChange={ ( value ) => handleChange( 'iconColor', value ) }
 						help="Leave empty to inherit from title color"
 					/>
