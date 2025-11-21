@@ -137,6 +137,7 @@ export default function Save( { attributes } ) {
 	const renderTitle = () => {
 		const headingLevel = effectiveValues.headingLevel || 'none';
 		const iconPosition = effectiveValues.iconPosition || 'right';
+		const titleAlignment = effectiveValues.titleAlignment || 'left';
 
 		// ARIA attributes for button
 		const buttonAria = getAccordionButtonAria(
@@ -145,8 +146,7 @@ export default function Save( { attributes } ) {
 			attributes.initiallyOpen || false
 		);
 
-		// Build button content with proper icon positioning and text alignment
-		let titleTextClass = `accordion-title-text`;
+		// Build button content - icon position only affects DOM order, text always has flex and alignment
 		let buttonChildren;
 
 		if ( iconPosition === 'extreme-left' ) {
@@ -157,7 +157,7 @@ export default function Save( { attributes } ) {
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
-						className={ titleTextClass }
+						className="accordion-title-text"
 					/>
 				</>
 			);
@@ -168,31 +168,31 @@ export default function Save( { attributes } ) {
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
-						className={ titleTextClass }
+						className="accordion-title-text"
 					/>
 					{ renderIcon() }
 				</>
 			);
 		} else if ( iconPosition === 'left' ) {
-			// Left of text: both left-aligned, no flex
+			// Left of text: icon then text, both left-aligned
 			buttonChildren = (
 				<>
 					{ renderIcon() }
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
-						className={ titleTextClass }
+						className="accordion-title-text"
 					/>
 				</>
 			);
 		} else {
-			// Right of text (default): both left-aligned, icon after text
+			// Right of text (default): text then icon, both left-aligned
 			buttonChildren = (
 				<>
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
-						className={ titleTextClass }
+						className="accordion-title-text"
 					/>
 					{ renderIcon() }
 				</>
