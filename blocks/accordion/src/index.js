@@ -14,7 +14,7 @@ import edit from './edit';
 import save from './save';
 import { accordionAttributes } from './accordion-attributes';
 import './style.scss';
-import '../../../assets/css/accordion.css';
+import '../../../assets/css/accordion-generated.css';
 
 /**
  * Register the accordion block

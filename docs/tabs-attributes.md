@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-22T15:43:23.196Z
+> Generated at: 2025-11-22T16:20:36.255Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`

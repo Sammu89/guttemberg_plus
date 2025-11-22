@@ -1,297 +1,408 @@
 /**
- * Tabs Block Attributes
+ * Block Attributes for Tabs
  *
- * Combines shared attributes with tabs-specific attributes.
- * All customizable attributes default to null (CSS-based or inherited at runtime).
+ * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
+ * Generated from: schemas/tabs.json
+ * Generated at: 2025-11-22T16:20:36.251Z
  *
- * @see docs/BLOCKS/32-TABS-SPEC.md
- * @see docs/BLOCKS/30-SHARED-ATTRIBUTES.md
- * @see docs/INTEGRATION/TABS-ACCORDION-INTEGRATION.md
- * @package
+ * This file is regenerated on every build. Any manual changes will be lost.
+ * To modify this file, update the source schema and run: npm run schema:build
+ *
+ * @package GuttemberPlus
  * @since 1.0.0
  */
 
-import {
-	colorAttributes,
-	typographyAttributes,
-	spacingAttributes,
-	iconAttributes,
-	metaAttributes,
-} from '@shared';
-
 /**
- * Tabs-specific behavioral attributes
- * These don't come from CSS but have hardcoded defaults
- */
-const tabsSpecificAttributes = {
-	/**
-	 * Structural Attributes - Tabs-specific
-	 */
-
-	// Orientation: horizontal or vertical tab layout
-	orientation: {
-		type: 'string',
-		default: 'horizontal', // 'horizontal' | 'vertical'
-	},
-
-	// Activation mode: automatic (focus activates) or manual (click activates)
-	activationMode: {
-		type: 'string',
-		default: 'auto', // 'auto' | 'manual'
-	},
-
-	// Responsive breakpoint in pixels (convert to accordion below this)
-	responsiveBreakpoint: {
-		type: 'number',
-		default: 768,
-	},
-
-	// Enable responsive accordion fallback
-	enableResponsiveFallback: {
-		type: 'boolean',
-		default: true,
-	},
-
-	// Current active tab index (0-based)
-	currentTab: {
-		type: 'number',
-		default: 0,
-	},
-
-	// Tab items array (each tab has title, content, isDisabled)
-	tabs: {
-		type: 'array',
-		default: [
-			{
-				id: '',
-				title: 'Tab 1',
-				content: '',
-				isDisabled: false,
-			},
-			{
-				id: '',
-				title: 'Tab 2',
-				content: '',
-				isDisabled: false,
-			},
-		],
-	},
-
-	/**
-	 * Customizable Attributes - Tabs-specific (CSS-based, default to null)
-	 */
-
-	// Tab border styling (replaces accordionBorder* from shared attributes)
-	tabBorderColor: {
-		type: 'string',
-		default: null,
-	},
-
-	tabBorderThickness: {
-		type: 'number',
-		default: null,
-	},
-
-	tabBorderStyle: {
-		type: 'string',
-		default: null,
-	},
-
-	tabShadow: {
-		type: 'string',
-		default: null,
-	},
-
-	tabBorderRadius: {
-		type: 'object',
-		default: null, // { topLeft, topRight, bottomRight, bottomLeft }
-	},
-
-	// Tab container styling
-	containerBorderWidth: {
-		type: 'number',
-		default: null,
-	},
-
-	containerBorderStyle: {
-		type: 'string',
-		default: null,
-	},
-
-	containerBorderColor: {
-		type: 'string',
-		default: null,
-	},
-
-	containerBorderRadius: {
-		type: 'object',
-		default: null, // { topLeft, topRight, bottomRight, bottomLeft }
-	},
-
-	containerShadow: {
-		type: 'string',
-		default: null,
-	},
-
-	// Tab list (navigation bar) styling
-	tabListBackground: {
-		type: 'string',
-		default: null,
-	},
-
-	tabListBorderBottomWidth: {
-		type: 'number',
-		default: null,
-	},
-
-	tabListBorderBottomStyle: {
-		type: 'string',
-		default: null,
-	},
-
-	tabListBorderBottomColor: {
-		type: 'string',
-		default: null,
-	},
-
-	tabListGap: {
-		type: 'number',
-		default: null,
-	},
-
-	tabListPadding: {
-		type: 'object',
-		default: null, // { top, right, bottom, left }
-	},
-
-	tabsAlignment: {
-		type: 'string',
-		default: null, // 'left' | 'center' | 'right'
-	},
-
-	// Tab button active state colors (tabs-specific)
-	tabButtonActiveColor: {
-		type: 'string',
-		default: null,
-	},
-
-	tabButtonActiveBackground: {
-		type: 'string',
-		default: null,
-	},
-
-	tabButtonActiveBorderColor: {
-		type: 'string',
-		default: null,
-	},
-
-	tabButtonActiveBorderBottomColor: {
-		type: 'string',
-		default: null,
-	},
-
-	// Tab button border radius (per-corner for horizontal tabs)
-	tabButtonBorderRadius: {
-		type: 'object',
-		default: null, // { topLeft, topRight, bottomRight, bottomLeft }
-	},
-
-	// Tab panel styling
-	panelBackground: {
-		type: 'string',
-		default: null,
-	},
-
-	panelColor: {
-		type: 'string',
-		default: null,
-	},
-
-	panelBorderWidth: {
-		type: 'number',
-		default: null,
-	},
-
-	panelBorderStyle: {
-		type: 'string',
-		default: null,
-	},
-
-	panelBorderColor: {
-		type: 'string',
-		default: null,
-	},
-
-	panelBorderRadius: {
-		type: 'number',
-		default: null,
-	},
-
-	panelPadding: {
-		type: 'object',
-		default: null, // { top, right, bottom, left }
-	},
-
-	panelFontSize: {
-		type: 'number',
-		default: null,
-	},
-
-	panelLineHeight: {
-		type: 'number',
-		default: null,
-	},
-
-	// Divider between tab list and panels
-	dividerThickness: {
-		type: 'number',
-		default: null,
-	},
-
-	dividerStyle: {
-		type: 'string',
-		default: null,
-	},
-
-	dividerColor: {
-		type: 'string',
-		default: null,
-	},
-
-	// Vertical orientation specific
-	verticalTabListWidth: {
-		type: 'number',
-		default: null,
-	},
-
-	verticalTabButtonTextAlign: {
-		type: 'string',
-		default: null,
-	},
-};
-
-/**
- * Complete tabs block attributes
- * Merges all shared attributes with tabs-specific ones
+ * Block Attributes for Tabs
+ *
+ * These attributes define the block's data structure for WordPress.
+ * Auto-generated from schema - DO NOT edit manually.
  */
 export const tabsAttributes = {
-	// Meta/structural attributes (not customizable)
-	...metaAttributes,
-
-	// Customizable color attributes (all default to null)
-	...colorAttributes,
-
-	// Customizable typography attributes (all default to null)
-	...typographyAttributes,
-
-	// Customizable spacing attributes (all default to null)
-	...spacingAttributes,
-
-	// Customizable icon attributes (mix of null and behavioral)
-	...iconAttributes,
-
-	// Tabs-specific attributes (mix of behavioral and CSS-based)
-	...tabsSpecificAttributes,
+  uniqueId: {
+    type: 'string',
+    default: '',
+  },
+  blockId: {
+    type: 'string',
+    default: '',
+  },
+  currentTheme: {
+    type: 'string',
+    default: '',
+  },
+  tabs: {
+    type: 'array',
+    default: [{"id":"","title":"Tab 1","content":"","isDisabled":false},{"id":"","title":"Tab 2","content":"","isDisabled":false}],
+  },
+  orientation: {
+    type: 'string',
+    default: 'horizontal',
+  },
+  activationMode: {
+    type: 'string',
+    default: 'auto',
+  },
+  currentTab: {
+    type: 'number',
+    default: 0,
+  },
+  responsiveBreakpoint: {
+    type: 'number',
+    default: 768,
+  },
+  enableResponsiveFallback: {
+    type: 'boolean',
+    default: true,
+  },
+  headingLevel: {
+    type: 'string',
+    default: 'none',
+  },
+  useHeadingStyles: {
+    type: 'boolean',
+    default: false,
+  },
+  initiallyOpen: {
+    type: 'boolean',
+    default: false,
+  },
+  title: {
+    type: 'string',
+    default: 'Accordion Title',
+  },
+  content: {
+    type: 'string',
+    default: '',
+  },
+  accordionId: {
+    type: 'string',
+    default: '',
+  },
+  titleColor: {
+    type: 'string',
+    default: '#666666',
+  },
+  titleBackgroundColor: {
+    type: 'string',
+    default: 'transparent',
+  },
+  hoverTitleColor: {
+    type: 'string',
+    default: '#333333',
+  },
+  hoverTitleBackgroundColor: {
+    type: 'string',
+    default: '#e8e8e8',
+  },
+  activeTitleColor: {
+    type: 'string',
+    default: null,
+  },
+  activeTitleBackgroundColor: {
+    type: 'string',
+    default: null,
+  },
+  tabButtonActiveColor: {
+    type: 'string',
+    default: '#000000',
+  },
+  tabButtonActiveBackground: {
+    type: 'string',
+    default: '#ffffff',
+  },
+  tabButtonActiveBorderColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  tabButtonActiveBorderBottomColor: {
+    type: 'string',
+    default: 'transparent',
+  },
+  contentColor: {
+    type: 'string',
+    default: null,
+  },
+  contentBackgroundColor: {
+    type: 'string',
+    default: null,
+  },
+  panelBackground: {
+    type: 'string',
+    default: '#ffffff',
+  },
+  panelColor: {
+    type: 'string',
+    default: '#333333',
+  },
+  tabListBackground: {
+    type: 'string',
+    default: '#f5f5f5',
+  },
+  tabBorderColor: {
+    type: 'string',
+    default: null,
+  },
+  containerBorderColor: {
+    type: 'string',
+    default: 'transparent',
+  },
+  panelBorderColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  tabListBorderBottomColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  dividerColor: {
+    type: 'string',
+    default: null,
+  },
+  borderColor: {
+    type: 'string',
+    default: null,
+  },
+  accordionBorderColor: {
+    type: 'string',
+    default: null,
+  },
+  dividerBorderColor: {
+    type: 'string',
+    default: null,
+  },
+  iconColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  titleFontSize: {
+    type: 'number',
+    default: 16,
+  },
+  titleFontWeight: {
+    type: 'string',
+    default: '500',
+  },
+  titleFontFamily: {
+    type: 'string',
+    default: null,
+  },
+  titleLineHeight: {
+    type: 'number',
+    default: null,
+  },
+  titleFontStyle: {
+    type: 'string',
+    default: 'normal',
+  },
+  titleTextTransform: {
+    type: 'string',
+    default: 'none',
+  },
+  titleTextDecoration: {
+    type: 'string',
+    default: 'none',
+  },
+  titleAlignment: {
+    type: 'string',
+    default: 'center',
+  },
+  contentFontSize: {
+    type: 'number',
+    default: null,
+  },
+  contentFontWeight: {
+    type: 'string',
+    default: null,
+  },
+  contentFontFamily: {
+    type: 'string',
+    default: null,
+  },
+  contentLineHeight: {
+    type: 'number',
+    default: null,
+  },
+  contentFontStyle: {
+    type: 'string',
+    default: null,
+  },
+  contentTextTransform: {
+    type: 'string',
+    default: null,
+  },
+  contentTextDecoration: {
+    type: 'string',
+    default: null,
+  },
+  panelFontSize: {
+    type: 'number',
+    default: 16,
+  },
+  panelLineHeight: {
+    type: 'number',
+    default: 1.6,
+  },
+  verticalTabButtonTextAlign: {
+    type: 'string',
+    default: 'left',
+  },
+  tabBorderThickness: {
+    type: 'number',
+    default: null,
+  },
+  tabBorderStyle: {
+    type: 'string',
+    default: null,
+  },
+  tabBorderRadius: {
+    type: 'object',
+    default: {"topLeft":4,"topRight":4,"bottomRight":0,"bottomLeft":0},
+  },
+  tabShadow: {
+    type: 'string',
+    default: null,
+  },
+  tabButtonBorderRadius: {
+    type: 'object',
+    default: null,
+  },
+  containerBorderWidth: {
+    type: 'number',
+    default: 0,
+  },
+  containerBorderStyle: {
+    type: 'string',
+    default: 'solid',
+  },
+  containerBorderRadius: {
+    type: 'object',
+    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
+  },
+  containerShadow: {
+    type: 'string',
+    default: 'none',
+  },
+  panelBorderWidth: {
+    type: 'number',
+    default: 1,
+  },
+  panelBorderStyle: {
+    type: 'string',
+    default: 'solid',
+  },
+  panelBorderRadius: {
+    type: 'number',
+    default: 0,
+  },
+  tabListBorderBottomWidth: {
+    type: 'number',
+    default: 2,
+  },
+  tabListBorderBottomStyle: {
+    type: 'string',
+    default: 'solid',
+  },
+  dividerThickness: {
+    type: 'number',
+    default: null,
+  },
+  dividerStyle: {
+    type: 'string',
+    default: null,
+  },
+  accordionBorderThickness: {
+    type: 'number',
+    default: null,
+  },
+  accordionBorderStyle: {
+    type: 'string',
+    default: null,
+  },
+  accordionBorderRadius: {
+    type: 'object',
+    default: null,
+  },
+  accordionShadow: {
+    type: 'string',
+    default: null,
+  },
+  borderWidth: {
+    type: 'string',
+    default: null,
+  },
+  borderRadius: {
+    type: 'string',
+    default: null,
+  },
+  dividerBorderThickness: {
+    type: 'number',
+    default: null,
+  },
+  dividerBorderStyle: {
+    type: 'string',
+    default: null,
+  },
+  titlePadding: {
+    type: 'object',
+    default: {"top":12,"right":24,"bottom":12,"left":24},
+  },
+  contentPadding: {
+    type: 'object',
+    default: null,
+  },
+  panelPadding: {
+    type: 'object',
+    default: {"top":24,"right":24,"bottom":24,"left":24},
+  },
+  tabListPadding: {
+    type: 'object',
+    default: {"top":8,"right":8,"bottom":8,"left":8},
+  },
+  tabListGap: {
+    type: 'number',
+    default: 4,
+  },
+  tabsAlignment: {
+    type: 'string',
+    default: 'left',
+  },
+  verticalTabListWidth: {
+    type: 'number',
+    default: 200,
+  },
+  accordionMarginBottom: {
+    type: 'number',
+    default: null,
+  },
+  itemSpacing: {
+    type: 'number',
+    default: null,
+  },
+  showIcon: {
+    type: 'boolean',
+    default: true,
+  },
+  iconPosition: {
+    type: 'string',
+    default: 'right',
+  },
+  iconSize: {
+    type: 'number',
+    default: 18,
+  },
+  iconTypeClosed: {
+    type: 'string',
+    default: '▾',
+  },
+  iconTypeOpen: {
+    type: 'string',
+    default: 'none',
+  },
+  iconRotation: {
+    type: 'number',
+    default: 180,
+  },
 };
 
 export default tabsAttributes;

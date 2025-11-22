@@ -40,13 +40,13 @@ export { store, STORE_NAME } from './data';
 // Theme Manager (Module 1.4)
 export { getThemeManager } from './theme-system/theme-manager';
 
-// Theme Configuration
+// Theme Configuration (auto-generated from schemas)
 export {
 	getExclusionsForBlock,
 	ACCORDION_EXCLUSIONS,
 	TABS_EXCLUSIONS,
 	TOC_EXCLUSIONS,
-} from './config/theme-exclusions';
+} from './config/theme-exclusions-generated';
 
 // Shared Attributes (Module 1.5)
 export { colorAttributes } from './attributes/color-attributes';

@@ -1,45 +1,53 @@
 <?php
 /**
- * CSS Default Values
+ * CSS Default Values for Accordion Block
  *
- * Auto-generated from assets/css/accordion.css
- * Generated: 2025-11-22T15:43:27.465Z
+ * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
+ * Generated from: schemas/accordion.json
+ * Generated at: 2025-11-22T16:20:36.241Z
  *
- * DO NOT EDIT MANUALLY - Changes will be overwritten on build
+ * This file is regenerated on every build. Any manual changes will be lost.
+ * To modify this file, update the source schema and run: npm run schema:build
+ *
+ * @package GuttemberPlus
+ * @since 1.0.0
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 return array(
-  'accordionTitleColor' => '#333333',
-  'accordionTitleBg' => '#f5f5f5',
-  'accordionTitleHoverColor' => '#000000',
-  'accordionTitleHoverBg' => '#e8e8e8',
-  'accordionTitleActiveColor' => '#000000',
-  'accordionTitleActiveBg' => '#e0e0e0',
-  'accordionContentColor' => '#333333',
-  'accordionContentBg' => '#ffffff',
-  'accordionBorderWidth' => '1',
-  'accordionBorderStyle' => 'solid',
+  'titleColor' => '#333333',
+  'titleBackgroundColor' => '#f5f5f5',
+  'hoverTitleColor' => '#000000',
+  'hoverTitleBackgroundColor' => '#e8e8e8',
+  'activeTitleColor' => '#000000',
+  'activeTitleBackgroundColor' => '#e0e0e0',
+  'contentColor' => '#333333',
+  'contentBackgroundColor' => '#ffffff',
+  'borderColor' => '#dddddd',
   'accordionBorderColor' => '#dddddd',
-  'accordionBorderRadius' => '4',
-  'accordionMarginBottom' => '8',
-  'accordionTitlePadding' => '16',
-  'accordionContentPadding' => '16',
-  'accordionTitleFontSize' => '18',
-  'accordionTitleFontWeight' => '600',
-  'accordionTitleFontStyle' => 'normal',
-  'accordionTitleTextTransform' => 'none',
-  'accordionTitleTextDecoration' => 'none',
-  'accordionTitleAlignment' => 'left',
-  'accordionContentFontSize' => '16',
-  'accordionContentLineHeight' => '1.6',
-  'accordionIconSize' => '20',
-  'accordionIconColor' => '#666666',
-  'accordionIconRotation' => '180deg',
+  'dividerBorderColor' => 'transparent',
+  'iconColor' => '#666666',
+  'titleFontSize' => '18px',
+  'titleFontWeight' => '600',
+  'titleFontStyle' => 'normal',
+  'titleTextTransform' => 'none',
+  'titleTextDecoration' => 'none',
+  'titleAlignment' => 'left',
+  'contentFontSize' => '16px',
+  'contentLineHeight' => '1.6',
+  'accordionBorderThickness' => '1px',
+  'accordionBorderStyle' => 'solid',
+  'accordionBorderRadius' => '4px',
   'accordionShadow' => 'none',
-  'accordionFocusColor' => '#007cba',
-  'accordionDividerBorder' => 'none',
-  'accordionDividerWidth' => '0',
-  'accordionDividerStyle' => 'solid',
-  'accordionDividerColor' => 'transparent',
-  'accordionAnimationDuration' => '300ms',
+  'dividerBorderThickness' => '0',
+  'dividerBorderStyle' => 'solid',
+  'titlePadding' => '16px',
+  'contentPadding' => '16px',
+  'accordionMarginBottom' => '8px',
+  'iconSize' => '20px',
+  'iconRotation' => '180deg',
 );

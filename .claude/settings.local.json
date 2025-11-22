@@ -58,7 +58,8 @@
       "Bash($PHP_BIN -l php/css-defaults/accordion.php)",
       "Bash($PHP_BIN -l php/css-defaults/tabs.php)",
       "Bash($PHP_BIN -l php/css-defaults/toc.php)",
-      "Bash($PHP_BIN -l php/css-defaults/css-mappings-generated.php)"
+      "Bash($PHP_BIN -l php/css-defaults/css-mappings-generated.php)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

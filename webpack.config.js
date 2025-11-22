@@ -30,35 +30,6 @@ module.exports = {
 		},
 	},
 	module: {
-		rules: [
-			// Filter out default CSS rule for assets/css directory
-			...defaultConfig.module.rules.filter( ( rule ) => {
-				// Keep all non-CSS rules
-				if ( ! rule.test || rule.test.toString().indexOf( 'css' ) === -1 ) {
-					return true;
-				}
-				// For CSS rules, exclude our assets/css directory
-				return false;
-			} ),
-			// Re-add default CSS processing for blocks (not assets/css)
-			{
-				test: /\.css$/,
-				exclude: path.resolve( __dirname, 'assets/css' ),
-				use: defaultConfig.module.rules.find(
-					( rule ) => rule.test && rule.test.toString().indexOf( 'css' ) !== -1
-				).use,
-			},
-			// Custom CSS parser for CSS variables in assets/css only
-			{
-				test: /\.css$/,
-				include: path.resolve( __dirname, 'assets/css' ),
-				type: 'javascript/auto',
-				use: [
-					{
-						loader: path.resolve( __dirname, 'build-tools/css-vars-parser-loader.js' ),
-					},
-				],
-			},
-		],
+		rules: defaultConfig.module.rules,
 	},
 };

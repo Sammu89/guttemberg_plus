@@ -1,55 +1,61 @@
 <?php
 /**
- * CSS Default Values
+ * CSS Default Values for Tabs Block
  *
- * Auto-generated from assets/css/tabs.css
- * Generated: 2025-11-22T15:43:27.458Z
+ * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
+ * Generated from: schemas/tabs.json
+ * Generated at: 2025-11-22T16:20:36.253Z
  *
- * DO NOT EDIT MANUALLY - Changes will be overwritten on build
+ * This file is regenerated on every build. Any manual changes will be lost.
+ * To modify this file, update the source schema and run: npm run schema:build
+ *
+ * @package GuttemberPlus
+ * @since 1.0.0
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 return array(
-  'tabsContainerBg' => 'transparent',
-  'tabsContainerBorder' => '0px solid transparent',
-  'tabsContainerBorderRadius' => '4',
-  'tabsContainerShadow' => 'none',
-  'tabsListBg' => '#f5f5f5',
-  'tabsListBorderBottom' => '2px solid #dddddd',
-  'tabsListGap' => '4',
-  'tabsListPadding' => '8',
-  'tabsAlignment' => 'left',
-  'tabButtonColor' => '#666666',
-  'tabButtonBg' => 'transparent',
-  'tabButtonBorder' => '1px solid transparent',
-  'tabButtonBorderRadius' => '4px 4px 0 0',
-  'tabButtonPadding' => '12px 24px',
-  'tabButtonFontSize' => '16',
-  'tabButtonFontWeight' => '500',
-  'tabButtonFontStyle' => 'normal',
-  'tabButtonTextTransform' => 'none',
-  'tabButtonTextDecoration' => 'none',
-  'tabButtonTextAlign' => 'center',
-  'tabButtonHoverColor' => '#333333',
-  'tabButtonHoverBg' => '#e8e8e8',
-  'tabButtonHoverBorderColor' => '#cccccc',
+  'titleColor' => '#666666',
+  'titleBackgroundColor' => 'transparent',
+  'hoverTitleColor' => '#333333',
+  'hoverTitleBackgroundColor' => '#e8e8e8',
   'tabButtonActiveColor' => '#000000',
-  'tabButtonActiveBg' => '#ffffff',
+  'tabButtonActiveBackground' => '#ffffff',
   'tabButtonActiveBorderColor' => '#dddddd',
   'tabButtonActiveBorderBottomColor' => 'transparent',
-  'panelBg' => '#ffffff',
+  'panelBackground' => '#ffffff',
   'panelColor' => '#333333',
-  'panelBorder' => '1px solid #dddddd',
-  'panelBorderRadius' => '0',
-  'panelPadding' => '24',
-  'panelFontSize' => '16',
-  'panelLineHeight' => '1.6',
-  'dividerBorder' => 'none',
-  'iconSize' => '18',
+  'tabListBackground' => '#f5f5f5',
+  'containerBorderColor' => '0px solid transparent',
+  'panelBorderColor' => '1px solid #dddddd',
+  'tabListBorderBottomColor' => '2px solid #dddddd',
   'iconColor' => 'inherit',
-  'iconSpacing' => '8',
-  'transitionDuration' => '200ms',
-  'transitionEasing' => 'ease-in-out',
-  'responsiveBreakpoint' => '768',
-  'verticalTabListWidth' => '200',
+  'titleFontSize' => '16px',
+  'titleFontWeight' => '500',
+  'titleFontStyle' => 'normal',
+  'titleTextTransform' => 'none',
+  'titleTextDecoration' => 'none',
+  'titleAlignment' => 'center',
+  'panelFontSize' => '16px',
+  'panelLineHeight' => '1.6',
   'verticalTabButtonTextAlign' => 'left',
+  'tabBorderRadius' => '4px 4px 0 0',
+  'containerBorderWidth' => '0px solid transparent',
+  'containerBorderRadius' => '4px',
+  'containerShadow' => 'none',
+  'panelBorderWidth' => '1px solid #dddddd',
+  'panelBorderRadius' => '0px',
+  'tabListBorderBottomWidth' => '2px solid #dddddd',
+  'titlePadding' => '12px 24px',
+  'panelPadding' => '24px',
+  'tabListPadding' => '8px',
+  'tabListGap' => '4px',
+  'tabsAlignment' => 'left',
+  'verticalTabListWidth' => '200px',
+  'iconSize' => '18px',
+  'iconRotation' => '180deg',
 );

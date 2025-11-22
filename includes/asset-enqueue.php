@@ -23,21 +23,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 function guttemberg_plus_enqueue_editor_assets() {
 	wp_enqueue_style(
 		'guttemberg-plus-accordion-defaults',
-		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion.css',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion-generated.css',
 		array(),
 		GUTTEMBERG_PLUS_VERSION
 	);
 
 	wp_enqueue_style(
 		'guttemberg-plus-tabs-defaults',
-		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs.css',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs-generated.css',
 		array(),
 		GUTTEMBERG_PLUS_VERSION
 	);
 
 	wp_enqueue_style(
 		'guttemberg-plus-toc-defaults',
-		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc.css',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc-generated.css',
 		array(),
 		GUTTEMBERG_PLUS_VERSION
 	);
@@ -61,7 +61,7 @@ function guttemberg_plus_enqueue_frontend_assets() {
 		// Enqueue CSS defaults (Tier 1)
 		wp_enqueue_style(
 			'guttemberg-plus-accordion-defaults',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion.css',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion-generated.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
@@ -79,7 +79,7 @@ function guttemberg_plus_enqueue_frontend_assets() {
 		// Enqueue CSS defaults (Tier 1)
 		wp_enqueue_style(
 			'guttemberg-plus-tabs-defaults',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs.css',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs-generated.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
@@ -97,7 +97,7 @@ function guttemberg_plus_enqueue_frontend_assets() {
 		// Enqueue CSS defaults (Tier 1)
 		wp_enqueue_style(
 			'guttemberg-plus-toc-defaults',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc.css',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc-generated.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
