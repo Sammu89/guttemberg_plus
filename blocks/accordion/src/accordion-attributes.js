@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-22T17:16:11.900Z
+ * Generated at: 2025-11-22T23:33:10.491Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -117,7 +117,7 @@ export const accordionAttributes = {
   },
   dividerBorderColor: {
     type: 'string',
-    default: 'transparent',
+    default: '#dddddd',
   },
   iconColor: {
     type: 'string',
@@ -125,7 +125,7 @@ export const accordionAttributes = {
   },
   titleFontSize: {
     type: 'number',
-    default: 18,
+    default: '18px',
   },
   titleFontWeight: {
     type: 'string',
@@ -157,7 +157,7 @@ export const accordionAttributes = {
   },
   contentFontSize: {
     type: 'number',
-    default: 16,
+    default: '16px',
   },
   contentFontWeight: {
     type: 'string',
@@ -185,7 +185,7 @@ export const accordionAttributes = {
   },
   accordionBorderThickness: {
     type: 'number',
-    default: 1,
+    default: '1px',
   },
   accordionBorderStyle: {
     type: 'string',
@@ -209,7 +209,7 @@ export const accordionAttributes = {
   },
   dividerBorderThickness: {
     type: 'number',
-    default: 0,
+    default: '0px',
   },
   dividerBorderStyle: {
     type: 'string',
@@ -225,7 +225,7 @@ export const accordionAttributes = {
   },
   accordionMarginBottom: {
     type: 'number',
-    default: 8,
+    default: '8px',
   },
   itemSpacing: {
     type: 'number',
@@ -241,7 +241,7 @@ export const accordionAttributes = {
   },
   iconSize: {
     type: 'number',
-    default: 20,
+    default: '20px',
   },
   iconTypeClosed: {
     type: 'string',
@@ -253,7 +253,7 @@ export const accordionAttributes = {
   },
   iconRotation: {
     type: 'number',
-    default: 180,
+    default: '180deg',
   },
 };
 

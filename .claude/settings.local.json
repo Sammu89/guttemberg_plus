@@ -59,7 +59,13 @@
       "Bash($PHP_BIN -l php/css-defaults/tabs.php)",
       "Bash($PHP_BIN -l php/css-defaults/toc.php)",
       "Bash($PHP_BIN -l php/css-defaults/css-mappings-generated.php)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash($PHP_BIN=\"/opt/Local/resources/extraResources/lightning-services/php-8.2.27+1/bin/linux/bin/php\")",
+      "Bash($PHP_BIN -l /home/sammu/Local Sites/testing/app/public/wp-content/plugins/guttemberg-plus/php/theme-css-generator.php)",
+      "Bash(git checkout includes/asset-enqueue.php)",
+      "Bash($PHP_BIN -l /home/sammu/Local Sites/testing/app/public/wp-content/plugins/guttemberg-plus/php/css-parser.php)",
+      "Bash($PHP_BIN -l /home/sammu/Local Sites/testing/app/public/wp-content/plugins/guttemberg-plus/includes/asset-enqueue.php)",
+      "Bash(git checkout php/css-parser.php includes/asset-enqueue.php)"
     ],
     "deny": [],
     "ask": []

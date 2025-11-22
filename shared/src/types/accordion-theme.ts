@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-22T17:16:11.897Z
+ * Generated at: 2025-11-22T23:33:10.487Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -123,17 +123,17 @@ export const accordionDefaultTheme: AccordionTheme = {
   contentBackgroundColor: '#ffffff',
   borderColor: '#dddddd',
   accordionBorderColor: '#dddddd',
-  dividerBorderColor: 'transparent',
+  dividerBorderColor: '#dddddd',
   iconColor: '#666666',
-  titleFontSize: 18,
+  titleFontSize: 18px,
   titleFontWeight: '600',
   titleFontStyle: 'normal',
   titleTextTransform: 'none',
   titleTextDecoration: 'none',
   titleAlignment: 'left',
-  contentFontSize: 16,
+  contentFontSize: 16px,
   contentLineHeight: 1.6,
-  accordionBorderThickness: 1,
+  accordionBorderThickness: 1px,
   accordionBorderStyle: 'solid',
   accordionBorderRadius: {
     "topLeft": 4,
@@ -142,7 +142,7 @@ export const accordionDefaultTheme: AccordionTheme = {
     "bottomLeft": 4
   },
   accordionShadow: 'none',
-  dividerBorderThickness: 0,
+  dividerBorderThickness: 0px,
   dividerBorderStyle: 'solid',
   titlePadding: {
     "top": 16,
@@ -156,13 +156,13 @@ export const accordionDefaultTheme: AccordionTheme = {
     "bottom": 16,
     "left": 16
   },
-  accordionMarginBottom: 8,
+  accordionMarginBottom: 8px,
   showIcon: true,
   iconPosition: 'right',
-  iconSize: 20,
+  iconSize: 20px,
   iconTypeClosed: '▾',
   iconTypeOpen: 'none',
-  iconRotation: 180,
+  iconRotation: 180deg,
 };
 
 /**

@@ -28,6 +28,11 @@
  * // showIcon in exclude list (excluded)
  */
 export function calculateDeltas( snapshot, defaults, exclude = [] ) {
+	console.log( '[📊 DELTA CALC] ========== CALCULATING DELTAS ==========' );
+	console.log( '[📊 DELTA CALC] Snapshot:', snapshot );
+	console.log( '[📊 DELTA CALC] Defaults:', defaults );
+	console.log( '[📊 DELTA CALC] Excluded attributes:', exclude );
+
 	const deltas = {};
 
 	// Iterate through all attributes in snapshot
@@ -58,8 +63,27 @@ export function calculateDeltas( snapshot, defaults, exclude = [] ) {
 		// Only include if different from default
 		if ( isDifferent ) {
 			deltas[ key ] = value;
+			if ( key === 'iconColor' ) {
+				console.log( `[📊 DELTA CALC] ✓ iconColor IS different from default:`, {
+					value,
+					defaultValue,
+					included: true
+				} );
+			}
+		} else {
+			if ( key === 'iconColor' ) {
+				console.log( `[📊 DELTA CALC] ✗ iconColor same as default:`, {
+					value,
+					defaultValue,
+					included: false
+				} );
+			}
 		}
 	}
+
+	console.log( '[📊 DELTA CALC] Final deltas:', deltas );
+	console.log( '[📊 DELTA CALC] Final deltas.iconColor:', deltas.iconColor );
+	console.log( '[📊 DELTA CALC] ============================================' );
 
 	return deltas;
 }
@@ -80,10 +104,21 @@ export function calculateDeltas( snapshot, defaults, exclude = [] ) {
  * // Returns: { titleColor: '#ff0000', titleFontSize: 16, showIcon: true }
  */
 export function applyDeltas( base, deltas ) {
-	return {
+	const result = {
 		...base,
 		...deltas,
 	};
+
+	console.log( '[🔀 APPLY DELTAS] ========== APPLYING DELTAS ==========' );
+	console.log( '[🔀 APPLY DELTAS] Base:', base );
+	console.log( '[🔀 APPLY DELTAS] Deltas:', deltas );
+	console.log( '[🔀 APPLY DELTAS] Result:', result );
+	console.log( '[🔀 APPLY DELTAS] Result.iconColor:', result.iconColor );
+	console.log( '[🔀 APPLY DELTAS] Base.iconColor:', base.iconColor );
+	console.log( '[🔀 APPLY DELTAS] Deltas.iconColor:', deltas.iconColor );
+	console.log( '[🔀 APPLY DELTAS] ============================================' );
+
+	return result;
 }
 
 /**
@@ -99,11 +134,19 @@ export function applyDeltas( base, deltas ) {
 export function getThemeableSnapshot( attributes, exclude = [] ) {
 	const snapshot = {};
 
+	console.log( '[📸 SNAPSHOT] ========== CREATING SNAPSHOT ==========' );
+	console.log( '[📸 SNAPSHOT] Attributes:', attributes );
+	console.log( '[📸 SNAPSHOT] Excluded:', exclude );
+
 	for ( const [ key, value ] of Object.entries( attributes ) ) {
 		if ( ! exclude.includes( key ) && value !== undefined ) {
 			snapshot[ key ] = value;
 		}
 	}
+
+	console.log( '[📸 SNAPSHOT] Result snapshot:', snapshot );
+	console.log( '[📸 SNAPSHOT] Snapshot.iconColor:', snapshot.iconColor );
+	console.log( '[📸 SNAPSHOT] ============================================' );
 
 	return snapshot;
 }

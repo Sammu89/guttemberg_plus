@@ -219,7 +219,16 @@ function updateIcon( button, isOpen ) {
 	const currentIcon = isImage ? icon.src : icon.textContent;
 	const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
 
-	// Skip icon content change - rotation only (no fade effect)
+	// Change icon content if needed
+	if ( iconIsChanging ) {
+		if ( isImage ) {
+			// For image icons, update src
+			icon.src = newIcon;
+		} else {
+			// For text/emoji icons, update text content
+			icon.textContent = newIcon;
+		}
+	}
 
 	// Toggle rotation class for CSS animation (rotates immediately)
 	if ( isOpen ) {

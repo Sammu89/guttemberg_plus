@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-22T17:16:11.906Z
+> Generated at: 2025-11-22T23:33:10.501Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -77,10 +77,10 @@ Icon appearance settings
 | `iconColor` | string | `inherit` | Yes | Color of tab icons |
 | `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
 | `iconPosition` | string | `right` | Yes | Position of icon relative to text |
-| `iconSize` | number | `18` | Yes | Size of tab icons in pixels |
+| `iconSize` | number | `18px` | Yes | Size of tab icons in pixels |
 | `iconTypeClosed` | string | `▾` | Yes | Icon for closed state (accordion fallback) |
 | `iconTypeOpen` | string | `none` | Yes | Icon for open state (accordion fallback) |
-| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
+| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
 
 ## Typography
 
@@ -88,7 +88,7 @@ Font settings for tab buttons and panel content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `titleFontSize` | number | `16` | Yes | Font size for tab buttons in pixels |
+| `titleFontSize` | number | `16px` | Yes | Font size for tab buttons in pixels |
 | `titleFontWeight` | string | `500` | Yes | Font weight for tab buttons |
 | `titleFontFamily` | string | _null_ | Yes | Font family for tab buttons |
 | `titleLineHeight` | number | _null_ | Yes | Line height for tab buttons |
@@ -103,7 +103,7 @@ Font settings for tab buttons and panel content
 | `contentFontStyle` | string | _null_ | Yes | Font style for panel content |
 | `contentTextTransform` | string | _null_ | Yes | Text transformation for panel content |
 | `contentTextDecoration` | string | _null_ | Yes | Text decoration for panel content |
-| `panelFontSize` | number | `16` | Yes | Font size for panel content |
+| `panelFontSize` | number | `16px` | Yes | Font size for panel content |
 | `panelLineHeight` | number | `1.6` | Yes | Line height for panel content |
 | `verticalTabButtonTextAlign` | string | `left` | Yes | Text alignment for vertical tabs |
 
@@ -118,14 +118,14 @@ Border styles, widths, radius, and shadow
 | `tabBorderRadius` | object | _object_ | Yes | Corner radius for individual tabs |
 | `tabShadow` | string | _null_ | Yes | Box shadow for tab buttons |
 | `tabButtonBorderRadius` | object | _null_ | Yes | Per-corner border radius for tab buttons |
-| `containerBorderWidth` | number | `0` | Yes | Border width for the tabs container |
+| `containerBorderWidth` | number | `0px` | Yes | Border width for the tabs container |
 | `containerBorderStyle` | string | `solid` | Yes | Border style for the tabs container |
 | `containerBorderRadius` | object | _object_ | Yes | Corner radius for the tabs container |
 | `containerShadow` | string | `none` | Yes | Box shadow for the tabs container |
-| `panelBorderWidth` | number | `1` | Yes | Border width for tab panels |
+| `panelBorderWidth` | number | `1px` | Yes | Border width for tab panels |
 | `panelBorderStyle` | string | `solid` | Yes | Border style for tab panels |
-| `panelBorderRadius` | number | `0` | Yes | Corner radius for tab panels |
-| `tabListBorderBottomWidth` | number | `2` | Yes | Bottom border width of tab navigation |
+| `panelBorderRadius` | number | `0px` | Yes | Corner radius for tab panels |
+| `tabListBorderBottomWidth` | number | `2px` | Yes | Bottom border width of tab navigation |
 | `tabListBorderBottomStyle` | string | `solid` | Yes | Bottom border style of tab navigation |
 | `dividerThickness` | number | _null_ | Yes | Thickness of divider between tabs and panel |
 | `dividerStyle` | string | _null_ | Yes | Style of divider between tabs and panel |
@@ -148,9 +148,9 @@ Spacing, padding, sizing, and alignment
 | `contentPadding` | object | _null_ | Yes | Padding inside content area |
 | `panelPadding` | object | _object_ | Yes | Padding inside tab panels |
 | `tabListPadding` | object | _object_ | Yes | Padding around the tab navigation |
-| `tabListGap` | number | `4` | Yes | Space between tab buttons |
+| `tabListGap` | number | `4px` | Yes | Space between tab buttons |
 | `tabsAlignment` | string | `left` | Yes | Horizontal alignment of tabs |
-| `verticalTabListWidth` | number | `200` | Yes | Width of tab list in vertical orientation |
+| `verticalTabListWidth` | number | `200px` | Yes | Width of tab list in vertical orientation |
 | `accordionMarginBottom` | number | _null_ | Yes | Space below the tabs container |
 | `itemSpacing` | number | _null_ | Yes | Spacing between items |
 

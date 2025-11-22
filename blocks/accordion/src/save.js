@@ -10,8 +10,9 @@
  */
 
 import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
-import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria } from '@shared';
+import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria, getAllDefaults } from '@shared';
 import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
+import { accordionAttributes } from './accordion-attributes';
 
 /**
  * Accordion Save Component
@@ -21,14 +22,20 @@ import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-g
  * @return {JSX.Element} Save component
  */
 export default function Save( { attributes } ) {
-	// Get CSS defaults (will be available via wp_localize_script in frontend)
-	const cssDefaults = window.accordionDefaults || {};
+	// Extract schema defaults (single source of truth)
+	const schemaDefaults = {};
+	Object.keys( accordionAttributes ).forEach( ( key ) => {
+		if ( accordionAttributes[ key ].default !== undefined ) {
+			schemaDefaults[ key ] = accordionAttributes[ key ].default;
+		}
+	} );
+	const allDefaults = getAllDefaults( schemaDefaults );
 
 	// Get effective values for display purposes (icon rendering, etc.)
 	const effectiveValues = getAllEffectiveValues(
 		attributes,
 		{}, // Themes are resolved server-side via CSS classes
-		cssDefaults,
+		allDefaults,
 		'accordion'
 	);
 

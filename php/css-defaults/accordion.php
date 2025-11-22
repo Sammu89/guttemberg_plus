@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-22T17:16:11.900Z
+ * Generated at: 2025-11-22T23:33:10.491Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -29,7 +29,7 @@ return array(
   'contentBackgroundColor' => '#ffffff',
   'borderColor' => '#dddddd',
   'accordionBorderColor' => '#dddddd',
-  'dividerBorderColor' => 'transparent',
+  'dividerBorderColor' => '#dddddd',
   'iconColor' => '#666666',
   'titleFontSize' => '18px',
   'titleFontWeight' => '600',
@@ -41,13 +41,14 @@ return array(
   'contentLineHeight' => '1.6',
   'accordionBorderThickness' => '1px',
   'accordionBorderStyle' => 'solid',
-  'accordionBorderRadius' => '4px',
   'accordionShadow' => 'none',
-  'dividerBorderThickness' => '0',
+  'dividerBorderThickness' => '0px',
   'dividerBorderStyle' => 'solid',
-  'titlePadding' => '16px',
-  'contentPadding' => '16px',
   'accordionMarginBottom' => '8px',
+  'showIcon' => 'true',
+  'iconPosition' => 'right',
   'iconSize' => '20px',
+  'iconTypeClosed' => '▾',
+  'iconTypeOpen' => 'none',
   'iconRotation' => '180deg',
 );

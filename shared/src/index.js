@@ -49,13 +49,9 @@ export {
 } from './config/theme-exclusions-generated';
 
 // Shared Attributes (Module 1.5)
-export { colorAttributes } from './attributes/color-attributes';
-export { typographyAttributes } from './attributes/typography-attributes';
-export { borderAttributes } from './attributes/border-attributes';
-export { spacingAttributes } from './attributes/spacing-attributes';
-export { iconAttributes } from './attributes/icon-attributes';
-export { metaAttributes } from './attributes/meta-attributes';
-export { behavioralDefaults, getAllDefaults } from './attributes/attribute-defaults';
+// All attribute definitions now come from schema-generated files (e.g., accordion-attributes.js)
+// Schema is the single source of truth - no manual duplicate files needed
+export { getAllDefaults } from './attributes/attribute-defaults';
 
 // Shared Utilities (Module 1.7)
 export {

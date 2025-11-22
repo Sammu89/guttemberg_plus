@@ -5,7 +5,6 @@
   "description": "Complete theme and appearance configuration for Tabs blocks",
   "blockType": "tabs",
   "blockName": "Tabs",
-
   "groups": {
     "colors": {
       "title": "Colors",
@@ -32,7 +31,6 @@
       "description": "Non-themeable behavioral and structural settings"
     }
   },
-
   "attributes": {
     "uniqueId": {
       "type": "string",
@@ -91,7 +89,10 @@
       "description": "Tab layout orientation",
       "themeable": false,
       "reason": "behavioral",
-      "options": ["horizontal", "vertical"]
+      "options": [
+        "horizontal",
+        "vertical"
+      ]
     },
     "activationMode": {
       "type": "string",
@@ -101,7 +102,10 @@
       "description": "How tabs are activated (auto = focus, manual = click)",
       "themeable": false,
       "reason": "behavioral",
-      "options": ["auto", "manual"]
+      "options": [
+        "auto",
+        "manual"
+      ]
     },
     "currentTab": {
       "type": "number",
@@ -138,7 +142,15 @@
       "description": "Semantic HTML heading level (none, h1-h6)",
       "themeable": false,
       "reason": "behavioral",
-      "options": ["none", "h1", "h2", "h3", "h4", "h5", "h6"]
+      "options": [
+        "none",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ]
     },
     "useHeadingStyles": {
       "type": "boolean",
@@ -185,12 +197,10 @@
       "themeable": false,
       "reason": "structural"
     },
-
     "titleColor": {
       "type": "string",
       "default": "#666666",
       "cssVar": "tab-button-color",
-      "cssDefault": "--tab-button-color: #666666;",
       "group": "colors",
       "label": "Tab Button Color",
       "description": "Text color for inactive tab buttons",
@@ -201,7 +211,6 @@
       "type": "string",
       "default": "transparent",
       "cssVar": "tab-button-bg",
-      "cssDefault": "--tab-button-bg: transparent;",
       "group": "colors",
       "label": "Tab Button Background",
       "description": "Background color for inactive tab buttons",
@@ -212,7 +221,6 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "tab-button-hover-color",
-      "cssDefault": "--tab-button-hover-color: #333333;",
       "group": "colors",
       "label": "Tab Hover Color",
       "description": "Text color when hovering over tab",
@@ -223,7 +231,6 @@
       "type": "string",
       "default": "#e8e8e8",
       "cssVar": "tab-button-hover-bg",
-      "cssDefault": "--tab-button-hover-bg: #e8e8e8;",
       "group": "colors",
       "label": "Tab Hover Background",
       "description": "Background color when hovering over tab",
@@ -234,7 +241,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tab-button-active-color",
-      "cssDefault": "",
       "group": "colors",
       "label": "Tab Active Color",
       "description": "Text color for active tab",
@@ -245,7 +251,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tab-button-active-bg",
-      "cssDefault": "",
       "group": "colors",
       "label": "Tab Active Background",
       "description": "Background color for active tab",
@@ -256,7 +261,6 @@
       "type": "string",
       "default": "#000000",
       "cssVar": "tab-button-active-color",
-      "cssDefault": "--tab-button-active-color: #000000;",
       "group": "colors",
       "label": "Active Tab Text Color",
       "description": "Text color for the active tab button",
@@ -267,7 +271,6 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "tab-button-active-bg",
-      "cssDefault": "--tab-button-active-bg: #ffffff;",
       "group": "colors",
       "label": "Active Tab Background",
       "description": "Background color for the active tab button",
@@ -278,7 +281,6 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "tab-button-active-border-color",
-      "cssDefault": "--tab-button-active-border-color: #dddddd;",
       "group": "colors",
       "label": "Active Tab Border Color",
       "description": "Border color for the active tab",
@@ -289,7 +291,6 @@
       "type": "string",
       "default": "transparent",
       "cssVar": "tab-button-active-border-bottom-color",
-      "cssDefault": "--tab-button-active-border-bottom-color: transparent;",
       "group": "colors",
       "label": "Active Tab Border Bottom",
       "description": "Bottom border color for active tab (creates connected effect)",
@@ -300,7 +301,6 @@
       "type": "string",
       "default": null,
       "cssVar": "panel-color",
-      "cssDefault": "",
       "group": "colors",
       "label": "Content Color",
       "description": "Text color for content area",
@@ -311,7 +311,6 @@
       "type": "string",
       "default": null,
       "cssVar": "panel-bg",
-      "cssDefault": "",
       "group": "colors",
       "label": "Content Background",
       "description": "Background color for content area",
@@ -322,7 +321,6 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "panel-bg",
-      "cssDefault": "--panel-bg: #ffffff;",
       "group": "colors",
       "label": "Panel Background",
       "description": "Background color for tab panels",
@@ -333,7 +331,6 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "panel-color",
-      "cssDefault": "--panel-color: #333333;",
       "group": "colors",
       "label": "Panel Text Color",
       "description": "Text color for tab panels",
@@ -344,7 +341,6 @@
       "type": "string",
       "default": "#f5f5f5",
       "cssVar": "tabs-list-bg",
-      "cssDefault": "--tabs-list-bg: #f5f5f5;",
       "group": "colors",
       "label": "Tab List Background",
       "description": "Background color for the tab navigation bar",
@@ -355,7 +351,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tab-button-border-color",
-      "cssDefault": "",
       "group": "colors",
       "label": "Tab Border Color",
       "description": "Border color for individual tabs",
@@ -366,7 +361,6 @@
       "type": "string",
       "default": "transparent",
       "cssVar": "tabs-container-border-color",
-      "cssDefault": "--tabs-container-border: 0px solid transparent;",
       "group": "colors",
       "label": "Container Border Color",
       "description": "Border color for tabs container",
@@ -377,7 +371,6 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "panel-border-color",
-      "cssDefault": "--panel-border: 1px solid #dddddd;",
       "group": "colors",
       "label": "Panel Border Color",
       "description": "Border color for tab panels",
@@ -388,7 +381,6 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "tabs-list-border-bottom-color",
-      "cssDefault": "--tabs-list-border-bottom: 2px solid #dddddd;",
       "group": "colors",
       "label": "Tab List Border Color",
       "description": "Bottom border color of tab navigation",
@@ -399,7 +391,6 @@
       "type": "string",
       "default": null,
       "cssVar": "divider-color",
-      "cssDefault": "",
       "group": "colors",
       "label": "Divider Color",
       "description": "Color of divider between tabs and panel",
@@ -410,7 +401,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tabs-border-color",
-      "cssDefault": "",
       "group": "colors",
       "label": "Border Color",
       "description": "General border color",
@@ -421,7 +411,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tabs-border-color",
-      "cssDefault": "",
       "group": "colors",
       "label": "Accordion Border Color",
       "description": "Border color for accordion fallback mode",
@@ -432,7 +421,6 @@
       "type": "string",
       "default": null,
       "cssVar": "divider-border-color",
-      "cssDefault": "",
       "group": "colors",
       "label": "Divider Border Color",
       "description": "Border color for divider",
@@ -443,19 +431,16 @@
       "type": "string",
       "default": "inherit",
       "cssVar": "icon-color",
-      "cssDefault": "--icon-color: inherit;",
       "group": "icons",
       "label": "Icon Color",
       "description": "Color of tab icons",
       "themeable": true,
       "control": "ColorPicker"
     },
-
     "titleFontSize": {
       "type": "number",
-      "default": 16,
+      "default": "16px",
       "cssVar": "tab-button-font-size",
-      "cssDefault": "--tab-button-font-size: 16px;",
       "group": "typography",
       "label": "Tab Font Size",
       "description": "Font size for tab buttons in pixels",
@@ -469,19 +454,62 @@
       "type": "string",
       "default": "500",
       "cssVar": "tab-button-font-weight",
-      "cssDefault": "--tab-button-font-weight: 500;",
       "group": "typography",
       "label": "Tab Font Weight",
       "description": "Font weight for tab buttons",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["100", "200", "300", "400", "500", "600", "700", "800", "900", "normal", "bold"]
+      "options": [
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
+      ]
     },
     "titleFontFamily": {
       "type": "string",
       "default": null,
       "cssVar": "tab-button-font-family",
-      "cssDefault": "",
       "group": "typography",
       "label": "Tab Font Family",
       "description": "Font family for tab buttons",
@@ -492,7 +520,6 @@
       "type": "number",
       "default": null,
       "cssVar": "tab-button-line-height",
-      "cssDefault": "",
       "group": "typography",
       "label": "Tab Line Height",
       "description": "Line height for tab buttons",
@@ -506,55 +533,101 @@
       "type": "string",
       "default": "normal",
       "cssVar": "tab-button-font-style",
-      "cssDefault": "--tab-button-font-style: normal;",
       "group": "typography",
       "label": "Tab Font Style",
       "description": "Font style for tab buttons",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["normal", "italic", "oblique"]
+      "options": [
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
+      ]
     },
     "titleTextTransform": {
       "type": "string",
       "default": "none",
       "cssVar": "tab-button-text-transform",
-      "cssDefault": "--tab-button-text-transform: none;",
       "group": "typography",
       "label": "Tab Text Transform",
       "description": "Text transformation for tab buttons",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "uppercase", "lowercase", "capitalize"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
+      ]
     },
     "titleTextDecoration": {
       "type": "string",
       "default": "none",
       "cssVar": "tab-button-text-decoration",
-      "cssDefault": "--tab-button-text-decoration: none;",
       "group": "typography",
       "label": "Tab Text Decoration",
       "description": "Text decoration for tab buttons",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "underline", "overline", "line-through"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
+      ]
     },
     "titleAlignment": {
       "type": "string",
       "default": "center",
       "cssVar": "tab-button-text-align",
-      "cssDefault": "--tab-button-text-align: center;",
       "group": "typography",
       "label": "Tab Text Alignment",
       "description": "Text alignment for tab buttons",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["left", "center", "right"]
+      "options": [
+        "left",
+        "center",
+        "right"
+      ]
     },
     "contentFontSize": {
       "type": "number",
       "default": null,
       "cssVar": "panel-font-size",
-      "cssDefault": "",
       "group": "typography",
       "label": "Content Font Size",
       "description": "Font size for panel content in pixels",
@@ -568,19 +641,62 @@
       "type": "string",
       "default": null,
       "cssVar": "panel-font-weight",
-      "cssDefault": "",
       "group": "typography",
       "label": "Content Font Weight",
       "description": "Font weight for panel content",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["100", "200", "300", "400", "500", "600", "700", "800", "900", "normal", "bold"]
+      "options": [
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
+      ]
     },
     "contentFontFamily": {
       "type": "string",
       "default": null,
       "cssVar": "panel-font-family",
-      "cssDefault": "",
       "group": "typography",
       "label": "Content Font Family",
       "description": "Font family for panel content",
@@ -591,7 +707,6 @@
       "type": "number",
       "default": null,
       "cssVar": "panel-line-height",
-      "cssDefault": "",
       "group": "typography",
       "label": "Content Line Height",
       "description": "Line height for panel content",
@@ -605,43 +720,86 @@
       "type": "string",
       "default": null,
       "cssVar": "panel-font-style",
-      "cssDefault": "",
       "group": "typography",
       "label": "Content Font Style",
       "description": "Font style for panel content",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["normal", "italic", "oblique"]
+      "options": [
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
+      ]
     },
     "contentTextTransform": {
       "type": "string",
       "default": null,
       "cssVar": "panel-text-transform",
-      "cssDefault": "",
       "group": "typography",
       "label": "Content Text Transform",
       "description": "Text transformation for panel content",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "uppercase", "lowercase", "capitalize"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
+      ]
     },
     "contentTextDecoration": {
       "type": "string",
       "default": null,
       "cssVar": "panel-text-decoration",
-      "cssDefault": "",
       "group": "typography",
       "label": "Content Text Decoration",
       "description": "Text decoration for panel content",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "underline", "overline", "line-through"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
+      ]
     },
     "panelFontSize": {
       "type": "number",
-      "default": 16,
+      "default": "16px",
       "cssVar": "panel-font-size",
-      "cssDefault": "--panel-font-size: 16px;",
       "group": "typography",
       "label": "Panel Font Size",
       "description": "Font size for panel content",
@@ -655,7 +813,6 @@
       "type": "number",
       "default": 1.6,
       "cssVar": "panel-line-height",
-      "cssDefault": "--panel-line-height: 1.6;",
       "group": "typography",
       "label": "Panel Line Height",
       "description": "Line height for panel content",
@@ -669,20 +826,21 @@
       "type": "string",
       "default": "left",
       "cssVar": "vertical-tab-button-text-align",
-      "cssDefault": "--vertical-tab-button-text-align: left;",
       "group": "typography",
       "label": "Vertical Tab Alignment",
       "description": "Text alignment for vertical tabs",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["left", "center", "right"]
+      "options": [
+        "left",
+        "center",
+        "right"
+      ]
     },
-
     "tabBorderThickness": {
       "type": "number",
       "default": null,
       "cssVar": "tab-button-border-width",
-      "cssDefault": "",
       "group": "borders",
       "label": "Tab Border Width",
       "description": "Border width for individual tabs",
@@ -696,13 +854,33 @@
       "type": "string",
       "default": null,
       "cssVar": "tab-button-border-style",
-      "cssDefault": "",
       "group": "borders",
       "label": "Tab Border Style",
       "description": "Border style for individual tabs",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "solid", "dashed", "dotted", "double"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ]
     },
     "tabBorderRadius": {
       "type": "object",
@@ -713,7 +891,6 @@
         "bottomLeft": 0
       },
       "cssVar": "tab-button-border-radius",
-      "cssDefault": "--tab-button-border-radius: 4px 4px 0 0;",
       "group": "borders",
       "label": "Tab Border Radius",
       "description": "Corner radius for individual tabs",
@@ -725,7 +902,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tab-button-shadow",
-      "cssDefault": "",
       "group": "borders",
       "label": "Tab Shadow",
       "description": "Box shadow for tab buttons",
@@ -736,7 +912,6 @@
       "type": "object",
       "default": null,
       "cssVar": "tab-button-border-radius",
-      "cssDefault": "",
       "group": "borders",
       "label": "Tab Button Border Radius",
       "description": "Per-corner border radius for tab buttons",
@@ -746,9 +921,8 @@
     },
     "containerBorderWidth": {
       "type": "number",
-      "default": 0,
+      "default": "0px",
       "cssVar": "tabs-container-border-width",
-      "cssDefault": "--tabs-container-border: 0px solid transparent;",
       "group": "borders",
       "label": "Container Border Width",
       "description": "Border width for the tabs container",
@@ -762,13 +936,33 @@
       "type": "string",
       "default": "solid",
       "cssVar": "tabs-container-border-style",
-      "cssDefault": "",
       "group": "borders",
       "label": "Container Border Style",
       "description": "Border style for the tabs container",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "solid", "dashed", "dotted", "double"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ]
     },
     "containerBorderRadius": {
       "type": "object",
@@ -779,7 +973,6 @@
         "bottomLeft": 4
       },
       "cssVar": "tabs-container-border-radius",
-      "cssDefault": "--tabs-container-border-radius: 4px;",
       "group": "borders",
       "label": "Container Border Radius",
       "description": "Corner radius for the tabs container",
@@ -791,7 +984,6 @@
       "type": "string",
       "default": "none",
       "cssVar": "tabs-container-shadow",
-      "cssDefault": "--tabs-container-shadow: none;",
       "group": "borders",
       "label": "Container Shadow",
       "description": "Box shadow for the tabs container",
@@ -800,9 +992,8 @@
     },
     "panelBorderWidth": {
       "type": "number",
-      "default": 1,
+      "default": "1px",
       "cssVar": "panel-border-width",
-      "cssDefault": "--panel-border: 1px solid #dddddd;",
       "group": "borders",
       "label": "Panel Border Width",
       "description": "Border width for tab panels",
@@ -816,19 +1007,38 @@
       "type": "string",
       "default": "solid",
       "cssVar": "panel-border-style",
-      "cssDefault": "",
       "group": "borders",
       "label": "Panel Border Style",
       "description": "Border style for tab panels",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "solid", "dashed", "dotted", "double"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ]
     },
     "panelBorderRadius": {
       "type": "number",
-      "default": 0,
+      "default": "0px",
       "cssVar": "panel-border-radius",
-      "cssDefault": "--panel-border-radius: 0px;",
       "group": "borders",
       "label": "Panel Border Radius",
       "description": "Corner radius for tab panels",
@@ -840,9 +1050,8 @@
     },
     "tabListBorderBottomWidth": {
       "type": "number",
-      "default": 2,
+      "default": "2px",
       "cssVar": "tabs-list-border-bottom-width",
-      "cssDefault": "--tabs-list-border-bottom: 2px solid #dddddd;",
       "group": "borders",
       "label": "Tab List Border Width",
       "description": "Bottom border width of tab navigation",
@@ -856,19 +1065,38 @@
       "type": "string",
       "default": "solid",
       "cssVar": "tabs-list-border-bottom-style",
-      "cssDefault": "",
       "group": "borders",
       "label": "Tab List Border Style",
       "description": "Bottom border style of tab navigation",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "solid", "dashed", "dotted", "double"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ]
     },
     "dividerThickness": {
       "type": "number",
       "default": null,
       "cssVar": "divider-thickness",
-      "cssDefault": "",
       "group": "borders",
       "label": "Divider Thickness",
       "description": "Thickness of divider between tabs and panel",
@@ -882,19 +1110,23 @@
       "type": "string",
       "default": null,
       "cssVar": "divider-style",
-      "cssDefault": "",
       "group": "borders",
       "label": "Divider Style",
       "description": "Style of divider between tabs and panel",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "solid", "dashed", "dotted", "double"]
+      "options": [
+        "none",
+        "solid",
+        "dashed",
+        "dotted",
+        "double"
+      ]
     },
     "accordionBorderThickness": {
       "type": "number",
       "default": null,
       "cssVar": "tabs-border-width",
-      "cssDefault": "",
       "group": "borders",
       "label": "Accordion Border Width",
       "description": "Border width for accordion fallback mode",
@@ -908,19 +1140,38 @@
       "type": "string",
       "default": null,
       "cssVar": "tabs-border-style",
-      "cssDefault": "",
       "group": "borders",
       "label": "Accordion Border Style",
       "description": "Border style for accordion fallback mode",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "solid", "dashed", "dotted", "double"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ]
     },
     "accordionBorderRadius": {
       "type": "object",
       "default": null,
       "cssVar": "tabs-border-radius",
-      "cssDefault": "",
       "group": "borders",
       "label": "Accordion Border Radius",
       "description": "Border radius for accordion fallback mode",
@@ -932,7 +1183,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tabs-shadow",
-      "cssDefault": "",
       "group": "borders",
       "label": "Accordion Shadow",
       "description": "Box shadow for accordion fallback mode",
@@ -943,7 +1193,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tabs-border-width",
-      "cssDefault": "",
       "group": "borders",
       "label": "Border Width",
       "description": "Generic border width",
@@ -954,7 +1203,6 @@
       "type": "string",
       "default": null,
       "cssVar": "tabs-border-radius",
-      "cssDefault": "",
       "group": "borders",
       "label": "Border Radius",
       "description": "Generic border radius",
@@ -965,7 +1213,6 @@
       "type": "number",
       "default": null,
       "cssVar": "divider-border-thickness",
-      "cssDefault": "",
       "group": "borders",
       "label": "Divider Border Thickness",
       "description": "Thickness of divider border",
@@ -979,15 +1226,34 @@
       "type": "string",
       "default": null,
       "cssVar": "divider-border-style",
-      "cssDefault": "",
       "group": "borders",
       "label": "Divider Border Style",
       "description": "Style of divider border",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["none", "solid", "dashed", "dotted", "double"]
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ]
     },
-
     "titlePadding": {
       "type": "object",
       "default": {
@@ -997,7 +1263,6 @@
         "left": 24
       },
       "cssVar": "tab-button-padding",
-      "cssDefault": "--tab-button-padding: 12px 24px;",
       "group": "layout",
       "label": "Tab Button Padding",
       "description": "Padding inside tab buttons",
@@ -1009,7 +1274,6 @@
       "type": "object",
       "default": null,
       "cssVar": "panel-padding",
-      "cssDefault": "",
       "group": "layout",
       "label": "Content Padding",
       "description": "Padding inside content area",
@@ -1026,7 +1290,6 @@
         "left": 24
       },
       "cssVar": "panel-padding",
-      "cssDefault": "--panel-padding: 24px;",
       "group": "layout",
       "label": "Panel Padding",
       "description": "Padding inside tab panels",
@@ -1043,7 +1306,6 @@
         "left": 8
       },
       "cssVar": "tabs-list-padding",
-      "cssDefault": "--tabs-list-padding: 8px;",
       "group": "layout",
       "label": "Tab List Padding",
       "description": "Padding around the tab navigation",
@@ -1053,9 +1315,8 @@
     },
     "tabListGap": {
       "type": "number",
-      "default": 4,
+      "default": "4px",
       "cssVar": "tabs-list-gap",
-      "cssDefault": "--tabs-list-gap: 4px;",
       "group": "layout",
       "label": "Tab Gap",
       "description": "Space between tab buttons",
@@ -1069,19 +1330,21 @@
       "type": "string",
       "default": "left",
       "cssVar": "tabs-alignment",
-      "cssDefault": "--tabs-alignment: left;",
       "group": "layout",
       "label": "Tabs Alignment",
       "description": "Horizontal alignment of tabs",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["left", "center", "right"]
+      "options": [
+        "left",
+        "center",
+        "right"
+      ]
     },
     "verticalTabListWidth": {
       "type": "number",
-      "default": 200,
+      "default": "200px",
       "cssVar": "vertical-tab-list-width",
-      "cssDefault": "--vertical-tab-list-width: 200px;",
       "group": "layout",
       "label": "Vertical Tab List Width",
       "description": "Width of tab list in vertical orientation",
@@ -1095,7 +1358,6 @@
       "type": "number",
       "default": null,
       "cssVar": "tabs-margin-bottom",
-      "cssDefault": "",
       "group": "layout",
       "label": "Margin Bottom",
       "description": "Space below the tabs container",
@@ -1109,7 +1371,6 @@
       "type": "number",
       "default": null,
       "cssVar": "tabs-item-spacing",
-      "cssDefault": "",
       "group": "layout",
       "label": "Item Spacing",
       "description": "Spacing between items",
@@ -1119,7 +1380,6 @@
       "max": 50,
       "unit": "px"
     },
-
     "showIcon": {
       "type": "boolean",
       "default": true,
@@ -1137,13 +1397,15 @@
       "description": "Position of icon relative to text",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["left", "right"]
+      "options": [
+        "left",
+        "right"
+      ]
     },
     "iconSize": {
       "type": "number",
-      "default": 18,
+      "default": "18px",
       "cssVar": "icon-size",
-      "cssDefault": "--icon-size: 18px;",
       "group": "icons",
       "label": "Icon Size",
       "description": "Size of tab icons in pixels",
@@ -1173,15 +1435,14 @@
     },
     "iconRotation": {
       "type": "number",
-      "default": 180,
+      "default": "180deg",
       "cssVar": "icon-rotation",
-      "cssDefault": "--icon-rotation: 180deg;",
       "group": "icons",
       "label": "Icon Rotation",
       "description": "Rotation angle when open (degrees)",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0,
+      "min": -360,
       "max": 360,
       "unit": "deg"
     }

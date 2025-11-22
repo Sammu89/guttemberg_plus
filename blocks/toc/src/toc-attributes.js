@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-22T17:16:11.908Z
+ * Generated at: 2025-11-22T23:33:10.504Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -145,7 +145,7 @@ export const tocAttributes = {
   },
   titleFontSize: {
     type: 'number',
-    default: 20,
+    default: '20px',
   },
   titleFontWeight: {
     type: 'string',
@@ -161,7 +161,7 @@ export const tocAttributes = {
   },
   level1FontSize: {
     type: 'number',
-    default: 18,
+    default: '18px',
   },
   level1FontWeight: {
     type: 'string',
@@ -181,7 +181,7 @@ export const tocAttributes = {
   },
   level2FontSize: {
     type: 'number',
-    default: 16,
+    default: '16px',
   },
   level2FontWeight: {
     type: 'string',
@@ -201,7 +201,7 @@ export const tocAttributes = {
   },
   level3PlusFontSize: {
     type: 'number',
-    default: 14,
+    default: '14px',
   },
   level3PlusFontWeight: {
     type: 'string',
@@ -221,7 +221,7 @@ export const tocAttributes = {
   },
   wrapperBorderWidth: {
     type: 'number',
-    default: 1,
+    default: '1px',
   },
   wrapperBorderStyle: {
     type: 'string',
@@ -229,7 +229,7 @@ export const tocAttributes = {
   },
   wrapperBorderRadius: {
     type: 'number',
-    default: 4,
+    default: '4px',
   },
   wrapperShadow: {
     type: 'string',
@@ -237,7 +237,7 @@ export const tocAttributes = {
   },
   wrapperPadding: {
     type: 'number',
-    default: 20,
+    default: '20px',
   },
   listPaddingLeft: {
     type: 'number',
@@ -245,15 +245,15 @@ export const tocAttributes = {
   },
   itemSpacing: {
     type: 'number',
-    default: 8,
+    default: '8px',
   },
   levelIndent: {
     type: 'number',
-    default: 20,
+    default: '20px',
   },
   positionTop: {
     type: 'number',
-    default: 100,
+    default: '100px',
   },
   zIndex: {
     type: 'number',
@@ -261,7 +261,7 @@ export const tocAttributes = {
   },
   collapseIconSize: {
     type: 'number',
-    default: 20,
+    default: '20px',
   },
 };
 

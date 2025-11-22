@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-22T17:16:11.904Z
+ * Generated at: 2025-11-22T23:33:10.497Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -200,13 +200,13 @@ export const tabsDefaultTheme: TabsTheme = {
   panelBorderColor: '#dddddd',
   tabListBorderBottomColor: '#dddddd',
   iconColor: 'inherit',
-  titleFontSize: 16,
+  titleFontSize: 16px,
   titleFontWeight: '500',
   titleFontStyle: 'normal',
   titleTextTransform: 'none',
   titleTextDecoration: 'none',
   titleAlignment: 'center',
-  panelFontSize: 16,
+  panelFontSize: 16px,
   panelLineHeight: 1.6,
   verticalTabButtonTextAlign: 'left',
   tabBorderRadius: {
@@ -215,7 +215,7 @@ export const tabsDefaultTheme: TabsTheme = {
     "bottomRight": 0,
     "bottomLeft": 0
   },
-  containerBorderWidth: 0,
+  containerBorderWidth: 0px,
   containerBorderStyle: 'solid',
   containerBorderRadius: {
     "topLeft": 4,
@@ -224,10 +224,10 @@ export const tabsDefaultTheme: TabsTheme = {
     "bottomLeft": 4
   },
   containerShadow: 'none',
-  panelBorderWidth: 1,
+  panelBorderWidth: 1px,
   panelBorderStyle: 'solid',
-  panelBorderRadius: 0,
-  tabListBorderBottomWidth: 2,
+  panelBorderRadius: 0px,
+  tabListBorderBottomWidth: 2px,
   tabListBorderBottomStyle: 'solid',
   titlePadding: {
     "top": 12,
@@ -247,15 +247,15 @@ export const tabsDefaultTheme: TabsTheme = {
     "bottom": 8,
     "left": 8
   },
-  tabListGap: 4,
+  tabListGap: 4px,
   tabsAlignment: 'left',
-  verticalTabListWidth: 200,
+  verticalTabListWidth: 200px,
   showIcon: true,
   iconPosition: 'right',
-  iconSize: 18,
+  iconSize: 18px,
   iconTypeClosed: '▾',
   iconTypeOpen: 'none',
-  iconRotation: 180,
+  iconRotation: 180deg,
 };
 
 /**

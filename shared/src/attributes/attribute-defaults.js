@@ -1,59 +1,26 @@
 /**
  * Attribute Schema Defaults
  *
- * Extracts default values from attribute schemas for use in cascade resolution.
- * These are "behavioral defaults" - non-CSS configuration with hardcoded values.
+ * Simplified - just uses schema-generated attributes as single source of truth.
+ * All defaults come from schemas/*.json via auto-generated files.
  *
  * @package
  * @since 1.0.0
  */
 
-import { iconAttributes } from './icon-attributes';
-import { metaAttributes } from './meta-attributes';
-
 /**
- * Extract default values from attribute definitions
+ * Get all defaults for a block
  *
- * Includes ALL attributes with explicit defaults, including null values.
- * Null is a valid default (means inherit from CSS or use browser default).
+ * Uses schema-generated attributes as single source of truth.
+ * Schema defaults contain ALL attribute defaults (behavioral + themeable).
  *
- * @param {Object} attributes - Attribute definitions object
- * @return {Object} Object containing only the default values
+ * @param {Object} schemaDefaults - Defaults from schema-generated accordion-attributes.js
+ * @return {Object} All defaults
  */
-function extractDefaults( attributes ) {
-	const defaults = {};
-	for ( const [ key, definition ] of Object.entries( attributes ) ) {
-		// Include all attributes with explicit default property, including null
-		if ( definition.hasOwnProperty( 'default' ) ) {
-			defaults[ key ] = definition.default;
-		}
-	}
-	return defaults;
+export function getAllDefaults( schemaDefaults = {} ) {
+	// Schema is the single source of truth!
+	// No need for separate behavioral/CSS defaults - schema has everything
+	return schemaDefaults;
 }
 
-/**
- * Behavioral defaults for accordion/tabs blocks
- * These are non-CSS attributes with schema-defined defaults
- */
-export const behavioralDefaults = {
-	// Icon settings
-	...extractDefaults( iconAttributes ),
-
-	// Meta/behavioral settings
-	...extractDefaults( metaAttributes ),
-};
-
-/**
- * Get all defaults for a block (behavioral + CSS)
- *
- * @param {Object} cssDefaults - CSS defaults from window.{blockType}Defaults
- * @return {Object} Combined defaults
- */
-export function getAllDefaults( cssDefaults = {} ) {
-	return {
-		...behavioralDefaults,
-		...cssDefaults, // CSS defaults override behavioral if there's overlap
-	};
-}
-
-export default behavioralDefaults;
+export default getAllDefaults;
