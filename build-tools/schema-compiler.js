@@ -8,8 +8,9 @@
  * Generated artifacts:
  * - TypeScript type definitions (shared/src/types/)
  * - Zod validation schemas (shared/src/validators/)
+ * - JavaScript block attributes (blocks/[blockType]/src/[blockType]-attributes.js)
  * - PHP CSS defaults (php/css-defaults/)
- * - PHP CSS variable mappings (php/theme-css-generator.php - partial)
+ * - PHP CSS variable mappings (php/css-defaults/css-mappings-generated.php)
  * - JavaScript exclusion lists (shared/src/config/)
  * - CSS variable declarations (assets/css/)
  * - Markdown documentation (docs/)
@@ -36,6 +37,7 @@ const OUTPUT_DIRS = {
   config: path.join(ROOT_DIR, 'shared', 'src', 'config'),
   css: path.join(ROOT_DIR, 'assets', 'css'),
   docs: path.join(ROOT_DIR, 'docs'),
+  blockAttributes: path.join(ROOT_DIR, 'blocks'),
 };
 
 // Block configurations
@@ -77,6 +79,7 @@ function getGeneratedHeader(schemaFile, fileType) {
  * Get PHP auto-generated file header
  */
 function getPHPGeneratedHeader(schemaFile, description) {
+  const timestamp = getTimestamp();
   return `<?php
 /**
  * ${description}
@@ -629,6 +632,56 @@ function generateDocumentation(blockType, schema) {
   return { fileName, content };
 }
 
+/**
+ * Generate JavaScript block attributes for WordPress
+ */
+function generateBlockAttributes(blockType, schema) {
+  const fileName = `${blockType}-attributes.js`;
+  const constName = `${blockType}Attributes`;
+
+  let content = getGeneratedHeader(`${blockType}.json`, `Block Attributes for ${schema.blockName}`);
+
+  content += `/**
+ * Block Attributes for ${schema.blockName}
+ *
+ * These attributes define the block's data structure for WordPress.
+ * Auto-generated from schema - DO NOT edit manually.
+ */\n`;
+
+  content += `export const ${constName} = {\n`;
+
+  for (const [attrName, attr] of Object.entries(schema.attributes)) {
+    // Map schema types to WordPress types
+    let wpType = 'string';
+    if (attr.type === 'number') wpType = 'number';
+    else if (attr.type === 'boolean') wpType = 'boolean';
+    else if (attr.type === 'object') wpType = 'object';
+    else if (attr.type === 'array') wpType = 'array';
+
+    // Format default value for JavaScript
+    let defaultValue;
+    if (attr.default === null || attr.default === undefined) {
+      defaultValue = 'null';
+    } else if (typeof attr.default === 'string') {
+      defaultValue = `'${attr.default.replace(/'/g, "\\'")}'`;
+    } else if (typeof attr.default === 'object') {
+      defaultValue = JSON.stringify(attr.default);
+    } else {
+      defaultValue = String(attr.default);
+    }
+
+    content += `  ${attrName}: {\n`;
+    content += `    type: '${wpType}',\n`;
+    content += `    default: ${defaultValue},\n`;
+    content += `  },\n`;
+  }
+
+  content += `};\n\n`;
+  content += `export default ${constName};\n`;
+
+  return { fileName, content };
+}
+
 // ============================================================================
 // Main Compiler
 // ============================================================================
@@ -701,6 +754,17 @@ async function compile() {
         console.log(`    - validators/${fileName}`);
       } catch (error) {
         results.errors.push(`Validator generation failed for ${blockType}: ${error.message}`);
+      }
+
+      // Block attributes
+      try {
+        const { fileName, content } = generateBlockAttributes(blockType, schema);
+        const filePath = path.join(OUTPUT_DIRS.blockAttributes, blockType, 'src', fileName);
+        fs.writeFileSync(filePath, content);
+        results.files.push({ path: filePath, lines: content.split('\n').length });
+        console.log(`    - blocks/${blockType}/src/${fileName}`);
+      } catch (error) {
+        results.errors.push(`Block attributes generation failed for ${blockType}: ${error.message}`);
       }
 
       // PHP CSS defaults

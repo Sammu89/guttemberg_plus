@@ -1,54 +1,63 @@
 <?php
 /**
- * CSS Default Values
+ * CSS Default Values for Table of Contents Block
  *
- * Auto-generated from assets/css/toc.css
- * Generated: 2025-11-22T15:43:27.463Z
+ * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
+ * Generated from: schemas/toc.json
+ * Generated at: 2025-11-22T16:20:36.259Z
  *
- * DO NOT EDIT MANUALLY - Changes will be overwritten on build
+ * This file is regenerated on every build. Any manual changes will be lost.
+ * To modify this file, update the source schema and run: npm run schema:build
+ *
+ * @package GuttemberPlus
+ * @since 1.0.0
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 return array(
-  'tocWrapperBackgroundColor' => '#ffffff',
-  'tocWrapperBorderColor' => '#dddddd',
-  'tocTitleColor' => '#333333',
-  'tocTitleBackgroundColor' => 'transparent',
-  'tocTitleFontSize' => '20',
-  'tocTitleFontWeight' => '700',
-  'tocTitleAlignment' => 'left',
-  'tocTitlePadding' => '12',
-  'tocLinkColor' => '#0073aa',
-  'tocLinkHoverColor' => '#005177',
-  'tocLinkVisitedColor' => '#0073aa',
-  'tocLinkActiveColor' => '#005177',
-  'tocNumberingColor' => '#0073aa',
-  'tocLevel1FontSize' => '18',
-  'tocLevel1FontWeight' => '600',
-  'tocLevel1FontStyle' => 'normal',
-  'tocLevel1TextTransform' => 'none',
-  'tocLevel1TextDecoration' => 'none',
-  'tocLevel1Color' => '#0073aa',
-  'tocLevel2FontSize' => '16',
-  'tocLevel2FontWeight' => 'normal',
-  'tocLevel2FontStyle' => 'normal',
-  'tocLevel2TextTransform' => 'none',
-  'tocLevel2TextDecoration' => 'none',
-  'tocLevel2Color' => '#0073aa',
-  'tocLevel3PlusFontSize' => '14',
-  'tocLevel3PlusFontWeight' => 'normal',
-  'tocLevel3PlusFontStyle' => 'normal',
-  'tocLevel3PlusTextTransform' => 'none',
-  'tocLevel3PlusTextDecoration' => 'none',
-  'tocLevel3PlusColor' => '#0073aa',
-  'tocBorderWidth' => '1',
-  'tocBorderStyle' => 'solid',
-  'tocBorderRadius' => '4',
-  'tocWrapperShadow' => 'none',
-  'tocWrapperPadding' => '20',
-  'tocItemSpacing' => '8',
-  'tocLevelIndent' => '20',
-  'tocPositionTop' => '100',
-  'tocZIndex' => '100',
-  'tocCollapseIconSize' => '20',
-  'tocCollapseIconColor' => '#666666',
+  'wrapperBackgroundColor' => '#ffffff',
+  'wrapperBorderColor' => '#dddddd',
+  'titleColor' => '#333333',
+  'titleBackgroundColor' => 'transparent',
+  'linkColor' => '#0073aa',
+  'linkHoverColor' => '#005177',
+  'linkActiveColor' => '#005177',
+  'linkVisitedColor' => '#0073aa',
+  'numberingColor' => '#0073aa',
+  'level1Color' => '#0073aa',
+  'level2Color' => '#0073aa',
+  'level3PlusColor' => '#0073aa',
+  'collapseIconColor' => '#666666',
+  'titleFontSize' => '20px',
+  'titleFontWeight' => '700',
+  'titleAlignment' => 'left',
+  'level1FontSize' => '18px',
+  'level1FontWeight' => '600',
+  'level1FontStyle' => 'normal',
+  'level1TextTransform' => 'none',
+  'level1TextDecoration' => 'none',
+  'level2FontSize' => '16px',
+  'level2FontWeight' => 'normal',
+  'level2FontStyle' => 'normal',
+  'level2TextTransform' => 'none',
+  'level2TextDecoration' => 'none',
+  'level3PlusFontSize' => '14px',
+  'level3PlusFontWeight' => 'normal',
+  'level3PlusFontStyle' => 'normal',
+  'level3PlusTextTransform' => 'none',
+  'level3PlusTextDecoration' => 'none',
+  'wrapperBorderWidth' => '1px',
+  'wrapperBorderStyle' => 'solid',
+  'wrapperBorderRadius' => '4px',
+  'wrapperShadow' => 'none',
+  'wrapperPadding' => '20px',
+  'itemSpacing' => '8px',
+  'levelIndent' => '20px',
+  'positionTop' => '100px',
+  'zIndex' => '100',
+  'collapseIconSize' => '20px',
 );

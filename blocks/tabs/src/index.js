@@ -14,7 +14,7 @@ import edit from './edit';
 import save from './save';
 import { tabsAttributes } from './tabs-attributes';
 import './style.scss';
-import '../../../assets/css/tabs.css';
+import '../../../assets/css/tabs-generated.css';
 
 // Register the tab-panel child block
 import './tab-panel';
