@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-22T16:38:15.281Z
+ * Generated at: 2025-11-22T17:16:11.901Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -22,6 +22,8 @@ export const ACCORDION_EXCLUSIONS = [
   'uniqueId',
   'blockId',
   'currentTheme',
+  'customizations',
+  'customizationCache',
   // content attributes
   'title',
   'content',

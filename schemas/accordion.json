@@ -88,6 +88,24 @@
       "themeable": false,
       "reason": "structural"
     },
+    "customizations": {
+      "type": "object",
+      "default": {},
+      "group": "behavior",
+      "label": "Customizations",
+      "description": "Stores deltas from expected values (theme + defaults) for inline CSS output",
+      "themeable": false,
+      "reason": "structural"
+    },
+    "customizationCache": {
+      "type": "object",
+      "default": {},
+      "group": "behavior",
+      "label": "Customization Cache",
+      "description": "Complete snapshot for safety/restoration (deprecated - for backward compatibility)",
+      "themeable": false,
+      "reason": "structural"
+    },
     "initiallyOpen": {
       "type": "boolean",
       "default": false,
