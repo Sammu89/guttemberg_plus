@@ -27,22 +27,40 @@ export function CustomizationWarning( { currentTheme, themes = {} } ) {
 	debug( '[DEBUG] CustomizationWarning - theme object:', theme );
 	debug( '[DEBUG] CustomizationWarning - theme?.name:', theme?.name );
 	const themeName = theme?.name || currentTheme || 'Default';
+	const isDefaultTheme = themeName === 'Default' || currentTheme === '';
 	debug( '[DEBUG] CustomizationWarning - final themeName:', themeName );
+	debug( '[DEBUG] CustomizationWarning - isDefaultTheme:', isDefaultTheme );
 
 	return (
 		<Notice status="warning" isDismissible={ false } style={ { marginTop: '50px', marginBottom: '50px' } }>
 			<p>
 				<strong>Note:</strong> This block has custom modifications.
 			</p>
-			<p>
-				You're currently using <strong>{ themeName }</strong> with changes applied specifically to this block. If you update <strong>{ themeName }</strong>, any parts of the theme that aren't overridden by your customizations will change accordingly.
-			</p>
-			<p>
-				To keep your customizations permanently and reuse them across multiple blocks, use <strong>Save as New Theme</strong> or <strong>Update Theme</strong>.
-			</p>
-			<p>
-				To remove all changes and return to the original <strong>{ themeName }</strong> settings, use <strong>Reset Modifications</strong>.
-			</p>
+			{ isDefaultTheme ? (
+				<>
+					<p>
+						<strong>Default</strong> theme cannot be changed.
+					</p>
+					<p>
+						To keep your customizations permanently and reuse them across multiple blocks, use <strong>Save as New Theme</strong>.
+					</p>
+					<p>
+						To remove all changes and return to the original <strong>Default</strong> settings, use <strong>Reset Modifications</strong>.
+					</p>
+				</>
+			) : (
+				<>
+					<p>
+						You're currently using <strong>{ themeName }</strong> with changes applied specifically to this block. If you update <strong>{ themeName }</strong>, any parts of the theme that aren't overridden by your customizations will change accordingly.
+					</p>
+					<p>
+						To keep your customizations permanently and reuse them across multiple blocks, use <strong>Save as New Theme</strong> or <strong>Update Theme</strong>.
+					</p>
+					<p>
+						To remove all changes and return to the original <strong>{ themeName }</strong> settings, use <strong>Reset Modifications</strong>.
+					</p>
+				</>
+			) }
 		</Notice>
 	);
 }

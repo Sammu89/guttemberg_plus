@@ -25,6 +25,9 @@ const ACCORDION_EXCLUSIONS = [
 	// Behavioral settings (not themeable - per-block only)
 	'initiallyOpen',
 	'allowMultipleOpen',
+	// Block layout settings (not themeable - per-block only)
+	'accordionWidth',
+	'accordionHorizontalAlign',
 ];
 
 /**

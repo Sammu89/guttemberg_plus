@@ -126,7 +126,7 @@ export default function Save( { attributes } ) {
 	};
 
 	// Build class names - add theme class if using a theme
-	const classNames = [ 'wp-block-tabs' ];
+	const classNames = [ 'wp-block-tabs', 'sammu-blocks' ];
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );

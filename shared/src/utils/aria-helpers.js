@@ -20,7 +20,6 @@
  * @example
  * getAccordionButtonAria('acc-a7b3', true)
  * // Returns: {
- * //   role: 'button',
  * //   'aria-expanded': 'true',
  * //   'aria-controls': 'acc-a7b3-content',
  * //   id: 'acc-a7b3-header'
@@ -28,7 +27,6 @@
  */
 export function getAccordionButtonAria( id, isOpen ) {
 	return {
-		role: 'button',
 		'aria-expanded': isOpen ? 'true' : 'false',
 		'aria-controls': `${ id }-content`,
 		id: `${ id }-header`,
