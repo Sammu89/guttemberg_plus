@@ -1,0 +1,699 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Accordion Block Theme Configuration",
+  "version": "1.0.0",
+  "description": "Complete theme and appearance configuration for Accordion blocks",
+  "blockType": "accordion",
+  "blockName": "Accordion",
+
+  "groups": {
+    "colors": {
+      "title": "Colors",
+      "description": "Text and background colors for title, content, and states"
+    },
+    "typography": {
+      "title": "Typography",
+      "description": "Font settings for title and content"
+    },
+    "borders": {
+      "title": "Borders",
+      "description": "Border styles, widths, radius, and shadow"
+    },
+    "layout": {
+      "title": "Layout",
+      "description": "Spacing, padding, and sizing"
+    },
+    "icons": {
+      "title": "Icons",
+      "description": "Icon appearance and behavior"
+    },
+    "behavior": {
+      "title": "Behavior",
+      "description": "Non-themeable behavioral and structural settings"
+    }
+  },
+
+  "attributes": {
+    "accordionId": {
+      "type": "string",
+      "default": "",
+      "group": "behavior",
+      "label": "Accordion ID",
+      "description": "Unique identifier for the accordion block",
+      "themeable": false,
+      "reason": "structural"
+    },
+    "uniqueId": {
+      "type": "string",
+      "default": "",
+      "group": "behavior",
+      "label": "Unique ID",
+      "description": "Auto-generated unique block identifier",
+      "themeable": false,
+      "reason": "structural"
+    },
+    "blockId": {
+      "type": "string",
+      "default": "",
+      "group": "behavior",
+      "label": "Block ID",
+      "description": "Block-specific identification",
+      "themeable": false,
+      "reason": "structural"
+    },
+    "title": {
+      "type": "string",
+      "default": "Accordion Title",
+      "group": "behavior",
+      "label": "Title",
+      "description": "The accordion title text",
+      "themeable": false,
+      "reason": "content"
+    },
+    "content": {
+      "type": "string",
+      "default": "",
+      "group": "behavior",
+      "label": "Content",
+      "description": "The accordion content (rich text)",
+      "themeable": false,
+      "reason": "content"
+    },
+    "currentTheme": {
+      "type": "string",
+      "default": "",
+      "group": "behavior",
+      "label": "Current Theme",
+      "description": "Currently active theme name (empty = Default)",
+      "themeable": false,
+      "reason": "structural"
+    },
+    "initiallyOpen": {
+      "type": "boolean",
+      "default": false,
+      "group": "behavior",
+      "label": "Initially Open",
+      "description": "Whether accordion is open on page load",
+      "themeable": false,
+      "reason": "behavioral"
+    },
+    "allowMultipleOpen": {
+      "type": "boolean",
+      "default": false,
+      "group": "behavior",
+      "label": "Allow Multiple Open",
+      "description": "Allow multiple accordions to be open simultaneously",
+      "themeable": false,
+      "reason": "behavioral"
+    },
+    "accordionWidth": {
+      "type": "string",
+      "default": "100%",
+      "group": "behavior",
+      "label": "Width",
+      "description": "Accordion container width",
+      "themeable": false,
+      "reason": "behavioral"
+    },
+    "accordionHorizontalAlign": {
+      "type": "string",
+      "default": "left",
+      "group": "behavior",
+      "label": "Horizontal Alignment",
+      "description": "Horizontal alignment of the accordion",
+      "themeable": false,
+      "reason": "behavioral"
+    },
+    "headingLevel": {
+      "type": "string",
+      "default": "none",
+      "group": "behavior",
+      "label": "Heading Level",
+      "description": "Semantic HTML heading level (none, h1-h6)",
+      "themeable": false,
+      "reason": "behavioral",
+      "options": ["none", "h1", "h2", "h3", "h4", "h5", "h6"]
+    },
+    "useHeadingStyles": {
+      "type": "boolean",
+      "default": false,
+      "group": "behavior",
+      "label": "Use Heading Styles",
+      "description": "Apply default heading styles to title",
+      "themeable": false,
+      "reason": "behavioral"
+    },
+
+    "titleColor": {
+      "type": "string",
+      "default": "#333333",
+      "cssVar": "accordion-title-color",
+      "cssDefault": "--accordion-title-color: #333333;",
+      "group": "colors",
+      "label": "Title Color",
+      "description": "Text color for the accordion title",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "titleBackgroundColor": {
+      "type": "string",
+      "default": "#f5f5f5",
+      "cssVar": "accordion-title-bg",
+      "cssDefault": "--accordion-title-bg: #f5f5f5;",
+      "group": "colors",
+      "label": "Title Background",
+      "description": "Background color for the accordion title",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "hoverTitleColor": {
+      "type": "string",
+      "default": "#000000",
+      "cssVar": "accordion-title-hover-color",
+      "cssDefault": "--accordion-title-hover-color: #000000;",
+      "group": "colors",
+      "label": "Title Hover Color",
+      "description": "Text color when hovering over title",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "hoverTitleBackgroundColor": {
+      "type": "string",
+      "default": "#e8e8e8",
+      "cssVar": "accordion-title-hover-bg",
+      "cssDefault": "--accordion-title-hover-bg: #e8e8e8;",
+      "group": "colors",
+      "label": "Title Hover Background",
+      "description": "Background color when hovering over title",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "activeTitleColor": {
+      "type": "string",
+      "default": "#000000",
+      "cssVar": "accordion-title-active-color",
+      "cssDefault": "--accordion-title-active-color: #000000;",
+      "group": "colors",
+      "label": "Title Active Color",
+      "description": "Text color when accordion is open",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "activeTitleBackgroundColor": {
+      "type": "string",
+      "default": "#e0e0e0",
+      "cssVar": "accordion-title-active-bg",
+      "cssDefault": "--accordion-title-active-bg: #e0e0e0;",
+      "group": "colors",
+      "label": "Title Active Background",
+      "description": "Background color when accordion is open",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "contentColor": {
+      "type": "string",
+      "default": "#333333",
+      "cssVar": "accordion-content-color",
+      "cssDefault": "--accordion-content-color: #333333;",
+      "group": "colors",
+      "label": "Content Color",
+      "description": "Text color for accordion content",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "contentBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff",
+      "cssVar": "accordion-content-bg",
+      "cssDefault": "--accordion-content-bg: #ffffff;",
+      "group": "colors",
+      "label": "Content Background",
+      "description": "Background color for accordion content",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "borderColor": {
+      "type": "string",
+      "default": "#dddddd",
+      "cssVar": "accordion-border-color",
+      "cssDefault": "--accordion-border-color: #dddddd;",
+      "group": "colors",
+      "label": "Border Color",
+      "description": "Color of the accordion border",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "accordionBorderColor": {
+      "type": "string",
+      "default": "#dddddd",
+      "cssVar": "accordion-border-color",
+      "cssDefault": "--accordion-border-color: #dddddd;",
+      "group": "colors",
+      "label": "Accordion Border Color",
+      "description": "Color of the accordion border (alias)",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "dividerBorderColor": {
+      "type": "string",
+      "default": "transparent",
+      "cssVar": "accordion-divider-color",
+      "cssDefault": "--accordion-divider-color: transparent;",
+      "group": "colors",
+      "label": "Divider Color",
+      "description": "Color of divider between title and content",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+    "iconColor": {
+      "type": "string",
+      "default": "#666666",
+      "cssVar": "accordion-icon-color",
+      "cssDefault": "--accordion-icon-color: #666666;",
+      "group": "icons",
+      "label": "Icon Color",
+      "description": "Color of the expand/collapse icon",
+      "themeable": true,
+      "control": "ColorPicker"
+    },
+
+    "titleFontSize": {
+      "type": "number",
+      "default": 18,
+      "cssVar": "accordion-title-font-size",
+      "cssDefault": "--accordion-title-font-size: 18px;",
+      "group": "typography",
+      "label": "Title Font Size",
+      "description": "Font size for the title in pixels",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 10,
+      "max": 48,
+      "unit": "px"
+    },
+    "titleFontWeight": {
+      "type": "string",
+      "default": "600",
+      "cssVar": "accordion-title-font-weight",
+      "cssDefault": "--accordion-title-font-weight: 600;",
+      "group": "typography",
+      "label": "Title Font Weight",
+      "description": "Font weight for the title",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["100", "200", "300", "400", "500", "600", "700", "800", "900", "normal", "bold"]
+    },
+    "titleFontFamily": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-title-font-family",
+      "cssDefault": "",
+      "group": "typography",
+      "label": "Title Font Family",
+      "description": "Font family for the title",
+      "themeable": true,
+      "control": "FontFamilyControl"
+    },
+    "titleLineHeight": {
+      "type": "number",
+      "default": null,
+      "cssVar": "accordion-title-line-height",
+      "cssDefault": "",
+      "group": "typography",
+      "label": "Title Line Height",
+      "description": "Line height for the title",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 1,
+      "max": 3,
+      "step": 0.1
+    },
+    "titleFontStyle": {
+      "type": "string",
+      "default": "normal",
+      "cssVar": "accordion-title-font-style",
+      "cssDefault": "--accordion-title-font-style: normal;",
+      "group": "typography",
+      "label": "Title Font Style",
+      "description": "Font style for the title",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["normal", "italic", "oblique"]
+    },
+    "titleTextTransform": {
+      "type": "string",
+      "default": "none",
+      "cssVar": "accordion-title-text-transform",
+      "cssDefault": "--accordion-title-text-transform: none;",
+      "group": "typography",
+      "label": "Title Text Transform",
+      "description": "Text transformation for the title",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["none", "uppercase", "lowercase", "capitalize"]
+    },
+    "titleTextDecoration": {
+      "type": "string",
+      "default": "none",
+      "cssVar": "accordion-title-text-decoration",
+      "cssDefault": "--accordion-title-text-decoration: none;",
+      "group": "typography",
+      "label": "Title Text Decoration",
+      "description": "Text decoration for the title",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["none", "underline", "overline", "line-through"]
+    },
+    "titleAlignment": {
+      "type": "string",
+      "default": "left",
+      "cssVar": "accordion-title-alignment",
+      "cssDefault": "--accordion-title-alignment: left;",
+      "group": "typography",
+      "label": "Title Alignment",
+      "description": "Text alignment for the title",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["left", "center", "right"]
+    },
+    "contentFontSize": {
+      "type": "number",
+      "default": 16,
+      "cssVar": "accordion-content-font-size",
+      "cssDefault": "--accordion-content-font-size: 16px;",
+      "group": "typography",
+      "label": "Content Font Size",
+      "description": "Font size for content in pixels",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 10,
+      "max": 36,
+      "unit": "px"
+    },
+    "contentFontWeight": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-content-font-weight",
+      "cssDefault": "",
+      "group": "typography",
+      "label": "Content Font Weight",
+      "description": "Font weight for content",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["100", "200", "300", "400", "500", "600", "700", "800", "900", "normal", "bold"]
+    },
+    "contentFontFamily": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-content-font-family",
+      "cssDefault": "",
+      "group": "typography",
+      "label": "Content Font Family",
+      "description": "Font family for content",
+      "themeable": true,
+      "control": "FontFamilyControl"
+    },
+    "contentLineHeight": {
+      "type": "number",
+      "default": 1.6,
+      "cssVar": "accordion-content-line-height",
+      "cssDefault": "--accordion-content-line-height: 1.6;",
+      "group": "typography",
+      "label": "Content Line Height",
+      "description": "Line height for content",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 1,
+      "max": 3,
+      "step": 0.1
+    },
+    "contentFontStyle": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-content-font-style",
+      "cssDefault": "",
+      "group": "typography",
+      "label": "Content Font Style",
+      "description": "Font style for content",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["normal", "italic", "oblique"]
+    },
+    "contentTextTransform": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-content-text-transform",
+      "cssDefault": "",
+      "group": "typography",
+      "label": "Content Text Transform",
+      "description": "Text transformation for content",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["none", "uppercase", "lowercase", "capitalize"]
+    },
+    "contentTextDecoration": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-content-text-decoration",
+      "cssDefault": "",
+      "group": "typography",
+      "label": "Content Text Decoration",
+      "description": "Text decoration for content",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["none", "underline", "overline", "line-through"]
+    },
+
+    "accordionBorderThickness": {
+      "type": "number",
+      "default": 1,
+      "cssVar": "accordion-border-width",
+      "cssDefault": "--accordion-border-width: 1px;",
+      "group": "borders",
+      "label": "Border Width",
+      "description": "Thickness of the accordion border in pixels",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0,
+      "max": 10,
+      "unit": "px"
+    },
+    "accordionBorderStyle": {
+      "type": "string",
+      "default": "solid",
+      "cssVar": "accordion-border-style",
+      "cssDefault": "--accordion-border-style: solid;",
+      "group": "borders",
+      "label": "Border Style",
+      "description": "Style of the accordion border",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["none", "solid", "dashed", "dotted", "double", "groove", "ridge", "inset", "outset", "hidden"]
+    },
+    "accordionBorderRadius": {
+      "type": "object",
+      "default": {
+        "topLeft": 4,
+        "topRight": 4,
+        "bottomRight": 4,
+        "bottomLeft": 4
+      },
+      "cssVar": "accordion-border-radius",
+      "cssDefault": "--accordion-border-radius: 4px;",
+      "group": "borders",
+      "label": "Border Radius",
+      "description": "Corner radius of the accordion",
+      "themeable": true,
+      "control": "BorderRadiusControl",
+      "unit": "px"
+    },
+    "borderWidth": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-border-width",
+      "cssDefault": "",
+      "group": "borders",
+      "label": "Border Width (Generic)",
+      "description": "Generic border width",
+      "themeable": true,
+      "control": "TextControl"
+    },
+    "borderRadius": {
+      "type": "string",
+      "default": null,
+      "cssVar": "accordion-border-radius",
+      "cssDefault": "",
+      "group": "borders",
+      "label": "Border Radius (Generic)",
+      "description": "Generic border radius",
+      "themeable": true,
+      "control": "TextControl"
+    },
+    "accordionShadow": {
+      "type": "string",
+      "default": "none",
+      "cssVar": "accordion-shadow",
+      "cssDefault": "--accordion-shadow: none;",
+      "group": "borders",
+      "label": "Box Shadow",
+      "description": "CSS box-shadow for the accordion",
+      "themeable": true,
+      "control": "TextControl"
+    },
+    "dividerBorderThickness": {
+      "type": "number",
+      "default": 0,
+      "cssVar": "accordion-divider-width",
+      "cssDefault": "--accordion-divider-width: 0;",
+      "group": "borders",
+      "label": "Divider Width",
+      "description": "Thickness of divider between title and content",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0,
+      "max": 10,
+      "unit": "px"
+    },
+    "dividerBorderStyle": {
+      "type": "string",
+      "default": "solid",
+      "cssVar": "accordion-divider-style",
+      "cssDefault": "--accordion-divider-style: solid;",
+      "group": "borders",
+      "label": "Divider Style",
+      "description": "Style of divider between title and content",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["none", "solid", "dashed", "dotted", "double", "groove", "ridge", "inset", "outset", "hidden"]
+    },
+
+    "titlePadding": {
+      "type": "object",
+      "default": {
+        "top": 16,
+        "right": 16,
+        "bottom": 16,
+        "left": 16
+      },
+      "cssVar": "accordion-title-padding",
+      "cssDefault": "--accordion-title-padding: 16px;",
+      "group": "layout",
+      "label": "Title Padding",
+      "description": "Padding inside the title area",
+      "themeable": true,
+      "control": "SpacingControl",
+      "unit": "px"
+    },
+    "contentPadding": {
+      "type": "object",
+      "default": {
+        "top": 16,
+        "right": 16,
+        "bottom": 16,
+        "left": 16
+      },
+      "cssVar": "accordion-content-padding",
+      "cssDefault": "--accordion-content-padding: 16px;",
+      "group": "layout",
+      "label": "Content Padding",
+      "description": "Padding inside the content area",
+      "themeable": true,
+      "control": "SpacingControl",
+      "unit": "px"
+    },
+    "accordionMarginBottom": {
+      "type": "number",
+      "default": 8,
+      "cssVar": "accordion-margin-bottom",
+      "cssDefault": "--accordion-margin-bottom: 8px;",
+      "group": "layout",
+      "label": "Margin Bottom",
+      "description": "Space between accordion blocks",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0,
+      "max": 50,
+      "unit": "px"
+    },
+    "itemSpacing": {
+      "type": "number",
+      "default": null,
+      "cssVar": "accordion-item-spacing",
+      "cssDefault": "",
+      "group": "layout",
+      "label": "Item Spacing",
+      "description": "Spacing between items",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0,
+      "max": 50,
+      "unit": "px"
+    },
+
+    "showIcon": {
+      "type": "boolean",
+      "default": true,
+      "group": "icons",
+      "label": "Show Icon",
+      "description": "Display expand/collapse icon",
+      "themeable": true,
+      "control": "ToggleControl"
+    },
+    "iconPosition": {
+      "type": "string",
+      "default": "right",
+      "group": "icons",
+      "label": "Icon Position",
+      "description": "Position of icon relative to title",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": ["left", "right", "extreme-left", "extreme-right"]
+    },
+    "iconSize": {
+      "type": "number",
+      "default": 20,
+      "cssVar": "accordion-icon-size",
+      "cssDefault": "--accordion-icon-size: 20px;",
+      "group": "icons",
+      "label": "Icon Size",
+      "description": "Size of the icon in pixels",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 10,
+      "max": 48,
+      "unit": "px"
+    },
+    "iconTypeClosed": {
+      "type": "string",
+      "default": "\u25be",
+      "group": "icons",
+      "label": "Closed Icon",
+      "description": "Icon when accordion is closed",
+      "themeable": true,
+      "control": "IconPicker"
+    },
+    "iconTypeOpen": {
+      "type": "string",
+      "default": "none",
+      "group": "icons",
+      "label": "Open Icon",
+      "description": "Icon when accordion is open (none = use just iconTypeClosed with rotation)",
+      "themeable": true,
+      "control": "IconPicker"
+    },
+    "iconRotation": {
+      "type": "number",
+      "default": 180,
+      "cssVar": "accordion-icon-rotation",
+      "cssDefault": "--accordion-icon-rotation: 180deg;",
+      "group": "icons",
+      "label": "Icon Rotation",
+      "description": "Rotation angle when open (degrees)",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0,
+      "max": 360,
+      "unit": "deg"
+    }
+  }
+}

@@ -43,7 +43,22 @@
       "WebFetch(domain:dev.to)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:developer.wordpress.org)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(for file in schemas/*.json)",
+      "Bash(do echo \"=== Validating $file ===\")",
+      "Bash(python3:*)",
+      "Bash(done)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(npm run schema:validate:*)",
+      "Bash(npm run schema:build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(/usr/bin/php:*)",
+      "Bash(npx acorn:*)",
+      "Bash(PHP_BIN=\"/opt/Local/resources/extraResources/lightning-services/php-8.2.27+1/bin/linux/bin/php\")",
+      "Bash($PHP_BIN -l php/css-defaults/accordion.php)",
+      "Bash($PHP_BIN -l php/css-defaults/tabs.php)",
+      "Bash($PHP_BIN -l php/css-defaults/toc.php)",
+      "Bash($PHP_BIN -l php/css-defaults/css-mappings-generated.php)"
     ],
     "deny": [],
     "ask": []

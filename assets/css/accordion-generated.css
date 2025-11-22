@@ -1,0 +1,44 @@
+/**
+ * CSS Variables for Accordion Block
+ *
+ * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
+ * Generated from: schemas/accordion.json
+ * Generated at: 2025-11-22T15:43:23.191Z
+ *
+ * This file defines CSS custom properties (variables) with default values.
+ * These can be overridden by themes via class selectors.
+ */
+
+:root {
+  --accordion-title-color: #333333;
+  --accordion-title-bg: #f5f5f5;
+  --accordion-title-hover-color: #000000;
+  --accordion-title-hover-bg: #e8e8e8;
+  --accordion-title-active-color: #000000;
+  --accordion-title-active-bg: #e0e0e0;
+  --accordion-content-color: #333333;
+  --accordion-content-bg: #ffffff;
+  --accordion-border-color: #dddddd;
+  --accordion-border-color: #dddddd;
+  --accordion-divider-color: transparent;
+  --accordion-icon-color: #666666;
+  --accordion-title-font-size: 18px;
+  --accordion-title-font-weight: 600;
+  --accordion-title-font-style: normal;
+  --accordion-title-text-transform: none;
+  --accordion-title-text-decoration: none;
+  --accordion-title-alignment: left;
+  --accordion-content-font-size: 16px;
+  --accordion-content-line-height: 1.6;
+  --accordion-border-width: 1px;
+  --accordion-border-style: solid;
+  --accordion-border-radius: 4px;
+  --accordion-shadow: none;
+  --accordion-divider-width: 0;
+  --accordion-divider-style: solid;
+  --accordion-title-padding: 16px;
+  --accordion-content-padding: 16px;
+  --accordion-margin-bottom: 8px;
+  --accordion-icon-size: 20px;
+  --accordion-icon-rotation: 180deg;
+}
