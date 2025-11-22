@@ -12,7 +12,7 @@
 import { PanelBody, RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { normalizeValueForControl } from '../theme-system/control-normalizer';
-import { getControlConfig, getNumericControlDefault } from '../config/control-config-generated';
+import { getControlConfig, getNumericControlDefault, getNumericDefault } from '../config/control-config-generated';
 import { CompactColorControl } from './CompactColorControl';
 
 /**
@@ -150,7 +150,11 @@ export function BorderPanel( {
 
 			<RangeControl
 				label={ <CustomLabel label="Thickness (px)" attrName={ borderAttrs.thickness } /> }
-				value={ effectiveValues[ borderAttrs.thickness ] ?? getNumericControlDefault( blockType, borderAttrs.thickness ) ?? 1 }
+				value={
+					typeof effectiveValues[ borderAttrs.thickness ] === 'string'
+						? getNumericDefault( effectiveValues[ borderAttrs.thickness ] )
+						: effectiveValues[ borderAttrs.thickness ] ?? getNumericControlDefault( blockType, borderAttrs.thickness ) ?? 1
+				}
 				onChange={ ( value ) => handleChange( borderAttrs.thickness, value ) }
 				min={ getControlConfig( blockType, borderAttrs.thickness ).min ?? 0 }
 				max={ getControlConfig( blockType, borderAttrs.thickness ).max ?? 10 }
@@ -272,9 +276,14 @@ export function BorderPanel( {
 							/>
 						}
 						value={
-							effectiveValues[
-								blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness'
-							] ?? getNumericControlDefault( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ) ?? 0
+							( () => {
+								const dividerValue = effectiveValues[
+									blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness'
+								];
+								return typeof dividerValue === 'string'
+									? getNumericDefault( dividerValue )
+									: dividerValue ?? getNumericControlDefault( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ) ?? 0;
+							} )()
 						}
 						onChange={ ( value ) =>
 							handleChange(

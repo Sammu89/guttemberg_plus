@@ -18,7 +18,7 @@ import {
 } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { normalizeValueForControl } from '../theme-system/control-normalizer';
-import { getControlConfig, getNumericControlDefault } from '../config/control-config-generated';
+import { getControlConfig, getNumericControlDefault, getNumericDefault } from '../config/control-config-generated';
 import { CompactColorControl } from './CompactColorControl';
 
 /**
@@ -120,7 +120,11 @@ export function IconPanel( {
 						label={
 							<CustomLabel label="Rotation (degrees)" attrName="iconRotation" />
 						}
-						value={ effectiveValues.iconRotation ?? getNumericControlDefault( blockType, 'iconRotation' ) ?? 180 }
+						value={
+						typeof effectiveValues.iconRotation === 'string'
+							? getNumericDefault( effectiveValues.iconRotation )
+							: effectiveValues.iconRotation ?? getNumericControlDefault( blockType, 'iconRotation' ) ?? 180
+					}
 						onChange={ ( value ) => handleChange( 'iconRotation', value ) }
 						min={ getControlConfig( blockType, 'iconRotation' ).min ?? -360 }
 						max={ getControlConfig( blockType, 'iconRotation' ).max ?? 360 }
@@ -155,7 +159,11 @@ export function IconPanel( {
 
 					<RangeControl
 						label={ <CustomLabel label="Icon Size (px)" attrName="iconSize" /> }
-						value={ effectiveValues.iconSize ?? getNumericControlDefault( blockType, 'iconSize' ) ?? effectiveValues.titleFontSize ?? 16 }
+						value={
+						typeof effectiveValues.iconSize === 'string'
+							? getNumericDefault( effectiveValues.iconSize )
+							: effectiveValues.iconSize ?? getNumericControlDefault( blockType, 'iconSize' ) ?? effectiveValues.titleFontSize ?? 16
+					}
 						onChange={ ( value ) => handleChange( 'iconSize', value ) }
 						min={ getControlConfig( blockType, 'iconSize' ).min ?? 12 }
 						max={ getControlConfig( blockType, 'iconSize' ).max ?? 48 }
