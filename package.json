@@ -21,7 +21,11 @@
     "url": "https://github.com/yourusername/guttemberg-plus/issues"
   },
   "scripts": {
+    "schema:validate": "node build-tools/schema-validator.js",
+    "schema:build": "node build-tools/schema-compiler.js",
+    "prebuild": "npm run schema:build",
     "build": "wp-scripts build",
+    "prestart": "npm run schema:build",
     "start": "wp-scripts start",
     "lint:js": "wp-scripts lint-js",
     "lint:css": "wp-scripts lint-style",

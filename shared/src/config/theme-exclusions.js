@@ -5,77 +5,17 @@
  * These are typically structural identifiers, meta attributes, or behavioral
  * settings that should not be considered when determining if a block is customized.
  *
+ * NOTE: Accordion exclusions are now imported from the generated file.
+ * Tabs and TOC will be migrated in future phases.
+ *
  * @package
  * @since 1.0.0
  */
 
-/**
- * Accordion block exclusions
- * Attributes excluded from theme customization checks
- */
-const ACCORDION_EXCLUSIONS = [
-	// Structural identifiers (not themeable)
-	'accordionId',
-	'uniqueId',
-	'blockId',
-	'title',
-	'content',
-	// Meta attributes (not themeable)
-	'currentTheme',
-	// Behavioral settings (not themeable - per-block only)
-	'initiallyOpen',
-	'allowMultipleOpen',
-	// Block layout settings (not themeable - per-block only)
-	'accordionWidth',
-	'accordionHorizontalAlign',
-];
-
-/**
- * Tabs block exclusions
- * Attributes excluded from theme customization checks
- */
-const TABS_EXCLUSIONS = [
-	// Structural identifiers (not themeable)
-	'tabs',
-	'uniqueId',
-	'blockId',
-	// Meta attributes (not themeable)
-	'currentTheme',
-	// Behavioral settings (not themeable - per-block only)
-	'orientation',
-	'activationMode',
-	'currentTab',
-	'responsiveBreakpoint',
-	'enableResponsiveFallback',
-];
-
-/**
- * TOC block exclusions
- * Attributes excluded from theme customization checks
- */
-const TOC_EXCLUSIONS = [
-	'tocId',
-	'showTitle',
-	'titleText',
-	'currentTheme',
-	'includeH2',
-	'includeH3',
-	'includeH4',
-	'includeH5',
-	'includeH6',
-	'scrollBehavior',
-	'scrollOffset',
-	'filterMode',
-	'includeLevels',
-	'includeClasses',
-	'excludeLevels',
-	'excludeClasses',
-	'depthLimit',
-	'numberingStyle',
-	'isCollapsible',
-	'initiallyCollapsed',
-	'clickBehavior',
-];
+// Import exclusions from generated files
+import { ACCORDION_EXCLUSIONS } from './accordion-exclusions.js';
+import { TABS_EXCLUSIONS } from './tabs-exclusions.js';
+import { TOC_EXCLUSIONS } from './toc-exclusions.js';
 
 /**
  * Get exclusions for a specific block type
