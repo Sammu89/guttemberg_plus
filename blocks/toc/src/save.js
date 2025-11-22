@@ -74,7 +74,7 @@ export default function save( { attributes } ) {
 	};
 
 	// Build class names - add theme class if using a theme
-	const classNames = [ 'wp-block-custom-toc', `toc-position-${ positionType }` ];
+	const classNames = [ 'wp-block-custom-toc', 'sammu-blocks', `toc-position-${ positionType }` ];
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );

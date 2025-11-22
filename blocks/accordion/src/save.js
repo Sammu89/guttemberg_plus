@@ -32,8 +32,6 @@ export default function Save( { attributes } ) {
 	);
 
 	const accordionId = attributes.accordionId || '';
-	const buttonId = `${ accordionId }-btn`;
-	const panelId = `${ accordionId }-panel`;
 
 	/**
 	 * Build inline CSS variables ONLY for explicit customizations (Tier 3)
@@ -43,10 +41,26 @@ export default function Save( { attributes } ) {
 	const getCustomizationStyles = () => {
 		const styles = {};
 
-		// Helper to add style if attribute is explicitly defined
+		// Get the current theme's values to determine what's truly customized
+		// If a value matches the theme, don't output it inline
+		const currentTheme = attributes.currentTheme || '';
+		const themeValues = window.accordionThemes ? window.accordionThemes[ currentTheme ] : {};
+
+		// Helper to add style if attribute is explicitly defined AND differs from theme
 		const addIfDefined = ( attrName, cssVar, formatter ) => {
 			if ( attributes[ attrName ] !== null && attributes[ attrName ] !== undefined ) {
 				const value = formatter ? formatter( attributes[ attrName ] ) : attributes[ attrName ];
+
+				// Check if this value is part of current theme
+				// If it matches the theme value, don't output inline (let theme CSS handle it)
+				if ( currentTheme && themeValues[ attrName ] !== undefined ) {
+					const themeValue = formatter ? formatter( themeValues[ attrName ] ) : themeValues[ attrName ];
+					if ( value === themeValue ) {
+						return; // Skip - this is a theme value, not a customization
+					}
+				}
+
+				// Only output if it's a true customization (different from theme)
 				styles[ cssVar ] = value;
 			}
 		};
@@ -75,31 +89,33 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'accordionBorderThickness', '--accordion-border-width', ( val ) => `${ val }px` );
 		addIfDefined( 'dividerBorderThickness', '--accordion-divider-width', ( val ) => `${ val }px` );
 		addIfDefined( 'iconSize', '--accordion-icon-size', ( val ) => `${ val }px` );
-		addIfDefined( 'iconRotation', '--accordion-icon-rotation', ( val ) => `${ val }deg` );
+
+		// Icon rotation - only output if different from default (180deg)
+		if ( attributes.iconRotation !== null && attributes.iconRotation !== undefined && attributes.iconRotation !== 180 ) {
+			styles[ '--accordion-icon-rotation' ] = `${ attributes.iconRotation }deg`;
+		}
 
 		// Object values (border radius)
 		if ( attributes.accordionBorderRadius ) {
 			const br = attributes.accordionBorderRadius;
-			styles[ '--accordion-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
-		}
+			const brValue = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
 
-		// Width and alignment (non-CSS variable values as inline styles)
-		if ( attributes.accordionWidth ) {
-			styles.width = attributes.accordionWidth;
-		}
-
-		// Handle horizontal alignment
-		if ( attributes.accordionHorizontalAlign ) {
-			const alignment = attributes.accordionHorizontalAlign;
-			if ( alignment === 'center' ) {
-				styles.margin = '0 auto';
-			} else if ( alignment === 'right' ) {
-				styles.marginLeft = 'auto';
-				styles.marginRight = 0;
-			} else {
-				// left alignment
-				styles.marginRight = 'auto';
+			// Check if this matches the theme value (don't output inline if it does)
+			if ( currentTheme && themeValues.accordionBorderRadius !== undefined ) {
+				const themeBr = themeValues.accordionBorderRadius;
+				const themeBrValue = `${ themeBr.topLeft }px ${ themeBr.topRight }px ${ themeBr.bottomRight }px ${ themeBr.bottomLeft }px`;
+				if ( brValue === themeBrValue ) {
+					return styles; // Skip - this is a theme value, not a customization
+				}
 			}
+
+			styles[ '--accordion-border-radius' ] = brValue;
+		}
+
+		// Width (non-CSS variable value as inline style)
+		// Only output if width is not the default 100%
+		if ( attributes.accordionWidth && attributes.accordionWidth !== '100%' ) {
+			styles.width = attributes.accordionWidth;
 		}
 
 		return styles;
@@ -154,8 +170,7 @@ export default function Save( { attributes } ) {
 
 		// ARIA attributes for button
 		const buttonAria = getAccordionButtonAria(
-			buttonId,
-			panelId,
+			accordionId,
 			attributes.initiallyOpen || false
 		);
 
@@ -232,20 +247,26 @@ export default function Save( { attributes } ) {
 	};
 
 	// ARIA attributes for panel
-	const panelAria = getAccordionPanelAria( panelId, buttonId );
+	const panelAria = getAccordionPanelAria( accordionId );
 
 	// Build class names - add theme class if using a theme
-	const classNames = [ 'wp-block-accordion' ];
+	const classNames = [ 'wp-block-accordion', 'sammu-blocks' ];
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );
 		classNames.push( `accordion-theme-${ safeThemeId }` );
 	}
 
+	// Add alignment class
+	const alignmentClass = attributes.accordionHorizontalAlign
+		? `sammu-blocks-align-${ attributes.accordionHorizontalAlign }`
+		: 'sammu-blocks-align-left';
+	classNames.push( alignmentClass );
+
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
 		'data-accordion-id': accordionId,
-		// Only add inline styles if there are customizations
+		// Add customization styles (colors, etc.) - alignment is now handled by CSS classes
 		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
 	} );
 

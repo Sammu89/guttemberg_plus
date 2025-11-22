@@ -16,7 +16,11 @@
 		"align": ["wide", "full"],
 		"anchor": true,
 		"className": true,
-		"customClassName": true
+		"customClassName": true,
+		"spacing": {
+			"margin": true,
+			"padding": false
+		}
 	},
 	"attributes": {
 		"accordionId": {
@@ -136,6 +140,13 @@
 		},
 		"hoverTitleColor": {
 			"type": "string"
+		},
+		"accordionWidth": {
+			"type": "string"
+		},
+		"accordionHorizontalAlign": {
+			"type": "string",
+			"default": "left"
 		}
 	},
 	"providesContext": {},

@@ -42,7 +42,8 @@
       "WebFetch(domain:www.w3.org)",
       "WebFetch(domain:dev.to)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:developer.wordpress.org)"
+      "WebFetch(domain:developer.wordpress.org)",
+      "Bash(xargs:*)"
     ],
     "deny": [],
     "ask": []

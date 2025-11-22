@@ -39,6 +39,7 @@ import {
 	debug,
 	TABS_EXCLUSIONS,
 } from '@shared';
+import './editor.scss';
 
 /**
  * Tabs Edit Component
@@ -581,7 +582,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	};
 
 	const blockProps = useBlockProps( {
-		className: 'wp-block-tabs',
+		className: 'wp-block-tabs sammu-blocks',
 	} );
 
 	return (

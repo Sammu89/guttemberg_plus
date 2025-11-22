@@ -160,7 +160,7 @@ export function ThemeSelector( {
 					onClick={ () => setShowCreateModal( true ) }
 					disabled={ ! isCustomized }
 				>
-					Save New
+					Save as New Theme
 				</Button>
 
 				<Button
@@ -169,7 +169,7 @@ export function ThemeSelector( {
 					onClick={ onUpdate }
 					disabled={ ! isCustomized || currentTheme === '' }
 				>
-					Update
+					Update Theme
 				</Button>
 
 				<Button

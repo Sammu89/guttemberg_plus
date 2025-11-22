@@ -32,6 +32,7 @@ import {
 	debug,
 	ACCORDION_EXCLUSIONS,
 } from '@shared';
+import './editor.scss';
 
 /**
  * Accordion Edit Component
@@ -318,15 +319,38 @@ export default function Edit( { attributes, setAttributes } ) {
 		const updatedExpectedValues = applyDeltas( allDefaults, deltas );
 		debug( '[UPDATE THEME DEBUG] Updated expected values:', updatedExpectedValues );
 
-		// Reset to updated theme
-		const resetAttrs = { ...updatedExpectedValues };
+		// Reset to updated theme - ONLY include theme values, clear all customizations
+		const resetAttrs = {};
 
-		// Remove excluded attributes
+		// Always preserve excluded attributes (structural, behavioral, meta)
 		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
+			if ( attributes[ key ] !== undefined ) {
+				resetAttrs[ key ] = attributes[ key ];
+			}
 		} );
 
-		debug( '[UPDATE THEME DEBUG] Attributes to set:', resetAttrs );
+		// Copy ONLY the theme's expected values
+		Object.keys( updatedExpectedValues ).forEach( ( key ) => {
+			// Skip excluded attributes (already handled above)
+			if ( ! excludeFromCustomizationCheck.includes( key ) ) {
+				resetAttrs[ key ] = updatedExpectedValues[ key ];
+			}
+		} );
+
+		// Explicitly clear any customizations that differ from theme
+		// by setting them to undefined so WordPress removes them from database
+		Object.keys( attributes ).forEach( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return;
+			}
+			// If attribute is NOT in the new theme expected values, clear it
+			if ( ! updatedExpectedValues.hasOwnProperty( key ) && attributes[ key ] !== undefined ) {
+				resetAttrs[ key ] = undefined; // Clear the customization
+			}
+		} );
+
+		debug( '[UPDATE THEME DEBUG] Attributes to set (customizations cleared):', resetAttrs );
 
 		// Use flushSync to force synchronous update before clearing cache
 		flushSync( () => {
@@ -751,41 +775,14 @@ export default function Edit( { attributes, setAttributes } ) {
 		return '100%';
 	};
 
-	// Helper function to get alignment styles
-	const getAlignmentStyles = () => {
-		const alignment = effectiveValues.accordionHorizontalAlign || 'left';
-		const width = effectiveValues.accordionWidth || '100%';
-
-		const baseStyles = {
-			width,
-			display: 'block',
-			maxWidth: 'none',
-		};
-
-		switch ( alignment ) {
-			case 'center':
-				return {
-					...baseStyles,
-					margin: `0 auto`,
-				};
-			case 'right':
-				return {
-					...baseStyles,
-					marginLeft: 'auto',
-					marginRight: '0',
-				};
-			default: // left
-				return {
-					...baseStyles,
-					marginLeft: '0',
-					marginRight: 'auto',
-				};
-		}
+	// Build inline styles for width control
+	const editorStyles = {
+		width: effectiveValues.accordionWidth || '100%',
 	};
 
 	const blockProps = useBlockProps( {
-		className: 'wp-block-accordion',
-		style: getAlignmentStyles(),
+		className: 'wp-block-accordion sammu-blocks',
+		style: editorStyles,
 	} );
 
 	return (
@@ -824,17 +821,22 @@ export default function Edit( { attributes, setAttributes } ) {
 
 					<TextControl
 						label={ __( 'Width', 'guttemberg-plus' ) }
-						help={ __( 'Enter width in pixels (e.g., 500px), percentage (e.g., 75%), or just a number (e.g., 500). Invalid values default to 100%. Min width is 300px.', 'guttemberg-plus' ) }
+						help={ __( 'Enter width in pixels (e.g., 500px), percentage (e.g., 75%), or just a number (e.g., 500). Invalid values default to 100%. Min width is 300px. Note: This setting only works at the root level and will be ignored when inside columns or other container blocks.', 'guttemberg-plus' ) }
 						value={ widthInput }
 						onChange={ ( value ) => setWidthInput( value ) }
 						onBlur={ () => setAttributes( { accordionWidth: validateWidth( widthInput ) } ) }
+						onKeyDown={ ( e ) => {
+							if ( e.key === 'Enter' ) {
+								setAttributes( { accordionWidth: validateWidth( widthInput ) } );
+							}
+						} }
 						placeholder="100%"
 						__nextHasNoMarginBottom
 					/>
 
 					<SelectControl
 						label={ __( 'Horizontal Alignment', 'guttemberg-plus' ) }
-						help={ __( 'Controls the position of the accordion block', 'guttemberg-plus' ) }
+						help={ __( 'Controls the position of the accordion block on the frontend. This setting is only visible on the published page.', 'guttemberg-plus' ) }
 						value={ attributes.accordionHorizontalAlign || 'left' }
 						options={ [
 							{ label: __( 'Left', 'guttemberg-plus' ), value: 'left' },

@@ -39,6 +39,7 @@ import {
 	debug,
 	TOC_EXCLUSIONS,
 } from '@shared';
+import './editor.scss';
 
 /**
  * Edit Component
@@ -427,7 +428,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Block props
 	const blockProps = useBlockProps( {
-		className: 'wp-block-custom-toc',
+		className: 'wp-block-custom-toc sammu-blocks',
 		style: buildInlineStyles( effectiveValues ),
 	} );
 

@@ -1,0 +1,30 @@
+/**
+ * Accordion Block - Editor Styles
+ *
+ * Styles specifically for the WordPress block editor.
+ * Handles alignment and layout in the editor context.
+ *
+ * @package
+ * @since 1.0.0
+ */
+
+/* Sammu blocks alignment for editor */
+.sammu-blocks {
+	margin-top: 1em !important;
+	margin-bottom: 1em !important;
+
+	&.sammu-blocks-align-left {
+		margin-left: 0 !important;
+		margin-right: auto !important;
+	}
+
+	&.sammu-blocks-align-center {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
+	&.sammu-blocks-align-right {
+		margin-left: auto !important;
+		margin-right: 0 !important;
+	}
+}
