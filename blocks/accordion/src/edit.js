@@ -202,6 +202,52 @@ export default function Edit( { attributes, setAttributes } ) {
 		// This prevents accidental cache loss when switching themes
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
 
+	// Auto-update customizations attribute (deltas from expected values)
+	// This is used by save.js to output ONLY true customizations as inline CSS
+	// Tier 2 (theme CSS in <head>) handles theme values, Tier 3 (inline) handles deltas
+	useEffect( () => {
+		// Calculate deltas: attributes that differ from expected values
+		const newCustomizations = {};
+
+		Object.keys( attributes ).forEach( ( key ) => {
+			// Skip excluded attributes
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return;
+			}
+
+			const attrValue = attributes[ key ];
+			const expectedValue = expectedValues[ key ];
+
+			// Skip undefined/null values
+			if ( attrValue === undefined || attrValue === null ) {
+				return;
+			}
+
+			// Check if value differs from expected
+			let isDifferent = false;
+			if ( typeof attrValue === 'object' && attrValue !== null ) {
+				isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			} else {
+				isDifferent = attrValue !== expectedValue;
+			}
+
+			// Only include if different from expected
+			if ( isDifferent ) {
+				newCustomizations[ key ] = attrValue;
+			}
+		} );
+
+		// Only update if customizations actually changed (avoid infinite loop)
+		const currentCustomizations = attributes.customizations || {};
+		const newStr = JSON.stringify( newCustomizations );
+		const currentStr = JSON.stringify( currentCustomizations );
+
+		if ( newStr !== currentStr ) {
+			debug( '[CUSTOMIZATIONS] Updating customizations attribute:', newCustomizations );
+			setAttributes( { customizations: newCustomizations } );
+		}
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck, setAttributes ] );
+
 	// Log when currentTheme changes (for debugging)
 	useEffect( () => {
 		debug( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
