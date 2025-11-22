@@ -202,7 +202,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// This preserves customizations across theme switches WITHIN the editing session
 	// Lost on page reload or post save (desired behavior)
 	// ONLY add if there are actual customizations vs expected values
+	// IMPORTANT: Only update cache when themes are fully loaded to avoid premature caching
 	useEffect( () => {
+		// GUARD: Skip cache update if themes aren't loaded yet
+		// This prevents incorrect comparisons against default values when theme values should be used
+		if ( ! themesLoaded ) {
+			return;
+		}
+
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 		const currentThemeKey = attributes.currentTheme || '';
 
@@ -243,7 +250,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				return updated;
 			} );
 		}
-	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded ] );
 
 	/**
 	 * Theme callback handlers

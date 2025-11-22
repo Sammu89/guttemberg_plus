@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-22T17:16:11.905Z
+ * Generated at: 2025-11-22T23:33:10.498Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -177,7 +177,7 @@ export const tabsAttributes = {
   },
   titleFontSize: {
     type: 'number',
-    default: 16,
+    default: '16px',
   },
   titleFontWeight: {
     type: 'string',
@@ -237,7 +237,7 @@ export const tabsAttributes = {
   },
   panelFontSize: {
     type: 'number',
-    default: 16,
+    default: '16px',
   },
   panelLineHeight: {
     type: 'number',
@@ -269,7 +269,7 @@ export const tabsAttributes = {
   },
   containerBorderWidth: {
     type: 'number',
-    default: 0,
+    default: '0px',
   },
   containerBorderStyle: {
     type: 'string',
@@ -285,7 +285,7 @@ export const tabsAttributes = {
   },
   panelBorderWidth: {
     type: 'number',
-    default: 1,
+    default: '1px',
   },
   panelBorderStyle: {
     type: 'string',
@@ -293,11 +293,11 @@ export const tabsAttributes = {
   },
   panelBorderRadius: {
     type: 'number',
-    default: 0,
+    default: '0px',
   },
   tabListBorderBottomWidth: {
     type: 'number',
-    default: 2,
+    default: '2px',
   },
   tabListBorderBottomStyle: {
     type: 'string',
@@ -361,7 +361,7 @@ export const tabsAttributes = {
   },
   tabListGap: {
     type: 'number',
-    default: 4,
+    default: '4px',
   },
   tabsAlignment: {
     type: 'string',
@@ -369,7 +369,7 @@ export const tabsAttributes = {
   },
   verticalTabListWidth: {
     type: 'number',
-    default: 200,
+    default: '200px',
   },
   accordionMarginBottom: {
     type: 'number',
@@ -389,7 +389,7 @@ export const tabsAttributes = {
   },
   iconSize: {
     type: 'number',
-    default: 18,
+    default: '18px',
   },
   iconTypeClosed: {
     type: 'string',
@@ -401,7 +401,7 @@ export const tabsAttributes = {
   },
   iconRotation: {
     type: 'number',
-    default: 180,
+    default: '180deg',
   },
 };
 

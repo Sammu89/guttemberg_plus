@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-22T17:16:11.905Z
+ * Generated at: 2025-11-22T23:33:10.499Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -30,9 +30,9 @@ return array(
   'panelBackground' => '#ffffff',
   'panelColor' => '#333333',
   'tabListBackground' => '#f5f5f5',
-  'containerBorderColor' => '0px solid transparent',
-  'panelBorderColor' => '1px solid #dddddd',
-  'tabListBorderBottomColor' => '2px solid #dddddd',
+  'containerBorderColor' => 'transparent',
+  'panelBorderColor' => '#dddddd',
+  'tabListBorderBottomColor' => '#dddddd',
   'iconColor' => 'inherit',
   'titleFontSize' => '16px',
   'titleFontWeight' => '500',
@@ -43,19 +43,21 @@ return array(
   'panelFontSize' => '16px',
   'panelLineHeight' => '1.6',
   'verticalTabButtonTextAlign' => 'left',
-  'tabBorderRadius' => '4px 4px 0 0',
-  'containerBorderWidth' => '0px solid transparent',
-  'containerBorderRadius' => '4px',
+  'containerBorderWidth' => '0px',
+  'containerBorderStyle' => 'solid',
   'containerShadow' => 'none',
-  'panelBorderWidth' => '1px solid #dddddd',
+  'panelBorderWidth' => '1px',
+  'panelBorderStyle' => 'solid',
   'panelBorderRadius' => '0px',
-  'tabListBorderBottomWidth' => '2px solid #dddddd',
-  'titlePadding' => '12px 24px',
-  'panelPadding' => '24px',
-  'tabListPadding' => '8px',
+  'tabListBorderBottomWidth' => '2px',
+  'tabListBorderBottomStyle' => 'solid',
   'tabListGap' => '4px',
   'tabsAlignment' => 'left',
   'verticalTabListWidth' => '200px',
+  'showIcon' => 'true',
+  'iconPosition' => 'right',
   'iconSize' => '18px',
+  'iconTypeClosed' => '▾',
+  'iconTypeOpen' => 'none',
   'iconRotation' => '180deg',
 );

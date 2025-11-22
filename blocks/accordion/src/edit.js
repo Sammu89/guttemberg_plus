@@ -32,6 +32,7 @@ import {
 	debug,
 	ACCORDION_EXCLUSIONS,
 } from '@shared';
+import { accordionAttributes } from './accordion-attributes';
 import './editor.scss';
 
 /**
@@ -52,6 +53,13 @@ export default function Edit( { attributes, setAttributes } ) {
 				accordionId: `acc-${ generateUniqueId() }`,
 			} );
 		}
+
+		// Log on mount to see initial state
+		console.log( '[🚀 MOUNT] ========== ACCORDION BLOCK MOUNTED ==========' );
+		console.log( '[🚀 MOUNT] Initial attributes:', attributes );
+		console.log( '[🚀 MOUNT] Initial iconColor:', attributes.iconColor );
+		console.log( '[🚀 MOUNT] Initial currentTheme:', attributes.currentTheme );
+		console.log( '[🚀 MOUNT] ================================================' );
 	}, [ attributes.accordionId, setAttributes ] );
 
 	// Load themes from store
@@ -79,13 +87,28 @@ export default function Edit( { attributes, setAttributes } ) {
 		}
 	}, [ themesLoaded, loadThemes ] );
 
-	// Get CSS defaults from window (parsed by PHP)
-	// Memoize to prevent creating new object on every render
-	const cssDefaults = useMemo( () => window.accordionDefaults || {}, [] );
+	// Extract schema defaults from accordionAttributes (SINGLE SOURCE OF TRUTH!)
+	// Schema contains ALL defaults - behavioral + themeable
+	// No need for separate CSS defaults or manual attribute files
+	const schemaDefaults = useMemo( () => {
+		const defaults = {};
+		Object.keys( accordionAttributes ).forEach( ( key ) => {
+			if ( accordionAttributes[ key ].default !== undefined ) {
+				defaults[ key ] = accordionAttributes[ key ].default;
+			}
+		} );
+		console.log( '[🔍 DEBUG] schemaDefaults (from schemas/accordion.json):', defaults );
+		console.log( '[🔍 DEBUG] schemaDefaults.iconColor:', defaults.iconColor );
+		return defaults;
+	}, [] );
 
-	// Merge CSS defaults with behavioral defaults from attribute schemas
-	// Memoize to prevent infinite loop in session cache useEffect
-	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
+	// All defaults come from schema - single source of truth!
+	const allDefaults = useMemo( () => {
+		const merged = getAllDefaults( schemaDefaults );
+		console.log( '[🔍 DEBUG] allDefaults:', merged );
+		console.log( '[🔍 DEBUG] allDefaults.iconColor:', merged.iconColor );
+		return merged;
+	}, [ schemaDefaults ] );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
 	// Attributes to exclude from theme customization checks
@@ -100,15 +123,42 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Memoized to prevent infinite loop in session cache useEffect
 	const currentTheme = themes[ attributes.currentTheme ];
 	const expectedValues = useMemo( () => {
-		return currentTheme
+		const expected = currentTheme
 			? applyDeltas( allDefaults, currentTheme.values || {} )
 			: allDefaults;
+		console.log( '[🔍 DEBUG] expectedValues calculated:', expected );
+		console.log( '[🔍 DEBUG] expectedValues.iconColor:', expected.iconColor );
+		console.log( '[🔍 DEBUG] currentTheme:', attributes.currentTheme );
+		console.log( '[🔍 DEBUG] currentTheme.values:', currentTheme?.values );
+		return expected;
 	}, [ currentTheme, allDefaults ] );
 
 	// Auto-detect customizations by comparing attributes to expected values
 	// Memoized to avoid recalculation on every render
+	// IMPORTANT: Wait for themes to load before checking customization
 	const isCustomized = useMemo( () => {
-		return Object.keys( attributes ).some( ( key ) => {
+		console.log( '[🔍 DEBUG] ========== CUSTOMIZATION CHECK START ==========' );
+		console.log( '[🔍 DEBUG] themesLoaded:', themesLoaded );
+		console.log( '[🔍 DEBUG] currentTheme:', attributes.currentTheme );
+		console.log( '[🔍 DEBUG] theme exists?', !!themes[ attributes.currentTheme ] );
+
+		// Don't check customization until themes are loaded
+		// This prevents false positives when theme deltas haven't loaded yet
+		if ( ! themesLoaded ) {
+			console.log( '[🔍 DEBUG] Themes not loaded yet - skipping customization check' );
+			return false;
+		}
+
+		// If block has a theme but it doesn't exist in themes object, wait
+		if ( attributes.currentTheme && ! themes[ attributes.currentTheme ] ) {
+			console.log( '[🔍 DEBUG] Theme not found in themes object - skipping customization check' );
+			return false;
+		}
+
+		console.log( '[🔍 DEBUG] Checking customization for current attributes:', attributes );
+
+		const customizedAttrs = [];
+		const result = Object.keys( attributes ).some( ( key ) => {
 			if ( excludeFromCustomizationCheck.includes( key ) ) {
 				return false;
 			}
@@ -122,13 +172,35 @@ export default function Edit( { attributes, setAttributes } ) {
 			}
 
 			// Compare (deep comparison for objects)
+			let isDifferent = false;
 			if ( typeof attrValue === 'object' && attrValue !== null ) {
-				return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+				isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			} else {
+				isDifferent = attrValue !== expectedValue;
 			}
 
-			return attrValue !== expectedValue;
+			if ( isDifferent ) {
+				customizedAttrs.push( {
+					key,
+					attrValue,
+					expectedValue,
+					type: typeof attrValue
+				} );
+				console.log( `[🔍 DEBUG] ✗ CUSTOMIZED: ${key}`, {
+					attrValue,
+					expectedValue,
+					match: false
+				} );
+			}
+
+			return isDifferent;
 		} );
-	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
+
+		console.log( '[🔍 DEBUG] Customized attributes:', customizedAttrs );
+		console.log( '[🔍 DEBUG] isCustomized result:', result );
+		console.log( '[🔍 DEBUG] ========== CUSTOMIZATION CHECK END ==========' );
+		return result;
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded, themes ] );
 
 	debug( '[DEBUG] Accordion attributes (source of truth):', attributes );
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
@@ -151,11 +223,20 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	// Auto-update session cache for CURRENT theme
 	// Maintains per-block customization memory across theme switches
+	// IMPORTANT: Only update cache when themes are fully loaded to avoid premature caching
 	useEffect( () => {
+		// GUARD: Skip cache update if themes aren't loaded yet
+		// This prevents incorrect comparisons against default values when theme values should be used
+		if ( ! themesLoaded ) {
+			console.log( '[📊 SESSION CACHE CHECK] Themes not loaded yet - skipping cache update' );
+			return;
+		}
+
 		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 		const currentThemeKey = attributes.currentTheme || '';
 
 		// Check if snapshot differs from expected values
+		const differences = [];
 		const hasCustomizations = Object.keys( snapshot ).some( ( key ) => {
 			// Skip excluded attributes
 			if ( excludeFromCustomizationCheck.includes( key ) ) {
@@ -172,11 +253,29 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			// Deep comparison for objects
 			if ( typeof snapshotValue === 'object' && snapshotValue !== null ) {
-				return JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
+				const isDifferent = JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
+				if ( isDifferent ) {
+					differences.push( { key, snapshot: snapshotValue, expected: expectedValue } );
+				}
+				return isDifferent;
 			}
 
-			return snapshotValue !== expectedValue;
+			const isDifferent = snapshotValue !== expectedValue;
+			if ( isDifferent ) {
+				differences.push( { key, snapshot: snapshotValue, expected: expectedValue } );
+			}
+			return isDifferent;
 		} );
+
+		console.log( '[📊 SESSION CACHE CHECK] ========================================' );
+		console.log( '[📊 SESSION CACHE CHECK] Theme:', currentThemeKey );
+		console.log( '[📊 SESSION CACHE CHECK] Has customizations:', hasCustomizations );
+		console.log( '[📊 SESSION CACHE CHECK] Snapshot:', snapshot );
+		console.log( '[📊 SESSION CACHE CHECK] Expected values:', expectedValues );
+		if ( differences.length > 0 ) {
+			console.log( '[📊 SESSION CACHE CHECK] Differences found:', differences );
+		}
+		console.log( '[📊 SESSION CACHE CHECK] ========================================' );
 
 		// IMPORTANT: Only UPDATE cache when there ARE customizations
 		// NEVER delete from cache automatically - only manual operations (Reset/Save/Update) should clear cache
@@ -189,6 +288,8 @@ export default function Edit( { attributes, setAttributes } ) {
 				const existingStr = JSON.stringify( existingCache );
 
 				if ( snapshotStr !== existingStr ) {
+					console.log( '[📊 SESSION CACHE UPDATING] Theme:', currentThemeKey );
+					console.log( '[📊 SESSION CACHE UPDATING] Snapshot:', snapshot );
 					debug( '[SESSION CACHE] Updating cache for theme:', currentThemeKey );
 					return {
 						...prev,
@@ -200,7 +301,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		}
 		// If no customizations, DO NOTHING - keep existing cache intact
 		// This prevents accidental cache loss when switching themes
-	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded ] );
 
 	// Auto-update customizations attribute (deltas from expected values)
 	// This is used by save.js to output ONLY true customizations as inline CSS
@@ -253,6 +354,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		debug( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
 		debug( '[THEME CHANGE] isCustomized:', isCustomized );
 		debug( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
+		console.log( '[🔄 THEME CHANGE] ========== THEME SWITCH ==========' );
+		console.log( '[🔄 THEME CHANGE] New theme:', attributes.currentTheme );
+		console.log( '[🔄 THEME CHANGE] Theme object:', themes[ attributes.currentTheme ] );
+		console.log( '[🔄 THEME CHANGE] Theme values:', themes[ attributes.currentTheme ]?.values );
+		console.log( '[🔄 THEME CHANGE] Theme iconColor:', themes[ attributes.currentTheme ]?.values?.iconColor );
+		console.log( '[🔄 THEME CHANGE] Current attributes.iconColor:', attributes.iconColor );
+		console.log( '[🔄 THEME CHANGE] ========================================' );
 	}, [ attributes.currentTheme ] );
 
 	/**
@@ -260,7 +368,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		console.warn( '[THEME CREATE] Starting theme creation:', themeName );
+		console.warn( '[🎨 THEME CREATE] Starting theme creation:', themeName );
 
 		// Get current snapshot from session cache OR current attributes as fallback
 		const currentThemeKey = attributes.currentTheme || '';
@@ -272,19 +380,24 @@ export default function Edit( { attributes, setAttributes } ) {
 			? cachedSnapshot
 			: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 
-		console.warn( '[THEME CREATE] Current theme key:', currentThemeKey );
-		console.warn( '[THEME CREATE] Using cached snapshot?', !!cachedSnapshot );
-		console.warn( '[THEME CREATE] Current snapshot:', currentSnapshot );
-		console.warn( '[THEME CREATE] Current attributes:', attributes );
+		console.warn( '[🎨 THEME CREATE] Current theme key:', currentThemeKey );
+		console.warn( '[🎨 THEME CREATE] Using cached snapshot?', !!cachedSnapshot );
+		console.warn( '[🎨 THEME CREATE] Current snapshot:', currentSnapshot );
+		console.warn( '[🎨 THEME CREATE] Current snapshot.iconColor:', currentSnapshot.iconColor );
+		console.warn( '[🎨 THEME CREATE] Current attributes:', attributes );
+		console.warn( '[🎨 THEME CREATE] Current attributes.iconColor:', attributes.iconColor );
 
 		// Calculate deltas from current snapshot (optimized storage)
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-		console.warn( '[THEME CREATE] Calculated deltas:', deltas );
+		console.warn( '[🎨 THEME CREATE] Calculated deltas:', deltas );
+		console.warn( '[🎨 THEME CREATE] Deltas.iconColor:', deltas.iconColor );
 
 		// Save theme with deltas only
-		console.warn( '[THEME CREATE] Calling createTheme API...' );
+		console.warn( '[🎨 THEME CREATE] Calling createTheme API...' );
 		const createdTheme = await createTheme( 'accordion', themeName, deltas );
-		console.warn( '[THEME CREATE] API response:', createdTheme );
+		console.warn( '[🎨 THEME CREATE] API response:', createdTheme );
+		console.warn( '[🎨 THEME CREATE] Saved theme values:', createdTheme?.values );
+		console.warn( '[🎨 THEME CREATE] Saved theme iconColor:', createdTheme?.values?.iconColor );
 
 		// Reset to clean theme: apply defaults + new theme deltas
 		const newTheme = { values: deltas };
@@ -900,7 +1013,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					blockType="accordion"
 					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
+					cssDefaults={ allDefaults }
 					showActiveState={ false }
 				/>
 
@@ -910,7 +1023,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					blockType="accordion"
 					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
+					cssDefaults={ allDefaults }
 				/>
 
 				<TypographyPanel
@@ -919,7 +1032,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					blockType="accordion"
 					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
+					cssDefaults={ allDefaults }
 				/>
 
 				<BorderPanel
@@ -928,7 +1041,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					blockType="accordion"
 					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
+					cssDefaults={ allDefaults }
 				/>
 
 				<IconPanel
@@ -937,7 +1050,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					blockType="accordion"
 					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
+					cssDefaults={ allDefaults }
 				/>
 
 				{ isCustomized && (

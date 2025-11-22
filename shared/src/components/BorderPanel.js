@@ -12,6 +12,7 @@
 import { PanelBody, RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { normalizeValueForControl } from '../theme-system/control-normalizer';
+import { getControlConfig, getNumericControlDefault } from '../config/control-config-generated';
 import { CompactColorControl } from './CompactColorControl';
 
 /**
@@ -149,10 +150,10 @@ export function BorderPanel( {
 
 			<RangeControl
 				label={ <CustomLabel label="Thickness (px)" attrName={ borderAttrs.thickness } /> }
-				value={ effectiveValues[ borderAttrs.thickness ] || 1 }
+				value={ effectiveValues[ borderAttrs.thickness ] ?? getNumericControlDefault( blockType, borderAttrs.thickness ) ?? 1 }
 				onChange={ ( value ) => handleChange( borderAttrs.thickness, value ) }
-				min={ 0 }
-				max={ 10 }
+				min={ getControlConfig( blockType, borderAttrs.thickness ).min ?? 0 }
+				max={ getControlConfig( blockType, borderAttrs.thickness ).max ?? 10 }
 			/>
 
 			<SelectControl
@@ -183,42 +184,42 @@ export function BorderPanel( {
 
 			<RangeControl
 				label="Top Left (px)"
-				value={ currentRadius.topLeft || 0 }
+				value={ currentRadius.topLeft ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
 				onChange={ ( value ) =>
 					handleCornerChange( borderAttrs.radius, 'topLeft', value )
 				}
-				min={ 0 }
-				max={ 60 }
+				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
+				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
 			/>
 
 			<RangeControl
 				label="Top Right (px)"
-				value={ currentRadius.topRight || 0 }
+				value={ currentRadius.topRight ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
 				onChange={ ( value ) =>
 					handleCornerChange( borderAttrs.radius, 'topRight', value )
 				}
-				min={ 0 }
-				max={ 60 }
+				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
+				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
 			/>
 
 			<RangeControl
 				label="Bottom Right (px)"
-				value={ currentRadius.bottomRight || 0 }
+				value={ currentRadius.bottomRight ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
 				onChange={ ( value ) =>
 					handleCornerChange( borderAttrs.radius, 'bottomRight', value )
 				}
-				min={ 0 }
-				max={ 60 }
+				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
+				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
 			/>
 
 			<RangeControl
 				label="Bottom Left (px)"
-				value={ currentRadius.bottomLeft || 0 }
+				value={ currentRadius.bottomLeft ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
 				onChange={ ( value ) =>
 					handleCornerChange( borderAttrs.radius, 'bottomLeft', value )
 				}
-				min={ 0 }
-				max={ 60 }
+				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
+				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
 			/>
 
 			<TextControl
@@ -273,7 +274,7 @@ export function BorderPanel( {
 						value={
 							effectiveValues[
 								blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness'
-							] || 0
+							] ?? getNumericControlDefault( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ) ?? 0
 						}
 						onChange={ ( value ) =>
 							handleChange(
@@ -283,8 +284,8 @@ export function BorderPanel( {
 								value
 							)
 						}
-						min={ 0 }
-						max={ 10 }
+						min={ getControlConfig( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ).min ?? 0 }
+						max={ getControlConfig( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ).max ?? 10 }
 					/>
 
 					<SelectControl

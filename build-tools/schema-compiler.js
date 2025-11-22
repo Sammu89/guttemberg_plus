@@ -12,6 +12,7 @@
  * - PHP CSS defaults (php/css-defaults/)
  * - PHP CSS variable mappings (php/css-defaults/css-mappings-generated.php)
  * - JavaScript exclusion lists (shared/src/config/)
+ * - Control configuration (shared/src/config/control-config-generated.js)
  * - CSS variable declarations (assets/css/)
  * - Markdown documentation (docs/)
  *
@@ -398,14 +399,14 @@ function generatePHPCSSDefaults(blockType, schema) {
   content += `return array(\n`;
 
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
-    if (attr.themeable && attr.cssDefault && attr.cssDefault !== '') {
-      // Extract the value from cssDefault (e.g., "--accordion-title-color: #333333;" -> "#333333")
-      const cssDefaultMatch = attr.cssDefault.match(/:\s*([^;]+);?$/);
-      const cssValue = cssDefaultMatch ? cssDefaultMatch[1].trim() : attr.default;
-
-      if (cssValue !== null && cssValue !== undefined && cssValue !== '') {
-        content += `  '${attrName}' => '${cssValue}',\n`;
+    if (attr.themeable && attr.default !== undefined && attr.default !== null && attr.default !== '') {
+      // Skip complex objects
+      if (typeof attr.default === 'object') {
+        continue;
       }
+
+      // Use the default value directly (now includes units, e.g., "18px", "1.6", "180deg")
+      content += `  '${attrName}' => '${attr.default}',\n`;
     }
   }
 
@@ -443,6 +444,7 @@ function generatePHPAttributes(blockType, schema) {
 
 /**
  * Generate PHP CSS variable mappings for theme-css-generator.php
+ * Includes CSS variable names and unit information
  */
 function generatePHPMappings(allSchemas) {
   let mappings = {};
@@ -452,34 +454,58 @@ function generatePHPMappings(allSchemas) {
 
     for (const [attrName, attr] of Object.entries(schema.attributes)) {
       if (attr.themeable && attr.cssVar) {
-        mappings[blockType][attrName] = attr.cssVar;
+        // Store both cssVar and unit
+        mappings[blockType][attrName] = {
+          cssVar: attr.cssVar,
+          unit: attr.unit || null,
+          type: attr.type
+        };
       }
     }
   }
 
   // Generate PHP mapping array code
-  let content = `/**
+  let content = `<?php
+/**
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
  * Generated at: ${getTimestamp()}
  *
- * Copy this into theme-css-generator.php guttemberg_plus_map_attribute_to_css_var() function
+ * This file is used by theme-css-generator.php for:
+ * - Mapping attribute names to CSS variable names
+ * - Identifying which numeric properties should NOT have units
+ *
+ * @package GuttemberPlus
+ * @since 1.0.0
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/**
+ * Attribute name to CSS variable name mappings
+ */
 \$mappings = array(\n`;
 
   for (const [blockType, attrs] of Object.entries(mappings)) {
     content += `    '${blockType}' => array(\n`;
 
-    for (const [attrName, cssVar] of Object.entries(attrs)) {
-      content += `      '${attrName}' => '${cssVar}',\n`;
+    for (const [attrName, info] of Object.entries(attrs)) {
+      const unitStr = info.unit ? `'${info.unit}'` : 'null';
+      content += `      '${attrName}' => array( 'cssVar' => '${info.cssVar}', 'unit' => ${unitStr}, 'type' => '${info.type}' ),\n`;
     }
 
     content += `    ),\n`;
   }
 
-  content += `  );\n`;
+  content += `  );\n\n`;
+
+  // Return mappings
+  content += `// Return mappings for use in theme-css-generator.php\n`;
+  content += `return \$mappings;\n`;
 
   return { fileName: 'css-mappings-generated.php', content };
 }
@@ -662,10 +688,16 @@ function generateCSSVariables(blockType, schema) {
 
 :root {\n`;
 
-  // Collect all themeable attributes with cssDefault
+  // Collect all themeable attributes and use default values directly
+  // (defaults now include units, e.g., "18px", "1.6", "180deg")
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
-    if (attr.themeable && attr.cssDefault && attr.cssDefault !== '') {
-      content += `  ${attr.cssDefault}\n`;
+    if (attr.themeable && attr.cssVar && attr.default !== undefined && attr.default !== null && attr.default !== '') {
+      // Skip complex objects (they need special handling)
+      if (typeof attr.default === 'object') {
+        continue;
+      }
+
+      content += `  ${attr.cssVar}: ${attr.default};\n`;
     }
   }
 
@@ -786,6 +818,135 @@ function generateBlockAttributes(blockType, schema) {
 
   content += `};\n\n`;
   content += `export default ${constName};\n`;
+
+  return { fileName, content };
+}
+
+/**
+ * Generate control configuration from schemas
+ * Exports min/max/options for all controls so components don't hardcode values
+ */
+function generateControlConfigs(allSchemas) {
+  const fileName = 'control-config-generated.js';
+
+  let content = getGeneratedHeader('accordion.json, tabs.json, toc.json', 'Control Configuration');
+
+  content += `/**
+ * This file contains control configuration (min, max, options) for all block attributes.
+ * Import this to get dynamic control properties from the schema instead of hardcoding.
+ *
+ * Usage:
+ *   import { getControlConfig } from '@shared/config/control-config-generated';
+ *   const config = getControlConfig('accordion', 'iconRotation');
+ *   // { min: 0, max: 360, unit: 'deg', ... }
+ */
+
+// Control configuration for all blocks
+const CONTROL_CONFIGS = {
+`;
+
+  // Build config for each block
+  for (const [blockType, schema] of Object.entries(allSchemas)) {
+    content += `  '${blockType}': {\n`;
+
+    for (const [attrName, attr] of Object.entries(schema.attributes)) {
+      // Skip attributes without controls
+      if (!attr.control) {
+        continue;
+      }
+
+      content += `    '${attrName}': {\n`;
+      content += `      control: '${attr.control}',\n`;
+
+      // Add min/max for RangeControl
+      if (attr.control === 'RangeControl') {
+        if (attr.min !== undefined) content += `      min: ${attr.min},\n`;
+        if (attr.max !== undefined) content += `      max: ${attr.max},\n`;
+      }
+
+      // Add options for SelectControl and similar
+      if ((attr.control === 'SelectControl' || attr.control === 'IconPicker') && attr.options) {
+        content += `      options: ${JSON.stringify(attr.options, null, 8).replace(/\n/g, '\n      ')},\n`;
+      }
+
+      // Add unit if present
+      if (attr.unit) {
+        content += `      unit: '${attr.unit}',\n`;
+      }
+
+      // Add other useful metadata
+      if (attr.label) content += `      label: '${attr.label}',\n`;
+      if (attr.description) {
+        const desc = attr.description.replace(/'/g, "\\\\'");
+        content += `      description: '${desc}',\n`;
+      }
+      if (attr.default !== undefined && typeof attr.default !== 'object') content += `      default: ${typeof attr.default === 'string' ? `'${attr.default}'` : attr.default},\n`;
+
+      content += `    },\n`;
+    }
+
+    content += `  },\n`;
+  }
+
+  content += `};\n\n`;
+
+  // Add helper functions
+  content += `/**
+ * Get control configuration for a specific attribute
+ * @param {string} blockType - The block type (accordion, tabs, toc)
+ * @param {string} attrName - The attribute name
+ * @returns {Object} Control configuration object
+ */
+export function getControlConfig(blockType, attrName) {
+  return CONTROL_CONFIGS[blockType]?.[attrName] || {};
+}
+
+/**
+ * Get all control configs for a block type
+ * @param {string} blockType - The block type (accordion, tabs, toc)
+ * @returns {Object} All control configurations for the block
+ */
+export function getBlockControlConfigs(blockType) {
+  return CONTROL_CONFIGS[blockType] || {};
+}
+
+/**
+ * Extract numeric value from a default that may include units (e.g., "18px" -> 18)
+ * @param {string|number|null} defaultValue - The default value from schema
+ * @returns {number|null} The numeric value without units
+ */
+export function getNumericDefault(defaultValue) {
+  if (defaultValue === null || defaultValue === undefined) {
+    return null;
+  }
+
+  if (typeof defaultValue === 'number') {
+    return defaultValue;
+  }
+
+  if (typeof defaultValue === 'string') {
+    // Extract number from strings like "18px", "1.6", "180deg"
+    const match = defaultValue.match(/^(-?\\d+(?:\\.\\d+)?)/);
+    return match ? parseFloat(match[1]) : null;
+  }
+
+  return null;
+}
+
+/**
+ * Get the numeric default for use in RangeControl
+ * Shorthand for: getNumericDefault(getControlConfig(blockType, attrName).default)
+ * @param {string} blockType - The block type (accordion, tabs, toc)
+ * @param {string} attrName - The attribute name
+ * @returns {number|null} The numeric default value
+ */
+export function getNumericControlDefault(blockType, attrName) {
+  const config = getControlConfig(blockType, attrName);
+  return getNumericDefault(config.default);
+}
+
+export default CONTROL_CONFIGS;
+`;
 
   return { fileName, content };
 }
@@ -943,6 +1104,17 @@ async function compile() {
       console.log(`    - config/${fileName}`);
     } catch (error) {
       results.errors.push(`JS mappings generation failed: ${error.message}`);
+    }
+
+    // Generate control configuration file
+    try {
+      const { fileName, content } = generateControlConfigs(schemas);
+      const filePath = path.join(OUTPUT_DIRS.config, fileName);
+      fs.writeFileSync(filePath, content);
+      results.files.push({ path: filePath, lines: content.split('\n').length });
+      console.log(`    - config/${fileName}`);
+    } catch (error) {
+      results.errors.push(`Control config generation failed: ${error.message}`);
     }
 
     // Generate combined exclusions file

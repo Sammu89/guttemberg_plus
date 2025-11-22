@@ -18,6 +18,7 @@ import {
 } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { normalizeValueForControl } from '../theme-system/control-normalizer';
+import { getControlConfig, getNumericControlDefault } from '../config/control-config-generated';
 import { CompactColorControl } from './CompactColorControl';
 
 /**
@@ -50,6 +51,13 @@ export function IconPanel( {
 	 * @param value
 	 */
 	const handleChange = ( attrName, value ) => {
+		if ( attrName === 'iconColor' ) {
+			console.log( '[🎨 ICON PANEL] Icon color changed:', {
+				oldValue: attributes.iconColor,
+				newValue: value,
+				effectiveValue: effectiveValues.iconColor
+			} );
+		}
 		if ( setAttributes ) {
 			setAttributes( { [ attrName ]: value } );
 		} else if ( onChange ) {
@@ -104,22 +112,19 @@ export function IconPanel( {
 						label={ <CustomLabel label="Open Icon" attrName="iconTypeOpen" /> }
 						value={ effectiveValues.iconTypeOpen || 'none' }
 						onChange={ ( value ) => handleChange( 'iconTypeOpen', value ) }
-						help="'none' uses rotation instead of changing icon"
+						help="'none' uses rotation only; other values also rotate when open"
 						__nextHasNoMarginBottom
 					/>
 
-					{ ( effectiveValues.iconTypeOpen === 'none' ||
-						! effectiveValues.iconTypeOpen ) && (
-						<RangeControl
-							label={
-								<CustomLabel label="Rotation (degrees)" attrName="iconRotation" />
-							}
-							value={ effectiveValues.iconRotation || 180 }
-							onChange={ ( value ) => handleChange( 'iconRotation', value ) }
-							min={ 0 }
-							max={ 360 }
-						/>
-					) }
+					<RangeControl
+						label={
+							<CustomLabel label="Rotation (degrees)" attrName="iconRotation" />
+						}
+						value={ effectiveValues.iconRotation ?? getNumericControlDefault( blockType, 'iconRotation' ) ?? 180 }
+						onChange={ ( value ) => handleChange( 'iconRotation', value ) }
+						min={ getControlConfig( blockType, 'iconRotation' ).min ?? -360 }
+						max={ getControlConfig( blockType, 'iconRotation' ).max ?? 360 }
+					/>
 
 					<SelectControl
 						label={ <CustomLabel label="Icon Position" attrName="iconPosition" /> }
@@ -150,10 +155,10 @@ export function IconPanel( {
 
 					<RangeControl
 						label={ <CustomLabel label="Icon Size (px)" attrName="iconSize" /> }
-						value={ effectiveValues.iconSize || effectiveValues.titleFontSize || 16 }
+						value={ effectiveValues.iconSize ?? getNumericControlDefault( blockType, 'iconSize' ) ?? effectiveValues.titleFontSize ?? 16 }
 						onChange={ ( value ) => handleChange( 'iconSize', value ) }
-						min={ 12 }
-						max={ 48 }
+						min={ getControlConfig( blockType, 'iconSize' ).min ?? 12 }
+						max={ getControlConfig( blockType, 'iconSize' ).max ?? 48 }
 						help="Leave null to inherit from title font size"
 					/>
 				</>
