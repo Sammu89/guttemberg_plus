@@ -485,6 +485,114 @@ function generatePHPMappings(allSchemas) {
 }
 
 /**
+ * Generate JavaScript CSS variable mappings for save.js
+ * Includes cssVar, unit, and type information for proper value formatting
+ */
+function generateJSMappings(allSchemas) {
+  let mappings = {};
+
+  for (const [blockType, schema] of Object.entries(allSchemas)) {
+    mappings[blockType] = {};
+
+    for (const [attrName, attr] of Object.entries(schema.attributes)) {
+      if (attr.themeable && attr.cssVar) {
+        mappings[blockType][attrName] = {
+          cssVar: `--${attr.cssVar}`,
+          unit: attr.unit || null,
+          type: attr.type,
+        };
+      }
+    }
+  }
+
+  // Generate JS file content
+  let content = getGeneratedHeader('*.json', 'CSS Variable Mappings for All Blocks');
+
+  content += `/**
+ * CSS Variable Mappings
+ *
+ * Maps attribute names to their CSS variable names with formatting info.
+ * Used by save.js to output inline CSS for customizations.
+ *
+ * Structure:
+ * {
+ *   [attrName]: {
+ *     cssVar: '--css-var-name',
+ *     unit: 'px' | 'deg' | null,
+ *     type: 'string' | 'number' | 'object' | 'boolean'
+ *   }
+ * }
+ */
+export const CSS_VAR_MAPPINGS = {\n`;
+
+  for (const [blockType, attrs] of Object.entries(mappings)) {
+    content += `  ${blockType}: {\n`;
+
+    for (const [attrName, info] of Object.entries(attrs)) {
+      const unitStr = info.unit ? `'${info.unit}'` : 'null';
+      content += `    ${attrName}: { cssVar: '${info.cssVar}', unit: ${unitStr}, type: '${info.type}' },\n`;
+    }
+
+    content += `  },\n`;
+  }
+
+  content += `};\n\n`;
+
+  // Add helper function to format value with unit
+  content += `/**
+ * Format a value with its unit for CSS output
+ * @param {string} attrName - Attribute name
+ * @param {*} value - The value to format
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @returns {string|null} Formatted CSS value or null if not mappable
+ */
+export function formatCssValue(attrName, value, blockType) {
+  const mapping = CSS_VAR_MAPPINGS[blockType]?.[attrName];
+  if (!mapping) return null;
+
+  // Handle null/undefined
+  if (value === null || value === undefined) return null;
+
+  // Handle object types (border radius, padding)
+  if (mapping.type === 'object' && typeof value === 'object') {
+    // Border radius format: topLeft topRight bottomRight bottomLeft
+    if (attrName.toLowerCase().includes('radius')) {
+      return \`\${value.topLeft}px \${value.topRight}px \${value.bottomRight}px \${value.bottomLeft}px\`;
+    }
+    // Padding format: top right bottom left
+    if (attrName.toLowerCase().includes('padding')) {
+      return \`\${value.top}px \${value.right}px \${value.bottom}px \${value.left}px\`;
+    }
+    // Default object handling
+    return JSON.stringify(value);
+  }
+
+  // Handle numeric values with units
+  if (mapping.unit && typeof value === 'number') {
+    return \`\${value}\${mapping.unit}\`;
+  }
+
+  // Return value as-is for strings and other types
+  return value;
+}
+
+/**
+ * Get the CSS variable name for an attribute
+ * @param {string} attrName - Attribute name
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @returns {string|null} CSS variable name or null if not mappable
+ */
+export function getCssVarName(attrName, blockType) {
+  return CSS_VAR_MAPPINGS[blockType]?.[attrName]?.cssVar || null;
+}
+
+export default CSS_VAR_MAPPINGS;
+`;
+
+  return { fileName: 'css-var-mappings-generated.js', content };
+}
+
+/**
  * Generate JavaScript exclusion lists
  */
 function generateExclusions(blockType, schema) {
@@ -824,6 +932,17 @@ async function compile() {
       console.log(`    - php/css-defaults/${fileName}`);
     } catch (error) {
       results.errors.push(`PHP mappings generation failed: ${error.message}`);
+    }
+
+    // Generate combined JS mappings file
+    try {
+      const { fileName, content } = generateJSMappings(schemas);
+      const filePath = path.join(OUTPUT_DIRS.config, fileName);
+      fs.writeFileSync(filePath, content);
+      results.files.push({ path: filePath, lines: content.split('\n').length });
+      console.log(`    - config/${fileName}`);
+    } catch (error) {
+      results.errors.push(`JS mappings generation failed: ${error.message}`);
     }
 
     // Generate combined exclusions file

@@ -11,6 +11,7 @@
 
 import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
 import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria } from '@shared';
+import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
 
 /**
  * Accordion Save Component
@@ -40,6 +41,8 @@ export default function Save( { attributes } ) {
 	 *
 	 * The `customizations` attribute contains ONLY deltas from expected values
 	 * (calculated in edit.js by comparing attributes to defaults + theme)
+	 *
+	 * Uses auto-generated mappings from schema (single source of truth)
 	 */
 	const getCustomizationStyles = () => {
 		const styles = {};
@@ -47,77 +50,22 @@ export default function Save( { attributes } ) {
 		// Get customizations (deltas from expected values, calculated in edit.js)
 		const customizations = attributes.customizations || {};
 
-		// Mapping from attribute names to CSS variable names
-		const cssVarMap = {
-			titleBackgroundColor: '--accordion-title-bg',
-			titleColor: '--accordion-title-color',
-			hoverTitleBackgroundColor: '--accordion-title-hover-bg',
-			hoverTitleColor: '--accordion-title-hover-color',
-			activeTitleBackgroundColor: '--accordion-title-active-bg',
-			activeTitleColor: '--accordion-title-active-color',
-			titleFontWeight: '--accordion-title-font-weight',
-			titleFontStyle: '--accordion-title-font-style',
-			titleTextTransform: '--accordion-title-text-transform',
-			titleTextDecoration: '--accordion-title-text-decoration',
-			titleAlignment: '--accordion-title-alignment',
-			contentBackgroundColor: '--accordion-content-bg',
-			contentColor: '--accordion-content-color',
-			accordionBorderStyle: '--accordion-border-style',
-			accordionBorderColor: '--accordion-border-color',
-			accordionShadow: '--accordion-shadow',
-			dividerBorderStyle: '--accordion-divider-style',
-			dividerBorderColor: '--accordion-divider-color',
-			iconColor: '--accordion-icon-color',
-		};
-
-		// Attributes that need 'px' unit appended
-		const pxAttributes = {
-			titleFontSize: '--accordion-title-font-size',
-			accordionBorderThickness: '--accordion-border-width',
-			dividerBorderThickness: '--accordion-divider-width',
-			iconSize: '--accordion-icon-size',
-			accordionMarginBottom: '--accordion-margin-bottom',
-		};
-
-		// Process each customization
+		// Process each customization using schema-generated mappings
 		Object.entries( customizations ).forEach( ( [ attrName, value ] ) => {
 			if ( value === null || value === undefined ) {
 				return;
 			}
 
-			// Handle simple string/color values
-			if ( cssVarMap[ attrName ] ) {
-				styles[ cssVarMap[ attrName ] ] = value;
-				return;
+			// Get CSS variable name from generated mappings
+			const cssVar = getCssVarName( attrName, 'accordion' );
+			if ( ! cssVar ) {
+				return; // Attribute not mapped to a CSS variable
 			}
 
-			// Handle numeric values with px units
-			if ( pxAttributes[ attrName ] ) {
-				styles[ pxAttributes[ attrName ] ] = `${ value }px`;
-				return;
-			}
-
-			// Handle icon rotation (needs 'deg' unit)
-			if ( attrName === 'iconRotation' ) {
-				styles[ '--accordion-icon-rotation' ] = `${ value }deg`;
-				return;
-			}
-
-			// Handle border radius (object with topLeft, topRight, etc.)
-			if ( attrName === 'accordionBorderRadius' && typeof value === 'object' ) {
-				styles[ '--accordion-border-radius' ] = `${ value.topLeft }px ${ value.topRight }px ${ value.bottomRight }px ${ value.bottomLeft }px`;
-				return;
-			}
-
-			// Handle padding objects (title and content)
-			if ( attrName === 'titlePadding' && typeof value === 'object' ) {
-				styles[ '--accordion-title-padding' ] = `${ value.top }px ${ value.right }px ${ value.bottom }px ${ value.left }px`;
-				return;
-			}
-
-			if ( attrName === 'contentPadding' && typeof value === 'object' ) {
-				styles[ '--accordion-content-padding' ] = `${ value.top }px ${ value.right }px ${ value.bottom }px ${ value.left }px`;
-				return;
+			// Format value with proper unit from generated mappings
+			const formattedValue = formatCssValue( attrName, value, 'accordion' );
+			if ( formattedValue !== null ) {
+				styles[ cssVar ] = formattedValue;
 			}
 		} );
 
