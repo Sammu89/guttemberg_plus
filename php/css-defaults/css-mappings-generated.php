@@ -2,7 +2,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-11-22T16:20:36.262Z
+ * Generated at: 2025-11-22T16:38:15.329Z
  *
  * Copy this into theme-css-generator.php guttemberg_plus_map_attribute_to_css_var() function
  */
