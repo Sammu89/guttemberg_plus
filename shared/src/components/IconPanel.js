@@ -4,6 +4,13 @@
  * Panel for icon configuration (type, position, size, rotation).
  * Shows effective values via cascade resolution.
  *
+ * BLOCK-SPECIFIC: This component is designed for blocks that use icons:
+ * - Accordion: Expand/collapse indicator icons
+ * - Tabs: Tab button icons
+ *
+ * NOT used by TOC block (Table of Contents has no icon requirements).
+ * Parent blocks should conditionally render this component based on blockType.
+ *
  * @see docs/UI-UX/40-EDITOR-UI-PANELS.md
  * @package
  * @since 1.0.0
@@ -24,15 +31,25 @@ import { CompactColorControl } from './CompactColorControl';
 /**
  * Icon Panel Component
  *
+ * Provides UI controls for icon-related attributes:
+ * - showIcon: Toggle icon visibility
+ * - iconTypeClosed: Character/emoji/URL for closed state
+ * - iconTypeOpen: Character/emoji/URL for open state (or 'none' for rotation only)
+ * - iconRotation: Rotation degrees when state changes
+ * - iconPosition: Where icon appears relative to title
+ * - iconColor: Icon color (inherits from title if not set)
+ * - iconSize: Icon size in pixels (inherits from title font size if not set)
+ *
  * @param {Object}   props                 Component props
  * @param {Object}   props.effectiveValues All effective values from cascade
  * @param {Object}   props.attributes      Block attributes
  * @param {Function} props.setAttributes   Function to update block attributes
- * @param {string}   props.blockType       Block type (accordion, tabs, toc)
+ * @param {string}   props.blockType       Block type ('accordion' or 'tabs')
  * @param {Object}   props.theme           Current theme object (optional)
  * @param {Object}   props.cssDefaults     CSS default values (optional)
  * @param {Function} props.onChange        Callback when value changes (optional, deprecated)
- * @param {boolean}  props.initialOpen     Whether panel is initially open
+ * @param {boolean}  props.initialOpen     Whether panel is initially open (default: false)
+ * @returns {JSX.Element} The IconPanel component
  */
 export function IconPanel( {
 	effectiveValues = {},

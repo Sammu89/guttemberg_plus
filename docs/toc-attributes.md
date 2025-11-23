@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-11-23T01:40:07.202Z
+> Generated at: 2025-11-23T23:21:53.143Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -41,16 +41,13 @@ Non-themeable behavioral and structural settings
 | `autoHighlight` | boolean | `true` | No (behavioral) | Highlight current section in TOC |
 | `clickBehavior` | string | `navigate` | No (behavioral) | What happens when clicking a TOC item |
 
-## Colors
+## Content Colors
 
-Text, background, and link colors
+Link colors, level colors, and numbering colors
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `wrapperBackgroundColor` | string | `#ffffff` | Yes | Background color of the TOC wrapper |
-| `wrapperBorderColor` | string | `#dddddd` | Yes | Border color of the TOC wrapper |
-| `titleColor` | string | `#333333` | Yes | Text color for the TOC title |
-| `titleBackgroundColor` | string | `transparent` | Yes | Background color for the TOC title |
 | `linkColor` | string | `#0073aa` | Yes | Default color for TOC links |
 | `linkHoverColor` | string | `#005177` | Yes | Color when hovering over links |
 | `linkActiveColor` | string | `#005177` | Yes | Color for the currently active link |
@@ -60,6 +57,28 @@ Text, background, and link colors
 | `level2Color` | string | `#0073aa` | Yes | Text color for level 2 headings (H3) |
 | `level3PlusColor` | string | `#0073aa` | Yes | Text color for level 3+ headings (H4-H6) |
 | `collapseIconColor` | string | `#666666` | Yes | Color of the collapse/expand icon |
+
+## Border
+
+Wrapper border styles, widths, radius, and shadow
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `wrapperBorderColor` | string | `#dddddd` | Yes | Border color of the TOC wrapper |
+| `wrapperBorderWidth` | number | `1px` | Yes | Width of the wrapper border in pixels |
+| `wrapperBorderStyle` | string | `solid` | Yes | Style of the wrapper border |
+| `wrapperBorderRadius` | number | `4px` | Yes | Corner radius of the wrapper |
+| `wrapperShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |
+| `wrapperShadowHover` | string | `none` | Yes | CSS box-shadow for the wrapper on hover |
+
+## Header Colors
+
+Title text and background colors
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `titleColor` | string | `#333333` | Yes | Text color for the TOC title |
+| `titleBackgroundColor` | string | `transparent` | Yes | Background color for the TOC title |
 
 ## Typography
 
@@ -86,18 +105,6 @@ Font settings for title and heading levels
 | `level3PlusFontStyle` | string | `normal` | Yes | Font style for level 3+ items |
 | `level3PlusTextTransform` | string | `none` | Yes | Text transformation for level 3+ items |
 | `level3PlusTextDecoration` | string | `none` | Yes | Text decoration for level 3+ items |
-
-## Borders
-
-Border styles, widths, radius, and shadow
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `wrapperBorderWidth` | number | `1px` | Yes | Width of the wrapper border in pixels |
-| `wrapperBorderStyle` | string | `solid` | Yes | Style of the wrapper border |
-| `wrapperBorderRadius` | number | `4px` | Yes | Corner radius of the wrapper |
-| `wrapperShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |
-| `wrapperShadowHover` | string | `none` | Yes | CSS box-shadow for the wrapper on hover |
 
 ## Layout
 

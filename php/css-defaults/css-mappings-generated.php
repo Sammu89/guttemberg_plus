@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-11-23T01:40:07.204Z
+ * Generated at: 2025-11-23T23:21:53.145Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -27,11 +27,8 @@ $mappings = array(
       'titleBackgroundColor' => array( 'cssVar' => 'accordion-title-bg', 'unit' => null, 'type' => 'string' ),
       'hoverTitleColor' => array( 'cssVar' => 'accordion-title-hover-color', 'unit' => null, 'type' => 'string' ),
       'hoverTitleBackgroundColor' => array( 'cssVar' => 'accordion-title-hover-bg', 'unit' => null, 'type' => 'string' ),
-      'activeTitleColor' => array( 'cssVar' => 'accordion-title-active-color', 'unit' => null, 'type' => 'string' ),
-      'activeTitleBackgroundColor' => array( 'cssVar' => 'accordion-title-active-bg', 'unit' => null, 'type' => 'string' ),
       'contentColor' => array( 'cssVar' => 'accordion-content-color', 'unit' => null, 'type' => 'string' ),
       'contentBackgroundColor' => array( 'cssVar' => 'accordion-content-bg', 'unit' => null, 'type' => 'string' ),
-      'borderColor' => array( 'cssVar' => 'accordion-border-color', 'unit' => null, 'type' => 'string' ),
       'accordionBorderColor' => array( 'cssVar' => 'accordion-border-color', 'unit' => null, 'type' => 'string' ),
       'dividerBorderColor' => array( 'cssVar' => 'accordion-divider-color', 'unit' => null, 'type' => 'string' ),
       'iconColor' => array( 'cssVar' => 'accordion-icon-color', 'unit' => null, 'type' => 'string' ),
@@ -53,8 +50,6 @@ $mappings = array(
       'accordionBorderThickness' => array( 'cssVar' => 'accordion-border-width', 'unit' => 'px', 'type' => 'number' ),
       'accordionBorderStyle' => array( 'cssVar' => 'accordion-border-style', 'unit' => null, 'type' => 'string' ),
       'accordionBorderRadius' => array( 'cssVar' => 'accordion-border-radius', 'unit' => 'px', 'type' => 'object' ),
-      'borderWidth' => array( 'cssVar' => 'accordion-border-width', 'unit' => null, 'type' => 'string' ),
-      'borderRadius' => array( 'cssVar' => 'accordion-border-radius', 'unit' => null, 'type' => 'string' ),
       'accordionShadow' => array( 'cssVar' => 'accordion-shadow', 'unit' => null, 'type' => 'string' ),
       'accordionShadowHover' => array( 'cssVar' => 'accordion-shadow-hover', 'unit' => null, 'type' => 'string' ),
       'dividerBorderThickness' => array( 'cssVar' => 'accordion-divider-width', 'unit' => 'px', 'type' => 'number' ),
@@ -87,8 +82,6 @@ $mappings = array(
       'panelBorderColor' => array( 'cssVar' => 'panel-border-color', 'unit' => null, 'type' => 'string' ),
       'tabListBorderBottomColor' => array( 'cssVar' => 'tabs-list-border-bottom-color', 'unit' => null, 'type' => 'string' ),
       'dividerColor' => array( 'cssVar' => 'divider-color', 'unit' => null, 'type' => 'string' ),
-      'borderColor' => array( 'cssVar' => 'tabs-border-color', 'unit' => null, 'type' => 'string' ),
-      'accordionBorderColor' => array( 'cssVar' => 'tabs-border-color', 'unit' => null, 'type' => 'string' ),
       'dividerBorderColor' => array( 'cssVar' => 'divider-border-color', 'unit' => null, 'type' => 'string' ),
       'iconColor' => array( 'cssVar' => 'icon-color', 'unit' => null, 'type' => 'string' ),
       'titleFontSize' => array( 'cssVar' => 'tab-button-font-size', 'unit' => 'px', 'type' => 'number' ),
@@ -108,7 +101,6 @@ $mappings = array(
       'contentTextDecoration' => array( 'cssVar' => 'panel-text-decoration', 'unit' => null, 'type' => 'string' ),
       'panelFontSize' => array( 'cssVar' => 'panel-font-size', 'unit' => 'px', 'type' => 'number' ),
       'panelLineHeight' => array( 'cssVar' => 'panel-line-height', 'unit' => null, 'type' => 'number' ),
-      'verticalTabButtonTextAlign' => array( 'cssVar' => 'vertical-tab-button-text-align', 'unit' => null, 'type' => 'string' ),
       'tabBorderThickness' => array( 'cssVar' => 'tab-button-border-width', 'unit' => 'px', 'type' => 'number' ),
       'tabBorderStyle' => array( 'cssVar' => 'tab-button-border-style', 'unit' => null, 'type' => 'string' ),
       'tabBorderRadius' => array( 'cssVar' => 'tab-button-border-radius', 'unit' => 'px', 'type' => 'object' ),
@@ -130,8 +122,6 @@ $mappings = array(
       'accordionBorderStyle' => array( 'cssVar' => 'tabs-border-style', 'unit' => null, 'type' => 'string' ),
       'accordionBorderRadius' => array( 'cssVar' => 'tabs-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'accordionShadow' => array( 'cssVar' => 'tabs-shadow', 'unit' => null, 'type' => 'string' ),
-      'borderWidth' => array( 'cssVar' => 'tabs-border-width', 'unit' => null, 'type' => 'string' ),
-      'borderRadius' => array( 'cssVar' => 'tabs-border-radius', 'unit' => null, 'type' => 'string' ),
       'dividerBorderThickness' => array( 'cssVar' => 'divider-border-thickness', 'unit' => 'px', 'type' => 'number' ),
       'dividerBorderStyle' => array( 'cssVar' => 'divider-border-style', 'unit' => null, 'type' => 'string' ),
       'titlePadding' => array( 'cssVar' => 'tab-button-padding', 'unit' => 'px', 'type' => 'object' ),

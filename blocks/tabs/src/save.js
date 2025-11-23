@@ -16,8 +16,9 @@ import { getAllEffectiveValues } from '@shared';
 /**
  * Tabs Save Component
  *
- * @param {Object} props            Block props
- * @param {Object} props.attributes Block attributes
+ * @param {Object}   props            Block props
+ * @param {Object}   props.attributes Block attributes
+ * @param {Array}    props.innerBlocks Array of inner block objects
  * @return {JSX.Element} Save component
  */
 export default function Save( { attributes } ) {
@@ -148,7 +149,7 @@ export default function Save( { attributes } ) {
 
 	return (
 		<div { ...blockProps }>
-			{ /* Tab List - populated by frontend JavaScript */ }
+			{ /* Tab List - Tab Buttons */ }
 			<div
 				className="tabs-list"
 				role="tablist"

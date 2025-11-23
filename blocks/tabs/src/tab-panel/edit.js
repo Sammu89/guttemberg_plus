@@ -53,17 +53,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	return (
 		<div { ...blockProps }>
-			<div className="tab-panel-header" style={ { marginBottom: '12px', fontWeight: 'bold' } }>
-				<RichText
-					tagName="span"
-					value={ attributes.title }
-					onChange={ ( value ) => setAttributes( { title: value } ) }
-					placeholder={ __( 'Tab title…', 'guttemberg-plus' ) }
-					keepPlaceholderOnFocus={ false }
-				/>
-			</div>
 			<div className="tab-panel-content">
-				<InnerBlocks templateLock={ false } />
+				<InnerBlocks
+					templateLock={ false }
+					placeholder={ __( 'Add tab content…', 'guttemberg-plus' ) }
+				/>
 			</div>
 		</div>
 	);

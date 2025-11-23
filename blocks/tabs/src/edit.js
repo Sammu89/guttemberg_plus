@@ -9,8 +9,8 @@
  * @since 1.0.0
  */
 
-import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls, InnerBlocks } from '@wordpress/block-editor';
+import { __, sprintf } from '@wordpress/i18n';
+import { useBlockProps, InspectorControls, InnerBlocks, RichText } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	ToggleControl,
@@ -39,6 +39,8 @@ import {
 	debug,
 	TABS_EXCLUSIONS,
 } from '@shared';
+import { getPanelConfig, buildBorderConfig } from '@shared/utils/schema-config-builder';
+import tabsSchema from '../../../schemas/tabs.json';
 import './editor.scss';
 
 /**
@@ -111,6 +113,22 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Merge CSS defaults with behavioral defaults from attribute schemas
 	// Memoize to prevent infinite loop in session cache useEffect
 	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
+
+	// Build panel configs from schema
+	const headerColorsConfig = useMemo( () =>
+		getPanelConfig( tabsSchema, 'headerColors' ), [] );
+
+	const contentColorsConfig = useMemo( () =>
+		getPanelConfig( tabsSchema, 'contentColors' ), [] );
+
+	const typographyConfig = useMemo( () =>
+		getPanelConfig( tabsSchema, 'typography' ), [] );
+
+	const borderConfig = useMemo( () =>
+		buildBorderConfig( tabsSchema, 'tabs' ), [] );
+
+	const iconConfig = useMemo( () =>
+		getPanelConfig( tabsSchema, 'icon' ), [] );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
 	// Attributes to exclude from theme customization checks
@@ -501,24 +519,49 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const { insertBlock, removeBlock, updateBlockAttributes } = useDispatch( 'core/block-editor' );
 
 	/**
-	 * Add new tab
+	 * Add new tab next to active tab (or at end if no active tab)
+	 * @param {number} afterIndex - Index after which to insert the new tab (optional)
 	 */
-	const addTab = () => {
+	const addTab = ( afterIndex = null ) => {
+		// Max 20 tabs validation
+		if ( tabPanels.length >= 20 ) {
+			alert( __( 'Maximum of 20 tabs allowed', 'guttemberg-plus' ) );
+			return;
+		}
+
+		const insertIndex = afterIndex !== null ? afterIndex + 1 : tabPanels.length;
 		const newBlock = wp.blocks.createBlock( 'custom/tab-panel', {
 			tabId: `tab-${ generateUniqueId() }`,
 			title: `Tab ${ tabPanels.length + 1 }`,
 			isDisabled: false,
 		} );
-		insertBlock( newBlock, tabPanels.length, clientId );
+		insertBlock( newBlock, insertIndex, clientId );
+		// Switch to newly created tab
+		setActiveTab( insertIndex );
 	};
 
 	/**
-	 * Remove tab by index
+	 * Remove tab by index with confirmation
 	 * @param index
 	 */
 	const removeTab = ( index ) => {
+		// Min 1 tab validation
 		if ( tabPanels.length <= 1 ) {
-			return; // Don't allow removing last tab
+			alert( __( 'You must keep at least 1 tab', 'guttemberg-plus' ) );
+			return;
+		}
+
+		// Show confirmation warning
+		const tabTitle = tabPanels[ index ]?.attributes?.title || `Tab ${ index + 1 }`;
+		const confirmed = window.confirm(
+			sprintf(
+				__( 'Are you sure you want to delete "%s"? This action cannot be undone.', 'guttemberg-plus' ),
+				tabTitle
+			)
+		);
+
+		if ( ! confirmed ) {
+			return;
 		}
 
 		const blockToRemove = tabPanels[ index ];
@@ -726,7 +769,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="tabs"
+					config={ headerColorsConfig }
+					title="Tab Button Colors"
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
 				/>
@@ -735,7 +779,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="tabs"
+					config={ contentColorsConfig }
+					title="Panel Colors"
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
 				/>
@@ -744,7 +789,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="tabs"
+					config={ typographyConfig }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
 				/>
@@ -753,7 +798,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="tabs"
+					config={ borderConfig }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
 				/>
@@ -762,7 +807,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="tabs"
+					config={ iconConfig }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
 				/>
@@ -800,25 +845,68 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							{ tabPanels.map( ( panel, index ) => {
 								const tabId = panel.attributes.tabId || `tab-${ panel.clientId }`;
 								return (
-									<button
-										key={ panel.clientId }
-										role="tab"
-										aria-selected={ activeTab === index }
-										aria-controls={ `panel-${ tabId }` }
-										id={ `tab-${ tabId }` }
-										disabled={ panel.attributes.isDisabled }
-										onClick={ () => switchTab( index ) }
-										style={ styles.tabButton(
-											activeTab === index,
-											panel.attributes.isDisabled
-										) }
-										className={ `tab-button ${
-											activeTab === index ? 'active' : ''
-										}` }
-									>
-										{ effectiveValues.showIcon && renderIcon() }
-										{ panel.attributes.title || `Tab ${ index + 1 }` }
-									</button>
+									<div key={ panel.clientId } className="tab-button-container">
+										<button
+											role="tab"
+											aria-selected={ activeTab === index }
+											aria-controls={ `panel-${ tabId }` }
+											id={ `tab-${ tabId }` }
+											disabled={ panel.attributes.isDisabled }
+											onClick={ () => switchTab( index ) }
+											style={ {
+												...styles.tabButton(
+													activeTab === index,
+													panel.attributes.isDisabled
+												),
+												display: 'flex',
+												justifyContent: 'space-between',
+												alignItems: 'center',
+											} }
+											className={ `tab-button ${
+												activeTab === index ? 'active' : ''
+											}` }
+										>
+											<span className="tab-title" style={ { marginRight: '20px' } }>
+												{ effectiveValues.showIcon && renderIcon() }
+												<RichText
+													tagName="span"
+													value={ panel.attributes.title || `Tab ${ index + 1 }` }
+													onChange={ ( value ) => updateTab( index, 'title', value ) }
+													placeholder={ __( 'Tab title…', 'guttemberg-plus' ) }
+													keepPlaceholderOnFocus={ false }
+												/>
+											</span>
+											<div className="tab-actions" style={ {
+												display: 'flex',
+												flexDirection: 'column',
+												gap: '1px',
+												marginLeft: 'auto',
+											} }>
+												<button
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														addTab( index );
+													} }
+													className="tab-action-button tab-add-button"
+													title={ __( 'Add tab after this one', 'guttemberg-plus' ) }
+													type="button"
+												>
+													+
+												</button>
+												<button
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														removeTab( index );
+													} }
+													className="tab-action-button tab-remove-button"
+													title={ __( 'Delete this tab', 'guttemberg-plus' ) }
+													type="button"
+												>
+													−
+												</button>
+											</div>
+										</button>
+									</div>
 								);
 							} ) }
 						</div>

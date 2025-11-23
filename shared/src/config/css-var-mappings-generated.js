@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-11-23T01:40:07.205Z
+ * Generated at: 2025-11-23T23:21:53.147Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -33,11 +33,8 @@ export const CSS_VAR_MAPPINGS = {
     titleBackgroundColor: { cssVar: '--accordion-title-bg', unit: null, type: 'string' },
     hoverTitleColor: { cssVar: '--accordion-title-hover-color', unit: null, type: 'string' },
     hoverTitleBackgroundColor: { cssVar: '--accordion-title-hover-bg', unit: null, type: 'string' },
-    activeTitleColor: { cssVar: '--accordion-title-active-color', unit: null, type: 'string' },
-    activeTitleBackgroundColor: { cssVar: '--accordion-title-active-bg', unit: null, type: 'string' },
     contentColor: { cssVar: '--accordion-content-color', unit: null, type: 'string' },
     contentBackgroundColor: { cssVar: '--accordion-content-bg', unit: null, type: 'string' },
-    borderColor: { cssVar: '--accordion-border-color', unit: null, type: 'string' },
     accordionBorderColor: { cssVar: '--accordion-border-color', unit: null, type: 'string' },
     dividerBorderColor: { cssVar: '--accordion-divider-color', unit: null, type: 'string' },
     iconColor: { cssVar: '--accordion-icon-color', unit: null, type: 'string' },
@@ -59,8 +56,6 @@ export const CSS_VAR_MAPPINGS = {
     accordionBorderThickness: { cssVar: '--accordion-border-width', unit: 'px', type: 'number' },
     accordionBorderStyle: { cssVar: '--accordion-border-style', unit: null, type: 'string' },
     accordionBorderRadius: { cssVar: '--accordion-border-radius', unit: 'px', type: 'object' },
-    borderWidth: { cssVar: '--accordion-border-width', unit: null, type: 'string' },
-    borderRadius: { cssVar: '--accordion-border-radius', unit: null, type: 'string' },
     accordionShadow: { cssVar: '--accordion-shadow', unit: null, type: 'string' },
     accordionShadowHover: { cssVar: '--accordion-shadow-hover', unit: null, type: 'string' },
     dividerBorderThickness: { cssVar: '--accordion-divider-width', unit: 'px', type: 'number' },
@@ -93,8 +88,6 @@ export const CSS_VAR_MAPPINGS = {
     panelBorderColor: { cssVar: '--panel-border-color', unit: null, type: 'string' },
     tabListBorderBottomColor: { cssVar: '--tabs-list-border-bottom-color', unit: null, type: 'string' },
     dividerColor: { cssVar: '--divider-color', unit: null, type: 'string' },
-    borderColor: { cssVar: '--tabs-border-color', unit: null, type: 'string' },
-    accordionBorderColor: { cssVar: '--tabs-border-color', unit: null, type: 'string' },
     dividerBorderColor: { cssVar: '--divider-border-color', unit: null, type: 'string' },
     iconColor: { cssVar: '--icon-color', unit: null, type: 'string' },
     titleFontSize: { cssVar: '--tab-button-font-size', unit: 'px', type: 'number' },
@@ -114,7 +107,6 @@ export const CSS_VAR_MAPPINGS = {
     contentTextDecoration: { cssVar: '--panel-text-decoration', unit: null, type: 'string' },
     panelFontSize: { cssVar: '--panel-font-size', unit: 'px', type: 'number' },
     panelLineHeight: { cssVar: '--panel-line-height', unit: null, type: 'number' },
-    verticalTabButtonTextAlign: { cssVar: '--vertical-tab-button-text-align', unit: null, type: 'string' },
     tabBorderThickness: { cssVar: '--tab-button-border-width', unit: 'px', type: 'number' },
     tabBorderStyle: { cssVar: '--tab-button-border-style', unit: null, type: 'string' },
     tabBorderRadius: { cssVar: '--tab-button-border-radius', unit: 'px', type: 'object' },
@@ -136,8 +128,6 @@ export const CSS_VAR_MAPPINGS = {
     accordionBorderStyle: { cssVar: '--tabs-border-style', unit: null, type: 'string' },
     accordionBorderRadius: { cssVar: '--tabs-border-radius', unit: 'px', type: 'object' },
     accordionShadow: { cssVar: '--tabs-shadow', unit: null, type: 'string' },
-    borderWidth: { cssVar: '--tabs-border-width', unit: null, type: 'string' },
-    borderRadius: { cssVar: '--tabs-border-radius', unit: null, type: 'string' },
     dividerBorderThickness: { cssVar: '--divider-border-thickness', unit: 'px', type: 'number' },
     dividerBorderStyle: { cssVar: '--divider-border-style', unit: null, type: 'string' },
     titlePadding: { cssVar: '--tab-button-padding', unit: 'px', type: 'object' },

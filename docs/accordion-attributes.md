@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-11-23T01:40:07.190Z
+> Generated at: 2025-11-23T23:21:53.128Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -34,40 +34,7 @@ Non-themeable behavioral and structural settings
 | `allowMultipleOpen` | boolean | `false` | No (behavioral) | Allow multiple accordions to be open simultaneously |
 | `accordionWidth` | string | `100%` | No (behavioral) | Accordion container width |
 | `accordionHorizontalAlign` | string | `left` | No (behavioral) | Horizontal alignment of the accordion |
-| `headingLevel` | string | `none` | No (behavioral) | Semantic HTML heading level (none, h1-h6) |
 | `useHeadingStyles` | boolean | `false` | No (behavioral) | Apply default heading styles to title |
-
-## Colors
-
-Text and background colors for title, content, and states
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `titleColor` | string | `#333333` | Yes | Text color for the accordion title |
-| `titleBackgroundColor` | string | `#f5f5f5` | Yes | Background color for the accordion title |
-| `hoverTitleColor` | string | `#000000` | Yes | Text color when hovering over title |
-| `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over title |
-| `activeTitleColor` | string | `#000000` | Yes | Text color when accordion is open |
-| `activeTitleBackgroundColor` | string | `#e0e0e0` | Yes | Background color when accordion is open |
-| `contentColor` | string | `#333333` | Yes | Text color for accordion content |
-| `contentBackgroundColor` | string | `#ffffff` | Yes | Background color for accordion content |
-| `borderColor` | string | `#dddddd` | Yes | Color of the accordion border |
-| `accordionBorderColor` | string | `#dddddd` | Yes | Color of the accordion border (alias) |
-| `dividerBorderColor` | string | `#dddddd` | Yes | Color of divider between title and content |
-
-## Icons
-
-Icon appearance and behavior
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
-| `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
-| `iconPosition` | string | `right` | Yes | Position of icon relative to title |
-| `iconSize` | number | `20px` | Yes | Size of the icon in pixels |
-| `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed |
-| `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
-| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
 
 ## Typography
 
@@ -75,6 +42,7 @@ Font settings for title and content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `headingLevel` | string | `none` | No (behavioral) | Semantic HTML heading level (none, h1-h6) |
 | `titleFontSize` | number | `18px` | Yes | Font size for the title in pixels |
 | `titleFontWeight` | string | `600` | Yes | Font weight for the title |
 | `titleFontFamily` | string | _null_ | Yes | Font family for the title |
@@ -91,21 +59,62 @@ Font settings for title and content
 | `contentTextTransform` | string | _null_ | Yes | Text transformation for content |
 | `contentTextDecoration` | string | _null_ | Yes | Text decoration for content |
 
-## Borders
+## Header Colors
 
-Border styles, widths, radius, and shadow
+Title/header text and background colors including hover and active states
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `titleColor` | string | `#333333` | Yes | Text color for the accordion title |
+| `titleBackgroundColor` | string | `#f5f5f5` | Yes | Background color for the accordion title |
+| `hoverTitleColor` | string | `#000000` | Yes | Text color when hovering over title |
+| `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over title |
+
+## Content Colors
+
+Content area text and background colors
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `contentColor` | string | `#333333` | Yes | Text color for accordion content |
+| `contentBackgroundColor` | string | `#ffffff` | Yes | Background color for accordion content |
+
+## Border
+
+Main border styles, widths, radius, and shadow
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `accordionBorderColor` | string | `#dddddd` | Yes | Color of the accordion border (alias) |
 | `accordionBorderThickness` | number | `1px` | Yes | Thickness of the accordion border in pixels |
 | `accordionBorderStyle` | string | `solid` | Yes | Style of the accordion border |
 | `accordionBorderRadius` | object | _object_ | Yes | Corner radius of the accordion |
-| `borderWidth` | string | _null_ | Yes | Generic border width |
-| `borderRadius` | string | _null_ | Yes | Generic border radius |
 | `accordionShadow` | string | `none` | Yes | CSS box-shadow for the accordion item |
 | `accordionShadowHover` | string | `none` | Yes | CSS box-shadow for the accordion item on hover |
+
+## Border Divider
+
+Divider border between title and content
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `dividerBorderColor` | string | `#dddddd` | Yes | Color of divider between title and content |
 | `dividerBorderThickness` | number | `0px` | Yes | Thickness of divider between title and content |
 | `dividerBorderStyle` | string | `solid` | Yes | Style of divider between title and content |
+
+## Icon
+
+Icon appearance and behavior
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
+| `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
+| `iconPosition` | string | `right` | Yes | Position of icon relative to title |
+| `iconSize` | number | `20px` | Yes | Size of the icon in pixels |
+| `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed |
+| `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
+| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
 
 ## Layout
 
@@ -128,11 +137,8 @@ The following CSS custom properties are available for theming:
 | `titleBackgroundColor` | `--accordion-title-bg` |
 | `hoverTitleColor` | `--accordion-title-hover-color` |
 | `hoverTitleBackgroundColor` | `--accordion-title-hover-bg` |
-| `activeTitleColor` | `--accordion-title-active-color` |
-| `activeTitleBackgroundColor` | `--accordion-title-active-bg` |
 | `contentColor` | `--accordion-content-color` |
 | `contentBackgroundColor` | `--accordion-content-bg` |
-| `borderColor` | `--accordion-border-color` |
 | `accordionBorderColor` | `--accordion-border-color` |
 | `dividerBorderColor` | `--accordion-divider-color` |
 | `iconColor` | `--accordion-icon-color` |
@@ -154,8 +160,6 @@ The following CSS custom properties are available for theming:
 | `accordionBorderThickness` | `--accordion-border-width` |
 | `accordionBorderStyle` | `--accordion-border-style` |
 | `accordionBorderRadius` | `--accordion-border-radius` |
-| `borderWidth` | `--accordion-border-width` |
-| `borderRadius` | `--accordion-border-radius` |
 | `accordionShadow` | `--accordion-shadow` |
 | `accordionShadowHover` | `--accordion-shadow-hover` |
 | `dividerBorderThickness` | `--accordion-divider-width` |

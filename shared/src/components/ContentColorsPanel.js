@@ -1,7 +1,15 @@
 /**
  * Content Colors Panel Component
  *
- * Panel for content area color customization.
+ * Configuration-driven panel for content area color customization.
+ * Renders controls dynamically based on the provided config.attributes.
+ *
+ * Works for any block with content colors:
+ * - Accordion: contentColor, contentBackgroundColor
+ * - Tabs: contentColor, contentBackgroundColor, panelColor, panelBackground
+ * - TOC: wrapperBackgroundColor, linkColor, linkHoverColor, linkActiveColor,
+ *        linkVisitedColor, numberingColor, level1Color, level2Color,
+ *        level3PlusColor, collapseIconColor
  *
  * @package
  * @since 1.0.0
@@ -15,28 +23,38 @@ import { CompactColorControl } from './CompactColorControl';
 /**
  * Content Colors Panel Component
  *
+ * A generic, configuration-driven panel that renders color controls
+ * based on the provided config. The component doesn't need to know
+ * which block it's for - the config tells it everything.
+ *
  * @param {Object}   props                 Component props
  * @param {Object}   props.effectiveValues All effective values from cascade
  * @param {Object}   props.attributes      Block attributes
  * @param {Function} props.setAttributes   Function to update block attributes
- * @param {string}   props.blockType       Block type (accordion, tabs, toc)
+ * @param {Object}   props.config          Panel configuration with attributes to render
+ * @param {Object}   props.config.attributes Object mapping attribute names to their config
  * @param {Object}   props.theme           Current theme object (optional)
  * @param {Object}   props.cssDefaults     CSS default values (optional)
  * @param {boolean}  props.initialOpen     Whether panel is initially open
+ * @param {string}   props.title           Panel title (default: "Content Colors")
  */
 export function ContentColorsPanel( {
 	effectiveValues = {},
 	attributes = {},
 	setAttributes,
-	blockType,
+	config = {},
 	theme,
 	cssDefaults = {},
 	initialOpen = false,
+	title = 'Content Colors',
 } ) {
+	// Get the attributes to render from config
+	const configAttributes = config.attributes || {};
+
 	/**
 	 * Handle color change
-	 * @param attrName
-	 * @param value
+	 * @param {string} attrName - Attribute name
+	 * @param {string} value - New color value
 	 */
 	const handleColorChange = ( attrName, value ) => {
 		if ( setAttributes ) {
@@ -46,19 +64,21 @@ export function ContentColorsPanel( {
 
 	/**
 	 * Check if attribute is customized
-	 * @param attrName
+	 * @param {string} attrName - Attribute name
+	 * @returns {boolean} Whether the attribute is customized
 	 */
 	const isAttrCustomized = ( attrName ) => {
 		return isCustomizedFromDefaults( attrName, attributes, theme, cssDefaults );
 	};
 
 	/**
-	 * Color control with customization badge
-	 * @param root0
-	 * @param root0.label
-	 * @param root0.attrName
+	 * Render a single color control
+	 * @param {string} attrName - Attribute name
+	 * @param {Object} attrConfig - Attribute configuration from config
+	 * @returns {JSX.Element} Color control component
 	 */
-	const ColorControl = ( { label, attrName } ) => {
+	const renderColorControl = ( attrName, attrConfig ) => {
+		const label = attrConfig.label || attrName;
 		const labelWithBadge = isAttrCustomized( attrName ) ? `${ label } (Customized)` : label;
 
 		const normalizedValue = normalizeValueForControl(
@@ -69,6 +89,7 @@ export function ContentColorsPanel( {
 
 		return (
 			<CompactColorControl
+				key={ attrName }
 				label={ labelWithBadge }
 				value={ normalizedValue }
 				onChange={ ( value ) => handleColorChange( attrName, value ) }
@@ -77,10 +98,19 @@ export function ContentColorsPanel( {
 		);
 	};
 
+	// Get attribute names in order from config
+	const attributeNames = Object.keys( configAttributes );
+
+	// If no attributes configured, render nothing
+	if ( attributeNames.length === 0 ) {
+		return null;
+	}
+
 	return (
-		<PanelBody title="Content Colors" initialOpen={ initialOpen }>
-			<ColorControl label="Content Text Color" attrName="contentColor" />
-			<ColorControl label="Content Background Color" attrName="contentBackgroundColor" />
+		<PanelBody title={ title } initialOpen={ initialOpen }>
+			{ attributeNames.map( ( attrName ) =>
+				renderColorControl( attrName, configAttributes[ attrName ] )
+			) }
 		</PanelBody>
 	);
 }

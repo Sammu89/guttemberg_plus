@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-23T01:40:07.184Z
+ * Generated at: 2025-11-23T23:21:53.121Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -22,11 +22,8 @@ export const accordionThemeSchema = z.object({
   titleBackgroundColor: z.string(),
   hoverTitleColor: z.string(),
   hoverTitleBackgroundColor: z.string(),
-  activeTitleColor: z.string(),
-  activeTitleBackgroundColor: z.string(),
   contentColor: z.string(),
   contentBackgroundColor: z.string(),
-  borderColor: z.string(),
   accordionBorderColor: z.string(),
   dividerBorderColor: z.string(),
   iconColor: z.string(),
@@ -48,8 +45,6 @@ export const accordionThemeSchema = z.object({
   accordionBorderThickness: z.number(),
   accordionBorderStyle: z.string(),
   accordionBorderRadius: z.record(z.any()),
-  borderWidth: z.string().optional(),
-  borderRadius: z.string().optional(),
   accordionShadow: z.string(),
   accordionShadowHover: z.string(),
   dividerBorderThickness: z.number(),
@@ -88,11 +83,8 @@ export const accordionAttributesSchema = z.object({
   titleBackgroundColor: z.string(),
   hoverTitleColor: z.string(),
   hoverTitleBackgroundColor: z.string(),
-  activeTitleColor: z.string(),
-  activeTitleBackgroundColor: z.string(),
   contentColor: z.string(),
   contentBackgroundColor: z.string(),
-  borderColor: z.string(),
   accordionBorderColor: z.string(),
   dividerBorderColor: z.string(),
   iconColor: z.string(),
@@ -114,8 +106,6 @@ export const accordionAttributesSchema = z.object({
   accordionBorderThickness: z.number(),
   accordionBorderStyle: z.string(),
   accordionBorderRadius: z.record(z.any()),
-  borderWidth: z.string().optional(),
-  borderRadius: z.string().optional(),
   accordionShadow: z.string(),
   accordionShadowHover: z.string(),
   dividerBorderThickness: z.number(),

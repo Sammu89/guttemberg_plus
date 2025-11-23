@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-23T01:40:07.185Z
+ * Generated at: 2025-11-23T23:21:53.122Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -91,14 +91,6 @@ export const accordionAttributes = {
     type: 'string',
     default: '#e8e8e8',
   },
-  activeTitleColor: {
-    type: 'string',
-    default: '#000000',
-  },
-  activeTitleBackgroundColor: {
-    type: 'string',
-    default: '#e0e0e0',
-  },
   contentColor: {
     type: 'string',
     default: '#333333',
@@ -106,10 +98,6 @@ export const accordionAttributes = {
   contentBackgroundColor: {
     type: 'string',
     default: '#ffffff',
-  },
-  borderColor: {
-    type: 'string',
-    default: '#dddddd',
   },
   accordionBorderColor: {
     type: 'string',
@@ -194,14 +182,6 @@ export const accordionAttributes = {
   accordionBorderRadius: {
     type: 'object',
     default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
-  },
-  borderWidth: {
-    type: 'string',
-    default: null,
-  },
-  borderRadius: {
-    type: 'string',
-    default: null,
   },
   accordionShadow: {
     type: 'string',

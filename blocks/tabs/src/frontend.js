@@ -54,6 +54,74 @@ function initializeTabs() {
 }
 
 /**
+ * Generate tab buttons from tab panel data attributes
+ *
+ * Creates <button role="tab"> elements for each tab panel.
+ * Each panel contains data-tab-title, data-tab-id, data-disabled.
+ *
+ * @param {HTMLElement} block Parent block element
+ * @param {HTMLElement} tabList Tab list container
+ * @param {NodeList} tabPanels Tab panel elements
+ * @return {NodeList} Generated button elements
+ */
+function generateTabButtons( block, tabList, tabPanels ) {
+	if ( ! tabList || ! tabPanels || tabPanels.length === 0 ) {
+		console.warn( 'Cannot generate tab buttons: missing tabList or tabPanels' );
+		return [];
+	}
+
+	// Clear existing buttons (in case of reinit)
+	tabList.innerHTML = '';
+
+	// Get current tab from data attribute (defaults to first tab)
+	const currentTab = parseInt( tabList.getAttribute( 'data-current-tab' ) || '0', 10 );
+
+	// Generate a button for each panel
+	tabPanels.forEach( ( panel, index ) => {
+		if ( ! panel ) {
+			return;
+		}
+
+		const tabId = panel.getAttribute( 'data-tab-id' ) || `tab-${ index }`;
+		const tabTitle = panel.getAttribute( 'data-tab-title' ) || `Tab ${ index + 1 }`;
+		const isDisabled = panel.getAttribute( 'data-disabled' ) === 'true';
+		const isSelected = index === currentTab;
+
+		// Create button element
+		const button = document.createElement( 'button' );
+		button.type = 'button';
+		button.className = 'tab-button' + ( isSelected ? ' active' : '' );
+		button.setAttribute( 'role', 'tab' );
+		button.setAttribute( 'id', `tab-${ tabId }` );
+		button.setAttribute( 'aria-controls', `panel-${ tabId }` );
+		button.setAttribute( 'aria-selected', isSelected ? 'true' : 'false' );
+		button.setAttribute( 'tabindex', isSelected ? '0' : '-1' );
+		button.textContent = tabTitle;
+
+		if ( isDisabled ) {
+			button.disabled = true;
+			button.setAttribute( 'aria-disabled', 'true' );
+		}
+
+		// Update panel visibility and active state
+		if ( isSelected ) {
+			panel.removeAttribute( 'hidden' );
+			panel.classList.add( 'active' );
+		} else {
+			panel.setAttribute( 'hidden', '' );
+			panel.classList.remove( 'active' );
+		}
+
+		// Update panel tabindex based on active state
+		panel.setAttribute( 'tabindex', isSelected ? '0' : '-1' );
+
+		tabList.appendChild( button );
+	} );
+
+	return tabList.querySelectorAll( '.tab-button' );
+}
+
+/**
  * Initialize a single tabs block
  *
  * @param {HTMLElement} block Tabs block element
@@ -70,11 +138,26 @@ function initializeSingleTabsBlock( block ) {
 
 	// Find tab list and panels
 	const tabList = block.querySelector( '.tabs-list' );
-	const tabButtons = block.querySelectorAll( '.tab-button' );
 	const tabPanels = block.querySelectorAll( '.tab-panel' );
 
-	if ( ! tabList || tabButtons.length === 0 || tabPanels.length === 0 ) {
-		console.warn( 'Tabs block structure incomplete, skipping' );
+	// Check for required structure
+	if ( ! tabList || tabPanels.length === 0 ) {
+		console.warn( 'Tabs block structure incomplete (missing tabList or panels), skipping' );
+		return;
+	}
+
+	// Generate tab buttons from panels
+	let tabButtons;
+	try {
+		tabButtons = generateTabButtons( block, tabList, tabPanels );
+	} catch ( error ) {
+		console.error( 'Failed to generate tab buttons:', error );
+		return;
+	}
+
+	// Verify buttons were created
+	if ( ! tabButtons || tabButtons.length === 0 ) {
+		console.warn( 'No tab buttons generated, skipping' );
 		return;
 	}
 
