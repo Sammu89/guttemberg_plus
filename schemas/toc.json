@@ -987,8 +987,18 @@
       "default": "none",
       "cssVar": "toc-wrapper-shadow",
       "group": "borders",
-      "label": "Box Shadow",
+      "label": "Shadow",
       "description": "CSS box-shadow for the wrapper",
+      "themeable": true,
+      "control": "TextControl"
+    },
+    "wrapperShadowHover": {
+      "type": "string",
+      "default": "none",
+      "cssVar": "toc-wrapper-shadow-hover",
+      "group": "borders",
+      "label": "Shadow on Hover",
+      "description": "CSS box-shadow for the wrapper on hover",
       "themeable": true,
       "control": "TextControl"
     },

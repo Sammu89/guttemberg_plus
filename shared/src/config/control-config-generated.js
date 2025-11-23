@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-11-23T00:53:01.621Z
+ * Generated at: 2025-11-23T01:40:07.207Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -462,8 +462,14 @@ const CONTROL_CONFIGS = {
     },
     'accordionShadow': {
       control: 'TextControl',
-      label: 'Box Shadow',
-      description: 'CSS box-shadow for the accordion',
+      label: 'Shadow',
+      description: 'CSS box-shadow for the accordion item',
+      default: 'none',
+    },
+    'accordionShadowHover': {
+      control: 'TextControl',
+      label: 'Shadow on Hover',
+      description: 'CSS box-shadow for the accordion item on hover',
       default: 'none',
     },
     'dividerBorderThickness': {
@@ -1096,8 +1102,15 @@ const CONTROL_CONFIGS = {
     },
     'tabShadow': {
       control: 'TextControl',
-      label: 'Tab Shadow',
-      description: 'Box shadow for tab buttons',
+      label: 'Shadow',
+      description: 'CSS box-shadow for tab buttons',
+      default: 'none',
+    },
+    'tabShadowHover': {
+      control: 'TextControl',
+      label: 'Shadow on Hover',
+      description: 'CSS box-shadow for tab buttons on hover',
+      default: 'none',
     },
     'tabButtonBorderRadius': {
       control: 'BorderRadiusControl',
@@ -2089,8 +2102,14 @@ const CONTROL_CONFIGS = {
     },
     'wrapperShadow': {
       control: 'TextControl',
-      label: 'Box Shadow',
+      label: 'Shadow',
       description: 'CSS box-shadow for the wrapper',
+      default: 'none',
+    },
+    'wrapperShadowHover': {
+      control: 'TextControl',
+      label: 'Shadow on Hover',
+      description: 'CSS box-shadow for the wrapper on hover',
       default: 'none',
     },
     'wrapperPadding': {

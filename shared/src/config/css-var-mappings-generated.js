@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-11-23T00:53:01.619Z
+ * Generated at: 2025-11-23T01:40:07.205Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -62,6 +62,7 @@ export const CSS_VAR_MAPPINGS = {
     borderWidth: { cssVar: '--accordion-border-width', unit: null, type: 'string' },
     borderRadius: { cssVar: '--accordion-border-radius', unit: null, type: 'string' },
     accordionShadow: { cssVar: '--accordion-shadow', unit: null, type: 'string' },
+    accordionShadowHover: { cssVar: '--accordion-shadow-hover', unit: null, type: 'string' },
     dividerBorderThickness: { cssVar: '--accordion-divider-width', unit: 'px', type: 'number' },
     dividerBorderStyle: { cssVar: '--accordion-divider-style', unit: null, type: 'string' },
     titlePadding: { cssVar: '--accordion-title-padding', unit: 'px', type: 'object' },
@@ -118,6 +119,7 @@ export const CSS_VAR_MAPPINGS = {
     tabBorderStyle: { cssVar: '--tab-button-border-style', unit: null, type: 'string' },
     tabBorderRadius: { cssVar: '--tab-button-border-radius', unit: 'px', type: 'object' },
     tabShadow: { cssVar: '--tab-button-shadow', unit: null, type: 'string' },
+    tabShadowHover: { cssVar: '--tab-button-shadow-hover', unit: null, type: 'string' },
     tabButtonBorderRadius: { cssVar: '--tab-button-border-radius', unit: 'px', type: 'object' },
     containerBorderWidth: { cssVar: '--tabs-container-border-width', unit: 'px', type: 'number' },
     containerBorderStyle: { cssVar: '--tabs-container-border-style', unit: null, type: 'string' },
@@ -187,6 +189,7 @@ export const CSS_VAR_MAPPINGS = {
     wrapperBorderStyle: { cssVar: '--toc-border-style', unit: null, type: 'string' },
     wrapperBorderRadius: { cssVar: '--toc-border-radius', unit: 'px', type: 'number' },
     wrapperShadow: { cssVar: '--toc-wrapper-shadow', unit: null, type: 'string' },
+    wrapperShadowHover: { cssVar: '--toc-wrapper-shadow-hover', unit: null, type: 'string' },
     wrapperPadding: { cssVar: '--toc-wrapper-padding', unit: 'px', type: 'number' },
     listPaddingLeft: { cssVar: '--toc-list-padding-left', unit: 'px', type: 'number' },
     itemSpacing: { cssVar: '--toc-item-spacing', unit: 'px', type: 'number' },

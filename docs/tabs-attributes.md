@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-23T00:53:01.612Z
+> Generated at: 2025-11-23T01:40:07.197Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -116,7 +116,8 @@ Border styles, widths, radius, and shadow
 | `tabBorderThickness` | number | _null_ | Yes | Border width for individual tabs |
 | `tabBorderStyle` | string | _null_ | Yes | Border style for individual tabs |
 | `tabBorderRadius` | object | _object_ | Yes | Corner radius for individual tabs |
-| `tabShadow` | string | _null_ | Yes | Box shadow for tab buttons |
+| `tabShadow` | string | `none` | Yes | CSS box-shadow for tab buttons |
+| `tabShadowHover` | string | `none` | Yes | CSS box-shadow for tab buttons on hover |
 | `tabButtonBorderRadius` | object | _null_ | Yes | Per-corner border radius for tab buttons |
 | `containerBorderWidth` | number | `0px` | Yes | Border width for the tabs container |
 | `containerBorderStyle` | string | `solid` | Yes | Border style for the tabs container |
@@ -206,6 +207,7 @@ The following CSS custom properties are available for theming:
 | `tabBorderStyle` | `--tab-button-border-style` |
 | `tabBorderRadius` | `--tab-button-border-radius` |
 | `tabShadow` | `--tab-button-shadow` |
+| `tabShadowHover` | `--tab-button-shadow-hover` |
 | `tabButtonBorderRadius` | `--tab-button-border-radius` |
 | `containerBorderWidth` | `--tabs-container-border-width` |
 | `containerBorderStyle` | `--tabs-container-border-style` |

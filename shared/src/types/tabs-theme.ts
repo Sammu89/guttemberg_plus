@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T00:53:01.608Z
+ * Generated at: 2025-11-23T01:40:07.193Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -107,8 +107,10 @@ export interface TabsTheme {
   tabBorderStyle?: string | undefined;
   /** Corner radius for individual tabs */
   tabBorderRadius?: Record<string, any>;
-  /** Box shadow for tab buttons */
-  tabShadow?: string | undefined;
+  /** CSS box-shadow for tab buttons */
+  tabShadow?: string;
+  /** CSS box-shadow for tab buttons on hover */
+  tabShadowHover?: string;
   /** Per-corner border radius for tab buttons */
   tabButtonBorderRadius?: Record<string, any> | undefined;
   /** Border width for the tabs container */
@@ -215,6 +217,8 @@ export const tabsDefaultTheme: TabsTheme = {
     "bottomRight": 0,
     "bottomLeft": 0
   },
+  tabShadow: 'none',
+  tabShadowHover: 'none',
   containerBorderWidth: 0px,
   containerBorderStyle: 'solid',
   containerBorderRadius: {
@@ -322,7 +326,8 @@ export interface TabsThemeAttributes {
   tabBorderThickness?: number | undefined;
   tabBorderStyle?: string | undefined;
   tabBorderRadius?: Record<string, any>;
-  tabShadow?: string | undefined;
+  tabShadow?: string;
+  tabShadowHover?: string;
   tabButtonBorderRadius?: Record<string, any> | undefined;
   containerBorderWidth?: number;
   containerBorderStyle?: string;

@@ -672,7 +672,7 @@ function generateExclusions(blockType, schema) {
  * Generate CSS variable declarations
  */
 function generateCSSVariables(blockType, schema) {
-  const fileName = `${blockType}-generated.css`;
+  const fileName = `${blockType}-variables.css`;
   const prefix = blockType;
 
   let content = `/**
@@ -697,7 +697,7 @@ function generateCSSVariables(blockType, schema) {
         continue;
       }
 
-      content += `  ${attr.cssVar}: ${attr.default};\n`;
+      content += `  --${attr.cssVar}: ${attr.default};\n`;
     }
   }
 

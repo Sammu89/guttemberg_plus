@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-23T00:53:01.602Z
+ * Generated at: 2025-11-23T01:40:07.187Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -42,6 +42,7 @@ return array(
   'accordionBorderThickness' => '1px',
   'accordionBorderStyle' => 'solid',
   'accordionShadow' => 'none',
+  'accordionShadowHover' => 'none',
   'dividerBorderThickness' => '0px',
   'dividerBorderStyle' => 'solid',
   'accordionMarginBottom' => '8px',

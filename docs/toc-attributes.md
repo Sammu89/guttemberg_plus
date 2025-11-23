@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-11-23T00:53:01.617Z
+> Generated at: 2025-11-23T01:40:07.202Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -97,6 +97,7 @@ Border styles, widths, radius, and shadow
 | `wrapperBorderStyle` | string | `solid` | Yes | Style of the wrapper border |
 | `wrapperBorderRadius` | number | `4px` | Yes | Corner radius of the wrapper |
 | `wrapperShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |
+| `wrapperShadowHover` | string | `none` | Yes | CSS box-shadow for the wrapper on hover |
 
 ## Layout
 
@@ -154,6 +155,7 @@ The following CSS custom properties are available for theming:
 | `wrapperBorderStyle` | `--toc-border-style` |
 | `wrapperBorderRadius` | `--toc-border-radius` |
 | `wrapperShadow` | `--toc-wrapper-shadow` |
+| `wrapperShadowHover` | `--toc-wrapper-shadow-hover` |
 | `wrapperPadding` | `--toc-wrapper-padding` |
 | `listPaddingLeft` | `--toc-list-padding-left` |
 | `itemSpacing` | `--toc-item-spacing` |
