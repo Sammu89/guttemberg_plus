@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-23T00:53:01.615Z
+ * Generated at: 2025-11-23T01:40:07.201Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -232,6 +232,10 @@ export const tocAttributes = {
     default: '4px',
   },
   wrapperShadow: {
+    type: 'string',
+    default: 'none',
+  },
+  wrapperShadowHover: {
     type: 'string',
     default: 'none',
   },

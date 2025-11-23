@@ -2,9 +2,10 @@
 /**
  * Asset Enqueue
  *
- * Additional asset handling for blocks.
- * Note: Block JavaScript and CSS are primarily handled via block.json.
- * This file is for supplementary assets like CSS variable defaults.
+ * Enqueues CSS files for blocks on both frontend and editor.
+ * Two CSS files per block:
+ * - Variables CSS: CSS custom properties with default values (Tier 1)
+ * - Block CSS: Block styling that uses those variables (Tier 2)
  *
  * @package GuttemberPlus
  * @since 1.0.0
@@ -15,100 +16,101 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Enqueue CSS variable defaults in the block editor
- *
- * These CSS files contain :root variables that define default values
- * for the theme cascade system. They are separate from the block styles.
+ * Enqueue CSS files for blocks on frontend (conditional based on block presence)
  */
-function guttemberg_plus_enqueue_editor_assets() {
-	wp_enqueue_style(
-		'guttemberg-plus-accordion-defaults',
-		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion-generated.css',
-		array(),
-		GUTTEMBERG_PLUS_VERSION
-	);
-
-	wp_enqueue_style(
-		'guttemberg-plus-tabs-defaults',
-		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs-generated.css',
-		array(),
-		GUTTEMBERG_PLUS_VERSION
-	);
-
-	wp_enqueue_style(
-		'guttemberg-plus-toc-defaults',
-		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc-generated.css',
-		array(),
-		GUTTEMBERG_PLUS_VERSION
-	);
-}
-add_action( 'enqueue_block_editor_assets', 'guttemberg_plus_enqueue_editor_assets' );
-
-/**
- * Enqueue CSS variable defaults and block styles on frontend
- *
- * Only loaded when blocks are actually used on the page.
- */
-function guttemberg_plus_enqueue_frontend_assets() {
-	// Debug: Log which blocks are detected
-	$has_accordion = has_block( 'custom/accordion' );
-	$has_tabs = has_block( 'custom/tabs' );
-	$has_toc = has_block( 'custom/toc' );
-
-	error_log( '[GUTTEMBERG DEBUG] Block detection: accordion=' . ( $has_accordion ? 'YES' : 'NO' ) . ', tabs=' . ( $has_tabs ? 'YES' : 'NO' ) . ', toc=' . ( $has_toc ? 'YES' : 'NO' ) );
-
-	if ( $has_accordion ) {
-		// Enqueue CSS defaults (Tier 1)
+function guttemberg_plus_enqueue_frontend_block_styles() {
+	// Only enqueue if blocks are present on the current page
+	if ( has_block( 'custom/accordion' ) ) {
 		wp_enqueue_style(
-			'guttemberg-plus-accordion-defaults',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion-generated.css',
+			'guttemberg-plus-accordion-variables',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion-variables.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
-
-		// Enqueue block styles
 		wp_enqueue_style(
 			'guttemberg-plus-accordion-style',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/accordion/style-index.css',
-			array(),
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/accordion/accordion.css',
+			array( 'guttemberg-plus-accordion-variables' ),
 			GUTTEMBERG_PLUS_VERSION
 		);
 	}
 
-	if ( $has_tabs ) {
-		// Enqueue CSS defaults (Tier 1)
+	if ( has_block( 'custom/tabs' ) ) {
 		wp_enqueue_style(
-			'guttemberg-plus-tabs-defaults',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs-generated.css',
+			'guttemberg-plus-tabs-variables',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs-variables.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
-
-		// Enqueue block styles
 		wp_enqueue_style(
 			'guttemberg-plus-tabs-style',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/tabs/style-index.css',
-			array(),
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/tabs/tabs.css',
+			array( 'guttemberg-plus-tabs-variables' ),
 			GUTTEMBERG_PLUS_VERSION
 		);
 	}
 
-	if ( $has_toc ) {
-		// Enqueue CSS defaults (Tier 1)
+	if ( has_block( 'custom/toc' ) ) {
 		wp_enqueue_style(
-			'guttemberg-plus-toc-defaults',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc-generated.css',
+			'guttemberg-plus-toc-variables',
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc-variables.css',
 			array(),
 			GUTTEMBERG_PLUS_VERSION
 		);
-
-		// Enqueue block styles
 		wp_enqueue_style(
 			'guttemberg-plus-toc-style',
-			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/toc/style-index.css',
-			array(),
+			GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/toc/toc.css',
+			array( 'guttemberg-plus-toc-variables' ),
 			GUTTEMBERG_PLUS_VERSION
 		);
 	}
 }
-add_action( 'wp_enqueue_scripts', 'guttemberg_plus_enqueue_frontend_assets' );
+
+/**
+ * Enqueue CSS files for blocks in editor (always enqueue all)
+ */
+function guttemberg_plus_enqueue_editor_block_styles() {
+	// Always enqueue all styles in editor for block availability
+	wp_enqueue_style(
+		'guttemberg-plus-accordion-variables',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/accordion-variables.css',
+		array(),
+		GUTTEMBERG_PLUS_VERSION
+	);
+	wp_enqueue_style(
+		'guttemberg-plus-accordion-style',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/accordion/accordion.css',
+		array( 'guttemberg-plus-accordion-variables' ),
+		GUTTEMBERG_PLUS_VERSION
+	);
+
+	wp_enqueue_style(
+		'guttemberg-plus-tabs-variables',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/tabs-variables.css',
+		array(),
+		GUTTEMBERG_PLUS_VERSION
+	);
+	wp_enqueue_style(
+		'guttemberg-plus-tabs-style',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/tabs/tabs.css',
+		array( 'guttemberg-plus-tabs-variables' ),
+		GUTTEMBERG_PLUS_VERSION
+	);
+
+	wp_enqueue_style(
+		'guttemberg-plus-toc-variables',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'assets/css/toc-variables.css',
+		array(),
+		GUTTEMBERG_PLUS_VERSION
+	);
+	wp_enqueue_style(
+		'guttemberg-plus-toc-style',
+		GUTTEMBERG_PLUS_PLUGIN_URL . 'build/blocks/toc/toc.css',
+		array( 'guttemberg-plus-toc-variables' ),
+		GUTTEMBERG_PLUS_VERSION
+	);
+}
+
+// Conditional enqueue on frontend, always on editor
+add_action( 'wp_enqueue_scripts', 'guttemberg_plus_enqueue_frontend_block_styles' );
+add_action( 'enqueue_block_editor_assets', 'guttemberg_plus_enqueue_editor_block_styles' );

@@ -109,6 +109,7 @@ export function BorderPanel( {
 					style: 'accordionBorderStyle',
 					radius: 'accordionBorderRadius',
 					shadow: 'accordionShadow',
+					shadowHover: 'accordionShadowHover',
 			  }
 			: blockType === 'tabs'
 			? {
@@ -118,6 +119,7 @@ export function BorderPanel( {
 					style: 'tabBorderStyle',
 					radius: 'tabBorderRadius',
 					shadow: 'tabShadow',
+					shadowHover: 'tabShadowHover',
 			  }
 			: {
 					title: 'Wrapper Border',
@@ -126,6 +128,7 @@ export function BorderPanel( {
 					style: 'wrapperBorderStyle',
 					radius: 'wrapperBorderRadius',
 					shadow: 'wrapperShadow',
+					shadowHover: 'wrapperShadowHover',
 			  };
 
 	// Get current radius values for display
@@ -234,7 +237,15 @@ export function BorderPanel( {
 				__nextHasNoMarginBottom
 			/>
 
-			{ blockType !== 'toc' && (
+			<TextControl
+				label={ <CustomLabel label="Shadow on Hover" attrName={ borderAttrs.shadowHover } /> }
+				value={ effectiveValues[ borderAttrs.shadowHover ] || 'none' }
+				onChange={ ( value ) => handleChange( borderAttrs.shadowHover, value ) }
+				help="CSS box-shadow on hover (e.g. '0 4px 8px rgba(0,0,0,0.2)')"
+			__nextHasNoMarginBottom
+		/>
+
+		{ blockType !== 'toc' && (
 				<>
 					<hr />
 					<h3>Divider Border</h3>

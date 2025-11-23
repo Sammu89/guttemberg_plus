@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-11-23T00:53:01.618Z
+ * Generated at: 2025-11-23T01:40:07.204Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -56,6 +56,7 @@ $mappings = array(
       'borderWidth' => array( 'cssVar' => 'accordion-border-width', 'unit' => null, 'type' => 'string' ),
       'borderRadius' => array( 'cssVar' => 'accordion-border-radius', 'unit' => null, 'type' => 'string' ),
       'accordionShadow' => array( 'cssVar' => 'accordion-shadow', 'unit' => null, 'type' => 'string' ),
+      'accordionShadowHover' => array( 'cssVar' => 'accordion-shadow-hover', 'unit' => null, 'type' => 'string' ),
       'dividerBorderThickness' => array( 'cssVar' => 'accordion-divider-width', 'unit' => 'px', 'type' => 'number' ),
       'dividerBorderStyle' => array( 'cssVar' => 'accordion-divider-style', 'unit' => null, 'type' => 'string' ),
       'titlePadding' => array( 'cssVar' => 'accordion-title-padding', 'unit' => 'px', 'type' => 'object' ),
@@ -112,6 +113,7 @@ $mappings = array(
       'tabBorderStyle' => array( 'cssVar' => 'tab-button-border-style', 'unit' => null, 'type' => 'string' ),
       'tabBorderRadius' => array( 'cssVar' => 'tab-button-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'tabShadow' => array( 'cssVar' => 'tab-button-shadow', 'unit' => null, 'type' => 'string' ),
+      'tabShadowHover' => array( 'cssVar' => 'tab-button-shadow-hover', 'unit' => null, 'type' => 'string' ),
       'tabButtonBorderRadius' => array( 'cssVar' => 'tab-button-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'containerBorderWidth' => array( 'cssVar' => 'tabs-container-border-width', 'unit' => 'px', 'type' => 'number' ),
       'containerBorderStyle' => array( 'cssVar' => 'tabs-container-border-style', 'unit' => null, 'type' => 'string' ),
@@ -181,6 +183,7 @@ $mappings = array(
       'wrapperBorderStyle' => array( 'cssVar' => 'toc-border-style', 'unit' => null, 'type' => 'string' ),
       'wrapperBorderRadius' => array( 'cssVar' => 'toc-border-radius', 'unit' => 'px', 'type' => 'number' ),
       'wrapperShadow' => array( 'cssVar' => 'toc-wrapper-shadow', 'unit' => null, 'type' => 'string' ),
+      'wrapperShadowHover' => array( 'cssVar' => 'toc-wrapper-shadow-hover', 'unit' => null, 'type' => 'string' ),
       'wrapperPadding' => array( 'cssVar' => 'toc-wrapper-padding', 'unit' => 'px', 'type' => 'number' ),
       'listPaddingLeft' => array( 'cssVar' => 'toc-list-padding-left', 'unit' => 'px', 'type' => 'number' ),
       'itemSpacing' => array( 'cssVar' => 'toc-item-spacing', 'unit' => 'px', 'type' => 'number' ),

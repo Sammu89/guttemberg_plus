@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T00:53:01.611Z
+ * Generated at: 2025-11-23T01:40:07.196Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -43,6 +43,8 @@ return array(
   'panelFontSize' => '16px',
   'panelLineHeight' => '1.6',
   'verticalTabButtonTextAlign' => 'left',
+  'tabShadow' => 'none',
+  'tabShadowHover' => 'none',
   'containerBorderWidth' => '0px',
   'containerBorderStyle' => 'solid',
   'containerShadow' => 'none',

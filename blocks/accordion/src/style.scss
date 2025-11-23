@@ -43,11 +43,12 @@
 	border-color: var(--accordion-border-color, #ddd);
 	border-radius: var(--accordion-border-radius, 4px);
 	overflow: hidden;
+	box-shadow: var(--accordion-shadow, none);
 	transition: box-shadow 0.2s ease;
 	outline: none;
 
 	&:hover {
-		box-shadow: var(--accordion-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
+		box-shadow: var(--accordion-shadow-hover, none);
 	}
 
 	&:last-child {

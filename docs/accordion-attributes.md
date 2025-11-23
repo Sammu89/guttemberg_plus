@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-11-23T00:53:01.605Z
+> Generated at: 2025-11-23T01:40:07.190Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -102,7 +102,8 @@ Border styles, widths, radius, and shadow
 | `accordionBorderRadius` | object | _object_ | Yes | Corner radius of the accordion |
 | `borderWidth` | string | _null_ | Yes | Generic border width |
 | `borderRadius` | string | _null_ | Yes | Generic border radius |
-| `accordionShadow` | string | `none` | Yes | CSS box-shadow for the accordion |
+| `accordionShadow` | string | `none` | Yes | CSS box-shadow for the accordion item |
+| `accordionShadowHover` | string | `none` | Yes | CSS box-shadow for the accordion item on hover |
 | `dividerBorderThickness` | number | `0px` | Yes | Thickness of divider between title and content |
 | `dividerBorderStyle` | string | `solid` | Yes | Style of divider between title and content |
 
@@ -156,6 +157,7 @@ The following CSS custom properties are available for theming:
 | `borderWidth` | `--accordion-border-width` |
 | `borderRadius` | `--accordion-border-radius` |
 | `accordionShadow` | `--accordion-shadow` |
+| `accordionShadowHover` | `--accordion-shadow-hover` |
 | `dividerBorderThickness` | `--accordion-divider-width` |
 | `dividerBorderStyle` | `--accordion-divider-style` |
 | `titlePadding` | `--accordion-title-padding` |

@@ -16,6 +16,11 @@
 	padding: var(--toc-wrapper-padding, 20px);
 	box-shadow: var(--toc-wrapper-shadow, none);
 	overflow: hidden;
+	transition: box-shadow 0.2s ease;
+
+	&:hover {
+		box-shadow: var(--toc-wrapper-shadow-hover, none);
+	}
 }
 
 /* Title */

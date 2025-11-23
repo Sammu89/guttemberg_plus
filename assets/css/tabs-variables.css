@@ -1,0 +1,52 @@
+/**
+ * CSS Variables for Tabs Block
+ *
+ * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
+ * Generated from: schemas/tabs.json
+ * Generated at: 2025-11-23T01:40:07.197Z
+ *
+ * This file defines CSS custom properties (variables) with default values.
+ * These can be overridden by themes via class selectors.
+ */
+
+:root {
+  --tab-button-color: #666666;
+  --tab-button-bg: transparent;
+  --tab-button-hover-color: #333333;
+  --tab-button-hover-bg: #e8e8e8;
+  --tab-button-active-color: #000000;
+  --tab-button-active-bg: #ffffff;
+  --tab-button-active-border-color: #dddddd;
+  --tab-button-active-border-bottom-color: transparent;
+  --panel-bg: #ffffff;
+  --panel-color: #333333;
+  --tabs-list-bg: #f5f5f5;
+  --tabs-container-border-color: transparent;
+  --panel-border-color: #dddddd;
+  --tabs-list-border-bottom-color: #dddddd;
+  --icon-color: inherit;
+  --tab-button-font-size: 16px;
+  --tab-button-font-weight: 500;
+  --tab-button-font-style: normal;
+  --tab-button-text-transform: none;
+  --tab-button-text-decoration: none;
+  --tab-button-text-align: center;
+  --panel-font-size: 16px;
+  --panel-line-height: 1.6;
+  --vertical-tab-button-text-align: left;
+  --tab-button-shadow: none;
+  --tab-button-shadow-hover: none;
+  --tabs-container-border-width: 0px;
+  --tabs-container-border-style: solid;
+  --tabs-container-shadow: none;
+  --panel-border-width: 1px;
+  --panel-border-style: solid;
+  --panel-border-radius: 0px;
+  --tabs-list-border-bottom-width: 2px;
+  --tabs-list-border-bottom-style: solid;
+  --tabs-list-gap: 4px;
+  --tabs-alignment: left;
+  --vertical-tab-list-width: 200px;
+  --icon-size: 18px;
+  --icon-rotation: 180deg;
+}

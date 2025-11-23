@@ -900,11 +900,21 @@
     },
     "tabShadow": {
       "type": "string",
-      "default": null,
+      "default": "none",
       "cssVar": "tab-button-shadow",
       "group": "borders",
-      "label": "Tab Shadow",
-      "description": "Box shadow for tab buttons",
+      "label": "Shadow",
+      "description": "CSS box-shadow for tab buttons",
+      "themeable": true,
+      "control": "TextControl"
+    },
+    "tabShadowHover": {
+      "type": "string",
+      "default": "none",
+      "cssVar": "tab-button-shadow-hover",
+      "group": "borders",
+      "label": "Shadow on Hover",
+      "description": "CSS box-shadow for tab buttons on hover",
       "themeable": true,
       "control": "TextControl"
     },

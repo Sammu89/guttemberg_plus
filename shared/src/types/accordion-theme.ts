@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-23T00:53:01.597Z
+ * Generated at: 2025-11-23T01:40:07.181Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -81,8 +81,10 @@ export interface AccordionTheme {
   borderWidth?: string | undefined;
   /** Generic border radius */
   borderRadius?: string | undefined;
-  /** CSS box-shadow for the accordion */
+  /** CSS box-shadow for the accordion item */
   accordionShadow?: string;
+  /** CSS box-shadow for the accordion item on hover */
+  accordionShadowHover?: string;
   /** Thickness of divider between title and content */
   dividerBorderThickness?: number;
   /** Style of divider between title and content */
@@ -142,6 +144,7 @@ export const accordionDefaultTheme: AccordionTheme = {
     "bottomLeft": 4
   },
   accordionShadow: 'none',
+  accordionShadowHover: 'none',
   dividerBorderThickness: 0px,
   dividerBorderStyle: 'solid',
   titlePadding: {
@@ -216,6 +219,7 @@ export interface AccordionThemeAttributes {
   borderWidth?: string | undefined;
   borderRadius?: string | undefined;
   accordionShadow?: string;
+  accordionShadowHover?: string;
   dividerBorderThickness?: number;
   dividerBorderStyle?: string;
   titlePadding?: Record<string, any>;

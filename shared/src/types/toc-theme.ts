@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-23T00:53:01.615Z
+ * Generated at: 2025-11-23T01:40:07.200Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -89,6 +89,8 @@ export interface TocTheme {
   wrapperBorderRadius?: number;
   /** CSS box-shadow for the wrapper */
   wrapperShadow?: string;
+  /** CSS box-shadow for the wrapper on hover */
+  wrapperShadowHover?: string;
   /** Padding inside the TOC wrapper */
   wrapperPadding?: number;
   /** Left padding for the list */
@@ -144,6 +146,7 @@ export const tocDefaultTheme: TocTheme = {
   wrapperBorderStyle: 'solid',
   wrapperBorderRadius: 4px,
   wrapperShadow: 'none',
+  wrapperShadowHover: 'none',
   wrapperPadding: 20px,
   itemSpacing: 8px,
   levelIndent: 20px,
@@ -210,6 +213,7 @@ export interface TocThemeAttributes {
   wrapperBorderStyle?: string;
   wrapperBorderRadius?: number;
   wrapperShadow?: string;
+  wrapperShadowHover?: string;
   wrapperPadding?: number;
   listPaddingLeft?: number | undefined;
   itemSpacing?: number;
