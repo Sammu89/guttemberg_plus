@@ -15,7 +15,6 @@ import save from './save';
 import { tocAttributes } from './toc-attributes';
 import './style.scss';
 import './frontend';
-import '../../../assets/css/toc-generated.css';
 
 /**
  * Register the TOC block
