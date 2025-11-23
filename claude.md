@@ -104,10 +104,23 @@ schemas/toc.json
       "default": "value",
       "group": "colors",
       "label": "My Attribute",
+      "description": "Help text for users",
       "themeable": true,
       "cssVar": "my-css-var",
-      "cssDefault": "--accordion-my-css-var: value;",
       "control": "ColorPicker"
+    },
+    "myNewSlider": {
+      "type": "number",
+      "default": "18px",
+      "group": "typography",
+      "label": "Font Size",
+      "description": "Size of text in pixels",
+      "themeable": true,
+      "cssVar": "my-font-size",
+      "control": "RangeControl",
+      "min": 12,
+      "max": 48,
+      "unit": "px"
     }
   }
 }
@@ -125,24 +138,32 @@ npm run build         # Compiles WordPress blocks (~10s)
 
 **Required Fields:**
 - `type` - Data type: `"string"`, `"number"`, `"boolean"`, `"object"`
-- `default` - Default value
-- `group` - UI panel: `"colors"`, `"typography"`, `"borders"`, `"layout"`, `"behavior"`
+- `default` - Default value (include units for numbers: `"18px"`, `"180deg"`, `"#333333"`)
+- `group` - UI panel: `"colors"`, `"typography"`, `"borders"`, `"layout"`, `"icons"`, `"behavior"`
 - `label` - Human-readable name
+- `description` - Help text for users
 - `themeable` - `true` (saved in themes) or `false` (per-block only)
 
 **For Themeable Attributes (themeable: true):**
 - `cssVar` - CSS variable suffix (e.g., `"title-color"` → `--accordion-title-color`)
-- `cssDefault` - Full CSS declaration (e.g., `"--accordion-title-color: #333333;"`)
-- `control` - UI control: `"ColorPicker"`, `"RangeControl"`, `"ToggleControl"`, etc.
+- `control` - UI control type: `"ColorPicker"`, `"RangeControl"`, `"SelectControl"`, `"ToggleControl"`, `"TextControl"`, etc.
+
+**For RangeControl (Sliders):**
+- `min` - Minimum value (auto-added to control-config)
+- `max` - Maximum value (auto-added to control-config)
+- `unit` - CSS unit (optional): `"px"`, `"em"`, `"%"`, `"deg"`
+
+**For SelectControl (Dropdowns):**
+- `options` - Array of `{label, value}` objects (auto-added to control-config)
 
 **For Non-Themeable Attributes (themeable: false):**
 - `reason` - Why excluded: `"structural"`, `"behavioral"`, `"content"`
 
-**Optional:**
-- `min`, `max` - For number inputs
-- `unit` - CSS unit: `"px"`, `"em"`, `"%"`
-- `options` - Array for SelectControl
-- `description` - Help text
+**Important Notes:**
+- Numeric defaults should include units: `"18px"` not `18`
+- Units are stored with the default and extracted by `getNumericDefault()` function
+- min/max ranges are automatically available in `control-config-generated.js`
+- All controls get config from schema automatically (no hardcoding needed)
 
 ### What Gets Auto-Generated
 
@@ -166,10 +187,8 @@ When you run `npm run schema:build`, **24 files** are created:
 ```json
 "highlightColor": {
   "type": "string",
-  "format": "color-hex",
   "default": "#ffcc00",
   "cssVar": "highlight-color",
-  "cssDefault": "--accordion-highlight-color: #ffcc00;",
   "group": "colors",
   "label": "Highlight Color",
   "description": "Color for highlighted elements",
@@ -181,6 +200,108 @@ When you run `npm run schema:build`, **24 files** are created:
 **Build:** `npm run schema:build && npm run build`
 
 **Result:** Attribute is now in editor, saves to themes, applies as CSS variable.
+
+---
+
+## 🎛️ Control Configuration System
+
+### What is Control Config?
+
+The `control-config-generated.js` file is auto-generated from schemas and contains **all control properties** (min, max, options, defaults) for the editor UI.
+
+**Before:** Min/max values were hardcoded in components
+```javascript
+// ❌ Old way - hardcoded everywhere
+<RangeControl min={0} max={360} />
+<RangeControl min={0} max={360} />  // Duplicated!
+```
+
+**Now:** Everything comes from schema
+```javascript
+// ✅ New way - from generated config
+<RangeControl
+  min={ getControlConfig(blockType, 'iconRotation').min }
+  max={ getControlConfig(blockType, 'iconRotation').max }
+/>
+```
+
+### Using Control Config in Components
+
+**Import the helper functions:**
+```javascript
+import {
+  getControlConfig,
+  getNumericControlDefault,
+  getNumericDefault
+} from '../config/control-config-generated';
+```
+
+**For RangeControl (sliders):**
+```javascript
+<RangeControl
+  value={
+    typeof effectiveValues.iconRotation === 'string'
+      ? getNumericDefault( effectiveValues.iconRotation )  // '180deg' → 180
+      : effectiveValues.iconRotation ?? getNumericControlDefault( blockType, 'iconRotation' ) ?? 180
+  }
+  min={ getControlConfig( blockType, 'iconRotation' ).min ?? -360 }
+  max={ getControlConfig( blockType, 'iconRotation' ).max ?? 360 }
+/>
+```
+
+**For SelectControl (dropdowns):**
+```javascript
+<SelectControl
+  value={ effectiveValues.titleFontWeight || 'normal' }
+  options={ getControlConfig( blockType, 'titleFontWeight' ).options || [] }
+  onChange={ handleChange }
+/>
+```
+
+### Control Config Structure
+
+Generated from schema, looks like:
+```javascript
+'iconRotation': {
+  control: 'RangeControl',
+  min: -360,
+  max: 360,
+  unit: 'deg',
+  label: 'Icon Rotation',
+  description: 'Rotation angle when open (degrees)',
+  default: '180deg',
+}
+```
+
+### Key Helper Functions
+
+```javascript
+// Get config for specific attribute
+getControlConfig(blockType, attrName)
+// Returns: { min, max, options, default, ... }
+
+// Get numeric default from string with units
+getNumericControlDefault(blockType, attrName)
+// Returns: 180 (extracted from '180deg')
+
+// Extract number from string
+getNumericDefault('180deg')
+// Returns: 180
+```
+
+### Important: String to Number Conversion
+
+Block attributes with units are stored as strings (e.g., `'180deg'`, `'18px'`), but RangeControl needs numbers. The conversion happens automatically:
+
+```javascript
+// If attribute is string '180deg'
+typeof effectiveValues.iconRotation === 'string'
+  ? getNumericDefault( effectiveValues.iconRotation )  // Converts to 180
+  : effectiveValues.iconRotation
+```
+
+**Why?** Database stores: `iconRotation: '180deg'`
+But React needs: `value={180}`
 
 ---
 
