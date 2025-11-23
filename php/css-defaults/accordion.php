@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-23T01:40:07.187Z
+ * Generated at: 2025-11-23T23:21:53.124Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -23,11 +23,8 @@ return array(
   'titleBackgroundColor' => '#f5f5f5',
   'hoverTitleColor' => '#000000',
   'hoverTitleBackgroundColor' => '#e8e8e8',
-  'activeTitleColor' => '#000000',
-  'activeTitleBackgroundColor' => '#e0e0e0',
   'contentColor' => '#333333',
   'contentBackgroundColor' => '#ffffff',
-  'borderColor' => '#dddddd',
   'accordionBorderColor' => '#dddddd',
   'dividerBorderColor' => '#dddddd',
   'iconColor' => '#666666',

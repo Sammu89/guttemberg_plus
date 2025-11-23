@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T01:40:07.197Z
+ * Generated at: 2025-11-23T23:21:53.136Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -33,7 +33,6 @@
   --tab-button-text-align: center;
   --panel-font-size: 16px;
   --panel-line-height: 1.6;
-  --vertical-tab-button-text-align: left;
   --tab-button-shadow: none;
   --tab-button-shadow-hover: none;
   --tabs-container-border-width: 0px;

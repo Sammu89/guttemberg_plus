@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-11-23T01:40:07.207Z
+ * Generated at: 2025-11-23T23:21:53.149Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -25,6 +25,21 @@
 // Control configuration for all blocks
 const CONTROL_CONFIGS = {
   'accordion': {
+    'headingLevel': {
+      control: 'SelectControl',
+      options: [
+              "none",
+              "h1",
+              "h2",
+              "h3",
+              "h4",
+              "h5",
+              "h6"
+      ],
+      label: 'Heading Level',
+      description: 'Semantic HTML heading level (none, h1-h6)',
+      default: 'none',
+    },
     'titleColor': {
       control: 'ColorPicker',
       label: 'Title Color',
@@ -49,18 +64,6 @@ const CONTROL_CONFIGS = {
       description: 'Background color when hovering over title',
       default: '#e8e8e8',
     },
-    'activeTitleColor': {
-      control: 'ColorPicker',
-      label: 'Title Active Color',
-      description: 'Text color when accordion is open',
-      default: '#000000',
-    },
-    'activeTitleBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Title Active Background',
-      description: 'Background color when accordion is open',
-      default: '#e0e0e0',
-    },
     'contentColor': {
       control: 'ColorPicker',
       label: 'Content Color',
@@ -72,12 +75,6 @@ const CONTROL_CONFIGS = {
       label: 'Content Background',
       description: 'Background color for accordion content',
       default: '#ffffff',
-    },
-    'borderColor': {
-      control: 'ColorPicker',
-      label: 'Border Color',
-      description: 'Color of the accordion border',
-      default: '#dddddd',
     },
     'accordionBorderColor': {
       control: 'ColorPicker',
@@ -450,16 +447,6 @@ const CONTROL_CONFIGS = {
       label: 'Border Radius',
       description: 'Corner radius of the accordion',
     },
-    'borderWidth': {
-      control: 'TextControl',
-      label: 'Border Width (Generic)',
-      description: 'Generic border width',
-    },
-    'borderRadius': {
-      control: 'TextControl',
-      label: 'Border Radius (Generic)',
-      description: 'Generic border radius',
-    },
     'accordionShadow': {
       control: 'TextControl',
       label: 'Shadow',
@@ -608,6 +595,21 @@ const CONTROL_CONFIGS = {
     },
   },
   'tabs': {
+    'headingLevel': {
+      control: 'SelectControl',
+      options: [
+              "none",
+              "h1",
+              "h2",
+              "h3",
+              "h4",
+              "h5",
+              "h6"
+      ],
+      label: 'Heading Level',
+      description: 'Semantic HTML heading level (none, h1-h6)',
+      default: 'none',
+    },
     'titleColor': {
       control: 'ColorPicker',
       label: 'Tab Button Color',
@@ -721,16 +723,6 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Divider Color',
       description: 'Color of divider between tabs and panel',
-    },
-    'borderColor': {
-      control: 'ColorPicker',
-      label: 'Border Color',
-      description: 'General border color',
-    },
-    'accordionBorderColor': {
-      control: 'ColorPicker',
-      label: 'Accordion Border Color',
-      description: 'Border color for accordion fallback mode',
     },
     'dividerBorderColor': {
       control: 'ColorPicker',
@@ -1315,16 +1307,6 @@ const CONTROL_CONFIGS = {
       control: 'TextControl',
       label: 'Accordion Shadow',
       description: 'Box shadow for accordion fallback mode',
-    },
-    'borderWidth': {
-      control: 'TextControl',
-      label: 'Border Width',
-      description: 'Generic border width',
-    },
-    'borderRadius': {
-      control: 'TextControl',
-      label: 'Border Radius',
-      description: 'Generic border radius',
     },
     'dividerBorderThickness': {
       control: 'RangeControl',

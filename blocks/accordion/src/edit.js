@@ -32,6 +32,8 @@ import {
 	debug,
 	ACCORDION_EXCLUSIONS,
 } from '@shared';
+import { getPanelConfig, buildBorderConfig } from '@shared/utils/schema-config-builder';
+import accordionSchema from '../../../schemas/accordion.json';
 import { accordionAttributes } from './accordion-attributes';
 import './editor.scss';
 
@@ -109,6 +111,22 @@ export default function Edit( { attributes, setAttributes } ) {
 		console.log( '[🔍 DEBUG] allDefaults.iconColor:', merged.iconColor );
 		return merged;
 	}, [ schemaDefaults ] );
+
+	// Build panel configs from schema
+	const headerColorsConfig = useMemo( () =>
+		getPanelConfig( accordionSchema, 'headerColors' ), [] );
+
+	const contentColorsConfig = useMemo( () =>
+		getPanelConfig( accordionSchema, 'contentColors' ), [] );
+
+	const typographyConfig = useMemo( () =>
+		getPanelConfig( accordionSchema, 'typography' ), [] );
+
+	const borderConfig = useMemo( () =>
+		buildBorderConfig( accordionSchema, 'accordion' ), [] );
+
+	const iconConfig = useMemo( () =>
+		getPanelConfig( accordionSchema, 'icon' ), [] );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
 	// Attributes to exclude from theme customization checks
@@ -1011,17 +1029,17 @@ export default function Edit( { attributes, setAttributes } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="accordion"
+					config={ headerColorsConfig }
+					title="Title Colors"
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
-					showActiveState={ false }
 				/>
 
 				<ContentColorsPanel
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="accordion"
+					config={ contentColorsConfig }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
 				/>
@@ -1030,7 +1048,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="accordion"
+					config={ typographyConfig }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
 				/>
@@ -1039,7 +1057,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="accordion"
+					config={ borderConfig }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
 				/>
@@ -1048,7 +1066,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="accordion"
+					config={ iconConfig }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
 				/>

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T01:40:07.196Z
+ * Generated at: 2025-11-23T23:21:53.135Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -35,6 +35,7 @@ export const TABS_EXCLUSIONS = [
   'headingLevel',
   'useHeadingStyles',
   'initiallyOpen',
+  'verticalTabButtonTextAlign',
 ];
 
 export default TABS_EXCLUSIONS;

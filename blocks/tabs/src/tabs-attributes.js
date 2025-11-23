@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T01:40:07.195Z
+ * Generated at: 2025-11-23T23:21:53.134Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -156,14 +156,6 @@ export const tabsAttributes = {
     default: '#dddddd',
   },
   dividerColor: {
-    type: 'string',
-    default: null,
-  },
-  borderColor: {
-    type: 'string',
-    default: null,
-  },
-  accordionBorderColor: {
     type: 'string',
     default: null,
   },
@@ -328,14 +320,6 @@ export const tabsAttributes = {
     default: null,
   },
   accordionShadow: {
-    type: 'string',
-    default: null,
-  },
-  borderWidth: {
-    type: 'string',
-    default: null,
-  },
-  borderRadius: {
     type: 'string',
     default: null,
   },

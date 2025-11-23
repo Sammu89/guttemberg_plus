@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T01:40:07.193Z
+ * Generated at: 2025-11-23T23:21:53.131Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -57,10 +57,6 @@ export interface TabsTheme {
   tabListBorderBottomColor?: string;
   /** Color of divider between tabs and panel */
   dividerColor?: string | undefined;
-  /** General border color */
-  borderColor?: string | undefined;
-  /** Border color for accordion fallback mode */
-  accordionBorderColor?: string | undefined;
   /** Border color for divider */
   dividerBorderColor?: string | undefined;
   /** Color of tab icons */
@@ -99,8 +95,6 @@ export interface TabsTheme {
   panelFontSize?: number;
   /** Line height for panel content */
   panelLineHeight?: number;
-  /** Text alignment for vertical tabs */
-  verticalTabButtonTextAlign?: string;
   /** Border width for individual tabs */
   tabBorderThickness?: number | undefined;
   /** Border style for individual tabs */
@@ -143,10 +137,6 @@ export interface TabsTheme {
   accordionBorderRadius?: Record<string, any> | undefined;
   /** Box shadow for accordion fallback mode */
   accordionShadow?: string | undefined;
-  /** Generic border width */
-  borderWidth?: string | undefined;
-  /** Generic border radius */
-  borderRadius?: string | undefined;
   /** Thickness of divider border */
   dividerBorderThickness?: number | undefined;
   /** Style of divider border */
@@ -210,7 +200,6 @@ export const tabsDefaultTheme: TabsTheme = {
   titleAlignment: 'center',
   panelFontSize: 16px,
   panelLineHeight: 1.6,
-  verticalTabButtonTextAlign: 'left',
   tabBorderRadius: {
     "topLeft": 4,
     "topRight": 4,
@@ -301,8 +290,6 @@ export interface TabsThemeAttributes {
   panelBorderColor?: string;
   tabListBorderBottomColor?: string;
   dividerColor?: string | undefined;
-  borderColor?: string | undefined;
-  accordionBorderColor?: string | undefined;
   dividerBorderColor?: string | undefined;
   iconColor?: string;
   titleFontSize?: number;
@@ -344,8 +331,6 @@ export interface TabsThemeAttributes {
   accordionBorderStyle?: string | undefined;
   accordionBorderRadius?: Record<string, any> | undefined;
   accordionShadow?: string | undefined;
-  borderWidth?: string | undefined;
-  borderRadius?: string | undefined;
   dividerBorderThickness?: number | undefined;
   dividerBorderStyle?: string | undefined;
   titlePadding?: Record<string, any>;

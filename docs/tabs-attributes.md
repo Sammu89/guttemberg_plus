@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-23T01:40:07.197Z
+> Generated at: 2025-11-23T23:21:53.137Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -31,56 +31,12 @@ Non-themeable behavioral and structural settings
 | `currentTab` | number | `0` | No (behavioral) | Index of currently active tab (0-based) |
 | `responsiveBreakpoint` | number | `768` | No (behavioral) | Width in pixels below which to show accordion fallback |
 | `enableResponsiveFallback` | boolean | `true` | No (behavioral) | Convert to accordion on small screens |
-| `headingLevel` | string | `none` | No (behavioral) | Semantic HTML heading level (none, h1-h6) |
 | `useHeadingStyles` | boolean | `false` | No (behavioral) | Apply default heading styles |
 | `initiallyOpen` | boolean | `false` | No (behavioral) | Whether first tab is open on load |
 | `title` | string | `Accordion Title` | No (content) | Block title (for accessibility) |
 | `content` | string | `` | No (content) | Block content |
 | `accordionId` | string | `` | No (structural) | ID for accordion fallback mode |
-
-## Colors
-
-Text and background colors for tabs, panels, and states
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `titleColor` | string | `#666666` | Yes | Text color for inactive tab buttons |
-| `titleBackgroundColor` | string | `transparent` | Yes | Background color for inactive tab buttons |
-| `hoverTitleColor` | string | `#333333` | Yes | Text color when hovering over tab |
-| `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over tab |
-| `activeTitleColor` | string | _null_ | Yes | Text color for active tab |
-| `activeTitleBackgroundColor` | string | _null_ | Yes | Background color for active tab |
-| `tabButtonActiveColor` | string | `#000000` | Yes | Text color for the active tab button |
-| `tabButtonActiveBackground` | string | `#ffffff` | Yes | Background color for the active tab button |
-| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
-| `tabButtonActiveBorderBottomColor` | string | `transparent` | Yes | Bottom border color for active tab (creates connected effect) |
-| `contentColor` | string | _null_ | Yes | Text color for content area |
-| `contentBackgroundColor` | string | _null_ | Yes | Background color for content area |
-| `panelBackground` | string | `#ffffff` | Yes | Background color for tab panels |
-| `panelColor` | string | `#333333` | Yes | Text color for tab panels |
-| `tabListBackground` | string | `#f5f5f5` | Yes | Background color for the tab navigation bar |
-| `tabBorderColor` | string | _null_ | Yes | Border color for individual tabs |
-| `containerBorderColor` | string | `transparent` | Yes | Border color for tabs container |
-| `panelBorderColor` | string | `#dddddd` | Yes | Border color for tab panels |
-| `tabListBorderBottomColor` | string | `#dddddd` | Yes | Bottom border color of tab navigation |
-| `dividerColor` | string | _null_ | Yes | Color of divider between tabs and panel |
-| `borderColor` | string | _null_ | Yes | General border color |
-| `accordionBorderColor` | string | _null_ | Yes | Border color for accordion fallback mode |
-| `dividerBorderColor` | string | _null_ | Yes | Border color for divider |
-
-## Icons
-
-Icon appearance settings
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `iconColor` | string | `inherit` | Yes | Color of tab icons |
-| `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
-| `iconPosition` | string | `right` | Yes | Position of icon relative to text |
-| `iconSize` | number | `18px` | Yes | Size of tab icons in pixels |
-| `iconTypeClosed` | string | `▾` | Yes | Icon for closed state (accordion fallback) |
-| `iconTypeOpen` | string | `none` | Yes | Icon for open state (accordion fallback) |
-| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
+| `verticalTabButtonTextAlign` | string | `left` | No (behavioral) | Text alignment for vertical tabs |
 
 ## Typography
 
@@ -88,6 +44,7 @@ Font settings for tab buttons and panel content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `headingLevel` | string | `none` | No (behavioral) | Semantic HTML heading level (none, h1-h6) |
 | `titleFontSize` | number | `16px` | Yes | Font size for tab buttons in pixels |
 | `titleFontWeight` | string | `500` | Yes | Font weight for tab buttons |
 | `titleFontFamily` | string | _null_ | Yes | Font family for tab buttons |
@@ -105,14 +62,35 @@ Font settings for tab buttons and panel content
 | `contentTextDecoration` | string | _null_ | Yes | Text decoration for panel content |
 | `panelFontSize` | number | `16px` | Yes | Font size for panel content |
 | `panelLineHeight` | number | `1.6` | Yes | Line height for panel content |
-| `verticalTabButtonTextAlign` | string | `left` | Yes | Text alignment for vertical tabs |
 
-## Borders
+## Header Colors
 
-Border styles, widths, radius, and shadow
+Tab button text and background colors including hover and active states
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `titleColor` | string | `#666666` | Yes | Text color for inactive tab buttons |
+| `titleBackgroundColor` | string | `transparent` | Yes | Background color for inactive tab buttons |
+| `hoverTitleColor` | string | `#333333` | Yes | Text color when hovering over tab |
+| `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over tab |
+| `activeTitleColor` | string | _null_ | Yes | Text color for active tab |
+| `activeTitleBackgroundColor` | string | _null_ | Yes | Background color for active tab |
+| `tabButtonActiveColor` | string | `#000000` | Yes | Text color for the active tab button |
+| `tabButtonActiveBackground` | string | `#ffffff` | Yes | Background color for the active tab button |
+| `tabListBackground` | string | `#f5f5f5` | Yes | Background color for the tab navigation bar |
+
+## Border
+
+Main border styles, widths, radius, and shadow for tabs, panels, and containers
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
+| `tabButtonActiveBorderBottomColor` | string | `transparent` | Yes | Bottom border color for active tab (creates connected effect) |
+| `tabBorderColor` | string | _null_ | Yes | Border color for individual tabs |
+| `containerBorderColor` | string | `transparent` | Yes | Border color for tabs container |
+| `panelBorderColor` | string | `#dddddd` | Yes | Border color for tab panels |
+| `tabListBorderBottomColor` | string | `#dddddd` | Yes | Bottom border color of tab navigation |
 | `tabBorderThickness` | number | _null_ | Yes | Border width for individual tabs |
 | `tabBorderStyle` | string | _null_ | Yes | Border style for individual tabs |
 | `tabBorderRadius` | object | _object_ | Yes | Corner radius for individual tabs |
@@ -128,16 +106,48 @@ Border styles, widths, radius, and shadow
 | `panelBorderRadius` | number | `0px` | Yes | Corner radius for tab panels |
 | `tabListBorderBottomWidth` | number | `2px` | Yes | Bottom border width of tab navigation |
 | `tabListBorderBottomStyle` | string | `solid` | Yes | Bottom border style of tab navigation |
-| `dividerThickness` | number | _null_ | Yes | Thickness of divider between tabs and panel |
-| `dividerStyle` | string | _null_ | Yes | Style of divider between tabs and panel |
 | `accordionBorderThickness` | number | _null_ | Yes | Border width for accordion fallback mode |
 | `accordionBorderStyle` | string | _null_ | Yes | Border style for accordion fallback mode |
 | `accordionBorderRadius` | object | _null_ | Yes | Border radius for accordion fallback mode |
 | `accordionShadow` | string | _null_ | Yes | Box shadow for accordion fallback mode |
-| `borderWidth` | string | _null_ | Yes | Generic border width |
-| `borderRadius` | string | _null_ | Yes | Generic border radius |
+
+## Content Colors
+
+Panel/content area text and background colors
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `contentColor` | string | _null_ | Yes | Text color for content area |
+| `contentBackgroundColor` | string | _null_ | Yes | Background color for content area |
+| `panelBackground` | string | `#ffffff` | Yes | Background color for tab panels |
+| `panelColor` | string | `#333333` | Yes | Text color for tab panels |
+
+## Border Divider
+
+Divider border between tabs and panel
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `dividerColor` | string | _null_ | Yes | Color of divider between tabs and panel |
+| `dividerBorderColor` | string | _null_ | Yes | Border color for divider |
+| `dividerThickness` | number | _null_ | Yes | Thickness of divider between tabs and panel |
+| `dividerStyle` | string | _null_ | Yes | Style of divider between tabs and panel |
 | `dividerBorderThickness` | number | _null_ | Yes | Thickness of divider border |
 | `dividerBorderStyle` | string | _null_ | Yes | Style of divider border |
+
+## Icon
+
+Icon appearance settings
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `iconColor` | string | `inherit` | Yes | Color of tab icons |
+| `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
+| `iconPosition` | string | `right` | Yes | Position of icon relative to text |
+| `iconSize` | number | `18px` | Yes | Size of tab icons in pixels |
+| `iconTypeClosed` | string | `▾` | Yes | Icon for closed state (accordion fallback) |
+| `iconTypeOpen` | string | `none` | Yes | Icon for open state (accordion fallback) |
+| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
 
 ## Layout
 
@@ -181,8 +191,6 @@ The following CSS custom properties are available for theming:
 | `panelBorderColor` | `--panel-border-color` |
 | `tabListBorderBottomColor` | `--tabs-list-border-bottom-color` |
 | `dividerColor` | `--divider-color` |
-| `borderColor` | `--tabs-border-color` |
-| `accordionBorderColor` | `--tabs-border-color` |
 | `dividerBorderColor` | `--divider-border-color` |
 | `iconColor` | `--icon-color` |
 | `titleFontSize` | `--tab-button-font-size` |
@@ -202,7 +210,6 @@ The following CSS custom properties are available for theming:
 | `contentTextDecoration` | `--panel-text-decoration` |
 | `panelFontSize` | `--panel-font-size` |
 | `panelLineHeight` | `--panel-line-height` |
-| `verticalTabButtonTextAlign` | `--vertical-tab-button-text-align` |
 | `tabBorderThickness` | `--tab-button-border-width` |
 | `tabBorderStyle` | `--tab-button-border-style` |
 | `tabBorderRadius` | `--tab-button-border-radius` |
@@ -224,8 +231,6 @@ The following CSS custom properties are available for theming:
 | `accordionBorderStyle` | `--tabs-border-style` |
 | `accordionBorderRadius` | `--tabs-border-radius` |
 | `accordionShadow` | `--tabs-shadow` |
-| `borderWidth` | `--tabs-border-width` |
-| `borderRadius` | `--tabs-border-radius` |
 | `dividerBorderThickness` | `--divider-border-thickness` |
 | `dividerBorderStyle` | `--divider-border-style` |
 | `titlePadding` | `--tab-button-padding` |

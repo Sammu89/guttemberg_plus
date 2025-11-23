@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-23T01:40:07.181Z
+ * Generated at: 2025-11-23T23:21:53.118Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -25,16 +25,10 @@ export interface AccordionTheme {
   hoverTitleColor?: string;
   /** Background color when hovering over title */
   hoverTitleBackgroundColor?: string;
-  /** Text color when accordion is open */
-  activeTitleColor?: string;
-  /** Background color when accordion is open */
-  activeTitleBackgroundColor?: string;
   /** Text color for accordion content */
   contentColor?: string;
   /** Background color for accordion content */
   contentBackgroundColor?: string;
-  /** Color of the accordion border */
-  borderColor?: string;
   /** Color of the accordion border (alias) */
   accordionBorderColor?: string;
   /** Color of divider between title and content */
@@ -77,10 +71,6 @@ export interface AccordionTheme {
   accordionBorderStyle?: string;
   /** Corner radius of the accordion */
   accordionBorderRadius?: Record<string, any>;
-  /** Generic border width */
-  borderWidth?: string | undefined;
-  /** Generic border radius */
-  borderRadius?: string | undefined;
   /** CSS box-shadow for the accordion item */
   accordionShadow?: string;
   /** CSS box-shadow for the accordion item on hover */
@@ -119,11 +109,8 @@ export const accordionDefaultTheme: AccordionTheme = {
   titleBackgroundColor: '#f5f5f5',
   hoverTitleColor: '#000000',
   hoverTitleBackgroundColor: '#e8e8e8',
-  activeTitleColor: '#000000',
-  activeTitleBackgroundColor: '#e0e0e0',
   contentColor: '#333333',
   contentBackgroundColor: '#ffffff',
-  borderColor: '#dddddd',
   accordionBorderColor: '#dddddd',
   dividerBorderColor: '#dddddd',
   iconColor: '#666666',
@@ -190,11 +177,8 @@ export interface AccordionThemeAttributes {
   titleBackgroundColor?: string;
   hoverTitleColor?: string;
   hoverTitleBackgroundColor?: string;
-  activeTitleColor?: string;
-  activeTitleBackgroundColor?: string;
   contentColor?: string;
   contentBackgroundColor?: string;
-  borderColor?: string;
   accordionBorderColor?: string;
   dividerBorderColor?: string;
   iconColor?: string;
@@ -216,8 +200,6 @@ export interface AccordionThemeAttributes {
   accordionBorderThickness?: number;
   accordionBorderStyle?: string;
   accordionBorderRadius?: Record<string, any>;
-  borderWidth?: string | undefined;
-  borderRadius?: string | undefined;
   accordionShadow?: string;
   accordionShadowHover?: string;
   dividerBorderThickness?: number;

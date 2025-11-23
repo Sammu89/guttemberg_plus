@@ -3,6 +3,7 @@
  *
  * Panel for border styling (color, thickness, style, radius, shadow).
  * Shows effective values via cascade resolution.
+ * Uses a configuration-driven approach - no blockType conditionals.
  *
  * @see docs/UI-UX/40-EDITOR-UI-PANELS.md
  * @package
@@ -12,8 +13,19 @@
 import { PanelBody, RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { normalizeValueForControl } from '../theme-system/control-normalizer';
-import { getControlConfig, getNumericControlDefault, getNumericDefault } from '../config/control-config-generated';
+import { getNumericDefault } from '../config/control-config-generated';
 import { CompactColorControl } from './CompactColorControl';
+
+/**
+ * Border style options for SelectControl
+ */
+const BORDER_STYLE_OPTIONS = [
+	{ label: 'None', value: 'none' },
+	{ label: 'Solid', value: 'solid' },
+	{ label: 'Dashed', value: 'dashed' },
+	{ label: 'Dotted', value: 'dotted' },
+	{ label: 'Double', value: 'double' },
+];
 
 /**
  * Border Panel Component
@@ -22,7 +34,11 @@ import { CompactColorControl } from './CompactColorControl';
  * @param {Object}   props.effectiveValues All effective values from cascade
  * @param {Object}   props.attributes      Block attributes
  * @param {Function} props.setAttributes   Function to update block attributes
- * @param {string}   props.blockType       Block type (accordion, tabs, toc)
+ * @param {Object}   props.config          Configuration object with main and optional divider sections
+ * @param {Object}   props.config.main     Main border section config
+ * @param {string}   props.config.main.title Section title (e.g., "Accordion Border")
+ * @param {Object}   props.config.main.attributes Attribute definitions for main border
+ * @param {Object}   props.config.divider  Optional divider section config
  * @param {Object}   props.theme           Current theme object (optional)
  * @param {Object}   props.cssDefaults     CSS default values (optional)
  * @param {Function} props.onChange        Callback when value changes (optional, deprecated)
@@ -32,7 +48,7 @@ export function BorderPanel( {
 	effectiveValues = {},
 	attributes = {},
 	setAttributes,
-	blockType,
+	config,
 	theme,
 	cssDefaults = {},
 	onChange,
@@ -99,244 +115,211 @@ export function BorderPanel( {
 		</span>
 	);
 
-	// Block-specific attribute names
-	const borderAttrs =
-		blockType === 'accordion'
-			? {
-					title: 'Accordion Border',
-					color: 'accordionBorderColor',
-					thickness: 'accordionBorderThickness',
-					style: 'accordionBorderStyle',
-					radius: 'accordionBorderRadius',
-					shadow: 'accordionShadow',
-					shadowHover: 'accordionShadowHover',
-			  }
-			: blockType === 'tabs'
-			? {
-					title: 'Tab Button Border',
-					color: 'tabBorderColor',
-					thickness: 'tabBorderThickness',
-					style: 'tabBorderStyle',
-					radius: 'tabBorderRadius',
-					shadow: 'tabShadow',
-					shadowHover: 'tabShadowHover',
-			  }
-			: {
-					title: 'Wrapper Border',
-					color: 'wrapperBorderColor',
-					thickness: 'wrapperBorderWidth',
-					style: 'wrapperBorderStyle',
-					radius: 'wrapperBorderRadius',
-					shadow: 'wrapperShadow',
-					shadowHover: 'wrapperShadowHover',
-			  };
+	/**
+	 * Get numeric value from effective values, handling string values with units
+	 * @param attrName - attribute name
+	 * @param attrConfig - attribute configuration with min/max/default
+	 */
+	const getNumericValue = ( attrName, attrConfig ) => {
+		const value = effectiveValues[ attrName ];
+		if ( typeof value === 'string' ) {
+			return getNumericDefault( value );
+		}
+		return value ?? getNumericDefault( attrConfig?.default ) ?? 0;
+	};
+
+	// Extract config sections
+	const mainConfig = config?.main || {};
+	const mainAttrs = mainConfig.attributes || {};
+	const dividerConfig = config?.divider;
+	const dividerAttrs = dividerConfig?.attributes || {};
+
+	// Get attribute names from config
+	const colorAttr = mainAttrs.color?.name;
+	const thicknessAttr = mainAttrs.thickness?.name;
+	const styleAttr = mainAttrs.style?.name;
+	const radiusAttr = mainAttrs.radius?.name;
+	const shadowAttr = mainAttrs.shadow?.name;
+	const shadowHoverAttr = mainAttrs.shadowHover?.name;
 
 	// Get current radius values for display
-	const currentRadius = effectiveValues[ borderAttrs.radius ] || {
+	const currentRadius = effectiveValues[ radiusAttr ] || {
 		topLeft: 0,
 		topRight: 0,
 		bottomRight: 0,
 		bottomLeft: 0,
 	};
 
+	// Get divider attribute names
+	const dividerColorAttr = dividerAttrs.color?.name;
+	const dividerThicknessAttr = dividerAttrs.thickness?.name;
+	const dividerStyleAttr = dividerAttrs.style?.name;
+
+	// Check if divider section should be rendered
+	const hasDividerSection = dividerConfig && dividerColorAttr;
+
 	return (
 		<PanelBody title="Border" initialOpen={ initialOpen }>
-			<h3>{ borderAttrs.title }</h3>
+			<h3>{ mainConfig.title || 'Border' }</h3>
 
-			<CompactColorControl
-				label={
-					isAttrCustomized( borderAttrs.color ) ? 'Color (Customized)' : 'Color'
-				}
-				value={ normalizeValueForControl( effectiveValues[ borderAttrs.color ], borderAttrs.color, 'color' ) }
-				onChange={ ( value ) => handleChange( borderAttrs.color, value ) }
-			/>
+			{ colorAttr && (
+				<CompactColorControl
+					label={
+						isAttrCustomized( colorAttr ) ? 'Color (Customized)' : 'Color'
+					}
+					value={ normalizeValueForControl( effectiveValues[ colorAttr ], colorAttr, 'color' ) }
+					onChange={ ( value ) => handleChange( colorAttr, value ) }
+				/>
+			) }
 
-			<RangeControl
-				label={ <CustomLabel label="Thickness (px)" attrName={ borderAttrs.thickness } /> }
-				value={
-					typeof effectiveValues[ borderAttrs.thickness ] === 'string'
-						? getNumericDefault( effectiveValues[ borderAttrs.thickness ] )
-						: effectiveValues[ borderAttrs.thickness ] ?? getNumericControlDefault( blockType, borderAttrs.thickness ) ?? 1
-				}
-				onChange={ ( value ) => handleChange( borderAttrs.thickness, value ) }
-				min={ getControlConfig( blockType, borderAttrs.thickness ).min ?? 0 }
-				max={ getControlConfig( blockType, borderAttrs.thickness ).max ?? 10 }
-			/>
+			{ thicknessAttr && (
+				<RangeControl
+					label={ <CustomLabel label={ mainAttrs.thickness?.label || 'Thickness (px)' } attrName={ thicknessAttr } /> }
+					value={ getNumericValue( thicknessAttr, mainAttrs.thickness ) }
+					onChange={ ( value ) => handleChange( thicknessAttr, value ) }
+					min={ mainAttrs.thickness?.min ?? 0 }
+					max={ mainAttrs.thickness?.max ?? 10 }
+				/>
+			) }
 
-			<SelectControl
-				label={ <CustomLabel label="Style" attrName={ borderAttrs.style } /> }
-				value={ effectiveValues[ borderAttrs.style ] || 'solid' }
-				options={ [
-					{ label: 'None', value: 'none' },
-					{ label: 'Solid', value: 'solid' },
-					{ label: 'Dashed', value: 'dashed' },
-					{ label: 'Dotted', value: 'dotted' },
-					{ label: 'Double', value: 'double' },
-				] }
-				onChange={ ( value ) => handleChange( borderAttrs.style, value ) }
-				__next40pxDefaultSize
-			/>
+			{ styleAttr && (
+				<SelectControl
+					label={ <CustomLabel label={ mainAttrs.style?.label || 'Style' } attrName={ styleAttr } /> }
+					value={ effectiveValues[ styleAttr ] || 'solid' }
+					options={ mainAttrs.style?.options || BORDER_STYLE_OPTIONS }
+					onChange={ ( value ) => handleChange( styleAttr, value ) }
+					__next40pxDefaultSize
+				/>
+			) }
 
-			{/* Border Radius - Individual corner controls (0-60px) */}
-			<hr style={ { margin: '16px 0' } } />
-			<h4 style={ { margin: '0 0 12px 0', fontSize: '13px' } }>
-				Border Radius
-				{ isAttrCustomized( borderAttrs.radius ) && (
-					<span className="customization-badge"> (Customized)</span>
-				) }
-			</h4>
-			<p style={ { fontSize: '12px', color: '#666', marginBottom: '12px' } }>
-				Set individual radius for each corner (0-60px)
-			</p>
-
-			<RangeControl
-				label="Top Left (px)"
-				value={ currentRadius.topLeft ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
-				onChange={ ( value ) =>
-					handleCornerChange( borderAttrs.radius, 'topLeft', value )
-				}
-				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
-				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
-			/>
-
-			<RangeControl
-				label="Top Right (px)"
-				value={ currentRadius.topRight ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
-				onChange={ ( value ) =>
-					handleCornerChange( borderAttrs.radius, 'topRight', value )
-				}
-				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
-				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
-			/>
-
-			<RangeControl
-				label="Bottom Right (px)"
-				value={ currentRadius.bottomRight ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
-				onChange={ ( value ) =>
-					handleCornerChange( borderAttrs.radius, 'bottomRight', value )
-				}
-				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
-				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
-			/>
-
-			<RangeControl
-				label="Bottom Left (px)"
-				value={ currentRadius.bottomLeft ?? getNumericControlDefault( blockType, borderAttrs.radius ) ?? 0 }
-				onChange={ ( value ) =>
-					handleCornerChange( borderAttrs.radius, 'bottomLeft', value )
-				}
-				min={ getControlConfig( blockType, borderAttrs.radius ).min ?? 0 }
-				max={ getControlConfig( blockType, borderAttrs.radius ).max ?? 60 }
-			/>
-
-			<TextControl
-				label={ <CustomLabel label="Shadow" attrName={ borderAttrs.shadow } /> }
-				value={ effectiveValues[ borderAttrs.shadow ] || 'none' }
-				onChange={ ( value ) => handleChange( borderAttrs.shadow, value ) }
-				help="CSS box-shadow value (e.g. '0 2px 4px rgba(0,0,0,0.1)')"
-				__nextHasNoMarginBottom
-			/>
-
-			<TextControl
-				label={ <CustomLabel label="Shadow on Hover" attrName={ borderAttrs.shadowHover } /> }
-				value={ effectiveValues[ borderAttrs.shadowHover ] || 'none' }
-				onChange={ ( value ) => handleChange( borderAttrs.shadowHover, value ) }
-				help="CSS box-shadow on hover (e.g. '0 4px 8px rgba(0,0,0,0.2)')"
-			__nextHasNoMarginBottom
-		/>
-
-		{ blockType !== 'toc' && (
+			{/* Border Radius - Individual corner controls */}
+			{ radiusAttr && (
 				<>
-					<hr />
-					<h3>Divider Border</h3>
+					<hr style={ { margin: '16px 0' } } />
+					<h4 style={ { margin: '0 0 12px 0', fontSize: '13px' } }>
+						{ mainAttrs.radius?.label || 'Border Radius' }
+						{ isAttrCustomized( radiusAttr ) && (
+							<span className="customization-badge"> (Customized)</span>
+						) }
+					</h4>
+					<p style={ { fontSize: '12px', color: '#666', marginBottom: '12px' } }>
+						Set individual radius for each corner (0-{ mainAttrs.radius?.max ?? 60 }px)
+					</p>
 
-					<CompactColorControl
-						label={
-							isAttrCustomized(
-								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor'
-							)
-								? 'Color (Customized)'
-								: 'Color'
-						}
-						value={
-							normalizeValueForControl(
-								effectiveValues[
-									blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor'
-								],
-								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor',
-								'color'
-							)
-						}
+					<RangeControl
+						label="Top Left (px)"
+						value={ currentRadius.topLeft ?? getNumericDefault( mainAttrs.radius?.default ) ?? 0 }
 						onChange={ ( value ) =>
-							handleChange(
-								blockType === 'accordion' ? 'dividerBorderColor' : 'dividerColor',
-								value
-							)
+							handleCornerChange( radiusAttr, 'topLeft', value )
 						}
+						min={ mainAttrs.radius?.min ?? 0 }
+						max={ mainAttrs.radius?.max ?? 60 }
 					/>
 
 					<RangeControl
-						label={
-							<CustomLabel
-								label="Thickness (px)"
-								attrName={
-									blockType === 'accordion'
-										? 'dividerBorderThickness'
-										: 'dividerThickness'
-								}
-							/>
-						}
-						value={
-							( () => {
-								const dividerValue = effectiveValues[
-									blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness'
-								];
-								return typeof dividerValue === 'string'
-									? getNumericDefault( dividerValue )
-									: dividerValue ?? getNumericControlDefault( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ) ?? 0;
-							} )()
-						}
+						label="Top Right (px)"
+						value={ currentRadius.topRight ?? getNumericDefault( mainAttrs.radius?.default ) ?? 0 }
 						onChange={ ( value ) =>
-							handleChange(
-								blockType === 'accordion'
-									? 'dividerBorderThickness'
-									: 'dividerThickness',
-								value
-							)
+							handleCornerChange( radiusAttr, 'topRight', value )
 						}
-						min={ getControlConfig( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ).min ?? 0 }
-						max={ getControlConfig( blockType, blockType === 'accordion' ? 'dividerBorderThickness' : 'dividerThickness' ).max ?? 10 }
+						min={ mainAttrs.radius?.min ?? 0 }
+						max={ mainAttrs.radius?.max ?? 60 }
 					/>
 
-					<SelectControl
-						label={
-							<CustomLabel
-								label="Style"
-								attrName={
-									blockType === 'accordion' ? 'dividerBorderStyle' : 'dividerStyle'
-								}
-							/>
-						}
-						value={
-							effectiveValues[
-								blockType === 'accordion' ? 'dividerBorderStyle' : 'dividerStyle'
-							] || 'solid'
-						}
-						options={ [
-							{ label: 'None', value: 'none' },
-							{ label: 'Solid', value: 'solid' },
-							{ label: 'Dashed', value: 'dashed' },
-							{ label: 'Dotted', value: 'dotted' },
-							{ label: 'Double', value: 'double' },
-						] }
+					<RangeControl
+						label="Bottom Right (px)"
+						value={ currentRadius.bottomRight ?? getNumericDefault( mainAttrs.radius?.default ) ?? 0 }
 						onChange={ ( value ) =>
-							handleChange(
-								blockType === 'accordion' ? 'dividerBorderStyle' : 'dividerStyle',
-								value
-							)
+							handleCornerChange( radiusAttr, 'bottomRight', value )
 						}
-						__next40pxDefaultSize
+						min={ mainAttrs.radius?.min ?? 0 }
+						max={ mainAttrs.radius?.max ?? 60 }
 					/>
+
+					<RangeControl
+						label="Bottom Left (px)"
+						value={ currentRadius.bottomLeft ?? getNumericDefault( mainAttrs.radius?.default ) ?? 0 }
+						onChange={ ( value ) =>
+							handleCornerChange( radiusAttr, 'bottomLeft', value )
+						}
+						min={ mainAttrs.radius?.min ?? 0 }
+						max={ mainAttrs.radius?.max ?? 60 }
+					/>
+				</>
+			) }
+
+			{ shadowAttr && (
+				<TextControl
+					label={ <CustomLabel label={ mainAttrs.shadow?.label || 'Shadow' } attrName={ shadowAttr } /> }
+					value={ effectiveValues[ shadowAttr ] || 'none' }
+					onChange={ ( value ) => handleChange( shadowAttr, value ) }
+					help="CSS box-shadow value (e.g. '0 2px 4px rgba(0,0,0,0.1)')"
+					__nextHasNoMarginBottom
+				/>
+			) }
+
+			{ shadowHoverAttr && (
+				<TextControl
+					label={ <CustomLabel label={ mainAttrs.shadowHover?.label || 'Shadow on Hover' } attrName={ shadowHoverAttr } /> }
+					value={ effectiveValues[ shadowHoverAttr ] || 'none' }
+					onChange={ ( value ) => handleChange( shadowHoverAttr, value ) }
+					help="CSS box-shadow on hover (e.g. '0 4px 8px rgba(0,0,0,0.2)')"
+					__nextHasNoMarginBottom
+				/>
+			) }
+
+			{ hasDividerSection && (
+				<>
+					<hr />
+					<h3>{ dividerConfig.title || 'Divider Border' }</h3>
+
+					{ dividerColorAttr && (
+						<CompactColorControl
+							label={
+								isAttrCustomized( dividerColorAttr )
+									? 'Color (Customized)'
+									: 'Color'
+							}
+							value={
+								normalizeValueForControl(
+									effectiveValues[ dividerColorAttr ],
+									dividerColorAttr,
+									'color'
+								)
+							}
+							onChange={ ( value ) => handleChange( dividerColorAttr, value ) }
+						/>
+					) }
+
+					{ dividerThicknessAttr && (
+						<RangeControl
+							label={
+								<CustomLabel
+									label={ dividerAttrs.thickness?.label || 'Thickness (px)' }
+									attrName={ dividerThicknessAttr }
+								/>
+							}
+							value={ getNumericValue( dividerThicknessAttr, dividerAttrs.thickness ) }
+							onChange={ ( value ) => handleChange( dividerThicknessAttr, value ) }
+							min={ dividerAttrs.thickness?.min ?? 0 }
+							max={ dividerAttrs.thickness?.max ?? 10 }
+						/>
+					) }
+
+					{ dividerStyleAttr && (
+						<SelectControl
+							label={
+								<CustomLabel
+									label={ dividerAttrs.style?.label || 'Style' }
+									attrName={ dividerStyleAttr }
+								/>
+							}
+							value={ effectiveValues[ dividerStyleAttr ] || 'solid' }
+							options={ dividerAttrs.style?.options || BORDER_STYLE_OPTIONS }
+							onChange={ ( value ) => handleChange( dividerStyleAttr, value ) }
+							__next40pxDefaultSize
+						/>
+					) }
 				</>
 			) }
 		</PanelBody>

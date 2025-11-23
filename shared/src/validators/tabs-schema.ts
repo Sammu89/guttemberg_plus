@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T01:40:07.194Z
+ * Generated at: 2025-11-23T23:21:53.132Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -38,8 +38,6 @@ export const tabsThemeSchema = z.object({
   panelBorderColor: z.string(),
   tabListBorderBottomColor: z.string(),
   dividerColor: z.string().optional(),
-  borderColor: z.string().optional(),
-  accordionBorderColor: z.string().optional(),
   dividerBorderColor: z.string().optional(),
   iconColor: z.string(),
   titleFontSize: z.number(),
@@ -59,7 +57,6 @@ export const tabsThemeSchema = z.object({
   contentTextDecoration: z.string().optional(),
   panelFontSize: z.number(),
   panelLineHeight: z.number(),
-  verticalTabButtonTextAlign: z.string(),
   tabBorderThickness: z.number().optional(),
   tabBorderStyle: z.string().optional(),
   tabBorderRadius: z.record(z.any()),
@@ -81,8 +78,6 @@ export const tabsThemeSchema = z.object({
   accordionBorderStyle: z.string().optional(),
   accordionBorderRadius: z.record(z.any()).optional(),
   accordionShadow: z.string().optional(),
-  borderWidth: z.string().optional(),
-  borderRadius: z.string().optional(),
   dividerBorderThickness: z.number().optional(),
   dividerBorderStyle: z.string().optional(),
   titlePadding: z.record(z.any()),
@@ -141,8 +136,6 @@ export const tabsAttributesSchema = z.object({
   panelBorderColor: z.string(),
   tabListBorderBottomColor: z.string(),
   dividerColor: z.string().optional(),
-  borderColor: z.string().optional(),
-  accordionBorderColor: z.string().optional(),
   dividerBorderColor: z.string().optional(),
   iconColor: z.string(),
   titleFontSize: z.number(),
@@ -184,8 +177,6 @@ export const tabsAttributesSchema = z.object({
   accordionBorderStyle: z.string().optional(),
   accordionBorderRadius: z.record(z.any()).optional(),
   accordionShadow: z.string().optional(),
-  borderWidth: z.string().optional(),
-  borderRadius: z.string().optional(),
   dividerBorderThickness: z.number().optional(),
   dividerBorderStyle: z.string().optional(),
   titlePadding: z.record(z.any()),

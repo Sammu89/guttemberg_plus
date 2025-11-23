@@ -19,7 +19,6 @@ export default function Save( { attributes } ) {
 		'data-tab-id': tabId,
 		'data-tab-title': attributes.title || '',
 		'data-disabled': attributes.isDisabled ? 'true' : 'false',
-		tabIndex: 0,
 	} );
 
 	return (

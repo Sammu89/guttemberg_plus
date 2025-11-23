@@ -39,6 +39,8 @@ import {
 	debug,
 	TOC_EXCLUSIONS,
 } from '@shared';
+import { getPanelConfig, buildBorderConfig } from '@shared/utils/schema-config-builder';
+import tocSchema from '../../../schemas/toc.json';
 import './editor.scss';
 
 /**
@@ -147,6 +149,15 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Get all defaults (CSS + behavioral)
 	// Memoize to prevent infinite loop in session cache useEffect
 	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
+
+	// Build panel configs from schema
+	const headerColorsConfig = useMemo( () => getPanelConfig( tocSchema, 'headerColors' ), [] );
+
+	const contentColorsConfig = useMemo( () => getPanelConfig( tocSchema, 'contentColors' ), [] );
+
+	const typographyConfig = useMemo( () => getPanelConfig( tocSchema, 'typography' ), [] );
+
+	const borderConfig = useMemo( () => buildBorderConfig( tocSchema, 'toc' ), [] );
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
@@ -644,7 +655,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="toc"
+					config={ headerColorsConfig }
+					title="Title Colors"
 					theme={ theme }
 					cssDefaults={ cssDefaults }
 				/>
@@ -654,7 +666,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="toc"
+					config={ contentColorsConfig }
+					title="Link & Content Colors"
 					theme={ theme }
 					cssDefaults={ cssDefaults }
 				/>
@@ -664,7 +677,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="toc"
+					config={ typographyConfig }
+					title="Typography"
 					theme={ theme }
 					cssDefaults={ cssDefaults }
 				/>
@@ -674,7 +688,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					effectiveValues={ effectiveValues }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					blockType="toc"
+					config={ borderConfig }
 					theme={ theme }
 					cssDefaults={ cssDefaults }
 				/>
