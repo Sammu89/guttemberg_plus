@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-11-23T23:21:53.149Z
+ * Generated at: 2025-11-24T23:11:16.773Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -595,6 +595,26 @@ const CONTROL_CONFIGS = {
     },
   },
   'tabs': {
+    'orientation': {
+      control: 'SelectControl',
+      options: [
+              "horizontal",
+              "vertical"
+      ],
+      label: 'Orientation',
+      description: 'Tab layout orientation',
+      default: 'horizontal',
+    },
+    'activationMode': {
+      control: 'SelectControl',
+      options: [
+              "auto",
+              "manual"
+      ],
+      label: 'Activation Mode',
+      description: 'How tabs are activated (auto = focus, manual = click)',
+      default: 'auto',
+    },
     'headingLevel': {
       control: 'SelectControl',
       options: [
@@ -610,436 +630,6 @@ const CONTROL_CONFIGS = {
       description: 'Semantic HTML heading level (none, h1-h6)',
       default: 'none',
     },
-    'titleColor': {
-      control: 'ColorPicker',
-      label: 'Tab Button Color',
-      description: 'Text color for inactive tab buttons',
-      default: '#666666',
-    },
-    'titleBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Tab Button Background',
-      description: 'Background color for inactive tab buttons',
-      default: 'transparent',
-    },
-    'hoverTitleColor': {
-      control: 'ColorPicker',
-      label: 'Tab Hover Color',
-      description: 'Text color when hovering over tab',
-      default: '#333333',
-    },
-    'hoverTitleBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Tab Hover Background',
-      description: 'Background color when hovering over tab',
-      default: '#e8e8e8',
-    },
-    'activeTitleColor': {
-      control: 'ColorPicker',
-      label: 'Tab Active Color',
-      description: 'Text color for active tab',
-    },
-    'activeTitleBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Tab Active Background',
-      description: 'Background color for active tab',
-    },
-    'tabButtonActiveColor': {
-      control: 'ColorPicker',
-      label: 'Active Tab Text Color',
-      description: 'Text color for the active tab button',
-      default: '#000000',
-    },
-    'tabButtonActiveBackground': {
-      control: 'ColorPicker',
-      label: 'Active Tab Background',
-      description: 'Background color for the active tab button',
-      default: '#ffffff',
-    },
-    'tabButtonActiveBorderColor': {
-      control: 'ColorPicker',
-      label: 'Active Tab Border Color',
-      description: 'Border color for the active tab',
-      default: '#dddddd',
-    },
-    'tabButtonActiveBorderBottomColor': {
-      control: 'ColorPicker',
-      label: 'Active Tab Border Bottom',
-      description: 'Bottom border color for active tab (creates connected effect)',
-      default: 'transparent',
-    },
-    'contentColor': {
-      control: 'ColorPicker',
-      label: 'Content Color',
-      description: 'Text color for content area',
-    },
-    'contentBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Content Background',
-      description: 'Background color for content area',
-    },
-    'panelBackground': {
-      control: 'ColorPicker',
-      label: 'Panel Background',
-      description: 'Background color for tab panels',
-      default: '#ffffff',
-    },
-    'panelColor': {
-      control: 'ColorPicker',
-      label: 'Panel Text Color',
-      description: 'Text color for tab panels',
-      default: '#333333',
-    },
-    'tabListBackground': {
-      control: 'ColorPicker',
-      label: 'Tab List Background',
-      description: 'Background color for the tab navigation bar',
-      default: '#f5f5f5',
-    },
-    'tabBorderColor': {
-      control: 'ColorPicker',
-      label: 'Tab Border Color',
-      description: 'Border color for individual tabs',
-    },
-    'containerBorderColor': {
-      control: 'ColorPicker',
-      label: 'Container Border Color',
-      description: 'Border color for tabs container',
-      default: 'transparent',
-    },
-    'panelBorderColor': {
-      control: 'ColorPicker',
-      label: 'Panel Border Color',
-      description: 'Border color for tab panels',
-      default: '#dddddd',
-    },
-    'tabListBorderBottomColor': {
-      control: 'ColorPicker',
-      label: 'Tab List Border Color',
-      description: 'Bottom border color of tab navigation',
-      default: '#dddddd',
-    },
-    'dividerColor': {
-      control: 'ColorPicker',
-      label: 'Divider Color',
-      description: 'Color of divider between tabs and panel',
-    },
-    'dividerBorderColor': {
-      control: 'ColorPicker',
-      label: 'Divider Border Color',
-      description: 'Border color for divider',
-    },
-    'iconColor': {
-      control: 'ColorPicker',
-      label: 'Icon Color',
-      description: 'Color of tab icons',
-      default: 'inherit',
-    },
-    'titleFontSize': {
-      control: 'RangeControl',
-      min: 10,
-      max: 36,
-      unit: 'px',
-      label: 'Tab Font Size',
-      description: 'Font size for tab buttons in pixels',
-      default: '16px',
-    },
-    'titleFontWeight': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "100",
-                      "value": "100"
-              },
-              {
-                      "label": "200",
-                      "value": "200"
-              },
-              {
-                      "label": "300",
-                      "value": "300"
-              },
-              {
-                      "label": "400",
-                      "value": "400"
-              },
-              {
-                      "label": "500",
-                      "value": "500"
-              },
-              {
-                      "label": "600",
-                      "value": "600"
-              },
-              {
-                      "label": "700",
-                      "value": "700"
-              },
-              {
-                      "label": "800",
-                      "value": "800"
-              },
-              {
-                      "label": "900",
-                      "value": "900"
-              },
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Bold",
-                      "value": "bold"
-              }
-      ],
-      label: 'Tab Font Weight',
-      description: 'Font weight for tab buttons',
-      default: '500',
-    },
-    'titleFontFamily': {
-      control: 'FontFamilyControl',
-      label: 'Tab Font Family',
-      description: 'Font family for tab buttons',
-    },
-    'titleLineHeight': {
-      control: 'RangeControl',
-      min: 1,
-      max: 3,
-      label: 'Tab Line Height',
-      description: 'Line height for tab buttons',
-    },
-    'titleFontStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Italic",
-                      "value": "italic"
-              },
-              {
-                      "label": "Oblique",
-                      "value": "oblique"
-              }
-      ],
-      label: 'Tab Font Style',
-      description: 'Font style for tab buttons',
-      default: 'normal',
-    },
-    'titleTextTransform': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Uppercase",
-                      "value": "uppercase"
-              },
-              {
-                      "label": "Lowercase",
-                      "value": "lowercase"
-              },
-              {
-                      "label": "Capitalize",
-                      "value": "capitalize"
-              }
-      ],
-      label: 'Tab Text Transform',
-      description: 'Text transformation for tab buttons',
-      default: 'none',
-    },
-    'titleTextDecoration': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Underline",
-                      "value": "underline"
-              },
-              {
-                      "label": "Overline",
-                      "value": "overline"
-              },
-              {
-                      "label": "Line Through",
-                      "value": "line-through"
-              }
-      ],
-      label: 'Tab Text Decoration',
-      description: 'Text decoration for tab buttons',
-      default: 'none',
-    },
-    'titleAlignment': {
-      control: 'SelectControl',
-      options: [
-              "left",
-              "center",
-              "right"
-      ],
-      label: 'Tab Text Alignment',
-      description: 'Text alignment for tab buttons',
-      default: 'center',
-    },
-    'contentFontSize': {
-      control: 'RangeControl',
-      min: 10,
-      max: 36,
-      unit: 'px',
-      label: 'Content Font Size',
-      description: 'Font size for panel content in pixels',
-    },
-    'contentFontWeight': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "100",
-                      "value": "100"
-              },
-              {
-                      "label": "200",
-                      "value": "200"
-              },
-              {
-                      "label": "300",
-                      "value": "300"
-              },
-              {
-                      "label": "400",
-                      "value": "400"
-              },
-              {
-                      "label": "500",
-                      "value": "500"
-              },
-              {
-                      "label": "600",
-                      "value": "600"
-              },
-              {
-                      "label": "700",
-                      "value": "700"
-              },
-              {
-                      "label": "800",
-                      "value": "800"
-              },
-              {
-                      "label": "900",
-                      "value": "900"
-              },
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Bold",
-                      "value": "bold"
-              }
-      ],
-      label: 'Content Font Weight',
-      description: 'Font weight for panel content',
-    },
-    'contentFontFamily': {
-      control: 'FontFamilyControl',
-      label: 'Content Font Family',
-      description: 'Font family for panel content',
-    },
-    'contentLineHeight': {
-      control: 'RangeControl',
-      min: 1,
-      max: 3,
-      label: 'Content Line Height',
-      description: 'Line height for panel content',
-    },
-    'contentFontStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Italic",
-                      "value": "italic"
-              },
-              {
-                      "label": "Oblique",
-                      "value": "oblique"
-              }
-      ],
-      label: 'Content Font Style',
-      description: 'Font style for panel content',
-    },
-    'contentTextTransform': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Uppercase",
-                      "value": "uppercase"
-              },
-              {
-                      "label": "Lowercase",
-                      "value": "lowercase"
-              },
-              {
-                      "label": "Capitalize",
-                      "value": "capitalize"
-              }
-      ],
-      label: 'Content Text Transform',
-      description: 'Text transformation for panel content',
-    },
-    'contentTextDecoration': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Underline",
-                      "value": "underline"
-              },
-              {
-                      "label": "Overline",
-                      "value": "overline"
-              },
-              {
-                      "label": "Line Through",
-                      "value": "line-through"
-              }
-      ],
-      label: 'Content Text Decoration',
-      description: 'Text decoration for panel content',
-    },
-    'panelFontSize': {
-      control: 'RangeControl',
-      min: 10,
-      max: 36,
-      unit: 'px',
-      label: 'Panel Font Size',
-      description: 'Font size for panel content',
-      default: '16px',
-    },
-    'panelLineHeight': {
-      control: 'RangeControl',
-      min: 1,
-      max: 3,
-      label: 'Panel Line Height',
-      description: 'Line height for panel content',
-      default: 1.6,
-    },
     'verticalTabButtonTextAlign': {
       control: 'SelectControl',
       options: [
@@ -1051,15 +641,120 @@ const CONTROL_CONFIGS = {
       description: 'Text alignment for vertical tabs',
       default: 'left',
     },
-    'tabBorderThickness': {
+    'showIcon': {
+      control: 'ToggleControl',
+      label: 'Show Icon',
+      description: 'Display icons in tab buttons',
+      default: true,
+    },
+    'iconPosition': {
+      control: 'SelectControl',
+      options: [
+              "left",
+              "right"
+      ],
+      label: 'Icon Position',
+      description: 'Position of icon relative to text',
+      default: 'right',
+    },
+    'iconColor': {
+      control: 'ColorPicker',
+      label: 'Icon Color',
+      description: 'Color of tab icons',
+      default: 'inherit',
+    },
+    'iconSize': {
+      control: 'RangeControl',
+      min: 10,
+      max: 36,
+      unit: 'px',
+      label: 'Icon Size',
+      description: 'Size of tab icons in pixels',
+      default: 18,
+    },
+    'iconTypeClosed': {
+      control: 'IconPicker',
+      label: 'Closed Icon',
+      description: 'Icon when tab is closed (char or image URL)',
+      default: '▾',
+    },
+    'iconTypeOpen': {
+      control: 'IconPicker',
+      label: 'Open Icon',
+      description: 'Icon when tab is open (none = use closed icon with rotation)',
+      default: 'none',
+    },
+    'iconRotation': {
+      control: 'RangeControl',
+      min: -360,
+      max: 360,
+      unit: 'deg',
+      label: 'Icon Rotation',
+      description: 'Rotation angle when open (degrees)',
+      default: 180,
+    },
+    'tabButtonColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Color',
+      description: 'Text color for inactive tab buttons',
+      default: '#666666',
+    },
+    'tabButtonBackgroundColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Background',
+      description: 'Background color for inactive tab buttons',
+      default: 'transparent',
+    },
+    'tabButtonHoverColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Hover Color',
+      description: 'Text color when hovering over tab',
+      default: '#333333',
+    },
+    'tabButtonHoverBackgroundColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Hover Background',
+      description: 'Background color when hovering over tab',
+      default: '#e8e8e8',
+    },
+    'tabButtonActiveColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Active Color',
+      description: 'Text color for active/selected tab',
+      default: '#000000',
+    },
+    'tabButtonActiveBackgroundColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Active Background',
+      description: 'Background color for active/selected tab',
+      default: '#ffffff',
+    },
+    'tabButtonActiveBorderColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Active Border Color',
+      description: 'Border color for the active tab',
+      default: '#dddddd',
+    },
+    'tabButtonActiveBorderBottomColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Active Border Bottom',
+      description: 'Bottom border color for active tab (creates connected effect)',
+      default: 'transparent',
+    },
+    'tabButtonBorderColor': {
+      control: 'ColorPicker',
+      label: 'Tab Button Border Color',
+      description: 'Border color for inactive tab buttons',
+    },
+    'tabButtonBorderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Tab Border Width',
-      description: 'Border width for individual tabs',
+      label: 'Tab Button Border Width',
+      description: 'Border width for tab buttons',
     },
-    'tabBorderStyle': {
+    'tabButtonBorderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -1083,43 +778,103 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Tab Border Style',
-      description: 'Border style for individual tabs',
+      label: 'Tab Button Border Style',
+      description: 'Border style for tab buttons',
     },
-    'tabBorderRadius': {
-      control: 'BorderRadiusControl',
-      unit: 'px',
-      label: 'Tab Border Radius',
-      description: 'Corner radius for individual tabs',
-    },
-    'tabShadow': {
+    'tabButtonShadow': {
       control: 'TextControl',
-      label: 'Shadow',
-      description: 'CSS box-shadow for tab buttons',
+      label: 'Tab Button Shadow',
+      description: 'Box shadow for tab buttons',
       default: 'none',
     },
-    'tabShadowHover': {
+    'tabButtonShadowHover': {
       control: 'TextControl',
-      label: 'Shadow on Hover',
-      description: 'CSS box-shadow for tab buttons on hover',
+      label: 'Tab Button Shadow Hover',
+      description: 'Box shadow for tab buttons on hover',
       default: 'none',
     },
-    'tabButtonBorderRadius': {
-      control: 'BorderRadiusControl',
-      unit: 'px',
-      label: 'Tab Button Border Radius',
-      description: 'Per-corner border radius for tab buttons',
-    },
-    'containerBorderWidth': {
+    'tabButtonFontSize': {
       control: 'RangeControl',
-      min: 0,
-      max: 10,
+      min: 10,
+      max: 36,
       unit: 'px',
-      label: 'Container Border Width',
-      description: 'Border width for the tabs container',
-      default: '0px',
+      label: 'Tab Button Font Size',
+      description: 'Font size for tab buttons',
+      default: 16,
     },
-    'containerBorderStyle': {
+    'tabButtonFontWeight': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "100",
+                      "value": "100"
+              },
+              {
+                      "label": "200",
+                      "value": "200"
+              },
+              {
+                      "label": "300",
+                      "value": "300"
+              },
+              {
+                      "label": "400",
+                      "value": "400"
+              },
+              {
+                      "label": "500",
+                      "value": "500"
+              },
+              {
+                      "label": "600",
+                      "value": "600"
+              },
+              {
+                      "label": "700",
+                      "value": "700"
+              },
+              {
+                      "label": "800",
+                      "value": "800"
+              },
+              {
+                      "label": "900",
+                      "value": "900"
+              },
+              {
+                      "label": "Normal",
+                      "value": "normal"
+              },
+              {
+                      "label": "Bold",
+                      "value": "bold"
+              }
+      ],
+      label: 'Tab Button Font Weight',
+      description: 'Font weight for tab buttons',
+      default: '500',
+    },
+    'tabButtonFontStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "Normal",
+                      "value": "normal"
+              },
+              {
+                      "label": "Italic",
+                      "value": "italic"
+              },
+              {
+                      "label": "Oblique",
+                      "value": "oblique"
+              }
+      ],
+      label: 'Tab Button Font Style',
+      description: 'Font style for tab buttons',
+      default: 'normal',
+    },
+    'tabButtonTextTransform': {
       control: 'SelectControl',
       options: [
               {
@@ -1127,37 +882,91 @@ const CONTROL_CONFIGS = {
                       "value": "none"
               },
               {
-                      "label": "Solid",
-                      "value": "solid"
+                      "label": "Uppercase",
+                      "value": "uppercase"
               },
               {
-                      "label": "Dashed",
-                      "value": "dashed"
+                      "label": "Lowercase",
+                      "value": "lowercase"
               },
               {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
+                      "label": "Capitalize",
+                      "value": "capitalize"
               }
       ],
-      label: 'Container Border Style',
-      description: 'Border style for the tabs container',
-      default: 'solid',
-    },
-    'containerBorderRadius': {
-      control: 'BorderRadiusControl',
-      unit: 'px',
-      label: 'Container Border Radius',
-      description: 'Corner radius for the tabs container',
-    },
-    'containerShadow': {
-      control: 'TextControl',
-      label: 'Container Shadow',
-      description: 'Box shadow for the tabs container',
+      label: 'Tab Button Text Transform',
+      description: 'Text transformation for tab buttons',
       default: 'none',
+    },
+    'tabButtonTextDecoration': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Underline",
+                      "value": "underline"
+              },
+              {
+                      "label": "Overline",
+                      "value": "overline"
+              },
+              {
+                      "label": "Line Through",
+                      "value": "line-through"
+              }
+      ],
+      label: 'Tab Button Text Decoration',
+      description: 'Text decoration for tab buttons',
+      default: 'none',
+    },
+    'tabButtonTextAlign': {
+      control: 'SelectControl',
+      options: [
+              "left",
+              "center",
+              "right"
+      ],
+      label: 'Tab Button Text Alignment',
+      description: 'Text alignment for tab buttons',
+      default: 'center',
+    },
+    'tabListBackgroundColor': {
+      control: 'ColorPicker',
+      label: 'Tab List Background',
+      description: 'Background color for the tab navigation bar',
+      default: '#f5f5f5',
+    },
+    'tabListAlignment': {
+      control: 'SelectControl',
+      options: [
+              "left",
+              "center",
+              "right"
+      ],
+      label: 'Tab List Alignment',
+      description: 'Horizontal alignment of tabs',
+      default: 'left',
+    },
+    'panelColor': {
+      control: 'ColorPicker',
+      label: 'Panel Text Color',
+      description: 'Text color for tab panel content',
+      default: '#333333',
+    },
+    'panelBackgroundColor': {
+      control: 'ColorPicker',
+      label: 'Panel Background',
+      description: 'Background color for tab panels',
+      default: '#ffffff',
+    },
+    'panelBorderColor': {
+      control: 'ColorPicker',
+      label: 'Panel Border Color',
+      description: 'Border color for tab panels',
+      default: '#dddddd',
     },
     'panelBorderWidth': {
       control: 'RangeControl',
@@ -1166,7 +975,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Panel Border Width',
       description: 'Border width for tab panels',
-      default: '1px',
+      default: 1,
     },
     'panelBorderStyle': {
       control: 'SelectControl',
@@ -1196,127 +1005,26 @@ const CONTROL_CONFIGS = {
       description: 'Border style for tab panels',
       default: 'solid',
     },
-    'panelBorderRadius': {
-      control: 'RangeControl',
-      min: 0,
-      max: 20,
-      unit: 'px',
-      label: 'Panel Border Radius',
-      description: 'Corner radius for tab panels',
-      default: '0px',
-    },
-    'tabListBorderBottomWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Tab List Border Width',
-      description: 'Bottom border width of tab navigation',
-      default: '2px',
-    },
-    'tabListBorderBottomStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Tab List Border Style',
-      description: 'Bottom border style of tab navigation',
-      default: 'solid',
-    },
-    'dividerThickness': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Divider Thickness',
-      description: 'Thickness of divider between tabs and panel',
-    },
-    'dividerStyle': {
-      control: 'SelectControl',
-      options: [
-              "none",
-              "solid",
-              "dashed",
-              "dotted",
-              "double"
-      ],
-      label: 'Divider Style',
-      description: 'Style of divider between tabs and panel',
-    },
-    'accordionBorderThickness': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Accordion Border Width',
-      description: 'Border width for accordion fallback mode',
-    },
-    'accordionBorderStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Accordion Border Style',
-      description: 'Border style for accordion fallback mode',
-    },
-    'accordionBorderRadius': {
-      control: 'BorderRadiusControl',
-      unit: 'px',
-      label: 'Accordion Border Radius',
-      description: 'Border radius for accordion fallback mode',
-    },
-    'accordionShadow': {
+    'panelShadow': {
       control: 'TextControl',
-      label: 'Accordion Shadow',
-      description: 'Box shadow for accordion fallback mode',
+      label: 'Panel Shadow',
+      description: 'Box shadow for tab panels',
+      default: 'none',
     },
-    'dividerBorderThickness': {
+    'dividerLineColor': {
+      control: 'ColorPicker',
+      label: 'Divider Line Color',
+      description: 'Color of divider line between tabs and panel',
+    },
+    'dividerLineWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Divider Border Thickness',
-      description: 'Thickness of divider border',
+      label: 'Divider Line Width',
+      description: 'Width/thickness of divider line',
     },
-    'dividerBorderStyle': {
+    'dividerLineStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -1340,52 +1048,8 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Divider Border Style',
-      description: 'Style of divider border',
-    },
-    'titlePadding': {
-      control: 'SpacingControl',
-      unit: 'px',
-      label: 'Tab Button Padding',
-      description: 'Padding inside tab buttons',
-    },
-    'contentPadding': {
-      control: 'SpacingControl',
-      unit: 'px',
-      label: 'Content Padding',
-      description: 'Padding inside content area',
-    },
-    'panelPadding': {
-      control: 'SpacingControl',
-      unit: 'px',
-      label: 'Panel Padding',
-      description: 'Padding inside tab panels',
-    },
-    'tabListPadding': {
-      control: 'SpacingControl',
-      unit: 'px',
-      label: 'Tab List Padding',
-      description: 'Padding around the tab navigation',
-    },
-    'tabListGap': {
-      control: 'RangeControl',
-      min: 0,
-      max: 30,
-      unit: 'px',
-      label: 'Tab Gap',
-      description: 'Space between tab buttons',
-      default: '4px',
-    },
-    'tabsAlignment': {
-      control: 'SelectControl',
-      options: [
-              "left",
-              "center",
-              "right"
-      ],
-      label: 'Tabs Alignment',
-      description: 'Horizontal alignment of tabs',
-      default: 'left',
+      label: 'Divider Line Style',
+      description: 'Style of divider line between tabs and panel',
     },
     'verticalTabListWidth': {
       control: 'RangeControl',
@@ -1394,15 +1058,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Vertical Tab List Width',
       description: 'Width of tab list in vertical orientation',
-      default: '200px',
-    },
-    'accordionMarginBottom': {
-      control: 'RangeControl',
-      min: 0,
-      max: 50,
-      unit: 'px',
-      label: 'Margin Bottom',
-      description: 'Space below the tabs container',
+      default: 200,
     },
     'itemSpacing': {
       control: 'RangeControl',
@@ -1410,53 +1066,7 @@ const CONTROL_CONFIGS = {
       max: 50,
       unit: 'px',
       label: 'Item Spacing',
-      description: 'Spacing between items',
-    },
-    'showIcon': {
-      control: 'ToggleControl',
-      label: 'Show Icon',
-      description: 'Display icons in tab buttons',
-      default: true,
-    },
-    'iconPosition': {
-      control: 'SelectControl',
-      options: [
-              "left",
-              "right"
-      ],
-      label: 'Icon Position',
-      description: 'Position of icon relative to text',
-      default: 'right',
-    },
-    'iconSize': {
-      control: 'RangeControl',
-      min: 10,
-      max: 36,
-      unit: 'px',
-      label: 'Icon Size',
-      description: 'Size of tab icons in pixels',
-      default: '18px',
-    },
-    'iconTypeClosed': {
-      control: 'IconPicker',
-      label: 'Closed Icon',
-      description: 'Icon for closed state (accordion fallback)',
-      default: '▾',
-    },
-    'iconTypeOpen': {
-      control: 'IconPicker',
-      label: 'Open Icon',
-      description: 'Icon for open state (accordion fallback)',
-      default: 'none',
-    },
-    'iconRotation': {
-      control: 'RangeControl',
-      min: -360,
-      max: 360,
-      unit: 'deg',
-      label: 'Icon Rotation',
-      description: 'Rotation angle when open (degrees)',
-      default: '180deg',
+      description: 'General spacing between items',
     },
   },
   'toc': {

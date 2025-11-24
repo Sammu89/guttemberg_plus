@@ -48,49 +48,78 @@ export default function Save( { attributes } ) {
 			}
 		};
 
-		// Tab Button (title colors from ColorPanel)
-		addIfDefined( 'titleColor', '--tab-button-color' );
-		addIfDefined( 'titleBackgroundColor', '--tab-button-bg' );
-		addIfDefined( 'hoverTitleColor', '--tab-button-hover-color' );
-		addIfDefined( 'hoverTitleBackgroundColor', '--tab-button-hover-bg' );
-		addIfDefined( 'activeTitleColor', '--tab-button-active-color' );
-		addIfDefined( 'activeTitleBackgroundColor', '--tab-button-active-bg' );
+		// Tab Button Colors
+		addIfDefined( 'tabButtonColor', '--tab-button-color' );
+		addIfDefined( 'tabButtonBackgroundColor', '--tab-button-bg' );
+		addIfDefined( 'tabButtonHoverColor', '--tab-button-hover-color' );
+		addIfDefined( 'tabButtonHoverBackgroundColor', '--tab-button-hover-bg' );
+		addIfDefined( 'tabButtonActiveColor', '--tab-button-active-color' );
+		addIfDefined( 'tabButtonActiveBackgroundColor', '--tab-button-active-bg' );
+		addIfDefined( 'tabButtonActiveBorderColor', '--tab-button-active-border-color' );
+		addIfDefined( 'tabButtonActiveBorderBottomColor', '--tab-button-active-border-bottom-color' );
 
-		// Tab Button Typography (from TypographyPanel)
-		addIfDefined( 'titleFontSize', '--tab-button-font-size', ( val ) => `${ val }px` );
-		addIfDefined( 'titleFontWeight', '--tab-button-font-weight' );
-		addIfDefined( 'titleFontStyle', '--tab-button-font-style' );
-		addIfDefined( 'titleTextTransform', '--tab-button-text-transform' );
-		addIfDefined( 'titleTextDecoration', '--tab-button-text-decoration' );
-		addIfDefined( 'titleAlignment', '--tab-button-text-align' );
+		// Tab Button Border and Shadow
+		addIfDefined( 'tabButtonBorderColor', '--tab-button-border-color' );
+		addIfDefined( 'tabButtonBorderWidth', '--tab-button-border-width', ( val ) => `${ val }px` );
+		addIfDefined( 'tabButtonBorderStyle', '--tab-button-border-style' );
+		addIfDefined( 'tabButtonShadow', '--tab-button-shadow' );
+		addIfDefined( 'tabButtonShadowHover', '--tab-button-shadow-hover' );
 
-		// Tab Panel (content colors from ColorPanel)
-		addIfDefined( 'contentBackgroundColor', '--panel-bg' );
-		addIfDefined( 'contentColor', '--panel-color' );
-
-		// Border (from BorderPanel - using tab-specific attributes)
-		addIfDefined( 'tabBorderColor', '--tab-button-border-color' );
-		addIfDefined( 'tabBorderThickness', '--tab-button-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'tabBorderStyle', '--tab-button-border-style' );
-		addIfDefined( 'tabShadow', '--tabs-container-shadow' );
-		addIfDefined( 'dividerColor', '--divider-color' );
-		addIfDefined( 'dividerThickness', '--divider-width', ( val ) => `${ val }px` );
-		addIfDefined( 'dividerStyle', '--divider-style' );
-
-		// Border Radius (from BorderPanel)
-		if ( attributes.tabBorderRadius ) {
-			const br = attributes.tabBorderRadius;
+		// Tab Button Border Radius
+		if ( attributes.tabButtonBorderRadius ) {
+			const br = attributes.tabButtonBorderRadius;
 			styles[ '--tab-button-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
 		}
 
-		// Icon (from IconPanel)
-		addIfDefined( 'iconSize', '--icon-size', ( val ) => `${ val }px` );
-		addIfDefined( 'iconColor', '--icon-color' );
+		// Tab Button Typography
+		addIfDefined( 'tabButtonFontSize', '--tab-button-font-size', ( val ) => `${ val }px` );
+		addIfDefined( 'tabButtonFontWeight', '--tab-button-font-weight' );
+		addIfDefined( 'tabButtonFontStyle', '--tab-button-font-style' );
+		addIfDefined( 'tabButtonTextTransform', '--tab-button-text-transform' );
+		addIfDefined( 'tabButtonTextDecoration', '--tab-button-text-decoration' );
+		addIfDefined( 'tabButtonTextAlign', '--tab-button-text-align' );
 
-		// Responsive breakpoint (from Tab Settings panel)
-		if ( attributes.responsiveBreakpoint ) {
-			styles[ '--responsive-breakpoint' ] = `${ attributes.responsiveBreakpoint }px`;
+		// Tab Button Padding
+		if ( attributes.tabButtonPadding ) {
+			const p = attributes.tabButtonPadding;
+			styles[ '--tab-button-padding' ] = `${ p.top }px ${ p.right }px ${ p.bottom }px ${ p.left }px`;
 		}
+
+		// Tab List Colors and Border
+		addIfDefined( 'tabListBackgroundColor', '--tab-list-bg' );
+		addIfDefined( 'tabListBorderColor', '--tab-list-border-color' );
+		addIfDefined( 'tabListBorderWidth', '--tab-list-border-width', ( val ) => `${ val }px` );
+		addIfDefined( 'tabListBorderStyle', '--tab-list-border-style' );
+
+
+		// Tab Panel Colors
+		addIfDefined( 'panelColor', '--tab-panel-color' );
+		addIfDefined( 'panelBackgroundColor', '--tab-panel-bg' );
+		addIfDefined( 'panelBorderColor', '--tab-panel-border-color' );
+
+		// Tab Panel Border and Shadow
+		addIfDefined( 'panelBorderWidth', '--tab-panel-border-width', ( val ) => `${ val }px` );
+		addIfDefined( 'panelBorderStyle', '--tab-panel-border-style' );
+		addIfDefined( 'panelShadow', '--tab-panel-shadow' );
+
+		// Tab Panel Border Radius
+		if ( attributes.panelBorderRadius ) {
+			const br = attributes.panelBorderRadius;
+			styles[ '--tab-panel-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		}
+
+
+
+		// Divider
+		addIfDefined( 'dividerLineColor', '--divider-color' );
+		addIfDefined( 'dividerLineWidth', '--divider-width', ( val ) => `${ val }px` );
+		addIfDefined( 'dividerLineStyle', '--divider-style' );
+
+		// Icon
+		addIfDefined( 'iconColor', '--tab-icon-color' );
+		addIfDefined( 'iconSize', '--tab-icon-size', ( val ) => `${ val }px` );
+		addIfDefined( 'iconRotation', '--tab-icon-rotation', ( val ) => `${ val }deg` );
+
 
 		return styles;
 	};
@@ -99,29 +128,39 @@ export default function Save( { attributes } ) {
 
 	/**
 	 * Render icon based on settings
+	 * Supports both character and image icons
+	 * Can use rotation or separate open/closed icons
 	 */
 	const renderIcon = () => {
 		if ( ! effectiveValues.showIcon ) {
 			return null;
 		}
 
-		const iconContent = effectiveValues.iconTypeClosed || '📄';
-		const isImage = iconContent.startsWith( 'http' );
+		const iconClosed = effectiveValues.iconTypeClosed || '▾';
+		const iconOpen = effectiveValues.iconTypeOpen;
+		const isImage = iconClosed.startsWith( 'http' );
 
 		if ( isImage ) {
 			return (
 				<img
-					src={ iconContent }
+					src={ iconClosed }
 					alt=""
 					aria-hidden="true"
 					className="tab-icon tab-icon-image"
+					data-icon-closed={ iconClosed }
+					data-icon-open={ iconOpen !== 'none' ? iconOpen : iconClosed }
 				/>
 			);
 		}
 
 		return (
-			<span className="tab-icon" aria-hidden="true">
-				{ iconContent }
+			<span
+				className="tab-icon"
+				aria-hidden="true"
+				data-icon-closed={ iconClosed }
+				data-icon-open={ iconOpen !== 'none' ? iconOpen : iconClosed }
+			>
+				{ iconClosed }
 			</span>
 		);
 	};

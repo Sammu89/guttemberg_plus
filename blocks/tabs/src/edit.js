@@ -30,16 +30,12 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	HeaderColorsPanel,
-	ContentColorsPanel,
-	TypographyPanel,
-	BorderPanel,
-	IconPanel,
+	GenericPanel,
+	BehaviorPanel,
 	CustomizationWarning,
 	debug,
-	TABS_EXCLUSIONS,
 } from '@shared';
-import { getPanelConfig, buildBorderConfig } from '@shared/utils/schema-config-builder';
+import { buildBorderConfig } from '@shared/utils/schema-config-builder';
 import tabsSchema from '../../../schemas/tabs.json';
 import './editor.scss';
 
@@ -114,26 +110,16 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Memoize to prevent infinite loop in session cache useEffect
 	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
 
-	// Build panel configs from schema
-	const headerColorsConfig = useMemo( () =>
-		getPanelConfig( tabsSchema, 'headerColors' ), [] );
-
-	const contentColorsConfig = useMemo( () =>
-		getPanelConfig( tabsSchema, 'contentColors' ), [] );
-
-	const typographyConfig = useMemo( () =>
-		getPanelConfig( tabsSchema, 'typography' ), [] );
-
-	const borderConfig = useMemo( () =>
+	// Build border config from schema (GenericPanel handles color/typography/divider/content/icon from schema directly)
+	const titleBordersConfig = useMemo( () =>
 		buildBorderConfig( tabsSchema, 'tabs' ), [] );
-
-	const iconConfig = useMemo( () =>
-		getPanelConfig( tabsSchema, 'icon' ), [] );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
 	// Attributes to exclude from theme customization checks
-	// Centralized configuration from shared config
-	const excludeFromCustomizationCheck = TABS_EXCLUSIONS;
+	// Filter schema to get all attributes where themeable is NOT true
+	const excludeFromCustomizationCheck = Object.entries( tabsSchema.attributes )
+		.filter( ( [ , attr ] ) => attr.themeable !== true )
+		.map( ( [ key ] ) => key );
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
@@ -279,10 +265,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		try {
 			await updateTheme( 'tabs', attributes.currentTheme, deltas );
 		} catch ( error ) {
-			console.error( '[UPDATE THEME ERROR]', error );
 			// If theme doesn't exist or is broken, reset to default
 			if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
-				console.warn( '[UPDATE THEME] Theme not found - resetting to default' );
 				setAttributes( { currentTheme: '' } );
 				return;
 			}
@@ -422,7 +406,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			bottom: 24,
 			left: 24,
 		};
-		const tabButtonPadding = effectiveValues.titlePadding || {
+		const tabButtonPadding = effectiveValues.tabButtonPadding || {
 			top: 12,
 			right: 24,
 			bottom: 12,
@@ -444,35 +428,35 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			tabList: {
 				display: 'flex',
 				flexDirection: attributes.orientation === 'vertical' ? 'column' : 'row',
-				backgroundColor: effectiveValues.tabListBackground || '#f5f5f5',
+				backgroundColor: effectiveValues.tabListBackgroundColor || '#f5f5f5',
 				gap: `${ effectiveValues.tabListGap || 4 }px`,
 				padding: `${ tabListPadding.top }px ${ tabListPadding.right }px ${ tabListPadding.bottom }px ${ tabListPadding.left }px`,
 				borderBottom:
 					attributes.orientation === 'horizontal'
-						? `${ effectiveValues.tabListBorderBottomWidth || 2 }px ${
-								effectiveValues.tabListBorderBottomStyle || 'solid'
-						  } ${ effectiveValues.tabListBorderBottomColor || '#dddddd' }`
+						? `${ effectiveValues.tabListBorderWidth || 2 }px ${
+								effectiveValues.tabListBorderStyle || 'solid'
+						  } ${ effectiveValues.tabListBorderColor || '#dddddd' }`
 						: 'none',
 				borderRight:
 					attributes.orientation === 'vertical'
-						? `${ effectiveValues.tabListBorderBottomWidth || 2 }px ${
-								effectiveValues.tabListBorderBottomStyle || 'solid'
-						  } ${ effectiveValues.tabListBorderBottomColor || '#dddddd' }`
+						? `${ effectiveValues.tabListBorderWidth || 2 }px ${
+								effectiveValues.tabListBorderStyle || 'solid'
+						  } ${ effectiveValues.tabListBorderColor || '#dddddd' }`
 						: 'none',
 				justifyContent:
 					attributes.orientation === 'horizontal'
-						? effectiveValues.tabsAlignment || 'flex-start'
+						? effectiveValues.tabListAlignment || 'flex-start'
 						: 'flex-start',
 			},
 			tabButton: ( isActive, isDisabled ) => ( {
 				backgroundColor: isActive
-					? effectiveValues.tabButtonActiveBackground || '#ffffff'
-					: effectiveValues.titleBackgroundColor || 'transparent',
+					? effectiveValues.tabButtonActiveBackgroundColor || '#ffffff'
+					: effectiveValues.tabButtonBackgroundColor || 'transparent',
 				color: isActive
 					? effectiveValues.tabButtonActiveColor || '#000000'
-					: effectiveValues.titleColor || '#666666',
-				border: `${ effectiveValues.accordionBorderThickness || 1 }px ${
-					effectiveValues.accordionBorderStyle || 'solid'
+					: effectiveValues.tabButtonColor || '#666666',
+				border: `${ effectiveValues.tabButtonBorderWidth || 1 }px ${
+					effectiveValues.tabButtonBorderStyle || 'solid'
 				} ${
 					isActive
 						? effectiveValues.tabButtonActiveBorderColor || '#dddddd'
@@ -480,12 +464,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				}`,
 				borderRadius: `${ tabButtonBorderRadius.topLeft }px ${ tabButtonBorderRadius.topRight }px ${ tabButtonBorderRadius.bottomRight }px ${ tabButtonBorderRadius.bottomLeft }px`,
 				padding: `${ tabButtonPadding.top }px ${ tabButtonPadding.right }px ${ tabButtonPadding.bottom }px ${ tabButtonPadding.left }px`,
-				fontSize: `${ effectiveValues.titleFontSize || 16 }px`,
-				fontWeight: effectiveValues.titleFontWeight || '500',
-				fontStyle: effectiveValues.titleFontStyle || 'normal',
-				textTransform: effectiveValues.titleTextTransform || 'none',
-				textDecoration: effectiveValues.titleTextDecoration || 'none',
-				textAlign: effectiveValues.titleAlignment || 'center',
+				fontSize: `${ effectiveValues.tabButtonFontSize || 16 }px`,
+				fontWeight: effectiveValues.tabButtonFontWeight || '500',
+				fontStyle: effectiveValues.tabButtonFontStyle || 'normal',
+				textTransform: effectiveValues.tabButtonTextTransform || 'none',
+				textDecoration: effectiveValues.tabButtonTextDecoration || 'none',
+				textAlign: effectiveValues.tabButtonTextAlign || 'center',
 				cursor: isDisabled ? 'not-allowed' : 'pointer',
 				opacity: isDisabled ? 0.5 : 1,
 				whiteSpace: 'nowrap',
@@ -493,20 +477,20 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					isActive && attributes.orientation === 'horizontal' ? 'none' : undefined,
 			} ),
 			panel: {
-				backgroundColor: effectiveValues.panelBackground || '#ffffff',
+				backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',
 				color: effectiveValues.panelColor || '#333333',
 				border: `${ effectiveValues.panelBorderWidth || 1 }px ${
 					effectiveValues.panelBorderStyle || 'solid'
 				} ${ effectiveValues.panelBorderColor || '#dddddd' }`,
-				borderRadius: `${ effectiveValues.panelBorderRadius || 0 }px`,
+				borderRadius: effectiveValues.panelBorderRadius ? `${ effectiveValues.panelBorderRadius.topLeft || 0 }px ${ effectiveValues.panelBorderRadius.topRight || 0 }px ${ effectiveValues.panelBorderRadius.bottomRight || 0 }px ${ effectiveValues.panelBorderRadius.bottomLeft || 0 }px` : '0px',
 				padding: `${ panelPadding.top }px ${ panelPadding.right }px ${ panelPadding.bottom }px ${ panelPadding.left }px`,
 				fontSize: `${ effectiveValues.panelFontSize || 16 }px`,
 				lineHeight: effectiveValues.panelLineHeight || 1.6,
 				flex: attributes.orientation === 'vertical' ? 1 : undefined,
 			},
 			icon: {
-				fontSize: `${ effectiveValues.iconSize || effectiveValues.titleFontSize || 18 }px`,
-				color: effectiveValues.iconColor || effectiveValues.titleColor || 'inherit',
+				fontSize: `${ effectiveValues.iconSize || effectiveValues.tabButtonFontSize || 18 }px`,
+				color: effectiveValues.iconColor || effectiveValues.tabButtonColor || 'inherit',
 				display: effectiveValues.showIcon ? 'inline-block' : 'none',
 				marginRight: '8px',
 			},
@@ -636,191 +620,153 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	} );
 
 	return (
-		<>
-			<InspectorControls>
-				<div className="tabs-settings-panel">
-					<ThemeSelector
-						blockType="tabs"
-						currentTheme={ attributes.currentTheme }
-						isCustomized={ isCustomized }
-						attributes={ attributes }
-						effectiveValues={ effectiveValues }
-						setAttributes={ setAttributes }
-						themes={ themes }
-						themesLoaded={ themesLoaded }
-						sessionCache={ sessionCache }
-						onThemeChange={ handleThemeChange }
-						onSaveNew={ handleSaveNewTheme }
-						onUpdate={ handleUpdateTheme }
-						onDelete={ handleDeleteTheme }
-						onRename={ handleRenameTheme }
-						onReset={ handleResetCustomizations }
-					/>
-				</div>
+		<>		<InspectorControls>
+			<div className="tabs-settings-panel">
+				<ThemeSelector
+					blockType="tabs"
+					currentTheme={ attributes.currentTheme }
+					isCustomized={ isCustomized }
+					attributes={ attributes }
+					effectiveValues={ effectiveValues }
+					setAttributes={ setAttributes }
+					themes={ themes }
+					themesLoaded={ themesLoaded }
+					sessionCache={ sessionCache }
+					onThemeChange={ handleThemeChange }
+					onSaveNew={ handleSaveNewTheme }
+					onUpdate={ handleUpdateTheme }
+					onDelete={ handleDeleteTheme }
+					onRename={ handleRenameTheme }
+					onReset={ handleResetCustomizations }
+				/>
+			</div>
 
-				<PanelBody title={ __( 'Tab Settings', 'guttemberg-plus' ) } initialOpen={ true }>
-					<SelectControl
-						label={ __( 'Orientation', 'guttemberg-plus' ) }
-						value={ attributes.orientation }
-						options={ [
-							{
-								label: __( 'Horizontal', 'guttemberg-plus' ),
-								value: 'horizontal',
-							},
-							{
-								label: __( 'Vertical', 'guttemberg-plus' ),
-								value: 'vertical',
-							},
-						] }
-						onChange={ ( value ) => setAttributes( { orientation: value } ) }
-						__next40pxDefaultSize
-					/>
+			<BehaviorPanel
+				schema={ tabsSchema }
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				blockType="tabs"
+				title={ __( 'General Settings', 'guttemberg-plus' ) }
+				initialOpen={ true }
+			/>
 
-					<SelectControl
-						label={ __( 'Activation Mode', 'guttemberg-plus' ) }
-						value={ attributes.activationMode }
-						options={ [
-							{
-								label: __( 'Automatic (on focus)', 'guttemberg-plus' ),
-								value: 'auto',
-							},
-							{
-								label: __( 'Manual (on click)', 'guttemberg-plus' ),
-								value: 'manual',
-							},
-						] }
-						onChange={ ( value ) => setAttributes( { activationMode: value } ) }
-						__next40pxDefaultSize
-						help={ __(
-							'Automatic activates tab on arrow key focus, manual requires Enter/Space',
-							'guttemberg-plus'
-						) }
-					/>
-
-					<ToggleControl
-						label={ __( 'Responsive Accordion Fallback', 'guttemberg-plus' ) }
-						help={ __(
-							'Convert to accordion layout on mobile screens',
-							'guttemberg-plus'
-						) }
-						checked={ attributes.enableResponsiveFallback || true }
-						onChange={ ( value ) =>
-							setAttributes( { enableResponsiveFallback: value } )
-						}
-					/>
-
-					{ attributes.enableResponsiveFallback && (
-						<RangeControl
-							label={ __( 'Responsive Breakpoint (px)', 'guttemberg-plus' ) }
-							value={ attributes.responsiveBreakpoint || 768 }
-							onChange={ ( value ) =>
-								setAttributes( { responsiveBreakpoint: value } )
-							}
-							min={ 320 }
-							max={ 1024 }
-							step={ 1 }
-						/>
-					) }
-				</PanelBody>
-
-				<PanelBody title={ __( 'Tab Management', 'guttemberg-plus' ) } initialOpen={ true }>
-					<div className="tabs-management">
-						{ tabPanels.map( ( panel, index ) => (
-							<div key={ panel.clientId } style={ { marginBottom: '12px' } }>
-								<div
-									style={ {
-										display: 'flex',
-										justifyContent: 'space-between',
-										alignItems: 'center',
-									} }
-								>
-									<strong>
-										{ __( 'Tab', 'guttemberg-plus' ) } { index + 1 }
-										{ panel.attributes.title && `: ${ panel.attributes.title }` }
-									</strong>
-									<div>
-										<ToggleControl
-											label={ __( 'Disabled', 'guttemberg-plus' ) }
-											checked={ panel.attributes.isDisabled || false }
-											onChange={ ( value ) =>
-												updateTab( index, 'isDisabled', value )
-											}
-										/>
-										{ tabPanels.length > 1 && (
-											<Button
-												isDestructive
-												isSmall
-												onClick={ () => removeTab( index ) }
-											>
-												{ __( 'Remove', 'guttemberg-plus' ) }
-											</Button>
-										) }
-									</div>
+			<PanelBody title={ __( 'Tabs Management', 'guttemberg-plus' ) } initialOpen={ true }>
+				<div className="tabs-management">
+					{ tabPanels.map( ( panel, index ) => (
+						<div key={ panel.clientId } style={ { marginBottom: '12px' } }>
+							<div
+								style={ {
+									display: 'flex',
+									justifyContent: 'space-between',
+									alignItems: 'center',
+								} }
+							>
+								<strong>
+									{ __( 'Tab', 'guttemberg-plus' ) } { index + 1 }
+									{ panel.attributes.title && `: ${ panel.attributes.title }` }
+								</strong>
+								<div>
+									<ToggleControl
+										label={ __( 'Disabled', 'guttemberg-plus' ) }
+										checked={ panel.attributes.isDisabled || false }
+										onChange={ ( value ) =>
+											updateTab( index, 'isDisabled', value )
+										}
+									/>
+									{ tabPanels.length > 1 && (
+										<Button
+											isDestructive
+											isSmall
+											onClick={ () => removeTab( index ) }
+										>
+											{ __( 'Remove', 'guttemberg-plus' ) }
+										</Button>
+									) }
 								</div>
 							</div>
-						) ) }
-						<Button isPrimary onClick={ addTab }>
-							{ __( '+ Add Tab', 'guttemberg-plus' ) }
-						</Button>
-					</div>
-				</PanelBody>
+						</div>
+					) ) }
+					<Button isPrimary onClick={ addTab }>
+						{ __( '+ Add Tab', 'guttemberg-plus' ) }
+					</Button>
+				</div>
+			</PanelBody>
 
-				<HeaderColorsPanel
-					effectiveValues={ effectiveValues }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					config={ headerColorsConfig }
-					title="Tab Button Colors"
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
-				/>
+			<GenericPanel
+				schema={ tabsSchema }
+				schemaGroup="titleColors"
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				effectiveValues={ effectiveValues }
+				theme={ themes[ attributes.currentTheme ]?.values }
+				cssDefaults={ cssDefaults }
+				initialOpen={ false }
+			/>
 
-				<ContentColorsPanel
-					effectiveValues={ effectiveValues }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					config={ contentColorsConfig }
-					title="Panel Colors"
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
-				/>
+			<GenericPanel
+				schema={ tabsSchema }
+				schemaGroup="titleTypography"
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				effectiveValues={ effectiveValues }
+				theme={ themes[ attributes.currentTheme ]?.values }
+				cssDefaults={ cssDefaults }
+				initialOpen={ false }
+			/>
 
-				<TypographyPanel
-					effectiveValues={ effectiveValues }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					config={ typographyConfig }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
-				/>
+			<GenericPanel
+				schema={ tabsSchema }
+				schemaGroup="titleBorders"
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				effectiveValues={ effectiveValues }
+				theme={ themes[ attributes.currentTheme ]?.values }
+				cssDefaults={ cssDefaults }
+				initialOpen={ false }
+			/>
 
-				<BorderPanel
-					effectiveValues={ effectiveValues }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					config={ borderConfig }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
-				/>
+			<GenericPanel
+				schema={ tabsSchema }
+				schemaGroup="content"
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				effectiveValues={ effectiveValues }
+				theme={ themes[ attributes.currentTheme ]?.values }
+				cssDefaults={ cssDefaults }
+				initialOpen={ false }
+			/>
 
-				<IconPanel
-					effectiveValues={ effectiveValues }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					config={ iconConfig }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
-				/>
+			<GenericPanel
+				schema={ tabsSchema }
+				schemaGroup="divider"
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				effectiveValues={ effectiveValues }
+				theme={ themes[ attributes.currentTheme ]?.values }
+				cssDefaults={ cssDefaults }
+				initialOpen={ false }
+			/>
 
-				{ isCustomized && (
-					<div className="customization-warning-wrapper">
-						<CustomizationWarning
-							currentTheme={ attributes.currentTheme }
-							themes={ themes }
-						/>
-					</div>
-				) }
-			</InspectorControls>
+			<GenericPanel
+				schema={ tabsSchema }
+				schemaGroup="icon"
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				effectiveValues={ effectiveValues }
+				theme={ themes[ attributes.currentTheme ]?.values }
+				cssDefaults={ cssDefaults }
+				initialOpen={ false }
+			/>
+
+			{ isCustomized && (
+				<div className="customization-warning-wrapper">
+					<CustomizationWarning
+						currentTheme={ attributes.currentTheme }
+						themes={ themes }
+					/>
+				</div>
+			) }
+		</InspectorControls>
 
 			<div { ...blockProps }>
 				{ ! themesLoaded && (

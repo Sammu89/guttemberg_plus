@@ -23,16 +23,13 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	HeaderColorsPanel,
-	ContentColorsPanel,
-	TypographyPanel,
+	GenericPanel,
+	BehaviorPanel,
 	BorderPanel,
-	IconPanel,
 	CustomizationWarning,
 	debug,
-	ACCORDION_EXCLUSIONS,
 } from '@shared';
-import { getPanelConfig, buildBorderConfig } from '@shared/utils/schema-config-builder';
+import { buildBorderConfig } from '@shared/utils/schema-config-builder';
 import accordionSchema from '../../../schemas/accordion.json';
 import { accordionAttributes } from './accordion-attributes';
 import './editor.scss';
@@ -55,13 +52,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				accordionId: `acc-${ generateUniqueId() }`,
 			} );
 		}
-
-		// Log on mount to see initial state
-		console.log( '[🚀 MOUNT] ========== ACCORDION BLOCK MOUNTED ==========' );
-		console.log( '[🚀 MOUNT] Initial attributes:', attributes );
-		console.log( '[🚀 MOUNT] Initial iconColor:', attributes.iconColor );
-		console.log( '[🚀 MOUNT] Initial currentTheme:', attributes.currentTheme );
-		console.log( '[🚀 MOUNT] ================================================' );
 	}, [ attributes.accordionId, setAttributes ] );
 
 	// Load themes from store
@@ -99,39 +89,24 @@ export default function Edit( { attributes, setAttributes } ) {
 				defaults[ key ] = accordionAttributes[ key ].default;
 			}
 		} );
-		console.log( '[🔍 DEBUG] schemaDefaults (from schemas/accordion.json):', defaults );
-		console.log( '[🔍 DEBUG] schemaDefaults.iconColor:', defaults.iconColor );
 		return defaults;
 	}, [] );
 
 	// All defaults come from schema - single source of truth!
 	const allDefaults = useMemo( () => {
 		const merged = getAllDefaults( schemaDefaults );
-		console.log( '[🔍 DEBUG] allDefaults:', merged );
-		console.log( '[🔍 DEBUG] allDefaults.iconColor:', merged.iconColor );
 		return merged;
 	}, [ schemaDefaults ] );
 
-	// Build panel configs from schema
-	const headerColorsConfig = useMemo( () =>
-		getPanelConfig( accordionSchema, 'headerColors' ), [] );
-
-	const contentColorsConfig = useMemo( () =>
-		getPanelConfig( accordionSchema, 'contentColors' ), [] );
-
-	const typographyConfig = useMemo( () =>
-		getPanelConfig( accordionSchema, 'typography' ), [] );
-
+	// Build border config from schema (GenericPanel handles colors/typography/icon from schema directly)
 	const borderConfig = useMemo( () =>
 		buildBorderConfig( accordionSchema, 'accordion' ), [] );
 
-	const iconConfig = useMemo( () =>
-		getPanelConfig( accordionSchema, 'icon' ), [] );
-
-	// Attributes to exclude from theming (structural, meta, behavioral only)
 	// Attributes to exclude from theme customization checks
-	// Centralized configuration from shared config
-	const excludeFromCustomizationCheck = ACCORDION_EXCLUSIONS;
+	// Filter schema to get all attributes where themeable is NOT true
+	const excludeFromCustomizationCheck = Object.entries( accordionSchema.attributes )
+		.filter( ( [ , attr ] ) => attr.themeable !== true )
+		.map( ( [ key ] ) => key );
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	// This is the simpler architecture - no complex cascade, just direct values
@@ -144,10 +119,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		const expected = currentTheme
 			? applyDeltas( allDefaults, currentTheme.values || {} )
 			: allDefaults;
-		console.log( '[🔍 DEBUG] expectedValues calculated:', expected );
-		console.log( '[🔍 DEBUG] expectedValues.iconColor:', expected.iconColor );
-		console.log( '[🔍 DEBUG] currentTheme:', attributes.currentTheme );
-		console.log( '[🔍 DEBUG] currentTheme.values:', currentTheme?.values );
 		return expected;
 	}, [ currentTheme, allDefaults ] );
 
@@ -155,27 +126,17 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Memoized to avoid recalculation on every render
 	// IMPORTANT: Wait for themes to load before checking customization
 	const isCustomized = useMemo( () => {
-		console.log( '[🔍 DEBUG] ========== CUSTOMIZATION CHECK START ==========' );
-		console.log( '[🔍 DEBUG] themesLoaded:', themesLoaded );
-		console.log( '[🔍 DEBUG] currentTheme:', attributes.currentTheme );
-		console.log( '[🔍 DEBUG] theme exists?', !!themes[ attributes.currentTheme ] );
-
 		// Don't check customization until themes are loaded
 		// This prevents false positives when theme deltas haven't loaded yet
 		if ( ! themesLoaded ) {
-			console.log( '[🔍 DEBUG] Themes not loaded yet - skipping customization check' );
 			return false;
 		}
 
 		// If block has a theme but it doesn't exist in themes object, wait
 		if ( attributes.currentTheme && ! themes[ attributes.currentTheme ] ) {
-			console.log( '[🔍 DEBUG] Theme not found in themes object - skipping customization check' );
 			return false;
 		}
 
-		console.log( '[🔍 DEBUG] Checking customization for current attributes:', attributes );
-
-		const customizedAttrs = [];
 		const result = Object.keys( attributes ).some( ( key ) => {
 			if ( excludeFromCustomizationCheck.includes( key ) ) {
 				return false;
@@ -197,26 +158,9 @@ export default function Edit( { attributes, setAttributes } ) {
 				isDifferent = attrValue !== expectedValue;
 			}
 
-			if ( isDifferent ) {
-				customizedAttrs.push( {
-					key,
-					attrValue,
-					expectedValue,
-					type: typeof attrValue
-				} );
-				console.log( `[🔍 DEBUG] ✗ CUSTOMIZED: ${key}`, {
-					attrValue,
-					expectedValue,
-					match: false
-				} );
-			}
-
 			return isDifferent;
 		} );
 
-		console.log( '[🔍 DEBUG] Customized attributes:', customizedAttrs );
-		console.log( '[🔍 DEBUG] isCustomized result:', result );
-		console.log( '[🔍 DEBUG] ========== CUSTOMIZATION CHECK END ==========' );
 		return result;
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded, themes ] );
 
@@ -246,7 +190,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		// GUARD: Skip cache update if themes aren't loaded yet
 		// This prevents incorrect comparisons against default values when theme values should be used
 		if ( ! themesLoaded ) {
-			console.log( '[📊 SESSION CACHE CHECK] Themes not loaded yet - skipping cache update' );
 			return;
 		}
 
@@ -254,7 +197,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		const currentThemeKey = attributes.currentTheme || '';
 
 		// Check if snapshot differs from expected values
-		const differences = [];
 		const hasCustomizations = Object.keys( snapshot ).some( ( key ) => {
 			// Skip excluded attributes
 			if ( excludeFromCustomizationCheck.includes( key ) ) {
@@ -271,29 +213,11 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			// Deep comparison for objects
 			if ( typeof snapshotValue === 'object' && snapshotValue !== null ) {
-				const isDifferent = JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
-				if ( isDifferent ) {
-					differences.push( { key, snapshot: snapshotValue, expected: expectedValue } );
-				}
-				return isDifferent;
+				return JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
 			}
 
-			const isDifferent = snapshotValue !== expectedValue;
-			if ( isDifferent ) {
-				differences.push( { key, snapshot: snapshotValue, expected: expectedValue } );
-			}
-			return isDifferent;
+			return snapshotValue !== expectedValue;
 		} );
-
-		console.log( '[📊 SESSION CACHE CHECK] ========================================' );
-		console.log( '[📊 SESSION CACHE CHECK] Theme:', currentThemeKey );
-		console.log( '[📊 SESSION CACHE CHECK] Has customizations:', hasCustomizations );
-		console.log( '[📊 SESSION CACHE CHECK] Snapshot:', snapshot );
-		console.log( '[📊 SESSION CACHE CHECK] Expected values:', expectedValues );
-		if ( differences.length > 0 ) {
-			console.log( '[📊 SESSION CACHE CHECK] Differences found:', differences );
-		}
-		console.log( '[📊 SESSION CACHE CHECK] ========================================' );
 
 		// IMPORTANT: Only UPDATE cache when there ARE customizations
 		// NEVER delete from cache automatically - only manual operations (Reset/Save/Update) should clear cache
@@ -306,8 +230,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				const existingStr = JSON.stringify( existingCache );
 
 				if ( snapshotStr !== existingStr ) {
-					console.log( '[📊 SESSION CACHE UPDATING] Theme:', currentThemeKey );
-					console.log( '[📊 SESSION CACHE UPDATING] Snapshot:', snapshot );
 					debug( '[SESSION CACHE] Updating cache for theme:', currentThemeKey );
 					return {
 						...prev,
@@ -372,13 +294,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		debug( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
 		debug( '[THEME CHANGE] isCustomized:', isCustomized );
 		debug( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
-		console.log( '[🔄 THEME CHANGE] ========== THEME SWITCH ==========' );
-		console.log( '[🔄 THEME CHANGE] New theme:', attributes.currentTheme );
-		console.log( '[🔄 THEME CHANGE] Theme object:', themes[ attributes.currentTheme ] );
-		console.log( '[🔄 THEME CHANGE] Theme values:', themes[ attributes.currentTheme ]?.values );
-		console.log( '[🔄 THEME CHANGE] Theme iconColor:', themes[ attributes.currentTheme ]?.values?.iconColor );
-		console.log( '[🔄 THEME CHANGE] Current attributes.iconColor:', attributes.iconColor );
-		console.log( '[🔄 THEME CHANGE] ========================================' );
 	}, [ attributes.currentTheme ] );
 
 	/**
@@ -386,8 +301,6 @@ export default function Edit( { attributes, setAttributes } ) {
 	 * @param themeName
 	 */
 	const handleSaveNewTheme = async ( themeName ) => {
-		console.warn( '[🎨 THEME CREATE] Starting theme creation:', themeName );
-
 		// Get current snapshot from session cache OR current attributes as fallback
 		const currentThemeKey = attributes.currentTheme || '';
 		const cachedSnapshot = sessionCache[ currentThemeKey ];
@@ -398,24 +311,11 @@ export default function Edit( { attributes, setAttributes } ) {
 			? cachedSnapshot
 			: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 
-		console.warn( '[🎨 THEME CREATE] Current theme key:', currentThemeKey );
-		console.warn( '[🎨 THEME CREATE] Using cached snapshot?', !!cachedSnapshot );
-		console.warn( '[🎨 THEME CREATE] Current snapshot:', currentSnapshot );
-		console.warn( '[🎨 THEME CREATE] Current snapshot.iconColor:', currentSnapshot.iconColor );
-		console.warn( '[🎨 THEME CREATE] Current attributes:', attributes );
-		console.warn( '[🎨 THEME CREATE] Current attributes.iconColor:', attributes.iconColor );
-
 		// Calculate deltas from current snapshot (optimized storage)
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-		console.warn( '[🎨 THEME CREATE] Calculated deltas:', deltas );
-		console.warn( '[🎨 THEME CREATE] Deltas.iconColor:', deltas.iconColor );
 
 		// Save theme with deltas only
-		console.warn( '[🎨 THEME CREATE] Calling createTheme API...' );
 		const createdTheme = await createTheme( 'accordion', themeName, deltas );
-		console.warn( '[🎨 THEME CREATE] API response:', createdTheme );
-		console.warn( '[🎨 THEME CREATE] Saved theme values:', createdTheme?.values );
-		console.warn( '[🎨 THEME CREATE] Saved theme iconColor:', createdTheme?.values?.iconColor );
 
 		// Reset to clean theme: apply defaults + new theme deltas
 		const newTheme = { values: deltas };
@@ -456,8 +356,6 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	const handleUpdateTheme = async () => {
-		console.warn( '[UPDATE THEME] Starting theme update for:', attributes.currentTheme );
-
 		// Get current snapshot from session cache OR current attributes as fallback
 		const currentThemeKey = attributes.currentTheme || '';
 		const cachedSnapshot = sessionCache[ currentThemeKey ];
@@ -468,22 +366,15 @@ export default function Edit( { attributes, setAttributes } ) {
 			? cachedSnapshot
 			: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 
-		console.warn( '[UPDATE THEME] Using cached snapshot?', !!cachedSnapshot );
-		console.warn( '[UPDATE THEME] Current snapshot:', currentSnapshot );
-
 		// Calculate deltas from current snapshot
 		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-
-		console.warn( '[UPDATE THEME] Calculated deltas:', deltas );
 
 		// Update theme with new deltas - handle errors
 		try {
 			await updateTheme( 'accordion', attributes.currentTheme, deltas );
 		} catch ( error ) {
-			console.error( '[UPDATE THEME ERROR]', error );
 			// If theme doesn't exist or is broken, reset to default
 			if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
-				console.warn( '[UPDATE THEME] Theme not found - resetting to default' );
 				setAttributes( { currentTheme: '' } );
 				return;
 			}
@@ -637,7 +528,6 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		// If theme is selected but doesn't exist in loaded themes, reset to default
 		if ( newThemeName && ! themes[ newThemeName ] ) {
-			console.warn( '[THEME CHANGE] Selected theme not found:', newThemeName, '- resetting to default' );
 			setAttributes( { currentTheme: '' } );
 			return;
 		}
@@ -964,7 +854,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<InspectorControls>
+						<InspectorControls>
 				<div className="accordion-settings-panel">
 					<ThemeSelector
 						blockType="accordion"
@@ -985,72 +875,46 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</div>
 
-				<PanelBody title={ __( 'Accordion Settings', 'guttemberg-plus' ) } initialOpen={ true }>
-					<ToggleControl
-						label={ __( 'Initially Open', 'guttemberg-plus' ) }
-						help={ __(
-							'Whether the accordion starts expanded on page load',
-							'guttemberg-plus'
-						) }
-						checked={ attributes.initiallyOpen || false }
-						onChange={ ( value ) => setAttributes( { initiallyOpen: value } ) }
-					/>
-
-					<TextControl
-						label={ __( 'Width', 'guttemberg-plus' ) }
-						help={ __( 'Enter width in pixels (e.g., 500px), percentage (e.g., 75%), or just a number (e.g., 500). Invalid values default to 100%. Min width is 300px. Note: This setting only works at the root level and will be ignored when inside columns or other container blocks.', 'guttemberg-plus' ) }
-						value={ widthInput }
-						onChange={ ( value ) => setWidthInput( value ) }
-						onBlur={ () => setAttributes( { accordionWidth: validateWidth( widthInput ) } ) }
-						onKeyDown={ ( e ) => {
-							if ( e.key === 'Enter' ) {
-								setAttributes( { accordionWidth: validateWidth( widthInput ) } );
-							}
-						} }
-						placeholder="100%"
-						__nextHasNoMarginBottom
-					/>
-
-					<SelectControl
-						label={ __( 'Horizontal Alignment', 'guttemberg-plus' ) }
-						help={ __( 'Controls the position of the accordion block on the frontend. This setting is only visible on the published page.', 'guttemberg-plus' ) }
-						value={ attributes.accordionHorizontalAlign || 'left' }
-						options={ [
-							{ label: __( 'Left', 'guttemberg-plus' ), value: 'left' },
-							{ label: __( 'Center', 'guttemberg-plus' ), value: 'center' },
-							{ label: __( 'Right', 'guttemberg-plus' ), value: 'right' },
-						] }
-						onChange={ ( value ) => setAttributes( { accordionHorizontalAlign: value } ) }
-						__next40pxDefaultSize
-					/>
-				</PanelBody>
-
-				<HeaderColorsPanel
-					effectiveValues={ effectiveValues }
+				<BehaviorPanel
+					schema={ accordionSchema }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ headerColorsConfig }
-					title="Title Colors"
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ allDefaults }
+					blockType="accordion"
+					title={ __( 'Accordion Settings', 'guttemberg-plus' ) }
+					initialOpen={ true }
 				/>
 
-				<ContentColorsPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ accordionSchema }
+					schemaGroup="headerColors"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ contentColorsConfig }
+					effectiveValues={ effectiveValues }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
+					initialOpen={ false }
 				/>
 
-				<TypographyPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ accordionSchema }
+					schemaGroup="contentColors"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ typographyConfig }
+					effectiveValues={ effectiveValues }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
+					initialOpen={ false }
+				/>
+
+				<GenericPanel
+					schema={ accordionSchema }
+					schemaGroup="typography"
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					effectiveValues={ effectiveValues }
+					theme={ themes[ attributes.currentTheme ]?.values }
+					cssDefaults={ allDefaults }
+					initialOpen={ false }
 				/>
 
 				<BorderPanel
@@ -1062,13 +926,15 @@ export default function Edit( { attributes, setAttributes } ) {
 					cssDefaults={ allDefaults }
 				/>
 
-				<IconPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ accordionSchema }
+					schemaGroup="icon"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ iconConfig }
+					effectiveValues={ effectiveValues }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
+					initialOpen={ false }
 				/>
 
 				{ isCustomized && (

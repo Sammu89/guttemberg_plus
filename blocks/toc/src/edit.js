@@ -31,15 +31,12 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	HeaderColorsPanel,
-	ContentColorsPanel,
-	TypographyPanel,
+	GenericPanel,
 	BorderPanel,
 	CustomizationWarning,
 	debug,
-	TOC_EXCLUSIONS,
 } from '@shared';
-import { getPanelConfig, buildBorderConfig } from '@shared/utils/schema-config-builder';
+import { buildBorderConfig } from '@shared/utils/schema-config-builder';
 import tocSchema from '../../../schemas/toc.json';
 import './editor.scss';
 
@@ -150,13 +147,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Memoize to prevent infinite loop in session cache useEffect
 	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
 
-	// Build panel configs from schema
-	const headerColorsConfig = useMemo( () => getPanelConfig( tocSchema, 'headerColors' ), [] );
-
-	const contentColorsConfig = useMemo( () => getPanelConfig( tocSchema, 'contentColors' ), [] );
-
-	const typographyConfig = useMemo( () => getPanelConfig( tocSchema, 'typography' ), [] );
-
+	// Build border config from schema (GenericPanel handles colors/typography from schema directly)
 	const borderConfig = useMemo( () => buildBorderConfig( tocSchema, 'toc' ), [] );
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
@@ -175,8 +166,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Attributes to exclude from theming (structural/behavioral only)
 	// Attributes to exclude from theme customization checks
-	// Centralized configuration from shared config
-	const excludeFromCustomizationCheck = TOC_EXCLUSIONS;
+	// Attributes to exclude from theme customization checks
+	// Filter schema to get all attributes where themeable is NOT true
+	const excludeFromCustomizationCheck = Object.entries( tocSchema.attributes )
+		.filter( ( [ , attr ] ) => attr.themeable !== true )
+		.map( ( [ key ] ) => key );
 
 	// Auto-detect customizations by comparing attributes to expected values
 	// Memoized to avoid recalculation on every render
@@ -651,36 +645,40 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				</PanelBody>
 
 				{ /* Header Colors */ }
-				<HeaderColorsPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ tocSchema }
+					schemaGroup="headerColors"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ headerColorsConfig }
-					title="Title Colors"
+					effectiveValues={ effectiveValues }
 					theme={ theme }
 					cssDefaults={ cssDefaults }
+					initialOpen={ false }
 				/>
 
 				{ /* Content Colors */ }
-				<ContentColorsPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ tocSchema }
+					schemaGroup="contentColors"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ contentColorsConfig }
-					title="Link & Content Colors"
+					effectiveValues={ effectiveValues }
 					theme={ theme }
 					cssDefaults={ cssDefaults }
+					initialOpen={ false }
+					title="Link & Content Colors"
 				/>
 
 				{ /* Typography Panel */ }
-				<TypographyPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ tocSchema }
+					schemaGroup="typography"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ typographyConfig }
-					title="Typography"
+					effectiveValues={ effectiveValues }
 					theme={ theme }
 					cssDefaults={ cssDefaults }
+					initialOpen={ false }
 				/>
 
 				{ /* Borders */ }
