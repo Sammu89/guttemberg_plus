@@ -41,12 +41,8 @@ export { store, STORE_NAME } from './data';
 export { getThemeManager } from './theme-system/theme-manager';
 
 // Theme Configuration (auto-generated from schemas)
-export {
-	getExclusionsForBlock,
-	ACCORDION_EXCLUSIONS,
-	TABS_EXCLUSIONS,
-	TOC_EXCLUSIONS,
-} from './config/theme-exclusions-generated';
+// Note: Exclusions are now derived dynamically from schema.themeable field in each block
+// See blocks/*/src/edit.js for excludeFromCustomizationCheck calculation
 
 // Shared Attributes (Module 1.5)
 // All attribute definitions now come from schema-generated files (e.g., accordion-attributes.js)
@@ -114,12 +110,10 @@ export { debug, debugError, debugWarn, debugTable } from './utils/debug';
 // Shared UI Components (Module 1.6)
 export { ThemeSelector } from './components/ThemeSelector';
 export { ColorPanel } from './components/ColorPanel';
-export { HeaderColorsPanel } from './components/HeaderColorsPanel';
-export { ContentColorsPanel } from './components/ContentColorsPanel';
 export { CompactColorControl } from './components/CompactColorControl';
-export { TypographyPanel } from './components/TypographyPanel';
 export { BorderPanel } from './components/BorderPanel';
-export { IconPanel } from './components/IconPanel';
+export { GenericPanel } from './components/GenericPanel';
+export { BehaviorPanel } from './components/BehaviorPanel';
 export { CustomizationWarning } from './components/CustomizationWarning';
 
 // Shared Hooks (Phase 4)

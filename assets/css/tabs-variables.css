@@ -3,13 +3,17 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-23T23:21:53.136Z
+ * Generated at: 2025-11-24T23:11:16.753Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
  */
 
 :root {
+  --tab-show-icon: true;
+  --icon-color: inherit;
+  --icon-size: 18;
+  --icon-rotation: 180;
   --tab-button-color: #666666;
   --tab-button-bg: transparent;
   --tab-button-hover-color: #333333;
@@ -18,34 +22,21 @@
   --tab-button-active-bg: #ffffff;
   --tab-button-active-border-color: #dddddd;
   --tab-button-active-border-bottom-color: transparent;
-  --panel-bg: #ffffff;
-  --panel-color: #333333;
-  --tabs-list-bg: #f5f5f5;
-  --tabs-container-border-color: transparent;
-  --panel-border-color: #dddddd;
-  --tabs-list-border-bottom-color: #dddddd;
-  --icon-color: inherit;
-  --tab-button-font-size: 16px;
+  --tab-button-shadow: none;
+  --tab-button-shadow-hover: none;
+  --tab-button-font-size: 16;
   --tab-button-font-weight: 500;
   --tab-button-font-style: normal;
   --tab-button-text-transform: none;
   --tab-button-text-decoration: none;
   --tab-button-text-align: center;
-  --panel-font-size: 16px;
-  --panel-line-height: 1.6;
-  --tab-button-shadow: none;
-  --tab-button-shadow-hover: none;
-  --tabs-container-border-width: 0px;
-  --tabs-container-border-style: solid;
-  --tabs-container-shadow: none;
-  --panel-border-width: 1px;
-  --panel-border-style: solid;
-  --panel-border-radius: 0px;
-  --tabs-list-border-bottom-width: 2px;
-  --tabs-list-border-bottom-style: solid;
-  --tabs-list-gap: 4px;
-  --tabs-alignment: left;
-  --vertical-tab-list-width: 200px;
-  --icon-size: 18px;
-  --icon-rotation: 180deg;
+  --tab-list-bg: #f5f5f5;
+  --tab-list-align: left;
+  --tab-panel-color: #333333;
+  --tab-panel-bg: #ffffff;
+  --tab-panel-border-color: #dddddd;
+  --tab-panel-border-width: 1;
+  --tab-panel-border-style: solid;
+  --tab-panel-shadow: none;
+  --vertical-tab-list-width: 200;
 }
