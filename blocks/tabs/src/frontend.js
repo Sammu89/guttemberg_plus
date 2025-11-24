@@ -133,7 +133,7 @@ function initializeSingleTabsBlock( block ) {
 	}
 
 	const orientation = block.getAttribute( 'data-orientation' ) || 'horizontal';
-	const activationMode = block.getAttribute( 'data-activation-mode' ) || 'auto';
+	const activationMode = block.getAttribute( 'data-activation-mode' ) || 'manual';
 	const responsiveFallback = block.getAttribute( 'data-responsive-fallback' ) === 'true';
 
 	// Find tab list and panels

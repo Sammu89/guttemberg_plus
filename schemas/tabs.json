@@ -104,7 +104,7 @@
     },
     "activationMode": {
       "type": "string",
-      "default": "auto",
+      "default": "manual",
       "group": "behavior",
       "label": "Activation Mode",
       "description": "How tabs are activated (auto = focus, manual = click)",

@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-24T08:24:02.497Z
+> Generated at: 2025-11-24T08:34:40.784Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -27,7 +27,7 @@ Non-themeable behavioral and structural settings
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
 | `tabs` | array | _object_ | No (content) | Array of tab items with title, content, and state |
 | `orientation` | string | `horizontal` | No (behavioral) | Tab layout orientation |
-| `activationMode` | string | `auto` | No (behavioral) | How tabs are activated (auto = focus, manual = click) |
+| `activationMode` | string | `manual` | No (behavioral) | How tabs are activated (auto = focus, manual = click) |
 | `currentTab` | number | `0` | No (behavioral) | Index of currently active tab (0-based) |
 | `responsiveBreakpoint` | number | `768` | No (behavioral) | Width in pixels below which to show accordion fallback |
 | `enableResponsiveFallback` | boolean | `true` | No (behavioral) | Convert to accordion on small screens |

@@ -143,7 +143,7 @@ export default function Save( { attributes } ) {
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
 		'data-orientation': attributes.orientation || 'horizontal',
-		'data-activation-mode': attributes.activationMode || 'auto',
+		'data-activation-mode': attributes.activationMode || 'manual',
 		'data-breakpoint': attributes.responsiveBreakpoint || 768,
 		'data-responsive-fallback': attributes.enableResponsiveFallback || true,
 		// Only add inline styles if there are customizations
