@@ -87,7 +87,9 @@
 	color: var(--tabs-panel-color, #333);
 	font-size: var(--tabs-panel-font-size, 1rem);
 	line-height: var(--tabs-panel-line-height, 1.6);
-	border: var(--tabs-panel-border-width, 1px) solid var(--tabs-panel-border-color, #ddd);
+	border-width: var(--tabs-panel-border-width, 1px);
+	border-style: solid;
+	border-color: var(--tabs-panel-border-color, #ddd);
 	border-radius: var(--tabs-panel-border-radius, 4px);
 	overflow: hidden;
 
