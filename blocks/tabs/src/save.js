@@ -133,6 +133,9 @@ export default function Save( { attributes } ) {
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );
 		classNames.push( `tabs-theme-${ safeThemeId }` );
 	}
+	if ( attributes.orientation === 'vertical' ) {
+		classNames.push( 'is-vertical' );
+	}
 	if ( attributes.enableResponsiveFallback ) {
 		classNames.push( 'responsive-accordion' );
 	}
