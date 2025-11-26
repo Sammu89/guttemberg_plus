@@ -109,11 +109,9 @@ export { debug, debugError, debugWarn, debugTable } from './utils/debug';
 
 // Shared UI Components (Module 1.6)
 export { ThemeSelector } from './components/ThemeSelector';
-export { ColorPanel } from './components/ColorPanel';
 export { CompactColorControl } from './components/CompactColorControl';
-export { BorderPanel } from './components/BorderPanel';
 export { GenericPanel } from './components/GenericPanel';
-export { BehaviorPanel } from './components/BehaviorPanel';
+export { SchemaPanels } from './components/SchemaPanels';
 export { CustomizationWarning } from './components/CustomizationWarning';
 
 // Shared Hooks (Phase 4)

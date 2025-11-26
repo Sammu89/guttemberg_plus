@@ -23,8 +23,7 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	GenericPanel,
-	BehaviorPanel,
+	SchemaPanels,
 	CustomizationWarning,
 	debug,
 } from '@shared';
@@ -869,79 +868,14 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</div>
 
-				<BehaviorPanel
+				{/* Auto-generated panels from schema */}
+				<SchemaPanels
 					schema={ accordionSchema }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					blockType="accordion"
-					title={ __( 'Accordion Settings', 'guttemberg-plus' ) }
-					initialOpen={ true }
-				/>
-
-				<GenericPanel
-					schema={ accordionSchema }
-					schemaGroup="headerColors"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					effectiveValues={ effectiveValues }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
-					initialOpen={ false }
-				/>
-
-				<GenericPanel
-					schema={ accordionSchema }
-					schemaGroup="contentColors"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ allDefaults }
-					initialOpen={ false }
-				/>
-
-				<GenericPanel
-					schema={ accordionSchema }
-					schemaGroup="typography"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ allDefaults }
-					initialOpen={ false }
-				/>
-
-				<GenericPanel
-					schema={ accordionSchema }
-					schemaGroup="borders"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ allDefaults }
-					initialOpen={ false }
-				/>
-
-				<GenericPanel
-					schema={ accordionSchema }
-					schemaGroup="dividerLine"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ allDefaults }
-					initialOpen={ false }
-				/>
-
-				<GenericPanel
-					schema={ accordionSchema }
-					schemaGroup="icon"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ allDefaults }
-					initialOpen={ false }
 				/>
 
 				{ isCustomized && (
