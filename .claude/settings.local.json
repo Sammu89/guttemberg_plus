@@ -75,7 +75,10 @@
       "Bash(shared/src/components/IconPanel.js )",
       "Bash(shared/src/config/accordion-exclusions.js )",
       "Bash(shared/src/config/tabs-exclusions.js )",
-      "Bash(shared/src/config/toc-exclusions.js)"
+      "Bash(shared/src/config/toc-exclusions.js)",
+      "Bash(del:*)",
+      "Bash(python -m json.tool:*)",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": []

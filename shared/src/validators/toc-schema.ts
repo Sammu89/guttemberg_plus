@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-24T23:11:16.757Z
+ * Generated at: 2025-11-25T23:53:24.664Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -19,7 +19,7 @@ import { z } from 'zod';
  */
 export const tocThemeSchema = z.object({
   wrapperBackgroundColor: z.string(),
-  wrapperBorderColor: z.string(),
+  blockBorderColor: z.string(),
   titleColor: z.string(),
   titleBackgroundColor: z.string(),
   linkColor: z.string(),
@@ -50,11 +50,11 @@ export const tocThemeSchema = z.object({
   level3PlusFontStyle: z.string(),
   level3PlusTextTransform: z.string(),
   level3PlusTextDecoration: z.string(),
-  wrapperBorderWidth: z.number(),
-  wrapperBorderStyle: z.string(),
-  wrapperBorderRadius: z.number(),
-  wrapperShadow: z.string(),
-  wrapperShadowHover: z.string(),
+  blockBorderWidth: z.number(),
+  blockBorderStyle: z.string(),
+  blockBorderRadius: z.record(z.any()),
+  blockShadow: z.string(),
+  blockShadowHover: z.string(),
   wrapperPadding: z.number(),
   listPaddingLeft: z.number().optional(),
   itemSpacing: z.number(),
@@ -87,7 +87,7 @@ export const tocAttributesSchema = z.object({
   autoHighlight: z.boolean(),
   clickBehavior: z.string(),
   wrapperBackgroundColor: z.string(),
-  wrapperBorderColor: z.string(),
+  blockBorderColor: z.string(),
   titleColor: z.string(),
   titleBackgroundColor: z.string(),
   linkColor: z.string(),
@@ -118,11 +118,11 @@ export const tocAttributesSchema = z.object({
   level3PlusFontStyle: z.string(),
   level3PlusTextTransform: z.string(),
   level3PlusTextDecoration: z.string(),
-  wrapperBorderWidth: z.number(),
-  wrapperBorderStyle: z.string(),
-  wrapperBorderRadius: z.number(),
-  wrapperShadow: z.string(),
-  wrapperShadowHover: z.string(),
+  blockBorderWidth: z.number(),
+  blockBorderStyle: z.string(),
+  blockBorderRadius: z.record(z.any()),
+  blockShadow: z.string(),
+  blockShadowHover: z.string(),
   wrapperPadding: z.number(),
   listPaddingLeft: z.number().optional(),
   itemSpacing: z.number(),

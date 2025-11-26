@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-11-24T23:11:16.773Z
+ * Generated at: 2025-11-25T23:53:24.668Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -76,13 +76,13 @@ const CONTROL_CONFIGS = {
       description: 'Background color for accordion content',
       default: '#ffffff',
     },
-    'accordionBorderColor': {
+    'borderColor': {
       control: 'ColorPicker',
-      label: 'Accordion Border Color',
-      description: 'Color of the accordion border (alias)',
+      label: 'Border Color',
+      description: 'Color of the accordion wrapper border',
       default: '#dddddd',
     },
-    'dividerBorderColor': {
+    'dividerColor': {
       control: 'ColorPicker',
       label: 'Divider Color',
       description: 'Color of divider between title and content',
@@ -384,16 +384,16 @@ const CONTROL_CONFIGS = {
       label: 'Content Text Decoration',
       description: 'Text decoration for content',
     },
-    'accordionBorderThickness': {
+    'borderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
       label: 'Border Width',
-      description: 'Thickness of the accordion border in pixels',
+      description: 'Thickness of the accordion wrapper border in pixels',
       default: '1px',
     },
-    'accordionBorderStyle': {
+    'borderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -415,51 +415,31 @@ const CONTROL_CONFIGS = {
               {
                       "label": "Double",
                       "value": "double"
-              },
-              {
-                      "label": "Groove",
-                      "value": "groove"
-              },
-              {
-                      "label": "Ridge",
-                      "value": "ridge"
-              },
-              {
-                      "label": "Inset",
-                      "value": "inset"
-              },
-              {
-                      "label": "Outset",
-                      "value": "outset"
-              },
-              {
-                      "label": "Hidden",
-                      "value": "hidden"
               }
       ],
       label: 'Border Style',
-      description: 'Style of the accordion border',
+      description: 'Style of the accordion wrapper border',
       default: 'solid',
     },
-    'accordionBorderRadius': {
+    'borderRadius': {
       control: 'BorderRadiusControl',
       unit: 'px',
       label: 'Border Radius',
-      description: 'Corner radius of the accordion',
+      description: 'Corner radius of the accordion wrapper',
     },
-    'accordionShadow': {
+    'shadow': {
       control: 'TextControl',
       label: 'Shadow',
-      description: 'CSS box-shadow for the accordion item',
+      description: 'CSS box-shadow for the accordion wrapper',
       default: 'none',
     },
-    'accordionShadowHover': {
+    'shadowHover': {
       control: 'TextControl',
-      label: 'Shadow on Hover',
-      description: 'CSS box-shadow for the accordion item on hover',
+      label: 'Shadow Hover',
+      description: 'CSS box-shadow for the accordion wrapper on hover',
       default: 'none',
     },
-    'dividerBorderThickness': {
+    'dividerWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
@@ -468,7 +448,7 @@ const CONTROL_CONFIGS = {
       description: 'Thickness of divider between title and content',
       default: '0px',
     },
-    'dividerBorderStyle': {
+    'dividerStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -490,26 +470,6 @@ const CONTROL_CONFIGS = {
               {
                       "label": "Double",
                       "value": "double"
-              },
-              {
-                      "label": "Groove",
-                      "value": "groove"
-              },
-              {
-                      "label": "Ridge",
-                      "value": "ridge"
-              },
-              {
-                      "label": "Inset",
-                      "value": "inset"
-              },
-              {
-                      "label": "Outset",
-                      "value": "outset"
-              },
-              {
-                      "label": "Hidden",
-                      "value": "hidden"
               }
       ],
       label: 'Divider Style',
@@ -660,17 +620,17 @@ const CONTROL_CONFIGS = {
     'iconColor': {
       control: 'ColorPicker',
       label: 'Icon Color',
-      description: 'Color of tab icons',
-      default: 'inherit',
+      description: 'Color of the tab icon',
+      default: '#666666',
     },
     'iconSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 36,
+      min: 8,
+      max: 48,
       unit: 'px',
       label: 'Icon Size',
-      description: 'Size of tab icons in pixels',
-      default: 18,
+      description: 'Size of the icon in pixels',
+      default: '16px',
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -691,7 +651,7 @@ const CONTROL_CONFIGS = {
       unit: 'deg',
       label: 'Icon Rotation',
       description: 'Rotation angle when open (degrees)',
-      default: 180,
+      default: '180deg',
     },
     'tabButtonColor': {
       control: 'ColorPicker',
@@ -741,20 +701,20 @@ const CONTROL_CONFIGS = {
       description: 'Bottom border color for active tab (creates connected effect)',
       default: 'transparent',
     },
-    'tabButtonBorderColor': {
+    'buttonBorderColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Border Color',
+      label: 'Border Color',
       description: 'Border color for inactive tab buttons',
     },
-    'tabButtonBorderWidth': {
+    'buttonBorderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Tab Button Border Width',
+      label: 'Border Width',
       description: 'Border width for tab buttons',
     },
-    'tabButtonBorderStyle': {
+    'buttonBorderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -778,18 +738,24 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Tab Button Border Style',
+      label: 'Border Style',
       description: 'Border style for tab buttons',
     },
-    'tabButtonShadow': {
+    'buttonBorderRadius': {
+      control: 'BorderRadiusControl',
+      unit: 'px',
+      label: 'Border Radius',
+      description: 'Corner radius for tab buttons',
+    },
+    'buttonShadow': {
       control: 'TextControl',
-      label: 'Tab Button Shadow',
+      label: 'Shadow',
       description: 'Box shadow for tab buttons',
       default: 'none',
     },
-    'tabButtonShadowHover': {
+    'buttonShadowHover': {
       control: 'TextControl',
-      label: 'Tab Button Shadow Hover',
+      label: 'Shadow Hover',
       description: 'Box shadow for tab buttons on hover',
       default: 'none',
     },
@@ -962,69 +928,20 @@ const CONTROL_CONFIGS = {
       description: 'Background color for tab panels',
       default: '#ffffff',
     },
-    'panelBorderColor': {
+    'dividerColor': {
       control: 'ColorPicker',
-      label: 'Panel Border Color',
-      description: 'Border color for tab panels',
-      default: '#dddddd',
-    },
-    'panelBorderWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Panel Border Width',
-      description: 'Border width for tab panels',
-      default: 1,
-    },
-    'panelBorderStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Panel Border Style',
-      description: 'Border style for tab panels',
-      default: 'solid',
-    },
-    'panelShadow': {
-      control: 'TextControl',
-      label: 'Panel Shadow',
-      description: 'Box shadow for tab panels',
-      default: 'none',
-    },
-    'dividerLineColor': {
-      control: 'ColorPicker',
-      label: 'Divider Line Color',
+      label: 'Divider Color',
       description: 'Color of divider line between tabs and panel',
     },
-    'dividerLineWidth': {
+    'dividerWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Divider Line Width',
+      label: 'Divider Width',
       description: 'Width/thickness of divider line',
     },
-    'dividerLineStyle': {
+    'dividerStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -1048,25 +965,66 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Divider Line Style',
+      label: 'Divider Style',
       description: 'Style of divider line between tabs and panel',
     },
-    'verticalTabListWidth': {
-      control: 'RangeControl',
-      min: 100,
-      max: 400,
-      unit: 'px',
-      label: 'Vertical Tab List Width',
-      description: 'Width of tab list in vertical orientation',
-      default: 200,
+    'borderColor': {
+      control: 'ColorPicker',
+      label: 'Border Color',
+      description: 'Border color for main tabs wrapper',
     },
-    'itemSpacing': {
+    'borderWidth': {
       control: 'RangeControl',
       min: 0,
-      max: 50,
+      max: 10,
       unit: 'px',
-      label: 'Item Spacing',
-      description: 'General spacing between items',
+      label: 'Border Width',
+      description: 'Border width for main wrapper',
+    },
+    'borderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Border Style',
+      description: 'Border style for wrapper',
+    },
+    'borderRadius': {
+      control: 'BorderRadiusControl',
+      unit: 'px',
+      label: 'Border Radius',
+      description: 'Corner radius for main wrapper',
+    },
+    'shadow': {
+      control: 'TextControl',
+      label: 'Shadow',
+      description: 'Box shadow for main wrapper',
+      default: 'none',
+    },
+    'shadowHover': {
+      control: 'TextControl',
+      label: 'Shadow Hover',
+      description: 'Box shadow for wrapper on hover',
+      default: 'none',
     },
   },
   'toc': {
@@ -1076,7 +1034,7 @@ const CONTROL_CONFIGS = {
       description: 'Background color of the TOC wrapper',
       default: '#ffffff',
     },
-    'wrapperBorderColor': {
+    'blockBorderColor': {
       control: 'ColorPicker',
       label: 'Border Color',
       description: 'Border color of the TOC wrapper',
@@ -1630,7 +1588,7 @@ const CONTROL_CONFIGS = {
       description: 'Text decoration for level 3+ items',
       default: 'none',
     },
-    'wrapperBorderWidth': {
+    'blockBorderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
@@ -1639,7 +1597,7 @@ const CONTROL_CONFIGS = {
       description: 'Width of the wrapper border in pixels',
       default: '1px',
     },
-    'wrapperBorderStyle': {
+    'blockBorderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -1683,22 +1641,18 @@ const CONTROL_CONFIGS = {
       description: 'Style of the wrapper border',
       default: 'solid',
     },
-    'wrapperBorderRadius': {
-      control: 'RangeControl',
-      min: 0,
-      max: 30,
-      unit: 'px',
+    'blockBorderRadius': {
+      control: 'BorderRadiusControl',
       label: 'Border Radius',
       description: 'Corner radius of the wrapper',
-      default: '4px',
     },
-    'wrapperShadow': {
+    'blockShadow': {
       control: 'TextControl',
       label: 'Shadow',
       description: 'CSS box-shadow for the wrapper',
       default: 'none',
     },
-    'wrapperShadowHover': {
+    'blockShadowHover': {
       control: 'TextControl',
       label: 'Shadow on Hover',
       description: 'CSS box-shadow for the wrapper on hover',

@@ -11,15 +11,15 @@
 /* Block wrapper */
 .wp-block-custom-toc {
 	background-color: var(--toc-wrapper-background-color, #ffffff);
-	border: var(--toc-border-width, 1px) var(--toc-border-style, solid) var(--toc-wrapper-border-color, #dddddd);
-	border-radius: var(--toc-border-radius, 4px);
+	border: var(--toc-border-width, 1px) var(--toc-border-style, solid) var(--toc-border-color, #dddddd);
+	border-radius: var(--toc-border-radius, 4px 4px 4px 4px);
 	padding: var(--toc-wrapper-padding, 20px);
-	box-shadow: var(--toc-wrapper-shadow, none);
+	box-shadow: var(--toc-border-shadow, none);
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
 
 	&:hover {
-		box-shadow: var(--toc-wrapper-shadow-hover, none);
+		box-shadow: var(--toc-border-shadow-hover, none);
 	}
 }
 

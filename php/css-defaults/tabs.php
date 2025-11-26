@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-24T23:11:16.751Z
+ * Generated at: 2025-11-25T23:53:24.663Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,11 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 return array(
   'showIcon' => 'true',
   'iconPosition' => 'right',
-  'iconColor' => 'inherit',
-  'iconSize' => '18',
+  'iconColor' => '#666666',
+  'iconSize' => '16px',
   'iconTypeClosed' => '▾',
   'iconTypeOpen' => 'none',
-  'iconRotation' => '180',
+  'iconRotation' => '180deg',
   'tabButtonColor' => '#666666',
   'tabButtonBackgroundColor' => 'transparent',
   'tabButtonHoverColor' => '#333333',
@@ -34,8 +34,8 @@ return array(
   'tabButtonActiveBackgroundColor' => '#ffffff',
   'tabButtonActiveBorderColor' => '#dddddd',
   'tabButtonActiveBorderBottomColor' => 'transparent',
-  'tabButtonShadow' => 'none',
-  'tabButtonShadowHover' => 'none',
+  'buttonShadow' => 'none',
+  'buttonShadowHover' => 'none',
   'tabButtonFontSize' => '16',
   'tabButtonFontWeight' => '500',
   'tabButtonFontStyle' => 'normal',
@@ -46,9 +46,6 @@ return array(
   'tabListAlignment' => 'left',
   'panelColor' => '#333333',
   'panelBackgroundColor' => '#ffffff',
-  'panelBorderColor' => '#dddddd',
-  'panelBorderWidth' => '1',
-  'panelBorderStyle' => 'solid',
-  'panelShadow' => 'none',
-  'verticalTabListWidth' => '200',
+  'shadow' => 'none',
+  'shadowHover' => 'none',
 );

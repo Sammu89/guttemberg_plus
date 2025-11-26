@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-24T23:11:16.735Z
+ * Generated at: 2025-11-25T23:53:24.658Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -99,11 +99,11 @@ export const accordionAttributes = {
     type: 'string',
     default: '#ffffff',
   },
-  accordionBorderColor: {
+  borderColor: {
     type: 'string',
     default: '#dddddd',
   },
-  dividerBorderColor: {
+  dividerColor: {
     type: 'string',
     default: '#dddddd',
   },
@@ -171,31 +171,31 @@ export const accordionAttributes = {
     type: 'string',
     default: null,
   },
-  accordionBorderThickness: {
+  borderWidth: {
     type: 'number',
     default: '1px',
   },
-  accordionBorderStyle: {
+  borderStyle: {
     type: 'string',
     default: 'solid',
   },
-  accordionBorderRadius: {
+  borderRadius: {
     type: 'object',
     default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
   },
-  accordionShadow: {
+  shadow: {
     type: 'string',
     default: 'none',
   },
-  accordionShadowHover: {
+  shadowHover: {
     type: 'string',
     default: 'none',
   },
-  dividerBorderThickness: {
+  dividerWidth: {
     type: 'number',
     default: '0px',
   },
-  dividerBorderStyle: {
+  dividerStyle: {
     type: 'string',
     default: 'solid',
   },

@@ -14,13 +14,13 @@
       "title": "Content Colors",
       "description": "Content area text and background colors"
     },
-    "border": {
-      "title": "Border",
-      "description": "Main border styles, widths, radius, and shadow"
+    "borders": {
+      "title": "Borders",
+      "description": "Main accordion wrapper borders and radius"
     },
-    "border-divider": {
-      "title": "Border Divider",
-      "description": "Divider border between title and content"
+    "dividerLine": {
+      "title": "Divider Line",
+      "description": "Divider line between header and content"
     },
     "typography": {
       "title": "Typography",
@@ -236,21 +236,21 @@
       "themeable": true,
       "control": "ColorPicker"
     },
-    "accordionBorderColor": {
+    "borderColor": {
       "type": "string",
       "default": "#dddddd",
       "cssVar": "accordion-border-color",
-      "group": "border",
-      "label": "Accordion Border Color",
-      "description": "Color of the accordion border (alias)",
+      "group": "borders",
+      "label": "Border Color",
+      "description": "Color of the accordion wrapper border",
       "themeable": true,
       "control": "ColorPicker"
     },
-    "dividerBorderColor": {
+    "dividerColor": {
       "type": "string",
       "default": "#dddddd",
       "cssVar": "accordion-divider-color",
-      "group": "border-divider",
+      "group": "dividerLine",
       "label": "Divider Color",
       "description": "Color of divider between title and content",
       "themeable": true,
@@ -625,26 +625,26 @@
         }
       ]
     },
-    "accordionBorderThickness": {
+    "borderWidth": {
       "type": "number",
       "default": "1px",
       "cssVar": "accordion-border-width",
-      "group": "border",
+      "group": "borders",
       "label": "Border Width",
-      "description": "Thickness of the accordion border in pixels",
+      "description": "Thickness of the accordion wrapper border in pixels",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 10,
       "unit": "px"
     },
-    "accordionBorderStyle": {
+    "borderStyle": {
       "type": "string",
       "default": "solid",
       "cssVar": "accordion-border-style",
-      "group": "border",
+      "group": "borders",
       "label": "Border Style",
-      "description": "Style of the accordion border",
+      "description": "Style of the accordion wrapper border",
       "themeable": true,
       "control": "SelectControl",
       "options": [
@@ -667,30 +667,10 @@
         {
           "label": "Double",
           "value": "double"
-        },
-        {
-          "label": "Groove",
-          "value": "groove"
-        },
-        {
-          "label": "Ridge",
-          "value": "ridge"
-        },
-        {
-          "label": "Inset",
-          "value": "inset"
-        },
-        {
-          "label": "Outset",
-          "value": "outset"
-        },
-        {
-          "label": "Hidden",
-          "value": "hidden"
         }
       ]
     },
-    "accordionBorderRadius": {
+    "borderRadius": {
       "type": "object",
       "default": {
         "topLeft": 4,
@@ -699,38 +679,38 @@
         "bottomLeft": 4
       },
       "cssVar": "accordion-border-radius",
-      "group": "border",
+      "group": "borders",
       "label": "Border Radius",
-      "description": "Corner radius of the accordion",
+      "description": "Corner radius of the accordion wrapper",
       "themeable": true,
       "control": "BorderRadiusControl",
       "unit": "px"
     },
-    "accordionShadow": {
+    "shadow": {
       "type": "string",
       "default": "none",
-      "cssVar": "accordion-shadow",
-      "group": "border",
+      "cssVar": "accordion-border-shadow",
+      "group": "borders",
       "label": "Shadow",
-      "description": "CSS box-shadow for the accordion item",
+      "description": "CSS box-shadow for the accordion wrapper",
       "themeable": true,
       "control": "TextControl"
     },
-    "accordionShadowHover": {
+    "shadowHover": {
       "type": "string",
       "default": "none",
-      "cssVar": "accordion-shadow-hover",
-      "group": "border",
-      "label": "Shadow on Hover",
-      "description": "CSS box-shadow for the accordion item on hover",
+      "cssVar": "accordion-border-shadow-hover",
+      "group": "borders",
+      "label": "Shadow Hover",
+      "description": "CSS box-shadow for the accordion wrapper on hover",
       "themeable": true,
       "control": "TextControl"
     },
-    "dividerBorderThickness": {
+    "dividerWidth": {
       "type": "number",
       "default": "0px",
       "cssVar": "accordion-divider-width",
-      "group": "border-divider",
+      "group": "dividerLine",
       "label": "Divider Width",
       "description": "Thickness of divider between title and content",
       "themeable": true,
@@ -739,11 +719,11 @@
       "max": 10,
       "unit": "px"
     },
-    "dividerBorderStyle": {
+    "dividerStyle": {
       "type": "string",
       "default": "solid",
       "cssVar": "accordion-divider-style",
-      "group": "border-divider",
+      "group": "dividerLine",
       "label": "Divider Style",
       "description": "Style of divider between title and content",
       "themeable": true,
@@ -768,26 +748,6 @@
         {
           "label": "Double",
           "value": "double"
-        },
-        {
-          "label": "Groove",
-          "value": "groove"
-        },
-        {
-          "label": "Ridge",
-          "value": "ridge"
-        },
-        {
-          "label": "Inset",
-          "value": "inset"
-        },
-        {
-          "label": "Outset",
-          "value": "outset"
-        },
-        {
-          "label": "Hidden",
-          "value": "hidden"
         }
       ]
     },

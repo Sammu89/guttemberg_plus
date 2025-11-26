@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-24T23:11:16.754Z
+> Generated at: 2025-11-25T23:53:24.663Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -41,11 +41,11 @@ Icon appearance and styling
 |-----------|------|---------|-----------|-------------|
 | `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
 | `iconPosition` | string | `right` | Yes | Position of icon relative to text |
-| `iconColor` | string | `inherit` | Yes | Color of tab icons |
-| `iconSize` | number | `18` | Yes | Size of tab icons in pixels |
+| `iconColor` | string | `#666666` | Yes | Color of the tab icon |
+| `iconSize` | number | `16px` | Yes | Size of the icon in pixels |
 | `iconTypeClosed` | string | `▾` | Yes | Icon when tab is closed (char or image URL) |
 | `iconTypeOpen` | string | `none` | Yes | Icon when tab is open (none = use closed icon with rotation) |
-| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
+| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
 
 ## Title Colors
 
@@ -62,20 +62,21 @@ All title/tab button colors and tab list background
 | `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
 | `tabButtonActiveBorderBottomColor` | string | `transparent` | Yes | Bottom border color for active tab (creates connected effect) |
 | `tabListBackgroundColor` | string | `#f5f5f5` | Yes | Background color for the tab navigation bar |
+| `panelColor` | string | `#333333` | Yes | Text color for tab panel content |
+| `panelBackgroundColor` | string | `#ffffff` | Yes | Background color for tab panels |
 
-## Title Borders
+## Button Borders
 
-All tab button borders, shadows, radius, and padding
+Tab button borders, radius, and shadows
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `tabButtonBorderColor` | string | _null_ | Yes | Border color for inactive tab buttons |
-| `tabButtonBorderWidth` | number | _null_ | Yes | Border width for tab buttons |
-| `tabButtonBorderStyle` | string | _null_ | Yes | Border style for tab buttons |
-| `tabButtonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
-| `tabButtonShadow` | string | `none` | Yes | Box shadow for tab buttons |
-| `tabButtonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
-| `tabButtonPadding` | object | _object_ | Yes | Padding inside tab buttons |
+| `buttonBorderColor` | string | _null_ | Yes | Border color for inactive tab buttons |
+| `buttonBorderWidth` | number | _null_ | Yes | Border width for tab buttons |
+| `buttonBorderStyle` | string | _null_ | Yes | Border style for tab buttons |
+| `buttonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
+| `buttonShadow` | string | `none` | Yes | Box shadow for tab buttons |
+| `buttonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
 
 ## Title Typography
 
@@ -91,38 +92,28 @@ All title/tab button typography and tab list alignment
 | `tabButtonTextAlign` | string | `center` | Yes | Text alignment for tab buttons |
 | `tabListAlignment` | string | `left` | Yes | Horizontal alignment of tabs |
 
-## Content
-
-All panel colors and borders
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `panelColor` | string | `#333333` | Yes | Text color for tab panel content |
-| `panelBackgroundColor` | string | `#ffffff` | Yes | Background color for tab panels |
-| `panelBorderColor` | string | `#dddddd` | Yes | Border color for tab panels |
-| `panelBorderWidth` | number | `1` | Yes | Border width for tab panels |
-| `panelBorderStyle` | string | `solid` | Yes | Border style for tab panels |
-| `panelBorderRadius` | object | _object_ | Yes | Corner radius for tab panels |
-| `panelShadow` | string | `none` | Yes | Box shadow for tab panels |
-
-## Divider
+## Divider Line
 
 Divider line between tabs navigation and content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `dividerLineColor` | string | _null_ | Yes | Color of divider line between tabs and panel |
-| `dividerLineWidth` | number | _null_ | Yes | Width/thickness of divider line |
-| `dividerLineStyle` | string | _null_ | Yes | Style of divider line between tabs and panel |
+| `dividerColor` | string | _null_ | Yes | Color of divider line between tabs and panel |
+| `dividerWidth` | number | _null_ | Yes | Width/thickness of divider line |
+| `dividerStyle` | string | _null_ | Yes | Style of divider line between tabs and panel |
 
-## Layout
+## Borders
 
-Spacing, gaps, and sizing (unused in UI - for future spacing controls)
+Main tabs wrapper borders and radius
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `verticalTabListWidth` | number | `200` | Yes | Width of tab list in vertical orientation |
-| `itemSpacing` | number | _null_ | Yes | General spacing between items |
+| `borderColor` | string | _null_ | Yes | Border color for main tabs wrapper |
+| `borderWidth` | number | _null_ | Yes | Border width for main wrapper |
+| `borderStyle` | string | _null_ | Yes | Border style for wrapper |
+| `borderRadius` | object | _object_ | Yes | Corner radius for main wrapper |
+| `shadow` | string | `none` | Yes | Box shadow for main wrapper |
+| `shadowHover` | string | `none` | Yes | Box shadow for wrapper on hover |
 
 ## CSS Variables
 
@@ -131,9 +122,9 @@ The following CSS custom properties are available for theming:
 | Attribute | CSS Variable |
 |-----------|-------------|
 | `showIcon` | `--tab-show-icon` |
-| `iconColor` | `--icon-color` |
-| `iconSize` | `--icon-size` |
-| `iconRotation` | `--icon-rotation` |
+| `iconColor` | `--tab-icon-color` |
+| `iconSize` | `--tab-icon-size` |
+| `iconRotation` | `--tab-icon-rotation` |
 | `tabButtonColor` | `--tab-button-color` |
 | `tabButtonBackgroundColor` | `--tab-button-bg` |
 | `tabButtonHoverColor` | `--tab-button-hover-color` |
@@ -142,31 +133,29 @@ The following CSS custom properties are available for theming:
 | `tabButtonActiveBackgroundColor` | `--tab-button-active-bg` |
 | `tabButtonActiveBorderColor` | `--tab-button-active-border-color` |
 | `tabButtonActiveBorderBottomColor` | `--tab-button-active-border-bottom-color` |
-| `tabButtonBorderColor` | `--tab-button-border-color` |
-| `tabButtonBorderWidth` | `--tab-button-border-width` |
-| `tabButtonBorderStyle` | `--tab-button-border-style` |
-| `tabButtonBorderRadius` | `--tab-button-border-radius` |
-| `tabButtonShadow` | `--tab-button-shadow` |
-| `tabButtonShadowHover` | `--tab-button-shadow-hover` |
+| `buttonBorderColor` | `--tabs-button-border-color` |
+| `buttonBorderWidth` | `--tabs-button-border-width` |
+| `buttonBorderStyle` | `--tabs-button-border-style` |
+| `buttonBorderRadius` | `--tabs-button-border-radius` |
+| `buttonShadow` | `--tabs-button-border-shadow` |
+| `buttonShadowHover` | `--tabs-button-border-shadow-hover` |
 | `tabButtonFontSize` | `--tab-button-font-size` |
 | `tabButtonFontWeight` | `--tab-button-font-weight` |
 | `tabButtonFontStyle` | `--tab-button-font-style` |
 | `tabButtonTextTransform` | `--tab-button-text-transform` |
 | `tabButtonTextDecoration` | `--tab-button-text-decoration` |
 | `tabButtonTextAlign` | `--tab-button-text-align` |
-| `tabButtonPadding` | `--tab-button-padding` |
 | `tabListBackgroundColor` | `--tab-list-bg` |
 | `tabListAlignment` | `--tab-list-align` |
 | `panelColor` | `--tab-panel-color` |
 | `panelBackgroundColor` | `--tab-panel-bg` |
-| `panelBorderColor` | `--tab-panel-border-color` |
-| `panelBorderWidth` | `--tab-panel-border-width` |
-| `panelBorderStyle` | `--tab-panel-border-style` |
-| `panelBorderRadius` | `--tab-panel-border-radius` |
-| `panelShadow` | `--tab-panel-shadow` |
-| `dividerLineColor` | `--divider-color` |
-| `dividerLineWidth` | `--divider-width` |
-| `dividerLineStyle` | `--divider-style` |
-| `verticalTabListWidth` | `--vertical-tab-list-width` |
-| `itemSpacing` | `--tabs-item-spacing` |
+| `dividerColor` | `--tabs-divider-color` |
+| `dividerWidth` | `--tabs-divider-width` |
+| `dividerStyle` | `--tabs-divider-style` |
+| `borderColor` | `--tabs-border-color` |
+| `borderWidth` | `--tabs-border-width` |
+| `borderStyle` | `--tabs-border-style` |
+| `borderRadius` | `--tabs-border-radius` |
+| `shadow` | `--tabs-border-shadow` |
+| `shadowHover` | `--tabs-border-shadow-hover` |
 

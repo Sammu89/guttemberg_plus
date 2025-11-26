@@ -35,9 +35,9 @@ import {
 	CustomizationWarning,
 	debug,
 } from '@shared';
-import { buildBorderConfig } from '@shared/utils/schema-config-builder';
 import tabsSchema from '../../../schemas/tabs.json';
 import './editor.scss';
+
 
 /**
  * Tabs Edit Component
@@ -109,10 +109,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Merge CSS defaults with behavioral defaults from attribute schemas
 	// Memoize to prevent infinite loop in session cache useEffect
 	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
-
-	// Build border config from schema (GenericPanel handles color/typography/divider/content/icon from schema directly)
-	const titleBordersConfig = useMemo( () =>
-		buildBorderConfig( tabsSchema, 'tabs' ), [] );
 
 	// Attributes to exclude from theming (structural, meta, behavioral only)
 	// Attributes to exclude from theme customization checks
@@ -433,15 +429,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				padding: `${ tabListPadding.top }px ${ tabListPadding.right }px ${ tabListPadding.bottom }px ${ tabListPadding.left }px`,
 				borderBottom:
 					attributes.orientation === 'horizontal'
-						? `${ effectiveValues.tabListBorderWidth || 2 }px ${
-								effectiveValues.tabListBorderStyle || 'solid'
-						  } ${ effectiveValues.tabListBorderColor || '#dddddd' }`
+						? '2px solid #dddddd'
 						: 'none',
 				borderRight:
 					attributes.orientation === 'vertical'
-						? `${ effectiveValues.tabListBorderWidth || 2 }px ${
-								effectiveValues.tabListBorderStyle || 'solid'
-						  } ${ effectiveValues.tabListBorderColor || '#dddddd' }`
+						? '2px solid #dddddd'
 						: 'none',
 				justifyContent:
 					attributes.orientation === 'horizontal'
@@ -716,7 +708,18 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 			<GenericPanel
 				schema={ tabsSchema }
-				schemaGroup="titleBorders"
+				schemaGroup="borders"
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				effectiveValues={ effectiveValues }
+				theme={ themes[ attributes.currentTheme ]?.values }
+				cssDefaults={ cssDefaults }
+				initialOpen={ false }
+			/>
+
+			<GenericPanel
+				schema={ tabsSchema }
+				schemaGroup="buttonBorders"
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				effectiveValues={ effectiveValues }
@@ -738,7 +741,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 			<GenericPanel
 				schema={ tabsSchema }
-				schemaGroup="divider"
+				schemaGroup="dividerLine"
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				effectiveValues={ effectiveValues }

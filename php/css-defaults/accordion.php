@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-24T23:11:16.738Z
+ * Generated at: 2025-11-25T23:53:24.659Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -25,8 +25,8 @@ return array(
   'hoverTitleBackgroundColor' => '#e8e8e8',
   'contentColor' => '#333333',
   'contentBackgroundColor' => '#ffffff',
-  'accordionBorderColor' => '#dddddd',
-  'dividerBorderColor' => '#dddddd',
+  'borderColor' => '#dddddd',
+  'dividerColor' => '#dddddd',
   'iconColor' => '#666666',
   'titleFontSize' => '18px',
   'titleFontWeight' => '600',
@@ -36,12 +36,12 @@ return array(
   'titleAlignment' => 'left',
   'contentFontSize' => '16px',
   'contentLineHeight' => '1.6',
-  'accordionBorderThickness' => '1px',
-  'accordionBorderStyle' => 'solid',
-  'accordionShadow' => 'none',
-  'accordionShadowHover' => 'none',
-  'dividerBorderThickness' => '0px',
-  'dividerBorderStyle' => 'solid',
+  'borderWidth' => '1px',
+  'borderStyle' => 'solid',
+  'shadow' => 'none',
+  'shadowHover' => 'none',
+  'dividerWidth' => '0px',
+  'dividerStyle' => 'solid',
   'accordionMarginBottom' => '8px',
   'showIcon' => 'true',
   'iconPosition' => 'right',

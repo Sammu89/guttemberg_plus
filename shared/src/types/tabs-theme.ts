@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-24T23:11:16.747Z
+ * Generated at: 2025-11-25T23:53:24.662Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,9 +21,9 @@ export interface TabsTheme {
   showIcon?: boolean;
   /** Position of icon relative to text */
   iconPosition?: string;
-  /** Color of tab icons */
+  /** Color of the tab icon */
   iconColor?: string;
-  /** Size of tab icons in pixels */
+  /** Size of the icon in pixels */
   iconSize?: number;
   /** Icon when tab is closed (char or image URL) */
   iconTypeClosed?: string;
@@ -48,17 +48,17 @@ export interface TabsTheme {
   /** Bottom border color for active tab (creates connected effect) */
   tabButtonActiveBorderBottomColor?: string;
   /** Border color for inactive tab buttons */
-  tabButtonBorderColor?: string | undefined;
+  buttonBorderColor?: string | undefined;
   /** Border width for tab buttons */
-  tabButtonBorderWidth?: number | undefined;
+  buttonBorderWidth?: number | undefined;
   /** Border style for tab buttons */
-  tabButtonBorderStyle?: string | undefined;
+  buttonBorderStyle?: string | undefined;
   /** Corner radius for tab buttons */
-  tabButtonBorderRadius?: Record<string, any>;
+  buttonBorderRadius?: Record<string, any>;
   /** Box shadow for tab buttons */
-  tabButtonShadow?: string;
+  buttonShadow?: string;
   /** Box shadow for tab buttons on hover */
-  tabButtonShadowHover?: string;
+  buttonShadowHover?: string;
   /** Font size for tab buttons */
   tabButtonFontSize?: number;
   /** Font weight for tab buttons */
@@ -71,8 +71,6 @@ export interface TabsTheme {
   tabButtonTextDecoration?: string;
   /** Text alignment for tab buttons */
   tabButtonTextAlign?: string;
-  /** Padding inside tab buttons */
-  tabButtonPadding?: Record<string, any>;
   /** Background color for the tab navigation bar */
   tabListBackgroundColor?: string;
   /** Horizontal alignment of tabs */
@@ -81,26 +79,24 @@ export interface TabsTheme {
   panelColor?: string;
   /** Background color for tab panels */
   panelBackgroundColor?: string;
-  /** Border color for tab panels */
-  panelBorderColor?: string;
-  /** Border width for tab panels */
-  panelBorderWidth?: number;
-  /** Border style for tab panels */
-  panelBorderStyle?: string;
-  /** Corner radius for tab panels */
-  panelBorderRadius?: Record<string, any>;
-  /** Box shadow for tab panels */
-  panelShadow?: string;
   /** Color of divider line between tabs and panel */
-  dividerLineColor?: string | undefined;
+  dividerColor?: string | undefined;
   /** Width/thickness of divider line */
-  dividerLineWidth?: number | undefined;
+  dividerWidth?: number | undefined;
   /** Style of divider line between tabs and panel */
-  dividerLineStyle?: string | undefined;
-  /** Width of tab list in vertical orientation */
-  verticalTabListWidth?: number;
-  /** General spacing between items */
-  itemSpacing?: number | undefined;
+  dividerStyle?: string | undefined;
+  /** Border color for main tabs wrapper */
+  borderColor?: string | undefined;
+  /** Border width for main wrapper */
+  borderWidth?: number | undefined;
+  /** Border style for wrapper */
+  borderStyle?: string | undefined;
+  /** Corner radius for main wrapper */
+  borderRadius?: Record<string, any>;
+  /** Box shadow for main wrapper */
+  shadow?: string;
+  /** Box shadow for wrapper on hover */
+  shadowHover?: string;
 }
 
 /**
@@ -109,11 +105,11 @@ export interface TabsTheme {
 export const tabsDefaultTheme: TabsTheme = {
   showIcon: true,
   iconPosition: 'right',
-  iconColor: 'inherit',
-  iconSize: 18,
+  iconColor: '#666666',
+  iconSize: 16px,
   iconTypeClosed: '▾',
   iconTypeOpen: 'none',
-  iconRotation: 180,
+  iconRotation: 180deg,
   tabButtonColor: '#666666',
   tabButtonBackgroundColor: 'transparent',
   tabButtonHoverColor: '#333333',
@@ -122,41 +118,32 @@ export const tabsDefaultTheme: TabsTheme = {
   tabButtonActiveBackgroundColor: '#ffffff',
   tabButtonActiveBorderColor: '#dddddd',
   tabButtonActiveBorderBottomColor: 'transparent',
-  tabButtonBorderRadius: {
+  buttonBorderRadius: {
     "topLeft": 4,
     "topRight": 4,
     "bottomRight": 0,
     "bottomLeft": 0
   },
-  tabButtonShadow: 'none',
-  tabButtonShadowHover: 'none',
+  buttonShadow: 'none',
+  buttonShadowHover: 'none',
   tabButtonFontSize: 16,
   tabButtonFontWeight: '500',
   tabButtonFontStyle: 'normal',
   tabButtonTextTransform: 'none',
   tabButtonTextDecoration: 'none',
   tabButtonTextAlign: 'center',
-  tabButtonPadding: {
-    "top": 12,
-    "right": 24,
-    "bottom": 12,
-    "left": 24
-  },
   tabListBackgroundColor: '#f5f5f5',
   tabListAlignment: 'left',
   panelColor: '#333333',
   panelBackgroundColor: '#ffffff',
-  panelBorderColor: '#dddddd',
-  panelBorderWidth: 1,
-  panelBorderStyle: 'solid',
-  panelBorderRadius: {
+  borderRadius: {
     "topLeft": 0,
     "topRight": 0,
     "bottomRight": 0,
     "bottomLeft": 0
   },
-  panelShadow: 'none',
-  verticalTabListWidth: 200,
+  shadow: 'none',
+  shadowHover: 'none',
 };
 
 /**
@@ -188,31 +175,29 @@ export interface TabsThemeAttributes {
   tabButtonActiveBackgroundColor?: string;
   tabButtonActiveBorderColor?: string;
   tabButtonActiveBorderBottomColor?: string;
-  tabButtonBorderColor?: string | undefined;
-  tabButtonBorderWidth?: number | undefined;
-  tabButtonBorderStyle?: string | undefined;
-  tabButtonBorderRadius?: Record<string, any>;
-  tabButtonShadow?: string;
-  tabButtonShadowHover?: string;
+  buttonBorderColor?: string | undefined;
+  buttonBorderWidth?: number | undefined;
+  buttonBorderStyle?: string | undefined;
+  buttonBorderRadius?: Record<string, any>;
+  buttonShadow?: string;
+  buttonShadowHover?: string;
   tabButtonFontSize?: number;
   tabButtonFontWeight?: string;
   tabButtonFontStyle?: string;
   tabButtonTextTransform?: string;
   tabButtonTextDecoration?: string;
   tabButtonTextAlign?: string;
-  tabButtonPadding?: Record<string, any>;
   tabListBackgroundColor?: string;
   tabListAlignment?: string;
   panelColor?: string;
   panelBackgroundColor?: string;
-  panelBorderColor?: string;
-  panelBorderWidth?: number;
-  panelBorderStyle?: string;
-  panelBorderRadius?: Record<string, any>;
-  panelShadow?: string;
-  dividerLineColor?: string | undefined;
-  dividerLineWidth?: number | undefined;
-  dividerLineStyle?: string | undefined;
-  verticalTabListWidth?: number;
-  itemSpacing?: number | undefined;
+  dividerColor?: string | undefined;
+  dividerWidth?: number | undefined;
+  dividerStyle?: string | undefined;
+  borderColor?: string | undefined;
+  borderWidth?: number | undefined;
+  borderStyle?: string | undefined;
+  borderRadius?: Record<string, any>;
+  shadow?: string;
+  shadowHover?: string;
 }

@@ -213,7 +213,7 @@ function buildCustomizationStyles( attributes ) {
 
 	// Wrapper colors
 	addIfDefined( 'wrapperBackgroundColor', '--toc-wrapper-background-color' );
-	addIfDefined( 'wrapperBorderColor', '--toc-wrapper-border-color' );
+	addIfDefined( 'blockBorderColor', '--toc-border-color' );
 
 	// Link colors
 	addIfDefined( 'linkColor', '--toc-link-color' );
@@ -251,9 +251,14 @@ function buildCustomizationStyles( attributes ) {
 	addIfDefined( 'level3PlusTextDecoration', '--toc-level3-plus-text-decoration' );
 
 	// Border
-	addIfDefined( 'wrapperBorderWidth', '--toc-border-width', ( val ) => `${ val }px` );
-	addIfDefined( 'wrapperBorderStyle', '--toc-border-style' );
-	addIfDefined( 'wrapperBorderRadius', '--toc-border-radius', ( val ) => `${ val }px` );
+	addIfDefined( 'blockBorderWidth', '--toc-border-width', ( val ) => `${ val }px` );
+	addIfDefined( 'blockBorderStyle', '--toc-border-style' );
+
+	// Border radius (object with 4 corners)
+	if ( attributes.blockBorderRadius ) {
+		const br = attributes.blockBorderRadius;
+		styles[ '--toc-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+	}
 
 	// Padding & Spacing
 	addIfDefined( 'wrapperPadding', '--toc-wrapper-padding', ( val ) => `${ val }px` );
@@ -265,7 +270,8 @@ function buildCustomizationStyles( attributes ) {
 	addIfDefined( 'zIndex', '--toc-z-index' );
 
 	// Shadow
-	addIfDefined( 'wrapperShadow', '--toc-wrapper-shadow' );
+	addIfDefined( 'blockShadow', '--toc-border-shadow' );
+	addIfDefined( 'blockShadowHover', '--toc-border-shadow-hover' );
 
 	return styles;
 }

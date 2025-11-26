@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-24T23:11:16.726Z
+ * Generated at: 2025-11-25T23:53:24.656Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -29,10 +29,10 @@ export interface AccordionTheme {
   contentColor?: string;
   /** Background color for accordion content */
   contentBackgroundColor?: string;
-  /** Color of the accordion border (alias) */
-  accordionBorderColor?: string;
+  /** Color of the accordion wrapper border */
+  borderColor?: string;
   /** Color of divider between title and content */
-  dividerBorderColor?: string;
+  dividerColor?: string;
   /** Color of the expand/collapse icon */
   iconColor?: string;
   /** Font size for the title in pixels */
@@ -65,20 +65,20 @@ export interface AccordionTheme {
   contentTextTransform?: string | undefined;
   /** Text decoration for content */
   contentTextDecoration?: string | undefined;
-  /** Thickness of the accordion border in pixels */
-  accordionBorderThickness?: number;
-  /** Style of the accordion border */
-  accordionBorderStyle?: string;
-  /** Corner radius of the accordion */
-  accordionBorderRadius?: Record<string, any>;
-  /** CSS box-shadow for the accordion item */
-  accordionShadow?: string;
-  /** CSS box-shadow for the accordion item on hover */
-  accordionShadowHover?: string;
+  /** Thickness of the accordion wrapper border in pixels */
+  borderWidth?: number;
+  /** Style of the accordion wrapper border */
+  borderStyle?: string;
+  /** Corner radius of the accordion wrapper */
+  borderRadius?: Record<string, any>;
+  /** CSS box-shadow for the accordion wrapper */
+  shadow?: string;
+  /** CSS box-shadow for the accordion wrapper on hover */
+  shadowHover?: string;
   /** Thickness of divider between title and content */
-  dividerBorderThickness?: number;
+  dividerWidth?: number;
   /** Style of divider between title and content */
-  dividerBorderStyle?: string;
+  dividerStyle?: string;
   /** Padding inside the title area */
   titlePadding?: Record<string, any>;
   /** Padding inside the content area */
@@ -111,8 +111,8 @@ export const accordionDefaultTheme: AccordionTheme = {
   hoverTitleBackgroundColor: '#e8e8e8',
   contentColor: '#333333',
   contentBackgroundColor: '#ffffff',
-  accordionBorderColor: '#dddddd',
-  dividerBorderColor: '#dddddd',
+  borderColor: '#dddddd',
+  dividerColor: '#dddddd',
   iconColor: '#666666',
   titleFontSize: 18px,
   titleFontWeight: '600',
@@ -122,18 +122,18 @@ export const accordionDefaultTheme: AccordionTheme = {
   titleAlignment: 'left',
   contentFontSize: 16px,
   contentLineHeight: 1.6,
-  accordionBorderThickness: 1px,
-  accordionBorderStyle: 'solid',
-  accordionBorderRadius: {
+  borderWidth: 1px,
+  borderStyle: 'solid',
+  borderRadius: {
     "topLeft": 4,
     "topRight": 4,
     "bottomRight": 4,
     "bottomLeft": 4
   },
-  accordionShadow: 'none',
-  accordionShadowHover: 'none',
-  dividerBorderThickness: 0px,
-  dividerBorderStyle: 'solid',
+  shadow: 'none',
+  shadowHover: 'none',
+  dividerWidth: 0px,
+  dividerStyle: 'solid',
   titlePadding: {
     "top": 16,
     "right": 16,
@@ -179,8 +179,8 @@ export interface AccordionThemeAttributes {
   hoverTitleBackgroundColor?: string;
   contentColor?: string;
   contentBackgroundColor?: string;
-  accordionBorderColor?: string;
-  dividerBorderColor?: string;
+  borderColor?: string;
+  dividerColor?: string;
   iconColor?: string;
   titleFontSize?: number;
   titleFontWeight?: string;
@@ -197,13 +197,13 @@ export interface AccordionThemeAttributes {
   contentFontStyle?: string | undefined;
   contentTextTransform?: string | undefined;
   contentTextDecoration?: string | undefined;
-  accordionBorderThickness?: number;
-  accordionBorderStyle?: string;
-  accordionBorderRadius?: Record<string, any>;
-  accordionShadow?: string;
-  accordionShadowHover?: string;
-  dividerBorderThickness?: number;
-  dividerBorderStyle?: string;
+  borderWidth?: number;
+  borderStyle?: string;
+  borderRadius?: Record<string, any>;
+  shadow?: string;
+  shadowHover?: string;
+  dividerWidth?: number;
+  dividerStyle?: string;
   titlePadding?: Record<string, any>;
   contentPadding?: Record<string, any>;
   accordionMarginBottom?: number;

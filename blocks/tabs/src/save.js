@@ -58,17 +58,17 @@ export default function Save( { attributes } ) {
 		addIfDefined( 'tabButtonActiveBorderColor', '--tab-button-active-border-color' );
 		addIfDefined( 'tabButtonActiveBorderBottomColor', '--tab-button-active-border-bottom-color' );
 
-		// Tab Button Border and Shadow
-		addIfDefined( 'tabButtonBorderColor', '--tab-button-border-color' );
-		addIfDefined( 'tabButtonBorderWidth', '--tab-button-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'tabButtonBorderStyle', '--tab-button-border-style' );
-		addIfDefined( 'tabButtonShadow', '--tab-button-shadow' );
-		addIfDefined( 'tabButtonShadowHover', '--tab-button-shadow-hover' );
+		// Tab Button Border and Shadow (buttonBorders group)
+		addIfDefined( 'buttonBorderColor', '--tabs-border-button-color' );
+		addIfDefined( 'buttonBorderWidth', '--tabs-border-button-width', ( val ) => `${ val }px` );
+		addIfDefined( 'buttonBorderStyle', '--tabs-border-button-style' );
+		addIfDefined( 'buttonShadow', '--tabs-border-button-shadow' );
+		addIfDefined( 'buttonShadowHover', '--tabs-border-button-shadow-hover' );
 
 		// Tab Button Border Radius
-		if ( attributes.tabButtonBorderRadius ) {
-			const br = attributes.tabButtonBorderRadius;
-			styles[ '--tab-button-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		if ( attributes.buttonBorderRadius ) {
+			const br = attributes.buttonBorderRadius;
+			styles[ '--tabs-border-button-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
 		}
 
 		// Tab Button Typography
@@ -87,33 +87,53 @@ export default function Save( { attributes } ) {
 
 		// Tab List Colors and Border
 		addIfDefined( 'tabListBackgroundColor', '--tab-list-bg' );
-		addIfDefined( 'tabListBorderColor', '--tab-list-border-color' );
-		addIfDefined( 'tabListBorderWidth', '--tab-list-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'tabListBorderStyle', '--tab-list-border-style' );
 
+		// Block-level Borders (blockBorders group)
+		addIfDefined( 'blockBorderColor', '--tabs-border-color' );
+		addIfDefined( 'blockBorderWidth', '--tabs-border-width', ( val ) => `${ val }px` );
+		addIfDefined( 'blockBorderStyle', '--tabs-border-style' );
+		addIfDefined( 'blockShadow', '--tabs-border-shadow' );
+		addIfDefined( 'blockShadowHover', '--tabs-border-shadow-hover' );
+
+		// Block Border Radius
+		if ( attributes.blockBorderRadius ) {
+			const br = attributes.blockBorderRadius;
+			styles[ '--tabs-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		}
+
+		// Navigation Borders (navigationBorders group)
+		addIfDefined( 'navBorderColor', '--tabs-border-nav-color' );
+		addIfDefined( 'navBorderWidth', '--tabs-border-nav-width', ( val ) => `${ val }px` );
+		addIfDefined( 'navBorderStyle', '--tabs-border-nav-style' );
+
+		// Navigation Border Radius
+		if ( attributes.navBorderRadius ) {
+			const br = attributes.navBorderRadius;
+			styles[ '--tabs-border-nav-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		}
 
 		// Tab Panel Colors
 		addIfDefined( 'panelColor', '--tab-panel-color' );
 		addIfDefined( 'panelBackgroundColor', '--tab-panel-bg' );
-		addIfDefined( 'panelBorderColor', '--tab-panel-border-color' );
 
-		// Tab Panel Border and Shadow
-		addIfDefined( 'panelBorderWidth', '--tab-panel-border-width', ( val ) => `${ val }px` );
-		addIfDefined( 'panelBorderStyle', '--tab-panel-border-style' );
-		addIfDefined( 'panelShadow', '--tab-panel-shadow' );
+		// Tab Panel Border and Shadow (contentBorders group)
+		addIfDefined( 'contentBorderColor', '--tabs-border-content-color' );
+		addIfDefined( 'contentBorderWidth', '--tabs-border-content-width', ( val ) => `${ val }px` );
+		addIfDefined( 'contentBorderStyle', '--tabs-border-content-style' );
+		addIfDefined( 'contentShadow', '--tabs-border-content-shadow' );
 
 		// Tab Panel Border Radius
-		if ( attributes.panelBorderRadius ) {
-			const br = attributes.panelBorderRadius;
-			styles[ '--tab-panel-border-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
+		if ( attributes.contentBorderRadius ) {
+			const br = attributes.contentBorderRadius;
+			styles[ '--tabs-border-content-radius' ] = `${ br.topLeft }px ${ br.topRight }px ${ br.bottomRight }px ${ br.bottomLeft }px`;
 		}
 
 
 
-		// Divider
-		addIfDefined( 'dividerLineColor', '--divider-color' );
-		addIfDefined( 'dividerLineWidth', '--divider-width', ( val ) => `${ val }px` );
-		addIfDefined( 'dividerLineStyle', '--divider-style' );
+		// Divider (dividerBorders group)
+		addIfDefined( 'dividerBorderColor', '--tabs-border-divider-color' );
+		addIfDefined( 'dividerBorderWidth', '--tabs-border-divider-width', ( val ) => `${ val }px` );
+		addIfDefined( 'dividerBorderStyle', '--tabs-border-divider-style' );
 
 		// Icon
 		addIfDefined( 'iconColor', '--tab-icon-color' );
