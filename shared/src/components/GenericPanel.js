@@ -114,7 +114,13 @@ export function GenericPanel( {
 		.map( ( [ attrName, attrConfig ] ) => ( {
 			name: attrName,
 			...attrConfig,
-		} ) );
+		} ) )
+		.sort( ( a, b ) => {
+			// Sort by order property (if not defined, use 999 to push to end)
+			const orderA = a.order !== undefined ? a.order : 999;
+			const orderB = b.order !== undefined ? b.order : 999;
+			return orderA - orderB;
+		} );
 
 	// Return null if no attributes to render
 	if ( groupAttributes.length === 0 ) {
@@ -161,9 +167,10 @@ export function GenericPanel( {
 	 * @returns {JSX.Element|null} Rendered control or null
 	 */
 	const renderControl = ( attrName, attrConfig ) => {
-		const { control, label, options, min, max, step, default: defaultValue } = attrConfig;
+		const { control, label, description, options, min, max, step, default: defaultValue } = attrConfig;
 		const effectiveValue = effectiveValues[ attrName ];
 		const finalLabel = label || attrName;
+		const helpText = description || '';
 
 		// Skip attributes without a defined control (e.g., SpacingControl)
 		// Note: BorderRadiusControl is now handled in the switch statement below
@@ -180,13 +187,19 @@ export function GenericPanel( {
 				);
 
 				return (
-					<CompactColorControl
-						key={ attrName }
-						label={ renderLabel( finalLabel, attrName ) }
-						value={ normalizedValue }
-						onChange={ ( value ) => handleChange( attrName, value ) }
-						disableAlpha={ false }
-					/>
+					<div key={ attrName }>
+						<CompactColorControl
+							label={ renderLabel( finalLabel, attrName ) }
+							value={ normalizedValue }
+							onChange={ ( value ) => handleChange( attrName, value ) }
+							disableAlpha={ false }
+						/>
+						{ helpText && (
+							<p style={ { fontSize: '12px', color: '#757575', marginTop: '4px', marginBottom: '16px' } }>
+								{ helpText }
+							</p>
+						) }
+					</div>
 				);
 			}
 
@@ -203,6 +216,7 @@ export function GenericPanel( {
 						min={ min ?? 0 }
 						max={ max ?? 100 }
 						step={ step ?? 1 }
+						help={ helpText }
 					/>
 				);
 			}
@@ -218,6 +232,7 @@ export function GenericPanel( {
 						value={ effectiveValue ?? defaultSelectValue }
 						options={ normalizedOptions }
 						onChange={ ( value ) => handleChange( attrName, value ) }
+						help={ helpText }
 						__next40pxDefaultSize
 					/>
 				);
@@ -230,6 +245,7 @@ export function GenericPanel( {
 						label={ renderLabel( finalLabel, attrName ) }
 						value={ effectiveValue ?? defaultValue ?? '' }
 						onChange={ ( value ) => handleChange( attrName, value ) }
+						help={ helpText }
 						__next40pxDefaultSize
 					/>
 				);
@@ -242,6 +258,7 @@ export function GenericPanel( {
 						label={ renderLabel( finalLabel, attrName ) }
 						checked={ effectiveValue ?? defaultValue ?? false }
 						onChange={ ( value ) => handleChange( attrName, value ) }
+						help={ helpText }
 						__nextHasNoMarginBottom
 					/>
 				);
@@ -256,6 +273,7 @@ export function GenericPanel( {
 						label={ renderLabel( finalLabel, attrName ) }
 						value={ effectiveValue ?? defaultValue ?? '' }
 						onChange={ ( value ) => handleChange( attrName, value ) }
+						help={ helpText }
 						__next40pxDefaultSize
 					/>
 				);
@@ -264,6 +282,7 @@ export function GenericPanel( {
 			case 'IconPicker': {
 				// IconPicker for selecting character or image URL
 				// Users can enter: characters (▾, ▸, etc), Unicode codes, or image URLs
+				const iconHelp = helpText || "Use a character (▾, ▸, etc.), Unicode code, or image URL. Use 'none' to disable.";
 				return (
 					<TextControl
 						key={ attrName }
@@ -271,7 +290,7 @@ export function GenericPanel( {
 						value={ effectiveValue ?? defaultValue ?? '' }
 						onChange={ ( value ) => handleChange( attrName, value ) }
 						placeholder="Enter icon char or image URL"
-						help="Use a character (▾, ▸, etc.), Unicode code, or image URL. Use 'none' to disable."
+						help={ iconHelp }
 						__next40pxDefaultSize
 					/>
 				);
@@ -304,6 +323,11 @@ export function GenericPanel( {
 						<h4 style={ { margin: '0 0 8px 0', fontSize: '13px' } }>
 							{ renderLabel( finalLabel, attrName ) }
 						</h4>
+						{ helpText && (
+							<p style={ { fontSize: '12px', color: '#757575', marginTop: '4px', marginBottom: '12px' } }>
+								{ helpText }
+							</p>
+						) }
 						<RangeControl
 							label={ `Top Left (${ unit })` }
 							value={ currentRadius.topLeft ?? 0 }

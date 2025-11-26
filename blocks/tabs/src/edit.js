@@ -30,8 +30,7 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	GenericPanel,
-	BehaviorPanel,
+	SchemaPanels,
 	CustomizationWarning,
 	debug,
 } from '@shared';
@@ -633,15 +632,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				/>
 			</div>
 
-			<BehaviorPanel
-				schema={ tabsSchema }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				blockType="tabs"
-				title={ __( 'General Settings', 'guttemberg-plus' ) }
-				initialOpen={ true }
-			/>
-
 			<PanelBody title={ __( 'Tabs Management', 'guttemberg-plus' ) } initialOpen={ true }>
 				<div className="tabs-management">
 					{ tabPanels.map( ( panel, index ) => (
@@ -684,81 +674,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				</div>
 			</PanelBody>
 
-			<GenericPanel
+			{/* Auto-generated panels from schema */}
+			<SchemaPanels
 				schema={ tabsSchema }
-				schemaGroup="titleColors"
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				effectiveValues={ effectiveValues }
 				theme={ themes[ attributes.currentTheme ]?.values }
 				cssDefaults={ cssDefaults }
-				initialOpen={ false }
-			/>
-
-			<GenericPanel
-				schema={ tabsSchema }
-				schemaGroup="titleTypography"
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				effectiveValues={ effectiveValues }
-				theme={ themes[ attributes.currentTheme ]?.values }
-				cssDefaults={ cssDefaults }
-				initialOpen={ false }
-			/>
-
-			<GenericPanel
-				schema={ tabsSchema }
-				schemaGroup="borders"
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				effectiveValues={ effectiveValues }
-				theme={ themes[ attributes.currentTheme ]?.values }
-				cssDefaults={ cssDefaults }
-				initialOpen={ false }
-			/>
-
-			<GenericPanel
-				schema={ tabsSchema }
-				schemaGroup="buttonBorders"
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				effectiveValues={ effectiveValues }
-				theme={ themes[ attributes.currentTheme ]?.values }
-				cssDefaults={ cssDefaults }
-				initialOpen={ false }
-			/>
-
-			<GenericPanel
-				schema={ tabsSchema }
-				schemaGroup="content"
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				effectiveValues={ effectiveValues }
-				theme={ themes[ attributes.currentTheme ]?.values }
-				cssDefaults={ cssDefaults }
-				initialOpen={ false }
-			/>
-
-			<GenericPanel
-				schema={ tabsSchema }
-				schemaGroup="dividerLine"
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				effectiveValues={ effectiveValues }
-				theme={ themes[ attributes.currentTheme ]?.values }
-				cssDefaults={ cssDefaults }
-				initialOpen={ false }
-			/>
-
-			<GenericPanel
-				schema={ tabsSchema }
-				schemaGroup="icon"
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				effectiveValues={ effectiveValues }
-				theme={ themes[ attributes.currentTheme ]?.values }
-				cssDefaults={ cssDefaults }
-				initialOpen={ false }
 			/>
 
 			{ isCustomized && (

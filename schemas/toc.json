@@ -8,27 +8,45 @@
   "groups": {
     "headerColors": {
       "title": "Header Colors",
-      "description": "Title text and background colors"
+      "description": "Title text and background colors",
+      "order": 2,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "contentColors": {
       "title": "Content Colors",
-      "description": "Link colors, level colors, and numbering colors"
+      "description": "Link colors, level colors, and numbering colors",
+      "order": 3,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "blockBorders": {
       "title": "Block Borders",
-      "description": "Wrapper borders, radius, and shadows"
+      "description": "Wrapper borders, radius, and shadows",
+      "order": 999,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "typography": {
       "title": "Typography",
-      "description": "Font settings for title and heading levels"
+      "description": "Font settings for title and heading levels",
+      "order": 4,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "layout": {
       "title": "Layout",
-      "description": "Spacing, padding, and positioning"
+      "description": "Spacing, padding, and positioning",
+      "order": 8,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "behavior": {
       "title": "Behavior",
-      "description": "Non-themeable behavioral and structural settings"
+      "description": "Non-themeable behavioral and structural settings",
+      "order": 1,
+      "initialOpen": true,
+      "pago": "nao"
     }
   },
   "attributes": {
@@ -39,7 +57,9 @@
       "label": "TOC ID",
       "description": "Unique identifier for the table of contents",
       "themeable": false,
-      "reason": "structural"
+      "reason": "structural",
+      "order": 1,
+      "pago": "nao"
     },
     "showTitle": {
       "type": "boolean",
@@ -48,7 +68,9 @@
       "label": "Show Title",
       "description": "Display the TOC title header",
       "themeable": false,
-      "reason": "structural"
+      "reason": "structural",
+      "order": 2,
+      "pago": "nao"
     },
     "titleText": {
       "type": "string",
@@ -57,7 +79,9 @@
       "label": "Title Text",
       "description": "The title displayed above the table of contents",
       "themeable": false,
-      "reason": "content"
+      "reason": "content",
+      "order": 3,
+      "pago": "nao"
     },
     "currentTheme": {
       "type": "string",
@@ -66,7 +90,9 @@
       "label": "Current Theme",
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
-      "reason": "structural"
+      "reason": "structural",
+      "order": 4,
+      "pago": "nao"
     },
     "filterMode": {
       "type": "string",
@@ -80,7 +106,9 @@
         "include-all",
         "include-only",
         "exclude-only"
-      ]
+      ],
+      "order": 5,
+      "pago": "nao"
     },
     "includeLevels": {
       "type": "array",
@@ -95,7 +123,9 @@
       "label": "Include Heading Levels",
       "description": "Which heading levels to include (H2-H6)",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 6,
+      "pago": "nao"
     },
     "includeClasses": {
       "type": "string",
@@ -104,7 +134,9 @@
       "label": "Include Classes",
       "description": "CSS classes to include in TOC",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 7,
+      "pago": "nao"
     },
     "excludeLevels": {
       "type": "array",
@@ -113,7 +145,9 @@
       "label": "Exclude Heading Levels",
       "description": "Which heading levels to exclude",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 8,
+      "pago": "nao"
     },
     "excludeClasses": {
       "type": "string",
@@ -122,7 +156,9 @@
       "label": "Exclude Classes",
       "description": "CSS classes to exclude from TOC",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 9,
+      "pago": "nao"
     },
     "depthLimit": {
       "type": "number",
@@ -131,7 +167,9 @@
       "label": "Depth Limit",
       "description": "Maximum nesting depth to display",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 10,
+      "pago": "nao"
     },
     "numberingStyle": {
       "type": "string",
@@ -149,7 +187,9 @@
         "upper-alpha",
         "lower-roman",
         "upper-roman"
-      ]
+      ],
+      "order": 11,
+      "pago": "nao"
     },
     "isCollapsible": {
       "type": "boolean",
@@ -158,7 +198,9 @@
       "label": "Collapsible",
       "description": "Allow the TOC to be collapsed/expanded",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 12,
+      "pago": "nao"
     },
     "initiallyCollapsed": {
       "type": "boolean",
@@ -167,7 +209,9 @@
       "label": "Initially Collapsed",
       "description": "Start with TOC collapsed",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 13,
+      "pago": "nao"
     },
     "positionType": {
       "type": "string",
@@ -181,7 +225,9 @@
         "block",
         "sticky",
         "fixed"
-      ]
+      ],
+      "order": 14,
+      "pago": "nao"
     },
     "smoothScroll": {
       "type": "boolean",
@@ -190,7 +236,9 @@
       "label": "Smooth Scroll",
       "description": "Enable smooth scrolling to headings",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 15,
+      "pago": "nao"
     },
     "scrollOffset": {
       "type": "number",
@@ -199,7 +247,9 @@
       "label": "Scroll Offset",
       "description": "Offset in pixels when scrolling to heading",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 16,
+      "pago": "nao"
     },
     "autoHighlight": {
       "type": "boolean",
@@ -208,7 +258,9 @@
       "label": "Auto Highlight",
       "description": "Highlight current section in TOC",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 17,
+      "pago": "nao"
     },
     "clickBehavior": {
       "type": "string",
@@ -221,7 +273,9 @@
       "options": [
         "navigate",
         "scroll"
-      ]
+      ],
+      "order": 18,
+      "pago": "nao"
     },
     "wrapperBackgroundColor": {
       "type": "string",
@@ -231,7 +285,11 @@
       "label": "Background Color",
       "description": "Background color of the TOC wrapper",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 19,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "background-color"
     },
     "blockBorderColor": {
       "type": "string",
@@ -241,7 +299,11 @@
       "label": "Border Color",
       "description": "Border color of the TOC wrapper",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 20,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "titleColor": {
       "type": "string",
@@ -251,7 +313,11 @@
       "label": "Title Color",
       "description": "Text color for the TOC title",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 21,
+      "pago": "nao",
+      "cssSelector": ".toc-link",
+      "cssProperty": "color"
     },
     "titleBackgroundColor": {
       "type": "string",
@@ -261,7 +327,11 @@
       "label": "Title Background",
       "description": "Background color for the TOC title",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 22,
+      "pago": "nao",
+      "cssSelector": ".toc-link",
+      "cssProperty": "background-color"
     },
     "linkColor": {
       "type": "string",
@@ -271,7 +341,11 @@
       "label": "Link Color",
       "description": "Default color for TOC links",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 23,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "linkHoverColor": {
       "type": "string",
@@ -281,7 +355,11 @@
       "label": "Link Hover Color",
       "description": "Color when hovering over links",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 24,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "linkActiveColor": {
       "type": "string",
@@ -291,7 +369,11 @@
       "label": "Link Active Color",
       "description": "Color for the currently active link",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 25,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "linkVisitedColor": {
       "type": "string",
@@ -301,7 +383,11 @@
       "label": "Link Visited Color",
       "description": "Color for visited links",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 26,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "numberingColor": {
       "type": "string",
@@ -311,7 +397,11 @@
       "label": "Numbering Color",
       "description": "Color for list numbering",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 27,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "level1Color": {
       "type": "string",
@@ -321,7 +411,11 @@
       "label": "Level 1 Color",
       "description": "Text color for level 1 headings (H2)",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 28,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "level2Color": {
       "type": "string",
@@ -331,7 +425,11 @@
       "label": "Level 2 Color",
       "description": "Text color for level 2 headings (H3)",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 29,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "level3PlusColor": {
       "type": "string",
@@ -341,7 +439,11 @@
       "label": "Level 3+ Color",
       "description": "Text color for level 3+ headings (H4-H6)",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 30,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "color"
     },
     "collapseIconColor": {
       "type": "string",
@@ -351,7 +453,10 @@
       "label": "Collapse Icon Color",
       "description": "Color of the collapse/expand icon",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 31,
+      "pago": "nao",
+      "cssProperty": "color"
     },
     "titleFontSize": {
       "type": "number",
@@ -364,7 +469,11 @@
       "control": "RangeControl",
       "min": 12,
       "max": 48,
-      "unit": "px"
+      "unit": "px",
+      "order": 32,
+      "pago": "nao",
+      "cssSelector": ".toc-link",
+      "cssProperty": "font-size"
     },
     "titleFontWeight": {
       "type": "string",
@@ -420,7 +529,11 @@
           "label": "Bold",
           "value": "bold"
         }
-      ]
+      ],
+      "order": 33,
+      "pago": "nao",
+      "cssSelector": ".toc-link",
+      "cssProperty": "font-weight"
     },
     "titleTextTransform": {
       "type": "string",
@@ -448,7 +561,10 @@
           "label": "Capitalize",
           "value": "capitalize"
         }
-      ]
+      ],
+      "order": 34,
+      "pago": "nao",
+      "cssSelector": ".toc-link"
     },
     "titleAlignment": {
       "type": "string",
@@ -463,7 +579,10 @@
         "left",
         "center",
         "right"
-      ]
+      ],
+      "order": 35,
+      "pago": "nao",
+      "cssSelector": ".toc-link"
     },
     "level1FontSize": {
       "type": "number",
@@ -476,7 +595,11 @@
       "control": "RangeControl",
       "min": 10,
       "max": 36,
-      "unit": "px"
+      "unit": "px",
+      "order": 36,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-size"
     },
     "level1FontWeight": {
       "type": "string",
@@ -532,7 +655,11 @@
           "label": "Bold",
           "value": "bold"
         }
-      ]
+      ],
+      "order": 37,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-weight"
     },
     "level1FontStyle": {
       "type": "string",
@@ -556,7 +683,11 @@
           "label": "Oblique",
           "value": "oblique"
         }
-      ]
+      ],
+      "order": 38,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-style"
     },
     "level1TextTransform": {
       "type": "string",
@@ -584,7 +715,10 @@
           "label": "Capitalize",
           "value": "capitalize"
         }
-      ]
+      ],
+      "order": 39,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "level1TextDecoration": {
       "type": "string",
@@ -612,7 +746,10 @@
           "label": "Line Through",
           "value": "line-through"
         }
-      ]
+      ],
+      "order": 40,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "level2FontSize": {
       "type": "number",
@@ -625,7 +762,11 @@
       "control": "RangeControl",
       "min": 10,
       "max": 32,
-      "unit": "px"
+      "unit": "px",
+      "order": 41,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-size"
     },
     "level2FontWeight": {
       "type": "string",
@@ -681,7 +822,11 @@
           "label": "Bold",
           "value": "bold"
         }
-      ]
+      ],
+      "order": 42,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-weight"
     },
     "level2FontStyle": {
       "type": "string",
@@ -705,7 +850,11 @@
           "label": "Oblique",
           "value": "oblique"
         }
-      ]
+      ],
+      "order": 43,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-style"
     },
     "level2TextTransform": {
       "type": "string",
@@ -733,7 +882,10 @@
           "label": "Capitalize",
           "value": "capitalize"
         }
-      ]
+      ],
+      "order": 44,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "level2TextDecoration": {
       "type": "string",
@@ -761,7 +913,10 @@
           "label": "Line Through",
           "value": "line-through"
         }
-      ]
+      ],
+      "order": 45,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "level3PlusFontSize": {
       "type": "number",
@@ -774,7 +929,11 @@
       "control": "RangeControl",
       "min": 10,
       "max": 28,
-      "unit": "px"
+      "unit": "px",
+      "order": 46,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-size"
     },
     "level3PlusFontWeight": {
       "type": "string",
@@ -830,7 +989,11 @@
           "label": "Bold",
           "value": "bold"
         }
-      ]
+      ],
+      "order": 47,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-weight"
     },
     "level3PlusFontStyle": {
       "type": "string",
@@ -854,7 +1017,11 @@
           "label": "Oblique",
           "value": "oblique"
         }
-      ]
+      ],
+      "order": 48,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "font-style"
     },
     "level3PlusTextTransform": {
       "type": "string",
@@ -882,7 +1049,10 @@
           "label": "Capitalize",
           "value": "capitalize"
         }
-      ]
+      ],
+      "order": 49,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "level3PlusTextDecoration": {
       "type": "string",
@@ -910,7 +1080,10 @@
           "label": "Line Through",
           "value": "line-through"
         }
-      ]
+      ],
+      "order": 50,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "blockBorderWidth": {
       "type": "number",
@@ -923,7 +1096,11 @@
       "control": "RangeControl",
       "min": 0,
       "max": 10,
-      "unit": "px"
+      "unit": "px",
+      "order": 51,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "border-width"
     },
     "blockBorderStyle": {
       "type": "string",
@@ -971,7 +1148,11 @@
           "label": "Outset",
           "value": "outset"
         }
-      ]
+      ],
+      "order": 52,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "border-style"
     },
     "blockBorderRadius": {
       "type": "object",
@@ -986,7 +1167,11 @@
       "label": "Border Radius",
       "description": "Corner radius of the wrapper",
       "themeable": true,
-      "control": "BorderRadiusControl"
+      "control": "BorderRadiusControl",
+      "order": 53,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "border-radius"
     },
     "blockShadow": {
       "type": "string",
@@ -996,7 +1181,11 @@
       "label": "Shadow",
       "description": "CSS box-shadow for the wrapper",
       "themeable": true,
-      "control": "TextControl"
+      "control": "TextControl",
+      "order": 54,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "box-shadow"
     },
     "blockShadowHover": {
       "type": "string",
@@ -1006,7 +1195,11 @@
       "label": "Shadow on Hover",
       "description": "CSS box-shadow for the wrapper on hover",
       "themeable": true,
-      "control": "TextControl"
+      "control": "TextControl",
+      "order": 55,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "box-shadow"
     },
     "wrapperPadding": {
       "type": "number",
@@ -1019,7 +1212,11 @@
       "control": "RangeControl",
       "min": 0,
       "max": 50,
-      "unit": "px"
+      "unit": "px",
+      "order": 56,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "padding"
     },
     "listPaddingLeft": {
       "type": "number",
@@ -1032,7 +1229,11 @@
       "control": "RangeControl",
       "min": 0,
       "max": 50,
-      "unit": "px"
+      "unit": "px",
+      "order": 57,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "cssProperty": "padding"
     },
     "itemSpacing": {
       "type": "number",
@@ -1045,7 +1246,10 @@
       "control": "RangeControl",
       "min": 0,
       "max": 30,
-      "unit": "px"
+      "unit": "px",
+      "order": 58,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "levelIndent": {
       "type": "number",
@@ -1058,7 +1262,10 @@
       "control": "RangeControl",
       "min": 0,
       "max": 50,
-      "unit": "px"
+      "unit": "px",
+      "order": 59,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "positionTop": {
       "type": "number",
@@ -1071,7 +1278,10 @@
       "control": "RangeControl",
       "min": 0,
       "max": 300,
-      "unit": "px"
+      "unit": "px",
+      "order": 60,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "zIndex": {
       "type": "number",
@@ -1083,7 +1293,10 @@
       "themeable": true,
       "control": "RangeControl",
       "min": 1,
-      "max": 9999
+      "max": 9999,
+      "order": 61,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-toc"
     },
     "collapseIconSize": {
       "type": "number",
@@ -1096,7 +1309,9 @@
       "control": "RangeControl",
       "min": 12,
       "max": 36,
-      "unit": "px"
+      "unit": "px",
+      "order": 62,
+      "pago": "nao"
     }
   }
 }
