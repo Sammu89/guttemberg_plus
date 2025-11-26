@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 vendor/
+nul
 
 # Build outputs (keep these in version control for WordPress.org distribution)
 # Uncomment if you build during deployment instead
