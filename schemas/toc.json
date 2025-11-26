@@ -460,7 +460,7 @@
     },
     "titleFontSize": {
       "type": "number",
-      "default": "20px",
+      "default": 20,
       "cssVar": "toc-title-font-size",
       "group": "typography",
       "label": "Title Font Size",
@@ -586,7 +586,7 @@
     },
     "level1FontSize": {
       "type": "number",
-      "default": "18px",
+      "default": 18,
       "cssVar": "toc-level1-font-size",
       "group": "typography",
       "label": "Level 1 Font Size",
@@ -753,7 +753,7 @@
     },
     "level2FontSize": {
       "type": "number",
-      "default": "16px",
+      "default": 16,
       "cssVar": "toc-level2-font-size",
       "group": "typography",
       "label": "Level 2 Font Size",
@@ -920,7 +920,7 @@
     },
     "level3PlusFontSize": {
       "type": "number",
-      "default": "14px",
+      "default": 14,
       "cssVar": "toc-level3-plus-font-size",
       "group": "typography",
       "label": "Level 3+ Font Size",
@@ -1087,7 +1087,7 @@
     },
     "blockBorderWidth": {
       "type": "number",
-      "default": "1px",
+      "default": 1,
       "cssVar": "toc-border-width",
       "group": "blockBorders",
       "label": "Border Width",
@@ -1203,7 +1203,7 @@
     },
     "wrapperPadding": {
       "type": "number",
-      "default": "20px",
+      "default": 20,
       "cssVar": "toc-wrapper-padding",
       "group": "layout",
       "label": "Wrapper Padding",
@@ -1237,7 +1237,7 @@
     },
     "itemSpacing": {
       "type": "number",
-      "default": "8px",
+      "default": 8,
       "cssVar": "toc-item-spacing",
       "group": "layout",
       "label": "Item Spacing",
@@ -1253,7 +1253,7 @@
     },
     "levelIndent": {
       "type": "number",
-      "default": "20px",
+      "default": 20,
       "cssVar": "toc-level-indent",
       "group": "layout",
       "label": "Level Indent",
@@ -1269,7 +1269,7 @@
     },
     "positionTop": {
       "type": "number",
-      "default": "100px",
+      "default": 100,
       "cssVar": "toc-position-top",
       "group": "layout",
       "label": "Position Top",
@@ -1300,7 +1300,7 @@
     },
     "collapseIconSize": {
       "type": "number",
-      "default": "20px",
+      "default": 20,
       "cssVar": "toc-collapse-icon-size",
       "group": "layout",
       "label": "Collapse Icon Size",

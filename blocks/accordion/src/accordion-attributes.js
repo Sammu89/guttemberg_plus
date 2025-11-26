@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-26T23:50:02.894Z
+ * Generated at: 2025-11-26T23:55:36.968Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -113,7 +113,7 @@ export const accordionAttributes = {
   },
   titleFontSize: {
     type: 'number',
-    default: '18px',
+    default: 18,
   },
   titleFontWeight: {
     type: 'string',
@@ -145,7 +145,7 @@ export const accordionAttributes = {
   },
   contentFontSize: {
     type: 'number',
-    default: '16px',
+    default: 16,
   },
   contentFontWeight: {
     type: 'string',
@@ -173,7 +173,7 @@ export const accordionAttributes = {
   },
   borderWidth: {
     type: 'number',
-    default: '1px',
+    default: 1,
   },
   borderStyle: {
     type: 'string',
@@ -193,7 +193,7 @@ export const accordionAttributes = {
   },
   dividerWidth: {
     type: 'number',
-    default: '0px',
+    default: 0,
   },
   dividerStyle: {
     type: 'string',
@@ -209,7 +209,7 @@ export const accordionAttributes = {
   },
   accordionMarginBottom: {
     type: 'number',
-    default: '8px',
+    default: 8,
   },
   itemSpacing: {
     type: 'number',
@@ -225,7 +225,7 @@ export const accordionAttributes = {
   },
   iconSize: {
     type: 'number',
-    default: '20px',
+    default: 20,
   },
   iconTypeClosed: {
     type: 'string',
@@ -237,7 +237,7 @@ export const accordionAttributes = {
   },
   iconRotation: {
     type: 'number',
-    default: '180deg',
+    default: 180,
   },
 };
 

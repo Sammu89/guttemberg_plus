@@ -255,7 +255,7 @@
     },
     "iconSize": {
       "type": "number",
-      "default": "16px",
+      "default": 16,
       "cssVar": "tab-icon-size",
       "group": "icon",
       "label": "Icon Size",
@@ -292,7 +292,7 @@
     },
     "iconRotation": {
       "type": "number",
-      "default": "180deg",
+      "default": 180,
       "cssVar": "tab-icon-rotation",
       "group": "icon",
       "label": "Icon Rotation",

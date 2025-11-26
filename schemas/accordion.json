@@ -356,7 +356,7 @@
     },
     "titleFontSize": {
       "type": "number",
-      "default": "18px",
+      "default": 18,
       "cssVar": "accordion-title-font-size",
       "group": "typography",
       "label": "Title Font Size",
@@ -571,7 +571,7 @@
     },
     "contentFontSize": {
       "type": "number",
-      "default": "16px",
+      "default": 16,
       "cssVar": "accordion-content-font-size",
       "group": "typography",
       "label": "Content Font Size",
@@ -768,7 +768,7 @@
     },
     "borderWidth": {
       "type": "number",
-      "default": "1px",
+      "default": 1,
       "cssVar": "accordion-border-width",
       "group": "borders",
       "label": "Border Width",
@@ -869,7 +869,7 @@
     },
     "dividerWidth": {
       "type": "number",
-      "default": "0px",
+      "default": 0,
       "cssVar": "accordion-divider-width",
       "group": "dividerLine",
       "label": "Divider Width",
@@ -960,7 +960,7 @@
     },
     "accordionMarginBottom": {
       "type": "number",
-      "default": "8px",
+      "default": 8,
       "cssVar": "accordion-margin-bottom",
       "group": "layout",
       "label": "Margin Bottom",
@@ -1021,7 +1021,7 @@
     },
     "iconSize": {
       "type": "number",
-      "default": "20px",
+      "default": 20,
       "cssVar": "accordion-icon-size",
       "group": "icon",
       "label": "Icon Size",
@@ -1059,7 +1059,7 @@
     },
     "iconRotation": {
       "type": "number",
-      "default": "180deg",
+      "default": 180,
       "cssVar": "accordion-icon-rotation",
       "group": "icon",
       "label": "Icon Rotation",

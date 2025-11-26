@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-26T23:50:02.898Z
+ * Generated at: 2025-11-26T23:55:36.971Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -106,10 +106,10 @@ export const tabsDefaultTheme: TabsTheme = {
   showIcon: true,
   iconPosition: 'right',
   iconColor: '#666666',
-  iconSize: 16px,
+  iconSize: 16,
   iconTypeClosed: '▾',
   iconTypeOpen: 'none',
-  iconRotation: 180deg,
+  iconRotation: 180,
   tabButtonColor: '#666666',
   tabButtonBackgroundColor: 'transparent',
   tabButtonHoverColor: '#333333',
