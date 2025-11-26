@@ -10,7 +10,6 @@
 export { default as ThemeSelector } from './ThemeSelector';
 export { default as GenericPanel } from './GenericPanel';
 export { default as BehaviorPanel } from './BehaviorPanel';
-export { default as BorderPanel } from './BorderPanel';
 export { default as CustomizationWarning } from './CustomizationWarning';
 export { default as CompactColorControl } from './CompactColorControl';
 export { default as ColorPanel } from './ColorPanel';
