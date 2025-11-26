@@ -8,35 +8,59 @@
   "groups": {
     "behavior": {
       "title": "Behavior",
-      "description": "Non-themeable behavioral and structural settings"
+      "description": "Non-themeable behavioral and structural settings",
+      "order": 1,
+      "initialOpen": true,
+      "pago": "nao"
     },
     "titleColors": {
       "title": "Title Colors",
-      "description": "All title/tab button colors and tab list background"
+      "description": "All title/tab button colors and tab list background",
+      "order": 999,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "titleTypography": {
       "title": "Title Typography",
-      "description": "All title/tab button typography and tab list alignment"
+      "description": "All title/tab button typography and tab list alignment",
+      "order": 999,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "borders": {
       "title": "Borders",
-      "description": "Main tabs wrapper borders and radius"
+      "description": "Main tabs wrapper borders and radius",
+      "order": 5,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "buttonBorders": {
       "title": "Button Borders",
-      "description": "Tab button borders, radius, and shadows"
+      "description": "Tab button borders, radius, and shadows",
+      "order": 999,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "dividerLine": {
       "title": "Divider Line",
-      "description": "Divider line between tabs navigation and content"
+      "description": "Divider line between tabs navigation and content",
+      "order": 6,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "icon": {
       "title": "Icon",
-      "description": "Icon appearance and styling"
+      "description": "Icon appearance and styling",
+      "order": 7,
+      "initialOpen": false,
+      "pago": "nao"
     },
     "layout": {
       "title": "Layout",
-      "description": "Spacing, gaps, and sizing (unused in UI - for future spacing controls)"
+      "description": "Spacing, gaps, and sizing (unused in UI - for future spacing controls)",
+      "order": 8,
+      "initialOpen": false,
+      "pago": "nao"
     }
   },
   "attributes": {
@@ -47,7 +71,9 @@
       "label": "Unique ID",
       "description": "Auto-generated unique block identifier",
       "themeable": false,
-      "reason": "structural"
+      "reason": "structural",
+      "order": 1,
+      "pago": "nao"
     },
     "blockId": {
       "type": "string",
@@ -56,7 +82,9 @@
       "label": "Block ID",
       "description": "Block-specific identification",
       "themeable": false,
-      "reason": "structural"
+      "reason": "structural",
+      "order": 2,
+      "pago": "nao"
     },
     "currentTheme": {
       "type": "string",
@@ -65,7 +93,9 @@
       "label": "Current Theme",
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
-      "reason": "structural"
+      "reason": "structural",
+      "order": 3,
+      "pago": "nao"
     },
     "tabs": {
       "type": "array",
@@ -87,7 +117,9 @@
       "label": "Tabs",
       "description": "Array of tab items with title, content, and state",
       "themeable": false,
-      "reason": "content"
+      "reason": "content",
+      "order": 4,
+      "pago": "nao"
     },
     "orientation": {
       "type": "string",
@@ -98,7 +130,12 @@
       "themeable": false,
       "reason": "behavioral",
       "control": "SelectControl",
-      "options": ["horizontal", "vertical"]
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "order": 5,
+      "pago": "nao"
     },
     "activationMode": {
       "type": "string",
@@ -109,7 +146,12 @@
       "themeable": false,
       "reason": "behavioral",
       "control": "SelectControl",
-      "options": ["auto", "manual"]
+      "options": [
+        "auto",
+        "manual"
+      ],
+      "order": 6,
+      "pago": "nao"
     },
     "responsiveBreakpoint": {
       "type": "number",
@@ -118,7 +160,9 @@
       "label": "Responsive Breakpoint",
       "description": "Width in pixels below which to show accordion fallback",
       "themeable": false,
-      "reason": "behavioral"
+      "reason": "behavioral",
+      "order": 7,
+      "pago": "nao"
     },
     "headingLevel": {
       "type": "string",
@@ -129,7 +173,17 @@
       "themeable": false,
       "reason": "structural",
       "control": "SelectControl",
-      "options": ["none", "h1", "h2", "h3", "h4", "h5", "h6"]
+      "options": [
+        "none",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ],
+      "order": 8,
+      "pago": "nao"
     },
     "title": {
       "type": "string",
@@ -138,7 +192,9 @@
       "label": "Title",
       "description": "Block title (for accessibility)",
       "themeable": false,
-      "reason": "content"
+      "reason": "content",
+      "order": 9,
+      "pago": "nao"
     },
     "verticalTabButtonTextAlign": {
       "type": "string",
@@ -149,7 +205,13 @@
       "themeable": false,
       "reason": "behavioral",
       "control": "SelectControl",
-      "options": ["left", "center", "right"]
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "order": 10,
+      "pago": "nao"
     },
     "showIcon": {
       "type": "boolean",
@@ -159,7 +221,9 @@
       "label": "Show Icon",
       "description": "Display icons in tab buttons",
       "themeable": true,
-      "control": "ToggleControl"
+      "control": "ToggleControl",
+      "order": 11,
+      "pago": "nao"
     },
     "iconPosition": {
       "type": "string",
@@ -169,7 +233,12 @@
       "description": "Position of icon relative to text",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["left", "right"]
+      "options": [
+        "left",
+        "right"
+      ],
+      "order": 12,
+      "pago": "nao"
     },
     "iconColor": {
       "type": "string",
@@ -179,7 +248,10 @@
       "label": "Icon Color",
       "description": "Color of the tab icon",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 13,
+      "pago": "nao",
+      "cssProperty": "color"
     },
     "iconSize": {
       "type": "number",
@@ -192,7 +264,9 @@
       "control": "RangeControl",
       "min": 8,
       "max": 48,
-      "unit": "px"
+      "unit": "px",
+      "order": 14,
+      "pago": "nao"
     },
     "iconTypeClosed": {
       "type": "string",
@@ -201,7 +275,9 @@
       "label": "Closed Icon",
       "description": "Icon when tab is closed (char or image URL)",
       "themeable": true,
-      "control": "IconPicker"
+      "control": "IconPicker",
+      "order": 15,
+      "pago": "nao"
     },
     "iconTypeOpen": {
       "type": "string",
@@ -210,7 +286,9 @@
       "label": "Open Icon",
       "description": "Icon when tab is open (none = use closed icon with rotation)",
       "themeable": true,
-      "control": "IconPicker"
+      "control": "IconPicker",
+      "order": 16,
+      "pago": "nao"
     },
     "iconRotation": {
       "type": "number",
@@ -223,7 +301,9 @@
       "control": "RangeControl",
       "min": -360,
       "max": 360,
-      "unit": "deg"
+      "unit": "deg",
+      "order": 17,
+      "pago": "nao"
     },
     "tabButtonColor": {
       "type": "string",
@@ -233,7 +313,11 @@
       "label": "Tab Button Color",
       "description": "Text color for inactive tab buttons",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 18,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "tabButtonBackgroundColor": {
       "type": "string",
@@ -243,7 +327,11 @@
       "label": "Tab Button Background",
       "description": "Background color for inactive tab buttons",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 19,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "background-color"
     },
     "tabButtonHoverColor": {
       "type": "string",
@@ -253,7 +341,11 @@
       "label": "Tab Button Hover Color",
       "description": "Text color when hovering over tab",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 20,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "tabButtonHoverBackgroundColor": {
       "type": "string",
@@ -263,7 +355,11 @@
       "label": "Tab Button Hover Background",
       "description": "Background color when hovering over tab",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 21,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "background-color"
     },
     "tabButtonActiveColor": {
       "type": "string",
@@ -273,7 +369,11 @@
       "label": "Tab Button Active Color",
       "description": "Text color for active/selected tab",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 22,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "tabButtonActiveBackgroundColor": {
       "type": "string",
@@ -283,7 +383,11 @@
       "label": "Tab Button Active Background",
       "description": "Background color for active/selected tab",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 23,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "background-color"
     },
     "tabButtonActiveBorderColor": {
       "type": "string",
@@ -293,7 +397,11 @@
       "label": "Tab Button Active Border Color",
       "description": "Border color for the active tab",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 24,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "tabButtonActiveBorderBottomColor": {
       "type": "string",
@@ -303,7 +411,11 @@
       "label": "Tab Button Active Border Bottom",
       "description": "Bottom border color for active tab (creates connected effect)",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 25,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "buttonBorderColor": {
       "type": "string",
@@ -313,7 +425,11 @@
       "label": "Border Color",
       "description": "Border color for inactive tab buttons",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 26,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "buttonBorderWidth": {
       "type": "number",
@@ -326,7 +442,11 @@
       "control": "RangeControl",
       "min": 0,
       "max": 10,
-      "unit": "px"
+      "unit": "px",
+      "order": 27,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "border-width"
     },
     "buttonBorderStyle": {
       "type": "string",
@@ -338,12 +458,31 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Solid", "value": "solid" },
-        { "label": "Dashed", "value": "dashed" },
-        { "label": "Dotted", "value": "dotted" },
-        { "label": "Double", "value": "double" }
-      ]
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ],
+      "order": 28,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "border-style"
     },
     "buttonBorderRadius": {
       "type": "object",
@@ -359,7 +498,11 @@
       "description": "Corner radius for tab buttons",
       "themeable": true,
       "control": "BorderRadiusControl",
-      "unit": "px"
+      "unit": "px",
+      "order": 29,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "border-radius"
     },
     "buttonShadow": {
       "type": "string",
@@ -369,7 +512,11 @@
       "label": "Shadow",
       "description": "Box shadow for tab buttons",
       "themeable": true,
-      "control": "TextControl"
+      "control": "TextControl",
+      "order": 30,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "box-shadow"
     },
     "buttonShadowHover": {
       "type": "string",
@@ -379,7 +526,11 @@
       "label": "Shadow Hover",
       "description": "Box shadow for tab buttons on hover",
       "themeable": true,
-      "control": "TextControl"
+      "control": "TextControl",
+      "order": 31,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "box-shadow"
     },
     "tabButtonFontSize": {
       "type": "number",
@@ -392,7 +543,11 @@
       "control": "RangeControl",
       "min": 10,
       "max": 36,
-      "unit": "px"
+      "unit": "px",
+      "order": 32,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "font-size"
     },
     "tabButtonFontWeight": {
       "type": "string",
@@ -404,18 +559,55 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
-      ]
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
+      ],
+      "order": 33,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "font-weight"
     },
     "tabButtonFontStyle": {
       "type": "string",
@@ -427,10 +619,23 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "Normal", "value": "normal" },
-        { "label": "Italic", "value": "italic" },
-        { "label": "Oblique", "value": "oblique" }
-      ]
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
+      ],
+      "order": 34,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "font-style"
     },
     "tabButtonTextTransform": {
       "type": "string",
@@ -442,11 +647,26 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
-      ]
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
+      ],
+      "order": 35,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
     "tabButtonTextDecoration": {
       "type": "string",
@@ -458,11 +678,26 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Underline", "value": "underline" },
-        { "label": "Overline", "value": "overline" },
-        { "label": "Line Through", "value": "line-through" }
-      ]
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
+      ],
+      "order": 36,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
     "tabButtonTextAlign": {
       "type": "string",
@@ -473,7 +708,14 @@
       "description": "Text alignment for tab buttons",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["left", "center", "right"]
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "order": 37,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
     "tabListBackgroundColor": {
       "type": "string",
@@ -483,7 +725,11 @@
       "label": "Tab List Background",
       "description": "Background color for the tab navigation bar",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 38,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "background-color"
     },
     "tabListAlignment": {
       "type": "string",
@@ -494,7 +740,14 @@
       "description": "Horizontal alignment of tabs",
       "themeable": true,
       "control": "SelectControl",
-      "options": ["left", "center", "right"]
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "order": 39,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
     "panelColor": {
       "type": "string",
@@ -504,7 +757,11 @@
       "label": "Panel Text Color",
       "description": "Text color for tab panel content",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 40,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "panelBackgroundColor": {
       "type": "string",
@@ -514,7 +771,11 @@
       "label": "Panel Background",
       "description": "Background color for tab panels",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 41,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "background-color"
     },
     "dividerColor": {
       "type": "string",
@@ -524,7 +785,11 @@
       "label": "Divider Color",
       "description": "Color of divider line between tabs and panel",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 42,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "dividerWidth": {
       "type": "number",
@@ -537,7 +802,10 @@
       "control": "RangeControl",
       "min": 0,
       "max": 10,
-      "unit": "px"
+      "unit": "px",
+      "order": 43,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
     "dividerStyle": {
       "type": "string",
@@ -549,12 +817,30 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Solid", "value": "solid" },
-        { "label": "Dashed", "value": "dashed" },
-        { "label": "Dotted", "value": "dotted" },
-        { "label": "Double", "value": "double" }
-      ]
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ],
+      "order": 44,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
     "borderColor": {
       "type": "string",
@@ -564,7 +850,11 @@
       "label": "Border Color",
       "description": "Border color for main tabs wrapper",
       "themeable": true,
-      "control": "ColorPicker"
+      "control": "ColorPicker",
+      "order": 45,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "color"
     },
     "borderWidth": {
       "type": "number",
@@ -577,7 +867,11 @@
       "control": "RangeControl",
       "min": 0,
       "max": 10,
-      "unit": "px"
+      "unit": "px",
+      "order": 46,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "border-width"
     },
     "borderStyle": {
       "type": "string",
@@ -589,12 +883,31 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Solid", "value": "solid" },
-        { "label": "Dashed", "value": "dashed" },
-        { "label": "Dotted", "value": "dotted" },
-        { "label": "Double", "value": "double" }
-      ]
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ],
+      "order": 47,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "border-style"
     },
     "borderRadius": {
       "type": "object",
@@ -610,7 +923,11 @@
       "description": "Corner radius for main wrapper",
       "themeable": true,
       "control": "BorderRadiusControl",
-      "unit": "px"
+      "unit": "px",
+      "order": 48,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "border-radius"
     },
     "shadow": {
       "type": "string",
@@ -620,7 +937,11 @@
       "label": "Shadow",
       "description": "Box shadow for main wrapper",
       "themeable": true,
-      "control": "TextControl"
+      "control": "TextControl",
+      "order": 49,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "box-shadow"
     },
     "shadowHover": {
       "type": "string",
@@ -630,7 +951,11 @@
       "label": "Shadow Hover",
       "description": "Box shadow for wrapper on hover",
       "themeable": true,
-      "control": "TextControl"
+      "control": "TextControl",
+      "order": 50,
+      "pago": "nao",
+      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssProperty": "box-shadow"
     }
   }
 }

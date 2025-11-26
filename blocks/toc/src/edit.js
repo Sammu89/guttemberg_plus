@@ -31,7 +31,7 @@ import {
 	getThemeableSnapshot,
 	STORE_NAME,
 	ThemeSelector,
-	GenericPanel,
+	SchemaPanels,
 	CustomizationWarning,
 	debug,
 } from '@shared';
@@ -639,53 +639,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					/>
 				</PanelBody>
 
-				{ /* Header Colors */ }
-				<GenericPanel
+				{/* Auto-generated panels from schema */}
+				<SchemaPanels
 					schema={ tocSchema }
-					schemaGroup="headerColors"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ theme }
-					cssDefaults={ cssDefaults }
-					initialOpen={ false }
-				/>
-
-				{ /* Content Colors */ }
-				<GenericPanel
-					schema={ tocSchema }
-					schemaGroup="contentColors"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ theme }
-					cssDefaults={ cssDefaults }
-					initialOpen={ false }
-					title="Link & Content Colors"
-				/>
-
-				{ /* Typography Panel */ }
-				<GenericPanel
-					schema={ tocSchema }
-					schemaGroup="typography"
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ theme }
-					cssDefaults={ cssDefaults }
-					initialOpen={ false }
-				/>
-
-				{ /* Borders */ }
-				<GenericPanel
-					schema={ tocSchema }
-					schemaGroup="blockBorders"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					effectiveValues={ effectiveValues }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
-					initialOpen={ false }
 				/>
 
 				{ /* Customization Warning */ }
