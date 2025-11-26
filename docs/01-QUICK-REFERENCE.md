@@ -61,48 +61,70 @@
 
 ---
 
-## Cascade Resolution Examples
+## Value Resolution (Simplified Architecture)
 
-### Example 1: Default Theme (CSS Pass-Through)
+### How Values Work
+
+**Edit Components**: Attributes are the source of truth
 ```javascript
-// Block attributes
-{ titleColor: null }
-
-// Theme "Default"
-{ titleColor: null }
-
-// CSS :root
-{ --title-color: "#333333" }
-
-// Result: "#333333" ✓
+const effectiveValues = attributes; // Direct source
+// What you see in sidebar = what's stored in block
 ```
 
-### Example 2: Custom Theme
+**Theme System**: Deltas stored, merged with defaults for comparison
 ```javascript
-// Block attributes
-{ titleColor: null }
+// Defaults from schema
+const defaults = { titleColor: "#333", titleFontSize: 16 };
 
-// Theme "Dark Mode"
-{ titleColor: "#ffffff" }
+// Theme stores only deltas
+const theme = { values: { titleColor: "#ffffff" } }; // titleFontSize omitted (uses default)
 
-// CSS :root
-{ --title-color: "#333333" }
+// Expected values for comparison
+const expectedValues = applyDeltas(defaults, theme.values);
+// Result: { titleColor: "#ffffff", titleFontSize: 16 }
 
-// Result: "#ffffff" ✓ (theme wins)
+// Customization detection
+const isCustomized = attributes.titleColor !== expectedValues.titleColor;
 ```
 
-### Example 3: Block Override
+### Example 1: Fresh Block (No Theme)
 ```javascript
-// Block attributes
-{ titleColor: "#ff0000" }
+// Block loads with empty attributes
+attributes = {}
 
-// Theme "Dark Mode"
-{ titleColor: "#ffffff" }
+// Expected values = defaults
+expectedValues = { titleColor: "#333", titleFontSize: 16, ... }
 
-// CSS :root
-{ --title-color: "#333333" }
+// Sidebar shows defaults
+// isCustomized = false
+```
 
-// Result: "#ff0000" ✓ (block wins)
+### Example 2: Block with Theme
+```javascript
+// Block with "Dark Mode" theme selected
+attributes = { currentTheme: "Dark Mode", titleColor: "#ffffff", titleFontSize: 16 }
+
+// Theme deltas
+theme.values = { titleColor: "#ffffff" }
+
+// Expected values
+expectedValues = { titleColor: "#ffffff", titleFontSize: 16, ... }
+
+// Attributes match expected
+// isCustomized = false
+```
+
+### Example 3: Block with Customizations
+```javascript
+// User customized title color to red
+attributes = { currentTheme: "Dark Mode", titleColor: "#ff0000", titleFontSize: 16 }
+
+// Expected values (from theme + defaults)
+expectedValues = { titleColor: "#ffffff", titleFontSize: 16, ... }
+
+// titleColor differs from expected
+// isCustomized = true
+// Dropdown shows "Dark Mode (customized)"
 ```
 
 ---
@@ -146,39 +168,54 @@ await deleteTheme('accordion', 'My Theme');
 await renameTheme('accordion', 'Old Name', 'New Name');
 ```
 
-### Cascade Resolver (Pure Function)
+### Delta Calculator Utilities
 ```javascript
-import { getAllEffectiveValues } from '@shared/theme-system/cascade-resolver';
+import { calculateDeltas, applyDeltas, getThemeableSnapshot } from '@shared';
 
-// Get all effective values
+// Calculate deltas for theme storage
+const deltas = calculateDeltas(snapshot, defaults, excludeList);
+// Returns only attributes that differ from defaults
+
+// Apply theme deltas to get expected values
+const expectedValues = applyDeltas(defaults, theme.values);
+// Merges defaults + theme deltas
+
+// Get snapshot of current state
+const snapshot = getThemeableSnapshot(attributes, excludeList);
+// Extracts themeable attributes (excludes meta/structural)
+```
+
+### Cascade Resolver (Save Components Only)
+```javascript
+import { getAllEffectiveValues } from '@shared';
+
+// Used ONLY in save.js for 2-tier fallback (attributes → defaults)
+// Themes resolved server-side via CSS classes
 const effectiveValues = getAllEffectiveValues(
-  blockAttributes,      // Block-level customizations
-  currentTheme,         // Theme object
-  window.accordionDefaults  // CSS defaults
+  attributes,      // Block attributes
+  {},              // Empty theme (resolved server-side)
+  defaults         // Defaults from schema
 );
-
-// Get single attribute
-const titleColor = effectiveValues.titleColor;
 ```
 
 ---
 
 ## Database Schema
 
-### Theme Storage
+### Theme Storage (Delta-Based)
 ```php
 // WordPress options table
 $option_name = 'accordion_themes'  // or 'tabs_themes', 'toc_themes'
 $option_value = [
   'Default' => [
-    'titleColor' => null,
-    'titleBackgroundColor' => null,
-    // ... all attributes = null
+    'values' => []  // Empty deltas = use all defaults
   ],
   'Dark Mode' => [
-    'titleColor' => '#ffffff',
-    'titleBackgroundColor' => '#2c2c2c',
-    // ... all attributes with explicit values
+    'values' => [
+      'titleColor' => '#ffffff',           // Delta from default
+      'titleBackgroundColor' => '#2c2c2c'  // Delta from default
+      // Other attributes omitted = use defaults
+    ]
   ]
 ]
 ```
@@ -189,58 +226,56 @@ $option_value = [
   "blockName": "gutenberg-blocks/accordion",
   "attrs": {
     "currentTheme": "Dark Mode",
-    "customizations": {
-      "titleColor": "#ff0000"
-    },
-    "uniqueId": "acc-a7b3"
+    "accordionId": "acc-a7b3",
+    "titleColor": "#ff0000",
+    "titleFontSize": 16,
+    "titleBackgroundColor": "#2c2c2c"
   }
 }
 ```
+**Note**: Attributes store direct values (not nested in customizations object). What you see in sidebar = what's in attributes.
 
 ---
 
-## CustomizationCache Pattern
+## Session Cache Pattern
 
 ### React Component Pattern
 ```javascript
-// React state (session-only)
-const [sessionCustomizations, setSessionCustomizations] = useState({
-  "Dark Mode": { titleColor: "#ff0000" },
-  "Light Mode": { titleBackgroundColor: "#yellow" }
+// Session-only cache (React state, per-theme snapshots)
+const [sessionCache, setSessionCache] = useState({
+  "": { titleColor: "#ff0000", ... },           // No theme customizations
+  "Dark Mode": { titleColor: "#ff0000", ... }   // Dark Mode customizations
 });
 
-// Block attributes (persistent)
-attributes: {
+// Auto-update cache on attribute changes (useEffect)
+useEffect(() => {
+  const snapshot = getThemeableSnapshot(attributes, excludeList);
+  const currentThemeKey = attributes.currentTheme || '';
+
+  // Only update if customizations exist
+  const hasCustomizations = Object.keys(snapshot).some(key => {
+    return snapshot[key] !== expectedValues[key];
+  });
+
+  if (hasCustomizations) {
+    setSessionCache(prev => ({
+      ...prev,
+      [currentThemeKey]: snapshot
+    }));
+  }
+}, [attributes, expectedValues]);
+
+// Block attributes (persistent - what's in sidebar)
+attributes = {
   currentTheme: "Dark Mode",
-  customizations: { titleColor: "#ff0000" }
+  titleColor: "#ff0000",
+  titleFontSize: 16,
+  // Direct values, no separate customizations object
 }
 
-// On theme switch
-const handleThemeSwitch = (newTheme) => {
-  const cachedCustomizations = sessionCustomizations[newTheme] || {};
-  setAttributes({
-    currentTheme: newTheme,
-    customizations: cachedCustomizations
-  });
-};
-
-// On customization
-const handleCustomization = (attr, value) => {
-  setSessionCustomizations(prev => ({
-    ...prev,
-    [currentTheme]: {
-      ...prev[currentTheme],
-      [attr]: value
-    }
-  }));
-
-  setAttributes({
-    customizations: {
-      ...attributes.customizations,
-      [attr]: value
-    }
-  });
-};
+// On customization (direct attribute update)
+setAttributes({ titleColor: "#ff0000" });
+// Session cache auto-updates via useEffect
 ```
 
 ---
