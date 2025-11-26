@@ -111,7 +111,6 @@ export { debug, debugError, debugWarn, debugTable } from './utils/debug';
 export { ThemeSelector } from './components/ThemeSelector';
 export { ColorPanel } from './components/ColorPanel';
 export { CompactColorControl } from './components/CompactColorControl';
-export { BorderPanel } from './components/BorderPanel';
 export { GenericPanel } from './components/GenericPanel';
 export { BehaviorPanel } from './components/BehaviorPanel';
 export { CustomizationWarning } from './components/CustomizationWarning';

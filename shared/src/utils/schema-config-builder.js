@@ -68,9 +68,9 @@ export function getPanelConfig( schema, panelType ) {
 /**
  * Build border configuration with main and divider sections
  *
- * BorderPanel has a special case where it displays both main border controls
- * and divider border controls. This function separates them based on naming
- * conventions (attributes containing 'divider' go to divider section).
+ * NOTE: BorderPanel has been removed. Border controls are now handled by GenericPanel.
+ * This function is kept for legacy reference or potential future use.
+ * Separates border attributes based on naming conventions (attributes containing 'divider' go to divider section).
  *
  * @param {Object} schema - The full schema object
  * @param {string} blockType - The block type (accordion, tabs, toc) - used for context only
@@ -112,7 +112,7 @@ export function buildBorderConfig( schema, blockType ) {
 	const colorsConfig = getPanelConfig( schema, 'colors' );
 
 	// Build main border role mapping
-	// BorderPanel expects attributes organized by role: color, thickness, style, radius, shadow, shadowHover
+	// Legacy: attributes organized by role: color, thickness, style, radius, shadow, shadowHover
 	const mainAttributes = mapBorderAttributes( mainConfig.attributes );
 
 	// Build divider border role mapping

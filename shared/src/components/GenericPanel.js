@@ -165,8 +165,8 @@ export function GenericPanel( {
 		const effectiveValue = effectiveValues[ attrName ];
 		const finalLabel = label || attrName;
 
-		// Skip attributes without a defined control (e.g., BorderRadiusControl, SpacingControl)
-		// These are handled by specialized components like BorderPanel
+		// Skip attributes without a defined control (e.g., SpacingControl)
+		// Note: BorderRadiusControl is now handled in the switch statement below
 		if ( ! control ) {
 			return null;
 		}
@@ -274,6 +274,69 @@ export function GenericPanel( {
 						help="Use a character (▾, ▸, etc.), Unicode code, or image URL. Use 'none' to disable."
 						__next40pxDefaultSize
 					/>
+				);
+			}
+
+			case 'BorderRadiusControl': {
+				// Border Radius control with individual corner controls
+				// Handles object values with topLeft, topRight, bottomRight, bottomLeft properties
+				const currentRadius = effectiveValue || defaultValue || {
+					topLeft: 0,
+					topRight: 0,
+					bottomRight: 0,
+					bottomLeft: 0,
+				};
+
+				// Handler for individual corner changes
+				const handleCornerChange = ( corner, value ) => {
+					const updatedRadius = {
+						...currentRadius,
+						[ corner ]: value,
+					};
+					handleChange( attrName, updatedRadius );
+				};
+
+				// Get unit from schema (default to 'px')
+				const unit = attrConfig.unit || 'px';
+
+				return (
+					<div key={ attrName } style={ { marginBottom: '16px' } }>
+						<h4 style={ { margin: '0 0 8px 0', fontSize: '13px' } }>
+							{ renderLabel( finalLabel, attrName ) }
+						</h4>
+						<RangeControl
+							label={ `Top Left (${ unit })` }
+							value={ currentRadius.topLeft ?? 0 }
+							onChange={ ( value ) => handleCornerChange( 'topLeft', value ) }
+							min={ min ?? 0 }
+							max={ max ?? 60 }
+							step={ step ?? 1 }
+						/>
+						<RangeControl
+							label={ `Top Right (${ unit })` }
+							value={ currentRadius.topRight ?? 0 }
+							onChange={ ( value ) => handleCornerChange( 'topRight', value ) }
+							min={ min ?? 0 }
+							max={ max ?? 60 }
+							step={ step ?? 1 }
+						/>
+						<RangeControl
+							label={ `Bottom Right (${ unit })` }
+							value={ currentRadius.bottomRight ?? 0 }
+							onChange={ ( value ) => handleCornerChange( 'bottomRight', value ) }
+							min={ min ?? 0 }
+							max={ max ?? 60 }
+							step={ step ?? 1 }
+						/>
+						<RangeControl
+							label={ `Bottom Left (${ unit })` }
+							value={ currentRadius.bottomLeft ?? 0 }
+							onChange={ ( value ) => handleCornerChange( 'bottomLeft', value ) }
+							min={ min ?? 0 }
+							max={ max ?? 60 }
+							step={ step ?? 1 }
+						/>
+					</div>
 				);
 			}
 
