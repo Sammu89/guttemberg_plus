@@ -1,8 +1,12 @@
 /**
  * Generic Panel Component
  *
- * Schema-driven panel for rendering any group of themeable attributes.
+ * Schema-driven panel for rendering any group of attributes.
  * Works with any block schema (accordion, tabs, TOC, etc.)
+ * Shows ALL attributes in a group, regardless of themeable flag.
+ *
+ * Note: The themeable flag is ONLY used for theme mechanics (what gets saved
+ * in theme files and customization detection), NOT for UI display.
  *
  * Replaces: HeaderColorsPanel, ContentColorsPanel, TypographyPanel, IconPanel
  *
@@ -68,7 +72,7 @@ function toNumericValue( value ) {
  * Generic Panel Component
  *
  * Schema-driven panel that renders controls for any attribute group.
- * Filters attributes by group and themeable flag, then renders appropriate controls.
+ * Filters attributes by group only (shows ALL, themeable or not), then renders appropriate controls.
  *
  * @param {Object}   props                 Component props
  * @param {Object}   props.schema          JSON schema with attribute definitions and groups
@@ -106,10 +110,11 @@ export function GenericPanel( {
 	// Get group title from schema or use provided title
 	const groupTitle = title || schema.groups?.[ schemaGroup ]?.title || schemaGroup;
 
-	// Filter attributes: only those in this group AND themeable
+	// Filter attributes: only those in this group (show ALL, not just themeable)
+	// Note: themeable flag is ONLY for theme saving/customization warnings, NOT for UI display
 	const groupAttributes = Object.entries( schema.attributes || {} )
 		.filter( ( [ , attrConfig ] ) => {
-			return attrConfig.group === schemaGroup && attrConfig.themeable === true;
+			return attrConfig.group === schemaGroup;
 		} )
 		.map( ( [ attrName, attrConfig ] ) => ( {
 			name: attrName,
