@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-24T23:11:16.764Z
+ * Generated at: 2025-11-25T23:53:24.666Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -11,7 +11,7 @@
 
 :root {
   --toc-wrapper-background-color: #ffffff;
-  --toc-wrapper-border-color: #dddddd;
+  --toc-border-color: #dddddd;
   --toc-title-color: #333333;
   --toc-title-background-color: transparent;
   --toc-link-color: #0073aa;
@@ -43,9 +43,8 @@
   --toc-level3-plus-text-decoration: none;
   --toc-border-width: 1px;
   --toc-border-style: solid;
-  --toc-border-radius: 4px;
-  --toc-wrapper-shadow: none;
-  --toc-wrapper-shadow-hover: none;
+  --toc-border-shadow: none;
+  --toc-border-shadow-hover: none;
   --toc-wrapper-padding: 20px;
   --toc-item-spacing: 8px;
   --toc-level-indent: 20px;

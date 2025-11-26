@@ -32,11 +32,9 @@ import {
 	STORE_NAME,
 	ThemeSelector,
 	GenericPanel,
-	BorderPanel,
 	CustomizationWarning,
 	debug,
 } from '@shared';
-import { buildBorderConfig } from '@shared/utils/schema-config-builder';
 import tocSchema from '../../../schemas/toc.json';
 import './editor.scss';
 
@@ -146,9 +144,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Get all defaults (CSS + behavioral)
 	// Memoize to prevent infinite loop in session cache useEffect
 	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
-
-	// Build border config from schema (GenericPanel handles colors/typography from schema directly)
-	const borderConfig = useMemo( () => buildBorderConfig( tocSchema, 'toc' ), [] );
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
@@ -682,13 +677,15 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				/>
 
 				{ /* Borders */ }
-				<BorderPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ tocSchema }
+					schemaGroup="blockBorders"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ borderConfig }
-					theme={ theme }
+					effectiveValues={ effectiveValues }
+					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ cssDefaults }
+					initialOpen={ false }
 				/>
 
 				{ /* Customization Warning */ }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-24T23:11:16.750Z
+ * Generated at: 2025-11-25T23:53:24.662Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -69,11 +69,11 @@ export const tabsAttributes = {
   },
   iconColor: {
     type: 'string',
-    default: 'inherit',
+    default: '#666666',
   },
   iconSize: {
     type: 'number',
-    default: 18,
+    default: '16px',
   },
   iconTypeClosed: {
     type: 'string',
@@ -85,7 +85,7 @@ export const tabsAttributes = {
   },
   iconRotation: {
     type: 'number',
-    default: 180,
+    default: '180deg',
   },
   tabButtonColor: {
     type: 'string',
@@ -119,27 +119,27 @@ export const tabsAttributes = {
     type: 'string',
     default: 'transparent',
   },
-  tabButtonBorderColor: {
+  buttonBorderColor: {
     type: 'string',
     default: null,
   },
-  tabButtonBorderWidth: {
+  buttonBorderWidth: {
     type: 'number',
     default: null,
   },
-  tabButtonBorderStyle: {
+  buttonBorderStyle: {
     type: 'string',
     default: null,
   },
-  tabButtonBorderRadius: {
+  buttonBorderRadius: {
     type: 'object',
     default: {"topLeft":4,"topRight":4,"bottomRight":0,"bottomLeft":0},
   },
-  tabButtonShadow: {
+  buttonShadow: {
     type: 'string',
     default: 'none',
   },
-  tabButtonShadowHover: {
+  buttonShadowHover: {
     type: 'string',
     default: 'none',
   },
@@ -167,10 +167,6 @@ export const tabsAttributes = {
     type: 'string',
     default: 'center',
   },
-  tabButtonPadding: {
-    type: 'object',
-    default: {"top":12,"right":24,"bottom":12,"left":24},
-  },
   tabListBackgroundColor: {
     type: 'string',
     default: '#f5f5f5',
@@ -187,45 +183,41 @@ export const tabsAttributes = {
     type: 'string',
     default: '#ffffff',
   },
-  panelBorderColor: {
+  dividerColor: {
     type: 'string',
-    default: '#dddddd',
+    default: null,
   },
-  panelBorderWidth: {
+  dividerWidth: {
     type: 'number',
-    default: 1,
+    default: null,
   },
-  panelBorderStyle: {
+  dividerStyle: {
     type: 'string',
-    default: 'solid',
+    default: null,
   },
-  panelBorderRadius: {
+  borderColor: {
+    type: 'string',
+    default: null,
+  },
+  borderWidth: {
+    type: 'number',
+    default: null,
+  },
+  borderStyle: {
+    type: 'string',
+    default: null,
+  },
+  borderRadius: {
     type: 'object',
     default: {"topLeft":0,"topRight":0,"bottomRight":0,"bottomLeft":0},
   },
-  panelShadow: {
+  shadow: {
     type: 'string',
     default: 'none',
   },
-  dividerLineColor: {
+  shadowHover: {
     type: 'string',
-    default: null,
-  },
-  dividerLineWidth: {
-    type: 'number',
-    default: null,
-  },
-  dividerLineStyle: {
-    type: 'string',
-    default: null,
-  },
-  verticalTabListWidth: {
-    type: 'number',
-    default: 200,
-  },
-  itemSpacing: {
-    type: 'number',
-    default: null,
+    default: 'none',
   },
 };
 

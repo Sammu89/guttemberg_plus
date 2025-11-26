@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-24T23:11:16.762Z
+ * Generated at: 2025-11-25T23:53:24.665Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 return array(
   'wrapperBackgroundColor' => '#ffffff',
-  'wrapperBorderColor' => '#dddddd',
+  'blockBorderColor' => '#dddddd',
   'titleColor' => '#333333',
   'titleBackgroundColor' => 'transparent',
   'linkColor' => '#0073aa',
@@ -50,11 +50,10 @@ return array(
   'level3PlusFontStyle' => 'normal',
   'level3PlusTextTransform' => 'none',
   'level3PlusTextDecoration' => 'none',
-  'wrapperBorderWidth' => '1px',
-  'wrapperBorderStyle' => 'solid',
-  'wrapperBorderRadius' => '4px',
-  'wrapperShadow' => 'none',
-  'wrapperShadowHover' => 'none',
+  'blockBorderWidth' => '1px',
+  'blockBorderStyle' => 'solid',
+  'blockShadow' => 'none',
+  'blockShadowHover' => 'none',
   'wrapperPadding' => '20px',
   'itemSpacing' => '8px',
   'levelIndent' => '20px',

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-24T23:11:16.753Z
+ * Generated at: 2025-11-25T23:53:24.663Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -11,9 +11,9 @@
 
 :root {
   --tab-show-icon: true;
-  --icon-color: inherit;
-  --icon-size: 18;
-  --icon-rotation: 180;
+  --tab-icon-color: #666666;
+  --tab-icon-size: 16px;
+  --tab-icon-rotation: 180deg;
   --tab-button-color: #666666;
   --tab-button-bg: transparent;
   --tab-button-hover-color: #333333;
@@ -22,8 +22,8 @@
   --tab-button-active-bg: #ffffff;
   --tab-button-active-border-color: #dddddd;
   --tab-button-active-border-bottom-color: transparent;
-  --tab-button-shadow: none;
-  --tab-button-shadow-hover: none;
+  --tabs-button-border-shadow: none;
+  --tabs-button-border-shadow-hover: none;
   --tab-button-font-size: 16;
   --tab-button-font-weight: 500;
   --tab-button-font-style: normal;
@@ -34,9 +34,6 @@
   --tab-list-align: left;
   --tab-panel-color: #333333;
   --tab-panel-bg: #ffffff;
-  --tab-panel-border-color: #dddddd;
-  --tab-panel-border-width: 1;
-  --tab-panel-border-style: solid;
-  --tab-panel-shadow: none;
-  --vertical-tab-list-width: 200;
+  --tabs-border-shadow: none;
+  --tabs-border-shadow-hover: none;
 }

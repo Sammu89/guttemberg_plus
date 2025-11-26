@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-24T23:11:16.741Z
+ * Generated at: 2025-11-25T23:53:24.660Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -29,8 +29,8 @@
   --accordion-content-line-height: 1.6;
   --accordion-border-width: 1px;
   --accordion-border-style: solid;
-  --accordion-shadow: none;
-  --accordion-shadow-hover: none;
+  --accordion-border-shadow: none;
+  --accordion-border-shadow-hover: none;
   --accordion-divider-width: 0px;
   --accordion-divider-style: solid;
   --accordion-margin-bottom: 8px;

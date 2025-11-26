@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-24T23:11:16.756Z
+ * Generated at: 2025-11-25T23:53:24.664Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -20,7 +20,7 @@ export interface TocTheme {
   /** Background color of the TOC wrapper */
   wrapperBackgroundColor?: string;
   /** Border color of the TOC wrapper */
-  wrapperBorderColor?: string;
+  blockBorderColor?: string;
   /** Text color for the TOC title */
   titleColor?: string;
   /** Background color for the TOC title */
@@ -82,15 +82,15 @@ export interface TocTheme {
   /** Text decoration for level 3+ items */
   level3PlusTextDecoration?: string;
   /** Width of the wrapper border in pixels */
-  wrapperBorderWidth?: number;
+  blockBorderWidth?: number;
   /** Style of the wrapper border */
-  wrapperBorderStyle?: string;
+  blockBorderStyle?: string;
   /** Corner radius of the wrapper */
-  wrapperBorderRadius?: number;
+  blockBorderRadius?: Record<string, any>;
   /** CSS box-shadow for the wrapper */
-  wrapperShadow?: string;
+  blockShadow?: string;
   /** CSS box-shadow for the wrapper on hover */
-  wrapperShadowHover?: string;
+  blockShadowHover?: string;
   /** Padding inside the TOC wrapper */
   wrapperPadding?: number;
   /** Left padding for the list */
@@ -112,7 +112,7 @@ export interface TocTheme {
  */
 export const tocDefaultTheme: TocTheme = {
   wrapperBackgroundColor: '#ffffff',
-  wrapperBorderColor: '#dddddd',
+  blockBorderColor: '#dddddd',
   titleColor: '#333333',
   titleBackgroundColor: 'transparent',
   linkColor: '#0073aa',
@@ -142,11 +142,16 @@ export const tocDefaultTheme: TocTheme = {
   level3PlusFontStyle: 'normal',
   level3PlusTextTransform: 'none',
   level3PlusTextDecoration: 'none',
-  wrapperBorderWidth: 1px,
-  wrapperBorderStyle: 'solid',
-  wrapperBorderRadius: 4px,
-  wrapperShadow: 'none',
-  wrapperShadowHover: 'none',
+  blockBorderWidth: 1px,
+  blockBorderStyle: 'solid',
+  blockBorderRadius: {
+    "topLeft": 4,
+    "topRight": 4,
+    "bottomRight": 4,
+    "bottomLeft": 4
+  },
+  blockShadow: 'none',
+  blockShadowHover: 'none',
   wrapperPadding: 20px,
   itemSpacing: 8px,
   levelIndent: 20px,
@@ -178,7 +183,7 @@ export interface TocThemeAttributes {
   autoHighlight?: boolean;
   clickBehavior?: string;
   wrapperBackgroundColor?: string;
-  wrapperBorderColor?: string;
+  blockBorderColor?: string;
   titleColor?: string;
   titleBackgroundColor?: string;
   linkColor?: string;
@@ -209,11 +214,11 @@ export interface TocThemeAttributes {
   level3PlusFontStyle?: string;
   level3PlusTextTransform?: string;
   level3PlusTextDecoration?: string;
-  wrapperBorderWidth?: number;
-  wrapperBorderStyle?: string;
-  wrapperBorderRadius?: number;
-  wrapperShadow?: string;
-  wrapperShadowHover?: string;
+  blockBorderWidth?: number;
+  blockBorderStyle?: string;
+  blockBorderRadius?: Record<string, any>;
+  blockShadow?: string;
+  blockShadowHover?: string;
   wrapperPadding?: number;
   listPaddingLeft?: number | undefined;
   itemSpacing?: number;

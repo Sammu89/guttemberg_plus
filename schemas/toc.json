@@ -14,9 +14,9 @@
       "title": "Content Colors",
       "description": "Link colors, level colors, and numbering colors"
     },
-    "border": {
-      "title": "Border",
-      "description": "Wrapper border styles, widths, radius, and shadow"
+    "blockBorders": {
+      "title": "Block Borders",
+      "description": "Wrapper borders, radius, and shadows"
     },
     "typography": {
       "title": "Typography",
@@ -233,11 +233,11 @@
       "themeable": true,
       "control": "ColorPicker"
     },
-    "wrapperBorderColor": {
+    "blockBorderColor": {
       "type": "string",
       "default": "#dddddd",
-      "cssVar": "toc-wrapper-border-color",
-      "group": "border",
+      "cssVar": "toc-border-color",
+      "group": "blockBorders",
       "label": "Border Color",
       "description": "Border color of the TOC wrapper",
       "themeable": true,
@@ -912,11 +912,11 @@
         }
       ]
     },
-    "wrapperBorderWidth": {
+    "blockBorderWidth": {
       "type": "number",
       "default": "1px",
       "cssVar": "toc-border-width",
-      "group": "border",
+      "group": "blockBorders",
       "label": "Border Width",
       "description": "Width of the wrapper border in pixels",
       "themeable": true,
@@ -925,11 +925,11 @@
       "max": 10,
       "unit": "px"
     },
-    "wrapperBorderStyle": {
+    "blockBorderStyle": {
       "type": "string",
       "default": "solid",
       "cssVar": "toc-border-style",
-      "group": "border",
+      "group": "blockBorders",
       "label": "Border Style",
       "description": "Style of the wrapper border",
       "themeable": true,
@@ -973,34 +973,36 @@
         }
       ]
     },
-    "wrapperBorderRadius": {
-      "type": "number",
-      "default": "4px",
+    "blockBorderRadius": {
+      "type": "object",
+      "default": {
+        "topLeft": 4,
+        "topRight": 4,
+        "bottomRight": 4,
+        "bottomLeft": 4
+      },
       "cssVar": "toc-border-radius",
-      "group": "border",
+      "group": "blockBorders",
       "label": "Border Radius",
       "description": "Corner radius of the wrapper",
       "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 30,
-      "unit": "px"
+      "control": "BorderRadiusControl"
     },
-    "wrapperShadow": {
+    "blockShadow": {
       "type": "string",
       "default": "none",
-      "cssVar": "toc-wrapper-shadow",
-      "group": "border",
+      "cssVar": "toc-border-shadow",
+      "group": "blockBorders",
       "label": "Shadow",
       "description": "CSS box-shadow for the wrapper",
       "themeable": true,
       "control": "TextControl"
     },
-    "wrapperShadowHover": {
+    "blockShadowHover": {
       "type": "string",
       "default": "none",
-      "cssVar": "toc-wrapper-shadow-hover",
-      "group": "border",
+      "cssVar": "toc-border-shadow-hover",
+      "group": "blockBorders",
       "label": "Shadow on Hover",
       "description": "CSS box-shadow for the wrapper on hover",
       "themeable": true,

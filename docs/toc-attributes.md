@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-11-24T23:11:16.764Z
+> Generated at: 2025-11-25T23:53:24.666Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -58,18 +58,18 @@ Link colors, level colors, and numbering colors
 | `level3PlusColor` | string | `#0073aa` | Yes | Text color for level 3+ headings (H4-H6) |
 | `collapseIconColor` | string | `#666666` | Yes | Color of the collapse/expand icon |
 
-## Border
+## Block Borders
 
-Wrapper border styles, widths, radius, and shadow
+Wrapper borders, radius, and shadows
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `wrapperBorderColor` | string | `#dddddd` | Yes | Border color of the TOC wrapper |
-| `wrapperBorderWidth` | number | `1px` | Yes | Width of the wrapper border in pixels |
-| `wrapperBorderStyle` | string | `solid` | Yes | Style of the wrapper border |
-| `wrapperBorderRadius` | number | `4px` | Yes | Corner radius of the wrapper |
-| `wrapperShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |
-| `wrapperShadowHover` | string | `none` | Yes | CSS box-shadow for the wrapper on hover |
+| `blockBorderColor` | string | `#dddddd` | Yes | Border color of the TOC wrapper |
+| `blockBorderWidth` | number | `1px` | Yes | Width of the wrapper border in pixels |
+| `blockBorderStyle` | string | `solid` | Yes | Style of the wrapper border |
+| `blockBorderRadius` | object | _object_ | Yes | Corner radius of the wrapper |
+| `blockShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |
+| `blockShadowHover` | string | `none` | Yes | CSS box-shadow for the wrapper on hover |
 
 ## Header Colors
 
@@ -127,7 +127,7 @@ The following CSS custom properties are available for theming:
 | Attribute | CSS Variable |
 |-----------|-------------|
 | `wrapperBackgroundColor` | `--toc-wrapper-background-color` |
-| `wrapperBorderColor` | `--toc-wrapper-border-color` |
+| `blockBorderColor` | `--toc-border-color` |
 | `titleColor` | `--toc-title-color` |
 | `titleBackgroundColor` | `--toc-title-background-color` |
 | `linkColor` | `--toc-link-color` |
@@ -158,11 +158,11 @@ The following CSS custom properties are available for theming:
 | `level3PlusFontStyle` | `--toc-level3-plus-font-style` |
 | `level3PlusTextTransform` | `--toc-level3-plus-text-transform` |
 | `level3PlusTextDecoration` | `--toc-level3-plus-text-decoration` |
-| `wrapperBorderWidth` | `--toc-border-width` |
-| `wrapperBorderStyle` | `--toc-border-style` |
-| `wrapperBorderRadius` | `--toc-border-radius` |
-| `wrapperShadow` | `--toc-wrapper-shadow` |
-| `wrapperShadowHover` | `--toc-wrapper-shadow-hover` |
+| `blockBorderWidth` | `--toc-border-width` |
+| `blockBorderStyle` | `--toc-border-style` |
+| `blockBorderRadius` | `--toc-border-radius` |
+| `blockShadow` | `--toc-border-shadow` |
+| `blockShadowHover` | `--toc-border-shadow-hover` |
 | `wrapperPadding` | `--toc-wrapper-padding` |
 | `listPaddingLeft` | `--toc-list-padding-left` |
 | `itemSpacing` | `--toc-item-spacing` |

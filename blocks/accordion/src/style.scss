@@ -38,17 +38,15 @@
 /* Accordion item */
 .accordion-item {
 	margin-bottom: var(--accordion-margin-bottom, 0.5rem);
-	border-width: var(--accordion-border-width, 1px);
-	border-style: var(--accordion-border-style, solid);
-	border-color: var(--accordion-border-color, #ddd);
+	border: var(--accordion-border-width, 1px) var(--accordion-border-style, solid) var(--accordion-border-color, #ddd);
 	border-radius: var(--accordion-border-radius, 4px);
 	overflow: hidden;
-	box-shadow: var(--accordion-shadow, none);
+	box-shadow: var(--accordion-border-shadow, none);
 	transition: box-shadow 0.2s ease;
 	outline: none;
 
 	&:hover {
-		box-shadow: var(--accordion-shadow-hover, none);
+		box-shadow: var(--accordion-border-shadow-hover, none);
 	}
 
 	&:last-child {
@@ -66,7 +64,6 @@
 	color: var(--accordion-title-color, #333);
 	font-size: var(--accordion-title-font-size, 1rem);
 	font-weight: var(--accordion-title-font-weight, 600);
-	border: none;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
 
@@ -142,7 +139,7 @@
 	color: var(--accordion-content-color, #333);
 	font-size: var(--accordion-content-font-size, 0.95rem);
 	line-height: var(--accordion-content-line-height, 1.6);
-	border-top: var(--accordion-divider-width, 0) var(--accordion-divider-style, solid) var(--accordion-divider-color, transparent);
+	border-top: var(--accordion-border-divider-width, 0) var(--accordion-border-divider-style, solid) var(--accordion-border-divider-color, transparent);
 	overflow: hidden;
 
 	/* Hide divider border when collapsing */

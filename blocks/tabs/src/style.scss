@@ -11,14 +11,16 @@
 
 /* Block wrapper */
 .wp-block-tabs {
-	box-shadow: var(--tabs-container-shadow, none);
+	border: var(--tabs-border-width, 0) var(--tabs-border-style, none) var(--tabs-border-color, transparent);
+	border-radius: var(--tabs-border-radius, 0);
+	box-shadow: var(--tabs-border-shadow, none);
 }
 
 /* Tab list (navigation) */
 .tabs-list {
 	display: flex;
 	gap: 0.5rem;
-	background-color: var(--tabs-list-bg, #f5f5f5);
+	background-color: var(--tab-list-bg, #f5f5f5);
 	overflow-x: auto;
 	padding: 0.5rem;
 	outline: none !important;
@@ -42,9 +44,9 @@
 	color: var(--tab-button-color, #666);
 	font-size: var(--tab-button-font-size, 1rem);
 	font-weight: var(--tab-button-font-weight, 500);
-	border: var(--tab-button-border-width, 1px) var(--tab-button-border-style, solid) var(--tab-button-border-color, transparent);
-	border-radius: var(--tab-button-border-radius, 0);
-	box-shadow: var(--tab-button-shadow, none);
+	border: var(--tabs-button-border-width, 1px) var(--tabs-button-border-style, solid) var(--tabs-button-border-color, transparent);
+	border-radius: var(--tabs-button-border-radius, 0);
+	box-shadow: var(--tabs-button-border-shadow, none);
 	cursor: pointer;
 	white-space: nowrap;
 	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
@@ -53,7 +55,7 @@
 	&:hover:not(:disabled) {
 		color: var(--tab-button-hover-color, #333);
 		background-color: var(--tab-button-hover-bg, rgba(0, 0, 0, 0.05));
-		box-shadow: var(--tab-button-shadow-hover, none);
+		box-shadow: var(--tabs-button-border-shadow-hover, none);
 	}
 
 	&:focus {
@@ -83,18 +85,16 @@
 /* Tabs panels container */
 .tabs-panels {
 	position: relative;
-	border-top: var(--divider-width, 0) var(--divider-style, solid) var(--divider-color, transparent);
+	border-top: var(--tabs-divider-width, 0) var(--tabs-divider-style, solid) var(--tabs-divider-color, transparent);
 	outline: none !important;
 }
 
 /* Tab panel - handles height animation only, no padding */
 .tab-panel {
-	background-color: var(--tabs-panel-bg, #fff);
-	color: var(--tabs-panel-color, #333);
+	background-color: var(--tab-panel-bg, #fff);
+	color: var(--tab-panel-color, #333);
 	font-size: var(--tabs-panel-font-size, 1rem);
 	line-height: var(--tabs-panel-line-height, 1.6);
-	border: var(--tabs-panel-border-width, 1px) solid var(--tabs-panel-border-color, #ddd);
-	border-radius: var(--tabs-panel-border-radius, 4px);
 	overflow: hidden;
 	outline: none !important;
 

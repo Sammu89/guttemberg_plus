@@ -25,11 +25,9 @@ import {
 	ThemeSelector,
 	GenericPanel,
 	BehaviorPanel,
-	BorderPanel,
 	CustomizationWarning,
 	debug,
 } from '@shared';
-import { buildBorderConfig } from '@shared/utils/schema-config-builder';
 import accordionSchema from '../../../schemas/accordion.json';
 import { accordionAttributes } from './accordion-attributes';
 import './editor.scss';
@@ -97,10 +95,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		const merged = getAllDefaults( schemaDefaults );
 		return merged;
 	}, [ schemaDefaults ] );
-
-	// Build border config from schema (GenericPanel handles colors/typography/icon from schema directly)
-	const borderConfig = useMemo( () =>
-		buildBorderConfig( accordionSchema, 'accordion' ), [] );
 
 	// Attributes to exclude from theme customization checks
 	// Filter schema to get all attributes where themeable is NOT true
@@ -917,13 +911,26 @@ export default function Edit( { attributes, setAttributes } ) {
 					initialOpen={ false }
 				/>
 
-				<BorderPanel
-					effectiveValues={ effectiveValues }
+				<GenericPanel
+					schema={ accordionSchema }
+					schemaGroup="borders"
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					config={ borderConfig }
+					effectiveValues={ effectiveValues }
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
+					initialOpen={ false }
+				/>
+
+				<GenericPanel
+					schema={ accordionSchema }
+					schemaGroup="dividerLine"
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					effectiveValues={ effectiveValues }
+					theme={ themes[ attributes.currentTheme ]?.values }
+					cssDefaults={ allDefaults }
+					initialOpen={ false }
 				/>
 
 				<GenericPanel

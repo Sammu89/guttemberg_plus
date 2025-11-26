@@ -11,7 +11,6 @@
  * - JavaScript block attributes (blocks/[blockType]/src/[blockType]-attributes.js)
  * - PHP CSS defaults (php/css-defaults/)
  * - PHP CSS variable mappings (php/css-defaults/css-mappings-generated.php)
- * - JavaScript exclusion lists (shared/src/config/)
  * - Control configuration (shared/src/config/control-config-generated.js)
  * - CSS variable declarations (assets/css/)
  * - Markdown documentation (docs/)
@@ -620,52 +619,11 @@ export default CSS_VAR_MAPPINGS;
 
 /**
  * Generate JavaScript exclusion lists
+ * DEPRECATED: Exclusions are no longer generated as separate files
  */
 function generateExclusions(blockType, schema) {
-  const fileName = `${blockType}-exclusions.js`;
-  const constName = `${toScreamingSnakeCase(blockType)}_EXCLUSIONS`;
-
-  let content = getGeneratedHeader(`${blockType}.json`, `Exclusion List for ${schema.blockName} Block`);
-
-  // Collect non-themeable attributes
-  const exclusions = [];
-
-  for (const [attrName, attr] of Object.entries(schema.attributes)) {
-    if (!attr.themeable) {
-      exclusions.push({
-        name: attrName,
-        reason: attr.reason || 'unknown',
-        description: attr.description || '',
-      });
-    }
-  }
-
-  // Group by reason
-  const groupedExclusions = {};
-  for (const excl of exclusions) {
-    if (!groupedExclusions[excl.reason]) {
-      groupedExclusions[excl.reason] = [];
-    }
-    groupedExclusions[excl.reason].push(excl);
-  }
-
-  // Generate the exclusion array
-  content += `/**\n * Attributes excluded from theme customization checks for ${schema.blockName} block\n * These attributes are not saved in themes and are not compared for customization detection\n */\n`;
-  content += `export const ${constName} = [\n`;
-
-  for (const [reason, attrs] of Object.entries(groupedExclusions)) {
-    content += `  // ${reason} attributes\n`;
-    for (const attr of attrs) {
-      content += `  '${attr.name}',\n`;
-    }
-  }
-
-  content += `];\n\n`;
-
-  // Export default
-  content += `export default ${constName};\n`;
-
-  return { fileName, content };
+  // This function is kept for backwards compatibility but no longer generates files
+  return null;
 }
 
 /**
@@ -1047,16 +1005,8 @@ async function compile() {
         results.errors.push(`PHP CSS defaults generation failed for ${blockType}: ${error.message}`);
       }
 
-      // JavaScript exclusions
-      try {
-        const { fileName, content } = generateExclusions(blockType, schema);
-        const filePath = path.join(OUTPUT_DIRS.config, fileName);
-        fs.writeFileSync(filePath, content);
-        results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - config/${fileName}`);
-      } catch (error) {
-        results.errors.push(`Exclusions generation failed for ${blockType}: ${error.message}`);
-      }
+      // JavaScript exclusions - REMOVED
+      // Exclusions are no longer generated as individual files
 
       // CSS variables
       try {
@@ -1117,36 +1067,8 @@ async function compile() {
       results.errors.push(`Control config generation failed: ${error.message}`);
     }
 
-    // Generate combined exclusions file
-    try {
-      let combinedContent = getGeneratedHeader('*.json', 'Combined Theme Exclusions for All Blocks');
-      combinedContent += `// Re-export all exclusions from individual block files\n`;
-      combinedContent += `export { ACCORDION_EXCLUSIONS } from './accordion-exclusions.js';\n`;
-      combinedContent += `export { TABS_EXCLUSIONS } from './tabs-exclusions.js';\n`;
-      combinedContent += `export { TOC_EXCLUSIONS } from './toc-exclusions.js';\n\n`;
-
-      combinedContent += `/**\n * Get exclusions for a specific block type\n */\n`;
-      combinedContent += `export function getExclusionsForBlock(blockType) {\n`;
-      combinedContent += `  switch (blockType) {\n`;
-      combinedContent += `    case 'accordion':\n`;
-      combinedContent += `      return ACCORDION_EXCLUSIONS;\n`;
-      combinedContent += `    case 'tabs':\n`;
-      combinedContent += `      return TABS_EXCLUSIONS;\n`;
-      combinedContent += `    case 'toc':\n`;
-      combinedContent += `      return TOC_EXCLUSIONS;\n`;
-      combinedContent += `    default:\n`;
-      combinedContent += `      console.warn(\`Unknown block type: \${blockType}\`);\n`;
-      combinedContent += `      return [];\n`;
-      combinedContent += `  }\n`;
-      combinedContent += `}\n`;
-
-      const combinedPath = path.join(OUTPUT_DIRS.config, 'theme-exclusions-generated.js');
-      fs.writeFileSync(combinedPath, combinedContent);
-      results.files.push({ path: combinedPath, lines: combinedContent.split('\n').length });
-      console.log(`    - config/theme-exclusions-generated.js`);
-    } catch (error) {
-      results.errors.push(`Combined exclusions generation failed: ${error.message}`);
-    }
+    // Generate combined exclusions file - REMOVED
+    // Exclusions are no longer generated
 
     console.log('');
 

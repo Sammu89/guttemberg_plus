@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-11-24T23:11:16.743Z
+> Generated at: 2025-11-25T23:53:24.660Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -79,28 +79,28 @@ Content area text and background colors
 | `contentColor` | string | `#333333` | Yes | Text color for accordion content |
 | `contentBackgroundColor` | string | `#ffffff` | Yes | Background color for accordion content |
 
-## Border
+## Borders
 
-Main border styles, widths, radius, and shadow
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `accordionBorderColor` | string | `#dddddd` | Yes | Color of the accordion border (alias) |
-| `accordionBorderThickness` | number | `1px` | Yes | Thickness of the accordion border in pixels |
-| `accordionBorderStyle` | string | `solid` | Yes | Style of the accordion border |
-| `accordionBorderRadius` | object | _object_ | Yes | Corner radius of the accordion |
-| `accordionShadow` | string | `none` | Yes | CSS box-shadow for the accordion item |
-| `accordionShadowHover` | string | `none` | Yes | CSS box-shadow for the accordion item on hover |
-
-## Border Divider
-
-Divider border between title and content
+Main accordion wrapper borders and radius
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `dividerBorderColor` | string | `#dddddd` | Yes | Color of divider between title and content |
-| `dividerBorderThickness` | number | `0px` | Yes | Thickness of divider between title and content |
-| `dividerBorderStyle` | string | `solid` | Yes | Style of divider between title and content |
+| `borderColor` | string | `#dddddd` | Yes | Color of the accordion wrapper border |
+| `borderWidth` | number | `1px` | Yes | Thickness of the accordion wrapper border in pixels |
+| `borderStyle` | string | `solid` | Yes | Style of the accordion wrapper border |
+| `borderRadius` | object | _object_ | Yes | Corner radius of the accordion wrapper |
+| `shadow` | string | `none` | Yes | CSS box-shadow for the accordion wrapper |
+| `shadowHover` | string | `none` | Yes | CSS box-shadow for the accordion wrapper on hover |
+
+## Divider Line
+
+Divider line between header and content
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `dividerColor` | string | `#dddddd` | Yes | Color of divider between title and content |
+| `dividerWidth` | number | `0px` | Yes | Thickness of divider between title and content |
+| `dividerStyle` | string | `solid` | Yes | Style of divider between title and content |
 
 ## Icon
 
@@ -139,8 +139,8 @@ The following CSS custom properties are available for theming:
 | `hoverTitleBackgroundColor` | `--accordion-title-hover-bg` |
 | `contentColor` | `--accordion-content-color` |
 | `contentBackgroundColor` | `--accordion-content-bg` |
-| `accordionBorderColor` | `--accordion-border-color` |
-| `dividerBorderColor` | `--accordion-divider-color` |
+| `borderColor` | `--accordion-border-color` |
+| `dividerColor` | `--accordion-divider-color` |
 | `iconColor` | `--accordion-icon-color` |
 | `titleFontSize` | `--accordion-title-font-size` |
 | `titleFontWeight` | `--accordion-title-font-weight` |
@@ -157,13 +157,13 @@ The following CSS custom properties are available for theming:
 | `contentFontStyle` | `--accordion-content-font-style` |
 | `contentTextTransform` | `--accordion-content-text-transform` |
 | `contentTextDecoration` | `--accordion-content-text-decoration` |
-| `accordionBorderThickness` | `--accordion-border-width` |
-| `accordionBorderStyle` | `--accordion-border-style` |
-| `accordionBorderRadius` | `--accordion-border-radius` |
-| `accordionShadow` | `--accordion-shadow` |
-| `accordionShadowHover` | `--accordion-shadow-hover` |
-| `dividerBorderThickness` | `--accordion-divider-width` |
-| `dividerBorderStyle` | `--accordion-divider-style` |
+| `borderWidth` | `--accordion-border-width` |
+| `borderStyle` | `--accordion-border-style` |
+| `borderRadius` | `--accordion-border-radius` |
+| `shadow` | `--accordion-border-shadow` |
+| `shadowHover` | `--accordion-border-shadow-hover` |
+| `dividerWidth` | `--accordion-divider-width` |
+| `dividerStyle` | `--accordion-divider-style` |
 | `titlePadding` | `--accordion-title-padding` |
 | `contentPadding` | `--accordion-content-padding` |
 | `accordionMarginBottom` | `--accordion-margin-bottom` |
