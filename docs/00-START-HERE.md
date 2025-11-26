@@ -119,31 +119,40 @@ docs/
 
 ## Design Principles (Non-Negotiable)
 
-### 1. Three-Tier Cascade: First Defined Value Wins
-**Rule**: Block Customization → Theme → CSS (highest to lowest priority)
+### 1. Simplified Architecture: Attributes as Source of Truth
+**Rule**: Block attributes ARE the values (no complex cascade resolution)
 
-**Why**: Clear precedence, no merging complexity, matches user mental model
+**Why**: Simpler code, clearer intent, better performance, standard WordPress patterns
 
-**Example**: If block has `titleColor="#ff0000"`, theme and CSS values are ignored completely
+**Implementation**:
+- **Edit Components**: `effectiveValues = attributes` (direct source of truth)
+- **Theme System**: Stores deltas from defaults for optimization
+- **Customization Detection**: Compare attributes to `expectedValues` (defaults + theme deltas)
+- **Save Components**: Use 2-tier fallback (attributes → defaults) via cascade-resolver.js
 
-### 2. Complete Snapshot Themes
-**Rule**: All saved themes contain explicit values for ALL attributes (no null except "Default")
+### 2. Delta-Based Theme Storage
+**Rule**: Themes store only differences from defaults (optimized storage)
 
-**Why**: Self-contained, portable, no ambiguity about appearance
+**Why**: Smaller database footprint, clear intent, easier updates to defaults
 
-**Exception**: "Default" theme has all null (CSS pass-through)
+**Implementation**:
+- `calculateDeltas(snapshot, defaults)` extracts only changed values
+- `applyDeltas(defaults, theme.values)` merges defaults + theme deltas → expectedValues
+- Edit components compare attributes to expectedValues for customization detection
 
 ### 3. All Customizable Attributes Default to Null
 **Rule**: Every attribute that participates in cascade has `default: null` in schema
 
 **Why**: Explicit opt-in for customization, distinguishes "not set" from "set to default", allows CSS to be source of truth
 
-### 4. Cascade Resolver Must Be Pure Function
-**Rule**: cascade-resolver.js = 100% custom, no Redux, <5ms performance
+### 4. Cascade Resolver for Save Components Only
+**Rule**: cascade-resolver.js used ONLY in save.js for frontend fallback (attributes → defaults)
 
-**Why**: Performance critical, called frequently, must be predictable
+**Why**: Save components don't have access to theme store, need simple 2-tier fallback
 
-**DO NOT**: Integrate with @wordpress/data or any state management
+**Edit Components**: Use simplified architecture (no cascade resolution needed)
+
+**Implementation**: `getAllEffectiveValues(attributes, {}, defaults)` in save.js
 
 ### 5. Load Themes Before Render
 **Rule**: Show spinner until themes loaded from database
@@ -155,10 +164,12 @@ docs/
 
 **Why**: Event isolation, one block type's theme changes don't affect others
 
-### 7. CustomizationCache = Session-Scoped
-**Rule**: React State + Block Attributes hybrid, only active theme persists on save
+### 7. Session Cache for Theme Switching
+**Rule**: React State stores snapshots per theme during editing session
 
-**Why**: Native WordPress block behavior, no custom storage, works with autosave
+**Why**: Preserves customizations when switching themes temporarily
+
+**Implementation**: `sessionCache = { "": {...}, "Dark Mode": {...} }` - per-theme snapshots in React state only
 
 ---
 

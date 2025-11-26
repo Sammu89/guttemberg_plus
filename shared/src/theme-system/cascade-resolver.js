@@ -1,12 +1,24 @@
 /**
  * Cascade Resolver - Pure Functions
  *
- * Implements the 3-tier cascade system:
- * 1. Block Customizations (Tier 3 - Highest Priority)
- * 2. Theme Values (Tier 2 - Medium Priority)
- * 3. CSS Defaults (Tier 1 - Lowest Priority - Fallback)
+ * USAGE: Used ONLY in save.js components for 2-tier fallback (attributes → defaults)
  *
- * CRITICAL ARCHITECTURE RULES:
+ * Edit components use simplified architecture:
+ * - effectiveValues = attributes (direct source of truth)
+ * - expectedValues = applyDeltas(defaults, theme.values) for comparison
+ * - No cascade resolution needed in edit components
+ *
+ * Save components use this for simple fallback:
+ * - getAllEffectiveValues(attributes, {}, defaults)
+ * - Empty theme object because themes resolved server-side via CSS classes
+ * - Provides 2-tier fallback: attributes → defaults
+ *
+ * Original 3-tier cascade system:
+ * 1. Block Attributes (Highest Priority)
+ * 2. Theme Values (Medium Priority - empty in save.js)
+ * 3. Defaults (Lowest Priority - Fallback)
+ *
+ * ARCHITECTURE RULES:
  * - 100% pure functions (no side effects, no state mutations)
  * - NO integration with @wordpress/data (kept separate for performance)
  * - First match wins (no merging between tiers)
