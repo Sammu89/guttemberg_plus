@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-26T23:50:02.903Z
+ * Generated at: 2025-11-26T23:55:36.977Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -23,32 +23,32 @@
   --toc-level2-color: #0073aa;
   --toc-level3-plus-color: #0073aa;
   --toc-collapse-icon-color: #666666;
-  --toc-title-font-size: 20px;
+  --toc-title-font-size: 20;
   --toc-title-font-weight: 700;
   --toc-title-alignment: left;
-  --toc-level1-font-size: 18px;
+  --toc-level1-font-size: 18;
   --toc-level1-font-weight: 600;
   --toc-level1-font-style: normal;
   --toc-level1-text-transform: none;
   --toc-level1-text-decoration: none;
-  --toc-level2-font-size: 16px;
+  --toc-level2-font-size: 16;
   --toc-level2-font-weight: normal;
   --toc-level2-font-style: normal;
   --toc-level2-text-transform: none;
   --toc-level2-text-decoration: none;
-  --toc-level3-plus-font-size: 14px;
+  --toc-level3-plus-font-size: 14;
   --toc-level3-plus-font-weight: normal;
   --toc-level3-plus-font-style: normal;
   --toc-level3-plus-text-transform: none;
   --toc-level3-plus-text-decoration: none;
-  --toc-border-width: 1px;
+  --toc-border-width: 1;
   --toc-border-style: solid;
   --toc-border-shadow: none;
   --toc-border-shadow-hover: none;
-  --toc-wrapper-padding: 20px;
-  --toc-item-spacing: 8px;
-  --toc-level-indent: 20px;
-  --toc-position-top: 100px;
+  --toc-wrapper-padding: 20;
+  --toc-item-spacing: 8;
+  --toc-level-indent: 20;
+  --toc-position-top: 100;
   --toc-z-index: 100;
-  --toc-collapse-icon-size: 20px;
+  --toc-collapse-icon-size: 20;
 }

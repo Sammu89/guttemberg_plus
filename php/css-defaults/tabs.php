@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-26T23:50:02.899Z
+ * Generated at: 2025-11-26T23:55:36.973Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -22,10 +22,10 @@ return array(
   'showIcon' => 'true',
   'iconPosition' => 'right',
   'iconColor' => '#666666',
-  'iconSize' => '16px',
+  'iconSize' => '16',
   'iconTypeClosed' => '▾',
   'iconTypeOpen' => 'none',
-  'iconRotation' => '180deg',
+  'iconRotation' => '180',
   'tabButtonColor' => '#666666',
   'tabButtonBackgroundColor' => 'transparent',
   'tabButtonHoverColor' => '#333333',

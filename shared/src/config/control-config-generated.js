@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-11-26T23:50:02.906Z
+ * Generated at: 2025-11-26T23:55:36.979Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -101,7 +101,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Title Font Size',
       description: 'Font size for the title in pixels',
-      default: '18px',
+      default: 18,
     },
     'titleFontWeight': {
       control: 'SelectControl',
@@ -253,7 +253,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Content Font Size',
       description: 'Font size for content in pixels',
-      default: '16px',
+      default: 16,
     },
     'contentFontWeight': {
       control: 'SelectControl',
@@ -391,7 +391,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Border Width',
       description: 'Thickness of the accordion wrapper border in pixels',
-      default: '1px',
+      default: 1,
     },
     'borderStyle': {
       control: 'SelectControl',
@@ -446,7 +446,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Divider Width',
       description: 'Thickness of divider between title and content',
-      default: '0px',
+      default: 0,
     },
     'dividerStyle': {
       control: 'SelectControl',
@@ -495,7 +495,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Margin Bottom',
       description: 'Space between accordion blocks',
-      default: '8px',
+      default: 8,
     },
     'itemSpacing': {
       control: 'RangeControl',
@@ -530,7 +530,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Icon Size',
       description: 'Size of the icon in pixels',
-      default: '20px',
+      default: 20,
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -551,7 +551,7 @@ const CONTROL_CONFIGS = {
       unit: 'deg',
       label: 'Icon Rotation',
       description: 'Rotation angle when open (degrees)',
-      default: '180deg',
+      default: 180,
     },
   },
   'tabs': {
@@ -630,7 +630,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Icon Size',
       description: 'Size of the icon in pixels',
-      default: '16px',
+      default: 16,
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -651,7 +651,7 @@ const CONTROL_CONFIGS = {
       unit: 'deg',
       label: 'Icon Rotation',
       description: 'Rotation angle when open (degrees)',
-      default: '180deg',
+      default: 180,
     },
     'tabButtonColor': {
       control: 'ColorPicker',
@@ -1113,7 +1113,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Title Font Size',
       description: 'Font size for the TOC title in pixels',
-      default: '20px',
+      default: 20,
     },
     'titleFontWeight': {
       control: 'SelectControl',
@@ -1208,7 +1208,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Level 1 Font Size',
       description: 'Font size for level 1 items (H2) in pixels',
-      default: '18px',
+      default: 18,
     },
     'level1FontWeight': {
       control: 'SelectControl',
@@ -1337,7 +1337,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Level 2 Font Size',
       description: 'Font size for level 2 items (H3) in pixels',
-      default: '16px',
+      default: 16,
     },
     'level2FontWeight': {
       control: 'SelectControl',
@@ -1466,7 +1466,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Level 3+ Font Size',
       description: 'Font size for level 3+ items (H4-H6) in pixels',
-      default: '14px',
+      default: 14,
     },
     'level3PlusFontWeight': {
       control: 'SelectControl',
@@ -1595,7 +1595,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Border Width',
       description: 'Width of the wrapper border in pixels',
-      default: '1px',
+      default: 1,
     },
     'blockBorderStyle': {
       control: 'SelectControl',
@@ -1665,7 +1665,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Wrapper Padding',
       description: 'Padding inside the TOC wrapper',
-      default: '20px',
+      default: 20,
     },
     'listPaddingLeft': {
       control: 'RangeControl',
@@ -1682,7 +1682,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Item Spacing',
       description: 'Vertical space between TOC items',
-      default: '8px',
+      default: 8,
     },
     'levelIndent': {
       control: 'RangeControl',
@@ -1691,7 +1691,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Level Indent',
       description: 'Indentation per heading level',
-      default: '20px',
+      default: 20,
     },
     'positionTop': {
       control: 'RangeControl',
@@ -1700,7 +1700,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Position Top',
       description: 'Top offset for sticky/fixed positioning',
-      default: '100px',
+      default: 100,
     },
     'zIndex': {
       control: 'RangeControl',
@@ -1717,7 +1717,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Collapse Icon Size',
       description: 'Size of the collapse/expand icon',
-      default: '20px',
+      default: 20,
     },
   },
 };

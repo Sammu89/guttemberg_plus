@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-11-26T23:50:02.896Z
+> Generated at: 2025-11-26T23:55:36.970Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -43,7 +43,7 @@ Font settings for title and content
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `headingLevel` | string | `none` | No (behavioral) | Semantic HTML heading level (none, h1-h6) |
-| `titleFontSize` | number | `18px` | Yes | Font size for the title in pixels |
+| `titleFontSize` | number | `18` | Yes | Font size for the title in pixels |
 | `titleFontWeight` | string | `600` | Yes | Font weight for the title |
 | `titleFontFamily` | string | _null_ | Yes | Font family for the title |
 | `titleLineHeight` | number | _null_ | Yes | Line height for the title |
@@ -51,7 +51,7 @@ Font settings for title and content
 | `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
 | `titleTextDecoration` | string | `none` | Yes | Text decoration for the title |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the title |
-| `contentFontSize` | number | `16px` | Yes | Font size for content in pixels |
+| `contentFontSize` | number | `16` | Yes | Font size for content in pixels |
 | `contentFontWeight` | string | _null_ | Yes | Font weight for content |
 | `contentFontFamily` | string | _null_ | Yes | Font family for content |
 | `contentLineHeight` | number | `1.6` | Yes | Line height for content |
@@ -86,7 +86,7 @@ Main accordion wrapper borders and radius
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `borderColor` | string | `#dddddd` | Yes | Color of the accordion wrapper border |
-| `borderWidth` | number | `1px` | Yes | Thickness of the accordion wrapper border in pixels |
+| `borderWidth` | number | `1` | Yes | Thickness of the accordion wrapper border in pixels |
 | `borderStyle` | string | `solid` | Yes | Style of the accordion wrapper border |
 | `borderRadius` | object | _object_ | Yes | Corner radius of the accordion wrapper |
 | `shadow` | string | `none` | Yes | CSS box-shadow for the accordion wrapper |
@@ -99,7 +99,7 @@ Divider line between header and content
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `dividerColor` | string | `#dddddd` | Yes | Color of divider between title and content |
-| `dividerWidth` | number | `0px` | Yes | Thickness of divider between title and content |
+| `dividerWidth` | number | `0` | Yes | Thickness of divider between title and content |
 | `dividerStyle` | string | `solid` | Yes | Style of divider between title and content |
 
 ## Icon
@@ -111,10 +111,10 @@ Icon appearance and behavior
 | `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
 | `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
 | `iconPosition` | string | `right` | Yes | Position of icon relative to title |
-| `iconSize` | number | `20px` | Yes | Size of the icon in pixels |
+| `iconSize` | number | `20` | Yes | Size of the icon in pixels |
 | `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed |
 | `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
-| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
+| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
 ## Layout
 
@@ -124,7 +124,7 @@ Spacing, padding, and sizing
 |-----------|------|---------|-----------|-------------|
 | `titlePadding` | object | _object_ | Yes | Padding inside the title area |
 | `contentPadding` | object | _object_ | Yes | Padding inside the content area |
-| `accordionMarginBottom` | number | `8px` | Yes | Space between accordion blocks |
+| `accordionMarginBottom` | number | `8` | Yes | Space between accordion blocks |
 | `itemSpacing` | number | _null_ | Yes | Spacing between items |
 
 ## CSS Variables
