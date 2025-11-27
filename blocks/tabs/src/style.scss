@@ -3,7 +3,7 @@
  *
  * Provides core styling for tabs functionality on the frontend.
  * Supports both horizontal and vertical orientations.
- * Uses CSS custom properties for theming support.
+ * Uses CSS custom properties from schema (single source of truth).
  *
  * @package
  * @since 1.0.0
@@ -14,6 +14,11 @@
 	border: var(--tabs-border-width, 0) var(--tabs-border-style, none) var(--tabs-border-color, transparent);
 	border-radius: var(--tabs-border-radius, 0);
 	box-shadow: var(--tabs-border-shadow, none);
+	transition: box-shadow 0.2s ease;
+
+	&:hover {
+		box-shadow: var(--tabs-border-shadow-hover, var(--tabs-border-shadow, none));
+	}
 }
 
 /* Tab list (navigation) */
@@ -21,18 +26,14 @@
 	display: flex;
 	gap: 0.5rem;
 	background-color: var(--tab-list-bg, #f5f5f5);
+	justify-content: var(--tab-list-align, flex-start);
 	overflow-x: auto;
 	padding: 0.5rem;
-	outline: none !important;
-
-	/* Horizontal orientation (default) - divider is bottom border, remove padding-bottom */
 	padding-bottom: 0;
+	outline: none !important;
 
 	&[role="tablist"][aria-orientation="vertical"] {
 		flex-direction: column;
-		margin-right: var(--tabs-list-margin-right, 1rem);
-
-		/* Vertical orientation - divider is right border, remove padding-right */
 		padding-right: 0;
 	}
 }
@@ -44,6 +45,10 @@
 	color: var(--tab-button-color, #666);
 	font-size: var(--tab-button-font-size, 1rem);
 	font-weight: var(--tab-button-font-weight, 500);
+	font-style: var(--tab-button-font-style, normal);
+	text-transform: var(--tab-button-text-transform, none);
+	text-decoration: var(--tab-button-text-decoration, none);
+	text-align: var(--tab-button-text-align, center);
 	border: var(--tabs-button-border-width, 1px) var(--tabs-button-border-style, solid) var(--tabs-button-border-color, transparent);
 	border-radius: var(--tabs-button-border-radius, 0);
 	box-shadow: var(--tabs-button-border-shadow, none);
@@ -59,7 +64,7 @@
 	}
 
 	&:focus {
-		outline: 2px solid var(--tabs-focus-color, #007cba);
+		outline: 2px solid #007cba;
 		outline-offset: -2px;
 		z-index: 1;
 	}
@@ -67,8 +72,9 @@
 	&.active,
 	&[aria-selected="true"] {
 		color: var(--tab-button-active-color, #007cba);
-		border-bottom-color: var(--tab-button-active-border-color, #007cba);
-		font-weight: var(--tab-button-active-font-weight, 600);
+		background-color: var(--tab-button-active-bg, transparent);
+		border-color: var(--tab-button-active-border-color, #007cba);
+		border-bottom-color: var(--tab-button-active-border-bottom-color, var(--tab-button-active-border-color, #007cba));
 	}
 
 	&:disabled {
@@ -82,6 +88,29 @@
 	}
 }
 
+/* Tab icon (rendered when showIcon is true in JS) */
+.tab-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--tab-icon-color, currentColor);
+	font-size: var(--tab-icon-size, 1em);
+	margin-right: 0.5rem;
+	transition: transform 0.2s ease;
+
+	/* Icon rotation (for open/close states, controlled via JS) */
+	&.rotated {
+		transform: rotate(var(--tab-icon-rotation, 0deg));
+	}
+
+	/* Image icon */
+	&.tab-icon-image {
+		width: var(--tab-icon-size, 1em);
+		height: var(--tab-icon-size, 1em);
+		object-fit: contain;
+	}
+}
+
 /* Tabs panels container */
 .tabs-panels {
 	position: relative;
@@ -89,12 +118,10 @@
 	outline: none !important;
 }
 
-/* Tab panel - handles height animation only, no padding */
+/* Tab panel */
 .tab-panel {
 	background-color: var(--tab-panel-bg, #fff);
 	color: var(--tab-panel-color, #333);
-	font-size: var(--tabs-panel-font-size, 1rem);
-	line-height: var(--tabs-panel-line-height, 1.6);
 	overflow: hidden;
 	outline: none !important;
 
@@ -103,11 +130,11 @@
 	}
 
 	&.active {
-		animation: fadeIn var(--transition-duration, 200ms) ease-in-out;
+		animation: fadeIn 200ms ease-in-out;
 	}
 }
 
-/* Tab panel inner wrapper - has padding */
+/* Tab panel inner wrapper */
 .tab-panel-inner {
 	padding: 1.5rem;
 }
@@ -126,7 +153,7 @@
 	}
 }
 
-/* Responsive accordion fallback - will be implemented with native tabs variables later */
+/* Responsive accordion fallback */
 .accordion-fallback {
 	display: none;
 
@@ -142,7 +169,7 @@
 .wp-block-tabs.is-vertical,
 .wp-block-tabs[data-orientation="vertical"] {
 	display: flex;
-	gap: var(--tabs-vertical-gap, 1.5rem);
+	gap: 1.5rem;
 
 	.tabs-list {
 		flex-shrink: 0;
@@ -158,18 +185,17 @@
 @media (max-width: 768px) {
 
 	.tab-button {
-		padding: var(--tab-button-padding-mobile, 0.625rem 1rem);
-		font-size: var(--tab-button-font-size-mobile, 0.95rem);
+		padding: 0.625rem 1rem;
+		font-size: 0.95rem;
 	}
 
-	.tab-panel {
-		padding: var(--tabs-panel-padding-mobile, 1rem);
-		font-size: var(--tabs-panel-font-size-mobile, 0.95rem);
+	.tab-panel-inner {
+		padding: 1rem;
 	}
 
 	.tabs-list {
-		gap: var(--tabs-list-gap-mobile, 0.25rem);
-		margin-bottom: var(--tabs-list-margin-bottom-mobile, 0.75rem);
+		gap: 0.25rem;
+		margin-bottom: 0.75rem;
 	}
 
 	/* Hide tab navigation and show accordion on mobile if responsive fallback enabled */
@@ -191,14 +217,10 @@
 
 	.tab-button,
 	.tab-panel,
+	.tab-icon,
 	.accordion-button,
 	.accordion-panel {
 		transition: none !important;
 		animation: none !important;
 	}
-}
-
-/* Animation variables */
-:root {
-	--transition-duration: 200ms;
 }
