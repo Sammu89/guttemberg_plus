@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-26T12:11:05.315Z
+ * Generated at: 2025-11-26T23:55:36.975Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -145,7 +145,7 @@ export const tocAttributes = {
   },
   titleFontSize: {
     type: 'number',
-    default: '20px',
+    default: 20,
   },
   titleFontWeight: {
     type: 'string',
@@ -161,7 +161,7 @@ export const tocAttributes = {
   },
   level1FontSize: {
     type: 'number',
-    default: '18px',
+    default: 18,
   },
   level1FontWeight: {
     type: 'string',
@@ -181,7 +181,7 @@ export const tocAttributes = {
   },
   level2FontSize: {
     type: 'number',
-    default: '16px',
+    default: 16,
   },
   level2FontWeight: {
     type: 'string',
@@ -201,7 +201,7 @@ export const tocAttributes = {
   },
   level3PlusFontSize: {
     type: 'number',
-    default: '14px',
+    default: 14,
   },
   level3PlusFontWeight: {
     type: 'string',
@@ -221,7 +221,7 @@ export const tocAttributes = {
   },
   blockBorderWidth: {
     type: 'number',
-    default: '1px',
+    default: 1,
   },
   blockBorderStyle: {
     type: 'string',
@@ -241,7 +241,7 @@ export const tocAttributes = {
   },
   wrapperPadding: {
     type: 'number',
-    default: '20px',
+    default: 20,
   },
   listPaddingLeft: {
     type: 'number',
@@ -249,15 +249,15 @@ export const tocAttributes = {
   },
   itemSpacing: {
     type: 'number',
-    default: '8px',
+    default: 8,
   },
   levelIndent: {
     type: 'number',
-    default: '20px',
+    default: 20,
   },
   positionTop: {
     type: 'number',
-    default: '100px',
+    default: 100,
   },
   zIndex: {
     type: 'number',
@@ -265,7 +265,7 @@ export const tocAttributes = {
   },
   collapseIconSize: {
     type: 'number',
-    default: '20px',
+    default: 20,
   },
 };
 

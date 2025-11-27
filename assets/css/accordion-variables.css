@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-26T12:11:05.309Z
+ * Generated at: 2025-11-26T23:55:36.969Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -19,21 +19,21 @@
   --accordion-border-color: #dddddd;
   --accordion-divider-color: #dddddd;
   --accordion-icon-color: #666666;
-  --accordion-title-font-size: 18px;
+  --accordion-title-font-size: 18;
   --accordion-title-font-weight: 600;
   --accordion-title-font-style: normal;
   --accordion-title-text-transform: none;
   --accordion-title-text-decoration: none;
   --accordion-title-alignment: left;
-  --accordion-content-font-size: 16px;
+  --accordion-content-font-size: 16;
   --accordion-content-line-height: 1.6;
-  --accordion-border-width: 1px;
+  --accordion-border-width: 1;
   --accordion-border-style: solid;
   --accordion-border-shadow: none;
   --accordion-border-shadow-hover: none;
-  --accordion-divider-width: 0px;
+  --accordion-divider-width: 0;
   --accordion-divider-style: solid;
-  --accordion-margin-bottom: 8px;
-  --accordion-icon-size: 20px;
-  --accordion-icon-rotation: 180deg;
+  --accordion-margin-bottom: 8;
+  --accordion-icon-size: 20;
+  --accordion-icon-rotation: 180;
 }

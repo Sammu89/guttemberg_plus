@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-26T12:11:05.313Z
+> Generated at: 2025-11-26T23:55:36.974Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -42,10 +42,10 @@ Icon appearance and styling
 | `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
 | `iconPosition` | string | `right` | Yes | Position of icon relative to text |
 | `iconColor` | string | `#666666` | Yes | Color of the tab icon |
-| `iconSize` | number | `16px` | Yes | Size of the icon in pixels |
+| `iconSize` | number | `16` | Yes | Size of the icon in pixels |
 | `iconTypeClosed` | string | `▾` | Yes | Icon when tab is closed (char or image URL) |
 | `iconTypeOpen` | string | `none` | Yes | Icon when tab is open (none = use closed icon with rotation) |
-| `iconRotation` | number | `180deg` | Yes | Rotation angle when open (degrees) |
+| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
 ## Title Colors
 

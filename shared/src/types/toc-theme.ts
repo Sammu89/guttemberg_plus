@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-11-26T12:11:05.314Z
+ * Generated at: 2025-11-26T23:55:36.974Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -124,25 +124,25 @@ export const tocDefaultTheme: TocTheme = {
   level2Color: '#0073aa',
   level3PlusColor: '#0073aa',
   collapseIconColor: '#666666',
-  titleFontSize: 20px,
+  titleFontSize: 20,
   titleFontWeight: '700',
   titleAlignment: 'left',
-  level1FontSize: 18px,
+  level1FontSize: 18,
   level1FontWeight: '600',
   level1FontStyle: 'normal',
   level1TextTransform: 'none',
   level1TextDecoration: 'none',
-  level2FontSize: 16px,
+  level2FontSize: 16,
   level2FontWeight: 'normal',
   level2FontStyle: 'normal',
   level2TextTransform: 'none',
   level2TextDecoration: 'none',
-  level3PlusFontSize: 14px,
+  level3PlusFontSize: 14,
   level3PlusFontWeight: 'normal',
   level3PlusFontStyle: 'normal',
   level3PlusTextTransform: 'none',
   level3PlusTextDecoration: 'none',
-  blockBorderWidth: 1px,
+  blockBorderWidth: 1,
   blockBorderStyle: 'solid',
   blockBorderRadius: {
     "topLeft": 4,
@@ -152,12 +152,12 @@ export const tocDefaultTheme: TocTheme = {
   },
   blockShadow: 'none',
   blockShadowHover: 'none',
-  wrapperPadding: 20px,
-  itemSpacing: 8px,
-  levelIndent: 20px,
-  positionTop: 100px,
+  wrapperPadding: 20,
+  itemSpacing: 8,
+  levelIndent: 20,
+  positionTop: 100,
   zIndex: 100,
-  collapseIconSize: 20px,
+  collapseIconSize: 20,
 };
 
 /**
