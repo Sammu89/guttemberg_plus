@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-27T08:39:18.651Z
+ * Generated at: 2025-11-28T01:18:21.673Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -143,6 +143,26 @@ export const tabsAttributes = {
     type: 'string',
     default: 'none',
   },
+  enableFocusBorder: {
+    type: 'boolean',
+    default: true,
+  },
+  focusBorderColor: {
+    type: 'string',
+    default: '#0073aa',
+  },
+  focusBorderColorActive: {
+    type: 'string',
+    default: '#0073aa',
+  },
+  focusBorderWidth: {
+    type: 'number',
+    default: 2,
+  },
+  focusBorderStyle: {
+    type: 'string',
+    default: 'solid',
+  },
   tabButtonFontSize: {
     type: 'number',
     default: 16,
@@ -175,37 +195,41 @@ export const tabsAttributes = {
     type: 'string',
     default: 'left',
   },
-  panelColor: {
-    type: 'string',
-    default: '#333333',
-  },
   panelBackgroundColor: {
     type: 'string',
     default: '#ffffff',
   },
-  dividerColor: {
+  panelColor: {
     type: 'string',
-    default: null,
+    default: '#333333',
   },
-  dividerWidth: {
+  panelBorderColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  panelBorderWidth: {
     type: 'number',
-    default: null,
+    default: 1,
   },
-  dividerStyle: {
+  panelBorderStyle: {
     type: 'string',
-    default: null,
+    default: 'solid',
+  },
+  panelBorderRadius: {
+    type: 'object',
+    default: {"topLeft":0,"topRight":0,"bottomRight":0,"bottomLeft":0},
   },
   borderColor: {
     type: 'string',
-    default: null,
+    default: 'transparent',
   },
   borderWidth: {
     type: 'number',
-    default: null,
+    default: 0,
   },
   borderStyle: {
     type: 'string',
-    default: null,
+    default: 'none',
   },
   borderRadius: {
     type: 'object',
@@ -218,6 +242,22 @@ export const tabsAttributes = {
   shadowHover: {
     type: 'string',
     default: 'none',
+  },
+  enableDividerBorder: {
+    type: 'boolean',
+    default: true,
+  },
+  dividerBorderColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  dividerBorderWidth: {
+    type: 'number',
+    default: 1,
+  },
+  dividerBorderStyle: {
+    type: 'string',
+    default: 'solid',
   },
 };
 

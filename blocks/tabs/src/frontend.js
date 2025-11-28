@@ -76,6 +76,11 @@ function generateTabButtons( block, tabList, tabPanels ) {
 	// Get current tab from data attribute (defaults to first tab)
 	const currentTab = parseInt( tabList.getAttribute( 'data-current-tab' ) || '0', 10 );
 
+	// Get icon settings from parent block
+	const showIcon = block.getAttribute( 'data-show-icon' ) === 'true';
+	const iconClosed = block.getAttribute( 'data-icon-closed' ) || '▾';
+	const iconOpen = block.getAttribute( 'data-icon-open' ) || 'none';
+
 	// Generate a button for each panel
 	tabPanels.forEach( ( panel, index ) => {
 		if ( ! panel ) {
@@ -96,7 +101,24 @@ function generateTabButtons( block, tabList, tabPanels ) {
 		button.setAttribute( 'aria-controls', `panel-${ tabId }` );
 		button.setAttribute( 'aria-selected', isSelected ? 'true' : 'false' );
 		button.setAttribute( 'tabindex', isSelected ? '0' : '-1' );
-		button.textContent = tabTitle;
+
+		// Build button content with optional icon
+		if ( showIcon ) {
+			const titleSpan = document.createElement( 'span' );
+			titleSpan.textContent = tabTitle;
+
+			const iconSpan = document.createElement( 'span' );
+			iconSpan.className = 'tab-icon';
+			iconSpan.setAttribute( 'aria-hidden', 'true' );
+			iconSpan.setAttribute( 'data-icon-closed', iconClosed );
+			iconSpan.setAttribute( 'data-icon-open', iconOpen !== 'none' ? iconOpen : iconClosed );
+			iconSpan.textContent = iconClosed;
+
+			button.appendChild( iconSpan );
+			button.appendChild( titleSpan );
+		} else {
+			button.textContent = tabTitle;
+		}
 
 		if ( isDisabled ) {
 			button.disabled = true;
@@ -248,6 +270,8 @@ function activateTab( block, index ) {
 			button.setAttribute( 'aria-selected', 'false' );
 			button.setAttribute( 'tabindex', '-1' );
 			button.classList.remove( 'active' );
+			// Update icon rotation
+			updateTabIcon( button, false );
 		}
 
 		if ( tabPanels[ i ] ) {
@@ -260,6 +284,8 @@ function activateTab( block, index ) {
 	tabButtons[ index ].setAttribute( 'aria-selected', 'true' );
 	tabButtons[ index ].setAttribute( 'tabindex', '0' );
 	tabButtons[ index ].classList.add( 'active' );
+	// Update icon rotation for active tab
+	updateTabIcon( tabButtons[ index ], true );
 
 	if ( tabPanels[ index ] ) {
 		tabPanels[ index ].removeAttribute( 'hidden' );
@@ -272,6 +298,53 @@ function activateTab( block, index ) {
 		} catch ( error ) {
 			console.error( 'Failed to animate panel:', error );
 		}
+	}
+}
+
+/**
+ * Update tab icon based on active state
+ * Handles both icon content changes and rotation
+ *
+ * @param {HTMLElement} button Tab button element
+ * @param {boolean}     isActive Whether tab is active
+ */
+function updateTabIcon( button, isActive ) {
+	const icon = button.querySelector( '.tab-icon' );
+
+	if ( ! icon ) {
+		return;
+	}
+
+	const iconClosed = icon.getAttribute( 'data-icon-closed' ) || '▾';
+	const iconOpen = icon.getAttribute( 'data-icon-open' ) || 'none';
+
+	// Get animation duration from CSS variable
+	const duration = parseInt(
+		getComputedStyle( icon ).getPropertyValue( '--tab-icon-animation-duration' ) || '300'
+	);
+
+	// Check if icon needs to change (not just rotate)
+	const isImage = icon.classList.contains( 'tab-icon-image' );
+	const newIcon = isActive ? iconOpen : iconClosed;
+	const currentIcon = isImage ? icon.src : icon.textContent;
+	const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
+
+	// Change icon content if needed
+	if ( iconIsChanging ) {
+		if ( isImage ) {
+			// For image icons, update src
+			icon.src = newIcon;
+		} else {
+			// For text/emoji icons, update text content
+			icon.textContent = newIcon;
+		}
+	}
+
+	// Toggle rotation class for CSS animation
+	if ( isActive ) {
+		icon.classList.add( 'is-rotated' );
+	} else {
+		icon.classList.remove( 'is-rotated' );
 	}
 }
 

@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-11-27T08:39:18.657Z
+ * Generated at: 2025-11-28T01:18:21.692Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -80,6 +80,10 @@ $mappings = array(
       'buttonBorderRadius' => array( 'cssVar' => 'tabs-button-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'buttonShadow' => array( 'cssVar' => 'tabs-button-border-shadow', 'unit' => null, 'type' => 'string' ),
       'buttonShadowHover' => array( 'cssVar' => 'tabs-button-border-shadow-hover', 'unit' => null, 'type' => 'string' ),
+      'focusBorderColor' => array( 'cssVar' => 'tabs-focus-border-color', 'unit' => null, 'type' => 'string' ),
+      'focusBorderColorActive' => array( 'cssVar' => 'tabs-focus-border-color-active', 'unit' => null, 'type' => 'string' ),
+      'focusBorderWidth' => array( 'cssVar' => 'tabs-focus-border-width', 'unit' => 'px', 'type' => 'number' ),
+      'focusBorderStyle' => array( 'cssVar' => 'tabs-focus-border-style', 'unit' => null, 'type' => 'string' ),
       'tabButtonFontSize' => array( 'cssVar' => 'tab-button-font-size', 'unit' => 'px', 'type' => 'number' ),
       'tabButtonFontWeight' => array( 'cssVar' => 'tab-button-font-weight', 'unit' => null, 'type' => 'string' ),
       'tabButtonFontStyle' => array( 'cssVar' => 'tab-button-font-style', 'unit' => null, 'type' => 'string' ),
@@ -88,17 +92,21 @@ $mappings = array(
       'tabButtonTextAlign' => array( 'cssVar' => 'tab-button-text-align', 'unit' => null, 'type' => 'string' ),
       'tabListBackgroundColor' => array( 'cssVar' => 'tab-list-bg', 'unit' => null, 'type' => 'string' ),
       'tabListAlignment' => array( 'cssVar' => 'tab-list-align', 'unit' => null, 'type' => 'string' ),
-      'panelColor' => array( 'cssVar' => 'tab-panel-color', 'unit' => null, 'type' => 'string' ),
       'panelBackgroundColor' => array( 'cssVar' => 'tab-panel-bg', 'unit' => null, 'type' => 'string' ),
-      'dividerColor' => array( 'cssVar' => 'tabs-divider-color', 'unit' => null, 'type' => 'string' ),
-      'dividerWidth' => array( 'cssVar' => 'tabs-divider-width', 'unit' => 'px', 'type' => 'number' ),
-      'dividerStyle' => array( 'cssVar' => 'tabs-divider-style', 'unit' => null, 'type' => 'string' ),
+      'panelColor' => array( 'cssVar' => 'tab-panel-color', 'unit' => null, 'type' => 'string' ),
+      'panelBorderColor' => array( 'cssVar' => 'tabs-panel-border-color', 'unit' => null, 'type' => 'string' ),
+      'panelBorderWidth' => array( 'cssVar' => 'tabs-panel-border-width', 'unit' => 'px', 'type' => 'number' ),
+      'panelBorderStyle' => array( 'cssVar' => 'tabs-panel-border-style', 'unit' => null, 'type' => 'string' ),
+      'panelBorderRadius' => array( 'cssVar' => 'tabs-panel-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'borderColor' => array( 'cssVar' => 'tabs-border-color', 'unit' => null, 'type' => 'string' ),
       'borderWidth' => array( 'cssVar' => 'tabs-border-width', 'unit' => 'px', 'type' => 'number' ),
       'borderStyle' => array( 'cssVar' => 'tabs-border-style', 'unit' => null, 'type' => 'string' ),
       'borderRadius' => array( 'cssVar' => 'tabs-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'shadow' => array( 'cssVar' => 'tabs-border-shadow', 'unit' => null, 'type' => 'string' ),
       'shadowHover' => array( 'cssVar' => 'tabs-border-shadow-hover', 'unit' => null, 'type' => 'string' ),
+      'dividerBorderColor' => array( 'cssVar' => 'tabs-divider-border-color', 'unit' => null, 'type' => 'string' ),
+      'dividerBorderWidth' => array( 'cssVar' => 'tabs-divider-border-width', 'unit' => 'px', 'type' => 'number' ),
+      'dividerBorderStyle' => array( 'cssVar' => 'tabs-divider-border-style', 'unit' => null, 'type' => 'string' ),
     ),
     'toc' => array(
       'wrapperBackgroundColor' => array( 'cssVar' => 'toc-wrapper-background-color', 'unit' => null, 'type' => 'string' ),

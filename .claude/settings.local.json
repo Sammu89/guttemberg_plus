@@ -78,7 +78,9 @@
       "Bash(shared/src/config/toc-exclusions.js)",
       "Bash(del:*)",
       "Bash(python -m json.tool:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(for attr in titleFontFamily titleLineHeight contentFontWeight contentFontFamily contentFontStyle contentTextTransform contentTextDecoration itemSpacing)",
+      "Bash(do echo \"=== $attr ===\")"
     ],
     "deny": [],
     "ask": []

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-27T08:39:18.651Z
+ * Generated at: 2025-11-28T01:18:21.672Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -39,6 +39,11 @@ export const tabsThemeSchema = z.object({
   buttonBorderRadius: z.record(z.any()),
   buttonShadow: z.string(),
   buttonShadowHover: z.string(),
+  enableFocusBorder: z.boolean(),
+  focusBorderColor: z.string(),
+  focusBorderColorActive: z.string(),
+  focusBorderWidth: z.number(),
+  focusBorderStyle: z.string(),
   tabButtonFontSize: z.number(),
   tabButtonFontWeight: z.string(),
   tabButtonFontStyle: z.string(),
@@ -47,17 +52,22 @@ export const tabsThemeSchema = z.object({
   tabButtonTextAlign: z.string(),
   tabListBackgroundColor: z.string(),
   tabListAlignment: z.string(),
-  panelColor: z.string(),
   panelBackgroundColor: z.string(),
-  dividerColor: z.string().optional(),
-  dividerWidth: z.number().optional(),
-  dividerStyle: z.string().optional(),
-  borderColor: z.string().optional(),
-  borderWidth: z.number().optional(),
-  borderStyle: z.string().optional(),
+  panelColor: z.string(),
+  panelBorderColor: z.string(),
+  panelBorderWidth: z.number(),
+  panelBorderStyle: z.string(),
+  panelBorderRadius: z.record(z.any()),
+  borderColor: z.string(),
+  borderWidth: z.number(),
+  borderStyle: z.string(),
   borderRadius: z.record(z.any()),
   shadow: z.string(),
   shadowHover: z.string(),
+  enableDividerBorder: z.boolean(),
+  dividerBorderColor: z.string(),
+  dividerBorderWidth: z.number(),
+  dividerBorderStyle: z.string(),
 });
 
 /**
@@ -95,6 +105,11 @@ export const tabsAttributesSchema = z.object({
   buttonBorderRadius: z.record(z.any()),
   buttonShadow: z.string(),
   buttonShadowHover: z.string(),
+  enableFocusBorder: z.boolean(),
+  focusBorderColor: z.string(),
+  focusBorderColorActive: z.string(),
+  focusBorderWidth: z.number(),
+  focusBorderStyle: z.string(),
   tabButtonFontSize: z.number(),
   tabButtonFontWeight: z.string(),
   tabButtonFontStyle: z.string(),
@@ -103,17 +118,22 @@ export const tabsAttributesSchema = z.object({
   tabButtonTextAlign: z.string(),
   tabListBackgroundColor: z.string(),
   tabListAlignment: z.string(),
-  panelColor: z.string(),
   panelBackgroundColor: z.string(),
-  dividerColor: z.string().optional(),
-  dividerWidth: z.number().optional(),
-  dividerStyle: z.string().optional(),
-  borderColor: z.string().optional(),
-  borderWidth: z.number().optional(),
-  borderStyle: z.string().optional(),
+  panelColor: z.string(),
+  panelBorderColor: z.string(),
+  panelBorderWidth: z.number(),
+  panelBorderStyle: z.string(),
+  panelBorderRadius: z.record(z.any()),
+  borderColor: z.string(),
+  borderWidth: z.number(),
+  borderStyle: z.string(),
   borderRadius: z.record(z.any()),
   shadow: z.string(),
   shadowHover: z.string(),
+  enableDividerBorder: z.boolean(),
+  dividerBorderColor: z.string(),
+  dividerBorderWidth: z.number(),
+  dividerBorderStyle: z.string(),
 });
 
 // Type inference exports
