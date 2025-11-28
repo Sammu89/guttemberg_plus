@@ -40,13 +40,53 @@ export default function Save( { attributes } ) {
 	 * CSS defaults (Tier 1) are in the stylesheet
 	 *
 	 * Uses auto-generated mappings from schema (single source of truth)
+	 * Respects feature toggles for optional border settings
 	 */
 	const getCustomizationStyles = () => {
 		const styles = {};
 
+		// Define which attributes are controlled by feature toggles
+		const toggledAttributes = {
+			// Focus border settings are controlled by enableFocusBorder
+			focusBorderColor: 'enableFocusBorder',
+			focusBorderColorActive: 'enableFocusBorder',
+			focusBorderWidth: 'enableFocusBorder',
+			focusBorderStyle: 'enableFocusBorder',
+			// Divider border settings are controlled by enableDividerBorder
+			dividerBorderColor: 'enableDividerBorder',
+			dividerBorderWidth: 'enableDividerBorder',
+			dividerBorderStyle: 'enableDividerBorder',
+		};
+
+		// Reset CSS variables for disabled toggles to prevent unwanted inheritance
+		if ( attributes.enableFocusBorder === false ) {
+			styles['--tabs-focus-border-color'] = 'transparent';
+			styles['--tabs-focus-border-color-active'] = 'transparent';
+			styles['--tabs-focus-border-width'] = '0';
+			styles['--tabs-focus-border-style'] = 'none';
+		}
+
+		if ( attributes.enableDividerBorder === false ) {
+			styles['--tabs-divider-border-color'] = 'transparent';
+			styles['--tabs-divider-border-width'] = '0';
+			styles['--tabs-divider-border-style'] = 'none';
+		}
+
 		// Process each attribute using schema-generated mappings
 		Object.entries( attributes ).forEach( ( [ attrName, value ] ) => {
 			if ( value === null || value === undefined ) {
+				return;
+			}
+
+			// Skip toggle attributes themselves
+			if ( attrName === 'enableFocusBorder' || attrName === 'enableDividerBorder' ) {
+				return;
+			}
+
+			// Check if this attribute is controlled by a toggle and if that toggle is disabled
+			const controllingToggle = toggledAttributes[ attrName ];
+			if ( controllingToggle && ! attributes[ controllingToggle ] ) {
+				// Toggle is disabled, skip this attribute's CSS variable
 				return;
 			}
 
@@ -124,6 +164,9 @@ export default function Save( { attributes } ) {
 		'data-activation-mode': attributes.activationMode || 'auto',
 		'data-breakpoint': attributes.responsiveBreakpoint || 768,
 		'data-responsive-fallback': attributes.enableResponsiveFallback || true,
+		'data-show-icon': attributes.showIcon || false,
+		'data-icon-closed': effectiveValues.iconTypeClosed || '▾',
+		'data-icon-open': effectiveValues.iconTypeOpen || 'none',
 		// Only add inline styles if there are customizations
 		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
 	} );

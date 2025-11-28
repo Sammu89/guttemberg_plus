@@ -34,6 +34,7 @@ import {
 	CustomizationWarning,
 	debug,
 } from '@shared';
+import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
 import tabsSchema from '../../../schemas/tabs.json';
 import './editor.scss';
 
@@ -606,8 +607,80 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		);
 	};
 
+	/**
+	 * Build inline CSS variables for explicit customizations (Tier 3)
+	 * These override both default CSS variables (Tier 1) and theme values (Tier 2)
+	 * Respects feature toggles for optional border settings
+	 */
+	const getCustomizationStyles = () => {
+		const styles = {};
+
+		// Define which attributes are controlled by feature toggles
+		const toggledAttributes = {
+			// Focus border settings are controlled by enableFocusBorder
+			focusBorderColor: 'enableFocusBorder',
+			focusBorderColorActive: 'enableFocusBorder',
+			focusBorderWidth: 'enableFocusBorder',
+			focusBorderStyle: 'enableFocusBorder',
+			// Divider border settings are controlled by enableDividerBorder
+			dividerBorderColor: 'enableDividerBorder',
+			dividerBorderWidth: 'enableDividerBorder',
+			dividerBorderStyle: 'enableDividerBorder',
+		};
+
+		// Reset CSS variables for disabled toggles to prevent unwanted inheritance
+		if ( attributes.enableFocusBorder === false ) {
+			styles['--tabs-focus-border-color'] = 'transparent';
+			styles['--tabs-focus-border-color-active'] = 'transparent';
+			styles['--tabs-focus-border-width'] = '0';
+			styles['--tabs-focus-border-style'] = 'none';
+		}
+
+		if ( attributes.enableDividerBorder === false ) {
+			styles['--tabs-divider-border-color'] = 'transparent';
+			styles['--tabs-divider-border-width'] = '0';
+			styles['--tabs-divider-border-style'] = 'none';
+		}
+
+		// Process each attribute using schema-generated mappings
+		Object.entries( attributes ).forEach( ( [ attrName, value ] ) => {
+			if ( value === null || value === undefined ) {
+				return;
+			}
+
+			// Skip toggle attributes themselves
+			if ( attrName === 'enableFocusBorder' || attrName === 'enableDividerBorder' ) {
+				return;
+			}
+
+			// Check if this attribute is controlled by a toggle and if that toggle is disabled
+			const controllingToggle = toggledAttributes[ attrName ];
+			if ( controllingToggle && ! attributes[ controllingToggle ] ) {
+				// Toggle is disabled, skip this attribute's CSS variable
+				return;
+			}
+
+			// Get CSS variable name from generated mappings
+			const cssVar = getCssVarName( attrName, 'tabs' );
+			if ( ! cssVar ) {
+				return; // Attribute not mapped to a CSS variable
+			}
+
+			// Format value with proper unit from generated mappings
+			const formattedValue = formatCssValue( attrName, value, 'tabs' );
+			if ( formattedValue !== null ) {
+				styles[ cssVar ] = formattedValue;
+			}
+		} );
+
+		return styles;
+	};
+
+	const customizationStyles = getCustomizationStyles();
+
 	const blockProps = useBlockProps( {
 		className: 'wp-block-tabs sammu-blocks',
+		style: customizationStyles,
 	} );
 
 	return (

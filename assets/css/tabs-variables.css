@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-27T08:39:18.652Z
+ * Generated at: 2025-11-28T01:18:21.677Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -24,6 +24,10 @@
   --tab-button-active-border-bottom-color: transparent;
   --tabs-button-border-shadow: none;
   --tabs-button-border-shadow-hover: none;
+  --tabs-focus-border-color: #0073aa;
+  --tabs-focus-border-color-active: #0073aa;
+  --tabs-focus-border-width: 2;
+  --tabs-focus-border-style: solid;
   --tab-button-font-size: 16;
   --tab-button-font-weight: 500;
   --tab-button-font-style: normal;
@@ -32,8 +36,17 @@
   --tab-button-text-align: center;
   --tab-list-bg: #f5f5f5;
   --tab-list-align: left;
-  --tab-panel-color: #333333;
   --tab-panel-bg: #ffffff;
+  --tab-panel-color: #333333;
+  --tabs-panel-border-color: #dddddd;
+  --tabs-panel-border-width: 1;
+  --tabs-panel-border-style: solid;
+  --tabs-border-color: transparent;
+  --tabs-border-width: 0;
+  --tabs-border-style: none;
   --tabs-border-shadow: none;
   --tabs-border-shadow-hover: none;
+  --tabs-divider-border-color: #dddddd;
+  --tabs-divider-border-width: 1;
+  --tabs-divider-border-style: solid;
 }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-27T08:39:18.650Z
+ * Generated at: 2025-11-28T01:18:21.670Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -59,6 +59,16 @@ export interface TabsTheme {
   buttonShadow?: string;
   /** Box shadow for tab buttons on hover */
   buttonShadowHover?: string;
+  /** Enable or disable focus border settings for tab buttons */
+  enableFocusBorder?: boolean;
+  /** Border color for inactive button edge adjacent to content */
+  focusBorderColor?: string;
+  /** Border color for active button edge adjacent to content */
+  focusBorderColorActive?: string;
+  /** Width of button edge adjacent to content */
+  focusBorderWidth?: number;
+  /** Style of button edge adjacent to content */
+  focusBorderStyle?: string;
   /** Font size for tab buttons */
   tabButtonFontSize?: number;
   /** Font weight for tab buttons */
@@ -75,28 +85,38 @@ export interface TabsTheme {
   tabListBackgroundColor?: string;
   /** Horizontal alignment of tabs */
   tabListAlignment?: string;
-  /** Text color for tab panel content */
-  panelColor?: string;
   /** Background color for tab panels */
   panelBackgroundColor?: string;
-  /** Color of divider line between tabs and panel */
-  dividerColor?: string | undefined;
-  /** Width/thickness of divider line */
-  dividerWidth?: number | undefined;
-  /** Style of divider line between tabs and panel */
-  dividerStyle?: string | undefined;
+  /** Text color for tab panel content */
+  panelColor?: string;
+  /** Border color for tab content panel */
+  panelBorderColor?: string;
+  /** Border width for tab content panel (0-10px) */
+  panelBorderWidth?: number;
+  /** Border style for tab content panel */
+  panelBorderStyle?: string;
+  /** Corner radius for tab content panel */
+  panelBorderRadius?: Record<string, any>;
   /** Border color for main tabs wrapper */
-  borderColor?: string | undefined;
+  borderColor?: string;
   /** Border width for main wrapper */
-  borderWidth?: number | undefined;
+  borderWidth?: number;
   /** Border style for wrapper */
-  borderStyle?: string | undefined;
+  borderStyle?: string;
   /** Corner radius for main wrapper */
   borderRadius?: Record<string, any>;
   /** Box shadow for main wrapper */
   shadow?: string;
   /** Box shadow for wrapper on hover */
   shadowHover?: string;
+  /** Enable or disable divider border settings for navigation bar */
+  enableDividerBorder?: boolean;
+  /** Color of navbar border adjacent to content */
+  dividerBorderColor?: string;
+  /** Width of navbar border adjacent to content */
+  dividerBorderWidth?: number;
+  /** Style of navbar border adjacent to content */
+  dividerBorderStyle?: string;
 }
 
 /**
@@ -126,6 +146,11 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   buttonShadow: 'none',
   buttonShadowHover: 'none',
+  enableFocusBorder: true,
+  focusBorderColor: '#0073aa',
+  focusBorderColorActive: '#0073aa',
+  focusBorderWidth: 2,
+  focusBorderStyle: 'solid',
   tabButtonFontSize: 16,
   tabButtonFontWeight: '500',
   tabButtonFontStyle: 'normal',
@@ -134,8 +159,20 @@ export const tabsDefaultTheme: TabsTheme = {
   tabButtonTextAlign: 'center',
   tabListBackgroundColor: '#f5f5f5',
   tabListAlignment: 'left',
-  panelColor: '#333333',
   panelBackgroundColor: '#ffffff',
+  panelColor: '#333333',
+  panelBorderColor: '#dddddd',
+  panelBorderWidth: 1,
+  panelBorderStyle: 'solid',
+  panelBorderRadius: {
+    "topLeft": 0,
+    "topRight": 0,
+    "bottomRight": 0,
+    "bottomLeft": 0
+  },
+  borderColor: 'transparent',
+  borderWidth: 0,
+  borderStyle: 'none',
   borderRadius: {
     "topLeft": 0,
     "topRight": 0,
@@ -144,6 +181,10 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   shadow: 'none',
   shadowHover: 'none',
+  enableDividerBorder: true,
+  dividerBorderColor: '#dddddd',
+  dividerBorderWidth: 1,
+  dividerBorderStyle: 'solid',
 };
 
 /**
@@ -181,6 +222,11 @@ export interface TabsThemeAttributes {
   buttonBorderRadius?: Record<string, any>;
   buttonShadow?: string;
   buttonShadowHover?: string;
+  enableFocusBorder?: boolean;
+  focusBorderColor?: string;
+  focusBorderColorActive?: string;
+  focusBorderWidth?: number;
+  focusBorderStyle?: string;
   tabButtonFontSize?: number;
   tabButtonFontWeight?: string;
   tabButtonFontStyle?: string;
@@ -189,15 +235,20 @@ export interface TabsThemeAttributes {
   tabButtonTextAlign?: string;
   tabListBackgroundColor?: string;
   tabListAlignment?: string;
-  panelColor?: string;
   panelBackgroundColor?: string;
-  dividerColor?: string | undefined;
-  dividerWidth?: number | undefined;
-  dividerStyle?: string | undefined;
-  borderColor?: string | undefined;
-  borderWidth?: number | undefined;
-  borderStyle?: string | undefined;
+  panelColor?: string;
+  panelBorderColor?: string;
+  panelBorderWidth?: number;
+  panelBorderStyle?: string;
+  panelBorderRadius?: Record<string, any>;
+  borderColor?: string;
+  borderWidth?: number;
+  borderStyle?: string;
   borderRadius?: Record<string, any>;
   shadow?: string;
   shadowHover?: string;
+  enableDividerBorder?: boolean;
+  dividerBorderColor?: string;
+  dividerBorderWidth?: number;
+  dividerBorderStyle?: string;
 }

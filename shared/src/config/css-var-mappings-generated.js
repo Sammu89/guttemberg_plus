@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-11-27T08:39:18.657Z
+ * Generated at: 2025-11-28T01:18:21.696Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -86,6 +86,10 @@ export const CSS_VAR_MAPPINGS = {
     buttonBorderRadius: { cssVar: '--tabs-button-border-radius', unit: 'px', type: 'object' },
     buttonShadow: { cssVar: '--tabs-button-border-shadow', unit: null, type: 'string' },
     buttonShadowHover: { cssVar: '--tabs-button-border-shadow-hover', unit: null, type: 'string' },
+    focusBorderColor: { cssVar: '--tabs-focus-border-color', unit: null, type: 'string' },
+    focusBorderColorActive: { cssVar: '--tabs-focus-border-color-active', unit: null, type: 'string' },
+    focusBorderWidth: { cssVar: '--tabs-focus-border-width', unit: 'px', type: 'number' },
+    focusBorderStyle: { cssVar: '--tabs-focus-border-style', unit: null, type: 'string' },
     tabButtonFontSize: { cssVar: '--tab-button-font-size', unit: 'px', type: 'number' },
     tabButtonFontWeight: { cssVar: '--tab-button-font-weight', unit: null, type: 'string' },
     tabButtonFontStyle: { cssVar: '--tab-button-font-style', unit: null, type: 'string' },
@@ -94,17 +98,21 @@ export const CSS_VAR_MAPPINGS = {
     tabButtonTextAlign: { cssVar: '--tab-button-text-align', unit: null, type: 'string' },
     tabListBackgroundColor: { cssVar: '--tab-list-bg', unit: null, type: 'string' },
     tabListAlignment: { cssVar: '--tab-list-align', unit: null, type: 'string' },
-    panelColor: { cssVar: '--tab-panel-color', unit: null, type: 'string' },
     panelBackgroundColor: { cssVar: '--tab-panel-bg', unit: null, type: 'string' },
-    dividerColor: { cssVar: '--tabs-divider-color', unit: null, type: 'string' },
-    dividerWidth: { cssVar: '--tabs-divider-width', unit: 'px', type: 'number' },
-    dividerStyle: { cssVar: '--tabs-divider-style', unit: null, type: 'string' },
+    panelColor: { cssVar: '--tab-panel-color', unit: null, type: 'string' },
+    panelBorderColor: { cssVar: '--tabs-panel-border-color', unit: null, type: 'string' },
+    panelBorderWidth: { cssVar: '--tabs-panel-border-width', unit: 'px', type: 'number' },
+    panelBorderStyle: { cssVar: '--tabs-panel-border-style', unit: null, type: 'string' },
+    panelBorderRadius: { cssVar: '--tabs-panel-border-radius', unit: 'px', type: 'object' },
     borderColor: { cssVar: '--tabs-border-color', unit: null, type: 'string' },
     borderWidth: { cssVar: '--tabs-border-width', unit: 'px', type: 'number' },
     borderStyle: { cssVar: '--tabs-border-style', unit: null, type: 'string' },
     borderRadius: { cssVar: '--tabs-border-radius', unit: 'px', type: 'object' },
     shadow: { cssVar: '--tabs-border-shadow', unit: null, type: 'string' },
     shadowHover: { cssVar: '--tabs-border-shadow-hover', unit: null, type: 'string' },
+    dividerBorderColor: { cssVar: '--tabs-divider-border-color', unit: null, type: 'string' },
+    dividerBorderWidth: { cssVar: '--tabs-divider-border-width', unit: 'px', type: 'number' },
+    dividerBorderStyle: { cssVar: '--tabs-divider-border-style', unit: null, type: 'string' },
   },
   toc: {
     wrapperBackgroundColor: { cssVar: '--toc-wrapper-background-color', unit: null, type: 'string' },

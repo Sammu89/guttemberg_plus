@@ -8,6 +8,9 @@
  * @since 1.0.0
  */
 
+/* Import frontend styles so CSS variables are available in editor */
+@import './style.scss';
+
 /* Sammu blocks alignment for editor */
 .sammu-blocks {
 	margin-top: 1em !important;

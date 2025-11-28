@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-11-27T08:39:18.652Z
+ * Generated at: 2025-11-28T01:18:21.676Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -36,6 +36,11 @@ return array(
   'tabButtonActiveBorderBottomColor' => 'transparent',
   'buttonShadow' => 'none',
   'buttonShadowHover' => 'none',
+  'enableFocusBorder' => 'true',
+  'focusBorderColor' => '#0073aa',
+  'focusBorderColorActive' => '#0073aa',
+  'focusBorderWidth' => '2',
+  'focusBorderStyle' => 'solid',
   'tabButtonFontSize' => '16',
   'tabButtonFontWeight' => '500',
   'tabButtonFontStyle' => 'normal',
@@ -44,8 +49,18 @@ return array(
   'tabButtonTextAlign' => 'center',
   'tabListBackgroundColor' => '#f5f5f5',
   'tabListAlignment' => 'left',
-  'panelColor' => '#333333',
   'panelBackgroundColor' => '#ffffff',
+  'panelColor' => '#333333',
+  'panelBorderColor' => '#dddddd',
+  'panelBorderWidth' => '1',
+  'panelBorderStyle' => 'solid',
+  'borderColor' => 'transparent',
+  'borderWidth' => '0',
+  'borderStyle' => 'none',
   'shadow' => 'none',
   'shadowHover' => 'none',
+  'enableDividerBorder' => 'true',
+  'dividerBorderColor' => '#dddddd',
+  'dividerBorderWidth' => '1',
+  'dividerBorderStyle' => 'solid',
 );

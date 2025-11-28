@@ -6,59 +6,87 @@
   "blockType": "tabs",
   "blockName": "Tabs",
   "groups": {
-    "behavior": {
-      "title": "Behavior",
-      "description": "Non-themeable behavioral and structural settings",
+    "behaviour": {
+      "title": "Behaviour",
+      "description": "Behavioral and functional settings that control how tabs work",
       "order": 1,
       "initialOpen": true,
-      "pago": "nao"
-    },
-    "titleColors": {
-      "title": "Title Colors",
-      "description": "All title/tab button colors and tab list background",
-      "order": 999,
-      "initialOpen": false,
-      "pago": "nao"
-    },
-    "titleTypography": {
-      "title": "Title Typography",
-      "description": "All title/tab button typography and tab list alignment",
-      "order": 999,
-      "initialOpen": false,
       "pago": "nao"
     },
     "borders": {
       "title": "Borders",
       "description": "Main tabs wrapper borders and radius",
+      "order": 2,
+      "initialOpen": false,
+      "pago": "nao"
+    },
+    "buttonColors": {
+      "title": "Button Colors",
+      "description": "Tab button text and background colors for inactive state",
+      "order": 3,
+      "initialOpen": false,
+      "pago": "nao"
+    },
+    "buttonHover": {
+      "title": "Button Hover",
+      "description": "Tab button colors when hovering",
+      "order": 4,
+      "initialOpen": false,
+      "pago": "nao"
+    },
+    "buttonActive": {
+      "title": "Button Active",
+      "description": "Tab button colors for active/selected state",
       "order": 5,
       "initialOpen": false,
       "pago": "nao"
     },
     "buttonBorders": {
       "title": "Button Borders",
-      "description": "Tab button borders, radius, and shadows",
-      "order": 999,
+      "description": "Tab button full border around the button element",
+      "order": 6,
       "initialOpen": false,
       "pago": "nao"
     },
-    "dividerLine": {
-      "title": "Divider Line",
-      "description": "Divider line between tabs navigation and content",
-      "order": 6,
+    "focusBorder": {
+      "title": "Focus Border",
+      "description": "Individual button border adjacent to content (bottom for horizontal, right/left for vertical)",
+      "order": 7,
+      "initialOpen": false,
+      "pago": "nao"
+    },
+    "buttonTypography": {
+      "title": "Button Typography",
+      "description": "Tab button typography and alignment",
+      "order": 8,
+      "initialOpen": false,
+      "pago": "nao"
+    },
+    "navigationBar": {
+      "title": "Nav Bar",
+      "description": "Navigation bar background and alignment",
+      "order": 9,
+      "initialOpen": false,
+      "pago": "nao"
+    },
+    "dividerBorder": {
+      "title": "Divider Border",
+      "description": "Navigation bar border adjacent to content (bottom for horizontal, right/left for vertical)",
+      "order": 10,
+      "initialOpen": false,
+      "pago": "nao"
+    },
+    "content": {
+      "title": "Content",
+      "description": "Content panel colors, borders, and radius",
+      "order": 11,
       "initialOpen": false,
       "pago": "nao"
     },
     "icon": {
       "title": "Icon",
       "description": "Icon appearance and styling",
-      "order": 7,
-      "initialOpen": false,
-      "pago": "nao"
-    },
-    "layout": {
-      "title": "Layout",
-      "description": "Spacing, gaps, and sizing (unused in UI - for future spacing controls)",
-      "order": 8,
+      "order": 12,
       "initialOpen": false,
       "pago": "nao"
     }
@@ -67,7 +95,7 @@
     "uniqueId": {
       "type": "string",
       "default": "",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Unique ID",
       "description": "Auto-generated unique block identifier",
       "themeable": false,
@@ -78,7 +106,7 @@
     "blockId": {
       "type": "string",
       "default": "",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Block ID",
       "description": "Block-specific identification",
       "themeable": false,
@@ -89,7 +117,7 @@
     "currentTheme": {
       "type": "string",
       "default": "",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Current Theme",
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
@@ -113,7 +141,7 @@
           "isDisabled": false
         }
       ],
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Tabs",
       "description": "Array of tab items with title, content, and state",
       "themeable": false,
@@ -124,11 +152,11 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Orientation",
       "description": "Tab layout orientation",
       "themeable": false,
-      "reason": "behavioral",
+      "reason": "generalal",
       "control": "SelectControl",
       "options": [
         "horizontal",
@@ -140,11 +168,11 @@
     "activationMode": {
       "type": "string",
       "default": "auto",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Activation Mode",
       "description": "How tabs are activated (auto = focus, manual = click)",
       "themeable": false,
-      "reason": "behavioral",
+      "reason": "generalal",
       "control": "SelectControl",
       "options": [
         "auto",
@@ -156,18 +184,18 @@
     "responsiveBreakpoint": {
       "type": "number",
       "default": 768,
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Responsive Breakpoint",
       "description": "Width in pixels below which to show accordion fallback",
       "themeable": false,
-      "reason": "behavioral",
+      "reason": "generalal",
       "order": 7,
       "pago": "nao"
     },
     "headingLevel": {
       "type": "string",
       "default": "none",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Heading Level",
       "description": "Semantic HTML heading level (none, h1-h6)",
       "themeable": false,
@@ -188,7 +216,7 @@
     "title": {
       "type": "string",
       "default": "Tabs",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Title",
       "description": "Block title (for accessibility)",
       "themeable": false,
@@ -199,11 +227,11 @@
     "verticalTabButtonTextAlign": {
       "type": "string",
       "default": "left",
-      "group": "behavior",
+      "group": "behaviour",
       "label": "Vertical Tab Alignment",
       "description": "Text alignment for vertical tabs",
       "themeable": false,
-      "reason": "behavioral",
+      "reason": "generalal",
       "control": "SelectControl",
       "options": [
         "left",
@@ -309,12 +337,12 @@
       "type": "string",
       "default": "#666666",
       "cssVar": "tab-button-color",
-      "group": "titleColors",
+      "group": "buttonColors",
       "label": "Tab Button Color",
       "description": "Text color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 18,
+      "order": 1,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "color"
@@ -323,12 +351,12 @@
       "type": "string",
       "default": "transparent",
       "cssVar": "tab-button-bg",
-      "group": "titleColors",
+      "group": "buttonColors",
       "label": "Tab Button Background",
       "description": "Background color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 19,
+      "order": 2,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "background-color"
@@ -337,12 +365,12 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "tab-button-hover-color",
-      "group": "titleColors",
+      "group": "buttonHover",
       "label": "Tab Button Hover Color",
       "description": "Text color when hovering over tab",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 20,
+      "order": 1,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "color"
@@ -351,12 +379,12 @@
       "type": "string",
       "default": "#e8e8e8",
       "cssVar": "tab-button-hover-bg",
-      "group": "titleColors",
+      "group": "buttonHover",
       "label": "Tab Button Hover Background",
       "description": "Background color when hovering over tab",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 21,
+      "order": 2,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "background-color"
@@ -365,12 +393,12 @@
       "type": "string",
       "default": "#000000",
       "cssVar": "tab-button-active-color",
-      "group": "titleColors",
+      "group": "buttonActive",
       "label": "Tab Button Active Color",
       "description": "Text color for active/selected tab",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 22,
+      "order": 1,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "color"
@@ -379,12 +407,12 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "tab-button-active-bg",
-      "group": "titleColors",
+      "group": "buttonActive",
       "label": "Tab Button Active Background",
       "description": "Background color for active/selected tab",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 23,
+      "order": 2,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "background-color"
@@ -393,12 +421,12 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "tab-button-active-border-color",
-      "group": "titleColors",
+      "group": "buttonActive",
       "label": "Tab Button Active Border Color",
       "description": "Border color for the active tab",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 24,
+      "order": 3,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "color"
@@ -407,12 +435,12 @@
       "type": "string",
       "default": "transparent",
       "cssVar": "tab-button-active-border-bottom-color",
-      "group": "titleColors",
+      "group": "buttonActive",
       "label": "Tab Button Active Border Bottom",
       "description": "Bottom border color for active tab (creates connected effect)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 25,
+      "order": 4,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "color"
@@ -426,7 +454,7 @@
       "description": "Border color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 26,
+      "order": 1,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "color"
@@ -443,7 +471,7 @@
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 27,
+      "order": 2,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "border-width"
@@ -479,7 +507,7 @@
           "value": "double"
         }
       ],
-      "order": 28,
+      "order": 3,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "border-style"
@@ -499,7 +527,7 @@
       "themeable": true,
       "control": "BorderRadiusControl",
       "unit": "px",
-      "order": 29,
+      "order": 4,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "border-radius"
@@ -513,7 +541,7 @@
       "description": "Box shadow for tab buttons",
       "themeable": true,
       "control": "TextControl",
-      "order": 30,
+      "order": 5,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "box-shadow"
@@ -527,16 +555,108 @@
       "description": "Box shadow for tab buttons on hover",
       "themeable": true,
       "control": "TextControl",
-      "order": 31,
+      "order": 6,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "box-shadow"
+    },
+    "enableFocusBorder": {
+      "type": "boolean",
+      "default": true,
+      "group": "focusBorder",
+      "label": "Enable Focus Border",
+      "description": "Enable or disable focus border settings for tab buttons",
+      "themeable": true,
+      "control": "ToggleControl",
+      "order": 0,
+      "pago": "nao"
+    },
+    "focusBorderColor": {
+      "type": "string",
+      "default": "#0073aa",
+      "cssVar": "tabs-focus-border-color",
+      "group": "focusBorder",
+      "label": "Focus Border Color",
+      "description": "Border color for inactive button edge adjacent to content",
+      "themeable": true,
+      "control": "ColorPicker",
+      "order": 1,
+      "pago": "nao",
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-color"
+    },
+    "focusBorderColorActive": {
+      "type": "string",
+      "default": "#0073aa",
+      "cssVar": "tabs-focus-border-color-active",
+      "group": "focusBorder",
+      "label": "Focus Border Color Active",
+      "description": "Border color for active button edge adjacent to content",
+      "themeable": true,
+      "control": "ColorPicker",
+      "order": 2,
+      "pago": "nao",
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-color"
+    },
+    "focusBorderWidth": {
+      "type": "number",
+      "default": 2,
+      "cssVar": "tabs-focus-border-width",
+      "group": "focusBorder",
+      "label": "Focus Border Width",
+      "description": "Width of button edge adjacent to content",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0,
+      "max": 10,
+      "unit": "px",
+      "order": 3,
+      "pago": "nao",
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-width"
+    },
+    "focusBorderStyle": {
+      "type": "string",
+      "default": "solid",
+      "cssVar": "tabs-focus-border-style",
+      "group": "focusBorder",
+      "label": "Focus Border Style",
+      "description": "Style of button edge adjacent to content",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ],
+      "order": 4,
+      "pago": "nao",
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-style"
     },
     "tabButtonFontSize": {
       "type": "number",
       "default": 16,
       "cssVar": "tab-button-font-size",
-      "group": "titleTypography",
+      "group": "buttonTypography",
       "label": "Tab Button Font Size",
       "description": "Font size for tab buttons",
       "themeable": true,
@@ -544,7 +664,7 @@
       "min": 10,
       "max": 36,
       "unit": "px",
-      "order": 32,
+      "order": 1,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "font-size"
@@ -553,7 +673,7 @@
       "type": "string",
       "default": "500",
       "cssVar": "tab-button-font-weight",
-      "group": "titleTypography",
+      "group": "buttonTypography",
       "label": "Tab Button Font Weight",
       "description": "Font weight for tab buttons",
       "themeable": true,
@@ -604,7 +724,7 @@
           "value": "bold"
         }
       ],
-      "order": 33,
+      "order": 2,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "font-weight"
@@ -613,7 +733,7 @@
       "type": "string",
       "default": "normal",
       "cssVar": "tab-button-font-style",
-      "group": "titleTypography",
+      "group": "buttonTypography",
       "label": "Tab Button Font Style",
       "description": "Font style for tab buttons",
       "themeable": true,
@@ -632,7 +752,7 @@
           "value": "oblique"
         }
       ],
-      "order": 34,
+      "order": 3,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "font-style"
@@ -641,7 +761,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "tab-button-text-transform",
-      "group": "titleTypography",
+      "group": "buttonTypography",
       "label": "Tab Button Text Transform",
       "description": "Text transformation for tab buttons",
       "themeable": true,
@@ -664,7 +784,7 @@
           "value": "capitalize"
         }
       ],
-      "order": 35,
+      "order": 4,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
@@ -672,7 +792,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "tab-button-text-decoration",
-      "group": "titleTypography",
+      "group": "buttonTypography",
       "label": "Tab Button Text Decoration",
       "description": "Text decoration for tab buttons",
       "themeable": true,
@@ -695,7 +815,7 @@
           "value": "line-through"
         }
       ],
-      "order": 36,
+      "order": 5,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
@@ -703,7 +823,7 @@
       "type": "string",
       "default": "center",
       "cssVar": "tab-button-text-align",
-      "group": "titleTypography",
+      "group": "buttonTypography",
       "label": "Tab Button Text Alignment",
       "description": "Text alignment for tab buttons",
       "themeable": true,
@@ -713,7 +833,7 @@
         "center",
         "right"
       ],
-      "order": 37,
+      "order": 6,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs"
     },
@@ -721,12 +841,12 @@
       "type": "string",
       "default": "#f5f5f5",
       "cssVar": "tab-list-bg",
-      "group": "titleColors",
+      "group": "navigationBar",
       "label": "Tab List Background",
       "description": "Background color for the tab navigation bar",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 38,
+      "order": 1,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "background-color"
@@ -735,7 +855,7 @@
       "type": "string",
       "default": "left",
       "cssVar": "tab-list-align",
-      "group": "titleTypography",
+      "group": "navigationBar",
       "label": "Tab List Alignment",
       "description": "Horizontal alignment of tabs",
       "themeable": true,
@@ -745,75 +865,72 @@
         "center",
         "right"
       ],
-      "order": 39,
+      "order": 2,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs"
-    },
-    "panelColor": {
-      "type": "string",
-      "default": "#333333",
-      "cssVar": "tab-panel-color",
-      "group": "titleColors",
-      "label": "Panel Text Color",
-      "description": "Text color for tab panel content",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 40,
-      "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
-      "cssProperty": "color"
     },
     "panelBackgroundColor": {
       "type": "string",
       "default": "#ffffff",
       "cssVar": "tab-panel-bg",
-      "group": "titleColors",
+      "group": "navigationBar",
       "label": "Panel Background",
       "description": "Background color for tab panels",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 41,
+      "order": 3,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "background-color"
     },
-    "dividerColor": {
+    "panelColor": {
       "type": "string",
-      "default": null,
-      "cssVar": "tabs-divider-color",
-      "group": "dividerLine",
-      "label": "Divider Color",
-      "description": "Color of divider line between tabs and panel",
+      "default": "#333333",
+      "cssVar": "tab-panel-color",
+      "group": "content",
+      "label": "Panel Text Color",
+      "description": "Text color for tab panel content",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 42,
+      "order": 1,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-tabs",
       "cssProperty": "color"
     },
-    "dividerWidth": {
+    "panelBorderColor": {
+      "type": "string",
+      "default": "#dddddd",
+      "cssVar": "tabs-panel-border-color",
+      "group": "content",
+      "label": "Border Color",
+      "description": "Border color for tab content panel",
+      "themeable": true,
+      "control": "ColorPicker",
+      "order": 2,
+      "pago": "nao"
+    },
+    "panelBorderWidth": {
       "type": "number",
-      "default": null,
-      "cssVar": "tabs-divider-width",
-      "group": "dividerLine",
-      "label": "Divider Width",
-      "description": "Width/thickness of divider line",
+      "default": 1,
+      "cssVar": "tabs-panel-border-width",
+      "group": "content",
+      "label": "Border Width",
+      "description": "Border width for tab content panel (0-10px)",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 43,
-      "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs"
+      "order": 3,
+      "pago": "nao"
     },
-    "dividerStyle": {
+    "panelBorderStyle": {
       "type": "string",
-      "default": null,
-      "cssVar": "tabs-divider-style",
-      "group": "dividerLine",
-      "label": "Divider Style",
-      "description": "Style of divider line between tabs and panel",
+      "default": "solid",
+      "cssVar": "tabs-panel-border-style",
+      "group": "content",
+      "label": "Border Style",
+      "description": "Border style for tab content panel",
       "themeable": true,
       "control": "SelectControl",
       "options": [
@@ -838,27 +955,44 @@
           "value": "double"
         }
       ],
-      "order": 44,
-      "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs"
+      "order": 4,
+      "pago": "nao"
+    },
+    "panelBorderRadius": {
+      "type": "object",
+      "default": {
+        "topLeft": 0,
+        "topRight": 0,
+        "bottomRight": 0,
+        "bottomLeft": 0
+      },
+      "cssVar": "tabs-panel-border-radius",
+      "group": "content",
+      "label": "Border Radius",
+      "description": "Corner radius for tab content panel",
+      "themeable": true,
+      "control": "BorderRadiusControl",
+      "unit": "px",
+      "order": 5,
+      "pago": "nao"
     },
     "borderColor": {
       "type": "string",
-      "default": null,
+      "default": "transparent",
       "cssVar": "tabs-border-color",
       "group": "borders",
       "label": "Border Color",
       "description": "Border color for main tabs wrapper",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 45,
+      "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
-      "cssProperty": "color"
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-color"
     },
     "borderWidth": {
       "type": "number",
-      "default": null,
+      "default": 0,
       "cssVar": "tabs-border-width",
       "group": "borders",
       "label": "Border Width",
@@ -868,14 +1002,14 @@
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 46,
+      "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-width"
     },
     "borderStyle": {
       "type": "string",
-      "default": null,
+      "default": "none",
       "cssVar": "tabs-border-style",
       "group": "borders",
       "label": "Border Style",
@@ -904,9 +1038,9 @@
           "value": "double"
         }
       ],
-      "order": 47,
+      "order": 3,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-style"
     },
     "borderRadius": {
@@ -924,9 +1058,9 @@
       "themeable": true,
       "control": "BorderRadiusControl",
       "unit": "px",
-      "order": 48,
+      "order": 4,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-radius"
     },
     "shadow": {
@@ -938,9 +1072,9 @@
       "description": "Box shadow for main wrapper",
       "themeable": true,
       "control": "TextControl",
-      "order": 49,
+      "order": 5,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "box-shadow"
     },
     "shadowHover": {
@@ -952,10 +1086,88 @@
       "description": "Box shadow for wrapper on hover",
       "themeable": true,
       "control": "TextControl",
-      "order": 50,
+      "order": 6,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "box-shadow"
+    },
+    "enableDividerBorder": {
+      "type": "boolean",
+      "default": true,
+      "group": "dividerBorder",
+      "label": "Enable Divider Border",
+      "description": "Enable or disable divider border settings for navigation bar",
+      "themeable": true,
+      "control": "ToggleControl",
+      "order": 0,
+      "pago": "nao"
+    },
+    "dividerBorderColor": {
+      "type": "string",
+      "default": "#dddddd",
+      "cssVar": "tabs-divider-border-color",
+      "group": "dividerBorder",
+      "label": "Divider Border Color",
+      "description": "Color of navbar border adjacent to content",
+      "themeable": true,
+      "control": "ColorPicker",
+      "order": 1,
+      "pago": "nao",
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-color"
+    },
+    "dividerBorderWidth": {
+      "type": "number",
+      "default": 1,
+      "cssVar": "tabs-divider-border-width",
+      "group": "dividerBorder",
+      "label": "Divider Border Width",
+      "description": "Width of navbar border adjacent to content",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0,
+      "max": 10,
+      "unit": "px",
+      "order": 2,
+      "pago": "nao",
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-width"
+    },
+    "dividerBorderStyle": {
+      "type": "string",
+      "default": "solid",
+      "cssVar": "tabs-divider-border-style",
+      "group": "dividerBorder",
+      "label": "Divider Border Style",
+      "description": "Style of navbar border adjacent to content",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ],
+      "order": 3,
+      "pago": "nao",
+      "cssSelector": ".wp-block-custom-tabs",
+      "cssProperty": "border-style"
     }
   }
 }

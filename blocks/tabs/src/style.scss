@@ -10,7 +10,8 @@
  */
 
 /* Block wrapper */
-.wp-block-tabs {
+.wp-block-custom-tabs {
+	overflow: clip;
 	border: var(--tabs-border-width, 0) var(--tabs-border-style, none) var(--tabs-border-color, transparent);
 	border-radius: var(--tabs-border-radius, 0);
 	box-shadow: var(--tabs-border-shadow, none);
@@ -31,10 +32,15 @@
 	padding: 0.5rem;
 	padding-bottom: 0;
 	outline: none !important;
+	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
+	border-bottom: var(--tabs-divider-border-width, 1px) var(--tabs-divider-border-style, solid) var(--tabs-divider-border-color, transparent);
 
 	&[role="tablist"][aria-orientation="vertical"] {
 		flex-direction: column;
 		padding-right: 0;
+		/* Vertical orientation - divider border moves to right edge */
+		border-bottom: none;
+		border-right: var(--tabs-divider-border-width, 1px) var(--tabs-divider-border-style, solid) var(--tabs-divider-border-color, transparent);
 	}
 }
 
@@ -56,6 +62,9 @@
 	white-space: nowrap;
 	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 	outline: none !important;
+
+	/* Focus border - bottom edge on horizontal */
+	border-bottom: var(--tabs-focus-border-width, 2px) var(--tabs-focus-border-style, solid) var(--tabs-focus-border-color, transparent);
 
 	&:hover:not(:disabled) {
 		color: var(--tab-button-hover-color, #333);
@@ -79,6 +88,8 @@
 		background-color: var(--tab-button-active-bg, transparent);
 		border-color: var(--tab-button-active-border-color, #007cba);
 		border-bottom-color: var(--tab-button-active-border-bottom-color, var(--tab-button-active-border-color, #007cba));
+		/* Focus border active color for horizontal */
+		border-bottom-color: var(--tabs-focus-border-color-active, var(--tabs-focus-border-color, transparent));
 	}
 
 	&:disabled {
@@ -86,9 +97,17 @@
 		cursor: not-allowed;
 	}
 
-	/* Vertical orientation */
+	/* Vertical orientation - focus border moves to right edge */
 	.tabs-list[aria-orientation="vertical"] & {
 		border-right-color: var(--tab-button-active-border-color, currentColor);
+		/* Override bottom border with right border for vertical */
+		border-bottom-color: transparent;
+		border-right: var(--tabs-focus-border-width, 2px) var(--tabs-focus-border-style, solid) var(--tabs-focus-border-color, transparent);
+
+		&.active,
+		&[aria-selected="true"] {
+			border-right-color: var(--tabs-focus-border-color-active, var(--tabs-focus-border-color, transparent));
+		}
 	}
 }
 
@@ -100,11 +119,11 @@
 	color: var(--tab-icon-color, currentColor);
 	font-size: var(--tab-icon-size, 1em);
 	margin-right: 0.5rem;
-	transition: transform 0.2s ease;
+	transition: transform var(--tab-icon-animation-duration, 300ms) ease;
 
 	/* Icon rotation (for open/close states, controlled via JS) */
-	&.rotated {
-		transform: rotate(var(--tab-icon-rotation, 0deg));
+	&.is-rotated {
+		transform: rotate(var(--tab-icon-rotation, 180deg));
 	}
 
 	/* Image icon */
@@ -118,7 +137,6 @@
 /* Tabs panels container */
 .tabs-panels {
 	position: relative;
-	border-top: var(--tabs-divider-width, 0) var(--tabs-divider-style, solid) var(--tabs-divider-color, transparent);
 	outline: none !important;
 }
 
@@ -126,6 +144,8 @@
 .tab-panel {
 	background-color: var(--tab-panel-bg, #fff);
 	color: var(--tab-panel-color, #333);
+	border: var(--tabs-panel-border-width, 0) var(--tabs-panel-border-style, none) var(--tabs-panel-border-color, transparent);
+	border-radius: var(--tabs-panel-border-radius, 0);
 	overflow: hidden;
 	outline: none !important;
 
@@ -170,8 +190,8 @@
 }
 
 /* Layout variations */
-.wp-block-tabs.is-vertical,
-.wp-block-tabs[data-orientation="vertical"] {
+.wp-block-custom-tabs.is-vertical,
+.wp-block-custom-tabs[data-orientation="vertical"] {
 	display: flex;
 	gap: 1.5rem;
 
@@ -203,7 +223,7 @@
 	}
 
 	/* Hide tab navigation and show accordion on mobile if responsive fallback enabled */
-	.wp-block-tabs.responsive-accordion {
+	.wp-block-custom-tabs.responsive-accordion {
 
 		.tabs-list,
 		.tabs-panels {

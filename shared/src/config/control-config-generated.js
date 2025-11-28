@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-11-27T08:39:18.658Z
+ * Generated at: 2025-11-28T01:18:21.698Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -759,6 +759,61 @@ const CONTROL_CONFIGS = {
       description: 'Box shadow for tab buttons on hover',
       default: 'none',
     },
+    'enableFocusBorder': {
+      control: 'ToggleControl',
+      label: 'Enable Focus Border',
+      description: 'Enable or disable focus border settings for tab buttons',
+      default: true,
+    },
+    'focusBorderColor': {
+      control: 'ColorPicker',
+      label: 'Focus Border Color',
+      description: 'Border color for inactive button edge adjacent to content',
+      default: '#0073aa',
+    },
+    'focusBorderColorActive': {
+      control: 'ColorPicker',
+      label: 'Focus Border Color Active',
+      description: 'Border color for active button edge adjacent to content',
+      default: '#0073aa',
+    },
+    'focusBorderWidth': {
+      control: 'RangeControl',
+      min: 0,
+      max: 10,
+      unit: 'px',
+      label: 'Focus Border Width',
+      description: 'Width of button edge adjacent to content',
+      default: 2,
+    },
+    'focusBorderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Focus Border Style',
+      description: 'Style of button edge adjacent to content',
+      default: 'solid',
+    },
     'tabButtonFontSize': {
       control: 'RangeControl',
       min: 10,
@@ -916,32 +971,34 @@ const CONTROL_CONFIGS = {
       description: 'Horizontal alignment of tabs',
       default: 'left',
     },
-    'panelColor': {
-      control: 'ColorPicker',
-      label: 'Panel Text Color',
-      description: 'Text color for tab panel content',
-      default: '#333333',
-    },
     'panelBackgroundColor': {
       control: 'ColorPicker',
       label: 'Panel Background',
       description: 'Background color for tab panels',
       default: '#ffffff',
     },
-    'dividerColor': {
+    'panelColor': {
       control: 'ColorPicker',
-      label: 'Divider Color',
-      description: 'Color of divider line between tabs and panel',
+      label: 'Panel Text Color',
+      description: 'Text color for tab panel content',
+      default: '#333333',
     },
-    'dividerWidth': {
+    'panelBorderColor': {
+      control: 'ColorPicker',
+      label: 'Border Color',
+      description: 'Border color for tab content panel',
+      default: '#dddddd',
+    },
+    'panelBorderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Divider Width',
-      description: 'Width/thickness of divider line',
+      label: 'Border Width',
+      description: 'Border width for tab content panel (0-10px)',
+      default: 1,
     },
-    'dividerStyle': {
+    'panelBorderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -965,13 +1022,21 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Divider Style',
-      description: 'Style of divider line between tabs and panel',
+      label: 'Border Style',
+      description: 'Border style for tab content panel',
+      default: 'solid',
+    },
+    'panelBorderRadius': {
+      control: 'BorderRadiusControl',
+      unit: 'px',
+      label: 'Border Radius',
+      description: 'Corner radius for tab content panel',
     },
     'borderColor': {
       control: 'ColorPicker',
       label: 'Border Color',
       description: 'Border color for main tabs wrapper',
+      default: 'transparent',
     },
     'borderWidth': {
       control: 'RangeControl',
@@ -980,6 +1045,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'Border Width',
       description: 'Border width for main wrapper',
+      default: 0,
     },
     'borderStyle': {
       control: 'SelectControl',
@@ -1007,6 +1073,7 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Border Style',
       description: 'Border style for wrapper',
+      default: 'none',
     },
     'borderRadius': {
       control: 'BorderRadiusControl',
@@ -1025,6 +1092,55 @@ const CONTROL_CONFIGS = {
       label: 'Shadow Hover',
       description: 'Box shadow for wrapper on hover',
       default: 'none',
+    },
+    'enableDividerBorder': {
+      control: 'ToggleControl',
+      label: 'Enable Divider Border',
+      description: 'Enable or disable divider border settings for navigation bar',
+      default: true,
+    },
+    'dividerBorderColor': {
+      control: 'ColorPicker',
+      label: 'Divider Border Color',
+      description: 'Color of navbar border adjacent to content',
+      default: '#dddddd',
+    },
+    'dividerBorderWidth': {
+      control: 'RangeControl',
+      min: 0,
+      max: 10,
+      unit: 'px',
+      label: 'Divider Border Width',
+      description: 'Width of navbar border adjacent to content',
+      default: 1,
+    },
+    'dividerBorderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Divider Border Style',
+      description: 'Style of navbar border adjacent to content',
+      default: 'solid',
     },
   },
   'toc': {
