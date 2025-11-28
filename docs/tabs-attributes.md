@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-28T01:18:21.678Z
+> Generated at: 2025-11-28T01:29:49.189Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -89,9 +89,9 @@ Tab button full border around the button element
 | `buttonShadow` | string | `none` | Yes | Box shadow for tab buttons |
 | `buttonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
 
-## Focus Border
+## Special Borders
 
-Individual button border adjacent to content (bottom for horizontal, right/left for vertical)
+Individual button borders and navigation bar divider borders adjacent to content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -100,6 +100,10 @@ Individual button border adjacent to content (bottom for horizontal, right/left 
 | `focusBorderColorActive` | string | `#0073aa` | Yes | Border color for active button edge adjacent to content |
 | `focusBorderWidth` | number | `2` | Yes | Width of button edge adjacent to content |
 | `focusBorderStyle` | string | `solid` | Yes | Style of button edge adjacent to content |
+| `enableDividerBorder` | boolean | `true` | Yes | Enable or disable divider border settings for navigation bar |
+| `dividerBorderColor` | string | `#dddddd` | Yes | Color of navbar border adjacent to content |
+| `dividerBorderWidth` | number | `1` | Yes | Width of navbar border adjacent to content |
+| `dividerBorderStyle` | string | `solid` | Yes | Style of navbar border adjacent to content |
 
 ## Button Typography
 
@@ -148,17 +152,6 @@ Main tabs wrapper borders and radius
 | `borderRadius` | object | _object_ | Yes | Corner radius for main wrapper |
 | `shadow` | string | `none` | Yes | Box shadow for main wrapper |
 | `shadowHover` | string | `none` | Yes | Box shadow for wrapper on hover |
-
-## Divider Border
-
-Navigation bar border adjacent to content (bottom for horizontal, right/left for vertical)
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `enableDividerBorder` | boolean | `true` | Yes | Enable or disable divider border settings for navigation bar |
-| `dividerBorderColor` | string | `#dddddd` | Yes | Color of navbar border adjacent to content |
-| `dividerBorderWidth` | number | `1` | Yes | Width of navbar border adjacent to content |
-| `dividerBorderStyle` | string | `solid` | Yes | Style of navbar border adjacent to content |
 
 ## CSS Variables
 
