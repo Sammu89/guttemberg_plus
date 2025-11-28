@@ -48,9 +48,9 @@
       "initialOpen": false,
       "pago": "nao"
     },
-    "focusBorder": {
-      "title": "Focus Border",
-      "description": "Individual button border adjacent to content (bottom for horizontal, right/left for vertical)",
+    "specialBorders": {
+      "title": "Special Borders",
+      "description": "Individual button borders and navigation bar divider borders adjacent to content",
       "order": 7,
       "initialOpen": false,
       "pago": "nao"
@@ -66,13 +66,6 @@
       "title": "Nav Bar",
       "description": "Navigation bar background and alignment",
       "order": 9,
-      "initialOpen": false,
-      "pago": "nao"
-    },
-    "dividerBorder": {
-      "title": "Divider Border",
-      "description": "Navigation bar border adjacent to content (bottom for horizontal, right/left for vertical)",
-      "order": 10,
       "initialOpen": false,
       "pago": "nao"
     },
@@ -563,24 +556,24 @@
     "enableFocusBorder": {
       "type": "boolean",
       "default": true,
-      "group": "focusBorder",
+      "group": "specialBorders",
       "label": "Enable Focus Border",
       "description": "Enable or disable focus border settings for tab buttons",
       "themeable": true,
       "control": "ToggleControl",
-      "order": 0,
+      "order": 1,
       "pago": "nao"
     },
     "focusBorderColor": {
       "type": "string",
       "default": "#0073aa",
       "cssVar": "tabs-focus-border-color",
-      "group": "focusBorder",
+      "group": "specialBorders",
       "label": "Focus Border Color",
       "description": "Border color for inactive button edge adjacent to content",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 1,
+      "order": 2,
       "pago": "nao",
       "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-color"
@@ -589,12 +582,12 @@
       "type": "string",
       "default": "#0073aa",
       "cssVar": "tabs-focus-border-color-active",
-      "group": "focusBorder",
+      "group": "specialBorders",
       "label": "Focus Border Color Active",
       "description": "Border color for active button edge adjacent to content",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 2,
+      "order": 3,
       "pago": "nao",
       "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-color"
@@ -603,7 +596,7 @@
       "type": "number",
       "default": 2,
       "cssVar": "tabs-focus-border-width",
-      "group": "focusBorder",
+      "group": "specialBorders",
       "label": "Focus Border Width",
       "description": "Width of button edge adjacent to content",
       "themeable": true,
@@ -611,7 +604,7 @@
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 3,
+      "order": 4,
       "pago": "nao",
       "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-width"
@@ -620,7 +613,7 @@
       "type": "string",
       "default": "solid",
       "cssVar": "tabs-focus-border-style",
-      "group": "focusBorder",
+      "group": "specialBorders",
       "label": "Focus Border Style",
       "description": "Style of button edge adjacent to content",
       "themeable": true,
@@ -647,7 +640,7 @@
           "value": "double"
         }
       ],
-      "order": 4,
+      "order": 5,
       "pago": "nao",
       "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-style"
@@ -1094,24 +1087,24 @@
     "enableDividerBorder": {
       "type": "boolean",
       "default": true,
-      "group": "dividerBorder",
+      "group": "specialBorders",
       "label": "Enable Divider Border",
       "description": "Enable or disable divider border settings for navigation bar",
       "themeable": true,
       "control": "ToggleControl",
-      "order": 0,
+      "order": 6,
       "pago": "nao"
     },
     "dividerBorderColor": {
       "type": "string",
       "default": "#dddddd",
       "cssVar": "tabs-divider-border-color",
-      "group": "dividerBorder",
+      "group": "specialBorders",
       "label": "Divider Border Color",
       "description": "Color of navbar border adjacent to content",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 1,
+      "order": 7,
       "pago": "nao",
       "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-color"
@@ -1120,7 +1113,7 @@
       "type": "number",
       "default": 1,
       "cssVar": "tabs-divider-border-width",
-      "group": "dividerBorder",
+      "group": "specialBorders",
       "label": "Divider Border Width",
       "description": "Width of navbar border adjacent to content",
       "themeable": true,
@@ -1128,7 +1121,7 @@
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 2,
+      "order": 8,
       "pago": "nao",
       "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-width"
@@ -1137,7 +1130,7 @@
       "type": "string",
       "default": "solid",
       "cssVar": "tabs-divider-border-style",
-      "group": "dividerBorder",
+      "group": "specialBorders",
       "label": "Divider Border Style",
       "description": "Style of navbar border adjacent to content",
       "themeable": true,
@@ -1164,7 +1157,7 @@
           "value": "double"
         }
       ],
-      "order": 3,
+      "order": 9,
       "pago": "nao",
       "cssSelector": ".wp-block-custom-tabs",
       "cssProperty": "border-style"
