@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-01T15:39:49.588Z
+ * Generated at: 2025-12-01T18:09:25.714Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -60,8 +60,6 @@ export const accordionAttributesSchema = z.object({
   title: z.string(),
   content: z.string(),
   currentTheme: z.string(),
-  customizations: z.record(z.any()),
-  customizationCache: z.record(z.any()),
   initiallyOpen: z.boolean(),
   accordionWidth: z.string(),
   accordionHorizontalAlign: z.string(),

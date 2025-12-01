@@ -130,12 +130,12 @@ export function getThemeManager( blockType ) {
 		 */
 		async delete( name ) {
 			// Validate input
-			if ( ! name || typeof name !== 'string' ) {
+			if ( typeof name !== 'string' ) {
 				throw new Error( 'Theme name is required and must be a string.' );
 			}
 
-			// Prevent deletion of Default theme
-			if ( name.toLowerCase() === 'default' ) {
+			// Prevent deletion of Default theme (empty string or "Default")
+			if ( name === '' || name.toLowerCase() === 'default' ) {
 				throw new Error( 'Cannot delete the Default theme.' );
 			}
 
@@ -159,7 +159,7 @@ export function getThemeManager( blockType ) {
 		 */
 		async rename( oldName, newName ) {
 			// Validate inputs
-			if ( ! oldName || typeof oldName !== 'string' ) {
+			if ( typeof oldName !== 'string' ) {
 				throw new Error( 'Old theme name is required and must be a string.' );
 			}
 
@@ -167,13 +167,13 @@ export function getThemeManager( blockType ) {
 				throw new Error( 'New theme name is required and must be a string.' );
 			}
 
-			// Prevent renaming Default theme
-			if ( oldName.toLowerCase() === 'default' ) {
+			// Prevent renaming Default theme (empty string or "Default")
+			if ( oldName === '' || oldName.toLowerCase() === 'default' ) {
 				throw new Error( 'Cannot rename the Default theme.' );
 			}
 
-			// Prevent renaming to Default
-			if ( newName.toLowerCase() === 'default' ) {
+			// Prevent renaming to Default or empty string
+			if ( newName === '' || newName.toLowerCase() === 'default' ) {
 				throw new Error( 'Cannot rename a theme to "Default".' );
 			}
 

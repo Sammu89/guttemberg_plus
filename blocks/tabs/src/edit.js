@@ -132,15 +132,44 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Memoized to prevent infinite loop in session cache useEffect
 	const currentTheme = themes[ attributes.currentTheme ];
 	const expectedValues = useMemo( () => {
-		return currentTheme
+		console.debug( '[THEME-DEBUG] [TABS] --- expectedValues Calculation Start ---' );
+		console.debug( '[THEME-DEBUG] [TABS] Current theme object:', currentTheme );
+		console.debug( '[THEME-DEBUG] [TABS] Theme deltas:', currentTheme?.values || {} );
+		console.debug( '[THEME-DEBUG] [TABS] All defaults (base):', allDefaults );
+
+		const expected = currentTheme
 			? applyDeltas( allDefaults, currentTheme.values || {} )
 			: allDefaults;
+
+		console.debug( '[THEME-DEBUG] [TABS] Calculated expected values:', expected );
+		console.debug( '[THEME-DEBUG] [TABS] --- expectedValues Calculation End ---' );
+		return expected;
 	}, [ currentTheme, allDefaults ] );
 
 	// Auto-detect customizations by comparing attributes to expected values
 	// Memoized to avoid recalculation on every render
+	// IMPORTANT: Wait for themes to load before checking customization
 	const isCustomized = useMemo( () => {
-		return Object.keys( attributes ).some( ( key ) => {
+		console.debug( '[THEME-DEBUG] [TABS] --- isCustomized Calculation Start ---' );
+		console.debug( '[THEME-DEBUG] [TABS] Current theme:', attributes.currentTheme || '(none)' );
+		console.debug( '[THEME-DEBUG] [TABS] Themes loaded:', themesLoaded );
+		console.debug( '[THEME-DEBUG] [TABS] Available themes:', Object.keys( themes ) );
+
+		// Don't check customization until themes are loaded
+		// This prevents false positives when theme deltas haven't loaded yet
+		if ( ! themesLoaded ) {
+			console.debug( '[THEME-DEBUG] [TABS] Themes not loaded yet - returning false' );
+			return false;
+		}
+
+		// If block has a theme but it doesn't exist in themes object, wait
+		if ( attributes.currentTheme && ! themes[ attributes.currentTheme ] ) {
+			console.debug( '[THEME-DEBUG] [TABS] Theme selected but not found in themes object - returning false' );
+			return false;
+		}
+
+		const customizedAttributes = [];
+		const result = Object.keys( attributes ).some( ( key ) => {
 			if ( excludeFromCustomizationCheck.includes( key ) ) {
 				return false;
 			}
@@ -152,13 +181,34 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				return false;
 			}
 
+			let isDifferent = false;
 			if ( typeof attrValue === 'object' && attrValue !== null ) {
-				return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+				isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			} else {
+				isDifferent = attrValue !== expectedValue;
 			}
 
-			return attrValue !== expectedValue;
+			if ( isDifferent ) {
+				customizedAttributes.push( {
+					key,
+					current: attrValue,
+					expected: expectedValue,
+				} );
+			}
+
+			return isDifferent;
 		} );
-	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
+
+		console.debug( '[THEME-DEBUG] [TABS] Number of customizations:', customizedAttributes.length );
+		if ( customizedAttributes.length > 0 ) {
+			console.debug( '[THEME-DEBUG] [TABS] Customized attributes:', customizedAttributes );
+		}
+		console.debug( '[THEME-DEBUG] [TABS] isCustomized result:', result );
+		console.debug( '[THEME-DEBUG] [TABS] Should show "Save new theme":', result );
+		console.debug( '[THEME-DEBUG] [TABS] --- isCustomized Calculation End ---' );
+
+		return result;
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded, themes ] );
 
 	debug( '[DEBUG] Tabs attributes (source of truth):', attributes );
 	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
@@ -363,6 +413,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	 * @param {boolean} useCustomized  Whether to restore from session cache
 	 */
 	const handleThemeChange = ( newThemeName, useCustomized = false ) => {
+		console.debug( '[THEME-DEBUG] [TABS] --- Theme Switch Event ---' );
+		console.debug( '[THEME-DEBUG] [TABS] Switching from:', attributes.currentTheme || '(none)', 'to:', newThemeName || '(none)' );
+		console.debug( '[THEME-DEBUG] [TABS] Use customized variant:', useCustomized );
+
 		const newTheme = themes[ newThemeName ];
 		const newThemeKey = newThemeName || '';
 
@@ -370,13 +424,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 		if ( useCustomized && sessionCache[ newThemeKey ] ) {
 			// User selected customized variant - restore from session cache
+			console.debug( '[THEME-DEBUG] [TABS] Restoring from session cache' );
 			valuesToApply = sessionCache[ newThemeKey ];
 		} else {
 			// User selected clean theme - use defaults + theme deltas
+			console.debug( '[THEME-DEBUG] [TABS] Applying clean theme (defaults + theme deltas)' );
 			valuesToApply = newTheme
 				? applyDeltas( allDefaults, newTheme.values || {} )
 				: allDefaults;
 		}
+
+		console.debug( '[THEME-DEBUG] [TABS] Values to apply:', valuesToApply );
 
 		// Apply values and update currentTheme
 		const resetAttrs = { ...valuesToApply };
@@ -390,6 +448,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 		// Set the new theme
 		resetAttrs.currentTheme = newThemeName;
+
+		console.debug( '[THEME-DEBUG] [TABS] Attributes to set:', resetAttrs );
+		console.debug( '[THEME-DEBUG] [TABS] --- Theme Switch Event End ---' );
 
 		setAttributes( resetAttrs );
 	};
@@ -426,40 +487,20 @@ const getInlineStyles = () => {
 	return {
 		container: {
 			color: effectiveValues.tabButtonColor || '#666666',
-			background-color: effectiveValues.tabButtonBackgroundColor || 'transparent',
-			color: effectiveValues.tabButtonHoverColor || '#333333',
-			background-color: effectiveValues.tabButtonHoverBackgroundColor || '#e8e8e8',
-			color: effectiveValues.tabButtonActiveColor || '#000000',
-			background-color: effectiveValues.tabButtonActiveBackgroundColor || '#ffffff',
-			color: effectiveValues.tabButtonActiveBorderColor || '#dddddd',
-			color: effectiveValues.tabButtonActiveBorderBottomColor || 'transparent',
-			color: effectiveValues.buttonBorderColor || 'null',
-			border-width: `${effectiveValues.buttonBorderWidth || null}px`,
-			border-style: effectiveValues.buttonBorderStyle || 'null',
-			border-radius: `${buttonBorderRadius.topLeft}px ${buttonBorderRadius.topRight}px ${buttonBorderRadius.bottomRight}px ${buttonBorderRadius.bottomLeft}px`,
-			box-shadow: effectiveValues.buttonShadow || 'none',
-			box-shadow: effectiveValues.buttonShadowHover || 'none',
-			border-color: effectiveValues.focusBorderColor || '#0073aa',
-			border-color: effectiveValues.focusBorderColorActive || '#0073aa',
-			border-width: `${effectiveValues.focusBorderWidth || 2}px`,
-			border-style: effectiveValues.focusBorderStyle || 'solid',
-			font-size: `${effectiveValues.tabButtonFontSize || 16}px`,
-			font-weight: effectiveValues.tabButtonFontWeight || '500',
-			font-style: effectiveValues.tabButtonFontStyle || 'normal',
-			background-color: effectiveValues.tabListBackgroundColor || '#f5f5f5',
-			background-color: effectiveValues.panelBackgroundColor || '#ffffff',
-			color: effectiveValues.panelColor || '#333333',
-			border-color: effectiveValues.borderColor || 'transparent',
-			border-width: `${effectiveValues.borderWidth || 0}px`,
-			border-style: effectiveValues.borderStyle || 'none',
-			border-radius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
-			box-shadow: effectiveValues.shadow || 'none',
-			box-shadow: effectiveValues.shadowHover || 'none',
+			backgroundColor: effectiveValues.tabButtonBackgroundColor || 'transparent',
+			borderWidth: `${effectiveValues.buttonBorderWidth || null}px`,
+			borderStyle: effectiveValues.buttonBorderStyle || 'null',
+			borderRadius: `${buttonBorderRadius.topLeft}px ${buttonBorderRadius.topRight}px ${buttonBorderRadius.bottomRight}px ${buttonBorderRadius.bottomLeft}px`,
+			boxShadow: effectiveValues.buttonShadow || 'none',
+			borderColor: effectiveValues.focusBorderColor || '#0073aa',
+			fontSize: `${effectiveValues.tabButtonFontSize || 16}px`,
+			fontWeight: effectiveValues.tabButtonFontWeight || '500',
+			fontStyle: effectiveValues.tabButtonFontStyle || 'normal',
 		},
 		content: {
-			border-color: effectiveValues.dividerBorderColor || '#dddddd',
-			border-width: `${effectiveValues.dividerBorderWidth || 1}px`,
-			border-style: effectiveValues.dividerBorderStyle || 'solid',
+			borderColor: effectiveValues.dividerBorderColor || '#dddddd',
+			borderWidth: `${effectiveValues.dividerBorderWidth || 1}px`,
+			borderStyle: effectiveValues.dividerBorderStyle || 'solid',
 		},
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
