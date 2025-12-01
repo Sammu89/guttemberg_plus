@@ -66,6 +66,13 @@ const ATTRIBUTE_PATTERNS = [
 	/\btheme\.(\w+)/g,
 ];
 
+// Patterns to skip (inner block attributes, etc.)
+const SKIP_PATTERNS = [
+	/panel\.attributes\.(\w+)/g,  // Inner block attributes (tab-panel)
+	/block\.attributes\.(\w+)/g,   // Inner block attributes (generic)
+	/innerBlock\.attributes\.(\w+)/g,  // Inner block attributes
+];
+
 // Common JavaScript keywords/properties to ignore
 const IGNORE_WORDS = new Set([
 	'length', 'map', 'filter', 'forEach', 'find', 'some', 'every', 'reduce',
@@ -77,6 +84,9 @@ const IGNORE_WORDS = new Set([
 	'props', 'state', 'setState', 'render', 'componentDidMount',
 	'componentWillUnmount', 'useEffect', 'useState', 'useCallback',
 	'useRef', 'useMemo', 'useContext', 'min', 'max', 'step', 'unit',
+	// Internal/structural attributes (removed from schemas but still used in code)
+	'customizations', 'customizationCache', 'currentTab',
+	'enableResponsiveFallback', 'responsiveBreakpoint', 'titlePadding',
 ]);
 
 // Load schemas
@@ -155,6 +165,14 @@ function findSuggestions(invalidAttr, validAttrs, maxSuggestions = 3) {
 // Extract attribute references from a line of code
 function extractAttributes(line) {
 	const attrs = new Set();
+
+	// Skip lines that match skip patterns (inner block attributes, etc.)
+	for (const skipPattern of SKIP_PATTERNS) {
+		skipPattern.lastIndex = 0; // Reset regex state
+		if (skipPattern.test(line)) {
+			return []; // Skip this line entirely
+		}
+	}
 
 	for (const pattern of ATTRIBUTE_PATTERNS) {
 		const matches = line.matchAll(pattern);

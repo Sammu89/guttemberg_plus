@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-01T15:39:49.585Z
+ * Generated at: 2025-12-01T18:09:25.711Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -129,8 +129,6 @@ export interface AccordionThemeAttributes {
   title?: string;
   content?: string;
   currentTheme?: string;
-  customizations?: Record<string, any>;
-  customizationCache?: Record<string, any>;
   initiallyOpen?: boolean;
   accordionWidth?: string;
   accordionHorizontalAlign?: string;

@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-01T15:39:49.597Z
+> Generated at: 2025-12-01T18:09:25.718Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -28,8 +28,6 @@ Non-themeable behavioral and structural settings
 | `title` | string | `Accordion Title` | No (content) | The accordion title text |
 | `content` | string | `` | No (content) | The accordion content (rich text) |
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
-| `customizations` | object | _object_ | No (structural) | Stores deltas from expected values (theme + defaults) for inline CSS output |
-| `customizationCache` | object | _object_ | No (structural) | Complete snapshot for safety/restoration (deprecated - for backward compatibility) |
 | `initiallyOpen` | boolean | `false` | No (behavioral) | Whether accordion is open on page load |
 | `accordionWidth` | string | `100%` | No (behavioral) | Accordion container width (e.g., 100%, 500px) |
 | `accordionHorizontalAlign` | string | `left` | No (behavioral) | Horizontal alignment of the accordion |

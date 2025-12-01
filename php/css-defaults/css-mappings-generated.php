@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-12-01T15:39:49.625Z
+ * Generated at: 2025-12-01T18:09:25.736Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names

@@ -117,9 +117,17 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Memoized to prevent infinite loop in session cache useEffect
 	const currentTheme = themes[ attributes.currentTheme ];
 	const expectedValues = useMemo( () => {
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- expectedValues Calculation Start ---' );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Current theme object:', currentTheme );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Theme deltas:', currentTheme?.values || {} );
+		console.debug( '[THEME-DEBUG] [ACCORDION] All defaults (base):', allDefaults );
+
 		const expected = currentTheme
 			? applyDeltas( allDefaults, currentTheme.values || {} )
 			: allDefaults;
+
+		console.debug( '[THEME-DEBUG] [ACCORDION] Calculated expected values:', expected );
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- expectedValues Calculation End ---' );
 		return expected;
 	}, [ currentTheme, allDefaults ] );
 
@@ -127,17 +135,25 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Memoized to avoid recalculation on every render
 	// IMPORTANT: Wait for themes to load before checking customization
 	const isCustomized = useMemo( () => {
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- isCustomized Calculation Start ---' );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Current theme:', attributes.currentTheme || '(none)' );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Themes loaded:', themesLoaded );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Available themes:', Object.keys( themes ) );
+
 		// Don't check customization until themes are loaded
 		// This prevents false positives when theme deltas haven't loaded yet
 		if ( ! themesLoaded ) {
+			console.debug( '[THEME-DEBUG] [ACCORDION] Themes not loaded yet - returning false' );
 			return false;
 		}
 
 		// If block has a theme but it doesn't exist in themes object, wait
 		if ( attributes.currentTheme && ! themes[ attributes.currentTheme ] ) {
+			console.debug( '[THEME-DEBUG] [ACCORDION] Theme selected but not found in themes object - returning false' );
 			return false;
 		}
 
+		const customizedAttributes = [];
 		const result = Object.keys( attributes ).some( ( key ) => {
 			if ( excludeFromCustomizationCheck.includes( key ) ) {
 				return false;
@@ -159,8 +175,24 @@ export default function Edit( { attributes, setAttributes } ) {
 				isDifferent = attrValue !== expectedValue;
 			}
 
+			if ( isDifferent ) {
+				customizedAttributes.push( {
+					key,
+					current: attrValue,
+					expected: expectedValue,
+				} );
+			}
+
 			return isDifferent;
 		} );
+
+		console.debug( '[THEME-DEBUG] [ACCORDION] Number of customizations:', customizedAttributes.length );
+		if ( customizedAttributes.length > 0 ) {
+			console.debug( '[THEME-DEBUG] [ACCORDION] Customized attributes:', customizedAttributes );
+		}
+		console.debug( '[THEME-DEBUG] [ACCORDION] isCustomized result:', result );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Should show "Save new theme":', result );
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- isCustomized Calculation End ---' );
 
 		return result;
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded, themes ] );
@@ -248,6 +280,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	// This is used by save.js to output ONLY true customizations as inline CSS
 	// Tier 2 (theme CSS in <head>) handles theme values, Tier 3 (inline) handles deltas
 	useEffect( () => {
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- Customizations Attribute Update Start ---' );
 		// Calculate deltas: attributes that differ from expected values
 		const newCustomizations = {};
 
@@ -284,14 +317,27 @@ export default function Edit( { attributes, setAttributes } ) {
 		const newStr = JSON.stringify( newCustomizations );
 		const currentStr = JSON.stringify( currentCustomizations );
 
+		console.debug( '[THEME-DEBUG] [ACCORDION] Current customizations attribute:', currentCustomizations );
+		console.debug( '[THEME-DEBUG] [ACCORDION] New customizations calculated:', newCustomizations );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Customizations changed:', newStr !== currentStr );
+
 		if ( newStr !== currentStr ) {
+			console.debug( '[THEME-DEBUG] [ACCORDION] Updating customizations attribute...' );
 			debug( '[CUSTOMIZATIONS] Updating customizations attribute:', newCustomizations );
 			setAttributes( { customizations: newCustomizations } );
 		}
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- Customizations Attribute Update End ---' );
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck, setAttributes ] );
 
 	// Log when currentTheme changes (for debugging)
 	useEffect( () => {
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- Theme Switch Event ---' );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Switched to theme:', attributes.currentTheme || '(none/defaults)' );
+		console.debug( '[THEME-DEBUG] [ACCORDION] isCustomized after switch:', isCustomized );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Available themes:', Object.keys( themes ) );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Current attributes:', attributes );
+		console.debug( '[THEME-DEBUG] [ACCORDION] Expected values:', expectedValues );
+		console.debug( '[THEME-DEBUG] [ACCORDION] --- Theme Switch Event End ---' );
 		debug( '[THEME CHANGE] currentTheme changed to:', attributes.currentTheme );
 		debug( '[THEME CHANGE] isCustomized:', isCustomized );
 		debug( '[THEME CHANGE] Available themes:', Object.keys( themes ) );
@@ -611,37 +657,34 @@ const getInlineStyles = () => {
 
 	return {
 		container: {
-			border-color: effectiveValues.borderColor || '#dddddd',
-			border-width: `${effectiveValues.borderWidth || 1}px`,
-			border-style: effectiveValues.borderStyle || 'solid',
-			border-radius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
-			box-shadow: effectiveValues.shadow || 'none',
-			box-shadow: effectiveValues.shadowHover || 'none',
+			borderColor: effectiveValues.borderColor || '#dddddd',
+			borderWidth: `${effectiveValues.borderWidth || 1}px`,
+			borderStyle: effectiveValues.borderStyle || 'solid',
+			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
+			boxShadow: effectiveValues.shadow || 'none',
 		},
 		title: {
 			color: effectiveValues.titleColor || '#333333',
-			background-color: effectiveValues.titleBackgroundColor || '#f5f5f5',
-			color: effectiveValues.hoverTitleColor || '#000000',
-			background-color: effectiveValues.hoverTitleBackgroundColor || '#e8e8e8',
-			font-size: `${effectiveValues.titleFontSize || 18}px`,
-			font-weight: effectiveValues.titleFontWeight || '600',
-			font-style: effectiveValues.titleFontStyle || 'normal',
-			text-transform: effectiveValues.titleTextTransform || 'none',
-			text-decoration: effectiveValues.titleTextDecoration || 'none',
-			text-align: effectiveValues.titleAlignment || 'left',
+			backgroundColor: effectiveValues.titleBackgroundColor || '#f5f5f5',
+			fontSize: `${effectiveValues.titleFontSize || 18}px`,
+			fontWeight: effectiveValues.titleFontWeight || '600',
+			fontStyle: effectiveValues.titleFontStyle || 'normal',
+			textTransform: effectiveValues.titleTextTransform || 'none',
+			textDecoration: effectiveValues.titleTextDecoration || 'none',
+			textAlign: effectiveValues.titleAlignment || 'left',
 		},
 		content: {
 			color: effectiveValues.contentColor || '#333333',
-			background-color: effectiveValues.contentBackgroundColor || '#ffffff',
-			border-top-color: effectiveValues.dividerColor || '#dddddd',
-			font-size: `${effectiveValues.contentFontSize || 16}px`,
-			font-weight: effectiveValues.contentFontWeight || 'null',
-			border-top-width: `${effectiveValues.dividerWidth || 0}px`,
-			border-top-style: effectiveValues.dividerStyle || 'solid',
+			backgroundColor: effectiveValues.contentBackgroundColor || '#ffffff',
+			borderTopColor: effectiveValues.dividerColor || '#dddddd',
+			fontSize: `${effectiveValues.contentFontSize || 16}px`,
+			fontWeight: effectiveValues.contentFontWeight || 'null',
+			borderTopWidth: `${effectiveValues.dividerWidth || 0}px`,
+			borderTopStyle: effectiveValues.dividerStyle || 'solid',
 		},
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
-			font-size: `${effectiveValues.iconSize || 20}px`,
+			fontSize: `${effectiveValues.iconSize || 20}px`,
 		},
 	};
 };

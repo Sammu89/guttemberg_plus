@@ -162,9 +162,18 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Calculate expected values: defaults + current theme deltas
 	// Memoized to prevent infinite loop in session cache useEffect
 	const expectedValues = useMemo( () => {
-		return theme
+		console.debug( '[THEME-DEBUG] [TOC] --- expectedValues Calculation Start ---' );
+		console.debug( '[THEME-DEBUG] [TOC] Current theme object:', theme );
+		console.debug( '[THEME-DEBUG] [TOC] Theme deltas:', theme?.values || {} );
+		console.debug( '[THEME-DEBUG] [TOC] All defaults (base):', allDefaults );
+
+		const expected = theme
 			? applyDeltas( allDefaults, theme.values || {} )
 			: allDefaults;
+
+		console.debug( '[THEME-DEBUG] [TOC] Calculated expected values:', expected );
+		console.debug( '[THEME-DEBUG] [TOC] --- expectedValues Calculation End ---' );
+		return expected;
 	}, [ theme, allDefaults ] );
 
 	// Attributes to exclude from theming (structural/behavioral only)
@@ -177,8 +186,28 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Auto-detect customizations by comparing attributes to expected values
 	// Memoized to avoid recalculation on every render
+	// IMPORTANT: Wait for themes to load before checking customization
 	const isCustomized = useMemo( () => {
-		return Object.keys( attributes ).some( ( key ) => {
+		console.debug( '[THEME-DEBUG] [TOC] --- isCustomized Calculation Start ---' );
+		console.debug( '[THEME-DEBUG] [TOC] Current theme:', currentTheme || '(none)' );
+		console.debug( '[THEME-DEBUG] [TOC] Themes loaded:', themesLoaded );
+		console.debug( '[THEME-DEBUG] [TOC] Available themes:', Object.keys( themes ) );
+
+		// Don't check customization until themes are loaded
+		// This prevents false positives when theme deltas haven't loaded yet
+		if ( ! themesLoaded ) {
+			console.debug( '[THEME-DEBUG] [TOC] Themes not loaded yet - returning false' );
+			return false;
+		}
+
+		// If block has a theme but it doesn't exist in themes object, wait
+		if ( currentTheme && ! themes[ currentTheme ] ) {
+			console.debug( '[THEME-DEBUG] [TOC] Theme selected but not found in themes object - returning false' );
+			return false;
+		}
+
+		const customizedAttributes = [];
+		const result = Object.keys( attributes ).some( ( key ) => {
 			// Skip excluded attributes
 			if ( excludeFromCustomizationCheck.includes( key ) ) {
 				return false;
@@ -192,15 +221,36 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				return false;
 			}
 
+			let isDifferent = false;
 			// Deep comparison for objects
 			if ( typeof attrValue === 'object' && attrValue !== null && ! Array.isArray( attrValue ) ) {
-				return JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+				isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
+			} else {
+				// Simple comparison for primitives
+				isDifferent = attrValue !== expectedValue;
 			}
 
-			// Simple comparison for primitives
-			return attrValue !== expectedValue;
+			if ( isDifferent ) {
+				customizedAttributes.push( {
+					key,
+					current: attrValue,
+					expected: expectedValue,
+				} );
+			}
+
+			return isDifferent;
 		} );
-	}, [ attributes, expectedValues, excludeFromCustomizationCheck ] );
+
+		console.debug( '[THEME-DEBUG] [TOC] Number of customizations:', customizedAttributes.length );
+		if ( customizedAttributes.length > 0 ) {
+			console.debug( '[THEME-DEBUG] [TOC] Customized attributes:', customizedAttributes );
+		}
+		console.debug( '[THEME-DEBUG] [TOC] isCustomized result:', result );
+		console.debug( '[THEME-DEBUG] [TOC] Should show "Save new theme":', result );
+		console.debug( '[THEME-DEBUG] [TOC] --- isCustomized Calculation End ---' );
+
+		return result;
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded, themes, currentTheme ] );
 
 	debug( '[DEBUG] TOC effective values:', effectiveValues );
 	debug( '[DEBUG] TOC expected values:', expectedValues );
@@ -407,6 +457,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	 * @param {boolean} useCustomized  Whether to restore from session cache
 	 */
 	const handleThemeChange = ( newThemeName, useCustomized = false ) => {
+		console.debug( '[THEME-DEBUG] [TOC] --- Theme Switch Event ---' );
+		console.debug( '[THEME-DEBUG] [TOC] Switching from:', currentTheme || '(none)', 'to:', newThemeName || '(none)' );
+		console.debug( '[THEME-DEBUG] [TOC] Use customized variant:', useCustomized );
+
 		const newTheme = themes[ newThemeName ];
 		const newThemeKey = newThemeName || '';
 
@@ -414,13 +468,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 		if ( useCustomized && sessionCache[ newThemeKey ] ) {
 			// User selected customized variant - restore from session cache
+			console.debug( '[THEME-DEBUG] [TOC] Restoring from session cache' );
 			valuesToApply = sessionCache[ newThemeKey ];
 		} else {
 			// User selected clean theme - use defaults + theme deltas
+			console.debug( '[THEME-DEBUG] [TOC] Applying clean theme (defaults + theme deltas)' );
 			valuesToApply = newTheme
 				? applyDeltas( allDefaults, newTheme.values || {} )
 				: allDefaults;
 		}
+
+		console.debug( '[THEME-DEBUG] [TOC] Values to apply:', valuesToApply );
 
 		// Apply values and update currentTheme
 		const resetAttrs = { ...valuesToApply };
@@ -434,6 +492,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 		// Set the new theme
 		resetAttrs.currentTheme = newThemeName;
+
+		console.debug( '[THEME-DEBUG] [TOC] Attributes to set:', resetAttrs );
+		console.debug( '[THEME-DEBUG] [TOC] --- Theme Switch Event End ---' );
 
 		setAttributes( resetAttrs );
 	};
@@ -811,38 +872,22 @@ const getInlineStyles = () => {
 
 	return {
 		container: {
-			background-color: effectiveValues.wrapperBackgroundColor || '#ffffff',
+			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
 			color: effectiveValues.blockBorderColor || '#dddddd',
-			color: effectiveValues.linkColor || '#0073aa',
-			color: effectiveValues.linkHoverColor || '#005177',
-			color: effectiveValues.linkActiveColor || '#005177',
-			color: effectiveValues.linkVisitedColor || '#0073aa',
-			color: effectiveValues.numberingColor || '#0073aa',
-			color: effectiveValues.level1Color || '#0073aa',
-			color: effectiveValues.level2Color || '#0073aa',
-			color: effectiveValues.level3PlusColor || '#0073aa',
-			font-size: `${effectiveValues.level1FontSize || 18}px`,
-			font-weight: effectiveValues.level1FontWeight || '600',
-			font-style: effectiveValues.level1FontStyle || 'normal',
-			font-size: `${effectiveValues.level2FontSize || 16}px`,
-			font-weight: effectiveValues.level2FontWeight || 'normal',
-			font-style: effectiveValues.level2FontStyle || 'normal',
-			font-size: `${effectiveValues.level3PlusFontSize || 14}px`,
-			font-weight: effectiveValues.level3PlusFontWeight || 'normal',
-			font-style: effectiveValues.level3PlusFontStyle || 'normal',
-			border-width: `${effectiveValues.blockBorderWidth || 1}px`,
-			border-style: effectiveValues.blockBorderStyle || 'solid',
-			border-radius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
-			box-shadow: effectiveValues.blockShadow || 'none',
-			box-shadow: effectiveValues.blockShadowHover || 'none',
+			fontSize: `${effectiveValues.level1FontSize || 18}px`,
+			fontWeight: effectiveValues.level1FontWeight || '600',
+			fontStyle: effectiveValues.level1FontStyle || 'normal',
+			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
+			borderStyle: effectiveValues.blockBorderStyle || 'solid',
+			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
+			boxShadow: effectiveValues.blockShadow || 'none',
 			padding: `${effectiveValues.wrapperPadding || 20}px`,
-			padding: `${effectiveValues.listPaddingLeft || null}px`,
 		},
 		title: {
 			color: effectiveValues.titleColor || '#333333',
-			background-color: effectiveValues.titleBackgroundColor || 'transparent',
-			font-size: `${effectiveValues.titleFontSize || 20}px`,
-			font-weight: effectiveValues.titleFontWeight || '700',
+			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
+			fontSize: `${effectiveValues.titleFontSize || 20}px`,
+			fontWeight: effectiveValues.titleFontWeight || '700',
 		},
 		icon: {
 			color: effectiveValues.collapseIconColor || '#666666',

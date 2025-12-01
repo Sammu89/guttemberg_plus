@@ -130,28 +130,6 @@
       "order": 6,
       "pago": "nao"
     },
-    "customizations": {
-      "type": "object",
-      "default": {},
-      "group": "behavior",
-      "label": "Customizations",
-      "description": "Stores deltas from expected values (theme + defaults) for inline CSS output",
-      "themeable": false,
-      "reason": "structural",
-      "order": 7,
-      "pago": "nao"
-    },
-    "customizationCache": {
-      "type": "object",
-      "default": {},
-      "group": "behavior",
-      "label": "Customization Cache",
-      "description": "Complete snapshot for safety/restoration (deprecated - for backward compatibility)",
-      "themeable": false,
-      "reason": "structural",
-      "order": 8,
-      "pago": "nao"
-    },
     "initiallyOpen": {
       "type": "boolean",
       "default": false,

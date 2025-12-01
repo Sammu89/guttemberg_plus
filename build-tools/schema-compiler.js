@@ -146,6 +146,13 @@ function toKebabCase(str) {
 }
 
 /**
+ * Convert kebab-case or snake_case to camelCase
+ */
+function toCamelCase(str) {
+  return str.replace(/[-_]([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+/**
  * Ensure directory exists
  */
 function ensureDir(dirPath) {
@@ -1087,9 +1094,18 @@ function generateInlineStylesFunction(schema, blockType) {
 
     code.push(`\t\t${selector}: {`);
 
+    // Track which CSS properties we've already added to avoid duplicates
+    const addedProperties = new Set();
+
     for (const { attrName, attr } of attrs) {
       const cssProperty = attr.cssProperty;
       const defaultValue = attr.default;
+
+      // Skip if we've already added this CSS property
+      if (addedProperties.has(cssProperty)) {
+        continue;
+      }
+      addedProperties.add(cssProperty);
 
       // Format the style value based on type
       let styleValue;
@@ -1114,7 +1130,9 @@ function generateInlineStylesFunction(schema, blockType) {
       }
 
       if (styleValue) {
-        code.push(`\t\t\t${cssProperty}: ${styleValue},`);
+        // Convert CSS property to camelCase for valid JavaScript
+        const jsProperty = toCamelCase(cssProperty);
+        code.push(`\t\t\t${jsProperty}: ${styleValue},`);
       }
     }
 
@@ -1208,18 +1226,18 @@ function injectCodeIntoBlocks(schemas) {
       console.log(`    ✗ edit.js - Error: ${editResult.error}`);
     }
 
-    // Inject into save.js - STYLES marker
+    // Inject into save.js - CUSTOMIZATION-STYLES marker
     const saveStylesCode = generateCustomizationStylesFunction(blockType);
-    const saveResult = injectCodeIntoFile(savePath, 'STYLES', saveStylesCode, {
+    const saveResult = injectCodeIntoFile(savePath, 'CUSTOMIZATION-STYLES', saveStylesCode, {
       backup: false,
       warnIfMissing: false,
     });
 
     if (saveResult.success) {
-      results.success.push(`${blockType}/save.js (STYLES)`);
+      results.success.push(`${blockType}/save.js (CUSTOMIZATION-STYLES)`);
       console.log(`    ✓ save.js - Injected ${saveResult.linesInjected} lines`);
     } else if (saveResult.action === 'skipped') {
-      results.skipped.push(`${blockType}/save.js (STYLES - markers not found)`);
+      results.skipped.push(`${blockType}/save.js (CUSTOMIZATION-STYLES - markers not found)`);
       console.log(`    - save.js - Skipped (no markers)`);
     } else {
       results.errors.push(`${blockType}/save.js: ${saveResult.error}`);

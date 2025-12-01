@@ -51,73 +51,35 @@ export default function Save( { attributes } ) {
 	 * Respects feature toggles for optional border settings
 	 */
 	/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-START ========== */
-	// DO NOT EDIT - This code is auto-generated from schemas/tabs.json
-	// To modify styles, update the schema and run: npm run schema:build
+// DO NOT EDIT - This code is auto-generated from schema
+const getCustomizationStyles = () => {
+  const styles = {};
 
-	const getCustomizationStyles = () => {
-		const styles = {};
+  // Get customizations (deltas from expected values, calculated in edit.js)
+  const customizations = attributes.customizations || {};
 
-		// Define which attributes are controlled by feature toggles
-		const toggledAttributes = {
-			// Focus border settings are controlled by enableFocusBorder
-			focusBorderColor: 'enableFocusBorder',
-			focusBorderColorActive: 'enableFocusBorder',
-			focusBorderWidth: 'enableFocusBorder',
-			focusBorderStyle: 'enableFocusBorder',
-			// Divider border settings are controlled by enableDividerBorder
-			dividerBorderColor: 'enableDividerBorder',
-			dividerBorderWidth: 'enableDividerBorder',
-			dividerBorderStyle: 'enableDividerBorder',
-		};
+  // Process each customization using schema-generated mappings
+  Object.entries(customizations).forEach(([attrName, value]) => {
+    if (value === null || value === undefined) {
+      return;
+    }
 
-		// Reset CSS variables for disabled toggles to prevent unwanted inheritance
-		if ( attributes.enableFocusBorder === false ) {
-			styles['--tabs-focus-border-color'] = 'transparent';
-			styles['--tabs-focus-border-color-active'] = 'transparent';
-			styles['--tabs-focus-border-width'] = '0';
-			styles['--tabs-focus-border-style'] = 'none';
-		}
+    // Get CSS variable name from generated mappings
+    const cssVar = getCssVarName(attrName, 'tabs');
+    if (!cssVar) {
+      return; // Attribute not mapped to a CSS variable
+    }
 
-		if ( attributes.enableDividerBorder === false ) {
-			styles['--tabs-divider-border-color'] = 'transparent';
-			styles['--tabs-divider-border-width'] = '0';
-			styles['--tabs-divider-border-style'] = 'none';
-		}
+    // Format value with proper unit from generated mappings
+    const formattedValue = formatCssValue(attrName, value, 'tabs');
+    if (formattedValue !== null) {
+      styles[cssVar] = formattedValue;
+    }
+  });
 
-		// Process each attribute using schema-generated mappings
-		Object.entries( attributes ).forEach( ( [ attrName, value ] ) => {
-			if ( value === null || value === undefined ) {
-				return;
-			}
-
-			// Skip toggle attributes themselves
-			if ( attrName === 'enableFocusBorder' || attrName === 'enableDividerBorder' ) {
-				return;
-			}
-
-			// Check if this attribute is controlled by a toggle and if that toggle is disabled
-			const controllingToggle = toggledAttributes[ attrName ];
-			if ( controllingToggle && ! attributes[ controllingToggle ] ) {
-				// Toggle is disabled, skip this attribute's CSS variable
-				return;
-			}
-
-			// Get CSS variable name from generated mappings
-			const cssVar = getCssVarName( attrName, 'tabs' );
-			if ( ! cssVar ) {
-				return; // Attribute not mapped to a CSS variable
-			}
-
-			// Format value with proper unit from generated mappings
-			const formattedValue = formatCssValue( attrName, value, 'tabs' );
-			if ( formattedValue !== null ) {
-				styles[ cssVar ] = formattedValue;
-			}
-		} );
-
-		return styles;
-	};
-	/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-END ========== */
+  return styles;
+};
+/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-END ========== */
 
 	const customizationStyles = getCustomizationStyles();
 

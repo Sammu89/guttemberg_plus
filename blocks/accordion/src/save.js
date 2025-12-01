@@ -60,43 +60,35 @@ export default function Save( { attributes } ) {
 	 * Uses auto-generated mappings from schema (single source of truth)
 	 */
 	/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-START ========== */
-	// DO NOT EDIT - This code is auto-generated from schemas/accordion.json
-	// To modify styles, update the schema and run: npm run schema:build
+// DO NOT EDIT - This code is auto-generated from schema
+const getCustomizationStyles = () => {
+  const styles = {};
 
-	const getCustomizationStyles = () => {
-		const styles = {};
+  // Get customizations (deltas from expected values, calculated in edit.js)
+  const customizations = attributes.customizations || {};
 
-		// Get customizations (deltas from expected values, calculated in edit.js)
-		const customizations = attributes.customizations || {};
+  // Process each customization using schema-generated mappings
+  Object.entries(customizations).forEach(([attrName, value]) => {
+    if (value === null || value === undefined) {
+      return;
+    }
 
-		// Process each customization using schema-generated mappings
-		Object.entries( customizations ).forEach( ( [ attrName, value ] ) => {
-			if ( value === null || value === undefined ) {
-				return;
-			}
+    // Get CSS variable name from generated mappings
+    const cssVar = getCssVarName(attrName, 'accordion');
+    if (!cssVar) {
+      return; // Attribute not mapped to a CSS variable
+    }
 
-			// Get CSS variable name from generated mappings
-			const cssVar = getCssVarName( attrName, 'accordion' );
-			if ( ! cssVar ) {
-				return; // Attribute not mapped to a CSS variable
-			}
+    // Format value with proper unit from generated mappings
+    const formattedValue = formatCssValue(attrName, value, 'accordion');
+    if (formattedValue !== null) {
+      styles[cssVar] = formattedValue;
+    }
+  });
 
-			// Format value with proper unit from generated mappings
-			const formattedValue = formatCssValue( attrName, value, 'accordion' );
-			if ( formattedValue !== null ) {
-				styles[ cssVar ] = formattedValue;
-			}
-		} );
-
-		// Width is handled separately (not a CSS variable, uses inline width style)
-		// Only output if width is not the default 100%
-		if ( attributes.accordionWidth && attributes.accordionWidth !== '100%' ) {
-			styles.width = attributes.accordionWidth;
-		}
-
-		return styles;
-	};
-	/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-END ========== */
+  return styles;
+};
+/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-END ========== */
 
 	const customizationStyles = getCustomizationStyles();
 

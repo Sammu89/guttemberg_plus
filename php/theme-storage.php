@@ -31,10 +31,15 @@ function get_option_name( $block_type ) {
  * Validate theme name
  *
  * @param string $name Theme name.
+ * @param bool   $allow_empty Whether to allow empty string (for default theme checks).
  * @return bool|WP_Error True if valid, WP_Error if invalid
  */
-function validate_theme_name( $name ) {
-	if ( empty( $name ) ) {
+function validate_theme_name( $name, $allow_empty = false ) {
+	// Empty string is valid only if explicitly allowed (e.g., for deletion/rename checks)
+	if ( $name === '' || $name === null ) {
+		if ( $allow_empty ) {
+			return true;
+		}
 		return new \WP_Error(
 			'invalid_name',
 			__( 'Theme name cannot be empty', 'guttemberg-plus' )
@@ -376,6 +381,15 @@ function delete_block_theme( $block_type, $name ) {
 		return $validation;
 	}
 
+	// Prevent deletion of default theme (empty string)
+	if ( $name === '' || $name === null ) {
+		return new \WP_Error(
+			'cannot_delete_default',
+			__( 'Cannot delete the Default theme', 'guttemberg-plus' ),
+			array( 'status' => 403 )
+		);
+	}
+
 	$validation = validate_theme_name( $name );
 	if ( is_wp_error( $validation ) ) {
 		return $validation;
@@ -460,6 +474,24 @@ function rename_block_theme( $block_type, $old_name, $new_name ) {
 	$validation = validate_block_type( $block_type );
 	if ( is_wp_error( $validation ) ) {
 		return $validation;
+	}
+
+	// Prevent renaming the default theme (empty string)
+	if ( $old_name === '' || $old_name === null ) {
+		return new \WP_Error(
+			'cannot_rename_default',
+			__( 'Cannot rename the Default theme', 'guttemberg-plus' ),
+			array( 'status' => 403 )
+		);
+	}
+
+	// Prevent renaming TO empty string (reserved for default)
+	if ( $new_name === '' || $new_name === null ) {
+		return new \WP_Error(
+			'invalid_name',
+			__( 'Theme name cannot be empty', 'guttemberg-plus' ),
+			array( 'status' => 400 )
+		);
 	}
 
 	$validation = validate_theme_name( $old_name );
