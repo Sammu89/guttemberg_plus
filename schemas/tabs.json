@@ -5,6 +5,13 @@
   "description": "Complete theme and appearance configuration for Tabs blocks",
   "blockType": "tabs",
   "blockName": "Tabs",
+  "manualSyncRequired": {
+    "description": "CSS properties are auto-generated from cssVar/cssSelector/cssProperty fields",
+    "files": [
+      "blocks/tabs/src/_theme-generated.scss (AUTO-GENERATED - do not edit)"
+    ],
+    "instructions": "CSS variable declarations are automatically generated. Only edit style.scss for structural/layout CSS. To add CSS variables, add cssVar, cssSelector, and cssProperty to schema attributes."
+  },
   "groups": {
     "behaviour": {
       "title": "Behaviour",
@@ -174,17 +181,6 @@
       "order": 6,
       "pago": "nao"
     },
-    "responsiveBreakpoint": {
-      "type": "number",
-      "default": 768,
-      "group": "behaviour",
-      "label": "Responsive Breakpoint",
-      "description": "Width in pixels below which to show accordion fallback",
-      "themeable": false,
-      "reason": "generalal",
-      "order": 7,
-      "pago": "nao"
-    },
     "headingLevel": {
       "type": "string",
       "default": "none",
@@ -237,7 +233,7 @@
     "showIcon": {
       "type": "boolean",
       "default": true,
-      "cssVar": "tab-show-icon",
+      "cssVar": "tabs-show-icon",
       "group": "icon",
       "label": "Show Icon",
       "description": "Display icons in tab buttons",
@@ -264,7 +260,7 @@
     "iconColor": {
       "type": "string",
       "default": "#666666",
-      "cssVar": "tab-icon-color",
+      "cssVar": "tabs-icon-color",
       "group": "icon",
       "label": "Icon Color",
       "description": "Color of the tab icon",
@@ -277,7 +273,7 @@
     "iconSize": {
       "type": "number",
       "default": 16,
-      "cssVar": "tab-icon-size",
+      "cssVar": "tabs-icon-size",
       "group": "icon",
       "label": "Icon Size",
       "description": "Size of the icon in pixels",
@@ -314,7 +310,7 @@
     "iconRotation": {
       "type": "number",
       "default": 180,
-      "cssVar": "tab-icon-rotation",
+      "cssVar": "tabs-icon-rotation",
       "group": "icon",
       "label": "Icon Rotation",
       "description": "Rotation angle when open (degrees)",
@@ -329,7 +325,7 @@
     "tabButtonColor": {
       "type": "string",
       "default": "#666666",
-      "cssVar": "tab-button-color",
+      "cssVar": "tabs-button-color",
       "group": "buttonColors",
       "label": "Tab Button Color",
       "description": "Text color for inactive tab buttons",
@@ -343,7 +339,7 @@
     "tabButtonBackgroundColor": {
       "type": "string",
       "default": "transparent",
-      "cssVar": "tab-button-bg",
+      "cssVar": "tabs-button-bg",
       "group": "buttonColors",
       "label": "Tab Button Background",
       "description": "Background color for inactive tab buttons",
@@ -357,7 +353,7 @@
     "tabButtonHoverColor": {
       "type": "string",
       "default": "#333333",
-      "cssVar": "tab-button-hover-color",
+      "cssVar": "tabs-button-hover-color",
       "group": "buttonHover",
       "label": "Tab Button Hover Color",
       "description": "Text color when hovering over tab",
@@ -371,7 +367,7 @@
     "tabButtonHoverBackgroundColor": {
       "type": "string",
       "default": "#e8e8e8",
-      "cssVar": "tab-button-hover-bg",
+      "cssVar": "tabs-button-hover-bg",
       "group": "buttonHover",
       "label": "Tab Button Hover Background",
       "description": "Background color when hovering over tab",
@@ -385,7 +381,7 @@
     "tabButtonActiveColor": {
       "type": "string",
       "default": "#000000",
-      "cssVar": "tab-button-active-color",
+      "cssVar": "tabs-button-active-color",
       "group": "buttonActive",
       "label": "Tab Button Active Color",
       "description": "Text color for active/selected tab",
@@ -399,7 +395,7 @@
     "tabButtonActiveBackgroundColor": {
       "type": "string",
       "default": "#ffffff",
-      "cssVar": "tab-button-active-bg",
+      "cssVar": "tabs-button-active-bg",
       "group": "buttonActive",
       "label": "Tab Button Active Background",
       "description": "Background color for active/selected tab",
@@ -413,7 +409,7 @@
     "tabButtonActiveBorderColor": {
       "type": "string",
       "default": "#dddddd",
-      "cssVar": "tab-button-active-border-color",
+      "cssVar": "tabs-button-active-border-color",
       "group": "buttonActive",
       "label": "Tab Button Active Border Color",
       "description": "Border color for the active tab",
@@ -427,7 +423,7 @@
     "tabButtonActiveBorderBottomColor": {
       "type": "string",
       "default": "transparent",
-      "cssVar": "tab-button-active-border-bottom-color",
+      "cssVar": "tabs-button-active-border-bottom-color",
       "group": "buttonActive",
       "label": "Tab Button Active Border Bottom",
       "description": "Bottom border color for active tab (creates connected effect)",
@@ -648,7 +644,7 @@
     "tabButtonFontSize": {
       "type": "number",
       "default": 16,
-      "cssVar": "tab-button-font-size",
+      "cssVar": "tabs-button-font-size",
       "group": "buttonTypography",
       "label": "Tab Button Font Size",
       "description": "Font size for tab buttons",

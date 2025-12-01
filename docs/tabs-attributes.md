@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-11-28T01:29:49.189Z
+> Generated at: 2025-12-01T15:39:49.608Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -28,7 +28,6 @@ Behavioral and functional settings that control how tabs work
 | `tabs` | array | _object_ | No (content) | Array of tab items with title, content, and state |
 | `orientation` | string | `horizontal` | No (generalal) | Tab layout orientation |
 | `activationMode` | string | `auto` | No (generalal) | How tabs are activated (auto = focus, manual = click) |
-| `responsiveBreakpoint` | number | `768` | No (generalal) | Width in pixels below which to show accordion fallback |
 | `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
 | `title` | string | `Tabs` | No (content) | Block title (for accessibility) |
 | `verticalTabButtonTextAlign` | string | `left` | No (generalal) | Text alignment for vertical tabs |
@@ -159,18 +158,18 @@ The following CSS custom properties are available for theming:
 
 | Attribute | CSS Variable |
 |-----------|-------------|
-| `showIcon` | `--tab-show-icon` |
-| `iconColor` | `--tab-icon-color` |
-| `iconSize` | `--tab-icon-size` |
-| `iconRotation` | `--tab-icon-rotation` |
-| `tabButtonColor` | `--tab-button-color` |
-| `tabButtonBackgroundColor` | `--tab-button-bg` |
-| `tabButtonHoverColor` | `--tab-button-hover-color` |
-| `tabButtonHoverBackgroundColor` | `--tab-button-hover-bg` |
-| `tabButtonActiveColor` | `--tab-button-active-color` |
-| `tabButtonActiveBackgroundColor` | `--tab-button-active-bg` |
-| `tabButtonActiveBorderColor` | `--tab-button-active-border-color` |
-| `tabButtonActiveBorderBottomColor` | `--tab-button-active-border-bottom-color` |
+| `showIcon` | `--tabs-show-icon` |
+| `iconColor` | `--tabs-icon-color` |
+| `iconSize` | `--tabs-icon-size` |
+| `iconRotation` | `--tabs-icon-rotation` |
+| `tabButtonColor` | `--tabs-button-color` |
+| `tabButtonBackgroundColor` | `--tabs-button-bg` |
+| `tabButtonHoverColor` | `--tabs-button-hover-color` |
+| `tabButtonHoverBackgroundColor` | `--tabs-button-hover-bg` |
+| `tabButtonActiveColor` | `--tabs-button-active-color` |
+| `tabButtonActiveBackgroundColor` | `--tabs-button-active-bg` |
+| `tabButtonActiveBorderColor` | `--tabs-button-active-border-color` |
+| `tabButtonActiveBorderBottomColor` | `--tabs-button-active-border-bottom-color` |
 | `buttonBorderColor` | `--tabs-button-border-color` |
 | `buttonBorderWidth` | `--tabs-button-border-width` |
 | `buttonBorderStyle` | `--tabs-button-border-style` |
@@ -181,7 +180,7 @@ The following CSS custom properties are available for theming:
 | `focusBorderColorActive` | `--tabs-focus-border-color-active` |
 | `focusBorderWidth` | `--tabs-focus-border-width` |
 | `focusBorderStyle` | `--tabs-focus-border-style` |
-| `tabButtonFontSize` | `--tab-button-font-size` |
+| `tabButtonFontSize` | `--tabs-button-font-size` |
 | `tabButtonFontWeight` | `--tab-button-font-weight` |
 | `tabButtonFontStyle` | `--tab-button-font-style` |
 | `tabButtonTextTransform` | `--tab-button-text-transform` |

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-11-28T01:29:49.200Z
+ * Generated at: 2025-12-01T15:39:49.628Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -25,6 +25,29 @@
 // Control configuration for all blocks
 const CONTROL_CONFIGS = {
   'accordion': {
+    'initiallyOpen': {
+      control: 'ToggleControl',
+      label: 'Initially Open',
+      description: 'Whether accordion is open on page load',
+      default: false,
+    },
+    'accordionWidth': {
+      control: 'TextControl',
+      label: 'Width',
+      description: 'Accordion container width (e.g., 100%, 500px)',
+      default: '100%',
+    },
+    'accordionHorizontalAlign': {
+      control: 'SelectControl',
+      options: [
+              "left",
+              "center",
+              "right"
+      ],
+      label: 'Horizontal Alignment',
+      description: 'Horizontal alignment of the accordion',
+      default: 'left',
+    },
     'headingLevel': {
       control: 'SelectControl',
       options: [
@@ -39,6 +62,12 @@ const CONTROL_CONFIGS = {
       label: 'Heading Level',
       description: 'Semantic HTML heading level (none, h1-h6)',
       default: 'none',
+    },
+    'useHeadingStyles': {
+      control: 'ToggleControl',
+      label: 'Use Heading Styles',
+      description: 'Apply default heading styles to title',
+      default: false,
     },
     'titleColor': {
       control: 'ColorPicker',
@@ -154,18 +183,6 @@ const CONTROL_CONFIGS = {
       label: 'Title Font Weight',
       description: 'Font weight for the title',
       default: '600',
-    },
-    'titleFontFamily': {
-      control: 'FontFamilyControl',
-      label: 'Title Font Family',
-      description: 'Font family for the title',
-    },
-    'titleLineHeight': {
-      control: 'RangeControl',
-      min: 1,
-      max: 3,
-      label: 'Title Line Height',
-      description: 'Line height for the title',
     },
     'titleFontStyle': {
       control: 'SelectControl',
@@ -306,84 +323,6 @@ const CONTROL_CONFIGS = {
       label: 'Content Font Weight',
       description: 'Font weight for content',
     },
-    'contentFontFamily': {
-      control: 'FontFamilyControl',
-      label: 'Content Font Family',
-      description: 'Font family for content',
-    },
-    'contentLineHeight': {
-      control: 'RangeControl',
-      min: 1,
-      max: 3,
-      label: 'Content Line Height',
-      description: 'Line height for content',
-      default: 1.6,
-    },
-    'contentFontStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Italic",
-                      "value": "italic"
-              },
-              {
-                      "label": "Oblique",
-                      "value": "oblique"
-              }
-      ],
-      label: 'Content Font Style',
-      description: 'Font style for content',
-    },
-    'contentTextTransform': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Uppercase",
-                      "value": "uppercase"
-              },
-              {
-                      "label": "Lowercase",
-                      "value": "lowercase"
-              },
-              {
-                      "label": "Capitalize",
-                      "value": "capitalize"
-              }
-      ],
-      label: 'Content Text Transform',
-      description: 'Text transformation for content',
-    },
-    'contentTextDecoration': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Underline",
-                      "value": "underline"
-              },
-              {
-                      "label": "Overline",
-                      "value": "overline"
-              },
-              {
-                      "label": "Line Through",
-                      "value": "line-through"
-              }
-      ],
-      label: 'Content Text Decoration',
-      description: 'Text decoration for content',
-    },
     'borderWidth': {
       control: 'RangeControl',
       min: 0,
@@ -475,35 +414,6 @@ const CONTROL_CONFIGS = {
       label: 'Divider Style',
       description: 'Style of divider between title and content',
       default: 'solid',
-    },
-    'titlePadding': {
-      control: 'SpacingControl',
-      unit: 'px',
-      label: 'Title Padding',
-      description: 'Padding inside the title area',
-    },
-    'contentPadding': {
-      control: 'SpacingControl',
-      unit: 'px',
-      label: 'Content Padding',
-      description: 'Padding inside the content area',
-    },
-    'accordionMarginBottom': {
-      control: 'RangeControl',
-      min: 0,
-      max: 50,
-      unit: 'px',
-      label: 'Margin Bottom',
-      description: 'Space between accordion blocks',
-      default: 8,
-    },
-    'itemSpacing': {
-      control: 'RangeControl',
-      min: 0,
-      max: 50,
-      unit: 'px',
-      label: 'Item Spacing',
-      description: 'Spacing between items',
     },
     'showIcon': {
       control: 'ToggleControl',

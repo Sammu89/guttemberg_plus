@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-11-28T01:29:49.183Z
+> Generated at: 2025-12-01T15:39:49.597Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -31,8 +31,7 @@ Non-themeable behavioral and structural settings
 | `customizations` | object | _object_ | No (structural) | Stores deltas from expected values (theme + defaults) for inline CSS output |
 | `customizationCache` | object | _object_ | No (structural) | Complete snapshot for safety/restoration (deprecated - for backward compatibility) |
 | `initiallyOpen` | boolean | `false` | No (behavioral) | Whether accordion is open on page load |
-| `allowMultipleOpen` | boolean | `false` | No (behavioral) | Allow multiple accordions to be open simultaneously |
-| `accordionWidth` | string | `100%` | No (behavioral) | Accordion container width |
+| `accordionWidth` | string | `100%` | No (behavioral) | Accordion container width (e.g., 100%, 500px) |
 | `accordionHorizontalAlign` | string | `left` | No (behavioral) | Horizontal alignment of the accordion |
 | `useHeadingStyles` | boolean | `false` | No (behavioral) | Apply default heading styles to title |
 
@@ -45,19 +44,12 @@ Font settings for title and content
 | `headingLevel` | string | `none` | No (behavioral) | Semantic HTML heading level (none, h1-h6) |
 | `titleFontSize` | number | `18` | Yes | Font size for the title in pixels |
 | `titleFontWeight` | string | `600` | Yes | Font weight for the title |
-| `titleFontFamily` | string | _null_ | Yes | Font family for the title |
-| `titleLineHeight` | number | _null_ | Yes | Line height for the title |
 | `titleFontStyle` | string | `normal` | Yes | Font style for the title |
 | `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
 | `titleTextDecoration` | string | `none` | Yes | Text decoration for the title |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the title |
 | `contentFontSize` | number | `16` | Yes | Font size for content in pixels |
 | `contentFontWeight` | string | _null_ | Yes | Font weight for content |
-| `contentFontFamily` | string | _null_ | Yes | Font family for content |
-| `contentLineHeight` | number | `1.6` | Yes | Line height for content |
-| `contentFontStyle` | string | _null_ | Yes | Font style for content |
-| `contentTextTransform` | string | _null_ | Yes | Text transformation for content |
-| `contentTextDecoration` | string | _null_ | Yes | Text decoration for content |
 
 ## Header Colors
 
@@ -116,17 +108,6 @@ Icon appearance and behavior
 | `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
-## Layout
-
-Spacing, padding, and sizing
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `titlePadding` | object | _object_ | Yes | Padding inside the title area |
-| `contentPadding` | object | _object_ | Yes | Padding inside the content area |
-| `accordionMarginBottom` | number | `8` | Yes | Space between accordion blocks |
-| `itemSpacing` | number | _null_ | Yes | Spacing between items |
-
 ## CSS Variables
 
 The following CSS custom properties are available for theming:
@@ -144,19 +125,12 @@ The following CSS custom properties are available for theming:
 | `iconColor` | `--accordion-icon-color` |
 | `titleFontSize` | `--accordion-title-font-size` |
 | `titleFontWeight` | `--accordion-title-font-weight` |
-| `titleFontFamily` | `--accordion-title-font-family` |
-| `titleLineHeight` | `--accordion-title-line-height` |
 | `titleFontStyle` | `--accordion-title-font-style` |
 | `titleTextTransform` | `--accordion-title-text-transform` |
 | `titleTextDecoration` | `--accordion-title-text-decoration` |
 | `titleAlignment` | `--accordion-title-alignment` |
 | `contentFontSize` | `--accordion-content-font-size` |
 | `contentFontWeight` | `--accordion-content-font-weight` |
-| `contentFontFamily` | `--accordion-content-font-family` |
-| `contentLineHeight` | `--accordion-content-line-height` |
-| `contentFontStyle` | `--accordion-content-font-style` |
-| `contentTextTransform` | `--accordion-content-text-transform` |
-| `contentTextDecoration` | `--accordion-content-text-decoration` |
 | `borderWidth` | `--accordion-border-width` |
 | `borderStyle` | `--accordion-border-style` |
 | `borderRadius` | `--accordion-border-radius` |
@@ -164,10 +138,6 @@ The following CSS custom properties are available for theming:
 | `shadowHover` | `--accordion-border-shadow-hover` |
 | `dividerWidth` | `--accordion-divider-width` |
 | `dividerStyle` | `--accordion-divider-style` |
-| `titlePadding` | `--accordion-title-padding` |
-| `contentPadding` | `--accordion-content-padding` |
-| `accordionMarginBottom` | `--accordion-margin-bottom` |
-| `itemSpacing` | `--accordion-item-spacing` |
 | `iconSize` | `--accordion-icon-size` |
 | `iconRotation` | `--accordion-icon-rotation` |
 

@@ -23,7 +23,8 @@
   "scripts": {
     "schema:validate": "node build-tools/schema-validator.js",
     "schema:build": "node build-tools/schema-compiler.js",
-    "prebuild": "npm run schema:build",
+    "validate:schema-usage": "node build-tools/validate-schema-usage.js",
+    "prebuild": "npm run schema:build && npm run validate:schema-usage",
     "build": "wp-scripts build && npm run postbuild",
     "postbuild": "node build-tools/rename-css-files.js",
     "prestart": "npm run schema:build",

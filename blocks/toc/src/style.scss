@@ -8,6 +8,8 @@
  * @since 1.0.0
  */
 
+@use 'theme-generated';
+
 /* Block wrapper */
 .wp-block-custom-toc {
 	background-color: var(--toc-wrapper-background-color, #ffffff);
@@ -30,7 +32,7 @@
 	font-size: var(--toc-title-font-size, 20px);
 	font-weight: var(--toc-title-font-weight, 700);
 	text-align: var(--toc-title-alignment, left);
-	padding: var(--toc-title-padding, 12px);
+	padding: 12px;
 	margin: 0 0 1rem 0;
 }
 

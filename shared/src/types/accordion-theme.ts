@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-28T01:29:49.174Z
+ * Generated at: 2025-12-01T15:39:49.585Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -39,10 +39,6 @@ export interface AccordionTheme {
   titleFontSize?: number;
   /** Font weight for the title */
   titleFontWeight?: string;
-  /** Font family for the title */
-  titleFontFamily?: string | undefined;
-  /** Line height for the title */
-  titleLineHeight?: number | undefined;
   /** Font style for the title */
   titleFontStyle?: string;
   /** Text transformation for the title */
@@ -55,16 +51,6 @@ export interface AccordionTheme {
   contentFontSize?: number;
   /** Font weight for content */
   contentFontWeight?: string | undefined;
-  /** Font family for content */
-  contentFontFamily?: string | undefined;
-  /** Line height for content */
-  contentLineHeight?: number;
-  /** Font style for content */
-  contentFontStyle?: string | undefined;
-  /** Text transformation for content */
-  contentTextTransform?: string | undefined;
-  /** Text decoration for content */
-  contentTextDecoration?: string | undefined;
   /** Thickness of the accordion wrapper border in pixels */
   borderWidth?: number;
   /** Style of the accordion wrapper border */
@@ -79,14 +65,6 @@ export interface AccordionTheme {
   dividerWidth?: number;
   /** Style of divider between title and content */
   dividerStyle?: string;
-  /** Padding inside the title area */
-  titlePadding?: Record<string, any>;
-  /** Padding inside the content area */
-  contentPadding?: Record<string, any>;
-  /** Space between accordion blocks */
-  accordionMarginBottom?: number;
-  /** Spacing between items */
-  itemSpacing?: number | undefined;
   /** Display expand/collapse icon */
   showIcon?: boolean;
   /** Position of icon relative to title */
@@ -121,7 +99,6 @@ export const accordionDefaultTheme: AccordionTheme = {
   titleTextDecoration: 'none',
   titleAlignment: 'left',
   contentFontSize: 16,
-  contentLineHeight: 1.6,
   borderWidth: 1,
   borderStyle: 'solid',
   borderRadius: {
@@ -134,19 +111,6 @@ export const accordionDefaultTheme: AccordionTheme = {
   shadowHover: 'none',
   dividerWidth: 0,
   dividerStyle: 'solid',
-  titlePadding: {
-    "top": 16,
-    "right": 16,
-    "bottom": 16,
-    "left": 16
-  },
-  contentPadding: {
-    "top": 16,
-    "right": 16,
-    "bottom": 16,
-    "left": 16
-  },
-  accordionMarginBottom: 8,
   showIcon: true,
   iconPosition: 'right',
   iconSize: 20,
@@ -168,7 +132,6 @@ export interface AccordionThemeAttributes {
   customizations?: Record<string, any>;
   customizationCache?: Record<string, any>;
   initiallyOpen?: boolean;
-  allowMultipleOpen?: boolean;
   accordionWidth?: string;
   accordionHorizontalAlign?: string;
   headingLevel?: string;
@@ -184,19 +147,12 @@ export interface AccordionThemeAttributes {
   iconColor?: string;
   titleFontSize?: number;
   titleFontWeight?: string;
-  titleFontFamily?: string | undefined;
-  titleLineHeight?: number | undefined;
   titleFontStyle?: string;
   titleTextTransform?: string;
   titleTextDecoration?: string;
   titleAlignment?: string;
   contentFontSize?: number;
   contentFontWeight?: string | undefined;
-  contentFontFamily?: string | undefined;
-  contentLineHeight?: number;
-  contentFontStyle?: string | undefined;
-  contentTextTransform?: string | undefined;
-  contentTextDecoration?: string | undefined;
   borderWidth?: number;
   borderStyle?: string;
   borderRadius?: Record<string, any>;
@@ -204,10 +160,6 @@ export interface AccordionThemeAttributes {
   shadowHover?: string;
   dividerWidth?: number;
   dividerStyle?: string;
-  titlePadding?: Record<string, any>;
-  contentPadding?: Record<string, any>;
-  accordionMarginBottom?: number;
-  itemSpacing?: number | undefined;
   showIcon?: boolean;
   iconPosition?: string;
   iconSize?: number;
