@@ -1,0 +1,69 @@
+/**
+ * AUTO-GENERATED FILE - DO NOT EDIT
+ * Generated from: schemas/accordion.json
+ * Generated at: 2025-12-01T15:39:49.660Z
+ *
+ * This file contains CSS variable declarations for themeable properties.
+ * Import this file in style.scss: @use 'theme-generated';
+ */
+
+.accordion-header {
+  /* Text color for the accordion title */
+  color: var(--accordion-title-color, #333333);
+  /* Background color for the accordion title */
+  background-color: var(--accordion-title-bg, #f5f5f5);
+  /* Text color when hovering over title */
+  color: var(--accordion-title-hover-color, #000000);
+  /* Background color when hovering over title */
+  background-color: var(--accordion-title-hover-bg, #e8e8e8);
+  /* Font size for the title in pixels */
+  font-size: var(--accordion-title-font-size, 18px);
+  /* Font weight for the title */
+  font-weight: var(--accordion-title-font-weight, 600);
+  /* Font style for the title */
+  font-style: var(--accordion-title-font-style, normal);
+  /* Text transformation for the title */
+  text-transform: var(--accordion-title-text-transform, none);
+  /* Text decoration for the title */
+  text-decoration: var(--accordion-title-text-decoration, none);
+  /* Text alignment for the title */
+  text-align: var(--accordion-title-alignment, left);
+}
+
+.accordion-content {
+  /* Text color for accordion content */
+  color: var(--accordion-content-color, #333333);
+  /* Background color for accordion content */
+  background-color: var(--accordion-content-bg, #ffffff);
+  /* Color of divider between title and content */
+  border-top-color: var(--accordion-divider-color, #dddddd);
+  /* Font size for content in pixels */
+  font-size: var(--accordion-content-font-size, 16px);
+  /* Thickness of divider between title and content */
+  border-top-width: var(--accordion-divider-width, 0px);
+  /* Style of divider between title and content */
+  border-top-style: var(--accordion-divider-style, solid);
+}
+
+.wp-block-guttemberg-plus-accordion {
+  /* Color of the accordion wrapper border */
+  border-color: var(--accordion-border-color, #dddddd);
+  /* Thickness of the accordion wrapper border in pixels */
+  border-width: var(--accordion-border-width, 1px);
+  /* Style of the accordion wrapper border */
+  border-style: var(--accordion-border-style, solid);
+  /* Corner radius of the accordion wrapper */
+  border-radius: var(--accordion-border-radius, 4px 4px 4px 4px);
+  /* CSS box-shadow for the accordion wrapper */
+  box-shadow: var(--accordion-border-shadow, none);
+  /* CSS box-shadow for the accordion wrapper on hover */
+  box-shadow: var(--accordion-border-shadow-hover, none);
+}
+
+.accordion-icon {
+  /* Color of the expand/collapse icon */
+  color: var(--accordion-icon-color, #666666);
+  /* Size of the icon in pixels */
+  font-size: var(--accordion-icon-size, 20px);
+}
+

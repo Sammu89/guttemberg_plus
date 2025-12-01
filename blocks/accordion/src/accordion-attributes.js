@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-11-28T01:29:49.178Z
+ * Generated at: 2025-12-01T15:39:49.590Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -52,10 +52,6 @@ export const accordionAttributes = {
     default: {},
   },
   initiallyOpen: {
-    type: 'boolean',
-    default: false,
-  },
-  allowMultipleOpen: {
     type: 'boolean',
     default: false,
   },
@@ -119,14 +115,6 @@ export const accordionAttributes = {
     type: 'string',
     default: '600',
   },
-  titleFontFamily: {
-    type: 'string',
-    default: null,
-  },
-  titleLineHeight: {
-    type: 'number',
-    default: null,
-  },
   titleFontStyle: {
     type: 'string',
     default: 'normal',
@@ -148,26 +136,6 @@ export const accordionAttributes = {
     default: 16,
   },
   contentFontWeight: {
-    type: 'string',
-    default: null,
-  },
-  contentFontFamily: {
-    type: 'string',
-    default: null,
-  },
-  contentLineHeight: {
-    type: 'number',
-    default: 1.6,
-  },
-  contentFontStyle: {
-    type: 'string',
-    default: null,
-  },
-  contentTextTransform: {
-    type: 'string',
-    default: null,
-  },
-  contentTextDecoration: {
     type: 'string',
     default: null,
   },
@@ -198,22 +166,6 @@ export const accordionAttributes = {
   dividerStyle: {
     type: 'string',
     default: 'solid',
-  },
-  titlePadding: {
-    type: 'object',
-    default: {"top":16,"right":16,"bottom":16,"left":16},
-  },
-  contentPadding: {
-    type: 'object',
-    default: {"top":16,"right":16,"bottom":16,"left":16},
-  },
-  accordionMarginBottom: {
-    type: 'number',
-    default: 8,
-  },
-  itemSpacing: {
-    type: 'number',
-    default: null,
   },
   showIcon: {
     type: 'boolean',

@@ -5,6 +5,13 @@
   "description": "Complete theme and appearance configuration for Table of Contents blocks",
   "blockType": "toc",
   "blockName": "Table of Contents",
+  "manualSyncRequired": {
+    "description": "CSS properties are auto-generated from cssVar/cssSelector/cssProperty fields",
+    "files": [
+      "blocks/toc/src/_theme-generated.scss (AUTO-GENERATED - do not edit)"
+    ],
+    "instructions": "CSS variable declarations are automatically generated. Only edit style.scss for structural/layout CSS. To add CSS variables, add cssVar, cssSelector, and cssProperty to schema attributes."
+  },
   "groups": {
     "headerColors": {
       "title": "Header Colors",

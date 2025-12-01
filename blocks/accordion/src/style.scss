@@ -8,6 +8,8 @@
  * @since 1.0.0
  */
 
+@use 'theme-generated';
+
 /* Shared block wrapper styles for sammu-blocks */
 .sammu-blocks {
 	margin: 1em 0;
@@ -37,17 +39,10 @@
 
 /* Accordion item */
 .accordion-item {
-	margin-bottom: var(--accordion-margin-bottom, 0.5rem);
-	border: var(--accordion-border-width, 1px) var(--accordion-border-style, solid) var(--accordion-border-color, #ddd);
-	border-radius: var(--accordion-border-radius, 4px);
+	margin-bottom: 0.5rem;
 	overflow: hidden;
-	box-shadow: var(--accordion-border-shadow, none);
 	transition: box-shadow 0.2s ease;
 	outline: none;
-
-	&:hover {
-		box-shadow: var(--accordion-border-shadow-hover, none);
-	}
 
 	&:last-child {
 		margin-bottom: 0;
@@ -59,23 +54,11 @@
 	display: flex;
 	align-items: center;
 	width: 100%;
-	padding: var(--accordion-title-padding, 1rem 1.5rem);
-	background-color: var(--accordion-title-bg, #f5f5f5);
-	color: var(--accordion-title-color, #333);
-	font-size: var(--accordion-title-font-size, 1rem);
-	font-weight: var(--accordion-title-font-weight, 600);
+	padding: 1rem 1.5rem;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
 
-	&:hover {
-		background-color: var(--accordion-title-hover-bg, #e8e8e8);
-		color: var(--accordion-title-hover-color, #000);
-	}
-
 	&:focus {
-		// Use same colors as normal state to prevent theme CSS override
-		background-color: var(--accordion-title-bg, #f5f5f5);
-		color: var(--accordion-title-color, #333);
 		// Inset box-shadow with blur for darker gradient entering from edges
 		box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 		// Override WordPress global focus outline style
@@ -99,8 +82,6 @@
 .accordion-title-text {
 	/* Use flex: 1 1 auto to allow text to grow while respecting other flex items */
 	flex: 1 1 auto;
-	/* Apply text alignment from CSS variable or inline style */
-	text-align: var(--accordion-title-alignment, left);
 	/* Ensure min-width allows text to take available space */
 	/* Use !important to override WordPress RichText's inline min-width: 1px */
 	min-width: 0 !important;
@@ -113,9 +94,7 @@
 	justify-content: center;
 	width: var(--accordion-icon-size, 1.5rem);
 	height: var(--accordion-icon-size, 1.5rem);
-	font-size: var(--accordion-icon-size, 1.25rem);
-	color: var(--accordion-icon-color, currentColor);
-	transition: transform var(--accordion-animation-duration, 300ms) ease, opacity var(--accordion-animation-duration, 300ms) ease;
+	transition: transform 300ms ease, opacity 300ms ease;
 
 	&.is-rotated {
 		transform: rotate(var(--accordion-icon-rotation, 180deg));
@@ -130,16 +109,12 @@
 	/* Enforce maximum size of 18x18px for image icons */
 	max-width: 18px;
 	max-height: 18px;
-	transition: opacity var(--accordion-animation-duration, 300ms) ease;
+	transition: opacity 300ms ease;
 }
 
 /* Content panel - handles height animation only, no padding */
 .accordion-content {
-	background-color: var(--accordion-content-bg, #fff);
-	color: var(--accordion-content-color, #333);
-	font-size: var(--accordion-content-font-size, 0.95rem);
-	line-height: var(--accordion-content-line-height, 1.6);
-	border-top: var(--accordion-border-divider-width, 0) var(--accordion-border-divider-style, solid) var(--accordion-border-divider-color, transparent);
+	line-height: 1.6;
 	overflow: hidden;
 
 	/* Hide divider border when collapsing */
@@ -154,32 +129,29 @@
 
 /* Content inner wrapper - has padding */
 .accordion-content-inner {
-	padding: var(--accordion-content-padding, 1rem 1.5rem);
-}
-
-/* Animation variables */
-:root {
-	--accordion-animation-duration: 300ms;
-	--accordion-icon-rotation: 180deg;
+	padding: 1rem 1.5rem;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
 
 	.accordion-title {
-		padding: var(--accordion-title-padding-mobile, 0.875rem 1.25rem);
-		font-size: var(--accordion-title-font-size-mobile, 0.95rem);
+		padding: 0.875rem 1.25rem;
+		font-size: 0.95rem;
+	}
+
+	.accordion-content-inner {
+		padding: 0.875rem 1.25rem;
 	}
 
 	.accordion-content {
-		padding: var(--accordion-content-padding-mobile, 0.875rem 1.25rem);
-		font-size: var(--accordion-content-font-size-mobile, 0.9rem);
+		font-size: 0.9rem;
 	}
 
 	.accordion-icon {
-		width: var(--accordion-icon-size-mobile, 1.25rem);
-		height: var(--accordion-icon-size-mobile, 1.25rem);
-		font-size: var(--accordion-icon-size-mobile, 1.1rem);
+		width: 1.25rem;
+		height: 1.25rem;
+		font-size: 1.1rem;
 	}
 }
 

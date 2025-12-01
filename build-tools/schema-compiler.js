@@ -13,6 +13,7 @@
  * - PHP CSS variable mappings (php/css-defaults/css-mappings-generated.php)
  * - Control configuration (shared/src/config/control-config-generated.js)
  * - CSS variable declarations (assets/css/)
+ * - Style builder functions (shared/src/styles/)
  * - Markdown documentation (docs/)
  *
  * @package GuttemberPlus
@@ -21,6 +22,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { generateStyleBuilder } = require('./generators/style-builder-generator');
 
 // ============================================================================
 // Configuration
@@ -38,6 +40,7 @@ const OUTPUT_DIRS = {
   css: path.join(ROOT_DIR, 'assets', 'css'),
   docs: path.join(ROOT_DIR, 'docs'),
   blockAttributes: path.join(ROOT_DIR, 'blocks'),
+  styles: path.join(ROOT_DIR, 'shared', 'src', 'styles'),
 };
 
 // Block configurations
@@ -646,8 +649,7 @@ function generateCSSVariables(blockType, schema) {
 
 :root {\n`;
 
-  // Collect all themeable attributes and use default values directly
-  // (defaults now include units, e.g., "18px", "1.6", "180deg")
+  // Collect all themeable attributes and use default values with units
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
     if (attr.themeable && attr.cssVar && attr.default !== undefined && attr.default !== null && attr.default !== '') {
       // Skip complex objects (they need special handling)
@@ -655,7 +657,13 @@ function generateCSSVariables(blockType, schema) {
         continue;
       }
 
-      content += `  --${attr.cssVar}: ${attr.default};\n`;
+      // Format value with unit if applicable
+      let cssValue = attr.default;
+      if (attr.type === 'number' && attr.unit) {
+        cssValue = `${attr.default}${attr.unit}`;
+      }
+
+      content += `  --${attr.cssVar}: ${cssValue};\n`;
     }
   }
 
@@ -910,6 +918,321 @@ export default CONTROL_CONFIGS;
 }
 
 // ============================================================================
+// Code Injection System
+// ============================================================================
+
+/**
+ * Escape string for use in regular expressions
+ * @param {string} string - The string to escape
+ * @returns {string} Escaped string safe for regex
+ */
+function escapeRegex(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Inject generated code between marker comments in a manual file
+ *
+ * @param {string} filePath - Absolute path to the file to inject into
+ * @param {string} markerName - Unique marker identifier (e.g., 'STYLES', 'DEFAULTS')
+ * @param {string} generatedCode - The code to inject between markers
+ * @param {Object} options - Optional configuration
+ * @param {boolean} options.backup - Whether to backup before injection (default: true)
+ * @param {boolean} options.warnIfMissing - Log warning if markers not found (default: true)
+ * @returns {Object} Result object with success status and details
+ */
+function injectCodeIntoFile(filePath, markerName, generatedCode, options = {}) {
+  const { backup = true, warnIfMissing = true } = options;
+
+  try {
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      return {
+        success: false,
+        error: `File not found: ${filePath}`,
+        action: 'skipped',
+      };
+    }
+
+    // Read current file content
+    const originalContent = fs.readFileSync(filePath, 'utf8');
+
+    // Define marker format
+    const startMarker = `/* ========== AUTO-GENERATED-${markerName}-START ========== */`;
+    const endMarker = `/* ========== AUTO-GENERATED-${markerName}-END ========== */`;
+
+    // Check if markers exist
+    const hasStartMarker = originalContent.includes(startMarker);
+    const hasEndMarker = originalContent.includes(endMarker);
+
+    if (!hasStartMarker || !hasEndMarker) {
+      if (warnIfMissing) {
+        console.warn(`  ⚠️  Warning: Markers not found in ${path.basename(filePath)} (${markerName})`);
+      }
+      return {
+        success: false,
+        error: 'Markers not found',
+        action: 'skipped',
+        missingMarkers: {
+          start: !hasStartMarker,
+          end: !hasEndMarker,
+        },
+      };
+    }
+
+    // Create backup if requested
+    if (backup) {
+      const backupPath = `${filePath}.backup`;
+      fs.writeFileSync(backupPath, originalContent, 'utf8');
+    }
+
+    // Build the injection block with markers and generated code
+    const injectionBlock = `${startMarker}\n// DO NOT EDIT - This code is auto-generated from schema\n${generatedCode}\n${endMarker}`;
+
+    // Create regex to match content between markers (including markers)
+    const regex = new RegExp(
+      `${escapeRegex(startMarker)}[\\s\\S]*?${escapeRegex(endMarker)}`,
+      'g'
+    );
+
+    // Replace content between markers
+    const newContent = originalContent.replace(regex, injectionBlock);
+
+    // Verify replacement occurred
+    if (newContent === originalContent) {
+      return {
+        success: false,
+        error: 'Content unchanged after injection',
+        action: 'failed',
+      };
+    }
+
+    // Write updated content
+    fs.writeFileSync(filePath, newContent, 'utf8');
+
+    return {
+      success: true,
+      action: 'injected',
+      linesInjected: generatedCode.split('\n').length,
+      marker: markerName,
+    };
+
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message,
+      action: 'error',
+    };
+  }
+}
+
+/**
+ * Generate inline styles function code from schema
+ * This creates the getInlineStyles() function for edit.js
+ *
+ * NOTE: This is a simplified version that generates a placeholder.
+ * Full implementation requires cssSelector and cssProperty fields in schema.
+ * For v1, we keep manual getInlineStyles() functions and use markers for future automation.
+ *
+ * @param {Object} schema - Block schema with attributes
+ * @param {string} blockType - Block type name (accordion, tabs, toc)
+ * @returns {string} Generated JavaScript code
+ */
+function generateInlineStylesFunction(schema, blockType) {
+  const code = [];
+
+  code.push(`// AUTO-GENERATED from schemas/${blockType}.json`);
+  code.push(`// To modify styles, update the schema and run: npm run schema:build`);
+  code.push(``);
+  code.push(`const getInlineStyles = () => {`);
+  code.push(`  // Extract object-type attributes with fallbacks`);
+
+  // Find all object-type attributes (padding, border radius, etc.)
+  const objectAttrs = Object.entries(schema.attributes)
+    .filter(([, attr]) => attr.type === 'object' && attr.themeable);
+
+  for (const [attrName, attr] of objectAttrs) {
+    const defaultValue = JSON.stringify(attr.default || {}, null, 4).replace(/\n/g, '\n\t\t');
+    code.push(`\tconst ${attrName} = effectiveValues.${attrName} || ${defaultValue};`);
+  }
+
+  code.push(``);
+  code.push(`\treturn {`);
+
+  // Map CSS selectors to simplified keys (container, title, content, icon)
+  const selectorMap = {
+    'container': [],
+    'title': [],
+    'content': [],
+    'icon': [],
+  };
+
+  // Group attributes by simplified selector names
+  for (const [attrName, attr] of Object.entries(schema.attributes)) {
+    if (!attr.themeable || !attr.cssProperty) continue;
+
+    // Determine selector group from attribute name patterns
+    let selectorKey = 'container';
+    if (attrName.toLowerCase().includes('title')) selectorKey = 'title';
+    else if (attrName.toLowerCase().includes('content')) selectorKey = 'content';
+    else if (attrName.toLowerCase().includes('icon')) selectorKey = 'icon';
+    else if (attrName.toLowerCase().includes('divider')) selectorKey = 'content';
+
+    selectorMap[selectorKey].push({ attrName, attr });
+  }
+
+  // Generate styles for each selector
+  for (const [selector, attrs] of Object.entries(selectorMap)) {
+    if (attrs.length === 0) continue;
+
+    code.push(`\t\t${selector}: {`);
+
+    for (const { attrName, attr } of attrs) {
+      const cssProperty = attr.cssProperty;
+      const defaultValue = attr.default;
+
+      // Format the style value based on type
+      let styleValue;
+
+      if (attr.type === 'object') {
+        // Handle objects like padding/border-radius
+        if (attrName.includes('Padding')) {
+          styleValue = `\`\${${attrName}.top}px \${${attrName}.right}px \${${attrName}.bottom}px \${${attrName}.left}px\``;
+        } else if (attrName.includes('Radius')) {
+          styleValue = `\`\${${attrName}.topLeft}px \${${attrName}.topRight}px \${${attrName}.bottomRight}px \${${attrName}.bottomLeft}px\``;
+        }
+      } else if (attr.type === 'number' && attr.unit) {
+        // Number with unit
+        styleValue = `\`\${effectiveValues.${attrName} || ${defaultValue}}${attr.unit}\``;
+      } else if (attr.type === 'string') {
+        // String value with proper quoting
+        const quotedDefault = String(defaultValue).replace(/'/g, "\\'");
+        styleValue = `effectiveValues.${attrName} || '${quotedDefault}'`;
+      } else if (attr.type === 'boolean') {
+        // Boolean (usually for display property)
+        styleValue = `effectiveValues.${attrName} ? 'flex' : 'none'`;
+      }
+
+      if (styleValue) {
+        code.push(`\t\t\t${cssProperty}: ${styleValue},`);
+      }
+    }
+
+    code.push(`\t\t},`);
+  }
+
+  code.push(`\t};`);
+  code.push(`};`);
+
+  return code.join('\n');
+}
+
+/**
+ * Generate customization styles function for save.js
+ * This creates the getCustomizationStyles() function
+ *
+ * @param {string} blockType - Block type name (accordion, tabs, toc)
+ * @returns {string} Generated JavaScript code
+ */
+function generateCustomizationStylesFunction(blockType) {
+  const code = [];
+
+  code.push(`const getCustomizationStyles = () => {`);
+  code.push(`  const styles = {};`);
+  code.push(``);
+  code.push(`  // Get customizations (deltas from expected values, calculated in edit.js)`);
+  code.push(`  const customizations = attributes.customizations || {};`);
+  code.push(``);
+  code.push(`  // Process each customization using schema-generated mappings`);
+  code.push(`  Object.entries(customizations).forEach(([attrName, value]) => {`);
+  code.push(`    if (value === null || value === undefined) {`);
+  code.push(`      return;`);
+  code.push(`    }`);
+  code.push(``);
+  code.push(`    // Get CSS variable name from generated mappings`);
+  code.push(`    const cssVar = getCssVarName(attrName, '${blockType}');`);
+  code.push(`    if (!cssVar) {`);
+  code.push(`      return; // Attribute not mapped to a CSS variable`);
+  code.push(`    }`);
+  code.push(``);
+  code.push(`    // Format value with proper unit from generated mappings`);
+  code.push(`    const formattedValue = formatCssValue(attrName, value, '${blockType}');`);
+  code.push(`    if (formattedValue !== null) {`);
+  code.push(`      styles[cssVar] = formattedValue;`);
+  code.push(`    }`);
+  code.push(`  });`);
+  code.push(``);
+  code.push(`  return styles;`);
+  code.push(`};`);
+
+  return code.join('\n');
+}
+
+/**
+ * Inject code into all block edit.js and save.js files
+ *
+ * @param {Object} schemas - All loaded schemas by block type
+ * @returns {Object} Summary of injection results
+ */
+function injectCodeIntoBlocks(schemas) {
+  console.log('\nInjecting auto-generated code into manual files...\n');
+
+  const results = {
+    success: [],
+    skipped: [],
+    errors: [],
+  };
+
+  for (const [blockType, schema] of Object.entries(schemas)) {
+    console.log(`  ${schema.blockName} (${blockType}):`);
+
+    const blockDir = path.join(OUTPUT_DIRS.blockAttributes, blockType, 'src');
+    const editPath = path.join(blockDir, 'edit.js');
+    const savePath = path.join(blockDir, 'save.js');
+
+    // Inject into edit.js - STYLES marker
+    const editStylesCode = generateInlineStylesFunction(schema, blockType);
+    const editResult = injectCodeIntoFile(editPath, 'STYLES', editStylesCode, {
+      backup: false, // Don't create backups for now
+      warnIfMissing: false, // Don't warn on first run
+    });
+
+    if (editResult.success) {
+      results.success.push(`${blockType}/edit.js (STYLES)`);
+      console.log(`    ✓ edit.js - Injected ${editResult.linesInjected} lines`);
+    } else if (editResult.action === 'skipped') {
+      results.skipped.push(`${blockType}/edit.js (STYLES - markers not found)`);
+      console.log(`    - edit.js - Skipped (no markers)`);
+    } else {
+      results.errors.push(`${blockType}/edit.js: ${editResult.error}`);
+      console.log(`    ✗ edit.js - Error: ${editResult.error}`);
+    }
+
+    // Inject into save.js - STYLES marker
+    const saveStylesCode = generateCustomizationStylesFunction(blockType);
+    const saveResult = injectCodeIntoFile(savePath, 'STYLES', saveStylesCode, {
+      backup: false,
+      warnIfMissing: false,
+    });
+
+    if (saveResult.success) {
+      results.success.push(`${blockType}/save.js (STYLES)`);
+      console.log(`    ✓ save.js - Injected ${saveResult.linesInjected} lines`);
+    } else if (saveResult.action === 'skipped') {
+      results.skipped.push(`${blockType}/save.js (STYLES - markers not found)`);
+      console.log(`    - save.js - Skipped (no markers)`);
+    } else {
+      results.errors.push(`${blockType}/save.js: ${saveResult.error}`);
+      console.log(`    ✗ save.js - Error: ${saveResult.error}`);
+    }
+  }
+
+  console.log('');
+
+  return results;
+}
+
+// ============================================================================
 // Main Compiler
 // ============================================================================
 
@@ -1030,6 +1353,17 @@ async function compile() {
         results.errors.push(`Documentation generation failed for ${blockType}: ${error.message}`);
       }
 
+      // Style builders
+      try {
+        const { fileName, content } = generateStyleBuilder(blockType, schema);
+        const filePath = path.join(OUTPUT_DIRS.styles, fileName);
+        fs.writeFileSync(filePath, content);
+        results.files.push({ path: filePath, lines: content.split('\n').length });
+        console.log(`    - styles/${fileName}`);
+      } catch (error) {
+        results.errors.push(`Style builder generation failed for ${blockType}: ${error.message}`);
+      }
+
       console.log('');
     }
 
@@ -1072,6 +1406,19 @@ async function compile() {
 
     console.log('');
 
+    // ========================================
+    // Code Injection Phase
+    // ========================================
+    const injectionResults = injectCodeIntoBlocks(schemas);
+
+    // Add injection results to overall results
+    results.injections = {
+      success: injectionResults.success.length,
+      skipped: injectionResults.skipped.length,
+      errors: injectionResults.errors.length,
+      details: injectionResults,
+    };
+
   } catch (error) {
     results.errors.push(`Compilation failed: ${error.message}`);
   }
@@ -1085,6 +1432,11 @@ async function compile() {
 
   console.log(`  Files generated: ${results.files.length}`);
   console.log(`  Total lines: ${results.files.reduce((sum, f) => sum + f.lines, 0)}`);
+
+  if (results.injections) {
+    console.log(`  Code injections: ${results.injections.success} successful, ${results.injections.skipped} skipped`);
+  }
+
   console.log(`  Errors: ${results.errors.length}`);
   console.log(`  Time: ${elapsed}ms\n`);
 
@@ -1102,7 +1454,16 @@ async function compile() {
 }
 
 // Run compiler
-compile().catch(error => {
+async function main() {
+  // Run schema compilation first
+  await compile();
+
+  // Then run CSS generation
+  const cssGenerator = require('./css-generator');
+  await cssGenerator.generate();
+}
+
+main().catch(error => {
   console.error('Fatal error:', error);
   process.exit(1);
 });

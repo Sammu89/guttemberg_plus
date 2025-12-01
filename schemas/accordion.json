@@ -5,7 +5,21 @@
   "description": "Complete theme and appearance configuration for Accordion blocks",
   "blockType": "accordion",
   "blockName": "Accordion",
+  "manualSyncRequired": {
+    "description": "CSS properties are auto-generated from cssVar/cssSelector/cssProperty fields",
+    "files": [
+      "blocks/accordion/src/_theme-generated.scss (AUTO-GENERATED - do not edit)"
+    ],
+    "instructions": "CSS variable declarations are automatically generated. Only edit style.scss for structural/layout CSS. To add CSS variables, add cssVar, cssSelector, and cssProperty to schema attributes."
+  },
   "groups": {
+    "behavior": {
+      "title": "Behavior",
+      "description": "Non-themeable behavioral and structural settings",
+      "order": 1,
+      "initialOpen": true,
+      "pago": "nao"
+    },
     "headerColors": {
       "title": "Header Colors",
       "description": "Title/header text and background colors including hover and active states",
@@ -46,20 +60,6 @@
       "description": "Icon appearance and behavior",
       "order": 7,
       "initialOpen": false,
-      "pago": "nao"
-    },
-    "layout": {
-      "title": "Layout",
-      "description": "Spacing, padding, and sizing",
-      "order": 8,
-      "initialOpen": false,
-      "pago": "nao"
-    },
-    "behavior": {
-      "title": "Behavior",
-      "description": "Non-themeable behavioral and structural settings",
-      "order": 1,
-      "initialOpen": true,
       "pago": "nao"
     }
   },
@@ -160,18 +160,8 @@
       "description": "Whether accordion is open on page load",
       "themeable": false,
       "reason": "behavioral",
+      "control": "ToggleControl",
       "order": 9,
-      "pago": "nao"
-    },
-    "allowMultipleOpen": {
-      "type": "boolean",
-      "default": false,
-      "group": "behavior",
-      "label": "Allow Multiple Open",
-      "description": "Allow multiple accordions to be open simultaneously",
-      "themeable": false,
-      "reason": "behavioral",
-      "order": 10,
       "pago": "nao"
     },
     "accordionWidth": {
@@ -179,9 +169,10 @@
       "default": "100%",
       "group": "behavior",
       "label": "Width",
-      "description": "Accordion container width",
+      "description": "Accordion container width (e.g., 100%, 500px)",
       "themeable": false,
       "reason": "behavioral",
+      "control": "TextControl",
       "order": 11,
       "pago": "nao"
     },
@@ -193,6 +184,12 @@
       "description": "Horizontal alignment of the accordion",
       "themeable": false,
       "reason": "behavioral",
+      "control": "SelectControl",
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
       "order": 12,
       "pago": "nao"
     },
@@ -225,6 +222,7 @@
       "description": "Apply default heading styles to title",
       "themeable": false,
       "reason": "behavioral",
+      "control": "ToggleControl",
       "order": 14,
       "pago": "nao"
     },
@@ -324,7 +322,7 @@
       "order": 21,
       "pago": "nao",
       "cssSelector": ".wp-block-guttemberg-plus-accordion",
-      "cssProperty": "color"
+      "cssProperty": "border-color"
     },
     "dividerColor": {
       "type": "string",
@@ -337,8 +335,8 @@
       "control": "ColorPicker",
       "order": 22,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
-      "cssProperty": "color"
+      "cssSelector": ".accordion-content",
+      "cssProperty": "border-top-color"
     },
     "iconColor": {
       "type": "string",
@@ -431,36 +429,6 @@
       "cssSelector": ".accordion-header",
       "cssProperty": "font-weight"
     },
-    "titleFontFamily": {
-      "type": "string",
-      "default": null,
-      "cssVar": "accordion-title-font-family",
-      "group": "typography",
-      "label": "Title Font Family",
-      "description": "Font family for the title",
-      "themeable": true,
-      "control": "FontFamilyControl",
-      "order": 26,
-      "pago": "nao",
-      "cssSelector": ".accordion-header"
-    },
-    "titleLineHeight": {
-      "type": "number",
-      "default": null,
-      "cssVar": "accordion-title-line-height",
-      "group": "typography",
-      "label": "Title Line Height",
-      "description": "Line height for the title",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 1,
-      "max": 3,
-      "step": 0.1,
-      "order": 27,
-      "pago": "nao",
-      "cssSelector": ".accordion-header",
-      "cssProperty": "line-height"
-    },
     "titleFontStyle": {
       "type": "string",
       "default": "normal",
@@ -518,7 +486,8 @@
       ],
       "order": 29,
       "pago": "nao",
-      "cssSelector": ".accordion-header"
+      "cssSelector": ".accordion-header",
+      "cssProperty": "text-transform"
     },
     "titleTextDecoration": {
       "type": "string",
@@ -549,7 +518,8 @@
       ],
       "order": 30,
       "pago": "nao",
-      "cssSelector": ".accordion-header"
+      "cssSelector": ".accordion-header",
+      "cssProperty": "text-decoration"
     },
     "titleAlignment": {
       "type": "string",
@@ -567,7 +537,8 @@
       ],
       "order": 31,
       "pago": "nao",
-      "cssSelector": ".accordion-header"
+      "cssSelector": ".accordion-header",
+      "cssProperty": "text-align"
     },
     "contentFontSize": {
       "type": "number",
@@ -645,126 +616,6 @@
       "pago": "nao",
       "cssSelector": ".accordion-content",
       "cssProperty": "font-weight"
-    },
-    "contentFontFamily": {
-      "type": "string",
-      "default": null,
-      "cssVar": "accordion-content-font-family",
-      "group": "typography",
-      "label": "Content Font Family",
-      "description": "Font family for content",
-      "themeable": true,
-      "control": "FontFamilyControl",
-      "order": 34,
-      "pago": "nao",
-      "cssSelector": ".accordion-content"
-    },
-    "contentLineHeight": {
-      "type": "number",
-      "default": 1.6,
-      "cssVar": "accordion-content-line-height",
-      "group": "typography",
-      "label": "Content Line Height",
-      "description": "Line height for content",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 1,
-      "max": 3,
-      "step": 0.1,
-      "order": 35,
-      "pago": "nao",
-      "cssSelector": ".accordion-content",
-      "cssProperty": "line-height"
-    },
-    "contentFontStyle": {
-      "type": "string",
-      "default": null,
-      "cssVar": "accordion-content-font-style",
-      "group": "typography",
-      "label": "Content Font Style",
-      "description": "Font style for content",
-      "themeable": true,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "Normal",
-          "value": "normal"
-        },
-        {
-          "label": "Italic",
-          "value": "italic"
-        },
-        {
-          "label": "Oblique",
-          "value": "oblique"
-        }
-      ],
-      "order": 36,
-      "pago": "nao",
-      "cssSelector": ".accordion-content",
-      "cssProperty": "font-style"
-    },
-    "contentTextTransform": {
-      "type": "string",
-      "default": null,
-      "cssVar": "accordion-content-text-transform",
-      "group": "typography",
-      "label": "Content Text Transform",
-      "description": "Text transformation for content",
-      "themeable": true,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "None",
-          "value": "none"
-        },
-        {
-          "label": "Uppercase",
-          "value": "uppercase"
-        },
-        {
-          "label": "Lowercase",
-          "value": "lowercase"
-        },
-        {
-          "label": "Capitalize",
-          "value": "capitalize"
-        }
-      ],
-      "order": 37,
-      "pago": "nao",
-      "cssSelector": ".accordion-content"
-    },
-    "contentTextDecoration": {
-      "type": "string",
-      "default": null,
-      "cssVar": "accordion-content-text-decoration",
-      "group": "typography",
-      "label": "Content Text Decoration",
-      "description": "Text decoration for content",
-      "themeable": true,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "None",
-          "value": "none"
-        },
-        {
-          "label": "Underline",
-          "value": "underline"
-        },
-        {
-          "label": "Overline",
-          "value": "overline"
-        },
-        {
-          "label": "Line Through",
-          "value": "line-through"
-        }
-      ],
-      "order": 38,
-      "pago": "nao",
-      "cssSelector": ".accordion-content"
     },
     "borderWidth": {
       "type": "number",
@@ -881,7 +732,8 @@
       "unit": "px",
       "order": 44,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion"
+      "cssSelector": ".accordion-content",
+      "cssProperty": "border-top-width"
     },
     "dividerStyle": {
       "type": "string",
@@ -916,80 +768,8 @@
       ],
       "order": 45,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion"
-    },
-    "titlePadding": {
-      "type": "object",
-      "default": {
-        "top": 16,
-        "right": 16,
-        "bottom": 16,
-        "left": 16
-      },
-      "cssVar": "accordion-title-padding",
-      "group": "layout",
-      "label": "Title Padding",
-      "description": "Padding inside the title area",
-      "themeable": true,
-      "control": "SpacingControl",
-      "unit": "px",
-      "order": 46,
-      "pago": "nao",
-      "cssSelector": ".accordion-header",
-      "cssProperty": "padding"
-    },
-    "contentPadding": {
-      "type": "object",
-      "default": {
-        "top": 16,
-        "right": 16,
-        "bottom": 16,
-        "left": 16
-      },
-      "cssVar": "accordion-content-padding",
-      "group": "layout",
-      "label": "Content Padding",
-      "description": "Padding inside the content area",
-      "themeable": true,
-      "control": "SpacingControl",
-      "unit": "px",
-      "order": 47,
-      "pago": "nao",
       "cssSelector": ".accordion-content",
-      "cssProperty": "padding"
-    },
-    "accordionMarginBottom": {
-      "type": "number",
-      "default": 8,
-      "cssVar": "accordion-margin-bottom",
-      "group": "layout",
-      "label": "Margin Bottom",
-      "description": "Space between accordion blocks",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 50,
-      "unit": "px",
-      "order": 48,
-      "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
-      "cssProperty": "margin"
-    },
-    "itemSpacing": {
-      "type": "number",
-      "default": null,
-      "cssVar": "accordion-item-spacing",
-      "group": "layout",
-      "label": "Item Spacing",
-      "description": "Spacing between items",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 50,
-      "unit": "px",
-      "order": 49,
-      "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion"
+      "cssProperty": "border-top-style"
     },
     "showIcon": {
       "type": "boolean",
@@ -1033,7 +813,8 @@
       "unit": "px",
       "order": 52,
       "pago": "nao",
-      "cssSelector": ".accordion-icon"
+      "cssSelector": ".accordion-icon",
+      "cssProperty": "font-size"
     },
     "iconTypeClosed": {
       "type": "string",
