@@ -1,21 +1,17 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
- * Generated from: schemas/accordion.json
- * Generated at: 2025-12-01T18:09:25.752Z
+ * Generated from: schemas/accordion.json + schemas/accordion-structure.json
+ * Generated at: 2025-12-08T00:22:34.910Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
  */
 
-.accordion-header {
+.accordion-title {
   /* Text color for the accordion title */
   color: var(--accordion-title-color, #333333);
   /* Background color for the accordion title */
   background-color: var(--accordion-title-bg, #f5f5f5);
-  /* Text color when hovering over title */
-  color: var(--accordion-title-hover-color, #000000);
-  /* Background color when hovering over title */
-  background-color: var(--accordion-title-hover-bg, #e8e8e8);
   /* Font size for the title in pixels */
   font-size: var(--accordion-title-font-size, 18px);
   /* Font weight for the title */
@@ -28,6 +24,13 @@
   text-decoration: var(--accordion-title-text-decoration, none);
   /* Text alignment for the title */
   text-align: var(--accordion-title-alignment, left);
+
+  &:hover {
+    /* Text color when hovering over title */
+    color: var(--accordion-title-hover-color, #000000);
+    /* Background color when hovering over title */
+    background-color: var(--accordion-title-hover-bg, #e8e8e8);
+  }
 }
 
 .accordion-content {
@@ -45,7 +48,7 @@
   border-top-style: var(--accordion-divider-style, solid);
 }
 
-.wp-block-guttemberg-plus-accordion {
+.accordion-item {
   /* Color of the accordion wrapper border */
   border-color: var(--accordion-border-color, #dddddd);
   /* Thickness of the accordion wrapper border in pixels */
@@ -56,8 +59,11 @@
   border-radius: var(--accordion-border-radius, 4px 4px 4px 4px);
   /* CSS box-shadow for the accordion wrapper */
   box-shadow: var(--accordion-border-shadow, none);
-  /* CSS box-shadow for the accordion wrapper on hover */
-  box-shadow: var(--accordion-border-shadow-hover, none);
+
+  &:hover {
+    /* CSS box-shadow for the accordion wrapper on hover */
+    box-shadow: var(--accordion-border-shadow-hover, none);
+  }
 }
 
 .accordion-icon {
@@ -65,5 +71,7 @@
   color: var(--accordion-icon-color, #666666);
   /* Size of the icon in pixels */
   font-size: var(--accordion-icon-size, 20px);
+  /* Rotation angle when open (degrees) */
+  transform: var(--accordion-icon-rotation, 180deg);
 }
 

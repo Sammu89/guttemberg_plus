@@ -215,7 +215,7 @@
       "control": "ColorPicker",
       "order": 15,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "color"
     },
     "titleBackgroundColor": {
@@ -229,7 +229,7 @@
       "control": "ColorPicker",
       "order": 16,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "background-color"
     },
     "hoverTitleColor": {
@@ -243,7 +243,7 @@
       "control": "ColorPicker",
       "order": 17,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "color"
     },
     "hoverTitleBackgroundColor": {
@@ -257,7 +257,7 @@
       "control": "ColorPicker",
       "order": 18,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "background-color"
     },
     "contentColor": {
@@ -271,7 +271,7 @@
       "control": "ColorPicker",
       "order": 19,
       "pago": "nao",
-      "cssSelector": ".accordion-content",
+      "appliesTo": "content",
       "cssProperty": "color"
     },
     "contentBackgroundColor": {
@@ -285,7 +285,7 @@
       "control": "ColorPicker",
       "order": 20,
       "pago": "nao",
-      "cssSelector": ".accordion-content",
+      "appliesTo": "content",
       "cssProperty": "background-color"
     },
     "borderColor": {
@@ -299,7 +299,7 @@
       "control": "ColorPicker",
       "order": 21,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
+      "appliesTo": "item",
       "cssProperty": "border-color"
     },
     "dividerColor": {
@@ -313,7 +313,7 @@
       "control": "ColorPicker",
       "order": 22,
       "pago": "nao",
-      "cssSelector": ".accordion-content",
+      "appliesTo": "content",
       "cssProperty": "border-top-color"
     },
     "iconColor": {
@@ -327,7 +327,7 @@
       "control": "ColorPicker",
       "order": 23,
       "pago": "nao",
-      "cssSelector": ".accordion-icon",
+      "appliesTo": "icon",
       "cssProperty": "color"
     },
     "titleFontSize": {
@@ -344,7 +344,7 @@
       "unit": "px",
       "order": 24,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "font-size"
     },
     "titleFontWeight": {
@@ -404,7 +404,7 @@
       ],
       "order": 25,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "font-weight"
     },
     "titleFontStyle": {
@@ -432,7 +432,7 @@
       ],
       "order": 28,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "font-style"
     },
     "titleTextTransform": {
@@ -464,7 +464,7 @@
       ],
       "order": 29,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "text-transform"
     },
     "titleTextDecoration": {
@@ -496,7 +496,7 @@
       ],
       "order": 30,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "text-decoration"
     },
     "titleAlignment": {
@@ -515,7 +515,7 @@
       ],
       "order": 31,
       "pago": "nao",
-      "cssSelector": ".accordion-header",
+      "appliesTo": "title",
       "cssProperty": "text-align"
     },
     "contentFontSize": {
@@ -532,7 +532,7 @@
       "unit": "px",
       "order": 32,
       "pago": "nao",
-      "cssSelector": ".accordion-content",
+      "appliesTo": "content",
       "cssProperty": "font-size"
     },
     "contentFontWeight": {
@@ -592,7 +592,7 @@
       ],
       "order": 33,
       "pago": "nao",
-      "cssSelector": ".accordion-content",
+      "appliesTo": "content",
       "cssProperty": "font-weight"
     },
     "borderWidth": {
@@ -609,7 +609,7 @@
       "unit": "px",
       "order": 39,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
+      "appliesTo": "item",
       "cssProperty": "border-width"
     },
     "borderStyle": {
@@ -645,7 +645,7 @@
       ],
       "order": 40,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
+      "appliesTo": "item",
       "cssProperty": "border-style"
     },
     "borderRadius": {
@@ -665,7 +665,7 @@
       "unit": "px",
       "order": 41,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
+      "appliesTo": "item",
       "cssProperty": "border-radius"
     },
     "shadow": {
@@ -679,7 +679,7 @@
       "control": "TextControl",
       "order": 42,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
+      "appliesTo": "item",
       "cssProperty": "box-shadow"
     },
     "shadowHover": {
@@ -693,7 +693,7 @@
       "control": "TextControl",
       "order": 43,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-accordion",
+      "appliesTo": "item",
       "cssProperty": "box-shadow"
     },
     "dividerWidth": {
@@ -710,7 +710,7 @@
       "unit": "px",
       "order": 44,
       "pago": "nao",
-      "cssSelector": ".accordion-content",
+      "appliesTo": "content",
       "cssProperty": "border-top-width"
     },
     "dividerStyle": {
@@ -746,7 +746,7 @@
       ],
       "order": 45,
       "pago": "nao",
-      "cssSelector": ".accordion-content",
+      "appliesTo": "content",
       "cssProperty": "border-top-style"
     },
     "showIcon": {
@@ -755,7 +755,7 @@
       "group": "icon",
       "label": "Show Icon",
       "description": "Display expand/collapse icon",
-      "themeable": true,
+      "themeable": false,
       "control": "ToggleControl",
       "order": 50,
       "pago": "nao"
@@ -766,7 +766,7 @@
       "group": "icon",
       "label": "Icon Position",
       "description": "Position of icon relative to title",
-      "themeable": true,
+      "themeable": false,
       "control": "SelectControl",
       "options": [
         "left",
@@ -791,7 +791,7 @@
       "unit": "px",
       "order": 52,
       "pago": "nao",
-      "cssSelector": ".accordion-icon",
+      "appliesTo": "icon",
       "cssProperty": "font-size"
     },
     "iconTypeClosed": {
@@ -800,7 +800,7 @@
       "group": "icon",
       "label": "Closed Icon",
       "description": "Icon when accordion is closed",
-      "themeable": true,
+      "themeable": false,
       "control": "IconPicker",
       "order": 53,
       "pago": "nao"
@@ -811,7 +811,7 @@
       "group": "icon",
       "label": "Open Icon",
       "description": "Icon when accordion is open (none = use just iconTypeClosed with rotation)",
-      "themeable": true,
+      "themeable": false,
       "control": "IconPicker",
       "order": 54,
       "pago": "nao"
@@ -830,7 +830,8 @@
       "unit": "deg",
       "order": 55,
       "pago": "nao",
-      "cssSelector": ".accordion-icon"
+      "appliesTo": "icon",
+      "cssProperty": "transform"
     }
   }
 }

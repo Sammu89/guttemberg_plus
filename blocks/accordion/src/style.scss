@@ -49,6 +49,11 @@
 	}
 }
 
+/* Accordion title wrapper (editor only) */
+.accordion-title-wrapper {
+	padding: 20px;
+}
+
 /* Accordion title/button */
 .accordion-title {
 	display: flex;
@@ -129,7 +134,7 @@
 
 /* Content inner wrapper - has padding */
 .accordion-content-inner {
-	padding: 1rem 1.5rem;
+	padding: 20px;
 }
 
 /* Responsive adjustments */

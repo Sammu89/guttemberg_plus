@@ -1,27 +1,58 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
- * Generated from: schemas/toc.json
- * Generated at: 2025-12-01T18:09:25.754Z
+ * Generated from: schemas/toc.json + schemas/toc-structure.json
+ * Generated at: 2025-12-08T00:22:34.913Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
  */
 
-.wp-block-guttemberg-plus-toc {
+.wp-block-custom-toc {
   /* Background color of the TOC wrapper */
   background-color: var(--toc-wrapper-background-color, #ffffff);
   /* Border color of the TOC wrapper */
   color: var(--toc-border-color, #dddddd);
+  /* Width of the wrapper border in pixels */
+  border-width: var(--toc-border-width, 1px);
+  /* Style of the wrapper border */
+  border-style: var(--toc-border-style, solid);
+  /* Corner radius of the wrapper */
+  border-radius: var(--toc-border-radius, 4px 4px 4px 4px);
+  /* CSS box-shadow for the wrapper */
+  box-shadow: var(--toc-border-shadow, none);
+  /* Padding inside the TOC wrapper */
+  padding: var(--toc-wrapper-padding, 20px);
+  /* Top offset for sticky/fixed positioning */
+  top: var(--toc-position-top, 100px);
+  /* Stack order for positioned TOC */
+  z-index: var(--toc-z-index, 100);
+
+  &:hover {
+    /* CSS box-shadow for the wrapper on hover */
+    box-shadow: var(--toc-border-shadow-hover, none);
+  }
+}
+
+.toc-title {
+  /* Text color for the TOC title */
+  color: var(--toc-title-color, #333333);
+  /* Background color for the TOC title */
+  background-color: var(--toc-title-background-color, transparent);
+  /* Font size for the TOC title in pixels */
+  font-size: var(--toc-title-font-size, 20px);
+  /* Font weight for the TOC title */
+  font-weight: var(--toc-title-font-weight, 700);
+  /* Text alignment for the title */
+  text-align: var(--toc-title-alignment, left);
+}
+
+.toc-link {
   /* Default color for TOC links */
   color: var(--toc-link-color, #0073aa);
-  /* Color when hovering over links */
-  color: var(--toc-link-hover-color, #005177);
   /* Color for the currently active link */
   color: var(--toc-link-active-color, #005177);
   /* Color for visited links */
   color: var(--toc-link-visited-color, #0073aa);
-  /* Color for list numbering */
-  color: var(--toc-numbering-color, #0073aa);
   /* Text color for level 1 headings (H2) */
   color: var(--toc-level1-color, #0073aa);
   /* Text color for level 2 headings (H3) */
@@ -34,40 +65,50 @@
   font-weight: var(--toc-level1-font-weight, 600);
   /* Font style for level 1 items */
   font-style: var(--toc-level1-font-style, normal);
+  /* Text transformation for level 1 items */
+  text-transform: var(--toc-level1-text-transform, none);
+  /* Text decoration for level 1 items */
+  text-decoration: var(--toc-level1-text-decoration, none);
   /* Font size for level 2 items (H3) in pixels */
   font-size: var(--toc-level2-font-size, 16px);
   /* Font weight for level 2 items */
   font-weight: var(--toc-level2-font-weight, normal);
   /* Font style for level 2 items */
   font-style: var(--toc-level2-font-style, normal);
+  /* Text transformation for level 2 items */
+  text-transform: var(--toc-level2-text-transform, none);
+  /* Text decoration for level 2 items */
+  text-decoration: var(--toc-level2-text-decoration, none);
   /* Font size for level 3+ items (H4-H6) in pixels */
   font-size: var(--toc-level3-plus-font-size, 14px);
   /* Font weight for level 3+ items */
   font-weight: var(--toc-level3-plus-font-weight, normal);
   /* Font style for level 3+ items */
   font-style: var(--toc-level3-plus-font-style, normal);
-  /* Width of the wrapper border in pixels */
-  border-width: var(--toc-border-width, 1px);
-  /* Style of the wrapper border */
-  border-style: var(--toc-border-style, solid);
-  /* Corner radius of the wrapper */
-  border-radius: var(--toc-border-radius, 4px 4px 4px 4px);
-  /* CSS box-shadow for the wrapper */
-  box-shadow: var(--toc-border-shadow, none);
-  /* CSS box-shadow for the wrapper on hover */
-  box-shadow: var(--toc-border-shadow-hover, none);
-  /* Padding inside the TOC wrapper */
-  padding: var(--toc-wrapper-padding, 20px);
+  /* Text transformation for level 3+ items */
+  text-transform: var(--toc-level3-plus-text-transform, none);
+  /* Text decoration for level 3+ items */
+  text-decoration: var(--toc-level3-plus-text-decoration, none);
+
+  &:hover {
+    /* Color when hovering over links */
+    color: var(--toc-link-hover-color, #005177);
+  }
 }
 
-.toc-link {
-  /* Text color for the TOC title */
-  color: var(--toc-title-color, #333333);
-  /* Background color for the TOC title */
-  background-color: var(--toc-title-background-color, transparent);
-  /* Font size for the TOC title in pixels */
-  font-size: var(--toc-title-font-size, 20px);
-  /* Font weight for the TOC title */
-  font-weight: var(--toc-title-font-weight, 700);
+.toc-list {
+  /* Color for list numbering */
+  color: var(--toc-numbering-color, #0073aa);
+  /* Vertical space between TOC items */
+  margin-bottom: var(--toc-item-spacing, 8px);
+  /* Indentation per heading level */
+  margin-left: var(--toc-level-indent, 20px);
+}
+
+.toc-collapse-icon {
+  /* Color of the collapse/expand icon */
+  color: var(--toc-collapse-icon-color, #666666);
+  /* Size of the collapse/expand icon */
+  font-size: var(--toc-collapse-icon-size, 20px);
 }
 

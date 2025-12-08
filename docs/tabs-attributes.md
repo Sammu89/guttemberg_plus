@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-01T18:09:25.727Z
+> Generated at: 2025-12-08T00:22:34.884Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -38,13 +38,13 @@ Icon appearance and styling
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
-| `iconPosition` | string | `right` | Yes | Position of icon relative to text |
+| `showIcon` | boolean | `true` | No (behavioral) | Display icons in tab buttons |
+| `iconPosition` | string | `right` | No (behavioral) | Position of icon relative to text |
 | `iconColor` | string | `#666666` | Yes | Color of the tab icon |
 | `iconSize` | number | `16` | Yes | Size of the icon in pixels |
-| `iconTypeClosed` | string | `▾` | Yes | Icon when tab is closed (char or image URL) |
-| `iconTypeOpen` | string | `none` | Yes | Icon when tab is open (none = use closed icon with rotation) |
-| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
+| `iconTypeClosed` | string | `▾` | No (behavioral) | Icon when tab is closed (char or image URL) |
+| `iconTypeOpen` | string | `none` | No (behavioral) | Icon when tab is open (none = use closed icon with rotation) |
+| `iconRotation` | number | `180` | No (behavioral) | Rotation angle when open (degrees) |
 
 ## Button Colors
 
@@ -94,12 +94,12 @@ Individual button borders and navigation bar divider borders adjacent to content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `enableFocusBorder` | boolean | `true` | Yes | Enable or disable focus border settings for tab buttons |
+| `enableFocusBorder` | boolean | `true` | No (behavioral) | Enable or disable focus border settings for tab buttons |
 | `focusBorderColor` | string | `#0073aa` | Yes | Border color for inactive button edge adjacent to content |
 | `focusBorderColorActive` | string | `#0073aa` | Yes | Border color for active button edge adjacent to content |
 | `focusBorderWidth` | number | `2` | Yes | Width of button edge adjacent to content |
 | `focusBorderStyle` | string | `solid` | Yes | Style of button edge adjacent to content |
-| `enableDividerBorder` | boolean | `true` | Yes | Enable or disable divider border settings for navigation bar |
+| `enableDividerBorder` | boolean | `true` | No (behavioral) | Enable or disable divider border settings for navigation bar |
 | `dividerBorderColor` | string | `#dddddd` | Yes | Color of navbar border adjacent to content |
 | `dividerBorderWidth` | number | `1` | Yes | Width of navbar border adjacent to content |
 | `dividerBorderStyle` | string | `solid` | Yes | Style of navbar border adjacent to content |
@@ -158,10 +158,8 @@ The following CSS custom properties are available for theming:
 
 | Attribute | CSS Variable |
 |-----------|-------------|
-| `showIcon` | `--tabs-show-icon` |
 | `iconColor` | `--tabs-icon-color` |
 | `iconSize` | `--tabs-icon-size` |
-| `iconRotation` | `--tabs-icon-rotation` |
 | `tabButtonColor` | `--tabs-button-color` |
 | `tabButtonBackgroundColor` | `--tabs-button-bg` |
 | `tabButtonHoverColor` | `--tabs-button-hover-color` |

@@ -237,25 +237,32 @@
       "group": "icon",
       "label": "Show Icon",
       "description": "Display icons in tab buttons",
-      "themeable": true,
+      "themeable": false,
+      "reason": "behavioral",
       "control": "ToggleControl",
       "order": 11,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabButton",
+      "cssProperty": "display"
     },
     "iconPosition": {
       "type": "string",
       "default": "right",
+      "cssVar": "tabs-icon-position",
       "group": "icon",
       "label": "Icon Position",
       "description": "Position of icon relative to text",
-      "themeable": true,
+      "themeable": false,
+      "reason": "behavioral",
       "control": "SelectControl",
       "options": [
         "left",
         "right"
       ],
       "order": 12,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabButton",
+      "cssProperty": "flex-direction"
     },
     "iconColor": {
       "type": "string",
@@ -268,6 +275,7 @@
       "control": "ColorPicker",
       "order": 13,
       "pago": "nao",
+      "appliesTo": "tabIcon",
       "cssProperty": "color"
     },
     "iconSize": {
@@ -283,29 +291,39 @@
       "max": 48,
       "unit": "px",
       "order": 14,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabIcon",
+      "cssProperty": "font-size"
     },
     "iconTypeClosed": {
       "type": "string",
       "default": "▾",
+      "cssVar": "tabs-icon-type-closed",
       "group": "icon",
       "label": "Closed Icon",
       "description": "Icon when tab is closed (char or image URL)",
-      "themeable": true,
+      "themeable": false,
+      "reason": "behavioral",
       "control": "IconPicker",
       "order": 15,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabIcon",
+      "cssProperty": "content"
     },
     "iconTypeOpen": {
       "type": "string",
       "default": "none",
+      "cssVar": "tabs-icon-type-open",
       "group": "icon",
       "label": "Open Icon",
       "description": "Icon when tab is open (none = use closed icon with rotation)",
-      "themeable": true,
+      "themeable": false,
+      "reason": "behavioral",
       "control": "IconPicker",
       "order": 16,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabIcon",
+      "cssProperty": "content"
     },
     "iconRotation": {
       "type": "number",
@@ -314,13 +332,16 @@
       "group": "icon",
       "label": "Icon Rotation",
       "description": "Rotation angle when open (degrees)",
-      "themeable": true,
+      "themeable": false,
+      "reason": "behavioral",
       "control": "RangeControl",
       "min": -360,
       "max": 360,
       "unit": "deg",
       "order": 17,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabIcon",
+      "cssProperty": "transform"
     },
     "tabButtonColor": {
       "type": "string",
@@ -333,7 +354,7 @@
       "control": "ColorPicker",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "color"
     },
     "tabButtonBackgroundColor": {
@@ -347,7 +368,7 @@
       "control": "ColorPicker",
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
     "tabButtonHoverColor": {
@@ -361,7 +382,7 @@
       "control": "ColorPicker",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "color"
     },
     "tabButtonHoverBackgroundColor": {
@@ -375,7 +396,7 @@
       "control": "ColorPicker",
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
     "tabButtonActiveColor": {
@@ -389,7 +410,7 @@
       "control": "ColorPicker",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "color"
     },
     "tabButtonActiveBackgroundColor": {
@@ -403,7 +424,7 @@
       "control": "ColorPicker",
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
     "tabButtonActiveBorderColor": {
@@ -417,7 +438,7 @@
       "control": "ColorPicker",
       "order": 3,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "color"
     },
     "tabButtonActiveBorderBottomColor": {
@@ -431,7 +452,7 @@
       "control": "ColorPicker",
       "order": 4,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "color"
     },
     "buttonBorderColor": {
@@ -445,7 +466,7 @@
       "control": "ColorPicker",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "color"
     },
     "buttonBorderWidth": {
@@ -462,7 +483,7 @@
       "unit": "px",
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "border-width"
     },
     "buttonBorderStyle": {
@@ -498,7 +519,7 @@
       ],
       "order": 3,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "border-style"
     },
     "buttonBorderRadius": {
@@ -518,7 +539,7 @@
       "unit": "px",
       "order": 4,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "border-radius"
     },
     "buttonShadow": {
@@ -532,7 +553,7 @@
       "control": "TextControl",
       "order": 5,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "box-shadow"
     },
     "buttonShadowHover": {
@@ -546,19 +567,23 @@
       "control": "TextControl",
       "order": 6,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "box-shadow"
     },
     "enableFocusBorder": {
       "type": "boolean",
       "default": true,
+      "cssVar": "tabs-enable-focus-border",
       "group": "specialBorders",
       "label": "Enable Focus Border",
       "description": "Enable or disable focus border settings for tab buttons",
-      "themeable": true,
+      "themeable": false,
+      "reason": "behavioral",
       "control": "ToggleControl",
       "order": 1,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabButton",
+      "cssProperty": "border"
     },
     "focusBorderColor": {
       "type": "string",
@@ -571,7 +596,7 @@
       "control": "ColorPicker",
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "border-color"
     },
     "focusBorderColorActive": {
@@ -585,7 +610,7 @@
       "control": "ColorPicker",
       "order": 3,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "border-color"
     },
     "focusBorderWidth": {
@@ -602,7 +627,7 @@
       "unit": "px",
       "order": 4,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "border-width"
     },
     "focusBorderStyle": {
@@ -638,7 +663,7 @@
       ],
       "order": 5,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "border-style"
     },
     "tabButtonFontSize": {
@@ -655,7 +680,7 @@
       "unit": "px",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "font-size"
     },
     "tabButtonFontWeight": {
@@ -715,7 +740,7 @@
       ],
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "font-weight"
     },
     "tabButtonFontStyle": {
@@ -743,7 +768,7 @@
       ],
       "order": 3,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabButton",
       "cssProperty": "font-style"
     },
     "tabButtonTextTransform": {
@@ -775,7 +800,8 @@
       ],
       "order": 4,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs"
+      "appliesTo": "tabButton",
+      "cssProperty": "text-transform"
     },
     "tabButtonTextDecoration": {
       "type": "string",
@@ -806,7 +832,8 @@
       ],
       "order": 5,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs"
+      "appliesTo": "tabButton",
+      "cssProperty": "text-decoration"
     },
     "tabButtonTextAlign": {
       "type": "string",
@@ -824,7 +851,8 @@
       ],
       "order": 6,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs"
+      "appliesTo": "tabButton",
+      "cssProperty": "text-align"
     },
     "tabListBackgroundColor": {
       "type": "string",
@@ -837,7 +865,7 @@
       "control": "ColorPicker",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabsList",
       "cssProperty": "background-color"
     },
     "tabListAlignment": {
@@ -856,7 +884,8 @@
       ],
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs"
+      "appliesTo": "tabsList",
+      "cssProperty": "justify-content"
     },
     "panelBackgroundColor": {
       "type": "string",
@@ -869,7 +898,7 @@
       "control": "ColorPicker",
       "order": 3,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabPanel",
       "cssProperty": "background-color"
     },
     "panelColor": {
@@ -883,7 +912,7 @@
       "control": "ColorPicker",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-tabs",
+      "appliesTo": "tabPanel",
       "cssProperty": "color"
     },
     "panelBorderColor": {
@@ -896,7 +925,9 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 2,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabPanel",
+      "cssProperty": "border-color"
     },
     "panelBorderWidth": {
       "type": "number",
@@ -911,7 +942,9 @@
       "max": 10,
       "unit": "px",
       "order": 3,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabPanel",
+      "cssProperty": "border-width"
     },
     "panelBorderStyle": {
       "type": "string",
@@ -945,7 +978,9 @@
         }
       ],
       "order": 4,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabPanel",
+      "cssProperty": "border-style"
     },
     "panelBorderRadius": {
       "type": "object",
@@ -963,7 +998,9 @@
       "control": "BorderRadiusControl",
       "unit": "px",
       "order": 5,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabPanel",
+      "cssProperty": "border-radius"
     },
     "borderColor": {
       "type": "string",
@@ -976,7 +1013,7 @@
       "control": "ColorPicker",
       "order": 1,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "wrapper",
       "cssProperty": "border-color"
     },
     "borderWidth": {
@@ -993,7 +1030,7 @@
       "unit": "px",
       "order": 2,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "wrapper",
       "cssProperty": "border-width"
     },
     "borderStyle": {
@@ -1029,7 +1066,7 @@
       ],
       "order": 3,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "wrapper",
       "cssProperty": "border-style"
     },
     "borderRadius": {
@@ -1049,7 +1086,7 @@
       "unit": "px",
       "order": 4,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "wrapper",
       "cssProperty": "border-radius"
     },
     "shadow": {
@@ -1063,7 +1100,7 @@
       "control": "TextControl",
       "order": 5,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
     "shadowHover": {
@@ -1077,19 +1114,23 @@
       "control": "TextControl",
       "order": 6,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
     "enableDividerBorder": {
       "type": "boolean",
       "default": true,
+      "cssVar": "tabs-enable-divider-border",
       "group": "specialBorders",
       "label": "Enable Divider Border",
       "description": "Enable or disable divider border settings for navigation bar",
-      "themeable": true,
+      "themeable": false,
+      "reason": "behavioral",
       "control": "ToggleControl",
       "order": 6,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "tabsList",
+      "cssProperty": "border"
     },
     "dividerBorderColor": {
       "type": "string",
@@ -1102,7 +1143,7 @@
       "control": "ColorPicker",
       "order": 7,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "tabsList",
       "cssProperty": "border-color"
     },
     "dividerBorderWidth": {
@@ -1119,7 +1160,7 @@
       "unit": "px",
       "order": 8,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "tabsList",
       "cssProperty": "border-width"
     },
     "dividerBorderStyle": {
@@ -1155,7 +1196,7 @@
       ],
       "order": 9,
       "pago": "nao",
-      "cssSelector": ".wp-block-custom-tabs",
+      "appliesTo": "tabsList",
       "cssProperty": "border-style"
     }
   }

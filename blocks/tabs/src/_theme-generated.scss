@@ -1,21 +1,24 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
- * Generated from: schemas/tabs.json
- * Generated at: 2025-12-01T18:09:25.753Z
+ * Generated from: schemas/tabs.json + schemas/tabs-structure.json
+ * Generated at: 2025-12-08T00:22:34.911Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
  */
 
-.wp-block-guttemberg-plus-tabs {
+.tab-icon {
+  /* Color of the tab icon */
+  color: var(--tabs-icon-color, #666666);
+  /* Size of the icon in pixels */
+  font-size: var(--tabs-icon-size, 16px);
+}
+
+.tab-button {
   /* Text color for inactive tab buttons */
   color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
   background-color: var(--tabs-button-bg, transparent);
-  /* Text color when hovering over tab */
-  color: var(--tabs-button-hover-color, #333333);
-  /* Background color when hovering over tab */
-  background-color: var(--tabs-button-hover-bg, #e8e8e8);
   /* Text color for active/selected tab */
   color: var(--tabs-button-active-color, #000000);
   /* Background color for active/selected tab */
@@ -28,23 +31,6 @@
   border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
   /* Box shadow for tab buttons */
   box-shadow: var(--tabs-button-border-shadow, none);
-  /* Box shadow for tab buttons on hover */
-  box-shadow: var(--tabs-button-border-shadow-hover, none);
-  /* Font size for tab buttons */
-  font-size: var(--tabs-button-font-size, 16px);
-  /* Font weight for tab buttons */
-  font-weight: var(--tab-button-font-weight, 500);
-  /* Font style for tab buttons */
-  font-style: var(--tab-button-font-style, normal);
-  /* Background color for the tab navigation bar */
-  background-color: var(--tab-list-bg, #f5f5f5);
-  /* Background color for tab panels */
-  background-color: var(--tab-panel-bg, #ffffff);
-  /* Text color for tab panel content */
-  color: var(--tab-panel-color, #333333);
-}
-
-.wp-block-custom-tabs {
   /* Border color for inactive button edge adjacent to content */
   border-color: var(--tabs-focus-border-color, #0073aa);
   /* Border color for active button edge adjacent to content */
@@ -53,6 +39,58 @@
   border-width: var(--tabs-focus-border-width, 2px);
   /* Style of button edge adjacent to content */
   border-style: var(--tabs-focus-border-style, solid);
+  /* Font size for tab buttons */
+  font-size: var(--tabs-button-font-size, 16px);
+  /* Font weight for tab buttons */
+  font-weight: var(--tab-button-font-weight, 500);
+  /* Font style for tab buttons */
+  font-style: var(--tab-button-font-style, normal);
+  /* Text transformation for tab buttons */
+  text-transform: var(--tab-button-text-transform, none);
+  /* Text decoration for tab buttons */
+  text-decoration: var(--tab-button-text-decoration, none);
+  /* Text alignment for tab buttons */
+  text-align: var(--tab-button-text-align, center);
+
+  &:hover {
+    /* Text color when hovering over tab */
+    color: var(--tabs-button-hover-color, #333333);
+    /* Background color when hovering over tab */
+    background-color: var(--tabs-button-hover-bg, #e8e8e8);
+    /* Box shadow for tab buttons on hover */
+    box-shadow: var(--tabs-button-border-shadow-hover, none);
+  }
+}
+
+.tabs-list {
+  /* Background color for the tab navigation bar */
+  background-color: var(--tab-list-bg, #f5f5f5);
+  /* Horizontal alignment of tabs */
+  justify-content: var(--tab-list-align, left);
+  /* Color of navbar border adjacent to content */
+  border-color: var(--tabs-divider-border-color, #dddddd);
+  /* Width of navbar border adjacent to content */
+  border-width: var(--tabs-divider-border-width, 1px);
+  /* Style of navbar border adjacent to content */
+  border-style: var(--tabs-divider-border-style, solid);
+}
+
+.tab-panel {
+  /* Background color for tab panels */
+  background-color: var(--tab-panel-bg, #ffffff);
+  /* Text color for tab panel content */
+  color: var(--tab-panel-color, #333333);
+  /* Border color for tab content panel */
+  border-color: var(--tabs-panel-border-color, #dddddd);
+  /* Border width for tab content panel (0-10px) */
+  border-width: var(--tabs-panel-border-width, 1px);
+  /* Border style for tab content panel */
+  border-style: var(--tabs-panel-border-style, solid);
+  /* Corner radius for tab content panel */
+  border-radius: var(--tabs-panel-border-radius, 0px 0px 0px 0px);
+}
+
+.wp-block-tabs {
   /* Border color for main tabs wrapper */
   border-color: var(--tabs-border-color, transparent);
   /* Border width for main wrapper */
@@ -63,13 +101,10 @@
   border-radius: var(--tabs-border-radius, 0px 0px 0px 0px);
   /* Box shadow for main wrapper */
   box-shadow: var(--tabs-border-shadow, none);
-  /* Box shadow for wrapper on hover */
-  box-shadow: var(--tabs-border-shadow-hover, none);
-  /* Color of navbar border adjacent to content */
-  border-color: var(--tabs-divider-border-color, #dddddd);
-  /* Width of navbar border adjacent to content */
-  border-width: var(--tabs-divider-border-width, 1px);
-  /* Style of navbar border adjacent to content */
-  border-style: var(--tabs-divider-border-style, solid);
+
+  &:hover {
+    /* Box shadow for wrapper on hover */
+    box-shadow: var(--tabs-border-shadow-hover, none);
+  }
 }
 

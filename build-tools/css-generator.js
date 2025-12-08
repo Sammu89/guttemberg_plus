@@ -56,6 +56,26 @@ function loadSchema(blockType) {
 }
 
 /**
+ * Load structure schema (optional - for new dual-schema system)
+ */
+function loadStructureSchema(blockType) {
+  const structurePath = path.join(SCHEMAS_DIR, `${blockType}-structure.json`);
+
+  if (!fs.existsSync(structurePath)) {
+    return null; // Structure schema not yet created
+  }
+
+  const content = fs.readFileSync(structurePath, 'utf8');
+
+  try {
+    return JSON.parse(content);
+  } catch (error) {
+    console.warn(`Warning: Failed to parse structure schema ${blockType}-structure.json: ${error.message}`);
+    return null;
+  }
+}
+
+/**
  * Format CSS value from schema default
  * Handles objects (border-radius), numbers (with units), and strings
  */
@@ -85,44 +105,91 @@ function formatCssValue(defaultValue, unit, type) {
 
 /**
  * Extract attributes that should generate CSS
- * Requires: cssVar, cssSelector, and cssProperty
+ * Supports both old (cssSelector) and new (appliesTo + structure) systems
  */
-function extractCssAttributes(schema) {
+function extractCssAttributes(schema, structure) {
   const cssAttrs = [];
 
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
-    // Must have all three fields to generate CSS
-    if (attr.cssVar && attr.cssSelector && attr.cssProperty) {
-      const formattedValue = formatCssValue(attr.default, attr.unit, attr.type);
-
-      // Only include if we have a valid formatted value
-      if (formattedValue !== null) {
-        cssAttrs.push({
-          name: attrName,
-          cssVar: attr.cssVar,
-          selector: attr.cssSelector,
-          property: attr.cssProperty,
-          default: formattedValue,
-          description: attr.description,
-        });
-      }
+    // Skip non-themeable attributes
+    if (!attr.themeable || !attr.cssVar || !attr.cssProperty) {
+      continue;
     }
+
+    const formattedValue = formatCssValue(attr.default, attr.unit, attr.type);
+
+    // Only include if we have a valid formatted value
+    if (formattedValue === null) {
+      continue;
+    }
+
+    let selector = null;
+    let elementId = null;
+
+    // NEW SYSTEM: Use appliesTo + structure schema
+    if (attr.appliesTo && structure && structure.elements) {
+      elementId = attr.appliesTo;
+      const element = structure.elements[elementId];
+
+      if (!element) {
+        const availableIds = Object.keys(structure.elements).join(', ');
+        console.warn(`\n  ⚠️  WARNING: Attribute "${attrName}" references element "${elementId}"`);
+        console.warn(`      but structure schema only has: [${availableIds}]`);
+        console.warn(`      This attribute will be SKIPPED. Update appliesTo field to match structure element ID.\n`);
+        continue;
+      }
+
+      // Get primary class name (first one if multiple classes)
+      const className = element.className.split(' ')[0];
+      selector = `.${className}`;
+    }
+    // OLD SYSTEM (DEPRECATED): Fall back to cssSelector
+    else if (attr.cssSelector) {
+      selector = attr.cssSelector;
+      elementId = null; // No element ID in old system
+    }
+    // Skip attributes that don't have either system
+    else {
+      continue;
+    }
+
+    cssAttrs.push({
+      name: attrName,
+      cssVar: attr.cssVar,
+      selector: selector,
+      property: attr.cssProperty,
+      default: formattedValue,
+      description: attr.description,
+      elementId: elementId, // For grouping in new system
+    });
   }
 
   return cssAttrs;
 }
 
 /**
- * Group attributes by CSS selector
+ * Group attributes by CSS selector and separate hover states
+ * Returns: { selector: { regular: [...], hover: [...] } }
  */
 function groupBySelector(cssAttrs) {
   const grouped = {};
 
   for (const attr of cssAttrs) {
     if (!grouped[attr.selector]) {
-      grouped[attr.selector] = [];
+      grouped[attr.selector] = {
+        regular: [],
+        hover: []
+      };
     }
-    grouped[attr.selector].push(attr);
+
+    // Detect hover states by attribute name (contains 'hover' or 'Hover')
+    const isHover = /hover/i.test(attr.name);
+
+    if (isHover) {
+      grouped[attr.selector].hover.push(attr);
+    } else {
+      grouped[attr.selector].regular.push(attr);
+    }
   }
 
   return grouped;
@@ -131,8 +198,8 @@ function groupBySelector(cssAttrs) {
 /**
  * Generate SCSS partial file for a block
  */
-function generateScssPartial(blockType, schema) {
-  const cssAttrs = extractCssAttributes(schema);
+function generateScssPartial(blockType, schema, structure) {
+  const cssAttrs = extractCssAttributes(schema, structure);
 
   if (cssAttrs.length === 0) {
     console.log(`  Warning: No CSS attributes found for ${blockType}`);
@@ -142,9 +209,15 @@ function generateScssPartial(blockType, schema) {
   const grouped = groupBySelector(cssAttrs);
   const fileName = '_theme-generated.scss';
 
+  // Determine which schema system is being used
+  const usingNewSystem = structure && structure.elements;
+  const schemaSource = usingNewSystem
+    ? `schemas/${blockType}.json + schemas/${blockType}-structure.json`
+    : `schemas/${blockType}.json`;
+
   let content = `/**
  * AUTO-GENERATED FILE - DO NOT EDIT
- * Generated from: schemas/${blockType}.json
+ * Generated from: ${schemaSource}
  * Generated at: ${getTimestamp()}
  *
  * This file contains CSS variable declarations for themeable properties.
@@ -154,15 +227,31 @@ function generateScssPartial(blockType, schema) {
 `;
 
   // Generate CSS for each selector
-  for (const [selector, attrs] of Object.entries(grouped)) {
+  for (const [selector, { regular, hover }] of Object.entries(grouped)) {
     content += `${selector} {\n`;
 
-    for (const attr of attrs) {
+    // Regular (non-hover) styles
+    for (const attr of regular) {
       // Add comment with description if available
       if (attr.description) {
         content += `  /* ${attr.description} */\n`;
       }
       content += `  ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+    }
+
+    // Hover styles (if any)
+    if (hover.length > 0) {
+      content += `\n  &:hover {\n`;
+
+      for (const attr of hover) {
+        // Add comment with description if available
+        if (attr.description) {
+          content += `    /* ${attr.description} */\n`;
+        }
+        content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+      }
+
+      content += `  }\n`;
     }
 
     content += `}\n\n`;
@@ -195,11 +284,21 @@ async function generate() {
 
     for (const blockType of BLOCKS) {
       try {
-        // Load schema
+        // Load attribute schema
         const schema = loadSchema(blockType);
 
+        // Load structure schema (optional - for new dual-schema system)
+        const structure = loadStructureSchema(blockType);
+
+        // Log which schema system is being used
+        if (structure) {
+          console.log(`  ${blockType}: Using NEW dual-schema system (appliesTo + structure)`);
+        } else {
+          console.log(`  ${blockType}: Using OLD single-schema system (cssSelector) - deprecated`);
+        }
+
         // Generate SCSS partial
-        const result = generateScssPartial(blockType, schema);
+        const result = generateScssPartial(blockType, schema, structure);
 
         if (result) {
           const { fileName, content, count } = result;

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-01T18:09:25.720Z
+ * Generated at: 2025-12-08T00:22:34.878Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -31,92 +31,86 @@ export function formatBorderRadius(radius) {
 export function buildEditorStyles(values) {
   const styles = {};
 
-  // Styles for .accordion-header
-  styles.header = {};
+  // Styles for default
+  styles.default = {};
     if (values.titleColor !== undefined && values.titleColor !== null) {
-      styles.header.color = values.titleColor;
+      styles.default.color = values.titleColor;
     }
     if (values.titleBackgroundColor !== undefined && values.titleBackgroundColor !== null) {
-      styles.header.backgroundColor = values.titleBackgroundColor;
+      styles.default.backgroundColor = values.titleBackgroundColor;
     }
     if (values.hoverTitleColor !== undefined && values.hoverTitleColor !== null) {
-      styles.header.color = values.hoverTitleColor;
+      styles.default.color = values.hoverTitleColor;
     }
     if (values.hoverTitleBackgroundColor !== undefined && values.hoverTitleBackgroundColor !== null) {
-      styles.header.backgroundColor = values.hoverTitleBackgroundColor;
+      styles.default.backgroundColor = values.hoverTitleBackgroundColor;
     }
-    if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
-      styles.header.fontSize = `${values.titleFontSize}px`;
-    }
-    if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
-      styles.header.fontWeight = values.titleFontWeight;
-    }
-    if (values.titleFontStyle !== undefined && values.titleFontStyle !== null) {
-      styles.header.fontStyle = values.titleFontStyle;
-    }
-    if (values.titleTextTransform !== undefined && values.titleTextTransform !== null) {
-      styles.header.textTransform = values.titleTextTransform;
-    }
-    if (values.titleTextDecoration !== undefined && values.titleTextDecoration !== null) {
-      styles.header.textDecoration = values.titleTextDecoration;
-    }
-    if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
-      styles.header.textAlign = values.titleAlignment;
-    }
-
-  // Styles for .accordion-content
-  styles.content = {};
     if (values.contentColor !== undefined && values.contentColor !== null) {
-      styles.content.color = values.contentColor;
+      styles.default.color = values.contentColor;
     }
     if (values.contentBackgroundColor !== undefined && values.contentBackgroundColor !== null) {
-      styles.content.backgroundColor = values.contentBackgroundColor;
+      styles.default.backgroundColor = values.contentBackgroundColor;
+    }
+    if (values.borderColor !== undefined && values.borderColor !== null) {
+      styles.default.borderColor = values.borderColor;
     }
     if (values.dividerColor !== undefined && values.dividerColor !== null) {
-      styles.content.borderTopColor = values.dividerColor;
+      styles.default.borderTopColor = values.dividerColor;
+    }
+    if (values.iconColor !== undefined && values.iconColor !== null) {
+      styles.default.color = values.iconColor;
+    }
+    if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
+      styles.default.fontSize = `${values.titleFontSize}px`;
+    }
+    if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
+      styles.default.fontWeight = values.titleFontWeight;
+    }
+    if (values.titleFontStyle !== undefined && values.titleFontStyle !== null) {
+      styles.default.fontStyle = values.titleFontStyle;
+    }
+    if (values.titleTextTransform !== undefined && values.titleTextTransform !== null) {
+      styles.default.textTransform = values.titleTextTransform;
+    }
+    if (values.titleTextDecoration !== undefined && values.titleTextDecoration !== null) {
+      styles.default.textDecoration = values.titleTextDecoration;
+    }
+    if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
+      styles.default.textAlign = values.titleAlignment;
     }
     if (values.contentFontSize !== undefined && values.contentFontSize !== null) {
-      styles.content.fontSize = `${values.contentFontSize}px`;
+      styles.default.fontSize = `${values.contentFontSize}px`;
     }
     if (values.contentFontWeight !== undefined && values.contentFontWeight !== null) {
-      styles.content.fontWeight = values.contentFontWeight;
-    }
-    if (values.dividerWidth !== undefined && values.dividerWidth !== null) {
-      styles.content.borderTopWidth = `${values.dividerWidth}px`;
-    }
-    if (values.dividerStyle !== undefined && values.dividerStyle !== null) {
-      styles.content.borderTopStyle = values.dividerStyle;
-    }
-
-  // Styles for .wp-block-guttemberg-plus-accordion
-  styles.container = {};
-    if (values.borderColor !== undefined && values.borderColor !== null) {
-      styles.container.borderColor = values.borderColor;
+      styles.default.fontWeight = values.contentFontWeight;
     }
     if (values.borderWidth !== undefined && values.borderWidth !== null) {
-      styles.container.borderWidth = `${values.borderWidth}px`;
+      styles.default.borderWidth = `${values.borderWidth}px`;
     }
     if (values.borderStyle !== undefined && values.borderStyle !== null) {
-      styles.container.borderStyle = values.borderStyle;
+      styles.default.borderStyle = values.borderStyle;
     }
     if (values.borderRadius) {
       const formatted = formatBorderRadius(values.borderRadius);
-      if (formatted) styles.container.borderRadius = formatted;
+      if (formatted) styles.default.borderRadius = formatted;
     }
     if (values.shadow !== undefined && values.shadow !== null) {
-      styles.container.boxShadow = values.shadow;
+      styles.default.boxShadow = values.shadow;
     }
     if (values.shadowHover !== undefined && values.shadowHover !== null) {
-      styles.container.boxShadow = values.shadowHover;
+      styles.default.boxShadow = values.shadowHover;
     }
-
-  // Styles for .accordion-icon
-  styles.icon = {};
-    if (values.iconColor !== undefined && values.iconColor !== null) {
-      styles.icon.color = values.iconColor;
+    if (values.dividerWidth !== undefined && values.dividerWidth !== null) {
+      styles.default.borderTopWidth = `${values.dividerWidth}px`;
+    }
+    if (values.dividerStyle !== undefined && values.dividerStyle !== null) {
+      styles.default.borderTopStyle = values.dividerStyle;
     }
     if (values.iconSize !== undefined && values.iconSize !== null) {
-      styles.icon.fontSize = `${values.iconSize}px`;
+      styles.default.fontSize = `${values.iconSize}px`;
+    }
+    if (values.iconRotation !== undefined && values.iconRotation !== null) {
+      styles.default.transform = `${values.iconRotation}deg`;
     }
 
   return styles;

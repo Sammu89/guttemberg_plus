@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-01T18:09:25.738Z
+ * Generated at: 2025-12-08T00:22:34.892Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -57,10 +57,8 @@ export const CSS_VAR_MAPPINGS = {
     iconRotation: { cssVar: '--accordion-icon-rotation', unit: 'deg', type: 'number' },
   },
   tabs: {
-    showIcon: { cssVar: '--tabs-show-icon', unit: null, type: 'boolean' },
     iconColor: { cssVar: '--tabs-icon-color', unit: null, type: 'string' },
     iconSize: { cssVar: '--tabs-icon-size', unit: 'px', type: 'number' },
-    iconRotation: { cssVar: '--tabs-icon-rotation', unit: 'deg', type: 'number' },
     tabButtonColor: { cssVar: '--tabs-button-color', unit: null, type: 'string' },
     tabButtonBackgroundColor: { cssVar: '--tabs-button-bg', unit: null, type: 'string' },
     tabButtonHoverColor: { cssVar: '--tabs-button-hover-color', unit: null, type: 'string' },

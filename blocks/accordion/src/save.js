@@ -245,7 +245,9 @@ const getCustomizationStyles = () => {
 				className={ `accordion-item ${ attributes.initiallyOpen ? 'is-open' : '' }` }
 				data-item-id="0"
 			>
-				{ renderTitle() }
+				<div className="accordion-title-wrapper">
+					{ renderTitle() }
+				</div>
 
 				<div
 					className="accordion-content"

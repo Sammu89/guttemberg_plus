@@ -295,7 +295,7 @@
       "control": "ColorPicker",
       "order": 19,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "background-color"
     },
     "blockBorderColor": {
@@ -309,7 +309,7 @@
       "control": "ColorPicker",
       "order": 20,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "color"
     },
     "titleColor": {
@@ -323,7 +323,7 @@
       "control": "ColorPicker",
       "order": 21,
       "pago": "nao",
-      "cssSelector": ".toc-link",
+      "appliesTo": "titleStatic",
       "cssProperty": "color"
     },
     "titleBackgroundColor": {
@@ -337,7 +337,7 @@
       "control": "ColorPicker",
       "order": 22,
       "pago": "nao",
-      "cssSelector": ".toc-link",
+      "appliesTo": "titleStatic",
       "cssProperty": "background-color"
     },
     "linkColor": {
@@ -351,7 +351,7 @@
       "control": "ColorPicker",
       "order": 23,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "color"
     },
     "linkHoverColor": {
@@ -365,7 +365,7 @@
       "control": "ColorPicker",
       "order": 24,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "color"
     },
     "linkActiveColor": {
@@ -379,7 +379,7 @@
       "control": "ColorPicker",
       "order": 25,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "color"
     },
     "linkVisitedColor": {
@@ -393,7 +393,7 @@
       "control": "ColorPicker",
       "order": 26,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "color"
     },
     "numberingColor": {
@@ -407,7 +407,7 @@
       "control": "ColorPicker",
       "order": 27,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "list",
       "cssProperty": "color"
     },
     "level1Color": {
@@ -421,7 +421,7 @@
       "control": "ColorPicker",
       "order": 28,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "color"
     },
     "level2Color": {
@@ -435,7 +435,7 @@
       "control": "ColorPicker",
       "order": 29,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "color"
     },
     "level3PlusColor": {
@@ -449,7 +449,7 @@
       "control": "ColorPicker",
       "order": 30,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "color"
     },
     "collapseIconColor": {
@@ -463,6 +463,7 @@
       "control": "ColorPicker",
       "order": 31,
       "pago": "nao",
+      "appliesTo": "collapseIcon",
       "cssProperty": "color"
     },
     "titleFontSize": {
@@ -479,7 +480,7 @@
       "unit": "px",
       "order": 32,
       "pago": "nao",
-      "cssSelector": ".toc-link",
+      "appliesTo": "titleStatic",
       "cssProperty": "font-size"
     },
     "titleFontWeight": {
@@ -539,7 +540,7 @@
       ],
       "order": 33,
       "pago": "nao",
-      "cssSelector": ".toc-link",
+      "appliesTo": "titleStatic",
       "cssProperty": "font-weight"
     },
     "titleTextTransform": {
@@ -571,7 +572,8 @@
       ],
       "order": 34,
       "pago": "nao",
-      "cssSelector": ".toc-link"
+      "appliesTo": "titleStatic",
+      "cssProperty": "text-transform"
     },
     "titleAlignment": {
       "type": "string",
@@ -589,7 +591,8 @@
       ],
       "order": 35,
       "pago": "nao",
-      "cssSelector": ".toc-link"
+      "appliesTo": "titleStatic",
+      "cssProperty": "text-align"
     },
     "level1FontSize": {
       "type": "number",
@@ -605,7 +608,7 @@
       "unit": "px",
       "order": 36,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-size"
     },
     "level1FontWeight": {
@@ -665,7 +668,7 @@
       ],
       "order": 37,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-weight"
     },
     "level1FontStyle": {
@@ -693,7 +696,7 @@
       ],
       "order": 38,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-style"
     },
     "level1TextTransform": {
@@ -725,7 +728,8 @@
       ],
       "order": 39,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "link",
+      "cssProperty": "text-transform"
     },
     "level1TextDecoration": {
       "type": "string",
@@ -756,7 +760,8 @@
       ],
       "order": 40,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "link",
+      "cssProperty": "text-decoration"
     },
     "level2FontSize": {
       "type": "number",
@@ -772,7 +777,7 @@
       "unit": "px",
       "order": 41,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-size"
     },
     "level2FontWeight": {
@@ -832,7 +837,7 @@
       ],
       "order": 42,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-weight"
     },
     "level2FontStyle": {
@@ -860,7 +865,7 @@
       ],
       "order": 43,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-style"
     },
     "level2TextTransform": {
@@ -892,7 +897,8 @@
       ],
       "order": 44,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "link",
+      "cssProperty": "text-transform"
     },
     "level2TextDecoration": {
       "type": "string",
@@ -923,7 +929,8 @@
       ],
       "order": 45,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "link",
+      "cssProperty": "text-decoration"
     },
     "level3PlusFontSize": {
       "type": "number",
@@ -939,7 +946,7 @@
       "unit": "px",
       "order": 46,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-size"
     },
     "level3PlusFontWeight": {
@@ -999,7 +1006,7 @@
       ],
       "order": 47,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-weight"
     },
     "level3PlusFontStyle": {
@@ -1027,7 +1034,7 @@
       ],
       "order": 48,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "link",
       "cssProperty": "font-style"
     },
     "level3PlusTextTransform": {
@@ -1059,7 +1066,8 @@
       ],
       "order": 49,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "link",
+      "cssProperty": "text-transform"
     },
     "level3PlusTextDecoration": {
       "type": "string",
@@ -1090,7 +1098,8 @@
       ],
       "order": 50,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "link",
+      "cssProperty": "text-decoration"
     },
     "blockBorderWidth": {
       "type": "number",
@@ -1106,7 +1115,7 @@
       "unit": "px",
       "order": 51,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "border-width"
     },
     "blockBorderStyle": {
@@ -1158,7 +1167,7 @@
       ],
       "order": 52,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "border-style"
     },
     "blockBorderRadius": {
@@ -1177,7 +1186,7 @@
       "control": "BorderRadiusControl",
       "order": 53,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "border-radius"
     },
     "blockShadow": {
@@ -1191,7 +1200,7 @@
       "control": "TextControl",
       "order": 54,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
     "blockShadowHover": {
@@ -1205,7 +1214,7 @@
       "control": "TextControl",
       "order": 55,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
     "wrapperPadding": {
@@ -1222,7 +1231,7 @@
       "unit": "px",
       "order": 56,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "wrapper",
       "cssProperty": "padding"
     },
     "listPaddingLeft": {
@@ -1239,7 +1248,7 @@
       "unit": "px",
       "order": 57,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc",
+      "appliesTo": "list",
       "cssProperty": "padding"
     },
     "itemSpacing": {
@@ -1256,7 +1265,8 @@
       "unit": "px",
       "order": 58,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "list",
+      "cssProperty": "margin-bottom"
     },
     "levelIndent": {
       "type": "number",
@@ -1272,7 +1282,8 @@
       "unit": "px",
       "order": 59,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "list",
+      "cssProperty": "margin-left"
     },
     "positionTop": {
       "type": "number",
@@ -1288,7 +1299,8 @@
       "unit": "px",
       "order": 60,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "wrapper",
+      "cssProperty": "top"
     },
     "zIndex": {
       "type": "number",
@@ -1303,7 +1315,8 @@
       "max": 9999,
       "order": 61,
       "pago": "nao",
-      "cssSelector": ".wp-block-guttemberg-plus-toc"
+      "appliesTo": "wrapper",
+      "cssProperty": "z-index"
     },
     "collapseIconSize": {
       "type": "number",
@@ -1318,7 +1331,9 @@
       "max": 36,
       "unit": "px",
       "order": 62,
-      "pago": "nao"
+      "pago": "nao",
+      "appliesTo": "collapseIcon",
+      "cssProperty": "font-size"
     }
   }
 }
