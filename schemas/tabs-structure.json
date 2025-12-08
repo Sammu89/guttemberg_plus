@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "blockType": "tabs",
+  "version": "1.0.0",
+  "description": "HTML structure definition for Tabs block - defines element hierarchy, class names, and ARIA attributes",
+  "root": "wrapper",
+
+  "elements": {
+    "wrapper": {
+      "id": "wrapper",
+      "tag": "div",
+      "className": "wp-block-tabs sammu-blocks",
+      "description": "Outermost container for the tabs block with theme class and responsive classes",
+      "children": ["tabsList", "tabsPanels"],
+      "attributes": {
+        "data-orientation": "{orientation || 'horizontal'}",
+        "data-activation-mode": "{activationMode || 'auto'}",
+        "data-breakpoint": "{responsiveBreakpoint || 768}",
+        "data-responsive-fallback": "{enableResponsiveFallback || true}",
+        "data-show-icon": "{showIcon || false}",
+        "data-icon-closed": "{iconTypeClosed || '▾'}",
+        "data-icon-open": "{iconTypeOpen || 'none'}"
+      },
+      "conditionalClass": {
+        "tabs-theme-{currentTheme}": "{currentTheme}",
+        "responsive-accordion": "{enableResponsiveFallback}"
+      },
+      "appliesStyles": [
+        "borderColor",
+        "borderWidth",
+        "borderStyle",
+        "borderRadius",
+        "shadow",
+        "shadowHover"
+      ]
+    },
+
+    "tabsList": {
+      "id": "tabsList",
+      "tag": "div",
+      "className": "tabs-list",
+      "description": "Container for tab buttons (navigation bar)",
+      "children": ["tabButton"],
+      "attributes": {
+        "role": "tablist",
+        "data-current-tab": "{currentTab || 0}"
+      },
+      "aria": {
+        "orientation": "{orientation || 'horizontal'}"
+      },
+      "appliesStyles": [
+        "tabListBackgroundColor",
+        "tabListAlignment",
+        "dividerBorderColor",
+        "dividerBorderWidth",
+        "dividerBorderStyle"
+      ]
+    },
+
+    "tabButton": {
+      "id": "tabButton",
+      "tag": "button",
+      "className": "tab-button",
+      "description": "Individual tab button (generated dynamically in frontend JS from InnerBlocks)",
+      "children": ["tabButtonText", "tabIcon"],
+      "attributes": {
+        "type": "button",
+        "role": "tab",
+        "data-tab-index": "{index}"
+      },
+      "aria": {
+        "selected": "{index === currentTab}",
+        "controls": "tab-panel-{index}"
+      },
+      "conditionalClass": {
+        "active": "{index === currentTab}"
+      },
+      "appliesStyles": [
+        "tabButtonColor",
+        "tabButtonBackgroundColor",
+        "tabButtonFontSize",
+        "tabButtonFontWeight",
+        "tabButtonFontStyle",
+        "tabButtonTextTransform",
+        "tabButtonTextDecoration",
+        "tabButtonTextAlign",
+        "tabButtonHoverColor",
+        "tabButtonHoverBackgroundColor",
+        "tabButtonActiveColor",
+        "tabButtonActiveBackgroundColor",
+        "tabButtonActiveBorderColor",
+        "tabButtonActiveBorderBottomColor",
+        "buttonBorderColor",
+        "buttonBorderWidth",
+        "buttonBorderStyle",
+        "buttonBorderRadius",
+        "buttonShadow",
+        "buttonShadowHover",
+        "focusBorderColor",
+        "focusBorderColorActive",
+        "focusBorderWidth",
+        "focusBorderStyle"
+      ]
+    },
+
+    "tabButtonText": {
+      "id": "tabButtonText",
+      "tag": "span",
+      "className": "tab-button-text",
+      "description": "Text content of tab button (extracted from inner blocks)",
+      "contentType": "dynamic",
+      "appliesStyles": []
+    },
+
+    "tabIcon": {
+      "id": "tabIcon",
+      "tag": "span",
+      "className": "tab-icon",
+      "description": "Expand/collapse icon for responsive accordion mode",
+      "conditionalRender": "{showIcon && enableResponsiveFallback}",
+      "attributes": {
+        "aria-hidden": "true",
+        "data-icon-closed": "{iconTypeClosed}",
+        "data-icon-open": "{iconTypeOpen !== 'none' ? iconTypeOpen : iconTypeClosed}"
+      },
+      "renderVariant": {
+        "condition": "iconTypeClosed.startsWith('http')",
+        "ifTrue": {
+          "tag": "img",
+          "className": "tab-icon tab-icon-image",
+          "attributes": {
+            "src": "{iconTypeClosed}",
+            "alt": "",
+            "aria-hidden": "true"
+          }
+        }
+      },
+      "appliesStyles": [
+        "iconColor",
+        "iconSize"
+      ]
+    },
+
+    "tabsPanels": {
+      "id": "tabsPanels",
+      "tag": "div",
+      "className": "tabs-panels",
+      "description": "Container for all tab panel content areas",
+      "children": ["tabPanel"],
+      "appliesStyles": []
+    },
+
+    "tabPanel": {
+      "id": "tabPanel",
+      "tag": "div",
+      "className": "tab-panel",
+      "description": "Individual tab content panel (from InnerBlocks)",
+      "children": ["tabPanelInner"],
+      "attributes": {
+        "role": "tabpanel",
+        "data-tab-index": "{index}"
+      },
+      "aria": {
+        "labelledby": "tab-button-{index}",
+        "hidden": "{index !== currentTab}"
+      },
+      "conditionalClass": {
+        "active": "{index === currentTab}"
+      },
+      "appliesStyles": [
+        "panelColor",
+        "panelBackgroundColor",
+        "panelBorderColor",
+        "panelBorderWidth",
+        "panelBorderStyle",
+        "panelBorderRadius"
+      ]
+    },
+
+    "tabPanelInner": {
+      "id": "tabPanelInner",
+      "tag": "div",
+      "className": "tab-panel-inner",
+      "description": "Inner wrapper for tab panel content with padding",
+      "contentType": "InnerBlocks",
+      "appliesStyles": []
+    }
+  },
+
+  "hierarchy": {
+    "root": "wrapper",
+    "tree": {
+      "wrapper": {
+        "tabsList": {
+          "tabButton": ["tabButtonText", "tabIcon"]
+        },
+        "tabsPanels": {
+          "tabPanel": {
+            "tabPanelInner": []
+          }
+        }
+      }
+    }
+  }
+}

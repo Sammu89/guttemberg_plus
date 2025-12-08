@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-01T18:09:25.729Z
+ * Generated at: 2025-12-08T00:22:34.886Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -36,112 +36,134 @@ export function buildEditorStyles(values) {
     if (values.iconColor !== undefined && values.iconColor !== null) {
       styles.default.color = values.iconColor;
     }
-
-  // Styles for .wp-block-guttemberg-plus-tabs
-  styles.container = {};
+    if (values.iconSize !== undefined && values.iconSize !== null) {
+      styles.default.fontSize = `${values.iconSize}px`;
+    }
     if (values.tabButtonColor !== undefined && values.tabButtonColor !== null) {
-      styles.container.color = values.tabButtonColor;
+      styles.default.color = values.tabButtonColor;
     }
     if (values.tabButtonBackgroundColor !== undefined && values.tabButtonBackgroundColor !== null) {
-      styles.container.backgroundColor = values.tabButtonBackgroundColor;
+      styles.default.backgroundColor = values.tabButtonBackgroundColor;
     }
     if (values.tabButtonHoverColor !== undefined && values.tabButtonHoverColor !== null) {
-      styles.container.color = values.tabButtonHoverColor;
+      styles.default.color = values.tabButtonHoverColor;
     }
     if (values.tabButtonHoverBackgroundColor !== undefined && values.tabButtonHoverBackgroundColor !== null) {
-      styles.container.backgroundColor = values.tabButtonHoverBackgroundColor;
+      styles.default.backgroundColor = values.tabButtonHoverBackgroundColor;
     }
     if (values.tabButtonActiveColor !== undefined && values.tabButtonActiveColor !== null) {
-      styles.container.color = values.tabButtonActiveColor;
+      styles.default.color = values.tabButtonActiveColor;
     }
     if (values.tabButtonActiveBackgroundColor !== undefined && values.tabButtonActiveBackgroundColor !== null) {
-      styles.container.backgroundColor = values.tabButtonActiveBackgroundColor;
+      styles.default.backgroundColor = values.tabButtonActiveBackgroundColor;
     }
     if (values.tabButtonActiveBorderColor !== undefined && values.tabButtonActiveBorderColor !== null) {
-      styles.container.color = values.tabButtonActiveBorderColor;
+      styles.default.color = values.tabButtonActiveBorderColor;
     }
     if (values.tabButtonActiveBorderBottomColor !== undefined && values.tabButtonActiveBorderBottomColor !== null) {
-      styles.container.color = values.tabButtonActiveBorderBottomColor;
+      styles.default.color = values.tabButtonActiveBorderBottomColor;
     }
     if (values.buttonBorderColor !== undefined && values.buttonBorderColor !== null) {
-      styles.container.color = values.buttonBorderColor;
+      styles.default.color = values.buttonBorderColor;
     }
     if (values.buttonBorderWidth !== undefined && values.buttonBorderWidth !== null) {
-      styles.container.borderWidth = `${values.buttonBorderWidth}px`;
+      styles.default.borderWidth = `${values.buttonBorderWidth}px`;
     }
     if (values.buttonBorderStyle !== undefined && values.buttonBorderStyle !== null) {
-      styles.container.borderStyle = values.buttonBorderStyle;
+      styles.default.borderStyle = values.buttonBorderStyle;
     }
     if (values.buttonBorderRadius) {
       const formatted = formatBorderRadius(values.buttonBorderRadius);
-      if (formatted) styles.container.borderRadius = formatted;
+      if (formatted) styles.default.borderRadius = formatted;
     }
     if (values.buttonShadow !== undefined && values.buttonShadow !== null) {
-      styles.container.boxShadow = values.buttonShadow;
+      styles.default.boxShadow = values.buttonShadow;
     }
     if (values.buttonShadowHover !== undefined && values.buttonShadowHover !== null) {
-      styles.container.boxShadow = values.buttonShadowHover;
+      styles.default.boxShadow = values.buttonShadowHover;
     }
-    if (values.tabButtonFontSize !== undefined && values.tabButtonFontSize !== null) {
-      styles.container.fontSize = `${values.tabButtonFontSize}px`;
-    }
-    if (values.tabButtonFontWeight !== undefined && values.tabButtonFontWeight !== null) {
-      styles.container.fontWeight = values.tabButtonFontWeight;
-    }
-    if (values.tabButtonFontStyle !== undefined && values.tabButtonFontStyle !== null) {
-      styles.container.fontStyle = values.tabButtonFontStyle;
-    }
-    if (values.tabListBackgroundColor !== undefined && values.tabListBackgroundColor !== null) {
-      styles.container.backgroundColor = values.tabListBackgroundColor;
-    }
-    if (values.panelBackgroundColor !== undefined && values.panelBackgroundColor !== null) {
-      styles.container.backgroundColor = values.panelBackgroundColor;
-    }
-    if (values.panelColor !== undefined && values.panelColor !== null) {
-      styles.container.color = values.panelColor;
-    }
-
-  // Styles for .wp-block-custom-tabs
-  styles.wp_block_custom_tabs = {};
     if (values.focusBorderColor !== undefined && values.focusBorderColor !== null) {
-      styles.wp_block_custom_tabs.borderColor = values.focusBorderColor;
+      styles.default.borderColor = values.focusBorderColor;
     }
     if (values.focusBorderColorActive !== undefined && values.focusBorderColorActive !== null) {
-      styles.wp_block_custom_tabs.borderColor = values.focusBorderColorActive;
+      styles.default.borderColor = values.focusBorderColorActive;
     }
     if (values.focusBorderWidth !== undefined && values.focusBorderWidth !== null) {
-      styles.wp_block_custom_tabs.borderWidth = `${values.focusBorderWidth}px`;
+      styles.default.borderWidth = `${values.focusBorderWidth}px`;
     }
     if (values.focusBorderStyle !== undefined && values.focusBorderStyle !== null) {
-      styles.wp_block_custom_tabs.borderStyle = values.focusBorderStyle;
+      styles.default.borderStyle = values.focusBorderStyle;
+    }
+    if (values.tabButtonFontSize !== undefined && values.tabButtonFontSize !== null) {
+      styles.default.fontSize = `${values.tabButtonFontSize}px`;
+    }
+    if (values.tabButtonFontWeight !== undefined && values.tabButtonFontWeight !== null) {
+      styles.default.fontWeight = values.tabButtonFontWeight;
+    }
+    if (values.tabButtonFontStyle !== undefined && values.tabButtonFontStyle !== null) {
+      styles.default.fontStyle = values.tabButtonFontStyle;
+    }
+    if (values.tabButtonTextTransform !== undefined && values.tabButtonTextTransform !== null) {
+      styles.default.textTransform = values.tabButtonTextTransform;
+    }
+    if (values.tabButtonTextDecoration !== undefined && values.tabButtonTextDecoration !== null) {
+      styles.default.textDecoration = values.tabButtonTextDecoration;
+    }
+    if (values.tabButtonTextAlign !== undefined && values.tabButtonTextAlign !== null) {
+      styles.default.textAlign = values.tabButtonTextAlign;
+    }
+    if (values.tabListBackgroundColor !== undefined && values.tabListBackgroundColor !== null) {
+      styles.default.backgroundColor = values.tabListBackgroundColor;
+    }
+    if (values.tabListAlignment !== undefined && values.tabListAlignment !== null) {
+      styles.default.justifyContent = values.tabListAlignment;
+    }
+    if (values.panelBackgroundColor !== undefined && values.panelBackgroundColor !== null) {
+      styles.default.backgroundColor = values.panelBackgroundColor;
+    }
+    if (values.panelColor !== undefined && values.panelColor !== null) {
+      styles.default.color = values.panelColor;
+    }
+    if (values.panelBorderColor !== undefined && values.panelBorderColor !== null) {
+      styles.default.borderColor = values.panelBorderColor;
+    }
+    if (values.panelBorderWidth !== undefined && values.panelBorderWidth !== null) {
+      styles.default.borderWidth = `${values.panelBorderWidth}px`;
+    }
+    if (values.panelBorderStyle !== undefined && values.panelBorderStyle !== null) {
+      styles.default.borderStyle = values.panelBorderStyle;
+    }
+    if (values.panelBorderRadius) {
+      const formatted = formatBorderRadius(values.panelBorderRadius);
+      if (formatted) styles.default.borderRadius = formatted;
     }
     if (values.borderColor !== undefined && values.borderColor !== null) {
-      styles.wp_block_custom_tabs.borderColor = values.borderColor;
+      styles.default.borderColor = values.borderColor;
     }
     if (values.borderWidth !== undefined && values.borderWidth !== null) {
-      styles.wp_block_custom_tabs.borderWidth = `${values.borderWidth}px`;
+      styles.default.borderWidth = `${values.borderWidth}px`;
     }
     if (values.borderStyle !== undefined && values.borderStyle !== null) {
-      styles.wp_block_custom_tabs.borderStyle = values.borderStyle;
+      styles.default.borderStyle = values.borderStyle;
     }
     if (values.borderRadius) {
       const formatted = formatBorderRadius(values.borderRadius);
-      if (formatted) styles.wp_block_custom_tabs.borderRadius = formatted;
+      if (formatted) styles.default.borderRadius = formatted;
     }
     if (values.shadow !== undefined && values.shadow !== null) {
-      styles.wp_block_custom_tabs.boxShadow = values.shadow;
+      styles.default.boxShadow = values.shadow;
     }
     if (values.shadowHover !== undefined && values.shadowHover !== null) {
-      styles.wp_block_custom_tabs.boxShadow = values.shadowHover;
+      styles.default.boxShadow = values.shadowHover;
     }
     if (values.dividerBorderColor !== undefined && values.dividerBorderColor !== null) {
-      styles.wp_block_custom_tabs.borderColor = values.dividerBorderColor;
+      styles.default.borderColor = values.dividerBorderColor;
     }
     if (values.dividerBorderWidth !== undefined && values.dividerBorderWidth !== null) {
-      styles.wp_block_custom_tabs.borderWidth = `${values.dividerBorderWidth}px`;
+      styles.default.borderWidth = `${values.dividerBorderWidth}px`;
     }
     if (values.dividerBorderStyle !== undefined && values.dividerBorderStyle !== null) {
-      styles.wp_block_custom_tabs.borderStyle = values.dividerBorderStyle;
+      styles.default.borderStyle = values.dividerBorderStyle;
     }
 
   return styles;
@@ -160,20 +182,12 @@ export function buildFrontendStyles(customizations) {
     return styles;
   }
 
-  if (customizations.showIcon !== undefined && customizations.showIcon !== null) {
-    styles['--tabs-show-icon'] = customizations.showIcon;
-  }
-
   if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
     styles['--tabs-icon-color'] = customizations.iconColor;
   }
 
   if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
     styles['--tabs-icon-size'] = `${customizations.iconSize}px`;
-  }
-
-  if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
-    styles['--tabs-icon-rotation'] = `${customizations.iconRotation}deg`;
   }
 
   if (customizations.tabButtonColor !== undefined && customizations.tabButtonColor !== null) {

@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-01T18:09:25.718Z
+> Generated at: 2025-12-08T00:22:34.876Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -99,11 +99,11 @@ Icon appearance and behavior
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
-| `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
-| `iconPosition` | string | `right` | Yes | Position of icon relative to title |
+| `showIcon` | boolean | `true` | No (N/A) | Display expand/collapse icon |
+| `iconPosition` | string | `right` | No (N/A) | Position of icon relative to title |
 | `iconSize` | number | `20` | Yes | Size of the icon in pixels |
-| `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed |
-| `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
+| `iconTypeClosed` | string | `▾` | No (N/A) | Icon when accordion is closed |
+| `iconTypeOpen` | string | `none` | No (N/A) | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
 ## CSS Variables

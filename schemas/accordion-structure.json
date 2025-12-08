@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "blockType": "accordion",
+  "version": "1.0.0",
+  "description": "HTML structure definition for Accordion block - defines element hierarchy, class names, and ARIA attributes",
+  "root": "wrapper",
+
+  "elements": {
+    "wrapper": {
+      "id": "wrapper",
+      "tag": "div",
+      "className": "wp-block-accordion sammu-blocks",
+      "description": "Outermost container for the accordion block with theme class and alignment",
+      "children": ["item"],
+      "attributes": {
+        "data-accordion-id": "{accordionId}"
+      },
+      "conditionalClass": {
+        "accordion-theme-{currentTheme}": "{currentTheme}",
+        "sammu-blocks-align-{accordionHorizontalAlign}": "{accordionHorizontalAlign || 'left'}"
+      },
+      "appliesStyles": []
+    },
+
+    "item": {
+      "id": "item",
+      "tag": "div",
+      "className": "accordion-item",
+      "description": "Individual accordion item container with open/closed state",
+      "children": ["titleWrapper", "content"],
+      "attributes": {
+        "data-item-id": "0"
+      },
+      "conditionalClass": {
+        "is-open": "{initiallyOpen}"
+      },
+      "appliesStyles": [
+        "borderColor",
+        "borderWidth",
+        "borderStyle",
+        "borderRadius",
+        "shadow",
+        "shadowHover"
+      ]
+    },
+
+    "titleWrapper": {
+      "id": "titleWrapper",
+      "tag": "div",
+      "className": "accordion-title-wrapper",
+      "description": "Wrapper for title button providing structure and padding",
+      "children": ["heading", "title"],
+      "appliesStyles": []
+    },
+
+    "heading": {
+      "id": "heading",
+      "tag": "{headingLevel}",
+      "className": "accordion-heading",
+      "description": "Optional semantic heading wrapper (h1-h6) for title button",
+      "children": ["title"],
+      "conditionalRender": "{headingLevel !== 'none'}",
+      "appliesStyles": []
+    },
+
+    "title": {
+      "id": "title",
+      "tag": "button",
+      "className": "accordion-title",
+      "description": "Clickable title/header button that toggles accordion visibility",
+      "children": ["titleText", "icon", "titleContentWrapper"],
+      "attributes": {
+        "type": "button"
+      },
+      "aria": {
+        "expanded": "{!initiallyOpen}",
+        "controls": "{accordionId}-content"
+      },
+      "conditionalClass": {
+        "icon-extreme-left": "{iconPosition === 'extreme-left'}",
+        "icon-extreme-right": "{iconPosition === 'extreme-right'}",
+        "icon-left": "{iconPosition === 'left'}",
+        "icon-right": "{iconPosition === 'right' || !iconPosition}"
+      },
+      "appliesStyles": [
+        "titleColor",
+        "titleBackgroundColor",
+        "titleFontSize",
+        "titleFontWeight",
+        "titleFontStyle",
+        "titleTextTransform",
+        "titleTextDecoration",
+        "titleAlignment",
+        "hoverTitleColor",
+        "hoverTitleBackgroundColor"
+      ]
+    },
+
+    "titleContentWrapper": {
+      "id": "titleContentWrapper",
+      "tag": "div",
+      "className": "",
+      "description": "Wrapper for title text and icon when icon position is left or right (not extreme)",
+      "children": ["titleText", "icon"],
+      "conditionalRender": "{iconPosition === 'left' || iconPosition === 'right' || !iconPosition}",
+      "appliesStyles": []
+    },
+
+    "titleText": {
+      "id": "titleText",
+      "tag": "span",
+      "className": "accordion-title-text",
+      "description": "Title text content (editable with RichText)",
+      "contentType": "RichText",
+      "source": "{title}",
+      "appliesStyles": []
+    },
+
+    "icon": {
+      "id": "icon",
+      "tag": "span",
+      "className": "accordion-icon",
+      "description": "Expand/collapse icon (character or image)",
+      "conditionalRender": "{showIcon}",
+      "attributes": {
+        "aria-hidden": "true",
+        "data-icon-closed": "{iconTypeClosed}",
+        "data-icon-open": "{iconTypeOpen !== 'none' ? iconTypeOpen : iconTypeClosed}"
+      },
+      "renderVariant": {
+        "condition": "iconTypeClosed.startsWith('http')",
+        "ifTrue": {
+          "tag": "img",
+          "className": "accordion-icon accordion-icon-image",
+          "attributes": {
+            "src": "{iconTypeClosed}",
+            "alt": "",
+            "aria-hidden": "true"
+          }
+        }
+      },
+      "appliesStyles": [
+        "iconColor",
+        "iconSize",
+        "iconRotation"
+      ]
+    },
+
+    "content": {
+      "id": "content",
+      "tag": "div",
+      "className": "accordion-content",
+      "description": "Collapsible content area that expands/collapses",
+      "children": ["contentInner"],
+      "conditionalAttribute": {
+        "hidden": "{!initiallyOpen}"
+      },
+      "aria": {
+        "role": "region",
+        "labelledby": "{accordionId}-header"
+      },
+      "appliesStyles": [
+        "contentColor",
+        "contentBackgroundColor",
+        "contentFontSize",
+        "contentFontWeight",
+        "dividerColor",
+        "dividerWidth",
+        "dividerStyle"
+      ]
+    },
+
+    "contentInner": {
+      "id": "contentInner",
+      "tag": "div",
+      "className": "accordion-content-inner",
+      "description": "Inner content wrapper with padding for InnerBlocks",
+      "contentType": "InnerBlocks",
+      "appliesStyles": []
+    }
+  },
+
+  "hierarchy": {
+    "root": "wrapper",
+    "tree": {
+      "wrapper": {
+        "item": {
+          "titleWrapper": {
+            "heading": {
+              "title": ["titleText", "icon", "titleContentWrapper"]
+            },
+            "title": ["titleText", "icon", "titleContentWrapper"]
+          },
+          "content": {
+            "contentInner": []
+          }
+        }
+      }
+    }
+  }
+}

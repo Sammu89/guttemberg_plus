@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-01T18:09:25.711Z
+ * Generated at: 2025-12-08T00:22:34.867Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -65,16 +65,8 @@ export interface AccordionTheme {
   dividerWidth?: number;
   /** Style of divider between title and content */
   dividerStyle?: string;
-  /** Display expand/collapse icon */
-  showIcon?: boolean;
-  /** Position of icon relative to title */
-  iconPosition?: string;
   /** Size of the icon in pixels */
   iconSize?: number;
-  /** Icon when accordion is closed */
-  iconTypeClosed?: string;
-  /** Icon when accordion is open (none = use just iconTypeClosed with rotation) */
-  iconTypeOpen?: string;
   /** Rotation angle when open (degrees) */
   iconRotation?: number;
 }
@@ -111,11 +103,7 @@ export const accordionDefaultTheme: AccordionTheme = {
   shadowHover: 'none',
   dividerWidth: 0,
   dividerStyle: 'solid',
-  showIcon: true,
-  iconPosition: 'right',
   iconSize: 20,
-  iconTypeClosed: '▾',
-  iconTypeOpen: 'none',
   iconRotation: 180,
 };
 

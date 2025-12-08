@@ -1,0 +1,274 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "blockType": "toc",
+  "version": "1.0.0",
+  "description": "HTML structure definition for Table of Contents block - defines element hierarchy, class names, and ARIA attributes",
+  "root": "wrapper",
+
+  "elements": {
+    "wrapper": {
+      "id": "wrapper",
+      "tag": "div",
+      "className": "wp-block-custom-toc sammu-blocks",
+      "description": "Outermost container for the TOC block with theme class and position type",
+      "children": ["titleStatic", "titleCollapsible", "titleIconOnly", "content"],
+      "attributes": {
+        "data-toc-id": "{tocId}",
+        "data-filter-mode": "{filterMode}",
+        "data-include-levels": "{includeLevels.join(',')}",
+        "data-include-classes": "{includeClasses}",
+        "data-exclude-levels": "{excludeLevels.join(',')}",
+        "data-exclude-classes": "{excludeClasses}",
+        "data-depth-limit": "{depthLimit || 0}",
+        "data-numbering-style": "{numberingStyle}",
+        "data-smooth-scroll": "{smoothScroll}",
+        "data-scroll-offset": "{scrollOffset}",
+        "data-auto-highlight": "{autoHighlight}",
+        "data-collapsible": "{isCollapsible}",
+        "data-initially-collapsed": "{initiallyCollapsed}",
+        "data-position-type": "{positionType}",
+        "data-click-behavior": "{clickBehavior || 'navigate'}"
+      },
+      "conditionalClass": {
+        "toc-theme-{currentTheme}": "{currentTheme}",
+        "toc-position-{positionType}": "{positionType}"
+      },
+      "appliesStyles": [
+        "wrapperBackgroundColor",
+        "blockBorderColor",
+        "blockBorderWidth",
+        "blockBorderStyle",
+        "blockBorderRadius",
+        "blockShadow",
+        "blockShadowHover",
+        "wrapperPadding",
+        "positionTop",
+        "zIndex"
+      ]
+    },
+
+    "titleStatic": {
+      "id": "titleStatic",
+      "tag": "div",
+      "className": "toc-title",
+      "description": "Static title header when TOC is not collapsible",
+      "conditionalRender": "{showTitle && !isCollapsible}",
+      "contentType": "static",
+      "source": "{titleText}",
+      "appliesStyles": [
+        "titleColor",
+        "titleBackgroundColor",
+        "titleFontSize",
+        "titleFontWeight",
+        "titleTextTransform",
+        "titleAlignment"
+      ]
+    },
+
+    "titleCollapsible": {
+      "id": "titleCollapsible",
+      "tag": "button",
+      "className": "toc-title toc-toggle-button",
+      "description": "Collapsible title button when TOC has title and is collapsible",
+      "children": ["titleTextSpan", "collapseIcon"],
+      "conditionalRender": "{showTitle && isCollapsible}",
+      "attributes": {
+        "id": "toc-toggle-{tocId}",
+        "type": "button"
+      },
+      "aria": {
+        "expanded": "{!initiallyCollapsed}",
+        "controls": "toc-content-{tocId}"
+      },
+      "appliesStyles": [
+        "titleColor",
+        "titleBackgroundColor",
+        "titleFontSize",
+        "titleFontWeight",
+        "titleTextTransform",
+        "titleAlignment"
+      ]
+    },
+
+    "titleTextSpan": {
+      "id": "titleTextSpan",
+      "tag": "span",
+      "className": "",
+      "description": "Text content wrapper inside collapsible title button",
+      "contentType": "static",
+      "source": "{titleText}",
+      "appliesStyles": []
+    },
+
+    "collapseIcon": {
+      "id": "collapseIcon",
+      "tag": "span",
+      "className": "toc-collapse-icon",
+      "description": "Collapse/expand icon in title button",
+      "attributes": {
+        "aria-hidden": "true"
+      },
+      "contentType": "static",
+      "source": "▾",
+      "appliesStyles": [
+        "collapseIconSize",
+        "collapseIconColor"
+      ]
+    },
+
+    "titleIconOnly": {
+      "id": "titleIconOnly",
+      "tag": "button",
+      "className": "toc-toggle-button toc-icon-only",
+      "description": "Icon-only toggle button when title is hidden but TOC is collapsible",
+      "conditionalRender": "{!showTitle && isCollapsible}",
+      "attributes": {
+        "id": "toc-toggle-{tocId}",
+        "type": "button",
+        "aria-label": "Toggle Table of Contents"
+      },
+      "aria": {
+        "expanded": "{!initiallyCollapsed}",
+        "controls": "toc-content-{tocId}"
+      },
+      "contentType": "static",
+      "source": "▾",
+      "appliesStyles": [
+        "collapseIconSize",
+        "collapseIconColor"
+      ]
+    },
+
+    "content": {
+      "id": "content",
+      "tag": "nav",
+      "className": "toc-content",
+      "description": "Main TOC navigation content area containing the list",
+      "children": ["list"],
+      "attributes": {
+        "id": "toc-content-{tocId}"
+      },
+      "aria": {
+        "label": "{titleText || 'Table of Contents'}"
+      },
+      "conditionalAttribute": {
+        "style": "{display: isCollapsible && initiallyCollapsed ? 'none' : 'block'}"
+      },
+      "appliesStyles": []
+    },
+
+    "list": {
+      "id": "list",
+      "tag": "ul",
+      "className": "toc-list",
+      "description": "Main list element containing TOC entries",
+      "children": ["listItem"],
+      "conditionalClass": {
+        "numbering-{numberingStyle}": "{numberingStyle}"
+      },
+      "appliesStyles": [
+        "listPaddingLeft",
+        "itemSpacing",
+        "levelIndent",
+        "numberingColor"
+      ]
+    },
+
+    "listItem": {
+      "id": "listItem",
+      "tag": "li",
+      "className": "toc-item",
+      "description": "Individual TOC list item (generated dynamically by frontend JS)",
+      "children": ["link", "nestedList"],
+      "conditionalClass": {
+        "toc-level-{level}": "{level}",
+        "active": "{isActive}"
+      },
+      "appliesStyles": []
+    },
+
+    "link": {
+      "id": "link",
+      "tag": "a",
+      "className": "toc-link",
+      "description": "Link to heading in the document",
+      "attributes": {
+        "href": "#{headingId}"
+      },
+      "contentType": "dynamic",
+      "source": "{headingText}",
+      "conditionalClass": {
+        "active": "{isActive}"
+      },
+      "appliesStyles": [
+        "linkColor",
+        "linkHoverColor",
+        "linkActiveColor",
+        "linkVisitedColor",
+        "level1Color",
+        "level2Color",
+        "level3PlusColor",
+        "level1FontSize",
+        "level1FontWeight",
+        "level1FontStyle",
+        "level1TextTransform",
+        "level1TextDecoration",
+        "level2FontSize",
+        "level2FontWeight",
+        "level2FontStyle",
+        "level2TextTransform",
+        "level2TextDecoration",
+        "level3PlusFontSize",
+        "level3PlusFontWeight",
+        "level3PlusFontStyle",
+        "level3PlusTextTransform",
+        "level3PlusTextDecoration"
+      ]
+    },
+
+    "nestedList": {
+      "id": "nestedList",
+      "tag": "ul",
+      "className": "toc-list",
+      "description": "Nested list for sub-headings (recursive structure)",
+      "children": [],
+      "conditionalRender": "{hasChildren}",
+      "conditionalClass": {
+        "numbering-{numberingStyle}": "{numberingStyle}"
+      },
+      "appliesStyles": [
+        "listPaddingLeft",
+        "itemSpacing",
+        "levelIndent",
+        "numberingColor"
+      ]
+    },
+
+    "placeholder": {
+      "id": "placeholder",
+      "tag": "li",
+      "className": "toc-placeholder",
+      "description": "Placeholder item shown while TOC is being generated",
+      "contentType": "static",
+      "source": "Loading table of contents...",
+      "appliesStyles": []
+    }
+  },
+
+  "hierarchy": {
+    "root": "wrapper",
+    "tree": {
+      "wrapper": {
+        "titleStatic": [],
+        "titleCollapsible": ["titleTextSpan", "collapseIcon"],
+        "titleIconOnly": [],
+        "content": {
+          "list": {
+            "listItem": ["link", "nestedList"],
+            "placeholder": []
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-01T18:09:25.723Z
+ * Generated at: 2025-12-08T00:22:34.883Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -18,13 +18,8 @@ import { z } from 'zod';
  * Validation schema for Tabs theme values
  */
 export const tabsThemeSchema = z.object({
-  showIcon: z.boolean(),
-  iconPosition: z.string(),
   iconColor: z.string(),
   iconSize: z.number(),
-  iconTypeClosed: z.string(),
-  iconTypeOpen: z.string(),
-  iconRotation: z.number(),
   tabButtonColor: z.string(),
   tabButtonBackgroundColor: z.string(),
   tabButtonHoverColor: z.string(),
@@ -39,7 +34,6 @@ export const tabsThemeSchema = z.object({
   buttonBorderRadius: z.record(z.any()),
   buttonShadow: z.string(),
   buttonShadowHover: z.string(),
-  enableFocusBorder: z.boolean(),
   focusBorderColor: z.string(),
   focusBorderColorActive: z.string(),
   focusBorderWidth: z.number(),
@@ -64,7 +58,6 @@ export const tabsThemeSchema = z.object({
   borderRadius: z.record(z.any()),
   shadow: z.string(),
   shadowHover: z.string(),
-  enableDividerBorder: z.boolean(),
   dividerBorderColor: z.string(),
   dividerBorderWidth: z.number(),
   dividerBorderStyle: z.string(),

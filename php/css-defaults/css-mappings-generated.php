@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-12-01T18:09:25.736Z
+ * Generated at: 2025-12-08T00:22:34.891Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -51,10 +51,8 @@ $mappings = array(
       'iconRotation' => array( 'cssVar' => 'accordion-icon-rotation', 'unit' => 'deg', 'type' => 'number' ),
     ),
     'tabs' => array(
-      'showIcon' => array( 'cssVar' => 'tabs-show-icon', 'unit' => null, 'type' => 'boolean' ),
       'iconColor' => array( 'cssVar' => 'tabs-icon-color', 'unit' => null, 'type' => 'string' ),
       'iconSize' => array( 'cssVar' => 'tabs-icon-size', 'unit' => 'px', 'type' => 'number' ),
-      'iconRotation' => array( 'cssVar' => 'tabs-icon-rotation', 'unit' => 'deg', 'type' => 'number' ),
       'tabButtonColor' => array( 'cssVar' => 'tabs-button-color', 'unit' => null, 'type' => 'string' ),
       'tabButtonBackgroundColor' => array( 'cssVar' => 'tabs-button-bg', 'unit' => null, 'type' => 'string' ),
       'tabButtonHoverColor' => array( 'cssVar' => 'tabs-button-hover-color', 'unit' => null, 'type' => 'string' ),

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-01T18:09:25.735Z
+ * Generated at: 2025-12-08T00:22:34.889Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -31,107 +31,140 @@ export function formatBorderRadius(radius) {
 export function buildEditorStyles(values) {
   const styles = {};
 
-  // Styles for .wp-block-guttemberg-plus-toc
-  styles.container = {};
+  // Styles for default
+  styles.default = {};
     if (values.wrapperBackgroundColor !== undefined && values.wrapperBackgroundColor !== null) {
-      styles.container.backgroundColor = values.wrapperBackgroundColor;
+      styles.default.backgroundColor = values.wrapperBackgroundColor;
     }
     if (values.blockBorderColor !== undefined && values.blockBorderColor !== null) {
-      styles.container.color = values.blockBorderColor;
+      styles.default.color = values.blockBorderColor;
+    }
+    if (values.titleColor !== undefined && values.titleColor !== null) {
+      styles.default.color = values.titleColor;
+    }
+    if (values.titleBackgroundColor !== undefined && values.titleBackgroundColor !== null) {
+      styles.default.backgroundColor = values.titleBackgroundColor;
     }
     if (values.linkColor !== undefined && values.linkColor !== null) {
-      styles.container.color = values.linkColor;
+      styles.default.color = values.linkColor;
     }
     if (values.linkHoverColor !== undefined && values.linkHoverColor !== null) {
-      styles.container.color = values.linkHoverColor;
+      styles.default.color = values.linkHoverColor;
     }
     if (values.linkActiveColor !== undefined && values.linkActiveColor !== null) {
-      styles.container.color = values.linkActiveColor;
+      styles.default.color = values.linkActiveColor;
     }
     if (values.linkVisitedColor !== undefined && values.linkVisitedColor !== null) {
-      styles.container.color = values.linkVisitedColor;
+      styles.default.color = values.linkVisitedColor;
     }
     if (values.numberingColor !== undefined && values.numberingColor !== null) {
-      styles.container.color = values.numberingColor;
+      styles.default.color = values.numberingColor;
     }
     if (values.level1Color !== undefined && values.level1Color !== null) {
-      styles.container.color = values.level1Color;
+      styles.default.color = values.level1Color;
     }
     if (values.level2Color !== undefined && values.level2Color !== null) {
-      styles.container.color = values.level2Color;
+      styles.default.color = values.level2Color;
     }
     if (values.level3PlusColor !== undefined && values.level3PlusColor !== null) {
-      styles.container.color = values.level3PlusColor;
+      styles.default.color = values.level3PlusColor;
+    }
+    if (values.collapseIconColor !== undefined && values.collapseIconColor !== null) {
+      styles.default.color = values.collapseIconColor;
+    }
+    if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
+      styles.default.fontSize = `${values.titleFontSize}px`;
+    }
+    if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
+      styles.default.fontWeight = values.titleFontWeight;
+    }
+    if (values.titleTextTransform !== undefined && values.titleTextTransform !== null) {
+      styles.default.textTransform = values.titleTextTransform;
+    }
+    if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
+      styles.default.textAlign = values.titleAlignment;
     }
     if (values.level1FontSize !== undefined && values.level1FontSize !== null) {
-      styles.container.fontSize = `${values.level1FontSize}px`;
+      styles.default.fontSize = `${values.level1FontSize}px`;
     }
     if (values.level1FontWeight !== undefined && values.level1FontWeight !== null) {
-      styles.container.fontWeight = values.level1FontWeight;
+      styles.default.fontWeight = values.level1FontWeight;
     }
     if (values.level1FontStyle !== undefined && values.level1FontStyle !== null) {
-      styles.container.fontStyle = values.level1FontStyle;
+      styles.default.fontStyle = values.level1FontStyle;
+    }
+    if (values.level1TextTransform !== undefined && values.level1TextTransform !== null) {
+      styles.default.textTransform = values.level1TextTransform;
+    }
+    if (values.level1TextDecoration !== undefined && values.level1TextDecoration !== null) {
+      styles.default.textDecoration = values.level1TextDecoration;
     }
     if (values.level2FontSize !== undefined && values.level2FontSize !== null) {
-      styles.container.fontSize = `${values.level2FontSize}px`;
+      styles.default.fontSize = `${values.level2FontSize}px`;
     }
     if (values.level2FontWeight !== undefined && values.level2FontWeight !== null) {
-      styles.container.fontWeight = values.level2FontWeight;
+      styles.default.fontWeight = values.level2FontWeight;
     }
     if (values.level2FontStyle !== undefined && values.level2FontStyle !== null) {
-      styles.container.fontStyle = values.level2FontStyle;
+      styles.default.fontStyle = values.level2FontStyle;
+    }
+    if (values.level2TextTransform !== undefined && values.level2TextTransform !== null) {
+      styles.default.textTransform = values.level2TextTransform;
+    }
+    if (values.level2TextDecoration !== undefined && values.level2TextDecoration !== null) {
+      styles.default.textDecoration = values.level2TextDecoration;
     }
     if (values.level3PlusFontSize !== undefined && values.level3PlusFontSize !== null) {
-      styles.container.fontSize = `${values.level3PlusFontSize}px`;
+      styles.default.fontSize = `${values.level3PlusFontSize}px`;
     }
     if (values.level3PlusFontWeight !== undefined && values.level3PlusFontWeight !== null) {
-      styles.container.fontWeight = values.level3PlusFontWeight;
+      styles.default.fontWeight = values.level3PlusFontWeight;
     }
     if (values.level3PlusFontStyle !== undefined && values.level3PlusFontStyle !== null) {
-      styles.container.fontStyle = values.level3PlusFontStyle;
+      styles.default.fontStyle = values.level3PlusFontStyle;
+    }
+    if (values.level3PlusTextTransform !== undefined && values.level3PlusTextTransform !== null) {
+      styles.default.textTransform = values.level3PlusTextTransform;
+    }
+    if (values.level3PlusTextDecoration !== undefined && values.level3PlusTextDecoration !== null) {
+      styles.default.textDecoration = values.level3PlusTextDecoration;
     }
     if (values.blockBorderWidth !== undefined && values.blockBorderWidth !== null) {
-      styles.container.borderWidth = `${values.blockBorderWidth}px`;
+      styles.default.borderWidth = `${values.blockBorderWidth}px`;
     }
     if (values.blockBorderStyle !== undefined && values.blockBorderStyle !== null) {
-      styles.container.borderStyle = values.blockBorderStyle;
+      styles.default.borderStyle = values.blockBorderStyle;
     }
     if (values.blockBorderRadius) {
       const formatted = formatBorderRadius(values.blockBorderRadius);
-      if (formatted) styles.container.borderRadius = formatted;
+      if (formatted) styles.default.borderRadius = formatted;
     }
     if (values.blockShadow !== undefined && values.blockShadow !== null) {
-      styles.container.boxShadow = values.blockShadow;
+      styles.default.boxShadow = values.blockShadow;
     }
     if (values.blockShadowHover !== undefined && values.blockShadowHover !== null) {
-      styles.container.boxShadow = values.blockShadowHover;
+      styles.default.boxShadow = values.blockShadowHover;
     }
     if (values.wrapperPadding !== undefined && values.wrapperPadding !== null) {
-      styles.container.padding = `${values.wrapperPadding}px`;
+      styles.default.padding = `${values.wrapperPadding}px`;
     }
     if (values.listPaddingLeft !== undefined && values.listPaddingLeft !== null) {
-      styles.container.padding = `${values.listPaddingLeft}px`;
+      styles.default.padding = `${values.listPaddingLeft}px`;
     }
-
-  // Styles for .toc-link
-  styles.toc_link = {};
-    if (values.titleColor !== undefined && values.titleColor !== null) {
-      styles.toc_link.color = values.titleColor;
+    if (values.itemSpacing !== undefined && values.itemSpacing !== null) {
+      styles.default.marginBottom = `${values.itemSpacing}px`;
     }
-    if (values.titleBackgroundColor !== undefined && values.titleBackgroundColor !== null) {
-      styles.toc_link.backgroundColor = values.titleBackgroundColor;
+    if (values.levelIndent !== undefined && values.levelIndent !== null) {
+      styles.default.marginLeft = `${values.levelIndent}px`;
     }
-    if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
-      styles.toc_link.fontSize = `${values.titleFontSize}px`;
+    if (values.positionTop !== undefined && values.positionTop !== null) {
+      styles.default.top = `${values.positionTop}px`;
     }
-    if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
-      styles.toc_link.fontWeight = values.titleFontWeight;
+    if (values.zIndex !== undefined && values.zIndex !== null) {
+      styles.default.zIndex = `${values.zIndex}`;
     }
-
-  // Styles for default
-  styles.default = {};
-    if (values.collapseIconColor !== undefined && values.collapseIconColor !== null) {
-      styles.default.color = values.collapseIconColor;
+    if (values.collapseIconSize !== undefined && values.collapseIconSize !== null) {
+      styles.default.fontSize = `${values.collapseIconSize}px`;
     }
 
   return styles;

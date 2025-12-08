@@ -132,17 +132,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Memoized to prevent infinite loop in session cache useEffect
 	const currentTheme = themes[ attributes.currentTheme ];
 	const expectedValues = useMemo( () => {
-		console.debug( '[THEME-DEBUG] [TABS] --- expectedValues Calculation Start ---' );
-		console.debug( '[THEME-DEBUG] [TABS] Current theme object:', currentTheme );
-		console.debug( '[THEME-DEBUG] [TABS] Theme deltas:', currentTheme?.values || {} );
-		console.debug( '[THEME-DEBUG] [TABS] All defaults (base):', allDefaults );
+		// console.debug( '[THEME-DEBUG] [TABS] --- expectedValues Calculation Start ---' );
+		// console.debug( '[THEME-DEBUG] [TABS] Current theme object:', currentTheme );
+		// console.debug( '[THEME-DEBUG] [TABS] Theme deltas:', currentTheme?.values || {} );
+		// console.debug( '[THEME-DEBUG] [TABS] All defaults (base):', allDefaults );
 
 		const expected = currentTheme
 			? applyDeltas( allDefaults, currentTheme.values || {} )
 			: allDefaults;
 
-		console.debug( '[THEME-DEBUG] [TABS] Calculated expected values:', expected );
-		console.debug( '[THEME-DEBUG] [TABS] --- expectedValues Calculation End ---' );
+		// console.debug( '[THEME-DEBUG] [TABS] Calculated expected values:', expected );
+		// console.debug( '[THEME-DEBUG] [TABS] --- expectedValues Calculation End ---' );
 		return expected;
 	}, [ currentTheme, allDefaults ] );
 
@@ -150,21 +150,21 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Memoized to avoid recalculation on every render
 	// IMPORTANT: Wait for themes to load before checking customization
 	const isCustomized = useMemo( () => {
-		console.debug( '[THEME-DEBUG] [TABS] --- isCustomized Calculation Start ---' );
-		console.debug( '[THEME-DEBUG] [TABS] Current theme:', attributes.currentTheme || '(none)' );
-		console.debug( '[THEME-DEBUG] [TABS] Themes loaded:', themesLoaded );
-		console.debug( '[THEME-DEBUG] [TABS] Available themes:', Object.keys( themes ) );
+		// console.debug( '[THEME-DEBUG] [TABS] --- isCustomized Calculation Start ---' );
+		// console.debug( '[THEME-DEBUG] [TABS] Current theme:', attributes.currentTheme || '(none)' );
+		// console.debug( '[THEME-DEBUG] [TABS] Themes loaded:', themesLoaded );
+		// console.debug( '[THEME-DEBUG] [TABS] Available themes:', Object.keys( themes ) );
 
 		// Don't check customization until themes are loaded
 		// This prevents false positives when theme deltas haven't loaded yet
 		if ( ! themesLoaded ) {
-			console.debug( '[THEME-DEBUG] [TABS] Themes not loaded yet - returning false' );
+			// console.debug( '[THEME-DEBUG] [TABS] Themes not loaded yet - returning false' );
 			return false;
 		}
 
 		// If block has a theme but it doesn't exist in themes object, wait
 		if ( attributes.currentTheme && ! themes[ attributes.currentTheme ] ) {
-			console.debug( '[THEME-DEBUG] [TABS] Theme selected but not found in themes object - returning false' );
+			// console.debug( '[THEME-DEBUG] [TABS] Theme selected but not found in themes object - returning false' );
 			return false;
 		}
 
@@ -199,13 +199,13 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			return isDifferent;
 		} );
 
-		console.debug( '[THEME-DEBUG] [TABS] Number of customizations:', customizedAttributes.length );
-		if ( customizedAttributes.length > 0 ) {
-			console.debug( '[THEME-DEBUG] [TABS] Customized attributes:', customizedAttributes );
-		}
-		console.debug( '[THEME-DEBUG] [TABS] isCustomized result:', result );
-		console.debug( '[THEME-DEBUG] [TABS] Should show "Save new theme":', result );
-		console.debug( '[THEME-DEBUG] [TABS] --- isCustomized Calculation End ---' );
+		// console.debug( '[THEME-DEBUG] [TABS] Number of customizations:', customizedAttributes.length );
+		// if ( customizedAttributes.length > 0 ) {
+		// 	console.debug( '[THEME-DEBUG] [TABS] Customized attributes:', customizedAttributes );
+		// }
+		// console.debug( '[THEME-DEBUG] [TABS] isCustomized result:', result );
+		// console.debug( '[THEME-DEBUG] [TABS] Should show "Save new theme":', result );
+		// console.debug( '[THEME-DEBUG] [TABS] --- isCustomized Calculation End ---' );
 
 		return result;
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded, themes ] );
@@ -496,6 +496,10 @@ const getInlineStyles = () => {
 			fontSize: `${effectiveValues.tabButtonFontSize || 16}px`,
 			fontWeight: effectiveValues.tabButtonFontWeight || '500',
 			fontStyle: effectiveValues.tabButtonFontStyle || 'normal',
+			textTransform: effectiveValues.tabButtonTextTransform || 'none',
+			textDecoration: effectiveValues.tabButtonTextDecoration || 'none',
+			textAlign: effectiveValues.tabButtonTextAlign || 'center',
+			justifyContent: effectiveValues.tabListAlignment || 'left',
 		},
 		content: {
 			borderColor: effectiveValues.dividerBorderColor || '#dddddd',
@@ -504,12 +508,51 @@ const getInlineStyles = () => {
 		},
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
+			fontSize: `${effectiveValues.iconSize || 16}px`,
 		},
 	};
 };
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
 	const styles = getInlineStyles();
+
+	// Add tabButton function to styles object to handle active/disabled states
+	styles.tabButton = (isActive, isDisabled) => {
+		const baseStyles = {
+			color: effectiveValues.tabButtonColor || '#666666',
+			backgroundColor: effectiveValues.tabButtonBackgroundColor || 'transparent',
+			borderWidth: `${effectiveValues.buttonBorderWidth || 0}px`,
+			borderStyle: effectiveValues.buttonBorderStyle || 'solid',
+			borderColor: effectiveValues.buttonBorderColor || 'transparent',
+			borderRadius: effectiveValues.buttonBorderRadius ?
+				`${effectiveValues.buttonBorderRadius.topLeft || 0}px ${effectiveValues.buttonBorderRadius.topRight || 0}px ${effectiveValues.buttonBorderRadius.bottomRight || 0}px ${effectiveValues.buttonBorderRadius.bottomLeft || 0}px` :
+				'0',
+			boxShadow: effectiveValues.buttonShadow || 'none',
+			fontSize: `${effectiveValues.tabButtonFontSize || 16}px`,
+			fontWeight: effectiveValues.tabButtonFontWeight || '500',
+			fontStyle: effectiveValues.tabButtonFontStyle || 'normal',
+		};
+
+		if (isActive) {
+			return {
+				...baseStyles,
+				color: effectiveValues.tabButtonActiveColor || '#000000',
+				backgroundColor: effectiveValues.tabButtonActiveBackgroundColor || '#ffffff',
+				borderColor: effectiveValues.tabButtonActiveBorderColor || baseStyles.borderColor,
+				borderBottomColor: effectiveValues.tabButtonActiveBorderBottomColor || 'transparent',
+			};
+		}
+
+		if (isDisabled) {
+			return {
+				...baseStyles,
+				opacity: 0.5,
+				cursor: 'not-allowed',
+			};
+		}
+
+		return baseStyles;
+	};
 
 	// Get dispatch for block manipulation
 	const { insertBlock, removeBlock, updateBlockAttributes } = useDispatch( 'core/block-editor' );

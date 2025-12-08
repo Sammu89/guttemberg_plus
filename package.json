@@ -22,7 +22,8 @@
   },
   "scripts": {
     "schema:validate": "node build-tools/schema-validator.js",
-    "schema:build": "node build-tools/schema-compiler.js",
+    "schema:validate-structure": "node build-tools/validate-schema-structure.js",
+    "schema:build": "npm run schema:validate-structure && node build-tools/schema-compiler.js",
     "validate:schema-usage": "node build-tools/validate-schema-usage.js",
     "prebuild": "npm run schema:build && npm run validate:schema-usage",
     "build": "wp-scripts build && npm run postbuild",

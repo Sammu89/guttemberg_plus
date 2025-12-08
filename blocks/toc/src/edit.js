@@ -505,7 +505,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Block props
 	const blockProps = useBlockProps( {
 		className: 'wp-block-custom-toc sammu-blocks',
-		style: buildInlineStyles( effectiveValues ),
+		style: styles.container,
 	} );
 
 	return (
@@ -877,21 +877,31 @@ const getInlineStyles = () => {
 			fontSize: `${effectiveValues.level1FontSize || 18}px`,
 			fontWeight: effectiveValues.level1FontWeight || '600',
 			fontStyle: effectiveValues.level1FontStyle || 'normal',
+			textTransform: effectiveValues.level1TextTransform || 'none',
+			textDecoration: effectiveValues.level1TextDecoration || 'none',
 			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
 			borderStyle: effectiveValues.blockBorderStyle || 'solid',
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.blockShadow || 'none',
 			padding: `${effectiveValues.wrapperPadding || 20}px`,
+			marginBottom: `${effectiveValues.itemSpacing || 8}px`,
+			marginLeft: `${effectiveValues.levelIndent || 20}px`,
+			top: `${effectiveValues.positionTop || 100}px`,
 		},
 		title: {
 			color: effectiveValues.titleColor || '#333333',
 			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
 			fontSize: `${effectiveValues.titleFontSize || 20}px`,
 			fontWeight: effectiveValues.titleFontWeight || '700',
+			textTransform: effectiveValues.titleTextTransform || 'null',
+			textAlign: effectiveValues.titleAlignment || 'left',
 		},
 		icon: {
 			color: effectiveValues.collapseIconColor || '#666666',
+			fontSize: `${effectiveValues.collapseIconSize || 20}px`,
 		},
 	};
 };
 /* ========== AUTO-GENERATED-STYLES-END ========== */
+
+	const styles = getInlineStyles();

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-01T18:09:25.722Z
+ * Generated at: 2025-12-08T00:22:34.882Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -17,20 +17,10 @@
  * Contains all themeable attributes
  */
 export interface TabsTheme {
-  /** Display icons in tab buttons */
-  showIcon?: boolean;
-  /** Position of icon relative to text */
-  iconPosition?: string;
   /** Color of the tab icon */
   iconColor?: string;
   /** Size of the icon in pixels */
   iconSize?: number;
-  /** Icon when tab is closed (char or image URL) */
-  iconTypeClosed?: string;
-  /** Icon when tab is open (none = use closed icon with rotation) */
-  iconTypeOpen?: string;
-  /** Rotation angle when open (degrees) */
-  iconRotation?: number;
   /** Text color for inactive tab buttons */
   tabButtonColor?: string;
   /** Background color for inactive tab buttons */
@@ -59,8 +49,6 @@ export interface TabsTheme {
   buttonShadow?: string;
   /** Box shadow for tab buttons on hover */
   buttonShadowHover?: string;
-  /** Enable or disable focus border settings for tab buttons */
-  enableFocusBorder?: boolean;
   /** Border color for inactive button edge adjacent to content */
   focusBorderColor?: string;
   /** Border color for active button edge adjacent to content */
@@ -109,8 +97,6 @@ export interface TabsTheme {
   shadow?: string;
   /** Box shadow for wrapper on hover */
   shadowHover?: string;
-  /** Enable or disable divider border settings for navigation bar */
-  enableDividerBorder?: boolean;
   /** Color of navbar border adjacent to content */
   dividerBorderColor?: string;
   /** Width of navbar border adjacent to content */
@@ -123,13 +109,8 @@ export interface TabsTheme {
  * Default theme values for Tabs block
  */
 export const tabsDefaultTheme: TabsTheme = {
-  showIcon: true,
-  iconPosition: 'right',
   iconColor: '#666666',
   iconSize: 16,
-  iconTypeClosed: '▾',
-  iconTypeOpen: 'none',
-  iconRotation: 180,
   tabButtonColor: '#666666',
   tabButtonBackgroundColor: 'transparent',
   tabButtonHoverColor: '#333333',
@@ -146,7 +127,6 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   buttonShadow: 'none',
   buttonShadowHover: 'none',
-  enableFocusBorder: true,
   focusBorderColor: '#0073aa',
   focusBorderColorActive: '#0073aa',
   focusBorderWidth: 2,
@@ -181,7 +161,6 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   shadow: 'none',
   shadowHover: 'none',
-  enableDividerBorder: true,
   dividerBorderColor: '#dddddd',
   dividerBorderWidth: 1,
   dividerBorderStyle: 'solid',
