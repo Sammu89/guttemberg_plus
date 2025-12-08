@@ -9,3 +9,6 @@
 
 export { useBlockThemes } from './useBlockThemes';
 export { useCSSDefaults } from './useCSSDefaults';
+export { useThemeState } from './useThemeState';
+export { useThemeHandlers } from './useThemeHandlers';
+export { getCustomizationStyles, getTabsCustomizationStyles } from './useCustomizationStyles';

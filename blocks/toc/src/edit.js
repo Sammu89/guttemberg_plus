@@ -20,8 +20,6 @@
  */
 
 import { useEffect, useState, useMemo } from '@wordpress/element';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { flushSync } from 'react-dom';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
 	PanelBody,
@@ -34,14 +32,13 @@ import {
 import {
 	generateUniqueId,
 	getAllDefaults,
-	calculateDeltas,
-	applyDeltas,
-	getThemeableSnapshot,
-	STORE_NAME,
 	ThemeSelector,
 	SchemaPanels,
 	CustomizationWarning,
 	debug,
+	useBlockThemes,
+	useThemeState,
+	useThemeHandlers,
 } from '@shared';
 import tocSchema from '../../../schemas/toc.json';
 import './editor.scss';
@@ -59,30 +56,15 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const { tocId, showTitle, titleText, currentTheme } = attributes;
 	const [ headings, setHeadings ] = useState( [] );
 
-	// Session-only cache (React state, not saved to database)
-	// Stores complete snapshots PER THEME: { "": {...}, "Dark Mode": {...} }
-	// Lost on page reload (desired behavior)
-	const [ sessionCache, setSessionCache ] = useState( {} );
-
-	// Load themes from store
-	const { themes, themesLoaded } = useSelect( ( select ) => {
-		const { getThemes, areThemesLoaded } = select( STORE_NAME );
-		return {
-			themes: getThemes( 'toc' ) || {},
-			themesLoaded: areThemesLoaded( 'toc' ),
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		// Empty deps array is correct - STORE_NAME is constant and select() doesn't need deps
-	}, [] );
-
-	// Load themes on mount and get theme action dispatchers
-	const { loadThemes, createTheme, updateTheme, deleteTheme, renameTheme } =
-		useDispatch( STORE_NAME );
-	useEffect( () => {
-		if ( ! themesLoaded ) {
-			loadThemes( 'toc' );
-		}
-	}, [ themesLoaded, loadThemes ] );
+	// Load themes using shared hook
+	const {
+		themes,
+		themesLoaded,
+		createTheme,
+		updateTheme,
+		deleteTheme,
+		renameTheme,
+	} = useBlockThemes( 'toc' );
 
 	// Generate unique ID on mount
 	useEffect( () => {
@@ -146,361 +128,113 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	}, [ clientId ] );
 
 	// Get CSS defaults from window (parsed by PHP)
-	// Memoize to prevent creating new object on every render
 	const cssDefaults = useMemo( () => window.tocDefaults || {}, [] );
 
 	// Get all defaults (CSS + behavioral)
-	// Memoize to prevent infinite loop in session cache useEffect
 	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
+
+	// Use shared theme state hook
+	const {
+		sessionCache,
+		setSessionCache,
+		expectedValues,
+		isCustomized,
+		excludeFromCustomizationCheck,
+	} = useThemeState( {
+		blockType: 'toc',
+		attributes,
+		themes,
+		themesLoaded,
+		allDefaults,
+		schema: tocSchema,
+	} );
+
+	// Use shared theme handlers hook
+	const {
+		handleSaveNewTheme,
+		handleUpdateTheme,
+		handleDeleteTheme,
+		handleRenameTheme,
+		handleResetCustomizations,
+		handleThemeChange,
+	} = useThemeHandlers( {
+		blockType: 'toc',
+		attributes,
+		setAttributes,
+		allDefaults,
+		expectedValues,
+		themes,
+		sessionCache,
+		setSessionCache,
+		excludeFromCustomizationCheck,
+		createTheme,
+		updateTheme,
+		deleteTheme,
+		renameTheme,
+	} );
 
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
-
-	// Get current theme
-	const theme = themes[ currentTheme ];
-
-	// Calculate expected values: defaults + current theme deltas
-	// Memoized to prevent infinite loop in session cache useEffect
-	const expectedValues = useMemo( () => {
-		console.debug( '[THEME-DEBUG] [TOC] --- expectedValues Calculation Start ---' );
-		console.debug( '[THEME-DEBUG] [TOC] Current theme object:', theme );
-		console.debug( '[THEME-DEBUG] [TOC] Theme deltas:', theme?.values || {} );
-		console.debug( '[THEME-DEBUG] [TOC] All defaults (base):', allDefaults );
-
-		const expected = theme
-			? applyDeltas( allDefaults, theme.values || {} )
-			: allDefaults;
-
-		console.debug( '[THEME-DEBUG] [TOC] Calculated expected values:', expected );
-		console.debug( '[THEME-DEBUG] [TOC] --- expectedValues Calculation End ---' );
-		return expected;
-	}, [ theme, allDefaults ] );
-
-	// Attributes to exclude from theming (structural/behavioral only)
-	// Attributes to exclude from theme customization checks
-	// Attributes to exclude from theme customization checks
-	// Filter schema to get all attributes where themeable is NOT true
-	const excludeFromCustomizationCheck = Object.entries( tocSchema.attributes )
-		.filter( ( [ , attr ] ) => attr.themeable !== true )
-		.map( ( [ key ] ) => key );
-
-	// Auto-detect customizations by comparing attributes to expected values
-	// Memoized to avoid recalculation on every render
-	// IMPORTANT: Wait for themes to load before checking customization
-	const isCustomized = useMemo( () => {
-		console.debug( '[THEME-DEBUG] [TOC] --- isCustomized Calculation Start ---' );
-		console.debug( '[THEME-DEBUG] [TOC] Current theme:', currentTheme || '(none)' );
-		console.debug( '[THEME-DEBUG] [TOC] Themes loaded:', themesLoaded );
-		console.debug( '[THEME-DEBUG] [TOC] Available themes:', Object.keys( themes ) );
-
-		// Don't check customization until themes are loaded
-		// This prevents false positives when theme deltas haven't loaded yet
-		if ( ! themesLoaded ) {
-			console.debug( '[THEME-DEBUG] [TOC] Themes not loaded yet - returning false' );
-			return false;
-		}
-
-		// If block has a theme but it doesn't exist in themes object, wait
-		if ( currentTheme && ! themes[ currentTheme ] ) {
-			console.debug( '[THEME-DEBUG] [TOC] Theme selected but not found in themes object - returning false' );
-			return false;
-		}
-
-		const customizedAttributes = [];
-		const result = Object.keys( attributes ).some( ( key ) => {
-			// Skip excluded attributes
-			if ( excludeFromCustomizationCheck.includes( key ) ) {
-				return false;
-			}
-
-			const attrValue = attributes[ key ];
-			const expectedValue = expectedValues[ key ];
-
-			// Skip undefined/null attributes
-			if ( attrValue === undefined || attrValue === null ) {
-				return false;
-			}
-
-			let isDifferent = false;
-			// Deep comparison for objects
-			if ( typeof attrValue === 'object' && attrValue !== null && ! Array.isArray( attrValue ) ) {
-				isDifferent = JSON.stringify( attrValue ) !== JSON.stringify( expectedValue );
-			} else {
-				// Simple comparison for primitives
-				isDifferent = attrValue !== expectedValue;
-			}
-
-			if ( isDifferent ) {
-				customizedAttributes.push( {
-					key,
-					current: attrValue,
-					expected: expectedValue,
-				} );
-			}
-
-			return isDifferent;
-		} );
-
-		console.debug( '[THEME-DEBUG] [TOC] Number of customizations:', customizedAttributes.length );
-		if ( customizedAttributes.length > 0 ) {
-			console.debug( '[THEME-DEBUG] [TOC] Customized attributes:', customizedAttributes );
-		}
-		console.debug( '[THEME-DEBUG] [TOC] isCustomized result:', result );
-		console.debug( '[THEME-DEBUG] [TOC] Should show "Save new theme":', result );
-		console.debug( '[THEME-DEBUG] [TOC] --- isCustomized Calculation End ---' );
-
-		return result;
-	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded, themes, currentTheme ] );
 
 	debug( '[DEBUG] TOC effective values:', effectiveValues );
 	debug( '[DEBUG] TOC expected values:', expectedValues );
 	debug( '[DEBUG] TOC isCustomized:', isCustomized );
 
-	// Auto-update session cache for CURRENT theme (session-only, not saved to database)
-	// This preserves customizations across theme switches WITHIN the editing session
-	// Lost on page reload or post save (desired behavior)
-	// ONLY add if there are actual customizations vs expected values
-	// IMPORTANT: Only update cache when themes are fully loaded to avoid premature caching
-	useEffect( () => {
-		// GUARD: Skip cache update if themes aren't loaded yet
-		// This prevents incorrect comparisons against default values when theme values should be used
-		if ( ! themesLoaded ) {
-			return;
-		}
-
-		const snapshot = getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
-		const currentThemeKey = attributes.currentTheme || '';
-
-		// Check if snapshot differs from expected values
-		const hasCustomizations = Object.keys( snapshot ).some( ( key ) => {
-			// Skip excluded attributes
-			if ( excludeFromCustomizationCheck.includes( key ) ) {
-				return false;
-			}
-
-			const snapshotValue = snapshot[ key ];
-			const expectedValue = expectedValues[ key ];
-
-			// Skip undefined/null
-			if ( snapshotValue === undefined || snapshotValue === null ) {
-				return false;
-			}
-
-			// Deep comparison for objects
-			if ( typeof snapshotValue === 'object' && snapshotValue !== null ) {
-				return JSON.stringify( snapshotValue ) !== JSON.stringify( expectedValue );
-			}
-
-			return snapshotValue !== expectedValue;
-		} );
-
-		if ( hasCustomizations ) {
-			// Only add to cache if there are actual customizations
-			setSessionCache( ( prev ) => ( {
-				...prev,
-				[ currentThemeKey ]: snapshot,
-			} ) );
-		} else {
-			// Remove from cache if no customizations (clean theme)
-			setSessionCache( ( prev ) => {
-				const updated = { ...prev };
-				delete updated[ currentThemeKey ];
-				return updated;
-			} );
-		}
-	}, [ attributes, expectedValues, excludeFromCustomizationCheck, themesLoaded ] );
-
-	/**
-	 * Theme callback handlers
-	 * @param themeName
-	 */
-	const handleSaveNewTheme = async ( themeName ) => {
-		// Use session cache snapshot for current theme
-		const currentThemeKey = attributes.currentTheme || '';
-		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
-		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-
-		await createTheme( 'toc', themeName, deltas );
-
-		// Switch to clean theme (reset to defaults + new theme deltas)
-		const newExpectedValues = applyDeltas( allDefaults, deltas );
-		const resetAttrs = { ...newExpectedValues };
-
-		// Remove excluded attributes (except currentTheme which we need to set)
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			if ( key !== 'currentTheme' ) {
-				delete resetAttrs[ key ];
-			}
-		} );
-
-		// Now set the currentTheme to the new theme name
-		resetAttrs.currentTheme = themeName;
-
-		// Use flushSync to force synchronous update before clearing cache
-		flushSync( () => {
-			setAttributes( resetAttrs );
-		} );
-
-		// Clear session cache for BOTH old and new themes
-		// This ensures the new theme starts completely clean without appearing customized
-		setSessionCache( ( prev ) => {
-			const updated = { ...prev };
-			delete updated[ currentThemeKey ]; // Delete old theme cache
-			delete updated[ themeName ]; // Delete new theme cache (prevents showing as customized)
-			return updated;
-		} );
-	};
-
-	const handleUpdateTheme = async () => {
-		// Use session cache snapshot for current theme
-		const currentThemeKey = attributes.currentTheme || '';
-		const currentSnapshot = sessionCache[ currentThemeKey ] || {};
-		const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-
-		// Update theme with error handling
-		try {
-			await updateTheme( 'toc', attributes.currentTheme, deltas );
-		} catch ( error ) {
-			console.error( '[UPDATE THEME ERROR]', error );
-			// If theme doesn't exist or is broken, reset to default
-			if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
-				console.warn( '[UPDATE THEME] Theme not found - resetting to default' );
-				setAttributes( { currentTheme: '' } );
-				return;
-			}
-			// Re-throw other errors
-			throw error;
-		}
-
-		// Reset to updated theme: apply defaults + updated theme deltas
-		const resetAttrs = { ...expectedValues };
-
-		// Remove excluded attributes
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			delete resetAttrs[ key ];
-		} );
-
-		// Use flushSync to force synchronous update before clearing cache
-		flushSync( () => {
-			setAttributes( resetAttrs );
-		} );
-
-		// Clear session cache (theme now matches current state)
-		setSessionCache( ( prev ) => {
-			const updated = { ...prev };
-			delete updated[ currentThemeKey ];
-			return updated;
-		} );
-	};
-
-	const handleDeleteTheme = () => {
-		deleteTheme( 'toc', attributes.currentTheme );
-
-		// Reset to default theme: apply all defaults and clear currentTheme
-		const resetAttrs = { ...allDefaults };
-		resetAttrs.currentTheme = '';
-
-		// Remove excluded attributes (except currentTheme which we just set)
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			if ( key !== 'currentTheme' ) {
-				delete resetAttrs[ key ];
-			}
-		} );
-
-		// Use flushSync to force synchronous update before clearing cache
-		flushSync( () => {
-			setAttributes( resetAttrs );
-		} );
-
-		// Clear session cache completely
-		setSessionCache( {} );
-	};
-
-	const handleRenameTheme = ( oldName, newName ) => {
-		renameTheme( 'toc', oldName, newName );
-		setAttributes( { currentTheme: newName } );
-	};
-
-	const handleResetCustomizations = () => {
-		// Reset to clean theme: apply expected values (defaults + current theme)
-		const resetAttrs = { ...expectedValues };
-
-		// Remove excluded attributes from reset (except currentTheme which we need to preserve)
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			if ( key !== 'currentTheme' ) {
-				delete resetAttrs[ key ];
-			}
-		} );
-
-		// Preserve the current theme selection
-		resetAttrs.currentTheme = attributes.currentTheme;
-
-		// Use flushSync to force synchronous update before clearing cache
-		flushSync( () => {
-			setAttributes( resetAttrs );
-		} );
-
-		// Clear session cache for current theme
-		const currentThemeKey = attributes.currentTheme || '';
-		setSessionCache( ( prev ) => {
-			const updated = { ...prev };
-			delete updated[ currentThemeKey ];
-			return updated;
-		} );
-	};
-
-	/**
-	 * Handle theme change from dropdown
-	 * Supports dual variants: clean theme and customized theme
-	 *
-	 * @param {string}  newThemeName   Theme name to switch to
-	 * @param {boolean} useCustomized  Whether to restore from session cache
-	 */
-	const handleThemeChange = ( newThemeName, useCustomized = false ) => {
-		console.debug( '[THEME-DEBUG] [TOC] --- Theme Switch Event ---' );
-		console.debug( '[THEME-DEBUG] [TOC] Switching from:', currentTheme || '(none)', 'to:', newThemeName || '(none)' );
-		console.debug( '[THEME-DEBUG] [TOC] Use customized variant:', useCustomized );
-
-		const newTheme = themes[ newThemeName ];
-		const newThemeKey = newThemeName || '';
-
-		let valuesToApply;
-
-		if ( useCustomized && sessionCache[ newThemeKey ] ) {
-			// User selected customized variant - restore from session cache
-			console.debug( '[THEME-DEBUG] [TOC] Restoring from session cache' );
-			valuesToApply = sessionCache[ newThemeKey ];
-		} else {
-			// User selected clean theme - use defaults + theme deltas
-			console.debug( '[THEME-DEBUG] [TOC] Applying clean theme (defaults + theme deltas)' );
-			valuesToApply = newTheme
-				? applyDeltas( allDefaults, newTheme.values || {} )
-				: allDefaults;
-		}
-
-		console.debug( '[THEME-DEBUG] [TOC] Values to apply:', valuesToApply );
-
-		// Apply values and update currentTheme
-		const resetAttrs = { ...valuesToApply };
-
-		// Remove excluded attributes (except currentTheme which we need to set)
-		excludeFromCustomizationCheck.forEach( ( key ) => {
-			if ( key !== 'currentTheme' ) {
-				delete resetAttrs[ key ];
-			}
-		} );
-
-		// Set the new theme
-		resetAttrs.currentTheme = newThemeName;
-
-		console.debug( '[THEME-DEBUG] [TOC] Attributes to set:', resetAttrs );
-		console.debug( '[THEME-DEBUG] [TOC] --- Theme Switch Event End ---' );
-
-		setAttributes( resetAttrs );
-	};
-
 	// Filter headings based on settings
 	const filteredHeadings = filterHeadings( headings, attributes );
+
+	/**
+	 * Build inline CSS custom properties from effective values
+	 */
+	/* ========== AUTO-GENERATED-STYLES-START ========== */
+// DO NOT EDIT - This code is auto-generated from schema
+// AUTO-GENERATED from schemas/toc.json
+// To modify styles, update the schema and run: npm run schema:build
+
+const getInlineStyles = () => {
+  // Extract object-type attributes with fallbacks
+	const blockBorderRadius = effectiveValues.blockBorderRadius || {
+		    "topLeft": 4,
+		    "topRight": 4,
+		    "bottomRight": 4,
+		    "bottomLeft": 4
+		};
+
+	return {
+		container: {
+			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
+			color: effectiveValues.blockBorderColor || '#dddddd',
+			fontSize: `${effectiveValues.level1FontSize || 18}px`,
+			fontWeight: effectiveValues.level1FontWeight || '600',
+			fontStyle: effectiveValues.level1FontStyle || 'normal',
+			textTransform: effectiveValues.level1TextTransform || 'none',
+			textDecoration: effectiveValues.level1TextDecoration || 'none',
+			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
+			borderStyle: effectiveValues.blockBorderStyle || 'solid',
+			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
+			boxShadow: effectiveValues.blockShadow || 'none',
+			padding: `${effectiveValues.wrapperPadding || 20}px`,
+			marginBottom: `${effectiveValues.itemSpacing || 8}px`,
+			marginLeft: `${effectiveValues.levelIndent || 20}px`,
+			top: `${effectiveValues.positionTop || 100}px`,
+		},
+		title: {
+			color: effectiveValues.titleColor || '#333333',
+			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
+			fontSize: `${effectiveValues.titleFontSize || 20}px`,
+			fontWeight: effectiveValues.titleFontWeight || '700',
+			textTransform: effectiveValues.titleTextTransform || 'null',
+			textAlign: effectiveValues.titleAlignment || 'left',
+		},
+		icon: {
+			color: effectiveValues.collapseIconColor || '#666666',
+			fontSize: `${effectiveValues.collapseIconSize || 20}px`,
+		},
+	};
+};
+/* ========== AUTO-GENERATED-STYLES-END ========== */
+
+	const styles = getInlineStyles();
 
 	// Block props
 	const blockProps = useBlockProps( {
@@ -851,57 +585,3 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 		</ul>
 	);
 }
-
-/**
- * Build inline CSS custom properties from effective values
- * @param effectiveValues
- */
-/* ========== AUTO-GENERATED-STYLES-START ========== */
-// DO NOT EDIT - This code is auto-generated from schema
-// AUTO-GENERATED from schemas/toc.json
-// To modify styles, update the schema and run: npm run schema:build
-
-const getInlineStyles = () => {
-  // Extract object-type attributes with fallbacks
-	const blockBorderRadius = effectiveValues.blockBorderRadius || {
-		    "topLeft": 4,
-		    "topRight": 4,
-		    "bottomRight": 4,
-		    "bottomLeft": 4
-		};
-
-	return {
-		container: {
-			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
-			color: effectiveValues.blockBorderColor || '#dddddd',
-			fontSize: `${effectiveValues.level1FontSize || 18}px`,
-			fontWeight: effectiveValues.level1FontWeight || '600',
-			fontStyle: effectiveValues.level1FontStyle || 'normal',
-			textTransform: effectiveValues.level1TextTransform || 'none',
-			textDecoration: effectiveValues.level1TextDecoration || 'none',
-			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
-			borderStyle: effectiveValues.blockBorderStyle || 'solid',
-			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
-			boxShadow: effectiveValues.blockShadow || 'none',
-			padding: `${effectiveValues.wrapperPadding || 20}px`,
-			marginBottom: `${effectiveValues.itemSpacing || 8}px`,
-			marginLeft: `${effectiveValues.levelIndent || 20}px`,
-			top: `${effectiveValues.positionTop || 100}px`,
-		},
-		title: {
-			color: effectiveValues.titleColor || '#333333',
-			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-			fontSize: `${effectiveValues.titleFontSize || 20}px`,
-			fontWeight: effectiveValues.titleFontWeight || '700',
-			textTransform: effectiveValues.titleTextTransform || 'null',
-			textAlign: effectiveValues.titleAlignment || 'left',
-		},
-		icon: {
-			color: effectiveValues.collapseIconColor || '#666666',
-			fontSize: `${effectiveValues.collapseIconSize || 20}px`,
-		},
-	};
-};
-/* ========== AUTO-GENERATED-STYLES-END ========== */
-
-	const styles = getInlineStyles();
