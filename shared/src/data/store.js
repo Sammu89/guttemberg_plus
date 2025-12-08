@@ -92,14 +92,16 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 
 		case TYPES.THEME_CREATED: {
 			const stateKey = getStateKey( action.blockType );
-			debug( '[REDUCER DEBUG] THEME_CREATED reducer called' );
-			debug( '[REDUCER DEBUG] Action:', action );
-			debug( '[REDUCER DEBUG] State key:', stateKey );
-			debug( '[REDUCER DEBUG] Previous state:', state );
+			console.log( '[REDUX STORE] ========== THEME_CREATED REDUCER ==========' );
+			console.log( '[REDUX STORE] Timestamp:', new Date().toISOString() );
+			console.log( '[REDUX STORE] Block type:', action.blockType );
+			console.log( '[REDUX STORE] State key:', stateKey );
+			console.log( '[REDUX STORE] Theme name:', action.theme?.name );
+			console.log( '[REDUX STORE] Previous themes:', Object.keys( state[ stateKey ] || {} ) );
 
 			// Guard against undefined theme object
 			if ( ! action.theme || ! action.theme.name ) {
-				console.error( '[Theme Store] THEME_CREATED: Invalid theme object', action );
+				console.error( '[REDUX STORE] ERROR: Invalid theme object', action );
 				return state;
 			}
 
@@ -110,7 +112,10 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 					[ action.theme.name ]: action.theme,
 				},
 			};
-			debug( '[REDUCER DEBUG] New state after THEME_CREATED:', newState );
+
+			console.log( '[REDUX STORE] New themes list:', Object.keys( newState[ stateKey ] ) );
+			console.log( '[REDUX STORE] Theme successfully added to store!' );
+			console.log( '[REDUX STORE] ================================================' );
 			return newState;
 		}
 
@@ -203,11 +208,17 @@ const actions = {
 	 * @param {Object} values    - Complete snapshot of all attribute values
 	 */
 	*createTheme( blockType, name, values ) {
-		debug( '[REDUX DEBUG] createTheme action called:', { blockType, name, values } );
+		console.log( '[REDUX ACTION] ========== CREATE THEME STARTED ==========' );
+		console.log( '[REDUX ACTION] Timestamp:', new Date().toISOString() );
+		console.log( '[REDUX ACTION] Block type:', blockType );
+		console.log( '[REDUX ACTION] Theme name:', name );
+		console.log( '[REDUX ACTION] Values count:', Object.keys( values ).length );
+
 		yield actions.setLoading( true );
 		yield actions.setError( null );
 
 		try {
+			console.log( '[REDUX ACTION] Sending POST request to API...' );
 			const theme = yield {
 				type: 'API_FETCH',
 				request: {
@@ -221,18 +232,21 @@ const actions = {
 				},
 			};
 
-			debug( '[REDUX DEBUG] API returned theme:', theme );
+			console.log( '[REDUX ACTION] API response received!' );
+			console.log( '[REDUX ACTION] Theme returned:', theme );
 
 			const action = {
 				type: TYPES.THEME_CREATED,
 				blockType,
 				theme,
 			};
-			debug( '[REDUX DEBUG] Dispatching THEME_CREATED action:', action );
+
+			console.log( '[REDUX ACTION] Dispatching THEME_CREATED to reducer...' );
+			console.log( '[REDUX ACTION] ============================================' );
 
 			return action;
 		} catch ( error ) {
-			console.error( '[REDUX DEBUG] createTheme error:', error );
+			console.error( '[REDUX ACTION] ERROR creating theme:', error );
 			yield actions.setError( error.message );
 			throw error;
 		} finally {

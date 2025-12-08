@@ -218,8 +218,15 @@ const getCustomizationStyles = () => {
 	// ARIA attributes for panel
 	const panelAria = getAccordionPanelAria( accordionId );
 
-	// Build class names - add theme class if using a theme
-	const classNames = [ 'wp-block-accordion', 'sammu-blocks' ];
+	// Build class names - accordion-item is now the root element
+	const classNames = [ 'accordion-item', 'wp-block-accordion', 'sammu-blocks' ];
+
+	// Add open state class
+	if ( attributes.initiallyOpen ) {
+		classNames.push( 'is-open' );
+	}
+
+	// Add theme class if using a theme
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );
@@ -241,22 +248,17 @@ const getCustomizationStyles = () => {
 
 	return (
 		<div { ...blockProps }>
-			<div
-				className={ `accordion-item ${ attributes.initiallyOpen ? 'is-open' : '' }` }
-				data-item-id="0"
-			>
-				<div className="accordion-title-wrapper">
-					{ renderTitle() }
-				</div>
+			<div className="accordion-title-wrapper">
+				{ renderTitle() }
+			</div>
 
-				<div
-					className="accordion-content"
-					{ ...panelAria }
-					{ ...( ! attributes.initiallyOpen && { hidden: true } ) }
-				>
-					<div className="accordion-content-inner">
-						<InnerBlocks.Content />
-					</div>
+			<div
+				className="accordion-content"
+				{ ...panelAria }
+				{ ...( ! attributes.initiallyOpen && { hidden: true } ) }
+			>
+				<div className="accordion-content-inner">
+					<InnerBlocks.Content />
 				</div>
 			</div>
 		</div>

@@ -43,7 +43,10 @@ function initializeAccordions() {
 /**
  * Initialize a single accordion block
  *
- * @param {HTMLElement} block Accordion block element
+ * New structure: .accordion-item IS the root element (.wp-block-accordion)
+ * The block itself is the accordion item.
+ *
+ * @param {HTMLElement} block Accordion block element (which is also the accordion-item)
  */
 function initializeSingleAccordion( block ) {
 	if ( ! block ) {
@@ -51,52 +54,46 @@ function initializeSingleAccordion( block ) {
 		return;
 	}
 
-	// Find all accordion items within this block
-	const items = block.querySelectorAll( '.accordion-item' );
+	// New structure: the block itself is the accordion-item
+	// It has classes: accordion-item wp-block-accordion sammu-blocks
+	const item = block;
 
-	if ( ! items || items.length === 0 ) {
-		console.warn( 'No accordion items found in block, skipping' );
-		return;
-	}
+	try {
+		const button = item.querySelector( '.accordion-title' );
+		const panel = item.querySelector( '.accordion-content' );
 
-	items.forEach( ( item ) => {
-		try {
-			const button = item.querySelector( '.accordion-title' );
-			const panel = item.querySelector( '.accordion-content' );
-
-			if ( ! button || ! panel ) {
-				console.warn( 'Accordion item structure incomplete, skipping' );
-				return;
-			}
-
-			// Add click handler
-			button.addEventListener( 'click', ( e ) => {
-				e.preventDefault();
-				try {
-					toggleAccordion( item, button, panel, block );
-				} catch ( error ) {
-					console.error( 'Failed to toggle accordion:', error );
-				}
-			} );
-
-			// Add keyboard handlers
-			button.addEventListener( 'keydown', ( e ) => {
-				try {
-					handleKeyboardNavigation( e, button, block );
-				} catch ( error ) {
-					console.error( 'Keyboard navigation failed:', error );
-				}
-			} );
-
-			// Set initial state based on is-open class
-			const isInitiallyOpen = item.classList.contains( 'is-open' );
-			if ( isInitiallyOpen ) {
-				openAccordionItem( item, button, panel, false );
-			}
-		} catch ( error ) {
-			console.error( 'Failed to initialize accordion item:', error );
+		if ( ! button || ! panel ) {
+			console.warn( 'Accordion item structure incomplete, skipping' );
+			return;
 		}
-	} );
+
+		// Add click handler
+		button.addEventListener( 'click', ( e ) => {
+			e.preventDefault();
+			try {
+				toggleAccordion( item, button, panel, block );
+			} catch ( error ) {
+				console.error( 'Failed to toggle accordion:', error );
+			}
+		} );
+
+		// Add keyboard handlers
+		button.addEventListener( 'keydown', ( e ) => {
+			try {
+				handleKeyboardNavigation( e, button, block );
+			} catch ( error ) {
+				console.error( 'Keyboard navigation failed:', error );
+			}
+		} );
+
+		// Set initial state based on is-open class
+		const isInitiallyOpen = item.classList.contains( 'is-open' );
+		if ( isInitiallyOpen ) {
+			openAccordionItem( item, button, panel, false );
+		}
+	} catch ( error ) {
+		console.error( 'Failed to initialize accordion item:', error );
+	}
 }
 
 /**
@@ -176,20 +173,21 @@ function closeAccordionItem( item, button, panel ) {
 
 /**
  * Close all accordion items in a block
+ * Note: With new structure where each block is a single item,
+ * this function now just closes the block itself if it's open.
  *
- * @param {HTMLElement} block Parent block element
+ * @param {HTMLElement} block Parent block element (which is the accordion-item)
  */
 function closeAllItems( block ) {
-	const items = block.querySelectorAll( '.accordion-item.is-open' );
-
-	items.forEach( ( item ) => {
-		const button = item.querySelector( '.accordion-title' );
-		const panel = item.querySelector( '.accordion-content' );
+	// New structure: block is the accordion-item
+	if ( block.classList.contains( 'is-open' ) ) {
+		const button = block.querySelector( '.accordion-title' );
+		const panel = block.querySelector( '.accordion-content' );
 
 		if ( button && panel ) {
-			closeAccordionItem( item, button, panel );
+			closeAccordionItem( block, button, panel );
 		}
-	} );
+	}
 }
 
 /**

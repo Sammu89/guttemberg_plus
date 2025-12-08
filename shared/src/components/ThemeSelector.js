@@ -68,15 +68,12 @@ export function ThemeSelector( {
 
 	// Log when currentTheme prop changes (for debugging theme switching)
 	useEffect( () => {
-		debug( '[THEME SELECTOR] currentTheme prop changed to:', currentTheme );
-		debug( '[THEME SELECTOR] isCustomized:', isCustomized );
-		const dropdownValue = isCustomized
-			? currentTheme === ''
-				? '::customized'
-				: `${ currentTheme }::customized`
-			: currentTheme;
-		debug( '[THEME SELECTOR] Dropdown will show:', dropdownValue );
-	}, [ currentTheme, isCustomized ] );
+		console.log( '\n[ThemeSelector] PROPS CHANGED (useEffect):' );
+		console.log( '  - currentTheme changed to:', currentTheme || '(empty = Default)' );
+		console.log( '  - isCustomized:', isCustomized );
+		console.log( '  - themes count:', Object.keys( themes || {} ).length );
+		console.log( '  - Available themes:', Object.keys( themes || {} ) );
+	}, [ currentTheme, isCustomized, themes ] );
 
 	// Handle theme change
 	const handleThemeChange = ( value ) => {
@@ -142,6 +139,14 @@ export function ThemeSelector( {
 			? '::customized'
 			: `${ currentTheme }::customized`
 		: currentTheme;
+
+	// Debug what we're rendering
+	console.log( '\n[ThemeSelector] RENDERING:' );
+	console.log( '  - currentTheme prop:', currentTheme || '(empty string = Default)' );
+	console.log( '  - isCustomized prop:', isCustomized );
+	console.log( '  - Calculated dropdownValue:', dropdownValue || '(empty string = Default)' );
+	console.log( '  - Available theme options:', themeOptions.map( opt => opt.value ) );
+	console.log( '  - Dropdown will show:', themeOptions.find( opt => opt.value === dropdownValue )?.label || 'NOT FOUND!' );
 
 	return (
 		<div className="theme-selector">
