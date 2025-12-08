@@ -33,23 +33,25 @@
  */
 
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
 import { STORE_NAME } from '../data';
 
 /**
  * Hook to manage block themes
  *
  * @param {string} blockType - Block type ('accordion', 'tabs', 'toc')
+ * @param {Object} attributes - Current block attributes (optional, for currentTheme memoization)
  * @return {Object} Theme system interface
  * @return {Object} return.themes - Themes object keyed by theme name
  * @return {boolean} return.themesLoaded - Whether themes have been loaded from server
+ * @return {Object|undefined} return.currentTheme - Current theme object (memoized)
  * @return {Function} return.loadThemes - Manually trigger theme loading
  * @return {Function} return.createTheme - Create new theme (blockType, name, values)
  * @return {Function} return.updateTheme - Update existing theme (blockType, name, values)
  * @return {Function} return.deleteTheme - Delete theme (blockType, name)
  * @return {Function} return.renameTheme - Rename theme (blockType, oldName, newName)
  */
-export function useBlockThemes( blockType ) {
+export function useBlockThemes( blockType, attributes = null ) {
 	// Load themes from store
 	const { themes, themesLoaded } = useSelect(
 		( select ) => {
@@ -75,9 +77,17 @@ export function useBlockThemes( blockType ) {
 		}
 	}, [ themesLoaded, loadThemes, blockType ] );
 
+	// CRITICAL: Memoize currentTheme to prevent infinite loops
+	// This creates a stable reference that only changes when the actual theme changes
+	const currentTheme = useMemo(
+		() => attributes?.currentTheme ? themes[ attributes.currentTheme ] : undefined,
+		[ themes, attributes?.currentTheme ]
+	);
+
 	return {
 		themes,
 		themesLoaded,
+		currentTheme,
 		loadThemes,
 		createTheme,
 		updateTheme,

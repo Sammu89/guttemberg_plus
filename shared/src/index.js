@@ -115,4 +115,4 @@ export { SchemaPanels } from './components/SchemaPanels';
 export { CustomizationWarning } from './components/CustomizationWarning';
 
 // Shared Hooks (Phase 4)
-export { useBlockThemes, useCSSDefaults } from './hooks';
+export { useBlockThemes, useCSSDefaults, useThemeManager } from './hooks';

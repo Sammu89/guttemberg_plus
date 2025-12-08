@@ -4,15 +4,19 @@
  * Styles specifically for the WordPress block editor.
  * Handles alignment and layout in the editor context.
  *
+ * Note: .accordion-item is now the root element with classes:
+ * accordion-item wp-block-accordion sammu-blocks
+ *
  * @package
  * @since 1.0.0
  */
 
-/* Sammu blocks alignment for editor */
-.sammu-blocks {
+/* Accordion item - root element in editor */
+.accordion-item.wp-block-accordion {
 	margin-top: 1em !important;
 	margin-bottom: 1em !important;
 
+	// Alignment classes
 	&.sammu-blocks-align-left {
 		margin-left: 0 !important;
 		margin-right: auto !important;
@@ -28,3 +32,4 @@
 		margin-right: 0 !important;
 	}
 }
+

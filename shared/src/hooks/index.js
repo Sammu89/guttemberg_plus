@@ -9,3 +9,4 @@
 
 export { useBlockThemes } from './useBlockThemes';
 export { useCSSDefaults } from './useCSSDefaults';
+export { useThemeManager } from './useThemeManager';

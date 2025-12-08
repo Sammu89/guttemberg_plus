@@ -10,10 +10,24 @@
 
 @use 'theme-generated';
 
-/* Shared block wrapper styles for sammu-blocks */
-.sammu-blocks {
+/* Accordion item - now the root element (combines wrapper + item)
+ * .accordion-item is the block root with classes: accordion-item wp-block-accordion sammu-blocks
+ * Border styles come from _theme-generated.scss via CSS variables
+ */
+.accordion-item {
+	// Wrapper styles (formerly on .wp-block-accordion)
+	min-width: 300px;
+
+	// Sammu-blocks margin styles
 	margin: 1em 0;
 
+	// Item styles
+	overflow: hidden;
+	transition: box-shadow 0.2s ease;
+	outline: none;
+	// Note: border styles are set via CSS variables in _theme-generated.scss
+
+	// Alignment classes (sammu-blocks)
 	&.sammu-blocks-align-left {
 		margin-left: 0 !important;
 		margin-right: auto !important;
@@ -30,32 +44,9 @@
 	}
 }
 
-/* Block wrapper */
-.wp-block-accordion {
-	border: none;
-	outline: none;
-	min-width: 300px;
-}
-
-/* Accordion item */
-.accordion-item {
-	margin-bottom: 0.5rem;
-	overflow: hidden;
-	transition: box-shadow 0.2s ease;
-	outline: none;
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
-/* Accordion title wrapper (editor only) */
-.accordion-title-wrapper {
-	padding: 20px;
-}
-
 /* Accordion title/button */
 .accordion-title {
+	border: none;
 	display: flex;
 	align-items: center;
 	width: 100%;

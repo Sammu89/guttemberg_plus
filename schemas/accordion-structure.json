@@ -3,36 +3,22 @@
   "blockType": "accordion",
   "version": "1.0.0",
   "description": "HTML structure definition for Accordion block - defines element hierarchy, class names, and ARIA attributes",
-  "root": "wrapper",
+  "root": "item",
 
   "elements": {
-    "wrapper": {
-      "id": "wrapper",
+    "item": {
+      "id": "item",
       "tag": "div",
-      "className": "wp-block-accordion sammu-blocks",
-      "description": "Outermost container for the accordion block with theme class and alignment",
-      "children": ["item"],
+      "className": "accordion-item wp-block-accordion sammu-blocks",
+      "description": "Root accordion element - combines item container with block wrapper functionality",
+      "children": ["titleWrapper", "content"],
       "attributes": {
         "data-accordion-id": "{accordionId}"
       },
       "conditionalClass": {
+        "is-open": "{initiallyOpen}",
         "accordion-theme-{currentTheme}": "{currentTheme}",
         "sammu-blocks-align-{accordionHorizontalAlign}": "{accordionHorizontalAlign || 'left'}"
-      },
-      "appliesStyles": []
-    },
-
-    "item": {
-      "id": "item",
-      "tag": "div",
-      "className": "accordion-item",
-      "description": "Individual accordion item container with open/closed state",
-      "children": ["titleWrapper", "content"],
-      "attributes": {
-        "data-item-id": "0"
-      },
-      "conditionalClass": {
-        "is-open": "{initiallyOpen}"
       },
       "appliesStyles": [
         "borderColor",
@@ -181,19 +167,17 @@
   },
 
   "hierarchy": {
-    "root": "wrapper",
+    "root": "item",
     "tree": {
-      "wrapper": {
-        "item": {
-          "titleWrapper": {
-            "heading": {
-              "title": ["titleText", "icon", "titleContentWrapper"]
-            },
+      "item": {
+        "titleWrapper": {
+          "heading": {
             "title": ["titleText", "icon", "titleContentWrapper"]
           },
-          "content": {
-            "contentInner": []
-          }
+          "title": ["titleText", "icon", "titleContentWrapper"]
+        },
+        "content": {
+          "contentInner": []
         }
       }
     }
