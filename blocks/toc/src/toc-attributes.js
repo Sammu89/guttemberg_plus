@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-08T23:16:16.050Z
+ * Generated at: 2025-12-09T23:46:59.829Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -90,6 +90,14 @@ export const tocAttributes = {
   clickBehavior: {
     type: 'string',
     default: 'navigate',
+  },
+  tocWidth: {
+    type: 'string',
+    default: '100%',
+  },
+  tocHorizontalAlign: {
+    type: 'string',
+    default: 'left',
   },
   wrapperBackgroundColor: {
     type: 'string',

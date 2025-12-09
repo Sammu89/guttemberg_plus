@@ -18,7 +18,7 @@
  */
 
 import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
-import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria, getAllDefaults } from '@shared';
+import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria, getAllDefaults, getAlignmentClass } from '@shared';
 import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
 import { accordionAttributes } from './accordion-attributes';
 
@@ -234,9 +234,7 @@ const getCustomizationStyles = () => {
 	}
 
 	// Add alignment class
-	const alignmentClass = attributes.accordionHorizontalAlign
-		? `sammu-blocks-align-${ attributes.accordionHorizontalAlign }`
-		: 'sammu-blocks-align-left';
+	const alignmentClass = getAlignmentClass( attributes.accordionHorizontalAlign );
 	classNames.push( alignmentClass );
 
 	const blockProps = useBlockProps.save( {

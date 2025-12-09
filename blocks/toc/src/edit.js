@@ -37,6 +37,7 @@ import {
 	CustomizationWarning,
 	debug,
 	useThemeManager,
+	useBlockAlignment,
 } from '@shared';
 import tocSchema from '../../../schemas/toc.json';
 import './editor.scss';
@@ -53,6 +54,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const { tocId, showTitle, titleText } = attributes;
 	const [ headings, setHeadings ] = useState( [] );
+
+	// Use centralized alignment hook
+	const blockRef = useBlockAlignment( attributes.tocHorizontalAlign );
 
 	// Generate unique ID on mount
 	useEffect( () => {
@@ -154,13 +158,73 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] TOC expected values:', expectedValues );
 	debug( '[DEBUG] TOC isCustomized:', isCustomized );
 
+	/**
+	 * Apply inline styles from effective values
+	 */
+	/* ========== AUTO-GENERATED-STYLES-START ========== */
+// DO NOT EDIT - This code is auto-generated from schema
+// AUTO-GENERATED from schemas/toc.json
+// To modify styles, update the schema and run: npm run schema:build
+
+const getInlineStyles = () => {
+  // Extract object-type attributes with fallbacks
+	const blockBorderRadius = effectiveValues.blockBorderRadius || {
+		    "topLeft": 4,
+		    "topRight": 4,
+		    "bottomRight": 4,
+		    "bottomLeft": 4
+		};
+
+	return {
+		container: {
+			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
+			color: effectiveValues.blockBorderColor || '#dddddd',
+			fontSize: `${effectiveValues.level1FontSize || 18}px`,
+			fontWeight: effectiveValues.level1FontWeight || '600',
+			fontStyle: effectiveValues.level1FontStyle || 'normal',
+			textTransform: effectiveValues.level1TextTransform || 'none',
+			textDecoration: effectiveValues.level1TextDecoration || 'none',
+			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
+			borderStyle: effectiveValues.blockBorderStyle || 'solid',
+			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
+			boxShadow: effectiveValues.blockShadow || 'none',
+			padding: `${effectiveValues.wrapperPadding || 20}px`,
+			marginBottom: `${effectiveValues.itemSpacing || 8}px`,
+			marginLeft: `${effectiveValues.levelIndent || 20}px`,
+			top: `${effectiveValues.positionTop || 100}px`,
+		},
+		title: {
+			color: effectiveValues.titleColor || '#333333',
+			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
+			fontSize: `${effectiveValues.titleFontSize || 20}px`,
+			fontWeight: effectiveValues.titleFontWeight || '700',
+			textTransform: effectiveValues.titleTextTransform || 'null',
+			textAlign: effectiveValues.titleAlignment || 'left',
+		},
+		icon: {
+			color: effectiveValues.collapseIconColor || '#666666',
+			fontSize: `${effectiveValues.collapseIconSize || 20}px`,
+		},
+	};
+};
+/* ========== AUTO-GENERATED-STYLES-END ========== */
+
+	const styles = getInlineStyles();
+
 	// Filter headings based on settings
 	const filteredHeadings = filterHeadings( headings, attributes );
+
+	// Build inline styles - apply width from attributes
+	const rootStyles = {
+		width: effectiveValues.tocWidth || '100%',
+		...styles.container,
+	};
 
 	// Block props
 	const blockProps = useBlockProps( {
 		className: 'wp-block-custom-toc sammu-blocks',
-		style: styles.container,
+		style: rootStyles,
+		ref: blockRef,
 	} );
 
 	return (
@@ -506,57 +570,3 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 		</ul>
 	);
 }
-
-/**
- * Build inline CSS custom properties from effective values
- * @param effectiveValues
- */
-/* ========== AUTO-GENERATED-STYLES-START ========== */
-// DO NOT EDIT - This code is auto-generated from schema
-// AUTO-GENERATED from schemas/toc.json
-// To modify styles, update the schema and run: npm run schema:build
-
-const getInlineStyles = () => {
-  // Extract object-type attributes with fallbacks
-	const blockBorderRadius = effectiveValues.blockBorderRadius || {
-		    "topLeft": 4,
-		    "topRight": 4,
-		    "bottomRight": 4,
-		    "bottomLeft": 4
-		};
-
-	return {
-		container: {
-			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
-			color: effectiveValues.blockBorderColor || '#dddddd',
-			fontSize: `${effectiveValues.level1FontSize || 18}px`,
-			fontWeight: effectiveValues.level1FontWeight || '600',
-			fontStyle: effectiveValues.level1FontStyle || 'normal',
-			textTransform: effectiveValues.level1TextTransform || 'none',
-			textDecoration: effectiveValues.level1TextDecoration || 'none',
-			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
-			borderStyle: effectiveValues.blockBorderStyle || 'solid',
-			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
-			boxShadow: effectiveValues.blockShadow || 'none',
-			padding: `${effectiveValues.wrapperPadding || 20}px`,
-			marginBottom: `${effectiveValues.itemSpacing || 8}px`,
-			marginLeft: `${effectiveValues.levelIndent || 20}px`,
-			top: `${effectiveValues.positionTop || 100}px`,
-		},
-		title: {
-			color: effectiveValues.titleColor || '#333333',
-			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-			fontSize: `${effectiveValues.titleFontSize || 20}px`,
-			fontWeight: effectiveValues.titleFontWeight || '700',
-			textTransform: effectiveValues.titleTextTransform || 'null',
-			textAlign: effectiveValues.titleAlignment || 'left',
-		},
-		icon: {
-			color: effectiveValues.collapseIconColor || '#666666',
-			fontSize: `${effectiveValues.collapseIconSize || 20}px`,
-		},
-	};
-};
-/* ========== AUTO-GENERATED-STYLES-END ========== */
-
-	const styles = getInlineStyles();

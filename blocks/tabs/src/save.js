@@ -19,7 +19,7 @@
  */
 
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-import { getAllEffectiveValues } from '@shared';
+import { getAllEffectiveValues, getAlignmentClass } from '@shared';
 import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
 
 /**
@@ -83,6 +83,12 @@ const getCustomizationStyles = () => {
 
 	const customizationStyles = getCustomizationStyles();
 
+	// Build root styles including width
+	const rootStyles = {
+		width: effectiveValues.tabsWidth || '100%',
+		...customizationStyles,
+	};
+
 	/**
 	 * Render icon based on settings
 	 * Supports both character and image icons
@@ -133,6 +139,10 @@ const getCustomizationStyles = () => {
 		classNames.push( 'responsive-accordion' );
 	}
 
+	// Add alignment class
+	const alignmentClass = getAlignmentClass( attributes.tabsHorizontalAlign );
+	classNames.push( alignmentClass );
+
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
 		'data-orientation': attributes.orientation || 'horizontal',
@@ -142,8 +152,8 @@ const getCustomizationStyles = () => {
 		'data-show-icon': attributes.showIcon || false,
 		'data-icon-closed': effectiveValues.iconTypeClosed || '▾',
 		'data-icon-open': effectiveValues.iconTypeOpen || 'none',
-		// Only add inline styles if there are customizations
-		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
+		// Apply width and customizations
+		style: rootStyles,
 	} );
 
 	return (

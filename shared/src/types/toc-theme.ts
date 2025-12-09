@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-08T23:16:16.049Z
+ * Generated at: 2025-12-09T23:46:59.828Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -182,6 +182,8 @@ export interface TocThemeAttributes {
   scrollOffset?: number;
   autoHighlight?: boolean;
   clickBehavior?: string;
+  tocWidth?: string;
+  tocHorizontalAlign?: string;
   wrapperBackgroundColor?: string;
   blockBorderColor?: string;
   titleColor?: string;

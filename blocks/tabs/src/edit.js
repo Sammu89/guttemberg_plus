@@ -37,6 +37,7 @@ import {
 	CustomizationWarning,
 	debug,
 	useThemeManager,
+	useBlockAlignment,
 } from '@shared';
 import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
 import tabsSchema from '../../../schemas/tabs.json';
@@ -75,6 +76,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			setAttributes( { currentTab: activeTab } );
 		}
 	}, [ activeTab, attributes.currentTab, setAttributes ] );
+
+	// Use centralized alignment hook
+	const blockRef = useBlockAlignment( attributes.tabsHorizontalAlign );
 
 	// Get CSS defaults from window (parsed by PHP)
 	// Memoize to prevent creating new object on every render
@@ -403,9 +407,16 @@ const getInlineStyles = () => {
 
 	const customizationStyles = getCustomizationStyles();
 
+	// Build root styles including width
+	const rootStyles = {
+		width: effectiveValues.tabsWidth || '100%',
+		...customizationStyles,
+	};
+
 	const blockProps = useBlockProps( {
 		className: 'wp-block-tabs sammu-blocks',
-		style: customizationStyles,
+		style: rootStyles,
+		ref: blockRef,
 	} );
 
 	return (

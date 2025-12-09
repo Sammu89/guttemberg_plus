@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-08T23:16:16.044Z
+> Generated at: 2025-12-09T23:46:59.825Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -31,6 +31,8 @@ Behavioral and functional settings that control how tabs work
 | `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
 | `title` | string | `Tabs` | No (content) | Block title (for accessibility) |
 | `verticalTabButtonTextAlign` | string | `left` | No (generalal) | Text alignment for vertical tabs |
+| `tabsHorizontalAlign` | string | `left` | No (behavioral) | Horizontal alignment of the tabs block |
+| `tabsWidth` | string | `100%` | No (behavioral) | Tabs container width (e.g., 100%, 500px) |
 
 ## Icon
 

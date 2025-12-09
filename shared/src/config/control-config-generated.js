@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-08T23:16:16.059Z
+ * Generated at: 2025-12-09T23:46:59.836Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -510,6 +510,23 @@ const CONTROL_CONFIGS = {
       label: 'Vertical Tab Alignment',
       description: 'Text alignment for vertical tabs',
       default: 'left',
+    },
+    'tabsHorizontalAlign': {
+      control: 'SelectControl',
+      options: [
+              "left",
+              "center",
+              "right"
+      ],
+      label: 'Horizontal Alignment',
+      description: 'Horizontal alignment of the tabs block',
+      default: 'left',
+    },
+    'tabsWidth': {
+      control: 'TextControl',
+      label: 'Width',
+      description: 'Tabs container width (e.g., 100%, 500px)',
+      default: '100%',
     },
     'showIcon': {
       control: 'ToggleControl',
@@ -1054,6 +1071,23 @@ const CONTROL_CONFIGS = {
     },
   },
   'toc': {
+    'tocWidth': {
+      control: 'TextControl',
+      label: 'Width',
+      description: 'TOC container width (e.g., 100%, 500px)',
+      default: '100%',
+    },
+    'tocHorizontalAlign': {
+      control: 'SelectControl',
+      options: [
+              "left",
+              "center",
+              "right"
+      ],
+      label: 'Horizontal Alignment',
+      description: 'Horizontal alignment of the TOC block',
+      default: 'left',
+    },
     'wrapperBackgroundColor': {
       control: 'ColorPicker',
       label: 'Background Color',

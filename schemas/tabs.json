@@ -230,6 +230,35 @@
       "order": 10,
       "pago": "nao"
     },
+    "tabsHorizontalAlign": {
+      "type": "string",
+      "default": "left",
+      "group": "behaviour",
+      "label": "Horizontal Alignment",
+      "description": "Horizontal alignment of the tabs block",
+      "themeable": false,
+      "reason": "behavioral",
+      "control": "SelectControl",
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "order": 11,
+      "pago": "nao"
+    },
+    "tabsWidth": {
+      "type": "string",
+      "default": "100%",
+      "group": "behaviour",
+      "label": "Width",
+      "description": "Tabs container width (e.g., 100%, 500px)",
+      "themeable": false,
+      "reason": "behavioral",
+      "control": "TextControl",
+      "order": 12,
+      "pago": "nao"
+    },
     "showIcon": {
       "type": "boolean",
       "default": true,
@@ -240,7 +269,7 @@
       "themeable": false,
       "reason": "behavioral",
       "control": "ToggleControl",
-      "order": 11,
+      "order": 12,
       "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "display"
@@ -259,7 +288,7 @@
         "left",
         "right"
       ],
-      "order": 12,
+      "order": 13,
       "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "flex-direction"
@@ -273,7 +302,7 @@
       "description": "Color of the tab icon",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 13,
+      "order": 14,
       "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "color"
@@ -290,7 +319,7 @@
       "min": 8,
       "max": 48,
       "unit": "px",
-      "order": 14,
+      "order": 15,
       "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "font-size"
@@ -305,7 +334,7 @@
       "themeable": false,
       "reason": "behavioral",
       "control": "IconPicker",
-      "order": 15,
+      "order": 16,
       "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "content"
@@ -320,7 +349,7 @@
       "themeable": false,
       "reason": "behavioral",
       "control": "IconPicker",
-      "order": 16,
+      "order": 17,
       "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "content"
@@ -338,7 +367,7 @@
       "min": -360,
       "max": 360,
       "unit": "deg",
-      "order": 17,
+      "order": 18,
       "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "transform"

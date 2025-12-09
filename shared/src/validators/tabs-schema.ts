@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-08T23:16:16.040Z
+ * Generated at: 2025-12-09T23:46:59.823Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -76,6 +76,8 @@ export const tabsAttributesSchema = z.object({
   headingLevel: z.string(),
   title: z.string(),
   verticalTabButtonTextAlign: z.string(),
+  tabsHorizontalAlign: z.string(),
+  tabsWidth: z.string(),
   showIcon: z.boolean(),
   iconPosition: z.string(),
   iconColor: z.string(),
