@@ -19,7 +19,7 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls, RichText, InnerBlocks } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, TextControl, SelectControl } from '@wordpress/components';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useRef } from '@wordpress/element';
 
 import {
 	generateUniqueId,
@@ -28,11 +28,11 @@ import {
 	SchemaPanels,
 	CustomizationWarning,
 	useThemeManager,
+	useBlockAlignment,
 	debug,
 } from '@shared';
 import accordionSchema from '../../../schemas/accordion.json';
 import { accordionAttributes } from './accordion-attributes';
-import './editor.scss';
 
 /**
  * Accordion Edit Component
@@ -40,10 +40,14 @@ import './editor.scss';
  * @param {Object}   props               Block props
  * @param {Object}   props.attributes    Block attributes
  * @param {Function} props.setAttributes Attribute setter
+ * @param {string}   props.clientId      Block client ID
  * @return {JSX.Element} Edit component
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] Accordion Edit mounted with attributes:', attributes );
+
+	// Use centralized alignment hook
+	const blockRef = useBlockAlignment( attributes.accordionHorizontalAlign );
 
 	// Generate unique ID on mount if not set
 	useEffect( () => {
@@ -340,18 +344,39 @@ const getInlineStyles = () => {
 
 	// Build inline styles - accordion-item is now the root element
 	// Combines wrapper styles (width) with item styles (borders, shadows)
+	// Note: alignment margins are applied via ref with !important
 	const rootStyles = {
 		width: effectiveValues.accordionWidth || '100%',
+		overflow: 'hidden', // Clip border-radius in editor
+		'--accordion-border-radius': styles.container.borderRadius, // CSS variable for outline
 		...styles.container,
 	};
 
+	// Build class names - match frontend structure
+	const classNames = [ 'accordion-item', 'wp-block-accordion', 'sammu-blocks' ];
+
+	// Add alignment class (same as frontend)
+	const alignmentClass = attributes.accordionHorizontalAlign
+		? `sammu-blocks-align-${ attributes.accordionHorizontalAlign }`
+		: 'sammu-blocks-align-left';
+	classNames.push( alignmentClass );
+
 	const blockProps = useBlockProps( {
-		className: 'accordion-item wp-block-accordion sammu-blocks',
+		className: classNames.join( ' ' ),
 		style: rootStyles,
+		ref: blockRef,
 	} );
 
 	return (
 		<>
+			{/* Make Gutenberg's blue selection outline follow accordion's border-radius */}
+			<style>
+				{`
+					.block-editor-block-list__block.is-selected.accordion-item::after {
+						border-radius: var(--accordion-border-radius, 4px) !important;
+					}
+				`}
+			</style>
 			<InspectorControls>
 				<div className="accordion-settings-panel">
 					<ThemeSelector

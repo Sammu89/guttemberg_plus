@@ -65,6 +65,8 @@ export {
 	getThemeableSnapshot,
 } from './utils/delta-calculator';
 
+export { getAlignmentClass } from './utils/getAlignmentClass';
+
 export {
 	getAccordionButtonAria,
 	getAccordionPanelAria,
@@ -115,4 +117,9 @@ export { SchemaPanels } from './components/SchemaPanels';
 export { CustomizationWarning } from './components/CustomizationWarning';
 
 // Shared Hooks (Phase 4)
-export { useBlockThemes, useCSSDefaults, useThemeManager } from './hooks';
+export {
+	useBlockAlignment,
+	useBlockThemes,
+	useCSSDefaults,
+	useThemeManager,
+} from './hooks';
