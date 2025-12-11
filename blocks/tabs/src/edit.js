@@ -41,6 +41,7 @@ import {
 } from '@shared';
 import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
 import tabsSchema from '../../../schemas/tabs.json';
+import { tabsAttributes } from './tabs-attributes';
 import './editor.scss';
 
 
@@ -80,15 +81,22 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.tabsHorizontalAlign );
 
-	// Get CSS defaults from window (parsed by PHP)
-	// Memoize to prevent creating new object on every render
-	const cssDefaults = useMemo( () => window.tabsDefaults || {}, [] );
+	// Extract schema defaults from tabsAttributes (SINGLE SOURCE OF TRUTH!)
+	const schemaDefaults = useMemo( () => {
+		const defaults = {};
+		Object.keys( tabsAttributes ).forEach( ( key ) => {
+			if ( tabsAttributes[ key ].default !== undefined ) {
+				defaults[ key ] = tabsAttributes[ key ].default;
+			}
+		} );
+		return defaults;
+	}, [] );
 
 	// All defaults come from schema - single source of truth!
 	const allDefaults = useMemo( () => {
-		const merged = getAllDefaults( cssDefaults );
+		const merged = getAllDefaults( schemaDefaults );
 		return merged;
-	}, [ cssDefaults ] );
+	}, [ schemaDefaults ] );
 
 	// Use centralized theme management hook (provides ALL theme logic in one place)
 	const {
@@ -131,7 +139,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 const getInlineStyles = () => {
   // Extract object-type attributes with fallbacks
-	const buttonBorderRadius = effectiveValues.buttonBorderRadius || {
+	const tabButtonBorderRadius = effectiveValues.tabButtonBorderRadius || {
 		    "topLeft": 4,
 		    "topRight": 4,
 		    "bottomRight": 0,
@@ -152,29 +160,30 @@ const getInlineStyles = () => {
 
 	return {
 		container: {
-			color: effectiveValues.tabButtonColor || '#666666',
-			backgroundColor: effectiveValues.tabButtonBackgroundColor || 'transparent',
-			borderWidth: `${effectiveValues.buttonBorderWidth || null}px`,
-			borderStyle: effectiveValues.buttonBorderStyle || 'null',
-			borderRadius: `${buttonBorderRadius.topLeft}px ${buttonBorderRadius.topRight}px ${buttonBorderRadius.bottomRight}px ${buttonBorderRadius.bottomLeft}px`,
-			boxShadow: effectiveValues.buttonShadow || 'none',
-			borderColor: effectiveValues.focusBorderColor || '#0073aa',
-			fontSize: `${effectiveValues.tabButtonFontSize || 16}px`,
-			fontWeight: effectiveValues.tabButtonFontWeight || '500',
-			fontStyle: effectiveValues.tabButtonFontStyle || 'normal',
-			textTransform: effectiveValues.tabButtonTextTransform || 'none',
-			textDecoration: effectiveValues.tabButtonTextDecoration || 'none',
-			textAlign: effectiveValues.tabButtonTextAlign || 'center',
-			justifyContent: effectiveValues.tabListAlignment || 'left',
-		},
-		content: {
-			borderColor: effectiveValues.dividerBorderColor || '#dddddd',
-			borderWidth: `${effectiveValues.dividerBorderWidth || 1}px`,
-			borderStyle: effectiveValues.dividerBorderStyle || 'solid',
+			borderColor: effectiveValues.borderColor || '#dddddd',
+			borderWidth: `${effectiveValues.borderWidth || 0}px`,
+			borderStyle: effectiveValues.borderStyle || 'solid',
+			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
+			boxShadow: effectiveValues.shadow || 'none',
 		},
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
 			fontSize: `${effectiveValues.iconSize || 16}px`,
+		},
+		tabList: {
+			backgroundColor: effectiveValues.tabListBackgroundColor || 'transparent',
+			justifyContent: effectiveValues.tabListAlignment || 'left',
+			borderColor: effectiveValues.dividerBorderColor || '#dddddd',
+			borderWidth: `${effectiveValues.dividerBorderWidth || 1}px`,
+			borderStyle: effectiveValues.dividerBorderStyle || 'solid',
+		},
+		panel: {
+			backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',
+			color: effectiveValues.panelColor || '#333333',
+			borderColor: effectiveValues.panelBorderColor || '#dddddd',
+			borderWidth: `${effectiveValues.panelBorderWidth || 1}px`,
+			borderStyle: effectiveValues.panelBorderStyle || 'solid',
+			borderRadius: `${panelBorderRadius.topLeft}px ${panelBorderRadius.topRight}px ${panelBorderRadius.bottomRight}px ${panelBorderRadius.bottomLeft}px`,
 		},
 	};
 };
@@ -185,27 +194,25 @@ const getInlineStyles = () => {
 	// Add tabButton function to styles object to handle active/disabled states
 	styles.tabButton = (isActive, isDisabled) => {
 		const baseStyles = {
-			color: effectiveValues.tabButtonColor || '#666666',
-			backgroundColor: effectiveValues.tabButtonBackgroundColor || 'transparent',
-			borderWidth: `${effectiveValues.buttonBorderWidth || 0}px`,
-			borderStyle: effectiveValues.buttonBorderStyle || 'solid',
-			borderColor: effectiveValues.buttonBorderColor || 'transparent',
-			borderRadius: effectiveValues.buttonBorderRadius ?
-				`${effectiveValues.buttonBorderRadius.topLeft || 0}px ${effectiveValues.buttonBorderRadius.topRight || 0}px ${effectiveValues.buttonBorderRadius.bottomRight || 0}px ${effectiveValues.buttonBorderRadius.bottomLeft || 0}px` :
-				'0',
-			boxShadow: effectiveValues.buttonShadow || 'none',
-			fontSize: `${effectiveValues.tabButtonFontSize || 16}px`,
-			fontWeight: effectiveValues.tabButtonFontWeight || '500',
-			fontStyle: effectiveValues.tabButtonFontStyle || 'normal',
+			color: effectiveValues.tabButtonColor,
+			backgroundColor: effectiveValues.tabButtonBackgroundColor,
+			borderWidth: `${effectiveValues.tabButtonBorderWidth}px`,
+			borderStyle: effectiveValues.tabButtonBorderStyle,
+			borderColor: effectiveValues.tabButtonBorderColor,
+			borderRadius: `${effectiveValues.tabButtonBorderRadius.topLeft}px ${effectiveValues.tabButtonBorderRadius.topRight}px ${effectiveValues.tabButtonBorderRadius.bottomRight}px ${effectiveValues.tabButtonBorderRadius.bottomLeft}px`,
+			boxShadow: effectiveValues.tabButtonShadow,
+			fontSize: `${effectiveValues.tabButtonFontSize}px`,
+			fontWeight: effectiveValues.tabButtonFontWeight,
+			fontStyle: effectiveValues.tabButtonFontStyle,
 		};
 
 		if (isActive) {
 			return {
 				...baseStyles,
-				color: effectiveValues.tabButtonActiveColor || '#000000',
-				backgroundColor: effectiveValues.tabButtonActiveBackgroundColor || '#ffffff',
-				borderColor: effectiveValues.tabButtonActiveBorderColor || baseStyles.borderColor,
-				borderBottomColor: effectiveValues.tabButtonActiveBorderBottomColor || 'transparent',
+				color: effectiveValues.tabButtonActiveColor,
+				backgroundColor: effectiveValues.tabButtonActiveBackgroundColor,
+				borderColor: effectiveValues.tabButtonActiveBorderColor,
+				borderBottomColor: effectiveValues.tabButtonActiveBorderBottomColor,
 			};
 		}
 
@@ -310,7 +317,7 @@ const getInlineStyles = () => {
 			return null;
 		}
 
-		const iconContent = effectiveValues.iconTypeClosed || '📄';
+		const iconContent = effectiveValues.iconTypeClosed;
 		const isImage = iconContent.startsWith( 'http' );
 
 		if ( isImage ) {
@@ -409,7 +416,7 @@ const getInlineStyles = () => {
 
 	// Build root styles including width
 	const rootStyles = {
-		width: effectiveValues.tabsWidth || '100%',
+		width: effectiveValues.tabsWidth,
 		...customizationStyles,
 	};
 
@@ -490,7 +497,7 @@ const getInlineStyles = () => {
 				setAttributes={ setAttributes }
 				effectiveValues={ effectiveValues }
 				theme={ themes[ attributes.currentTheme ]?.values }
-				cssDefaults={ cssDefaults }
+				cssDefaults={ allDefaults }
 			/>
 
 			{ isCustomized && (

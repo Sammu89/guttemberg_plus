@@ -23,10 +23,9 @@
  */
 
 import { useBlockProps } from '@wordpress/block-editor';
-import { getAllEffectiveValues } from '../../../shared/src/theme-system/cascade-resolver';
-import { getCSSDefault } from '../../../shared/src/utils/css-parser';
-import { getCssVarName, formatCssValue } from '../../../shared/src/config/css-var-mappings-generated';
-import { getAlignmentClass } from '@shared';
+import { getAllEffectiveValues, getAllDefaults, getAlignmentClass } from '@shared';
+import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
+import { tocAttributes } from './toc-attributes';
 
 /**
  * Save Component
@@ -54,11 +53,22 @@ export default function save( { attributes } ) {
 		clickBehavior,
 	} = attributes;
 
-	// Get CSS defaults
-	const cssDefaults = getCSSDefault( 'toc' ) || {};
+	// Extract schema defaults (single source of truth)
+	const schemaDefaults = {};
+	Object.keys( tocAttributes ).forEach( ( key ) => {
+		if ( tocAttributes[ key ].default !== undefined ) {
+			schemaDefaults[ key ] = tocAttributes[ key ].default;
+		}
+	} );
+	const allDefaults = getAllDefaults( schemaDefaults );
 
 	// Get effective values for display purposes (title rendering, etc.)
-	const effectiveValues = getAllEffectiveValues( attributes, null, cssDefaults );
+	const effectiveValues = getAllEffectiveValues(
+		attributes,
+		{}, // Themes are resolved server-side via CSS classes
+		allDefaults,
+		'toc'
+	);
 
 	// Data attributes for frontend JS
 	const dataAttributes = {

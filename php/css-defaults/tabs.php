@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-09T23:46:59.824Z
+ * Generated at: 2025-12-11T00:40:02.265Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -22,17 +22,20 @@ return array(
   'iconColor' => '#666666',
   'iconSize' => '16',
   'tabButtonColor' => '#666666',
-  'tabButtonBackgroundColor' => 'transparent',
+  'tabButtonBackgroundColor' => '#f5f5f5',
   'tabButtonHoverColor' => '#333333',
   'tabButtonHoverBackgroundColor' => '#e8e8e8',
-  'tabButtonActiveColor' => '#000000',
+  'tabButtonActiveColor' => '#333333',
   'tabButtonActiveBackgroundColor' => '#ffffff',
   'tabButtonActiveBorderColor' => '#dddddd',
-  'tabButtonActiveBorderBottomColor' => 'transparent',
-  'buttonShadow' => 'none',
-  'buttonShadowHover' => 'none',
-  'focusBorderColor' => '#0073aa',
-  'focusBorderColorActive' => '#0073aa',
+  'tabButtonActiveBorderBottomColor' => '#ffffff',
+  'tabButtonBorderColor' => '#dddddd',
+  'tabButtonBorderWidth' => '1',
+  'tabButtonBorderStyle' => 'solid',
+  'tabButtonShadow' => 'none',
+  'tabButtonShadowHover' => 'none',
+  'focusBorderColor' => '#dddddd',
+  'focusBorderColorActive' => '#ffffff',
   'focusBorderWidth' => '2',
   'focusBorderStyle' => 'solid',
   'tabButtonFontSize' => '16',
@@ -41,16 +44,16 @@ return array(
   'tabButtonTextTransform' => 'none',
   'tabButtonTextDecoration' => 'none',
   'tabButtonTextAlign' => 'center',
-  'tabListBackgroundColor' => '#f5f5f5',
+  'tabListBackgroundColor' => 'transparent',
   'tabListAlignment' => 'left',
   'panelBackgroundColor' => '#ffffff',
   'panelColor' => '#333333',
   'panelBorderColor' => '#dddddd',
   'panelBorderWidth' => '1',
   'panelBorderStyle' => 'solid',
-  'borderColor' => 'transparent',
+  'borderColor' => '#dddddd',
   'borderWidth' => '0',
-  'borderStyle' => 'none',
+  'borderStyle' => 'solid',
   'shadow' => 'none',
   'shadowHover' => 'none',
   'dividerBorderColor' => '#dddddd',

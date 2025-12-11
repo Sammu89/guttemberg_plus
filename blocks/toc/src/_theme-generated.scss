@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/toc.json + schemas/toc-structure.json
- * Generated at: 2025-12-09T23:46:59.849Z
+ * Generated at: 2025-12-11T00:40:02.278Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
@@ -49,10 +49,6 @@
 .toc-link {
   /* Default color for TOC links */
   color: var(--toc-link-color, #0073aa);
-  /* Color for the currently active link */
-  color: var(--toc-link-active-color, #005177);
-  /* Color for visited links */
-  color: var(--toc-link-visited-color, #0073aa);
   /* Text color for level 1 headings (H2) */
   color: var(--toc-level1-color, #0073aa);
   /* Text color for level 2 headings (H3) */
@@ -93,6 +89,17 @@
   &:hover {
     /* Color when hovering over links */
     color: var(--toc-link-hover-color, #005177);
+  }
+
+  &.active,
+  &[aria-selected="true"] {
+    /* Color for the currently active link */
+    color: var(--toc-link-active-color, #005177);
+  }
+
+  &:visited {
+    /* Color for visited links */
+    color: var(--toc-link-visited-color, #0073aa);
   }
 }
 

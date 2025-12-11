@@ -168,8 +168,8 @@ function extractCssAttributes(schema, structure) {
 }
 
 /**
- * Group attributes by CSS selector and separate hover states
- * Returns: { selector: { regular: [...], hover: [...] } }
+ * Group attributes by CSS selector and separate UI states
+ * Returns: { selector: { base: [...], hover: [...], active: [...], focus: [...], disabled: [...], visited: [...] } }
  */
 function groupBySelector(cssAttrs) {
   const grouped = {};
@@ -177,18 +177,32 @@ function groupBySelector(cssAttrs) {
   for (const attr of cssAttrs) {
     if (!grouped[attr.selector]) {
       grouped[attr.selector] = {
-        regular: [],
-        hover: []
+        base: [],
+        hover: [],
+        active: [],
+        focus: [],
+        disabled: [],
+        visited: []
       };
     }
 
-    // Detect hover states by attribute name (contains 'hover' or 'Hover')
-    const isHover = /hover/i.test(attr.name);
+    // Detect state patterns in attribute names
+    const attrNameLower = attr.name.toLowerCase();
 
-    if (isHover) {
+    // Check for specific state patterns (order matters - check most specific first)
+    if (attrNameLower.includes('hover')) {
       grouped[attr.selector].hover.push(attr);
+    } else if (attrNameLower.includes('active')) {
+      grouped[attr.selector].active.push(attr);
+    } else if (attrNameLower.includes('focus')) {
+      grouped[attr.selector].focus.push(attr);
+    } else if (attrNameLower.includes('disabled')) {
+      grouped[attr.selector].disabled.push(attr);
+    } else if (attrNameLower.includes('visited')) {
+      grouped[attr.selector].visited.push(attr);
     } else {
-      grouped[attr.selector].regular.push(attr);
+      // Base state (no special state modifier)
+      grouped[attr.selector].base.push(attr);
     }
   }
 
@@ -227,30 +241,82 @@ function generateScssPartial(blockType, schema, structure) {
 `;
 
   // Generate CSS for each selector
-  for (const [selector, { regular, hover }] of Object.entries(grouped)) {
+  for (const [selector, states] of Object.entries(grouped)) {
+    const { base, hover, active, focus, disabled, visited } = states;
+
+    // Skip selectors that have no attributes
+    if (base.length === 0 && hover.length === 0 && active.length === 0 &&
+        focus.length === 0 && disabled.length === 0 && visited.length === 0) {
+      continue;
+    }
+
     content += `${selector} {\n`;
 
-    // Regular (non-hover) styles
-    for (const attr of regular) {
-      // Add comment with description if available
+    // Base state (no pseudo-class)
+    for (const attr of base) {
       if (attr.description) {
         content += `  /* ${attr.description} */\n`;
       }
       content += `  ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
     }
 
-    // Hover styles (if any)
+    // Hover state (:hover)
     if (hover.length > 0) {
       content += `\n  &:hover {\n`;
-
       for (const attr of hover) {
-        // Add comment with description if available
         if (attr.description) {
           content += `    /* ${attr.description} */\n`;
         }
         content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
       }
+      content += `  }\n`;
+    }
 
+    // Active state (.active, [aria-selected="true"])
+    if (active.length > 0) {
+      content += `\n  &.active,\n  &[aria-selected="true"] {\n`;
+      for (const attr of active) {
+        if (attr.description) {
+          content += `    /* ${attr.description} */\n`;
+        }
+        content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+      }
+      content += `  }\n`;
+    }
+
+    // Focus state (:focus, :focus-visible)
+    if (focus.length > 0) {
+      content += `\n  &:focus,\n  &:focus-visible {\n`;
+      for (const attr of focus) {
+        if (attr.description) {
+          content += `    /* ${attr.description} */\n`;
+        }
+        content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+      }
+      content += `  }\n`;
+    }
+
+    // Disabled state (:disabled, [disabled])
+    if (disabled.length > 0) {
+      content += `\n  &:disabled,\n  &[disabled] {\n`;
+      for (const attr of disabled) {
+        if (attr.description) {
+          content += `    /* ${attr.description} */\n`;
+        }
+        content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+      }
+      content += `  }\n`;
+    }
+
+    // Visited state (:visited) - for links
+    if (visited.length > 0) {
+      content += `\n  &:visited {\n`;
+      for (const attr of visited) {
+        if (attr.description) {
+          content += `    /* ${attr.description} */\n`;
+        }
+        content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+      }
       content += `  }\n`;
     }
 

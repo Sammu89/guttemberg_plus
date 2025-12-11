@@ -1078,14 +1078,67 @@ function generateInlineStylesFunction(schema, blockType) {
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
     if (!attr.themeable || !attr.cssProperty) continue;
 
-    // Determine selector group from attribute name patterns
-    let selectorKey = 'container';
-    if (attrName.toLowerCase().includes('title')) selectorKey = 'title';
-    else if (attrName.toLowerCase().includes('content')) selectorKey = 'content';
-    else if (attrName.toLowerCase().includes('icon')) selectorKey = 'icon';
-    else if (attrName.toLowerCase().includes('divider')) selectorKey = 'content';
+    // EXCLUDE state-specific attributes from editor inline styles
+    // Editor preview only needs BASE state styling (no hover, active, focus states)
+    const statePatterns = [/Hover/i, /Active/i, /Focus/i, /Disabled/i];
+    const isStateAttribute = statePatterns.some(pattern => pattern.test(attrName));
+    if (isStateAttribute) {
+      continue; // Skip state-specific attributes
+    }
 
-    selectorMap[selectorKey].push({ attrName, attr });
+    // Determine selector group from appliesTo field
+    if (!attr.appliesTo) {
+      console.warn(`[schema-compiler] Attribute "${attrName}" in ${blockType} schema missing "appliesTo" field - skipping`);
+      continue;
+    }
+
+    const appliesTo = attr.appliesTo;
+
+    // Map appliesTo to selector keys for inline styles
+    const appliesToMapping = {
+      // Tabs
+      'tabButton': null,  // Skip - handled by manual styles.tabButton() function
+      'tabIcon': 'icon',
+      'tabsList': 'tabList',
+      'tabPanel': 'panel',
+      'wrapper': 'container',
+      // TOC
+      'tocLink': null,  // Skip - not needed in editor
+      'tocTitle': 'title',
+      'tocList': null,  // Skip - not needed in editor
+      'link': null,  // Skip - link styles not needed in editor
+      'list': null,  // Skip - list styles not needed in editor
+      'collapseIcon': null,  // Skip - collapse icon not needed in editor
+      // Accordion
+      'accordionTitle': 'title',
+      'accordionContent': 'content',
+      'accordionItem': 'container',
+      'accordionIcon': 'icon',
+      'item': 'container',  // Accordion item wrapper
+      // Generic fallbacks
+      'title': 'title',
+      'titleStatic': 'title',
+      'content': 'content',
+      'icon': 'icon',
+    };
+
+    const selectorKey = appliesToMapping[appliesTo];
+    if (selectorKey === null) {
+      continue; // Skip attributes that don't need inline styles in editor
+    }
+
+    if (!selectorKey) {
+      console.warn(`[schema-compiler] Unknown appliesTo value "${appliesTo}" for attribute "${attrName}" in ${blockType} schema - defaulting to container`);
+    }
+
+    const finalKey = selectorKey || 'container';
+
+    // Ensure the selector key exists in selectorMap
+    if (!selectorMap[finalKey]) {
+      selectorMap[finalKey] = [];
+    }
+
+    selectorMap[finalKey].push({ attrName, attr });
   }
 
   // Generate styles for each selector

@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-09T23:46:59.831Z
+> Generated at: 2025-12-11T00:40:02.268Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -26,22 +26,22 @@ Non-themeable behavioral and structural settings
 | `showTitle` | boolean | `true` | No (structural) | Display the TOC title header |
 | `titleText` | string | `Table of Contents` | No (content) | The title displayed above the table of contents |
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
-| `filterMode` | string | `include-all` | No (behavioral) | How headings are filtered for inclusion |
-| `includeLevels` | array | _object_ | No (behavioral) | Which heading levels to include (H2-H6) |
-| `includeClasses` | string | `` | No (behavioral) | CSS classes to include in TOC |
-| `excludeLevels` | array | _object_ | No (behavioral) | Which heading levels to exclude |
-| `excludeClasses` | string | `` | No (behavioral) | CSS classes to exclude from TOC |
-| `depthLimit` | number | _null_ | No (behavioral) | Maximum nesting depth to display |
-| `numberingStyle` | string | `none` | No (behavioral) | Style of numbering for TOC items |
-| `isCollapsible` | boolean | `false` | No (behavioral) | Allow the TOC to be collapsed/expanded |
-| `initiallyCollapsed` | boolean | `false` | No (behavioral) | Start with TOC collapsed |
-| `positionType` | string | `block` | No (behavioral) | CSS positioning type |
-| `smoothScroll` | boolean | `true` | No (behavioral) | Enable smooth scrolling to headings |
-| `scrollOffset` | number | `0` | No (behavioral) | Offset in pixels when scrolling to heading |
-| `autoHighlight` | boolean | `true` | No (behavioral) | Highlight current section in TOC |
-| `clickBehavior` | string | `navigate` | No (behavioral) | What happens when clicking a TOC item |
-| `tocWidth` | string | `100%` | No (behavioral) | TOC container width (e.g., 100%, 500px) |
-| `tocHorizontalAlign` | string | `left` | No (behavioral) | Horizontal alignment of the TOC block |
+| `filterMode` | string | `include-all` | No (N/A) | How headings are filtered for inclusion |
+| `includeLevels` | array | _object_ | No (N/A) | Which heading levels to include (H2-H6) |
+| `includeClasses` | string | `` | No (N/A) | CSS classes to include in TOC |
+| `excludeLevels` | array | _object_ | No (N/A) | Which heading levels to exclude |
+| `excludeClasses` | string | `` | No (N/A) | CSS classes to exclude from TOC |
+| `depthLimit` | number | _null_ | No (N/A) | Maximum nesting depth to display |
+| `numberingStyle` | string | `none` | No (N/A) | Style of numbering for TOC items |
+| `isCollapsible` | boolean | `false` | No (N/A) | Allow the TOC to be collapsed/expanded |
+| `initiallyCollapsed` | boolean | `false` | No (N/A) | Start with TOC collapsed |
+| `positionType` | string | `block` | No (N/A) | CSS positioning type |
+| `smoothScroll` | boolean | `true` | No (N/A) | Enable smooth scrolling to headings |
+| `scrollOffset` | number | `0` | No (N/A) | Offset in pixels when scrolling to heading |
+| `autoHighlight` | boolean | `true` | No (N/A) | Highlight current section in TOC |
+| `clickBehavior` | string | `navigate` | No (N/A) | What happens when clicking a TOC item |
+| `tocWidth` | string | `100%` | No (N/A) | TOC container width (e.g., 100%, 500px) |
+| `tocHorizontalAlign` | string | `left` | No (N/A) | Horizontal alignment of the TOC block |
 
 ## Content Colors
 

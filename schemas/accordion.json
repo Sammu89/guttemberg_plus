@@ -17,50 +17,43 @@
       "title": "Behavior",
       "description": "Non-themeable behavioral and structural settings",
       "order": 1,
-      "initialOpen": true,
-      "pago": "nao"
+      "initialOpen": true      
     },
     "headerColors": {
       "title": "Header Colors",
       "description": "Title/header text and background colors including hover and active states",
       "order": 2,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "contentColors": {
       "title": "Content Colors",
       "description": "Content area text and background colors",
       "order": 3,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "borders": {
       "title": "Borders",
       "description": "Main accordion wrapper borders and radius",
       "order": 5,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "dividerLine": {
       "title": "Divider Line",
       "description": "Divider line between header and content",
       "order": 6,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "typography": {
       "title": "Typography",
       "description": "Font settings for title and content",
       "order": 4,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "icon": {
       "title": "Icon",
       "description": "Icon appearance and behavior",
       "order": 7,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     }
   },
   "attributes": {
@@ -72,8 +65,7 @@
       "description": "Unique identifier for the accordion block",
       "themeable": false,
       "reason": "structural",
-      "order": 1,
-      "pago": "nao"
+      "order": 1      
     },
     "uniqueId": {
       "type": "string",
@@ -83,8 +75,7 @@
       "description": "Auto-generated unique block identifier",
       "themeable": false,
       "reason": "structural",
-      "order": 2,
-      "pago": "nao"
+      "order": 2      
     },
     "blockId": {
       "type": "string",
@@ -94,8 +85,7 @@
       "description": "Block-specific identification",
       "themeable": false,
       "reason": "structural",
-      "order": 3,
-      "pago": "nao"
+      "order": 3      
     },
     "title": {
       "type": "string",
@@ -105,8 +95,7 @@
       "description": "The accordion title text",
       "themeable": false,
       "reason": "content",
-      "order": 4,
-      "pago": "nao"
+      "order": 4      
     },
     "content": {
       "type": "string",
@@ -116,8 +105,7 @@
       "description": "The accordion content (rich text)",
       "themeable": false,
       "reason": "content",
-      "order": 5,
-      "pago": "nao"
+      "order": 5      
     },
     "currentTheme": {
       "type": "string",
@@ -127,8 +115,7 @@
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
       "reason": "structural",
-      "order": 6,
-      "pago": "nao"
+      "order": 6      
     },
     "initiallyOpen": {
       "type": "boolean",
@@ -137,10 +124,9 @@
       "label": "Initially Open",
       "description": "Whether accordion is open on page load",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "ToggleControl",
-      "order": 9,
-      "pago": "nao"
+      "order": 9      
     },
     "accordionWidth": {
       "type": "string",
@@ -149,10 +135,9 @@
       "label": "Width",
       "description": "Accordion container width (e.g., 100%, 500px)",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "TextControl",
-      "order": 11,
-      "pago": "nao"
+      "order": 11      
     },
     "accordionHorizontalAlign": {
       "type": "string",
@@ -161,15 +146,14 @@
       "label": "Horizontal Alignment",
       "description": "Horizontal alignment of the accordion",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "SelectControl",
       "options": [
         "left",
         "center",
         "right"
       ],
-      "order": 12,
-      "pago": "nao"
+      "order": 12      
     },
     "headingLevel": {
       "type": "string",
@@ -178,7 +162,7 @@
       "label": "Heading Level",
       "description": "Semantic HTML heading level (none, h1-h6)",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "SelectControl",
       "options": [
         "none",
@@ -189,8 +173,7 @@
         "h5",
         "h6"
       ],
-      "order": 13,
-      "pago": "nao"
+      "order": 13      
     },
     "useHeadingStyles": {
       "type": "boolean",
@@ -199,22 +182,21 @@
       "label": "Use Heading Styles",
       "description": "Apply default heading styles to title",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "ToggleControl",
-      "order": 14,
-      "pago": "nao"
+      "order": 14      
     },
     "titleColor": {
       "type": "string",
       "default": "#333333",
       "cssVar": "accordion-title-color",
+      "state": "base",
       "group": "headerColors",
       "label": "Title Color",
       "description": "Text color for the accordion title",
       "themeable": true,
       "control": "ColorPicker",
       "order": 15,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "color"
     },
@@ -222,13 +204,13 @@
       "type": "string",
       "default": "#f5f5f5",
       "cssVar": "accordion-title-bg",
+      "state": "base",
       "group": "headerColors",
       "label": "Title Background",
       "description": "Background color for the accordion title",
       "themeable": true,
       "control": "ColorPicker",
       "order": 16,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "background-color"
     },
@@ -236,13 +218,13 @@
       "type": "string",
       "default": "#000000",
       "cssVar": "accordion-title-hover-color",
+      "state": "hover",
       "group": "headerColors",
       "label": "Title Hover Color",
       "description": "Text color when hovering over title",
       "themeable": true,
       "control": "ColorPicker",
       "order": 17,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "color"
     },
@@ -250,13 +232,13 @@
       "type": "string",
       "default": "#e8e8e8",
       "cssVar": "accordion-title-hover-bg",
+      "state": "hover",
       "group": "headerColors",
       "label": "Title Hover Background",
       "description": "Background color when hovering over title",
       "themeable": true,
       "control": "ColorPicker",
       "order": 18,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "background-color"
     },
@@ -264,13 +246,13 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "accordion-content-color",
+      "state": "base",
       "group": "contentColors",
       "label": "Content Color",
       "description": "Text color for accordion content",
       "themeable": true,
       "control": "ColorPicker",
       "order": 19,
-      "pago": "nao",
       "appliesTo": "content",
       "cssProperty": "color"
     },
@@ -278,13 +260,13 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "accordion-content-bg",
+      "state": "base",
       "group": "contentColors",
       "label": "Content Background",
       "description": "Background color for accordion content",
       "themeable": true,
       "control": "ColorPicker",
       "order": 20,
-      "pago": "nao",
       "appliesTo": "content",
       "cssProperty": "background-color"
     },
@@ -298,7 +280,6 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 21,
-      "pago": "nao",
       "appliesTo": "item",
       "cssProperty": "border-color"
     },
@@ -312,7 +293,6 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 22,
-      "pago": "nao",
       "appliesTo": "content",
       "cssProperty": "border-top-color"
     },
@@ -326,7 +306,6 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 23,
-      "pago": "nao",
       "appliesTo": "icon",
       "cssProperty": "color"
     },
@@ -343,7 +322,6 @@
       "max": 48,
       "unit": "px",
       "order": 24,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "font-size"
     },
@@ -403,7 +381,6 @@
         }
       ],
       "order": 25,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "font-weight"
     },
@@ -431,7 +408,6 @@
         }
       ],
       "order": 28,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "font-style"
     },
@@ -463,7 +439,6 @@
         }
       ],
       "order": 29,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "text-transform"
     },
@@ -495,7 +470,6 @@
         }
       ],
       "order": 30,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "text-decoration"
     },
@@ -514,7 +488,6 @@
         "right"
       ],
       "order": 31,
-      "pago": "nao",
       "appliesTo": "title",
       "cssProperty": "text-align"
     },
@@ -531,7 +504,6 @@
       "max": 36,
       "unit": "px",
       "order": 32,
-      "pago": "nao",
       "appliesTo": "content",
       "cssProperty": "font-size"
     },
@@ -591,7 +563,6 @@
         }
       ],
       "order": 33,
-      "pago": "nao",
       "appliesTo": "content",
       "cssProperty": "font-weight"
     },
@@ -608,7 +579,6 @@
       "max": 10,
       "unit": "px",
       "order": 39,
-      "pago": "nao",
       "appliesTo": "item",
       "cssProperty": "border-width"
     },
@@ -644,7 +614,6 @@
         }
       ],
       "order": 40,
-      "pago": "nao",
       "appliesTo": "item",
       "cssProperty": "border-style"
     },
@@ -664,7 +633,6 @@
       "control": "BorderRadiusControl",
       "unit": "px",
       "order": 41,
-      "pago": "nao",
       "appliesTo": "item",
       "cssProperty": "border-radius"
     },
@@ -678,7 +646,6 @@
       "themeable": true,
       "control": "TextControl",
       "order": 42,
-      "pago": "nao",
       "appliesTo": "item",
       "cssProperty": "box-shadow"
     },
@@ -692,7 +659,6 @@
       "themeable": true,
       "control": "TextControl",
       "order": 43,
-      "pago": "nao",
       "appliesTo": "item",
       "cssProperty": "box-shadow"
     },
@@ -709,7 +675,6 @@
       "max": 10,
       "unit": "px",
       "order": 44,
-      "pago": "nao",
       "appliesTo": "content",
       "cssProperty": "border-top-width"
     },
@@ -745,7 +710,6 @@
         }
       ],
       "order": 45,
-      "pago": "nao",
       "appliesTo": "content",
       "cssProperty": "border-top-style"
     },
@@ -757,8 +721,7 @@
       "description": "Display expand/collapse icon",
       "themeable": false,
       "control": "ToggleControl",
-      "order": 50,
-      "pago": "nao"
+      "order": 50      
     },
     "iconPosition": {
       "type": "string",
@@ -774,8 +737,7 @@
         "extreme-left",
         "extreme-right"
       ],
-      "order": 51,
-      "pago": "nao"
+      "order": 51      
     },
     "iconSize": {
       "type": "number",
@@ -790,7 +752,6 @@
       "max": 48,
       "unit": "px",
       "order": 52,
-      "pago": "nao",
       "appliesTo": "icon",
       "cssProperty": "font-size"
     },
@@ -802,8 +763,7 @@
       "description": "Icon when accordion is closed",
       "themeable": false,
       "control": "IconPicker",
-      "order": 53,
-      "pago": "nao"
+      "order": 53      
     },
     "iconTypeOpen": {
       "type": "string",

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-09T23:46:59.825Z
+ * Generated at: 2025-12-11T00:40:02.265Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -13,35 +13,38 @@
   --tabs-icon-color: #666666;
   --tabs-icon-size: 16px;
   --tabs-button-color: #666666;
-  --tabs-button-bg: transparent;
+  --tabs-button-bg: #f5f5f5;
   --tabs-button-hover-color: #333333;
   --tabs-button-hover-bg: #e8e8e8;
-  --tabs-button-active-color: #000000;
+  --tabs-button-active-color: #333333;
   --tabs-button-active-bg: #ffffff;
   --tabs-button-active-border-color: #dddddd;
-  --tabs-button-active-border-bottom-color: transparent;
+  --tabs-button-active-border-bottom-color: #ffffff;
+  --tabs-button-border-color: #dddddd;
+  --tabs-button-border-width: 1px;
+  --tabs-button-border-style: solid;
   --tabs-button-border-shadow: none;
   --tabs-button-border-shadow-hover: none;
-  --tabs-focus-border-color: #0073aa;
-  --tabs-focus-border-color-active: #0073aa;
+  --tabs-focus-border-color: #dddddd;
+  --tabs-focus-border-color-active: #ffffff;
   --tabs-focus-border-width: 2px;
   --tabs-focus-border-style: solid;
   --tabs-button-font-size: 16px;
-  --tab-button-font-weight: 500;
-  --tab-button-font-style: normal;
-  --tab-button-text-transform: none;
-  --tab-button-text-decoration: none;
-  --tab-button-text-align: center;
-  --tab-list-bg: #f5f5f5;
-  --tab-list-align: left;
-  --tab-panel-bg: #ffffff;
-  --tab-panel-color: #333333;
+  --tabs-button-font-weight: 500;
+  --tabs-button-font-style: normal;
+  --tabs-button-text-transform: none;
+  --tabs-button-text-decoration: none;
+  --tabs-button-text-align: center;
+  --tabs-list-bg: transparent;
+  --tabs-list-align: left;
+  --tabs-panel-bg: #ffffff;
+  --tabs-panel-color: #333333;
   --tabs-panel-border-color: #dddddd;
   --tabs-panel-border-width: 1px;
   --tabs-panel-border-style: solid;
-  --tabs-border-color: transparent;
+  --tabs-border-color: #dddddd;
   --tabs-border-width: 0px;
-  --tabs-border-style: none;
+  --tabs-border-style: solid;
   --tabs-border-shadow: none;
   --tabs-border-shadow-hover: none;
   --tabs-divider-border-color: #dddddd;

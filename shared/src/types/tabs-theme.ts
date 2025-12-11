@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-09T23:46:59.823Z
+ * Generated at: 2025-12-11T00:40:02.264Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -38,17 +38,17 @@ export interface TabsTheme {
   /** Bottom border color for active tab (creates connected effect) */
   tabButtonActiveBorderBottomColor?: string;
   /** Border color for inactive tab buttons */
-  buttonBorderColor?: string | undefined;
+  tabButtonBorderColor?: string;
   /** Border width for tab buttons */
-  buttonBorderWidth?: number | undefined;
+  tabButtonBorderWidth?: number;
   /** Border style for tab buttons */
-  buttonBorderStyle?: string | undefined;
+  tabButtonBorderStyle?: string;
   /** Corner radius for tab buttons */
-  buttonBorderRadius?: Record<string, any>;
+  tabButtonBorderRadius?: Record<string, any>;
   /** Box shadow for tab buttons */
-  buttonShadow?: string;
+  tabButtonShadow?: string;
   /** Box shadow for tab buttons on hover */
-  buttonShadowHover?: string;
+  tabButtonShadowHover?: string;
   /** Border color for inactive button edge adjacent to content */
   focusBorderColor?: string;
   /** Border color for active button edge adjacent to content */
@@ -112,23 +112,26 @@ export const tabsDefaultTheme: TabsTheme = {
   iconColor: '#666666',
   iconSize: 16,
   tabButtonColor: '#666666',
-  tabButtonBackgroundColor: 'transparent',
+  tabButtonBackgroundColor: '#f5f5f5',
   tabButtonHoverColor: '#333333',
   tabButtonHoverBackgroundColor: '#e8e8e8',
-  tabButtonActiveColor: '#000000',
+  tabButtonActiveColor: '#333333',
   tabButtonActiveBackgroundColor: '#ffffff',
   tabButtonActiveBorderColor: '#dddddd',
-  tabButtonActiveBorderBottomColor: 'transparent',
-  buttonBorderRadius: {
+  tabButtonActiveBorderBottomColor: '#ffffff',
+  tabButtonBorderColor: '#dddddd',
+  tabButtonBorderWidth: 1,
+  tabButtonBorderStyle: 'solid',
+  tabButtonBorderRadius: {
     "topLeft": 4,
     "topRight": 4,
     "bottomRight": 0,
     "bottomLeft": 0
   },
-  buttonShadow: 'none',
-  buttonShadowHover: 'none',
-  focusBorderColor: '#0073aa',
-  focusBorderColorActive: '#0073aa',
+  tabButtonShadow: 'none',
+  tabButtonShadowHover: 'none',
+  focusBorderColor: '#dddddd',
+  focusBorderColorActive: '#ffffff',
   focusBorderWidth: 2,
   focusBorderStyle: 'solid',
   tabButtonFontSize: 16,
@@ -137,7 +140,7 @@ export const tabsDefaultTheme: TabsTheme = {
   tabButtonTextTransform: 'none',
   tabButtonTextDecoration: 'none',
   tabButtonTextAlign: 'center',
-  tabListBackgroundColor: '#f5f5f5',
+  tabListBackgroundColor: 'transparent',
   tabListAlignment: 'left',
   panelBackgroundColor: '#ffffff',
   panelColor: '#333333',
@@ -150,9 +153,9 @@ export const tabsDefaultTheme: TabsTheme = {
     "bottomRight": 0,
     "bottomLeft": 0
   },
-  borderColor: 'transparent',
+  borderColor: '#dddddd',
   borderWidth: 0,
-  borderStyle: 'none',
+  borderStyle: 'solid',
   borderRadius: {
     "topLeft": 0,
     "topRight": 0,
@@ -196,12 +199,12 @@ export interface TabsThemeAttributes {
   tabButtonActiveBackgroundColor?: string;
   tabButtonActiveBorderColor?: string;
   tabButtonActiveBorderBottomColor?: string;
-  buttonBorderColor?: string | undefined;
-  buttonBorderWidth?: number | undefined;
-  buttonBorderStyle?: string | undefined;
-  buttonBorderRadius?: Record<string, any>;
-  buttonShadow?: string;
-  buttonShadowHover?: string;
+  tabButtonBorderColor?: string;
+  tabButtonBorderWidth?: number;
+  tabButtonBorderStyle?: string;
+  tabButtonBorderRadius?: Record<string, any>;
+  tabButtonShadow?: string;
+  tabButtonShadowHover?: string;
   enableFocusBorder?: boolean;
   focusBorderColor?: string;
   focusBorderColorActive?: string;

@@ -19,8 +19,9 @@
  */
 
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-import { getAllEffectiveValues, getAlignmentClass } from '@shared';
+import { getAllEffectiveValues, getAllDefaults, getAlignmentClass } from '@shared';
 import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
+import { tabsAttributes } from './tabs-attributes';
 
 /**
  * Tabs Save Component
@@ -31,14 +32,20 @@ import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-g
  * @return {JSX.Element} Save component
  */
 export default function Save( { attributes } ) {
-	// Get CSS defaults (will be available via wp_localize_script in frontend)
-	const cssDefaults = window.tabsDefaults || {};
+	// Extract schema defaults (single source of truth)
+	const schemaDefaults = {};
+	Object.keys( tabsAttributes ).forEach( ( key ) => {
+		if ( tabsAttributes[ key ].default !== undefined ) {
+			schemaDefaults[ key ] = tabsAttributes[ key ].default;
+		}
+	} );
+	const allDefaults = getAllDefaults( schemaDefaults );
 
 	// Get effective values for display purposes (icon rendering, etc.)
 	const effectiveValues = getAllEffectiveValues(
 		attributes,
 		{}, // Themes are resolved server-side via CSS classes
-		cssDefaults,
+		allDefaults,
 		'tabs'
 	);
 

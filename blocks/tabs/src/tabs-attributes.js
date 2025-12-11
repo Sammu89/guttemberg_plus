@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-09T23:46:59.824Z
+ * Generated at: 2025-12-11T00:40:02.265Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -97,7 +97,7 @@ export const tabsAttributes = {
   },
   tabButtonBackgroundColor: {
     type: 'string',
-    default: 'transparent',
+    default: '#f5f5f5',
   },
   tabButtonHoverColor: {
     type: 'string',
@@ -109,7 +109,7 @@ export const tabsAttributes = {
   },
   tabButtonActiveColor: {
     type: 'string',
-    default: '#000000',
+    default: '#333333',
   },
   tabButtonActiveBackgroundColor: {
     type: 'string',
@@ -121,29 +121,29 @@ export const tabsAttributes = {
   },
   tabButtonActiveBorderBottomColor: {
     type: 'string',
-    default: 'transparent',
+    default: '#ffffff',
   },
-  buttonBorderColor: {
+  tabButtonBorderColor: {
     type: 'string',
-    default: null,
+    default: '#dddddd',
   },
-  buttonBorderWidth: {
+  tabButtonBorderWidth: {
     type: 'number',
-    default: null,
+    default: 1,
   },
-  buttonBorderStyle: {
+  tabButtonBorderStyle: {
     type: 'string',
-    default: null,
+    default: 'solid',
   },
-  buttonBorderRadius: {
+  tabButtonBorderRadius: {
     type: 'object',
     default: {"topLeft":4,"topRight":4,"bottomRight":0,"bottomLeft":0},
   },
-  buttonShadow: {
+  tabButtonShadow: {
     type: 'string',
     default: 'none',
   },
-  buttonShadowHover: {
+  tabButtonShadowHover: {
     type: 'string',
     default: 'none',
   },
@@ -153,11 +153,11 @@ export const tabsAttributes = {
   },
   focusBorderColor: {
     type: 'string',
-    default: '#0073aa',
+    default: '#dddddd',
   },
   focusBorderColorActive: {
     type: 'string',
-    default: '#0073aa',
+    default: '#ffffff',
   },
   focusBorderWidth: {
     type: 'number',
@@ -193,7 +193,7 @@ export const tabsAttributes = {
   },
   tabListBackgroundColor: {
     type: 'string',
-    default: '#f5f5f5',
+    default: 'transparent',
   },
   tabListAlignment: {
     type: 'string',
@@ -225,7 +225,7 @@ export const tabsAttributes = {
   },
   borderColor: {
     type: 'string',
-    default: 'transparent',
+    default: '#dddddd',
   },
   borderWidth: {
     type: 'number',
@@ -233,7 +233,7 @@ export const tabsAttributes = {
   },
   borderStyle: {
     type: 'string',
-    default: 'none',
+    default: 'solid',
   },
   borderRadius: {
     type: 'object',
@@ -249,7 +249,7 @@ export const tabsAttributes = {
   },
   enableDividerBorder: {
     type: 'boolean',
-    default: true,
+    default: false,
   },
   dividerBorderColor: {
     type: 'string',

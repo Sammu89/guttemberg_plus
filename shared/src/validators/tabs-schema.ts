@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-09T23:46:59.823Z
+ * Generated at: 2025-12-11T00:40:02.264Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -28,12 +28,12 @@ export const tabsThemeSchema = z.object({
   tabButtonActiveBackgroundColor: z.string(),
   tabButtonActiveBorderColor: z.string(),
   tabButtonActiveBorderBottomColor: z.string(),
-  buttonBorderColor: z.string().optional(),
-  buttonBorderWidth: z.number().optional(),
-  buttonBorderStyle: z.string().optional(),
-  buttonBorderRadius: z.record(z.any()),
-  buttonShadow: z.string(),
-  buttonShadowHover: z.string(),
+  tabButtonBorderColor: z.string(),
+  tabButtonBorderWidth: z.number(),
+  tabButtonBorderStyle: z.string(),
+  tabButtonBorderRadius: z.record(z.any()),
+  tabButtonShadow: z.string(),
+  tabButtonShadowHover: z.string(),
   focusBorderColor: z.string(),
   focusBorderColorActive: z.string(),
   focusBorderWidth: z.number(),
@@ -93,12 +93,12 @@ export const tabsAttributesSchema = z.object({
   tabButtonActiveBackgroundColor: z.string(),
   tabButtonActiveBorderColor: z.string(),
   tabButtonActiveBorderBottomColor: z.string(),
-  buttonBorderColor: z.string().optional(),
-  buttonBorderWidth: z.number().optional(),
-  buttonBorderStyle: z.string().optional(),
-  buttonBorderRadius: z.record(z.any()),
-  buttonShadow: z.string(),
-  buttonShadowHover: z.string(),
+  tabButtonBorderColor: z.string(),
+  tabButtonBorderWidth: z.number(),
+  tabButtonBorderStyle: z.string(),
+  tabButtonBorderRadius: z.record(z.any()),
+  tabButtonShadow: z.string(),
+  tabButtonShadowHover: z.string(),
   enableFocusBorder: z.boolean(),
   focusBorderColor: z.string(),
   focusBorderColorActive: z.string(),

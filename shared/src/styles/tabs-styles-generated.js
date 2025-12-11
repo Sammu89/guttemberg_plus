@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-09T23:46:59.827Z
+ * Generated at: 2025-12-11T00:40:02.266Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -58,29 +58,29 @@ export function buildEditorStyles(values) {
       styles.default.backgroundColor = values.tabButtonActiveBackgroundColor;
     }
     if (values.tabButtonActiveBorderColor !== undefined && values.tabButtonActiveBorderColor !== null) {
-      styles.default.color = values.tabButtonActiveBorderColor;
+      styles.default.borderColor = values.tabButtonActiveBorderColor;
     }
     if (values.tabButtonActiveBorderBottomColor !== undefined && values.tabButtonActiveBorderBottomColor !== null) {
-      styles.default.color = values.tabButtonActiveBorderBottomColor;
+      styles.default.borderBottomColor = values.tabButtonActiveBorderBottomColor;
     }
-    if (values.buttonBorderColor !== undefined && values.buttonBorderColor !== null) {
-      styles.default.color = values.buttonBorderColor;
+    if (values.tabButtonBorderColor !== undefined && values.tabButtonBorderColor !== null) {
+      styles.default.borderColor = values.tabButtonBorderColor;
     }
-    if (values.buttonBorderWidth !== undefined && values.buttonBorderWidth !== null) {
-      styles.default.borderWidth = `${values.buttonBorderWidth}px`;
+    if (values.tabButtonBorderWidth !== undefined && values.tabButtonBorderWidth !== null) {
+      styles.default.borderWidth = `${values.tabButtonBorderWidth}px`;
     }
-    if (values.buttonBorderStyle !== undefined && values.buttonBorderStyle !== null) {
-      styles.default.borderStyle = values.buttonBorderStyle;
+    if (values.tabButtonBorderStyle !== undefined && values.tabButtonBorderStyle !== null) {
+      styles.default.borderStyle = values.tabButtonBorderStyle;
     }
-    if (values.buttonBorderRadius) {
-      const formatted = formatBorderRadius(values.buttonBorderRadius);
+    if (values.tabButtonBorderRadius) {
+      const formatted = formatBorderRadius(values.tabButtonBorderRadius);
       if (formatted) styles.default.borderRadius = formatted;
     }
-    if (values.buttonShadow !== undefined && values.buttonShadow !== null) {
-      styles.default.boxShadow = values.buttonShadow;
+    if (values.tabButtonShadow !== undefined && values.tabButtonShadow !== null) {
+      styles.default.boxShadow = values.tabButtonShadow;
     }
-    if (values.buttonShadowHover !== undefined && values.buttonShadowHover !== null) {
-      styles.default.boxShadow = values.buttonShadowHover;
+    if (values.tabButtonShadowHover !== undefined && values.tabButtonShadowHover !== null) {
+      styles.default.boxShadow = values.tabButtonShadowHover;
     }
     if (values.focusBorderColor !== undefined && values.focusBorderColor !== null) {
       styles.default.borderColor = values.focusBorderColor;
@@ -222,29 +222,29 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-button-active-border-bottom-color'] = customizations.tabButtonActiveBorderBottomColor;
   }
 
-  if (customizations.buttonBorderColor !== undefined && customizations.buttonBorderColor !== null) {
-    styles['--tabs-button-border-color'] = customizations.buttonBorderColor;
+  if (customizations.tabButtonBorderColor !== undefined && customizations.tabButtonBorderColor !== null) {
+    styles['--tabs-button-border-color'] = customizations.tabButtonBorderColor;
   }
 
-  if (customizations.buttonBorderWidth !== undefined && customizations.buttonBorderWidth !== null) {
-    styles['--tabs-button-border-width'] = `${customizations.buttonBorderWidth}px`;
+  if (customizations.tabButtonBorderWidth !== undefined && customizations.tabButtonBorderWidth !== null) {
+    styles['--tabs-button-border-width'] = `${customizations.tabButtonBorderWidth}px`;
   }
 
-  if (customizations.buttonBorderStyle !== undefined && customizations.buttonBorderStyle !== null) {
-    styles['--tabs-button-border-style'] = customizations.buttonBorderStyle;
+  if (customizations.tabButtonBorderStyle !== undefined && customizations.tabButtonBorderStyle !== null) {
+    styles['--tabs-button-border-style'] = customizations.tabButtonBorderStyle;
   }
 
-  if (customizations.buttonBorderRadius) {
-    const formatted = formatBorderRadius(customizations.buttonBorderRadius);
+  if (customizations.tabButtonBorderRadius) {
+    const formatted = formatBorderRadius(customizations.tabButtonBorderRadius);
     if (formatted) styles['--tabs-button-border-radius'] = formatted;
   }
 
-  if (customizations.buttonShadow !== undefined && customizations.buttonShadow !== null) {
-    styles['--tabs-button-border-shadow'] = customizations.buttonShadow;
+  if (customizations.tabButtonShadow !== undefined && customizations.tabButtonShadow !== null) {
+    styles['--tabs-button-border-shadow'] = customizations.tabButtonShadow;
   }
 
-  if (customizations.buttonShadowHover !== undefined && customizations.buttonShadowHover !== null) {
-    styles['--tabs-button-border-shadow-hover'] = customizations.buttonShadowHover;
+  if (customizations.tabButtonShadowHover !== undefined && customizations.tabButtonShadowHover !== null) {
+    styles['--tabs-button-border-shadow-hover'] = customizations.tabButtonShadowHover;
   }
 
   if (customizations.focusBorderColor !== undefined && customizations.focusBorderColor !== null) {
@@ -268,39 +268,39 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.tabButtonFontWeight !== undefined && customizations.tabButtonFontWeight !== null) {
-    styles['--tab-button-font-weight'] = customizations.tabButtonFontWeight;
+    styles['--tabs-button-font-weight'] = customizations.tabButtonFontWeight;
   }
 
   if (customizations.tabButtonFontStyle !== undefined && customizations.tabButtonFontStyle !== null) {
-    styles['--tab-button-font-style'] = customizations.tabButtonFontStyle;
+    styles['--tabs-button-font-style'] = customizations.tabButtonFontStyle;
   }
 
   if (customizations.tabButtonTextTransform !== undefined && customizations.tabButtonTextTransform !== null) {
-    styles['--tab-button-text-transform'] = customizations.tabButtonTextTransform;
+    styles['--tabs-button-text-transform'] = customizations.tabButtonTextTransform;
   }
 
   if (customizations.tabButtonTextDecoration !== undefined && customizations.tabButtonTextDecoration !== null) {
-    styles['--tab-button-text-decoration'] = customizations.tabButtonTextDecoration;
+    styles['--tabs-button-text-decoration'] = customizations.tabButtonTextDecoration;
   }
 
   if (customizations.tabButtonTextAlign !== undefined && customizations.tabButtonTextAlign !== null) {
-    styles['--tab-button-text-align'] = customizations.tabButtonTextAlign;
+    styles['--tabs-button-text-align'] = customizations.tabButtonTextAlign;
   }
 
   if (customizations.tabListBackgroundColor !== undefined && customizations.tabListBackgroundColor !== null) {
-    styles['--tab-list-bg'] = customizations.tabListBackgroundColor;
+    styles['--tabs-list-bg'] = customizations.tabListBackgroundColor;
   }
 
   if (customizations.tabListAlignment !== undefined && customizations.tabListAlignment !== null) {
-    styles['--tab-list-align'] = customizations.tabListAlignment;
+    styles['--tabs-list-align'] = customizations.tabListAlignment;
   }
 
   if (customizations.panelBackgroundColor !== undefined && customizations.panelBackgroundColor !== null) {
-    styles['--tab-panel-bg'] = customizations.panelBackgroundColor;
+    styles['--tabs-panel-bg'] = customizations.panelBackgroundColor;
   }
 
   if (customizations.panelColor !== undefined && customizations.panelColor !== null) {
-    styles['--tab-panel-color'] = customizations.panelColor;
+    styles['--tabs-panel-color'] = customizations.panelColor;
   }
 
   if (customizations.panelBorderColor !== undefined && customizations.panelBorderColor !== null) {
