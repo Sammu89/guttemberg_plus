@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-09T23:46:59.836Z
+ * Generated at: 2025-12-11T00:40:02.271Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -590,7 +590,7 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Tab Button Background',
       description: 'Background color for inactive tab buttons',
-      default: 'transparent',
+      default: '#f5f5f5',
     },
     'tabButtonHoverColor': {
       control: 'ColorPicker',
@@ -608,7 +608,7 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Tab Button Active Color',
       description: 'Text color for active/selected tab',
-      default: '#000000',
+      default: '#333333',
     },
     'tabButtonActiveBackgroundColor': {
       control: 'ColorPicker',
@@ -626,22 +626,24 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Tab Button Active Border Bottom',
       description: 'Bottom border color for active tab (creates connected effect)',
-      default: 'transparent',
+      default: '#ffffff',
     },
-    'buttonBorderColor': {
+    'tabButtonBorderColor': {
       control: 'ColorPicker',
       label: 'Border Color',
       description: 'Border color for inactive tab buttons',
+      default: '#dddddd',
     },
-    'buttonBorderWidth': {
+    'tabButtonBorderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
       label: 'Border Width',
       description: 'Border width for tab buttons',
+      default: 1,
     },
-    'buttonBorderStyle': {
+    'tabButtonBorderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -667,20 +669,21 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Border Style',
       description: 'Border style for tab buttons',
+      default: 'solid',
     },
-    'buttonBorderRadius': {
+    'tabButtonBorderRadius': {
       control: 'BorderRadiusControl',
       unit: 'px',
       label: 'Border Radius',
       description: 'Corner radius for tab buttons',
     },
-    'buttonShadow': {
+    'tabButtonShadow': {
       control: 'TextControl',
       label: 'Shadow',
       description: 'Box shadow for tab buttons',
       default: 'none',
     },
-    'buttonShadowHover': {
+    'tabButtonShadowHover': {
       control: 'TextControl',
       label: 'Shadow Hover',
       description: 'Box shadow for tab buttons on hover',
@@ -696,13 +699,13 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Focus Border Color',
       description: 'Border color for inactive button edge adjacent to content',
-      default: '#0073aa',
+      default: '#dddddd',
     },
     'focusBorderColorActive': {
       control: 'ColorPicker',
       label: 'Focus Border Color Active',
       description: 'Border color for active button edge adjacent to content',
-      default: '#0073aa',
+      default: '#ffffff',
     },
     'focusBorderWidth': {
       control: 'RangeControl',
@@ -885,7 +888,7 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Tab List Background',
       description: 'Background color for the tab navigation bar',
-      default: '#f5f5f5',
+      default: 'transparent',
     },
     'tabListAlignment': {
       control: 'SelectControl',
@@ -963,7 +966,7 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Border Color',
       description: 'Border color for main tabs wrapper',
-      default: 'transparent',
+      default: '#dddddd',
     },
     'borderWidth': {
       control: 'RangeControl',
@@ -1000,7 +1003,7 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Border Style',
       description: 'Border style for wrapper',
-      default: 'none',
+      default: 'solid',
     },
     'borderRadius': {
       control: 'BorderRadiusControl',
@@ -1024,7 +1027,7 @@ const CONTROL_CONFIGS = {
       control: 'ToggleControl',
       label: 'Enable Divider Border',
       description: 'Enable or disable divider border settings for navigation bar',
-      default: true,
+      default: false,
     },
     'dividerBorderColor': {
       control: 'ColorPicker',

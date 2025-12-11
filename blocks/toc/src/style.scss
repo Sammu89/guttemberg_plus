@@ -23,6 +23,22 @@
 	&:hover {
 		box-shadow: var(--toc-border-shadow-hover, none);
 	}
+
+	// Alignment classes (sammu-blocks)
+	&.sammu-blocks-align-left {
+		margin-left: 0 !important;
+		margin-right: auto !important;
+	}
+
+	&.sammu-blocks-align-center {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
+	&.sammu-blocks-align-right {
+		margin-left: auto !important;
+		margin-right: 0 !important;
+	}
 }
 
 /* Title */

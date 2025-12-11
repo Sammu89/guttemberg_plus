@@ -17,78 +17,67 @@
       "title": "Behaviour",
       "description": "Behavioral and functional settings that control how tabs work",
       "order": 1,
-      "initialOpen": true,
-      "pago": "nao"
+      "initialOpen": true      
     },
     "borders": {
       "title": "Borders",
       "description": "Main tabs wrapper borders and radius",
       "order": 2,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "buttonColors": {
       "title": "Button Colors",
       "description": "Tab button text and background colors for inactive state",
       "order": 3,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "buttonHover": {
       "title": "Button Hover",
       "description": "Tab button colors when hovering",
       "order": 4,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "buttonActive": {
       "title": "Button Active",
       "description": "Tab button colors for active/selected state",
       "order": 5,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "buttonBorders": {
       "title": "Button Borders",
       "description": "Tab button full border around the button element",
       "order": 6,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "specialBorders": {
       "title": "Special Borders",
       "description": "Individual button borders and navigation bar divider borders adjacent to content",
       "order": 7,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "buttonTypography": {
       "title": "Button Typography",
       "description": "Tab button typography and alignment",
       "order": 8,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "navigationBar": {
       "title": "Nav Bar",
       "description": "Navigation bar background and alignment",
       "order": 9,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "content": {
       "title": "Content",
       "description": "Content panel colors, borders, and radius",
       "order": 11,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     },
     "icon": {
       "title": "Icon",
       "description": "Icon appearance and styling",
       "order": 12,
-      "initialOpen": false,
-      "pago": "nao"
+      "initialOpen": false      
     }
   },
   "attributes": {
@@ -100,8 +89,7 @@
       "description": "Auto-generated unique block identifier",
       "themeable": false,
       "reason": "structural",
-      "order": 1,
-      "pago": "nao"
+      "order": 1      
     },
     "blockId": {
       "type": "string",
@@ -111,8 +99,7 @@
       "description": "Block-specific identification",
       "themeable": false,
       "reason": "structural",
-      "order": 2,
-      "pago": "nao"
+      "order": 2      
     },
     "currentTheme": {
       "type": "string",
@@ -122,8 +109,7 @@
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
       "reason": "structural",
-      "order": 3,
-      "pago": "nao"
+      "order": 3      
     },
     "tabs": {
       "type": "array",
@@ -146,8 +132,7 @@
       "description": "Array of tab items with title, content, and state",
       "themeable": false,
       "reason": "content",
-      "order": 4,
-      "pago": "nao"
+      "order": 4      
     },
     "orientation": {
       "type": "string",
@@ -162,8 +147,7 @@
         "horizontal",
         "vertical"
       ],
-      "order": 5,
-      "pago": "nao"
+      "order": 5      
     },
     "activationMode": {
       "type": "string",
@@ -178,8 +162,7 @@
         "auto",
         "manual"
       ],
-      "order": 6,
-      "pago": "nao"
+      "order": 6      
     },
     "headingLevel": {
       "type": "string",
@@ -199,8 +182,7 @@
         "h5",
         "h6"
       ],
-      "order": 8,
-      "pago": "nao"
+      "order": 8      
     },
     "title": {
       "type": "string",
@@ -210,8 +192,7 @@
       "description": "Block title (for accessibility)",
       "themeable": false,
       "reason": "content",
-      "order": 9,
-      "pago": "nao"
+      "order": 9      
     },
     "verticalTabButtonTextAlign": {
       "type": "string",
@@ -227,8 +208,7 @@
         "center",
         "right"
       ],
-      "order": 10,
-      "pago": "nao"
+      "order": 10      
     },
     "tabsHorizontalAlign": {
       "type": "string",
@@ -237,15 +217,14 @@
       "label": "Horizontal Alignment",
       "description": "Horizontal alignment of the tabs block",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "SelectControl",
       "options": [
         "left",
         "center",
         "right"
       ],
-      "order": 11,
-      "pago": "nao"
+      "order": 11      
     },
     "tabsWidth": {
       "type": "string",
@@ -254,10 +233,9 @@
       "label": "Width",
       "description": "Tabs container width (e.g., 100%, 500px)",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "TextControl",
-      "order": 12,
-      "pago": "nao"
+      "order": 12      
     },
     "showIcon": {
       "type": "boolean",
@@ -267,10 +245,8 @@
       "label": "Show Icon",
       "description": "Display icons in tab buttons",
       "themeable": false,
-      "reason": "behavioral",
       "control": "ToggleControl",
       "order": 12,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "display"
     },
@@ -282,14 +258,13 @@
       "label": "Icon Position",
       "description": "Position of icon relative to text",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "SelectControl",
       "options": [
         "left",
         "right"
       ],
       "order": 13,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "flex-direction"
     },
@@ -302,8 +277,8 @@
       "description": "Color of the tab icon",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "base",
       "order": 14,
-      "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "color"
     },
@@ -320,7 +295,6 @@
       "max": 48,
       "unit": "px",
       "order": 15,
-      "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "font-size"
     },
@@ -332,10 +306,9 @@
       "label": "Closed Icon",
       "description": "Icon when tab is closed (char or image URL)",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "IconPicker",
       "order": 16,
-      "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "content"
     },
@@ -347,10 +320,9 @@
       "label": "Open Icon",
       "description": "Icon when tab is open (none = use closed icon with rotation)",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "IconPicker",
       "order": 17,
-      "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "content"
     },
@@ -362,13 +334,12 @@
       "label": "Icon Rotation",
       "description": "Rotation angle when open (degrees)",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "RangeControl",
       "min": -360,
       "max": 360,
       "unit": "deg",
       "order": 18,
-      "pago": "nao",
       "appliesTo": "tabIcon",
       "cssProperty": "transform"
     },
@@ -381,22 +352,22 @@
       "description": "Text color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "base",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "color"
     },
     "tabButtonBackgroundColor": {
       "type": "string",
-      "default": "transparent",
+      "default": "#f5f5f5",
       "cssVar": "tabs-button-bg",
       "group": "buttonColors",
       "label": "Tab Button Background",
       "description": "Background color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "base",
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
@@ -409,8 +380,8 @@
       "description": "Text color when hovering over tab",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "hover",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "color"
     },
@@ -423,22 +394,22 @@
       "description": "Background color when hovering over tab",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "hover",
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
     "tabButtonActiveColor": {
       "type": "string",
-      "default": "#000000",
+      "default": "#333333",
       "cssVar": "tabs-button-active-color",
       "group": "buttonActive",
       "label": "Tab Button Active Color",
       "description": "Text color for active/selected tab",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "active",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "color"
     },
@@ -451,8 +422,8 @@
       "description": "Background color for active/selected tab",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "active",
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
@@ -465,42 +436,42 @@
       "description": "Border color for the active tab",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "active",
       "order": 3,
-      "pago": "nao",
       "appliesTo": "tabButton",
-      "cssProperty": "color"
+      "cssProperty": "border-color"
     },
     "tabButtonActiveBorderBottomColor": {
       "type": "string",
-      "default": "transparent",
+      "default": "#ffffff",
       "cssVar": "tabs-button-active-border-bottom-color",
       "group": "buttonActive",
       "label": "Tab Button Active Border Bottom",
       "description": "Bottom border color for active tab (creates connected effect)",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "active",
       "order": 4,
-      "pago": "nao",
       "appliesTo": "tabButton",
-      "cssProperty": "color"
+      "cssProperty": "border-bottom-color"
     },
-    "buttonBorderColor": {
+    "tabButtonBorderColor": {
       "type": "string",
-      "default": null,
+      "default": "#dddddd",
       "cssVar": "tabs-button-border-color",
       "group": "buttonBorders",
       "label": "Border Color",
       "description": "Border color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "base",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabButton",
-      "cssProperty": "color"
+      "cssProperty": "border-color"
     },
-    "buttonBorderWidth": {
+    "tabButtonBorderWidth": {
       "type": "number",
-      "default": null,
+      "default": 1,
       "cssVar": "tabs-button-border-width",
       "group": "buttonBorders",
       "label": "Border Width",
@@ -511,13 +482,12 @@
       "max": 10,
       "unit": "px",
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border-width"
     },
-    "buttonBorderStyle": {
+    "tabButtonBorderStyle": {
       "type": "string",
-      "default": null,
+      "default": "solid",
       "cssVar": "tabs-button-border-style",
       "group": "buttonBorders",
       "label": "Border Style",
@@ -547,11 +517,10 @@
         }
       ],
       "order": 3,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border-style"
     },
-    "buttonBorderRadius": {
+    "tabButtonBorderRadius": {
       "type": "object",
       "default": {
         "topLeft": 4,
@@ -567,11 +536,10 @@
       "control": "BorderRadiusControl",
       "unit": "px",
       "order": 4,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border-radius"
     },
-    "buttonShadow": {
+    "tabButtonShadow": {
       "type": "string",
       "default": "none",
       "cssVar": "tabs-button-border-shadow",
@@ -580,12 +548,12 @@
       "description": "Box shadow for tab buttons",
       "themeable": true,
       "control": "TextControl",
+      "state": "base",
       "order": 5,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "box-shadow"
     },
-    "buttonShadowHover": {
+    "tabButtonShadowHover": {
       "type": "string",
       "default": "none",
       "cssVar": "tabs-button-border-shadow-hover",
@@ -594,8 +562,8 @@
       "description": "Box shadow for tab buttons on hover",
       "themeable": true,
       "control": "TextControl",
+      "state": "hover",
       "order": 6,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "box-shadow"
     },
@@ -607,38 +575,37 @@
       "label": "Enable Focus Border",
       "description": "Enable or disable focus border settings for tab buttons",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "ToggleControl",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border"
     },
     "focusBorderColor": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "#dddddd",
       "cssVar": "tabs-focus-border-color",
       "group": "specialBorders",
       "label": "Focus Border Color",
       "description": "Border color for inactive button edge adjacent to content",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "focus",
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border-color"
     },
     "focusBorderColorActive": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "#ffffff",
       "cssVar": "tabs-focus-border-color-active",
       "group": "specialBorders",
       "label": "Focus Border Color Active",
       "description": "Border color for active button edge adjacent to content",
       "themeable": true,
       "control": "ColorPicker",
+      "state": "active",
       "order": 3,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border-color"
     },
@@ -655,7 +622,6 @@
       "max": 10,
       "unit": "px",
       "order": 4,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border-width"
     },
@@ -691,7 +657,6 @@
         }
       ],
       "order": 5,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "border-style"
     },
@@ -708,14 +673,13 @@
       "max": 36,
       "unit": "px",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "font-size"
     },
     "tabButtonFontWeight": {
       "type": "string",
       "default": "500",
-      "cssVar": "tab-button-font-weight",
+      "cssVar": "tabs-button-font-weight",
       "group": "buttonTypography",
       "label": "Tab Button Font Weight",
       "description": "Font weight for tab buttons",
@@ -768,14 +732,13 @@
         }
       ],
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "font-weight"
     },
     "tabButtonFontStyle": {
       "type": "string",
       "default": "normal",
-      "cssVar": "tab-button-font-style",
+      "cssVar": "tabs-button-font-style",
       "group": "buttonTypography",
       "label": "Tab Button Font Style",
       "description": "Font style for tab buttons",
@@ -796,14 +759,13 @@
         }
       ],
       "order": 3,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "font-style"
     },
     "tabButtonTextTransform": {
       "type": "string",
       "default": "none",
-      "cssVar": "tab-button-text-transform",
+      "cssVar": "tabs-button-text-transform",
       "group": "buttonTypography",
       "label": "Tab Button Text Transform",
       "description": "Text transformation for tab buttons",
@@ -828,14 +790,13 @@
         }
       ],
       "order": 4,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "text-transform"
     },
     "tabButtonTextDecoration": {
       "type": "string",
       "default": "none",
-      "cssVar": "tab-button-text-decoration",
+      "cssVar": "tabs-button-text-decoration",
       "group": "buttonTypography",
       "label": "Tab Button Text Decoration",
       "description": "Text decoration for tab buttons",
@@ -860,14 +821,13 @@
         }
       ],
       "order": 5,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "text-decoration"
     },
     "tabButtonTextAlign": {
       "type": "string",
       "default": "center",
-      "cssVar": "tab-button-text-align",
+      "cssVar": "tabs-button-text-align",
       "group": "buttonTypography",
       "label": "Tab Button Text Alignment",
       "description": "Text alignment for tab buttons",
@@ -879,28 +839,26 @@
         "right"
       ],
       "order": 6,
-      "pago": "nao",
       "appliesTo": "tabButton",
       "cssProperty": "text-align"
     },
     "tabListBackgroundColor": {
       "type": "string",
-      "default": "#f5f5f5",
-      "cssVar": "tab-list-bg",
+      "default": "transparent",
+      "cssVar": "tabs-list-bg",
       "group": "navigationBar",
       "label": "Tab List Background",
       "description": "Background color for the tab navigation bar",
       "themeable": true,
       "control": "ColorPicker",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabsList",
       "cssProperty": "background-color"
     },
     "tabListAlignment": {
       "type": "string",
       "default": "left",
-      "cssVar": "tab-list-align",
+      "cssVar": "tabs-list-align",
       "group": "navigationBar",
       "label": "Tab List Alignment",
       "description": "Horizontal alignment of tabs",
@@ -912,35 +870,32 @@
         "right"
       ],
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabsList",
       "cssProperty": "justify-content"
     },
     "panelBackgroundColor": {
       "type": "string",
       "default": "#ffffff",
-      "cssVar": "tab-panel-bg",
-      "group": "navigationBar",
+      "cssVar": "tabs-panel-bg",
+      "group": "content",
       "label": "Panel Background",
       "description": "Background color for tab panels",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 3,
-      "pago": "nao",
+      "order": 0,
       "appliesTo": "tabPanel",
       "cssProperty": "background-color"
     },
     "panelColor": {
       "type": "string",
       "default": "#333333",
-      "cssVar": "tab-panel-color",
+      "cssVar": "tabs-panel-color",
       "group": "content",
       "label": "Panel Text Color",
       "description": "Text color for tab panel content",
       "themeable": true,
       "control": "ColorPicker",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "tabPanel",
       "cssProperty": "color"
     },
@@ -954,7 +909,6 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 2,
-      "pago": "nao",
       "appliesTo": "tabPanel",
       "cssProperty": "border-color"
     },
@@ -971,7 +925,6 @@
       "max": 10,
       "unit": "px",
       "order": 3,
-      "pago": "nao",
       "appliesTo": "tabPanel",
       "cssProperty": "border-width"
     },
@@ -1007,7 +960,6 @@
         }
       ],
       "order": 4,
-      "pago": "nao",
       "appliesTo": "tabPanel",
       "cssProperty": "border-style"
     },
@@ -1027,13 +979,12 @@
       "control": "BorderRadiusControl",
       "unit": "px",
       "order": 5,
-      "pago": "nao",
       "appliesTo": "tabPanel",
       "cssProperty": "border-radius"
     },
     "borderColor": {
       "type": "string",
-      "default": "transparent",
+      "default": "#dddddd",
       "cssVar": "tabs-border-color",
       "group": "borders",
       "label": "Border Color",
@@ -1041,7 +992,6 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 1,
-      "pago": "nao",
       "appliesTo": "wrapper",
       "cssProperty": "border-color"
     },
@@ -1058,13 +1008,12 @@
       "max": 10,
       "unit": "px",
       "order": 2,
-      "pago": "nao",
       "appliesTo": "wrapper",
       "cssProperty": "border-width"
     },
     "borderStyle": {
       "type": "string",
-      "default": "none",
+      "default": "solid",
       "cssVar": "tabs-border-style",
       "group": "borders",
       "label": "Border Style",
@@ -1094,7 +1043,6 @@
         }
       ],
       "order": 3,
-      "pago": "nao",
       "appliesTo": "wrapper",
       "cssProperty": "border-style"
     },
@@ -1114,7 +1062,6 @@
       "control": "BorderRadiusControl",
       "unit": "px",
       "order": 4,
-      "pago": "nao",
       "appliesTo": "wrapper",
       "cssProperty": "border-radius"
     },
@@ -1127,8 +1074,8 @@
       "description": "Box shadow for main wrapper",
       "themeable": true,
       "control": "TextControl",
+      "state": "base",
       "order": 5,
-      "pago": "nao",
       "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
@@ -1141,23 +1088,22 @@
       "description": "Box shadow for wrapper on hover",
       "themeable": true,
       "control": "TextControl",
+      "state": "hover",
       "order": 6,
-      "pago": "nao",
       "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
     "enableDividerBorder": {
       "type": "boolean",
-      "default": true,
+      "default": false,
       "cssVar": "tabs-enable-divider-border",
       "group": "specialBorders",
       "label": "Enable Divider Border",
       "description": "Enable or disable divider border settings for navigation bar",
       "themeable": false,
-      "reason": "behavioral",
+      
       "control": "ToggleControl",
       "order": 6,
-      "pago": "nao",
       "appliesTo": "tabsList",
       "cssProperty": "border"
     },
@@ -1171,7 +1117,6 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 7,
-      "pago": "nao",
       "appliesTo": "tabsList",
       "cssProperty": "border-color"
     },
@@ -1188,7 +1133,6 @@
       "max": 10,
       "unit": "px",
       "order": 8,
-      "pago": "nao",
       "appliesTo": "tabsList",
       "cssProperty": "border-width"
     },
@@ -1224,7 +1168,6 @@
         }
       ],
       "order": 9,
-      "pago": "nao",
       "appliesTo": "tabsList",
       "cssProperty": "border-style"
     }

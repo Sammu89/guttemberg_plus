@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-09T23:46:59.820Z
+> Generated at: 2025-12-11T00:40:02.262Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -28,10 +28,10 @@ Non-themeable behavioral and structural settings
 | `title` | string | `Accordion Title` | No (content) | The accordion title text |
 | `content` | string | `` | No (content) | The accordion content (rich text) |
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
-| `initiallyOpen` | boolean | `false` | No (behavioral) | Whether accordion is open on page load |
-| `accordionWidth` | string | `100%` | No (behavioral) | Accordion container width (e.g., 100%, 500px) |
-| `accordionHorizontalAlign` | string | `left` | No (behavioral) | Horizontal alignment of the accordion |
-| `useHeadingStyles` | boolean | `false` | No (behavioral) | Apply default heading styles to title |
+| `initiallyOpen` | boolean | `false` | No (N/A) | Whether accordion is open on page load |
+| `accordionWidth` | string | `100%` | No (N/A) | Accordion container width (e.g., 100%, 500px) |
+| `accordionHorizontalAlign` | string | `left` | No (N/A) | Horizontal alignment of the accordion |
+| `useHeadingStyles` | boolean | `false` | No (N/A) | Apply default heading styles to title |
 
 ## Typography
 
@@ -39,7 +39,7 @@ Font settings for title and content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `headingLevel` | string | `none` | No (behavioral) | Semantic HTML heading level (none, h1-h6) |
+| `headingLevel` | string | `none` | No (N/A) | Semantic HTML heading level (none, h1-h6) |
 | `titleFontSize` | number | `18` | Yes | Font size for the title in pixels |
 | `titleFontWeight` | string | `600` | Yes | Font weight for the title |
 | `titleFontStyle` | string | `normal` | Yes | Font style for the title |

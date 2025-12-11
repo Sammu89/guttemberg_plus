@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-09T23:46:59.835Z
+ * Generated at: 2025-12-11T00:40:02.270Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -67,26 +67,26 @@ export const CSS_VAR_MAPPINGS = {
     tabButtonActiveBackgroundColor: { cssVar: '--tabs-button-active-bg', unit: null, type: 'string' },
     tabButtonActiveBorderColor: { cssVar: '--tabs-button-active-border-color', unit: null, type: 'string' },
     tabButtonActiveBorderBottomColor: { cssVar: '--tabs-button-active-border-bottom-color', unit: null, type: 'string' },
-    buttonBorderColor: { cssVar: '--tabs-button-border-color', unit: null, type: 'string' },
-    buttonBorderWidth: { cssVar: '--tabs-button-border-width', unit: 'px', type: 'number' },
-    buttonBorderStyle: { cssVar: '--tabs-button-border-style', unit: null, type: 'string' },
-    buttonBorderRadius: { cssVar: '--tabs-button-border-radius', unit: 'px', type: 'object' },
-    buttonShadow: { cssVar: '--tabs-button-border-shadow', unit: null, type: 'string' },
-    buttonShadowHover: { cssVar: '--tabs-button-border-shadow-hover', unit: null, type: 'string' },
+    tabButtonBorderColor: { cssVar: '--tabs-button-border-color', unit: null, type: 'string' },
+    tabButtonBorderWidth: { cssVar: '--tabs-button-border-width', unit: 'px', type: 'number' },
+    tabButtonBorderStyle: { cssVar: '--tabs-button-border-style', unit: null, type: 'string' },
+    tabButtonBorderRadius: { cssVar: '--tabs-button-border-radius', unit: 'px', type: 'object' },
+    tabButtonShadow: { cssVar: '--tabs-button-border-shadow', unit: null, type: 'string' },
+    tabButtonShadowHover: { cssVar: '--tabs-button-border-shadow-hover', unit: null, type: 'string' },
     focusBorderColor: { cssVar: '--tabs-focus-border-color', unit: null, type: 'string' },
     focusBorderColorActive: { cssVar: '--tabs-focus-border-color-active', unit: null, type: 'string' },
     focusBorderWidth: { cssVar: '--tabs-focus-border-width', unit: 'px', type: 'number' },
     focusBorderStyle: { cssVar: '--tabs-focus-border-style', unit: null, type: 'string' },
     tabButtonFontSize: { cssVar: '--tabs-button-font-size', unit: 'px', type: 'number' },
-    tabButtonFontWeight: { cssVar: '--tab-button-font-weight', unit: null, type: 'string' },
-    tabButtonFontStyle: { cssVar: '--tab-button-font-style', unit: null, type: 'string' },
-    tabButtonTextTransform: { cssVar: '--tab-button-text-transform', unit: null, type: 'string' },
-    tabButtonTextDecoration: { cssVar: '--tab-button-text-decoration', unit: null, type: 'string' },
-    tabButtonTextAlign: { cssVar: '--tab-button-text-align', unit: null, type: 'string' },
-    tabListBackgroundColor: { cssVar: '--tab-list-bg', unit: null, type: 'string' },
-    tabListAlignment: { cssVar: '--tab-list-align', unit: null, type: 'string' },
-    panelBackgroundColor: { cssVar: '--tab-panel-bg', unit: null, type: 'string' },
-    panelColor: { cssVar: '--tab-panel-color', unit: null, type: 'string' },
+    tabButtonFontWeight: { cssVar: '--tabs-button-font-weight', unit: null, type: 'string' },
+    tabButtonFontStyle: { cssVar: '--tabs-button-font-style', unit: null, type: 'string' },
+    tabButtonTextTransform: { cssVar: '--tabs-button-text-transform', unit: null, type: 'string' },
+    tabButtonTextDecoration: { cssVar: '--tabs-button-text-decoration', unit: null, type: 'string' },
+    tabButtonTextAlign: { cssVar: '--tabs-button-text-align', unit: null, type: 'string' },
+    tabListBackgroundColor: { cssVar: '--tabs-list-bg', unit: null, type: 'string' },
+    tabListAlignment: { cssVar: '--tabs-list-align', unit: null, type: 'string' },
+    panelBackgroundColor: { cssVar: '--tabs-panel-bg', unit: null, type: 'string' },
+    panelColor: { cssVar: '--tabs-panel-color', unit: null, type: 'string' },
     panelBorderColor: { cssVar: '--tabs-panel-border-color', unit: null, type: 'string' },
     panelBorderWidth: { cssVar: '--tabs-panel-border-width', unit: 'px', type: 'number' },
     panelBorderStyle: { cssVar: '--tabs-panel-border-style', unit: null, type: 'string' },

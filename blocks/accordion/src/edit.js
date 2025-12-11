@@ -179,7 +179,7 @@ const getInlineStyles = () => {
 			return null;
 		}
 
-		const iconContent = effectiveValues.iconTypeClosed || '▾';
+		const iconContent = effectiveValues.iconTypeClosed;
 		const isImage = iconContent.startsWith( 'http' );
 
 		// Determine margin based on position
@@ -217,9 +217,9 @@ const getInlineStyles = () => {
 	 * Structure matches frontend: accordion-title-wrapper > accordion-title (button-like div)
 	 */
 	const renderTitle = () => {
-		const headingLevel = effectiveValues.headingLevel || 'none';
-		const iconPosition = effectiveValues.iconPosition || 'right';
-		const titleAlignment = effectiveValues.titleAlignment || 'left';
+		const headingLevel = effectiveValues.headingLevel;
+		const iconPosition = effectiveValues.iconPosition;
+		const titleAlignment = effectiveValues.titleAlignment;
 
 		// Determine icon position class
 		const iconPositionClass = iconPosition ? `icon-${ iconPosition }` : 'icon-right';
@@ -346,7 +346,7 @@ const getInlineStyles = () => {
 	// Combines wrapper styles (width) with item styles (borders, shadows)
 	// Note: alignment margins are applied via ref with !important
 	const rootStyles = {
-		width: effectiveValues.accordionWidth || '100%',
+		width: effectiveValues.accordionWidth,
 		overflow: 'hidden', // Clip border-radius in editor
 		'--accordion-border-radius': styles.container.borderRadius, // CSS variable for outline
 		...styles.container,

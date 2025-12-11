@@ -40,6 +40,7 @@ import {
 	useBlockAlignment,
 } from '@shared';
 import tocSchema from '../../../schemas/toc.json';
+import { tocAttributes } from './toc-attributes';
 import './editor.scss';
 
 /**
@@ -119,13 +120,22 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		return () => observer.disconnect();
 	}, [ clientId ] );
 
-	// Get CSS defaults from window (parsed by PHP)
-	// Memoize to prevent creating new object on every render
-	const cssDefaults = useMemo( () => window.tocDefaults || {}, [] );
+	// Extract schema defaults from tocAttributes (SINGLE SOURCE OF TRUTH!)
+	const schemaDefaults = useMemo( () => {
+		const defaults = {};
+		Object.keys( tocAttributes ).forEach( ( key ) => {
+			if ( tocAttributes[ key ].default !== undefined ) {
+				defaults[ key ] = tocAttributes[ key ].default;
+			}
+		} );
+		return defaults;
+	}, [] );
 
-	// Get all defaults (CSS + behavioral)
-	// Memoize to prevent infinite loop in session cache useEffect
-	const allDefaults = useMemo( () => getAllDefaults( cssDefaults ), [ cssDefaults ] );
+	// All defaults come from schema - single source of truth!
+	const allDefaults = useMemo( () => {
+		const merged = getAllDefaults( schemaDefaults );
+		return merged;
+	}, [ schemaDefaults ] );
 
 	// Use centralized theme management hook (provides ALL theme logic in one place)
 	const {
@@ -179,18 +189,11 @@ const getInlineStyles = () => {
 		container: {
 			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
 			color: effectiveValues.blockBorderColor || '#dddddd',
-			fontSize: `${effectiveValues.level1FontSize || 18}px`,
-			fontWeight: effectiveValues.level1FontWeight || '600',
-			fontStyle: effectiveValues.level1FontStyle || 'normal',
-			textTransform: effectiveValues.level1TextTransform || 'none',
-			textDecoration: effectiveValues.level1TextDecoration || 'none',
 			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
 			borderStyle: effectiveValues.blockBorderStyle || 'solid',
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.blockShadow || 'none',
 			padding: `${effectiveValues.wrapperPadding || 20}px`,
-			marginBottom: `${effectiveValues.itemSpacing || 8}px`,
-			marginLeft: `${effectiveValues.levelIndent || 20}px`,
 			top: `${effectiveValues.positionTop || 100}px`,
 		},
 		title: {
@@ -200,10 +203,6 @@ const getInlineStyles = () => {
 			fontWeight: effectiveValues.titleFontWeight || '700',
 			textTransform: effectiveValues.titleTextTransform || 'null',
 			textAlign: effectiveValues.titleAlignment || 'left',
-		},
-		icon: {
-			color: effectiveValues.collapseIconColor || '#666666',
-			fontSize: `${effectiveValues.collapseIconSize || 20}px`,
 		},
 	};
 };
@@ -216,7 +215,7 @@ const getInlineStyles = () => {
 
 	// Build inline styles - apply width from attributes
 	const rootStyles = {
-		width: effectiveValues.tocWidth || '100%',
+		width: effectiveValues.tocWidth,
 		...styles.container,
 	};
 
@@ -434,7 +433,7 @@ const getInlineStyles = () => {
 					setAttributes={ setAttributes }
 					effectiveValues={ effectiveValues }
 					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ cssDefaults }
+					cssDefaults={ allDefaults }
 				/>
 
 				{ /* Customization Warning */ }
@@ -450,10 +449,10 @@ const getInlineStyles = () => {
 					<div
 						className="toc-title"
 						style={ {
-							fontSize: `${ effectiveValues.titleFontSize || 20 }px`,
-							fontWeight: effectiveValues.titleFontWeight || '700',
-							color: effectiveValues.titleColor || '#333333',
-							textAlign: effectiveValues.titleAlignment || 'left',
+							fontSize: `${ effectiveValues.titleFontSize }px`,
+							fontWeight: effectiveValues.titleFontWeight,
+							color: effectiveValues.titleColor,
+							textAlign: effectiveValues.titleAlignment,
 						} }
 					>
 						{ titleText }
@@ -551,7 +550,7 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 			{ headings.map( ( heading, index ) => {
 				const levelClass = `toc-item-level-${ heading.level - 1 }`;
 				const linkStyle = {
-					color: effectiveValues.linkColor || '#0073aa',
+					color: effectiveValues.linkColor,
 					textDecoration: 'none',
 				};
 

@@ -36,6 +36,15 @@ function getSelectorKey(selector, blockType) {
     'tabs-content': 'content',
     'toc-header': 'header',
     'toc-content': 'content',
+    // Tab-specific selectors
+    '.tab-button': 'tabButton',
+    '.tab-panel': 'tabPanel',
+    '.tabs-list': 'tabsList',
+    '.tab-icon': 'tabIcon',
+    // TOC-specific selectors
+    '.toc-link': 'tocLink',
+    '.toc-title': 'tocTitle',
+    '.toc-list': 'tocList',
   };
 
   // Check for direct mapping
@@ -47,9 +56,14 @@ function getSelectorKey(selector, blockType) {
   if (selector.includes('-header')) return blockType === 'accordion' ? 'title' : 'header';
   if (selector.includes('-content')) return 'content';
   if (selector.includes('-icon')) return 'icon';
+  if (selector.includes('-button')) return 'button';
+  if (selector.includes('-panel')) return 'panel';
+  if (selector.includes('-list')) return 'list';
+  if (selector.includes('-link')) return 'link';
   if (selector.includes(`-${blockType}`)) return 'container';
 
-  // Default fallback
+  // Default fallback - log warning
+  console.warn(`[edit-styles-injector] Unmapped selector "${selector}" for ${blockType} block, defaulting to 'container'`);
   return 'container';
 }
 
@@ -152,6 +166,25 @@ function generatePropertyAssignment(attrName, attr, selectorKey) {
 }
 
 /**
+ * Check if attribute is a state-specific attribute
+ * State-specific attributes (hover, active, focus, disabled) should be
+ * excluded from editor inline styles since editor preview doesn't need state awareness
+ * @param {string} attrName - Attribute name
+ * @returns {boolean} True if attribute is state-specific
+ */
+function isStateAttribute(attrName) {
+  // Check for state patterns in attribute names
+  const statePatterns = [
+    /Hover/i,     // e.g., tabButtonHoverColor, shadowHover
+    /Active/i,    // e.g., tabButtonActiveColor, linkActiveColor
+    /Focus/i,     // e.g., focusBorderColor, focusBorderColorActive
+    /Disabled/i,  // e.g., isDisabled (though this is structural)
+  ];
+
+  return statePatterns.some(pattern => pattern.test(attrName));
+}
+
+/**
  * Group attributes by CSS selector
  * @param {Object} schema - Block schema
  * @returns {Object} Attributes grouped by selector
@@ -162,6 +195,12 @@ function groupAttributesBySelector(schema) {
   Object.entries(schema.attributes).forEach(([attrName, attr]) => {
     // Only include themeable attributes with cssProperty
     if (!attr.themeable || !attr.cssProperty) return;
+
+    // EXCLUDE state-specific attributes from editor inline styles
+    // Editor preview only needs BASE state styling
+    if (isStateAttribute(attrName)) {
+      return;
+    }
 
     const selector = attr.cssSelector || 'default';
     if (!groups[selector]) {
@@ -350,6 +389,7 @@ module.exports = {
   generateEditInlineStyles,
   getSelectorKey,
   toCamelCase,
+  isStateAttribute,
   groupAttributesBySelector,
   extractBorderGroups,
   generateBorderShorthand,
