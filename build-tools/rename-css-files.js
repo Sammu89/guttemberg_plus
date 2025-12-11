@@ -38,23 +38,11 @@ const BLOCKS = [
  */
 function renameFile( oldPath, newPath ) {
 	if ( ! fs.existsSync( oldPath ) ) {
-		console.warn(
-			`⚠️  File not found, skipping: ${ path.relative(
-				process.cwd(),
-				oldPath
-			) }`
-		);
 		return false;
 	}
 
 	try {
 		fs.renameSync( oldPath, newPath );
-		console.log(
-			`✓ Renamed: ${ path.relative(
-				process.cwd(),
-				oldPath
-			) } → ${ path.basename( newPath ) }`
-		);
 		return true;
 	} catch ( error ) {
 		console.error(
@@ -69,8 +57,6 @@ function renameFile( oldPath, newPath ) {
  * Main execution
  */
 function main() {
-	console.log( '\n📝 Post-build CSS file renaming...\n' );
-
 	let successCount = 0;
 	let skipCount = 0;
 
@@ -91,16 +77,9 @@ function main() {
 		}
 	} );
 
-	console.log(
-		`\n${ successCount } file(s) renamed, ${ skipCount } skipped.\n`
-	);
-
+	// Only output if something happened
 	if ( successCount > 0 ) {
-		console.log( '✓ CSS file renaming completed successfully.\n' );
-		process.exit( 0 );
-	} else {
-		console.log( '⚠️  No files were renamed.\n' );
-		process.exit( 0 );
+		console.log( `✅ CSS renamed: ${successCount} files` );
 	}
 }
 

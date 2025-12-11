@@ -334,10 +334,6 @@ function generateScssPartial(blockType, schema, structure) {
  * Main generation function
  */
 async function generate() {
-  console.log('\n========================================');
-  console.log('  CSS Generator');
-  console.log('========================================\n');
-
   const startTime = Date.now();
   const results = {
     success: [],
@@ -346,8 +342,6 @@ async function generate() {
   };
 
   try {
-    console.log('Generating CSS partials...\n');
-
     for (const blockType of BLOCKS) {
       try {
         // Load attribute schema
@@ -355,13 +349,6 @@ async function generate() {
 
         // Load structure schema (optional - for new dual-schema system)
         const structure = loadStructureSchema(blockType);
-
-        // Log which schema system is being used
-        if (structure) {
-          console.log(`  ${blockType}: Using NEW dual-schema system (appliesTo + structure)`);
-        } else {
-          console.log(`  ${blockType}: Using OLD single-schema system (cssSelector) - deprecated`);
-        }
 
         // Generate SCSS partial
         const result = generateScssPartial(blockType, schema, structure);
@@ -375,19 +362,13 @@ async function generate() {
 
           results.success.push({ blockType, count });
           results.totalDeclarations += count;
-
-          console.log(`  ✓ ${blockType}: ${count} declarations → blocks/${blockType}/src/${fileName}`);
-        } else {
-          console.log(`  - ${blockType}: No CSS to generate`);
         }
 
       } catch (error) {
         results.errors.push(`${blockType}: ${error.message}`);
-        console.error(`  ✗ ${blockType}: ${error.message}`);
+        console.error(`  ✗ CSS ${blockType}: ${error.message}`);
       }
     }
-
-    console.log('');
 
   } catch (error) {
     results.errors.push(`Generation failed: ${error.message}`);
@@ -397,25 +378,15 @@ async function generate() {
   // Summary
   const elapsed = Date.now() - startTime;
 
-  console.log('========================================');
-  console.log('  Generation Summary');
-  console.log('========================================\n');
-
-  console.log(`  Files generated: ${results.success.length}`);
-  console.log(`  Total CSS declarations: ${results.totalDeclarations}`);
-  console.log(`  Errors: ${results.errors.length}`);
-  console.log(`  Time: ${elapsed}ms\n`);
-
   if (results.errors.length > 0) {
-    console.log('  Errors:');
+    console.log('\n  CSS Generation Errors:');
     for (const error of results.errors) {
       console.log(`    - ${error}`);
     }
-    console.log('');
     process.exit(1);
   }
 
-  console.log('  CSS generation completed successfully!\n');
+  console.log(`✅ CSS generation: ${results.success.length} files, ${results.totalDeclarations} declarations (${elapsed}ms)\n`);
   return results;
 }
 

@@ -1005,12 +1005,13 @@ function injectCodeIntoFile(filePath, markerName, generatedCode, options = {}) {
     // Replace content between markers
     const newContent = originalContent.replace(regex, injectionBlock);
 
-    // Verify replacement occurred
+    // Check if content changed (it's OK if unchanged - means code is up-to-date)
     if (newContent === originalContent) {
       return {
-        success: false,
-        error: 'Content unchanged after injection',
-        action: 'failed',
+        success: true,
+        action: 'unchanged',
+        linesInjected: generatedCode.split('\n').length,
+        marker: markerName,
       };
     }
 
@@ -1074,13 +1075,26 @@ function generateInlineStylesFunction(schema, blockType) {
     'icon': [],
   };
 
+  // Track which elements have needsMapping (for skipping entire elements)
+  const elementsWithManualRendering = new Set();
+  for (const [attrName, attr] of Object.entries(schema.attributes)) {
+    if (attr.needsMapping && attr.appliesTo) {
+      elementsWithManualRendering.add(attr.appliesTo);
+    }
+  }
+
   // Group attributes by simplified selector names
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
     if (!attr.themeable || !attr.cssProperty) continue;
 
     // EXCLUDE state-specific attributes from editor inline styles
-    // Editor preview only needs BASE state styling (no hover, active, focus states)
-    const statePatterns = [/Hover/i, /Active/i, /Focus/i, /Disabled/i];
+    // Method 1: Check schema's "state" field (preferred - from schema cleanup)
+    if (attr.state) {
+      continue; // Skip non-base states (hover, active, focus, visited, disabled)
+    }
+
+    // Method 2: Pattern matching fallback (for backwards compatibility)
+    const statePatterns = [/Hover/i, /Active/i, /Focus/i, /Disabled/i, /Visited/i];
     const isStateAttribute = statePatterns.some(pattern => pattern.test(attrName));
     if (isStateAttribute) {
       continue; // Skip state-specific attributes
@@ -1094,21 +1108,20 @@ function generateInlineStylesFunction(schema, blockType) {
 
     const appliesTo = attr.appliesTo;
 
+    // Skip elements that need manual rendering (needsMapping: true)
+    if (elementsWithManualRendering.has(appliesTo)) {
+      continue; // Manual function handles this element's styles
+    }
+
     // Map appliesTo to selector keys for inline styles
-    const appliesToMapping = {
+    const styleKeyMap = {
       // Tabs
-      'tabButton': null,  // Skip - handled by manual styles.tabButton() function
       'tabIcon': 'icon',
       'tabsList': 'tabList',
       'tabPanel': 'panel',
       'wrapper': 'container',
       // TOC
-      'tocLink': null,  // Skip - not needed in editor
       'tocTitle': 'title',
-      'tocList': null,  // Skip - not needed in editor
-      'link': null,  // Skip - link styles not needed in editor
-      'list': null,  // Skip - list styles not needed in editor
-      'collapseIcon': null,  // Skip - collapse icon not needed in editor
       // Accordion
       'accordionTitle': 'title',
       'accordionContent': 'content',
@@ -1122,23 +1135,23 @@ function generateInlineStylesFunction(schema, blockType) {
       'icon': 'icon',
     };
 
-    const selectorKey = appliesToMapping[appliesTo];
-    if (selectorKey === null) {
-      continue; // Skip attributes that don't need inline styles in editor
-    }
+    const selectorKey = styleKeyMap[appliesTo];
 
     if (!selectorKey) {
-      console.warn(`[schema-compiler] Unknown appliesTo value "${appliesTo}" for attribute "${attrName}" in ${blockType} schema - defaulting to container`);
+      // Unknown appliesTo - skip with warning if not a known skip case
+      const knownSkipElements = ['tocLink', 'tocList', 'link', 'list', 'collapseIcon', 'tabButton'];
+      if (!knownSkipElements.includes(appliesTo)) {
+        console.warn(`[schema-compiler] Unknown appliesTo value "${appliesTo}" for attribute "${attrName}" in ${blockType} schema - skipping`);
+      }
+      continue;
     }
-
-    const finalKey = selectorKey || 'container';
 
     // Ensure the selector key exists in selectorMap
-    if (!selectorMap[finalKey]) {
-      selectorMap[finalKey] = [];
+    if (!selectorMap[selectorKey]) {
+      selectorMap[selectorKey] = [];
     }
 
-    selectorMap[finalKey].push({ attrName, attr });
+    selectorMap[selectorKey].push({ attrName, attr });
   }
 
   // Generate styles for each selector
@@ -1240,23 +1253,76 @@ function generateCustomizationStylesFunction(blockType) {
 }
 
 /**
+ * Validate schema-mapping synchronization
+ * Ensures elements with needsMapping=true have corresponding manual render entries
+ *
+ * @param {Object} schema - Block schema
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @returns {boolean} True if validation passes
+ */
+function validateSchemaMappingSync(schema, blockType) {
+  // Elements that should have manual rendering (from schema)
+  const needsMapping = new Set();
+
+  Object.entries(schema.attributes).forEach(([attrName, attr]) => {
+    if (attr.needsMapping && attr.appliesTo) {
+      needsMapping.add(attr.appliesTo);
+    }
+  });
+
+  // Elements that actually have manual rendering (hardcoded for now)
+  // NOTE: This list should match what's actually in edit.js manual functions
+  const manualRenderElements = {
+    'tabs': ['tabButton'],      // Has manual styles.tabButton() function
+    'accordion': [],            // No manual functions currently
+    'toc': [],                  // No manual functions currently
+  };
+
+  const hasMappings = new Set(manualRenderElements[blockType] || []);
+
+  // Forward validation: Schema → Manual code
+  const missing = [...needsMapping].filter(el => !hasMappings.has(el));
+  if (missing.length > 0) {
+    console.warn(
+      `\n⚠️  Schema-Mapping Warning for ${blockType}:\n\n` +
+      `   Schema declares these elements need manual rendering:\n` +
+      `   ${missing.map(el => `- ${el}`).join('\n   ')}\n\n` +
+      `   But no manual render function found in edit.js.\n\n` +
+      `   Note: If manual functions exist, update manualRenderElements in schema-compiler.js\n`
+    );
+  }
+
+  // Reverse validation: Manual code → Schema
+  const zombies = [...hasMappings].filter(el => !needsMapping.has(el));
+  if (zombies.length > 0) {
+    console.warn(
+      `\n⚠️  Schema-Mapping Warning for ${blockType}:\n\n` +
+      `   Manual render functions exist for:\n` +
+      `   ${zombies.map(el => `- ${el}`).join('\n   ')}\n\n` +
+      `   But schema doesn't declare needsMapping=true.\n\n` +
+      `   Fix: Add needsMapping=true to one attribute with appliesTo="${zombies[0]}"\n`
+    );
+  }
+
+  // Only output if there are issues - silent on success
+  return missing.length === 0;
+}
+
+/**
  * Inject code into all block edit.js and save.js files
  *
  * @param {Object} schemas - All loaded schemas by block type
  * @returns {Object} Summary of injection results
  */
 function injectCodeIntoBlocks(schemas) {
-  console.log('\nInjecting auto-generated code into manual files...\n');
-
   const results = {
     success: [],
     skipped: [],
     errors: [],
+    changed: 0,
   };
 
   for (const [blockType, schema] of Object.entries(schemas)) {
-    console.log(`  ${schema.blockName} (${blockType}):`);
-
     const blockDir = path.join(OUTPUT_DIRS.blockAttributes, blockType, 'src');
     const editPath = path.join(blockDir, 'edit.js');
     const savePath = path.join(blockDir, 'save.js');
@@ -1270,13 +1336,15 @@ function injectCodeIntoBlocks(schemas) {
 
     if (editResult.success) {
       results.success.push(`${blockType}/edit.js (STYLES)`);
-      console.log(`    ✓ edit.js - Injected ${editResult.linesInjected} lines`);
+      if (editResult.action === 'injected') {
+        results.changed++;
+        console.log(`  ✓ ${blockType}/edit.js - Injected ${editResult.linesInjected} lines`);
+      }
     } else if (editResult.action === 'skipped') {
       results.skipped.push(`${blockType}/edit.js (STYLES - markers not found)`);
-      console.log(`    - edit.js - Skipped (no markers)`);
     } else {
       results.errors.push(`${blockType}/edit.js: ${editResult.error}`);
-      console.log(`    ✗ edit.js - Error: ${editResult.error}`);
+      console.log(`  ✗ ${blockType}/edit.js - Error: ${editResult.error}`);
     }
 
     // Inject into save.js - CUSTOMIZATION-STYLES marker
@@ -1288,17 +1356,17 @@ function injectCodeIntoBlocks(schemas) {
 
     if (saveResult.success) {
       results.success.push(`${blockType}/save.js (CUSTOMIZATION-STYLES)`);
-      console.log(`    ✓ save.js - Injected ${saveResult.linesInjected} lines`);
+      if (saveResult.action === 'injected') {
+        results.changed++;
+        console.log(`  ✓ ${blockType}/save.js - Injected ${saveResult.linesInjected} lines`);
+      }
     } else if (saveResult.action === 'skipped') {
       results.skipped.push(`${blockType}/save.js (CUSTOMIZATION-STYLES - markers not found)`);
-      console.log(`    - save.js - Skipped (no markers)`);
     } else {
       results.errors.push(`${blockType}/save.js: ${saveResult.error}`);
-      console.log(`    ✗ save.js - Error: ${saveResult.error}`);
+      console.log(`  ✗ ${blockType}/save.js - Error: ${saveResult.error}`);
     }
   }
-
-  console.log('');
 
   return results;
 }
@@ -1311,10 +1379,6 @@ function injectCodeIntoBlocks(schemas) {
  * Main compilation function
  */
 async function compile() {
-  console.log('\n========================================');
-  console.log('  Guttemberg Plus Schema Compiler');
-  console.log('========================================\n');
-
   const startTime = Date.now();
   const results = {
     success: [],
@@ -1323,45 +1387,35 @@ async function compile() {
   };
 
   try {
-    // Ensure all output directories exist
-    console.log('Creating output directories...');
+    // Ensure all output directories exist (silent)
     for (const [name, dir] of Object.entries(OUTPUT_DIRS)) {
       ensureDir(dir);
     }
-    console.log('');
 
     // Load all schemas
-    console.log('Loading schemas...');
     const schemas = {};
 
     for (const blockType of BLOCKS) {
       try {
         schemas[blockType] = loadSchema(blockType);
-        console.log(`  Loaded: ${blockType}.json`);
       } catch (error) {
         results.errors.push(`Failed to load ${blockType}.json: ${error.message}`);
-        console.error(`  ERROR: ${blockType}.json - ${error.message}`);
+        console.error(`❌ Failed to load ${blockType}.json: ${error.message}`);
       }
     }
-    console.log('');
 
     if (Object.keys(schemas).length === 0) {
       throw new Error('No schemas loaded successfully');
     }
 
-    // Generate files for each block
-    console.log('Generating files...\n');
-
+    // Generate files for each block (silent unless errors)
     for (const [blockType, schema] of Object.entries(schemas)) {
-      console.log(`  ${schema.blockName} (${blockType}):`);
-
       // TypeScript types
       try {
         const { fileName, content } = generateTypeScript(blockType, schema);
         const filePath = path.join(OUTPUT_DIRS.types, fileName);
         fs.writeFileSync(filePath, content);
         results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - types/${fileName}`);
       } catch (error) {
         results.errors.push(`TypeScript generation failed for ${blockType}: ${error.message}`);
       }
@@ -1372,7 +1426,6 @@ async function compile() {
         const filePath = path.join(OUTPUT_DIRS.validators, fileName);
         fs.writeFileSync(filePath, content);
         results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - validators/${fileName}`);
       } catch (error) {
         results.errors.push(`Validator generation failed for ${blockType}: ${error.message}`);
       }
@@ -1383,7 +1436,6 @@ async function compile() {
         const filePath = path.join(OUTPUT_DIRS.blockAttributes, blockType, 'src', fileName);
         fs.writeFileSync(filePath, content);
         results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - blocks/${blockType}/src/${fileName}`);
       } catch (error) {
         results.errors.push(`Block attributes generation failed for ${blockType}: ${error.message}`);
       }
@@ -1394,13 +1446,9 @@ async function compile() {
         const filePath = path.join(OUTPUT_DIRS.phpCssDefaults, fileName);
         fs.writeFileSync(filePath, content);
         results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - php/css-defaults/${fileName}`);
       } catch (error) {
         results.errors.push(`PHP CSS defaults generation failed for ${blockType}: ${error.message}`);
       }
-
-      // JavaScript exclusions - REMOVED
-      // Exclusions are no longer generated as individual files
 
       // CSS variables
       try {
@@ -1408,7 +1456,6 @@ async function compile() {
         const filePath = path.join(OUTPUT_DIRS.css, fileName);
         fs.writeFileSync(filePath, content);
         results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - css/${fileName}`);
       } catch (error) {
         results.errors.push(`CSS generation failed for ${blockType}: ${error.message}`);
       }
@@ -1419,7 +1466,6 @@ async function compile() {
         const filePath = path.join(OUTPUT_DIRS.docs, fileName);
         fs.writeFileSync(filePath, content);
         results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - docs/${fileName}`);
       } catch (error) {
         results.errors.push(`Documentation generation failed for ${blockType}: ${error.message}`);
       }
@@ -1430,22 +1476,20 @@ async function compile() {
         const filePath = path.join(OUTPUT_DIRS.styles, fileName);
         fs.writeFileSync(filePath, content);
         results.files.push({ path: filePath, lines: content.split('\n').length });
-        console.log(`    - styles/${fileName}`);
       } catch (error) {
         results.errors.push(`Style builder generation failed for ${blockType}: ${error.message}`);
       }
 
-      console.log('');
+      // Validate schema-mapping synchronization (silent unless warnings)
+      validateSchemaMappingSync(schema, blockType);
     }
 
     // Generate combined PHP mappings file
-    console.log('  Combined files:');
     try {
       const { fileName, content } = generatePHPMappings(schemas);
       const filePath = path.join(OUTPUT_DIRS.phpCssDefaults, fileName);
       fs.writeFileSync(filePath, content);
       results.files.push({ path: filePath, lines: content.split('\n').length });
-      console.log(`    - php/css-defaults/${fileName}`);
     } catch (error) {
       results.errors.push(`PHP mappings generation failed: ${error.message}`);
     }
@@ -1456,7 +1500,6 @@ async function compile() {
       const filePath = path.join(OUTPUT_DIRS.config, fileName);
       fs.writeFileSync(filePath, content);
       results.files.push({ path: filePath, lines: content.split('\n').length });
-      console.log(`    - config/${fileName}`);
     } catch (error) {
       results.errors.push(`JS mappings generation failed: ${error.message}`);
     }
@@ -1467,15 +1510,9 @@ async function compile() {
       const filePath = path.join(OUTPUT_DIRS.config, fileName);
       fs.writeFileSync(filePath, content);
       results.files.push({ path: filePath, lines: content.split('\n').length });
-      console.log(`    - config/${fileName}`);
     } catch (error) {
       results.errors.push(`Control config generation failed: ${error.message}`);
     }
-
-    // Generate combined exclusions file - REMOVED
-    // Exclusions are no longer generated
-
-    console.log('');
 
     // ========================================
     // Code Injection Phase
@@ -1487,6 +1524,7 @@ async function compile() {
       success: injectionResults.success.length,
       skipped: injectionResults.skipped.length,
       errors: injectionResults.errors.length,
+      changed: injectionResults.changed || 0,
       details: injectionResults,
     };
 
@@ -1497,21 +1535,27 @@ async function compile() {
   // Summary
   const elapsed = Date.now() - startTime;
 
-  console.log('========================================');
-  console.log('  Compilation Summary');
-  console.log('========================================\n');
+  // Only show detailed summary on errors or changes
+  const hasInjectionChanges = results.injections?.changed > 0;
+  const hasErrors = results.errors.length > 0;
 
-  console.log(`  Files generated: ${results.files.length}`);
-  console.log(`  Total lines: ${results.files.reduce((sum, f) => sum + f.lines, 0)}`);
+  if (hasErrors || hasInjectionChanges) {
+    console.log('\n========================================');
+    console.log('  Compilation Summary');
+    console.log('========================================\n');
 
-  if (results.injections) {
-    console.log(`  Code injections: ${results.injections.success} successful, ${results.injections.skipped} skipped`);
+    console.log(`  Files generated: ${results.files.length}`);
+    console.log(`  Total lines: ${results.files.reduce((sum, f) => sum + f.lines, 0)}`);
+
+    if (results.injections && hasInjectionChanges) {
+      console.log(`  Code injections: ${results.injections.changed} files updated`);
+    }
+
+    console.log(`  Errors: ${results.errors.length}`);
+    console.log(`  Time: ${elapsed}ms\n`);
   }
 
-  console.log(`  Errors: ${results.errors.length}`);
-  console.log(`  Time: ${elapsed}ms\n`);
-
-  if (results.errors.length > 0) {
+  if (hasErrors) {
     console.log('  Errors:');
     for (const error of results.errors) {
       console.log(`    - ${error}`);
@@ -1520,7 +1564,8 @@ async function compile() {
     process.exit(1);
   }
 
-  console.log('  Schema compilation completed successfully!\n');
+  // Minimal success message
+  console.log(`✅ Schema compilation: ${results.files.length} files generated (${elapsed}ms)\n`);
   return results;
 }
 

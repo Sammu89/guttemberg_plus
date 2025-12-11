@@ -291,13 +291,7 @@ function activateTab( block, index ) {
 		tabPanels[ index ].removeAttribute( 'hidden' );
 		tabPanels[ index ].style.display = '';
 		tabPanels[ index ].classList.add( 'active' );
-
-		// Animate panel appearance
-		try {
-			animatePanelIn( tabPanels[ index ] );
-		} catch ( error ) {
-			console.error( 'Failed to animate panel:', error );
-		}
+		// CSS animation handles the fade-in via .active class (no JS animation needed)
 	}
 }
 

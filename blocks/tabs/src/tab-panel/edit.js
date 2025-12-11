@@ -53,7 +53,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	return (
 		<div { ...blockProps }>
-			<div className="tab-panel-content">
+			<div className="tab-panel-content" style={ { padding: '1.5rem' } }>
 				<InnerBlocks
 					templateLock={ false }
 					placeholder={ __( 'Add tab content…', 'guttemberg-plus' ) }

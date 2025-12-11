@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-12-11T00:40:02.269Z
+ * Generated at: 2025-12-11T22:17:12.189Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -53,6 +53,7 @@ $mappings = array(
     'tabs' => array(
       'iconColor' => array( 'cssVar' => 'tabs-icon-color', 'unit' => null, 'type' => 'string' ),
       'iconSize' => array( 'cssVar' => 'tabs-icon-size', 'unit' => 'px', 'type' => 'number' ),
+      'iconRotation' => array( 'cssVar' => 'tabs-icon-rotation', 'unit' => 'deg', 'type' => 'number' ),
       'tabButtonColor' => array( 'cssVar' => 'tabs-button-color', 'unit' => null, 'type' => 'string' ),
       'tabButtonBackgroundColor' => array( 'cssVar' => 'tabs-button-bg', 'unit' => null, 'type' => 'string' ),
       'tabButtonHoverColor' => array( 'cssVar' => 'tabs-button-hover-color', 'unit' => null, 'type' => 'string' ),
@@ -61,6 +62,7 @@ $mappings = array(
       'tabButtonActiveBackgroundColor' => array( 'cssVar' => 'tabs-button-active-bg', 'unit' => null, 'type' => 'string' ),
       'tabButtonActiveBorderColor' => array( 'cssVar' => 'tabs-button-active-border-color', 'unit' => null, 'type' => 'string' ),
       'tabButtonActiveBorderBottomColor' => array( 'cssVar' => 'tabs-button-active-border-bottom-color', 'unit' => null, 'type' => 'string' ),
+      'tabButtonActiveFontWeight' => array( 'cssVar' => 'tabs-button-active-font-weight', 'unit' => null, 'type' => 'string' ),
       'tabButtonBorderColor' => array( 'cssVar' => 'tabs-button-border-color', 'unit' => null, 'type' => 'string' ),
       'tabButtonBorderWidth' => array( 'cssVar' => 'tabs-button-border-width', 'unit' => 'px', 'type' => 'number' ),
       'tabButtonBorderStyle' => array( 'cssVar' => 'tabs-button-border-style', 'unit' => null, 'type' => 'string' ),

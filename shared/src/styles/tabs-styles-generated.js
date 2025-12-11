@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-11T00:40:02.266Z
+ * Generated at: 2025-12-11T22:17:12.181Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -39,6 +39,9 @@ export function buildEditorStyles(values) {
     if (values.iconSize !== undefined && values.iconSize !== null) {
       styles.default.fontSize = `${values.iconSize}px`;
     }
+    if (values.iconRotation !== undefined && values.iconRotation !== null) {
+      styles.default.transform = `${values.iconRotation}deg`;
+    }
     if (values.tabButtonColor !== undefined && values.tabButtonColor !== null) {
       styles.default.color = values.tabButtonColor;
     }
@@ -62,6 +65,9 @@ export function buildEditorStyles(values) {
     }
     if (values.tabButtonActiveBorderBottomColor !== undefined && values.tabButtonActiveBorderBottomColor !== null) {
       styles.default.borderBottomColor = values.tabButtonActiveBorderBottomColor;
+    }
+    if (values.tabButtonActiveFontWeight !== undefined && values.tabButtonActiveFontWeight !== null) {
+      styles.default.fontWeight = values.tabButtonActiveFontWeight;
     }
     if (values.tabButtonBorderColor !== undefined && values.tabButtonBorderColor !== null) {
       styles.default.borderColor = values.tabButtonBorderColor;
@@ -190,6 +196,10 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-icon-size'] = `${customizations.iconSize}px`;
   }
 
+  if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
+    styles['--tabs-icon-rotation'] = `${customizations.iconRotation}deg`;
+  }
+
   if (customizations.tabButtonColor !== undefined && customizations.tabButtonColor !== null) {
     styles['--tabs-button-color'] = customizations.tabButtonColor;
   }
@@ -220,6 +230,10 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.tabButtonActiveBorderBottomColor !== undefined && customizations.tabButtonActiveBorderBottomColor !== null) {
     styles['--tabs-button-active-border-bottom-color'] = customizations.tabButtonActiveBorderBottomColor;
+  }
+
+  if (customizations.tabButtonActiveFontWeight !== undefined && customizations.tabButtonActiveFontWeight !== null) {
+    styles['--tabs-button-active-font-weight'] = customizations.tabButtonActiveFontWeight;
   }
 
   if (customizations.tabButtonBorderColor !== undefined && customizations.tabButtonBorderColor !== null) {

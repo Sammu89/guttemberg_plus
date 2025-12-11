@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-11T00:40:02.264Z
+ * Generated at: 2025-12-11T22:17:12.178Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -20,6 +20,7 @@ import { z } from 'zod';
 export const tabsThemeSchema = z.object({
   iconColor: z.string(),
   iconSize: z.number(),
+  iconRotation: z.number(),
   tabButtonColor: z.string(),
   tabButtonBackgroundColor: z.string(),
   tabButtonHoverColor: z.string(),
@@ -28,6 +29,7 @@ export const tabsThemeSchema = z.object({
   tabButtonActiveBackgroundColor: z.string(),
   tabButtonActiveBorderColor: z.string(),
   tabButtonActiveBorderBottomColor: z.string(),
+  tabButtonActiveFontWeight: z.string(),
   tabButtonBorderColor: z.string(),
   tabButtonBorderWidth: z.number(),
   tabButtonBorderStyle: z.string(),
@@ -93,6 +95,7 @@ export const tabsAttributesSchema = z.object({
   tabButtonActiveBackgroundColor: z.string(),
   tabButtonActiveBorderColor: z.string(),
   tabButtonActiveBorderBottomColor: z.string(),
+  tabButtonActiveFontWeight: z.string(),
   tabButtonBorderColor: z.string(),
   tabButtonBorderWidth: z.number(),
   tabButtonBorderStyle: z.string(),

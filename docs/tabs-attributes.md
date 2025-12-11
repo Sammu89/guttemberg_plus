@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-11T00:40:02.266Z
+> Generated at: 2025-12-11T22:17:12.180Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -46,7 +46,7 @@ Icon appearance and styling
 | `iconSize` | number | `16` | Yes | Size of the icon in pixels |
 | `iconTypeClosed` | string | `▾` | No (N/A) | Icon when tab is closed (char or image URL) |
 | `iconTypeOpen` | string | `none` | No (N/A) | Icon when tab is open (none = use closed icon with rotation) |
-| `iconRotation` | number | `180` | No (N/A) | Rotation angle when open (degrees) |
+| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
 ## Button Colors
 
@@ -76,6 +76,7 @@ Tab button colors for active/selected state
 | `tabButtonActiveBackgroundColor` | string | `#ffffff` | Yes | Background color for active/selected tab |
 | `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
 | `tabButtonActiveBorderBottomColor` | string | `#ffffff` | Yes | Bottom border color for active tab (creates connected effect) |
+| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
 
 ## Button Borders
 
@@ -102,7 +103,7 @@ Individual button borders and navigation bar divider borders adjacent to content
 | `focusBorderWidth` | number | `2` | Yes | Width of button edge adjacent to content |
 | `focusBorderStyle` | string | `solid` | Yes | Style of button edge adjacent to content |
 | `enableDividerBorder` | boolean | `false` | No (N/A) | Enable or disable divider border settings for navigation bar |
-| `dividerBorderColor` | string | `#dddddd` | Yes | Color of navbar border adjacent to content |
+| `dividerBorderColor` | string | `transparent` | Yes | Color of navbar border adjacent to content |
 | `dividerBorderWidth` | number | `1` | Yes | Width of navbar border adjacent to content |
 | `dividerBorderStyle` | string | `solid` | Yes | Style of navbar border adjacent to content |
 
@@ -162,6 +163,7 @@ The following CSS custom properties are available for theming:
 |-----------|-------------|
 | `iconColor` | `--tabs-icon-color` |
 | `iconSize` | `--tabs-icon-size` |
+| `iconRotation` | `--tabs-icon-rotation` |
 | `tabButtonColor` | `--tabs-button-color` |
 | `tabButtonBackgroundColor` | `--tabs-button-bg` |
 | `tabButtonHoverColor` | `--tabs-button-hover-color` |
@@ -170,6 +172,7 @@ The following CSS custom properties are available for theming:
 | `tabButtonActiveBackgroundColor` | `--tabs-button-active-bg` |
 | `tabButtonActiveBorderColor` | `--tabs-button-active-border-color` |
 | `tabButtonActiveBorderBottomColor` | `--tabs-button-active-border-bottom-color` |
+| `tabButtonActiveFontWeight` | `--tabs-button-active-font-weight` |
 | `tabButtonBorderColor` | `--tabs-button-border-color` |
 | `tabButtonBorderWidth` | `--tabs-button-border-width` |
 | `tabButtonBorderStyle` | `--tabs-button-border-style` |

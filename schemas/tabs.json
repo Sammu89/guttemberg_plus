@@ -277,7 +277,6 @@
       "description": "Color of the tab icon",
       "themeable": true,
       "control": "ColorPicker",
-      "state": "base",
       "order": 14,
       "appliesTo": "tabIcon",
       "cssProperty": "color"
@@ -333,7 +332,7 @@
       "group": "icon",
       "label": "Icon Rotation",
       "description": "Rotation angle when open (degrees)",
-      "themeable": false,
+      "themeable": true,
       
       "control": "RangeControl",
       "min": -360,
@@ -352,7 +351,7 @@
       "description": "Text color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
-      "state": "base",
+      "needsMapping": true,
       "order": 1,
       "appliesTo": "tabButton",
       "cssProperty": "color"
@@ -366,7 +365,6 @@
       "description": "Background color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
-      "state": "base",
       "order": 2,
       "appliesTo": "tabButton",
       "cssProperty": "background-color"
@@ -455,6 +453,67 @@
       "appliesTo": "tabButton",
       "cssProperty": "border-bottom-color"
     },
+    "tabButtonActiveFontWeight": {
+      "type": "string",
+      "default": "bold",
+      "cssVar": "tabs-button-active-font-weight",
+      "group": "buttonActive",
+      "label": "Tab Button Active Font Weight",
+      "description": "Font weight for active/selected tab button",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
+      ],
+      "needsMapping": true,
+      "state": "active",
+      "order": 5,
+      "appliesTo": "tabButton",
+      "cssProperty": "font-weight"
+    },
     "tabButtonBorderColor": {
       "type": "string",
       "default": "#dddddd",
@@ -464,7 +523,6 @@
       "description": "Border color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
-      "state": "base",
       "order": 1,
       "appliesTo": "tabButton",
       "cssProperty": "border-color"
@@ -548,7 +606,6 @@
       "description": "Box shadow for tab buttons",
       "themeable": true,
       "control": "TextControl",
-      "state": "base",
       "order": 5,
       "appliesTo": "tabButton",
       "cssProperty": "box-shadow"
@@ -966,10 +1023,10 @@
     "panelBorderRadius": {
       "type": "object",
       "default": {
-        "topLeft": 0,
-        "topRight": 0,
-        "bottomRight": 0,
-        "bottomLeft": 0
+        "topLeft": 4,
+        "topRight": 4,
+        "bottomRight": 4,
+        "bottomLeft": 4
       },
       "cssVar": "tabs-panel-border-radius",
       "group": "content",
@@ -1074,7 +1131,6 @@
       "description": "Box shadow for main wrapper",
       "themeable": true,
       "control": "TextControl",
-      "state": "base",
       "order": 5,
       "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
@@ -1109,7 +1165,7 @@
     },
     "dividerBorderColor": {
       "type": "string",
-      "default": "#dddddd",
+      "default": "transparent",
       "cssVar": "tabs-divider-border-color",
       "group": "specialBorders",
       "label": "Divider Border Color",

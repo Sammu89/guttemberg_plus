@@ -137,7 +137,7 @@
 	color: var(--tabs-icon-color);
 	font-size: var(--tabs-icon-size);
 	margin-right: 0.5rem;
-	transition: transform var(--tabs-icon-animation-duration) ease;
+	transition: transform 300ms ease, opacity 300ms ease;
 
 	/* Icon rotation (for open/close states, controlled via JS) */
 	&.is-rotated {
@@ -149,6 +149,7 @@
 		width: var(--tabs-icon-size);
 		height: var(--tabs-icon-size);
 		object-fit: contain;
+		transition: opacity 300ms ease;
 	}
 }
 

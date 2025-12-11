@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-11T00:40:02.265Z
+ * Generated at: 2025-12-11T22:17:12.179Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 return array(
   'iconColor' => '#666666',
   'iconSize' => '16',
+  'iconRotation' => '180',
   'tabButtonColor' => '#666666',
   'tabButtonBackgroundColor' => '#f5f5f5',
   'tabButtonHoverColor' => '#333333',
@@ -29,6 +30,7 @@ return array(
   'tabButtonActiveBackgroundColor' => '#ffffff',
   'tabButtonActiveBorderColor' => '#dddddd',
   'tabButtonActiveBorderBottomColor' => '#ffffff',
+  'tabButtonActiveFontWeight' => 'bold',
   'tabButtonBorderColor' => '#dddddd',
   'tabButtonBorderWidth' => '1',
   'tabButtonBorderStyle' => 'solid',
@@ -56,7 +58,7 @@ return array(
   'borderStyle' => 'solid',
   'shadow' => 'none',
   'shadowHover' => 'none',
-  'dividerBorderColor' => '#dddddd',
+  'dividerBorderColor' => 'transparent',
   'dividerBorderWidth' => '1',
   'dividerBorderStyle' => 'solid',
 );
