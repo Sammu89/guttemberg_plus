@@ -146,10 +146,10 @@ const getInlineStyles = () => {
 		    "bottomLeft": 0
 		};
 	const panelBorderRadius = effectiveValues.panelBorderRadius || {
-		    "topLeft": 0,
-		    "topRight": 0,
-		    "bottomRight": 0,
-		    "bottomLeft": 0
+		    "topLeft": 4,
+		    "topRight": 4,
+		    "bottomRight": 4,
+		    "bottomLeft": 4
 		};
 	const borderRadius = effectiveValues.borderRadius || {
 		    "topLeft": 0,
@@ -169,11 +169,12 @@ const getInlineStyles = () => {
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
 			fontSize: `${effectiveValues.iconSize || 16}px`,
+			transform: `${effectiveValues.iconRotation || 180}deg`,
 		},
 		tabList: {
 			backgroundColor: effectiveValues.tabListBackgroundColor || 'transparent',
 			justifyContent: effectiveValues.tabListAlignment || 'left',
-			borderColor: effectiveValues.dividerBorderColor || '#dddddd',
+			borderColor: effectiveValues.dividerBorderColor || 'transparent',
 			borderWidth: `${effectiveValues.dividerBorderWidth || 1}px`,
 			borderStyle: effectiveValues.dividerBorderStyle || 'solid',
 		},
@@ -213,6 +214,7 @@ const getInlineStyles = () => {
 				backgroundColor: effectiveValues.tabButtonActiveBackgroundColor,
 				borderColor: effectiveValues.tabButtonActiveBorderColor,
 				borderBottomColor: effectiveValues.tabButtonActiveBorderBottomColor,
+				fontWeight: effectiveValues.tabButtonActiveFontWeight,
 			};
 		}
 

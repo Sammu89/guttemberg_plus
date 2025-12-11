@@ -254,19 +254,14 @@ function validateFile(filePath, schemas) {
 
 // Main validation function
 function validateSchemaUsage() {
-	console.log(`${colors.bold}${colors.cyan}🔍 Schema Usage Validation${colors.reset}`);
-	console.log('═'.repeat(50));
-	console.log('');
-
 	// Load schemas
 	const schemas = loadSchemas();
-	console.log(`${colors.green}✓ Schemas loaded:${colors.reset} ${Object.keys(schemas).join(', ')}`);
-	console.log('');
 
 	let totalViolations = 0;
 	let totalValidReferences = 0;
 	let filesWithIssues = 0;
 	let filesScanned = 0;
+	const fileViolations = [];
 
 	// Validate each file
 	for (const filePath of FILES_TO_SCAN) {
@@ -279,47 +274,33 @@ function validateSchemaUsage() {
 		filesScanned++;
 		totalValidReferences += result.validReferences;
 
-		console.log(`${colors.gray}Scanning:${colors.reset} ${filePath}`);
-
-		if (result.valid) {
-			console.log(`${colors.green}✓ No issues found${colors.reset}`);
-		} else {
+		if (!result.valid) {
 			filesWithIssues++;
 			totalViolations += result.violations.length;
+			fileViolations.push({ filePath, violations: result.violations });
+		}
+	}
 
-			for (const violation of result.violations) {
-				console.log(`${colors.red}✗ Line ${violation.line}: ${colors.yellow}${violation.attribute}${colors.red} (not in schema)${colors.reset}`);
+	// Output - only if there are issues
+	if (totalViolations > 0) {
+		console.log(`\n${colors.red}${colors.bold}Schema Usage Validation FAILED${colors.reset}`);
+		console.log('');
 
+		for (const { filePath, violations } of fileViolations) {
+			console.log(`${colors.yellow}${filePath}:${colors.reset}`);
+			for (const violation of violations) {
+				console.log(`  ${colors.red}Line ${violation.line}: ${violation.attribute}${colors.reset}`);
 				if (violation.suggestions.length > 0) {
-					console.log(`   ${colors.gray}Did you mean: ${colors.cyan}${violation.suggestions.join(', ')}${colors.gray}?${colors.reset}`);
-				}
-
-				if (violation.context.length < 100) {
-					console.log(`   ${colors.gray}${violation.context}${colors.reset}`);
+					console.log(`    ${colors.gray}Did you mean: ${violation.suggestions.join(', ')}?${colors.reset}`);
 				}
 			}
 		}
 
 		console.log('');
-	}
-
-	// Summary
-	console.log('═'.repeat(50));
-	console.log(`${colors.bold}SUMMARY:${colors.reset}`);
-
-	if (totalViolations > 0) {
-		console.log(`${colors.red}✗ ${totalViolations} invalid attribute reference${totalViolations === 1 ? '' : 's'} found${colors.reset}`);
-		console.log(`${colors.green}✓ ${totalValidReferences} valid attribute reference${totalValidReferences === 1 ? '' : 's'}${colors.reset}`);
-		console.log(`${colors.yellow}Files with issues: ${filesWithIssues}/${filesScanned}${colors.reset}`);
-		console.log('');
-		console.log(`${colors.red}${colors.bold}BUILD FAILED${colors.reset} - Fix attribute names to match schema`);
+		console.log(`${colors.red}✗ ${totalViolations} invalid reference${totalViolations === 1 ? '' : 's'} in ${filesWithIssues} file${filesWithIssues === 1 ? '' : 's'}${colors.reset}`);
 		process.exit(1);
 	} else {
-		console.log(`${colors.green}✓ ${totalValidReferences} valid attribute reference${totalValidReferences === 1 ? '' : 's'}${colors.reset}`);
-		console.log(`${colors.green}✓ All files validated successfully${colors.reset}`);
-		console.log(`${colors.gray}Files scanned: ${filesScanned}${colors.reset}`);
-		console.log('');
-		console.log(`${colors.green}${colors.bold}BUILD PASSED${colors.reset}`);
+		console.log(`${colors.green}✅ Schema usage: ${totalValidReferences} valid references in ${filesScanned} files${colors.reset}`);
 		process.exit(0);
 	}
 }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-11T00:40:02.270Z
+ * Generated at: 2025-12-11T22:17:12.191Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -59,6 +59,7 @@ export const CSS_VAR_MAPPINGS = {
   tabs: {
     iconColor: { cssVar: '--tabs-icon-color', unit: null, type: 'string' },
     iconSize: { cssVar: '--tabs-icon-size', unit: 'px', type: 'number' },
+    iconRotation: { cssVar: '--tabs-icon-rotation', unit: 'deg', type: 'number' },
     tabButtonColor: { cssVar: '--tabs-button-color', unit: null, type: 'string' },
     tabButtonBackgroundColor: { cssVar: '--tabs-button-bg', unit: null, type: 'string' },
     tabButtonHoverColor: { cssVar: '--tabs-button-hover-color', unit: null, type: 'string' },
@@ -67,6 +68,7 @@ export const CSS_VAR_MAPPINGS = {
     tabButtonActiveBackgroundColor: { cssVar: '--tabs-button-active-bg', unit: null, type: 'string' },
     tabButtonActiveBorderColor: { cssVar: '--tabs-button-active-border-color', unit: null, type: 'string' },
     tabButtonActiveBorderBottomColor: { cssVar: '--tabs-button-active-border-bottom-color', unit: null, type: 'string' },
+    tabButtonActiveFontWeight: { cssVar: '--tabs-button-active-font-weight', unit: null, type: 'string' },
     tabButtonBorderColor: { cssVar: '--tabs-button-border-color', unit: null, type: 'string' },
     tabButtonBorderWidth: { cssVar: '--tabs-button-border-width', unit: 'px', type: 'number' },
     tabButtonBorderStyle: { cssVar: '--tabs-button-border-style', unit: null, type: 'string' },

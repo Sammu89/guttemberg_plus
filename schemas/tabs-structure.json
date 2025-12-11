@@ -90,6 +90,7 @@
         "tabButtonActiveBackgroundColor",
         "tabButtonActiveBorderColor",
         "tabButtonActiveBorderBottomColor",
+        "tabButtonActiveFontWeight",
         "tabButtonBorderColor",
         "tabButtonBorderWidth",
         "tabButtonBorderStyle",
@@ -137,7 +138,8 @@
       },
       "appliesStyles": [
         "iconColor",
-        "iconSize"
+        "iconSize",
+        "iconRotation"
       ]
     },
 

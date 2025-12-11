@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-11T00:40:02.271Z
+ * Generated at: 2025-12-11T22:17:12.192Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -628,6 +628,58 @@ const CONTROL_CONFIGS = {
       description: 'Bottom border color for active tab (creates connected effect)',
       default: '#ffffff',
     },
+    'tabButtonActiveFontWeight': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "100",
+                      "value": "100"
+              },
+              {
+                      "label": "200",
+                      "value": "200"
+              },
+              {
+                      "label": "300",
+                      "value": "300"
+              },
+              {
+                      "label": "400",
+                      "value": "400"
+              },
+              {
+                      "label": "500",
+                      "value": "500"
+              },
+              {
+                      "label": "600",
+                      "value": "600"
+              },
+              {
+                      "label": "700",
+                      "value": "700"
+              },
+              {
+                      "label": "800",
+                      "value": "800"
+              },
+              {
+                      "label": "900",
+                      "value": "900"
+              },
+              {
+                      "label": "Normal",
+                      "value": "normal"
+              },
+              {
+                      "label": "Bold",
+                      "value": "bold"
+              }
+      ],
+      label: 'Tab Button Active Font Weight',
+      description: 'Font weight for active/selected tab button',
+      default: 'bold',
+    },
     'tabButtonBorderColor': {
       control: 'ColorPicker',
       label: 'Border Color',
@@ -1033,7 +1085,7 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Divider Border Color',
       description: 'Color of navbar border adjacent to content',
-      default: '#dddddd',
+      default: 'transparent',
     },
     'dividerBorderWidth': {
       control: 'RangeControl',

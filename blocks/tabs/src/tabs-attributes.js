@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-11T00:40:02.265Z
+ * Generated at: 2025-12-11T22:17:12.178Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -123,6 +123,10 @@ export const tabsAttributes = {
     type: 'string',
     default: '#ffffff',
   },
+  tabButtonActiveFontWeight: {
+    type: 'string',
+    default: 'bold',
+  },
   tabButtonBorderColor: {
     type: 'string',
     default: '#dddddd',
@@ -221,7 +225,7 @@ export const tabsAttributes = {
   },
   panelBorderRadius: {
     type: 'object',
-    default: {"topLeft":0,"topRight":0,"bottomRight":0,"bottomLeft":0},
+    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
   },
   borderColor: {
     type: 'string',
@@ -253,7 +257,7 @@ export const tabsAttributes = {
   },
   dividerBorderColor: {
     type: 'string',
-    default: '#dddddd',
+    default: 'transparent',
   },
   dividerBorderWidth: {
     type: 'number',

@@ -322,7 +322,6 @@
       "description": "Text color for the TOC title",
       "themeable": true,
       "control": "ColorPicker",
-      "state": "base",
       "order": 21,
       "appliesTo": "titleStatic",
       "cssProperty": "color"
@@ -336,7 +335,6 @@
       "description": "Background color for the TOC title",
       "themeable": true,
       "control": "ColorPicker",
-      "state": "base",
       "order": 22,
       "appliesTo": "titleStatic",
       "cssProperty": "background-color"
@@ -350,7 +348,6 @@
       "description": "Default color for TOC links",
       "themeable": true,
       "control": "ColorPicker",
-      "state": "base",
       "order": 23,
       "appliesTo": "link",
       "cssProperty": "color"
@@ -1172,7 +1169,6 @@
       "description": "CSS box-shadow for the wrapper",
       "themeable": true,
       "control": "TextControl",
-      "state": "base",
       "order": 54,
       "appliesTo": "wrapper",
       "cssProperty": "box-shadow"

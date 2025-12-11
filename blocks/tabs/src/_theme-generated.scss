@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-11T00:40:02.277Z
+ * Generated at: 2025-12-11T22:17:12.220Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
@@ -12,6 +12,8 @@
   color: var(--tabs-icon-color, #666666);
   /* Size of the icon in pixels */
   font-size: var(--tabs-icon-size, 16px);
+  /* Rotation angle when open (degrees) */
+  transform: var(--tabs-icon-rotation, 180deg);
 }
 
 .tab-button {
@@ -61,6 +63,8 @@
     border-color: var(--tabs-button-active-border-color, #dddddd);
     /* Bottom border color for active tab (creates connected effect) */
     border-bottom-color: var(--tabs-button-active-border-bottom-color, #ffffff);
+    /* Font weight for active/selected tab button */
+    font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for active button edge adjacent to content */
     border-color: var(--tabs-focus-border-color-active, #ffffff);
   }
@@ -82,7 +86,7 @@
   /* Horizontal alignment of tabs */
   justify-content: var(--tabs-list-align, left);
   /* Color of navbar border adjacent to content */
-  border-color: var(--tabs-divider-border-color, #dddddd);
+  border-color: var(--tabs-divider-border-color, transparent);
   /* Width of navbar border adjacent to content */
   border-width: var(--tabs-divider-border-width, 1px);
   /* Style of navbar border adjacent to content */
@@ -101,7 +105,7 @@
   /* Border style for tab content panel */
   border-style: var(--tabs-panel-border-style, solid);
   /* Corner radius for tab content panel */
-  border-radius: var(--tabs-panel-border-radius, 0px 0px 0px 0px);
+  border-radius: var(--tabs-panel-border-radius, 4px 4px 4px 4px);
 }
 
 .wp-block-tabs {

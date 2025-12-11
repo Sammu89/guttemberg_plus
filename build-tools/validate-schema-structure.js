@@ -106,9 +106,6 @@ function detectCircularDependency(elements, startId, visited = new Set(), path =
  * @returns {boolean} True if validation passed
  */
 function validateBlock(blockType) {
-  console.log(`\n${'='.repeat(60)}`);
-  console.log(`🔍 Validating ${blockType} schemas...`);
-  console.log(`${'='.repeat(60)}\n`);
 
   const basePath = path.join(__dirname, '..');
   const structurePath = path.join(basePath, `schemas/${blockType}-structure.json`);
@@ -139,7 +136,6 @@ function validateBlock(blockType) {
   // ========================================
   // VALIDATION 1: Structure Schema Integrity
   // ========================================
-  console.log('📋 Phase 1: Validating structure schema integrity...\n');
 
   // Check for root element
   if (!structure.root) {
@@ -201,7 +197,6 @@ function validateBlock(blockType) {
   // ========================================
   // VALIDATION 2: Attribute Schema Integrity
   // ========================================
-  console.log('📋 Phase 2: Validating attribute schema integrity...\n');
 
   if (!attributes.attributes) {
     errors.push(
@@ -250,7 +245,6 @@ function validateBlock(blockType) {
   // ========================================
   // VALIDATION 3: Cross-Schema References (Attributes → Structure)
   // ========================================
-  console.log('📋 Phase 3: Validating attribute → structure references...\n');
 
   if (attributes.attributes) {
     Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
@@ -276,7 +270,6 @@ function validateBlock(blockType) {
   // ========================================
   // VALIDATION 4: Cross-Schema References (Structure → Attributes)
   // ========================================
-  console.log('📋 Phase 4: Validating structure → attribute references...\n');
 
   const attributeNames = attributes.attributes ? Object.keys(attributes.attributes) : [];
 
@@ -303,7 +296,6 @@ function validateBlock(blockType) {
   // ========================================
   // VALIDATION 5: Bidirectional Consistency
   // ========================================
-  console.log('📋 Phase 5: Validating bidirectional consistency...\n');
 
   if (attributes.attributes) {
     Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
@@ -417,32 +409,30 @@ function levenshteinDistance(a, b) {
  * @returns {boolean} True if validation passed (no errors)
  */
 function reportResults(blockType, errors, warnings) {
-  console.log(`${'─'.repeat(60)}\n`);
+  // Only output details if there are errors or warnings
+  if (errors.length > 0) {
+    console.log(`\n❌ ${blockType}: FAILED (${errors.length} error${errors.length > 1 ? 's' : ''})`);
+    errors.forEach((err, index) => {
+      console.error(`   ${index + 1}. ${err}\n`);
+    });
+    return false;
+  }
 
   if (warnings.length > 0) {
-    console.log(`⚠️  Warnings (${warnings.length}):\n`);
-    warnings.forEach((warn, index) => {
-      console.log(`${index + 1}. ${warn}\n`);
-    });
-    console.log(`${'─'.repeat(60)}\n`);
+    console.log(`⚠️  ${blockType}: ${warnings.length} warning${warnings.length > 1 ? 's' : ''}`);
+    // Only show first 3 warnings to avoid spam, mention total
+    const showCount = Math.min(3, warnings.length);
+    for (let i = 0; i < showCount; i++) {
+      // Truncate long warnings
+      const shortWarn = warnings[i].split('\n')[0];
+      console.log(`   - ${shortWarn}`);
+    }
+    if (warnings.length > showCount) {
+      console.log(`   ... and ${warnings.length - showCount} more`);
+    }
   }
 
-  if (errors.length > 0) {
-    console.error(`❌ Validation FAILED (${errors.length} error${errors.length > 1 ? 's' : ''}):\n`);
-    errors.forEach((err, index) => {
-      console.error(`${index + 1}. ${err}\n`);
-    });
-    console.error(`${'─'.repeat(60)}\n`);
-    console.error(`❌ ${blockType}: FAILED\n`);
-    return false;
-  } else {
-    console.log(`✅ ${blockType}: All validations PASSED!`);
-    if (warnings.length > 0) {
-      console.log(`   (with ${warnings.length} warning${warnings.length > 1 ? 's' : ''})`);
-    }
-    console.log();
-    return true;
-  }
+  return true;
 }
 
 /**
@@ -471,10 +461,7 @@ function printSummary(results) {
 // MAIN EXECUTION
 // ========================================
 
-console.log('\n' + '█'.repeat(60));
-console.log('█  CROSS-SCHEMA VALIDATION                                 █');
-console.log('█  Validating structure ↔ attribute schema consistency     █');
-console.log('█'.repeat(60));
+console.log('\n📋 Cross-Schema Validation\n');
 
 const results = [];
 let allValid = true;
@@ -487,14 +474,15 @@ BLOCKS.forEach(blockType => {
   }
 });
 
-printSummary(results);
+// Only print summary, not individual results (unless there are warnings/errors)
+const passed = results.filter(r => r.passed).length;
+const failed = results.filter(r => !r.passed).length;
 
 if (!allValid) {
-  console.error('❌ Schema validation FAILED for one or more blocks!');
-  console.error('   Please fix the errors above before proceeding.\n');
+  printSummary(results);
+  console.error('❌ Schema validation FAILED!');
   process.exit(1);
 } else {
-  console.log('✅ All schema validations PASSED!');
-  console.log('   Structure and attribute schemas are fully synchronized.\n');
+  console.log(`✅ All ${passed} schemas validated successfully\n`);
   process.exit(0);
 }

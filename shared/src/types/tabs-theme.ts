@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-11T00:40:02.264Z
+ * Generated at: 2025-12-11T22:17:12.175Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,6 +21,8 @@ export interface TabsTheme {
   iconColor?: string;
   /** Size of the icon in pixels */
   iconSize?: number;
+  /** Rotation angle when open (degrees) */
+  iconRotation?: number;
   /** Text color for inactive tab buttons */
   tabButtonColor?: string;
   /** Background color for inactive tab buttons */
@@ -37,6 +39,8 @@ export interface TabsTheme {
   tabButtonActiveBorderColor?: string;
   /** Bottom border color for active tab (creates connected effect) */
   tabButtonActiveBorderBottomColor?: string;
+  /** Font weight for active/selected tab button */
+  tabButtonActiveFontWeight?: string;
   /** Border color for inactive tab buttons */
   tabButtonBorderColor?: string;
   /** Border width for tab buttons */
@@ -111,6 +115,7 @@ export interface TabsTheme {
 export const tabsDefaultTheme: TabsTheme = {
   iconColor: '#666666',
   iconSize: 16,
+  iconRotation: 180,
   tabButtonColor: '#666666',
   tabButtonBackgroundColor: '#f5f5f5',
   tabButtonHoverColor: '#333333',
@@ -119,6 +124,7 @@ export const tabsDefaultTheme: TabsTheme = {
   tabButtonActiveBackgroundColor: '#ffffff',
   tabButtonActiveBorderColor: '#dddddd',
   tabButtonActiveBorderBottomColor: '#ffffff',
+  tabButtonActiveFontWeight: 'bold',
   tabButtonBorderColor: '#dddddd',
   tabButtonBorderWidth: 1,
   tabButtonBorderStyle: 'solid',
@@ -148,10 +154,10 @@ export const tabsDefaultTheme: TabsTheme = {
   panelBorderWidth: 1,
   panelBorderStyle: 'solid',
   panelBorderRadius: {
-    "topLeft": 0,
-    "topRight": 0,
-    "bottomRight": 0,
-    "bottomLeft": 0
+    "topLeft": 4,
+    "topRight": 4,
+    "bottomRight": 4,
+    "bottomLeft": 4
   },
   borderColor: '#dddddd',
   borderWidth: 0,
@@ -164,7 +170,7 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   shadow: 'none',
   shadowHover: 'none',
-  dividerBorderColor: '#dddddd',
+  dividerBorderColor: 'transparent',
   dividerBorderWidth: 1,
   dividerBorderStyle: 'solid',
 };
@@ -199,6 +205,7 @@ export interface TabsThemeAttributes {
   tabButtonActiveBackgroundColor?: string;
   tabButtonActiveBorderColor?: string;
   tabButtonActiveBorderBottomColor?: string;
+  tabButtonActiveFontWeight?: string;
   tabButtonBorderColor?: string;
   tabButtonBorderWidth?: number;
   tabButtonBorderStyle?: string;
