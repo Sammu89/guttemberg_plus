@@ -4,6 +4,8 @@
 
 **Status:** Ready for execution
 
+Also read for context: SCHEMA_GUIDE.md and MARKER-SYSTEM-SUMMARY.md
+
 ---
 
 ## 🎯 Overview
