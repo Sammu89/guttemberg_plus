@@ -246,23 +246,33 @@ function validateBlock(blockType) {
   // VALIDATION 3: Cross-Schema References (Attributes → Structure)
   // ========================================
 
+  // Helper to normalize appliesTo to array (also used in Validation 5)
+  const normalizeAppliesTo = (appliesTo) => {
+    if (!appliesTo) return [];
+    return Array.isArray(appliesTo) ? appliesTo : [appliesTo];
+  };
+
   if (attributes.attributes) {
     Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
       if (attr.appliesTo) {
-        if (!elements.has(attr.appliesTo)) {
-          const similarElements = findSimilarElementIds(attr.appliesTo, elements);
-          let suggestion = '';
-          if (similarElements.length > 0) {
-            suggestion = `\n   Did you mean: ${similarElements.join(', ')}?`;
-          }
+        const appliesToElements = normalizeAppliesTo(attr.appliesTo);
 
-          errors.push(
-            `❌ Attribute "${attrName}" applies to element "${attr.appliesTo}" ` +
-            `but that element doesn't exist in structure!\n` +
-            `   Available elements: ${Array.from(elements.keys()).join(', ')}${suggestion}\n` +
-            `   Fix: Change "appliesTo" to a valid element ID or add the element to structure.`
-          );
-        }
+        appliesToElements.forEach(elementId => {
+          if (!elements.has(elementId)) {
+            const similarElements = findSimilarElementIds(elementId, elements);
+            let suggestion = '';
+            if (similarElements.length > 0) {
+              suggestion = `\n   Did you mean: ${similarElements.join(', ')}?`;
+            }
+
+            errors.push(
+              `❌ Attribute "${attrName}" applies to element "${elementId}" ` +
+              `but that element doesn't exist in structure!\n` +
+              `   Available elements: ${Array.from(elements.keys()).join(', ')}${suggestion}\n` +
+              `   Fix: Change "appliesTo" to a valid element ID or add the element to structure.`
+            );
+          }
+        });
       }
     });
   }
@@ -297,21 +307,27 @@ function validateBlock(blockType) {
   // VALIDATION 5: Bidirectional Consistency
   // ========================================
 
+  // normalizeAppliesTo is defined above in Validation 3
+
   if (attributes.attributes) {
     Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
       if (attr.themeable && attr.appliesTo) {
-        const element = elements.get(attr.appliesTo);
+        const appliesToElements = normalizeAppliesTo(attr.appliesTo);
 
-        if (element) {
-          if (!element.appliesStyles || !element.appliesStyles.includes(attrName)) {
-            warnings.push(
-              `⚠️  Attribute "${attrName}" applies to element "${attr.appliesTo}" ` +
-              `but "${attr.appliesTo}.appliesStyles" doesn't include "${attrName}"\n` +
-              `   This may cause the style not to be generated in CSS.\n` +
-              `   Fix: Add "${attrName}" to the appliesStyles array of element "${attr.appliesTo}"`
-            );
+        appliesToElements.forEach(elementId => {
+          const element = elements.get(elementId);
+
+          if (element) {
+            if (!element.appliesStyles || !element.appliesStyles.includes(attrName)) {
+              warnings.push(
+                `⚠️  Attribute "${attrName}" applies to element "${elementId}" ` +
+                `but "${elementId}.appliesStyles" doesn't include "${attrName}"\n` +
+                `   This may cause the style not to be generated in CSS.\n` +
+                `   Fix: Add "${attrName}" to the appliesStyles array of element "${elementId}"`
+              );
+            }
           }
-        }
+        });
       }
     });
   }
@@ -321,14 +337,17 @@ function validateBlock(blockType) {
     if (element.appliesStyles && attributes.attributes) {
       element.appliesStyles.forEach(attrName => {
         const attr = attributes.attributes[attrName];
-        if (attr && attr.appliesTo && attr.appliesTo !== id) {
-          warnings.push(
-            `⚠️  Element "${id}" lists "${attrName}" in appliesStyles ` +
-            `but "${attrName}.appliesTo" is "${attr.appliesTo}", not "${id}"\n` +
-            `   This creates inconsistent bidirectional references.\n` +
-            `   Fix: Either change "${attrName}.appliesTo" to "${id}" or ` +
-            `remove "${attrName}" from "${id}.appliesStyles"`
-          );
+        if (attr && attr.appliesTo) {
+          const appliesToElements = normalizeAppliesTo(attr.appliesTo);
+          if (!appliesToElements.includes(id)) {
+            warnings.push(
+              `⚠️  Element "${id}" lists "${attrName}" in appliesStyles ` +
+              `but "${attrName}.appliesTo" is "${attr.appliesTo}", not "${id}"\n` +
+              `   This creates inconsistent bidirectional references.\n` +
+              `   Fix: Either add "${id}" to "${attrName}.appliesTo" array or ` +
+              `remove "${attrName}" from "${id}.appliesStyles"`
+            );
+          }
         }
       });
     }

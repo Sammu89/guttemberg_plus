@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-11T22:17:12.180Z
+> Generated at: 2025-12-12T18:49:18.217Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -26,6 +26,7 @@ Behavioral and functional settings that control how tabs work
 | `blockId` | string | `` | No (structural) | Block-specific identification |
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
 | `tabs` | array | _object_ | No (content) | Array of tab items with title, content, and state |
+| `tabsData` | array | _object_ | No (structural) | Synchronized tab button data for server-side rendering |
 | `orientation` | string | `horizontal` | No (generalal) | Tab layout orientation |
 | `activationMode` | string | `auto` | No (generalal) | How tabs are activated (auto = focus, manual = click) |
 | `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |

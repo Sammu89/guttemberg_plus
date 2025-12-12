@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-11T22:17:12.170Z
+> Generated at: 2025-12-12T18:49:18.183Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -31,7 +31,6 @@ Non-themeable behavioral and structural settings
 | `initiallyOpen` | boolean | `false` | No (N/A) | Whether accordion is open on page load |
 | `accordionWidth` | string | `100%` | No (N/A) | Accordion container width (e.g., 100%, 500px) |
 | `accordionHorizontalAlign` | string | `left` | No (N/A) | Horizontal alignment of the accordion |
-| `useHeadingStyles` | boolean | `false` | No (N/A) | Apply default heading styles to title |
 
 ## Typography
 

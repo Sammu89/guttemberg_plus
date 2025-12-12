@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-11T22:17:12.166Z
+ * Generated at: 2025-12-12T18:49:18.172Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -58,10 +58,6 @@ export const accordionAttributes = {
   headingLevel: {
     type: 'string',
     default: 'none',
-  },
-  useHeadingStyles: {
-    type: 'boolean',
-    default: false,
   },
   titleColor: {
     type: 'string',

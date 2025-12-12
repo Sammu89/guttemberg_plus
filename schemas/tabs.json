@@ -132,7 +132,17 @@
       "description": "Array of tab items with title, content, and state",
       "themeable": false,
       "reason": "content",
-      "order": 4      
+      "order": 4
+    },
+    "tabsData": {
+      "type": "array",
+      "default": [],
+      "group": "behaviour",
+      "label": "Tabs Data",
+      "description": "Synchronized tab button data for server-side rendering",
+      "themeable": false,
+      "reason": "structural",
+      "order": 4.5
     },
     "orientation": {
       "type": "string",

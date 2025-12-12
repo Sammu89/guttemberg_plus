@@ -78,6 +78,23 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		}
 	}, [ activeTab, attributes.currentTab, setAttributes ] );
 
+	// Sync tabsData attribute with inner blocks for server-side button rendering
+	useEffect( () => {
+		const newTabsData = tabPanels.map( ( panel ) => ( {
+			tabId: panel.attributes.tabId || `tab-${ panel.clientId }`,
+			title: panel.attributes.title || '',
+			isDisabled: panel.attributes.isDisabled || false,
+		} ) );
+
+		// Only update if data actually changed (avoid infinite loops)
+		const currentJSON = JSON.stringify( attributes.tabsData || [] );
+		const newJSON = JSON.stringify( newTabsData );
+
+		if ( currentJSON !== newJSON ) {
+			setAttributes( { tabsData: newTabsData } );
+		}
+	}, [ tabPanels, attributes.tabsData, setAttributes ] );
+
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.tabsHorizontalAlign );
 
@@ -557,7 +574,7 @@ const getInlineStyles = () => {
 											}` }
 										>
 											<span className="tab-title" style={ { marginRight: '20px' } }>
-												{ effectiveValues.showIcon && renderIcon() }
+												{ effectiveValues.showIcon && effectiveValues.iconPosition === 'left' && renderIcon() }
 												<RichText
 													tagName="span"
 													value={ panel.attributes.title || `Tab ${ index + 1 }` }
@@ -565,6 +582,7 @@ const getInlineStyles = () => {
 													placeholder={ __( 'Tab title…', 'guttemberg-plus' ) }
 													keepPlaceholderOnFocus={ false }
 												/>
+												{ effectiveValues.showIcon && effectiveValues.iconPosition === 'right' && renderIcon() }
 											</span>
 											<div className="tab-actions" style={ {
 												display: 'flex',

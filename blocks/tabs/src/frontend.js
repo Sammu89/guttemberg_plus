@@ -54,96 +54,6 @@ function initializeTabs() {
 }
 
 /**
- * Generate tab buttons from tab panel data attributes
- *
- * Creates <button role="tab"> elements for each tab panel.
- * Each panel contains data-tab-title, data-tab-id, data-disabled.
- *
- * @param {HTMLElement} block Parent block element
- * @param {HTMLElement} tabList Tab list container
- * @param {NodeList} tabPanels Tab panel elements
- * @return {NodeList} Generated button elements
- */
-function generateTabButtons( block, tabList, tabPanels ) {
-	if ( ! tabList || ! tabPanels || tabPanels.length === 0 ) {
-		console.warn( 'Cannot generate tab buttons: missing tabList or tabPanels' );
-		return [];
-	}
-
-	// Clear existing buttons (in case of reinit)
-	tabList.innerHTML = '';
-
-	// Get current tab from data attribute (defaults to first tab)
-	const currentTab = parseInt( tabList.getAttribute( 'data-current-tab' ) || '0', 10 );
-
-	// Get icon settings from parent block
-	const showIcon = block.getAttribute( 'data-show-icon' ) === 'true';
-	const iconClosed = block.getAttribute( 'data-icon-closed' ) || '▾';
-	const iconOpen = block.getAttribute( 'data-icon-open' ) || 'none';
-
-	// Generate a button for each panel
-	tabPanels.forEach( ( panel, index ) => {
-		if ( ! panel ) {
-			return;
-		}
-
-		const tabId = panel.getAttribute( 'data-tab-id' ) || `tab-${ index }`;
-		const tabTitle = panel.getAttribute( 'data-tab-title' ) || `Tab ${ index + 1 }`;
-		const isDisabled = panel.getAttribute( 'data-disabled' ) === 'true';
-		const isSelected = index === currentTab;
-
-		// Create button element
-		const button = document.createElement( 'button' );
-		button.type = 'button';
-		button.className = 'tab-button' + ( isSelected ? ' active' : '' );
-		button.setAttribute( 'role', 'tab' );
-		button.setAttribute( 'id', `tab-${ tabId }` );
-		button.setAttribute( 'aria-controls', `panel-${ tabId }` );
-		button.setAttribute( 'aria-selected', isSelected ? 'true' : 'false' );
-		button.setAttribute( 'tabindex', isSelected ? '0' : '-1' );
-
-		// Build button content with optional icon
-		if ( showIcon ) {
-			const titleSpan = document.createElement( 'span' );
-			titleSpan.textContent = tabTitle;
-
-			const iconSpan = document.createElement( 'span' );
-			iconSpan.className = 'tab-icon';
-			iconSpan.setAttribute( 'aria-hidden', 'true' );
-			iconSpan.setAttribute( 'data-icon-closed', iconClosed );
-			iconSpan.setAttribute( 'data-icon-open', iconOpen !== 'none' ? iconOpen : iconClosed );
-			iconSpan.textContent = iconClosed;
-
-			button.appendChild( iconSpan );
-			button.appendChild( titleSpan );
-		} else {
-			button.textContent = tabTitle;
-		}
-
-		if ( isDisabled ) {
-			button.disabled = true;
-			button.setAttribute( 'aria-disabled', 'true' );
-		}
-
-		// Update panel visibility and active state
-		if ( isSelected ) {
-			panel.removeAttribute( 'hidden' );
-			panel.classList.add( 'active' );
-		} else {
-			panel.setAttribute( 'hidden', '' );
-			panel.classList.remove( 'active' );
-		}
-
-		// Update panel tabindex based on active state
-		panel.setAttribute( 'tabindex', isSelected ? '0' : '-1' );
-
-		tabList.appendChild( button );
-	} );
-
-	return tabList.querySelectorAll( '.tab-button' );
-}
-
-/**
  * Initialize a single tabs block
  *
  * @param {HTMLElement} block Tabs block element
@@ -168,20 +78,28 @@ function initializeSingleTabsBlock( block ) {
 		return;
 	}
 
-	// Generate tab buttons from panels
-	let tabButtons;
-	try {
-		tabButtons = generateTabButtons( block, tabList, tabPanels );
-	} catch ( error ) {
-		console.error( 'Failed to generate tab buttons:', error );
+	// Get server-rendered buttons
+	const tabButtons = tabList.querySelectorAll( '.tab-button' );
+
+	// Verify buttons exist
+	if ( ! tabButtons || tabButtons.length === 0 ) {
+		console.warn( 'No tab buttons found, skipping' );
 		return;
 	}
 
-	// Verify buttons were created
-	if ( ! tabButtons || tabButtons.length === 0 ) {
-		console.warn( 'No tab buttons generated, skipping' );
-		return;
-	}
+	// Set up initial panel visibility based on active tab
+	const currentTab = parseInt( tabList.getAttribute( 'data-current-tab' ) || '0', 10 );
+	tabPanels.forEach( ( panel, index ) => {
+		if ( index === currentTab ) {
+			panel.removeAttribute( 'hidden' );
+			panel.classList.add( 'active' );
+			panel.setAttribute( 'tabindex', '0' );
+		} else {
+			panel.setAttribute( 'hidden', '' );
+			panel.classList.remove( 'active' );
+			panel.setAttribute( 'tabindex', '-1' );
+		}
+	} );
 
 	// Initialize each tab button
 	tabButtons.forEach( ( button, index ) => {

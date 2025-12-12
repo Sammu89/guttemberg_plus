@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-11T22:17:12.192Z
+ * Generated at: 2025-12-12T18:49:18.265Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -62,12 +62,6 @@ const CONTROL_CONFIGS = {
       label: 'Heading Level',
       description: 'Semantic HTML heading level (none, h1-h6)',
       default: 'none',
-    },
-    'useHeadingStyles': {
-      control: 'ToggleControl',
-      label: 'Use Heading Styles',
-      description: 'Apply default heading styles to title',
-      default: false,
     },
     'titleColor': {
       control: 'ColorPicker',
