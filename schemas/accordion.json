@@ -175,18 +175,7 @@
       ],
       "order": 13      
     },
-    "useHeadingStyles": {
-      "type": "boolean",
-      "default": false,
-      "group": "behavior",
-      "label": "Use Heading Styles",
-      "description": "Apply default heading styles to title",
-      "themeable": false,
-      
-      "control": "ToggleControl",
-      "order": 14      
-    },
-    "titleColor": {
+        "titleColor": {
       "type": "string",
       "default": "#333333",
       "cssVar": "accordion-title-color",

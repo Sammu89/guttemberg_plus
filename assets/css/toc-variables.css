@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-11T22:17:12.185Z
+ * Generated at: 2025-12-12T18:49:18.248Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -43,6 +43,7 @@
   --toc-level3-plus-text-decoration: none;
   --toc-border-width: 1px;
   --toc-border-style: solid;
+  --toc-border-radius: 4px 4px 4px 4px;
   --toc-border-shadow: none;
   --toc-border-shadow-hover: none;
   --toc-wrapper-padding: 20px;

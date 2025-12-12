@@ -323,7 +323,7 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 21,
-      "appliesTo": "titleStatic",
+      "appliesTo": ["titleStatic", "titleCollapsible"],
       "cssProperty": "color"
     },
     "titleBackgroundColor": {
@@ -336,7 +336,7 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 22,
-      "appliesTo": "titleStatic",
+      "appliesTo": ["titleStatic", "titleCollapsible"],
       "cssProperty": "background-color"
     },
     "linkColor": {
@@ -404,7 +404,7 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 27,
-      "appliesTo": "list",
+      "appliesTo": ["list", "nestedList"],
       "cssProperty": "color"
     },
     "level1Color": {
@@ -456,7 +456,7 @@
       "themeable": true,
       "control": "ColorPicker",
       "order": 31,
-      "appliesTo": "collapseIcon",
+      "appliesTo": ["collapseIcon", "titleIconOnly"],
       "cssProperty": "color"
     },
     "titleFontSize": {
@@ -472,7 +472,7 @@
       "max": 48,
       "unit": "px",
       "order": 32,
-      "appliesTo": "titleStatic",
+      "appliesTo": ["titleStatic", "titleCollapsible"],
       "cssProperty": "font-size"
     },
     "titleFontWeight": {
@@ -531,7 +531,7 @@
         }
       ],
       "order": 33,
-      "appliesTo": "titleStatic",
+      "appliesTo": ["titleStatic", "titleCollapsible"],
       "cssProperty": "font-weight"
     },
     "titleTextTransform": {
@@ -562,7 +562,7 @@
         }
       ],
       "order": 34,
-      "appliesTo": "titleStatic",
+      "appliesTo": ["titleStatic", "titleCollapsible"],
       "cssProperty": "text-transform"
     },
     "titleAlignment": {
@@ -580,7 +580,7 @@
         "right"
       ],
       "order": 35,
-      "appliesTo": "titleStatic",
+      "appliesTo": ["titleStatic", "titleCollapsible"],
       "cssProperty": "text-align"
     },
     "level1FontSize": {
@@ -1216,7 +1216,7 @@
       "max": 50,
       "unit": "px",
       "order": 57,
-      "appliesTo": "list",
+      "appliesTo": ["list", "nestedList"],
       "cssProperty": "padding"
     },
     "itemSpacing": {
@@ -1232,7 +1232,7 @@
       "max": 30,
       "unit": "px",
       "order": 58,
-      "appliesTo": "list",
+      "appliesTo": ["list", "nestedList"],
       "cssProperty": "margin-bottom"
     },
     "levelIndent": {
@@ -1248,7 +1248,7 @@
       "max": 50,
       "unit": "px",
       "order": 59,
-      "appliesTo": "list",
+      "appliesTo": ["list", "nestedList"],
       "cssProperty": "margin-left"
     },
     "positionTop": {
@@ -1295,7 +1295,7 @@
       "max": 36,
       "unit": "px",
       "order": 62,
-      "appliesTo": "collapseIcon",
+      "appliesTo": ["collapseIcon", "titleIconOnly"],
       "cssProperty": "font-size"
     }
   }

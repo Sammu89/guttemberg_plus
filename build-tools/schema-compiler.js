@@ -659,15 +659,23 @@ function generateCSSVariables(blockType, schema) {
   // Collect all themeable attributes and use default values with units
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
     if (attr.themeable && attr.cssVar && attr.default !== undefined && attr.default !== null && attr.default !== '') {
-      // Skip complex objects (they need special handling)
-      if (typeof attr.default === 'object') {
-        continue;
-      }
+      let cssValue;
 
-      // Format value with unit if applicable
-      let cssValue = attr.default;
-      if (attr.type === 'number' && attr.unit) {
+      // Handle object types (border radius, padding, etc.)
+      if (typeof attr.default === 'object') {
+        // Border radius format: topLeft topRight bottomRight bottomLeft
+        if (attr.default.topLeft !== undefined) {
+          const unit = attr.unit || 'px';
+          cssValue = `${attr.default.topLeft}${unit} ${attr.default.topRight}${unit} ${attr.default.bottomRight}${unit} ${attr.default.bottomLeft}${unit}`;
+        } else {
+          // Skip other complex objects we don't know how to handle
+          continue;
+        }
+      } else if (attr.type === 'number' && attr.unit) {
+        // Format value with unit if applicable
         cssValue = `${attr.default}${attr.unit}`;
+      } else {
+        cssValue = attr.default;
       }
 
       content += `  --${attr.cssVar}: ${cssValue};\n`;
@@ -1075,11 +1083,17 @@ function generateInlineStylesFunction(schema, blockType) {
     'icon': [],
   };
 
+  // Helper to normalize appliesTo to array
+  const normalizeAppliesTo = (appliesTo) => {
+    if (!appliesTo) return [];
+    return Array.isArray(appliesTo) ? appliesTo : [appliesTo];
+  };
+
   // Track which elements have needsMapping (for skipping entire elements)
   const elementsWithManualRendering = new Set();
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
     if (attr.needsMapping && attr.appliesTo) {
-      elementsWithManualRendering.add(attr.appliesTo);
+      normalizeAppliesTo(attr.appliesTo).forEach(el => elementsWithManualRendering.add(el));
     }
   }
 
@@ -1106,10 +1120,13 @@ function generateInlineStylesFunction(schema, blockType) {
       continue;
     }
 
-    const appliesTo = attr.appliesTo;
+    // Normalize appliesTo to array and use first element for style mapping
+    // (Multiple elements share the same style, so we just need one for mapping)
+    const appliesToElements = normalizeAppliesTo(attr.appliesTo);
+    const appliesTo = appliesToElements[0];
 
     // Skip elements that need manual rendering (needsMapping: true)
-    if (elementsWithManualRendering.has(appliesTo)) {
+    if (appliesToElements.some(el => elementsWithManualRendering.has(el))) {
       continue; // Manual function handles this element's styles
     }
 
@@ -1261,12 +1278,18 @@ function generateCustomizationStylesFunction(blockType) {
  * @returns {boolean} True if validation passes
  */
 function validateSchemaMappingSync(schema, blockType) {
+  // Helper to normalize appliesTo to array
+  const normalizeAppliesTo = (appliesTo) => {
+    if (!appliesTo) return [];
+    return Array.isArray(appliesTo) ? appliesTo : [appliesTo];
+  };
+
   // Elements that should have manual rendering (from schema)
   const needsMapping = new Set();
 
   Object.entries(schema.attributes).forEach(([attrName, attr]) => {
     if (attr.needsMapping && attr.appliesTo) {
-      needsMapping.add(attr.appliesTo);
+      normalizeAppliesTo(attr.appliesTo).forEach(el => needsMapping.add(el));
     }
   });
 

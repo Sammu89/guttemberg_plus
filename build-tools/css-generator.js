@@ -126,9 +126,17 @@ function extractCssAttributes(schema, structure) {
     let selector = null;
     let elementId = null;
 
+    // Helper to normalize appliesTo to array
+    const normalizeAppliesTo = (appliesTo) => {
+      if (!appliesTo) return [];
+      return Array.isArray(appliesTo) ? appliesTo : [appliesTo];
+    };
+
     // NEW SYSTEM: Use appliesTo + structure schema
     if (attr.appliesTo && structure && structure.elements) {
-      elementId = attr.appliesTo;
+      // appliesTo can be string or array - use first element for CSS selector
+      const appliesToElements = normalizeAppliesTo(attr.appliesTo);
+      elementId = appliesToElements[0];
       const element = structure.elements[elementId];
 
       if (!element) {

@@ -135,6 +135,62 @@ const getCustomizationStyles = () => {
 		);
 	};
 
+	/**
+	 * Render tab buttons server-side for SEO and accessibility
+	 * Supports headingLevel wrapping like accordion
+	 */
+	const renderTabButtons = () => {
+		const tabsData = attributes.tabsData || [];
+		const headingLevel = attributes.headingLevel || 'none';
+		const iconPosition = effectiveValues.iconPosition || 'right';
+		const currentTab = attributes.currentTab || 0;
+
+		// If no tabsData, return null (frontend.js will generate as fallback)
+		if ( tabsData.length === 0 ) {
+			return null;
+		}
+
+		return tabsData.map( ( tab, index ) => {
+			const isSelected = index === currentTab;
+			const tabId = tab.tabId || `tab-${ index }`;
+
+			// Build button content with icon based on position
+			const buttonContent = (
+				<button
+					type="button"
+					className={ `tab-button${ isSelected ? ' active' : '' }` }
+					role="tab"
+					id={ `tab-${ tabId }` }
+					aria-controls={ `panel-${ tabId }` }
+					aria-selected={ isSelected ? 'true' : 'false' }
+					tabIndex={ isSelected ? 0 : -1 }
+					{ ...( tab.isDisabled && { disabled: true, 'aria-disabled': 'true' } ) }
+				>
+					{ effectiveValues.showIcon && iconPosition === 'left' && renderIcon() }
+					<span className="tab-button-text">{ tab.title || `Tab ${ index + 1 }` }</span>
+					{ effectiveValues.showIcon && iconPosition === 'right' && renderIcon() }
+				</button>
+			);
+
+			// Wrap in heading if headingLevel is set
+			if ( headingLevel !== 'none' ) {
+				const HeadingTag = headingLevel;
+				return (
+					<HeadingTag key={ tabId } className="tab-heading" style={ { margin: 0 } }>
+						{ buttonContent }
+					</HeadingTag>
+				);
+			}
+
+			// Return button with key for React
+			return (
+				<span key={ tabId }>
+					{ buttonContent }
+				</span>
+			);
+		} );
+	};
+
 	// Build class names - add theme class if using a theme
 	const classNames = [ 'wp-block-tabs', 'sammu-blocks' ];
 	if ( attributes.currentTheme ) {
@@ -159,19 +215,23 @@ const getCustomizationStyles = () => {
 		'data-show-icon': attributes.showIcon || false,
 		'data-icon-closed': effectiveValues.iconTypeClosed || '▾',
 		'data-icon-open': effectiveValues.iconTypeOpen || 'none',
+		'data-icon-position': effectiveValues.iconPosition || 'right',
+		'data-heading-level': attributes.headingLevel || 'none',
 		// Apply width and customizations
 		style: rootStyles,
 	} );
 
 	return (
 		<div { ...blockProps }>
-			{ /* Tab List - Tab Buttons */ }
+			{ /* Tab List - Tab Buttons (server-rendered for SEO) */ }
 			<div
 				className="tabs-list"
 				role="tablist"
 				aria-orientation={ attributes.orientation || 'horizontal' }
 				data-current-tab={ attributes.currentTab || 0 }
-			></div>
+			>
+				{ renderTabButtons() }
+			</div>
 
 			{ /* Tab Panels */ }
 			<div className="tabs-panels">
