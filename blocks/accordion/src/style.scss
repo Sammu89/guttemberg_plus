@@ -10,35 +10,29 @@
 
 @use 'theme-generated';
 
-/* Accordion item - now the root element (combines wrapper + item)
- * .accordion-item is the block root with classes: accordion-item wp-block-accordion sammu-blocks
+/* Accordion item - now the root element
+ * .gutplus-accordion is the block root
  * Border styles come from _theme-generated.scss via CSS variables
  */
-.accordion-item {
-	// Wrapper styles (formerly on .wp-block-accordion)
+.gutplus-accordion {
 	min-width: 300px;
-
-	// Sammu-blocks margin styles
 	margin: 1em 0;
-
-	// Item styles
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
 	outline: none;
-	// Note: border styles are set via CSS variables in _theme-generated.scss
 
-	// Alignment classes (sammu-blocks)
-	&.sammu-blocks-align-left {
+	// Alignment classes
+	&.gutplus-align-left {
 		margin-left: 0 !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-center {
+	&.gutplus-align-center {
 		margin-left: auto !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-right {
+	&.gutplus-align-right {
 		margin-left: auto !important;
 		margin-right: 0 !important;
 	}

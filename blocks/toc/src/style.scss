@@ -11,7 +11,7 @@
 @use 'theme-generated';
 
 /* Block wrapper */
-.wp-block-custom-toc {
+.gutplus-toc {
 	background-color: var(--toc-wrapper-background-color, #ffffff);
 	border: var(--toc-border-width, 1px) var(--toc-border-style, solid) var(--toc-border-color, #dddddd);
 	border-radius: var(--toc-border-radius, 4px 4px 4px 4px);
@@ -19,23 +19,24 @@
 	box-shadow: var(--toc-border-shadow, none);
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
+	margin: 1em 0;
 
 	&:hover {
 		box-shadow: var(--toc-border-shadow-hover, none);
 	}
 
-	// Alignment classes (sammu-blocks)
-	&.sammu-blocks-align-left {
+	// Alignment classes
+	&.gutplus-align-left {
 		margin-left: 0 !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-center {
+	&.gutplus-align-center {
 		margin-left: auto !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-right {
+	&.gutplus-align-right {
 		margin-left: auto !important;
 		margin-right: 0 !important;
 	}

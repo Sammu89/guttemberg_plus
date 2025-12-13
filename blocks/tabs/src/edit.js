@@ -44,6 +44,19 @@ import tabsSchema from '../../../schemas/tabs.json';
 import { tabsAttributes } from './tabs-attributes';
 import './editor.scss';
 
+/**
+ * Map orientation to ARIA-compliant value
+ * ARIA only supports 'horizontal' or 'vertical'
+ *
+ * @param {string} orientation - The orientation value from attributes
+ * @return {string} ARIA-compliant orientation value
+ */
+function getAriaOrientation( orientation ) {
+	if ( orientation === 'vertical-left' || orientation === 'vertical-right' ) {
+		return 'vertical';
+	}
+	return orientation || 'horizontal';
+}
 
 /**
  * Tabs Edit Component
@@ -191,9 +204,9 @@ const getInlineStyles = () => {
 		tabList: {
 			backgroundColor: effectiveValues.tabListBackgroundColor || 'transparent',
 			justifyContent: effectiveValues.tabListAlignment || 'left',
-			borderColor: effectiveValues.dividerBorderColor || 'transparent',
-			borderWidth: `${effectiveValues.dividerBorderWidth || 1}px`,
-			borderStyle: effectiveValues.dividerBorderStyle || 'solid',
+			borderColor: effectiveValues.navBarBorderColor || 'transparent',
+			borderWidth: `${effectiveValues.navBarBorderWidth || 1}px`,
+			borderStyle: effectiveValues.navBarBorderStyle || 'solid',
 		},
 		panel: {
 			backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',
@@ -377,10 +390,10 @@ const getInlineStyles = () => {
 			focusBorderColorActive: 'enableFocusBorder',
 			focusBorderWidth: 'enableFocusBorder',
 			focusBorderStyle: 'enableFocusBorder',
-			// Divider border settings are controlled by enableDividerBorder
-			dividerBorderColor: 'enableDividerBorder',
-			dividerBorderWidth: 'enableDividerBorder',
-			dividerBorderStyle: 'enableDividerBorder',
+			// Nav bar border settings are controlled by enableNavBarBorder
+			navBarBorderColor: 'enableNavBarBorder',
+			navBarBorderWidth: 'enableNavBarBorder',
+			navBarBorderStyle: 'enableNavBarBorder',
 		};
 
 		// Reset CSS variables for disabled toggles to prevent unwanted inheritance
@@ -391,7 +404,7 @@ const getInlineStyles = () => {
 			styles['--tabs-focus-border-style'] = 'none';
 		}
 
-		if ( attributes.enableDividerBorder === false ) {
+		if ( attributes.enableNavBarBorder === false ) {
 			styles['--tabs-divider-border-color'] = 'transparent';
 			styles['--tabs-divider-border-width'] = '0';
 			styles['--tabs-divider-border-style'] = 'none';
@@ -404,7 +417,7 @@ const getInlineStyles = () => {
 			}
 
 			// Skip toggle attributes themselves
-			if ( attrName === 'enableFocusBorder' || attrName === 'enableDividerBorder' ) {
+			if ( attrName === 'enableFocusBorder' || attrName === 'enableNavBarBorder' ) {
 				return;
 			}
 
@@ -440,7 +453,7 @@ const getInlineStyles = () => {
 	};
 
 	const blockProps = useBlockProps( {
-		className: 'wp-block-tabs sammu-blocks',
+		className: 'gutplus-tabs',
 		style: rootStyles,
 		ref: blockRef,
 	} );
@@ -546,7 +559,7 @@ const getInlineStyles = () => {
 						<div
 							className="tabs-list"
 							role="tablist"
-							aria-orientation={ attributes.orientation }
+							aria-orientation={ getAriaOrientation( attributes.orientation ) }
 							style={ styles.tabList }
 						>
 							{ tabPanels.map( ( panel, index ) => {

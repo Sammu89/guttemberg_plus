@@ -221,7 +221,7 @@ const getInlineStyles = () => {
 
 	// Block props
 	const blockProps = useBlockProps( {
-		className: 'wp-block-custom-toc sammu-blocks',
+		className: 'gutplus-toc',
 		style: rootStyles,
 		ref: blockRef,
 	} );

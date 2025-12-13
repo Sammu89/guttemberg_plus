@@ -18,7 +18,7 @@
  * Initialize all TOC blocks on the page
  */
 function initializeTOCBlocks() {
-	const tocBlocks = document.querySelectorAll( '.wp-block-custom-toc' );
+	const tocBlocks = document.querySelectorAll( '.gutplus-toc' );
 
 	if ( ! tocBlocks || tocBlocks.length === 0 ) {
 		return; // Graceful exit, no TOC blocks found
@@ -158,7 +158,7 @@ function detectHeadings( tocBlock, config ) {
 
 	allHeadings.forEach( ( heading ) => {
 		// Skip headings inside TOC blocks
-		if ( heading.closest( '.wp-block-custom-toc' ) ) {
+		if ( heading.closest( '.gutplus-toc' ) ) {
 			return;
 		}
 

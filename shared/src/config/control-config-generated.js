@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-12T18:49:18.265Z
+ * Generated at: 2025-12-13T00:48:15.581Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -462,8 +462,18 @@ const CONTROL_CONFIGS = {
     'orientation': {
       control: 'SelectControl',
       options: [
-              "horizontal",
-              "vertical"
+              {
+                      "label": "Horizontal",
+                      "value": "horizontal"
+              },
+              {
+                      "label": "Vertical Left",
+                      "value": "vertical-left"
+              },
+              {
+                      "label": "Vertical Right",
+                      "value": "vertical-right"
+              }
       ],
       label: 'Orientation',
       description: 'Tab layout orientation',
@@ -576,49 +586,49 @@ const CONTROL_CONFIGS = {
     },
     'tabButtonColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Color',
+      label: 'Button Text Color',
       description: 'Text color for inactive tab buttons',
       default: '#666666',
     },
     'tabButtonBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Background',
+      label: 'Button Background',
       description: 'Background color for inactive tab buttons',
       default: '#f5f5f5',
     },
     'tabButtonHoverColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Hover Color',
+      label: 'Button Text Hover Color',
       description: 'Text color when hovering over tab',
       default: '#333333',
     },
     'tabButtonHoverBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Hover Background',
+      label: 'Button Hover Background',
       description: 'Background color when hovering over tab',
       default: '#e8e8e8',
     },
     'tabButtonActiveColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Active Color',
+      label: 'Button Text Active Color',
       description: 'Text color for active/selected tab',
       default: '#333333',
     },
     'tabButtonActiveBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Active Background',
+      label: 'Button Active Background',
       description: 'Background color for active/selected tab',
       default: '#ffffff',
     },
     'tabButtonActiveBorderColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Active Border Color',
+      label: 'Button Active Border Color',
       description: 'Border color for the active tab',
       default: '#dddddd',
     },
     'tabButtonActiveBorderBottomColor': {
       control: 'ColorPicker',
-      label: 'Tab Button Active Border Bottom',
+      label: 'Button Active Border Bottom',
       description: 'Bottom border color for active tab (creates connected effect)',
       default: '#ffffff',
     },
@@ -670,7 +680,7 @@ const CONTROL_CONFIGS = {
                       "value": "bold"
               }
       ],
-      label: 'Tab Button Active Font Weight',
+      label: 'Button Active Font Weight',
       description: 'Font weight for active/selected tab button',
       default: 'bold',
     },
@@ -737,19 +747,19 @@ const CONTROL_CONFIGS = {
     },
     'enableFocusBorder': {
       control: 'ToggleControl',
-      label: 'Enable Focus Border',
-      description: 'Enable or disable focus border settings for tab buttons',
+      label: 'Enable Enhanced Border',
+      description: 'Enable or disable enhanced border settings for tab buttons (adjacent to content)',
       default: true,
     },
     'focusBorderColor': {
       control: 'ColorPicker',
-      label: 'Focus Border Color',
+      label: 'Enhanced Border Color',
       description: 'Border color for inactive button edge adjacent to content',
       default: '#dddddd',
     },
     'focusBorderColorActive': {
       control: 'ColorPicker',
-      label: 'Focus Border Color Active',
+      label: 'Enhanced Border Color Active',
       description: 'Border color for active button edge adjacent to content',
       default: '#ffffff',
     },
@@ -758,7 +768,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Focus Border Width',
+      label: 'Enhanced Border Width',
       description: 'Width of button edge adjacent to content',
       default: 2,
     },
@@ -786,7 +796,7 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Focus Border Style',
+      label: 'Enhanced Border Style',
       description: 'Style of button edge adjacent to content',
       default: 'solid',
     },
@@ -1069,28 +1079,28 @@ const CONTROL_CONFIGS = {
       description: 'Box shadow for wrapper on hover',
       default: 'none',
     },
-    'enableDividerBorder': {
+    'enableNavBarBorder': {
       control: 'ToggleControl',
-      label: 'Enable Divider Border',
-      description: 'Enable or disable divider border settings for navigation bar',
+      label: 'Enable Nav Bar Border',
+      description: 'Enable or disable border between navigation bar and content',
       default: false,
     },
-    'dividerBorderColor': {
+    'navBarBorderColor': {
       control: 'ColorPicker',
-      label: 'Divider Border Color',
-      description: 'Color of navbar border adjacent to content',
+      label: 'Nav Bar Border Color',
+      description: 'Color of border between navigation bar and content',
       default: 'transparent',
     },
-    'dividerBorderWidth': {
+    'navBarBorderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Divider Border Width',
-      description: 'Width of navbar border adjacent to content',
+      label: 'Nav Bar Border Width',
+      description: 'Width of border between navigation bar and content',
       default: 1,
     },
-    'dividerBorderStyle': {
+    'navBarBorderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -1114,8 +1124,8 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Divider Border Style',
-      description: 'Style of navbar border adjacent to content',
+      label: 'Nav Bar Border Style',
+      description: 'Style of border between navigation bar and content',
       default: 'solid',
     },
   },

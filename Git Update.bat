@@ -96,7 +96,7 @@ git commit -m "%MSG%" || echo Nothing to commit - skipping.
 
 echo.
 echo Pushing to origin/main ...
-git push origin main
+git push --force origin main
 if !errorlevel! NEQ 0 (
   echo.
   echo ERROR: Push failed!

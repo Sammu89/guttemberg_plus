@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-12T18:49:18.198Z
+ * Generated at: 2025-12-13T00:48:15.521Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -60,9 +60,9 @@ export const tabsThemeSchema = z.object({
   borderRadius: z.record(z.any()),
   shadow: z.string(),
   shadowHover: z.string(),
-  dividerBorderColor: z.string(),
-  dividerBorderWidth: z.number(),
-  dividerBorderStyle: z.string(),
+  navBarBorderColor: z.string(),
+  navBarBorderWidth: z.number(),
+  navBarBorderStyle: z.string(),
 });
 
 /**
@@ -128,10 +128,10 @@ export const tabsAttributesSchema = z.object({
   borderRadius: z.record(z.any()),
   shadow: z.string(),
   shadowHover: z.string(),
-  enableDividerBorder: z.boolean(),
-  dividerBorderColor: z.string(),
-  dividerBorderWidth: z.number(),
-  dividerBorderStyle: z.string(),
+  enableNavBarBorder: z.boolean(),
+  navBarBorderColor: z.string(),
+  navBarBorderWidth: z.number(),
+  navBarBorderStyle: z.string(),
 });
 
 // Type inference exports

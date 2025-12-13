@@ -145,7 +145,7 @@ function guttemberg_plus_generate_theme_css_rules( $block_type, $theme_id, $valu
 	$safe_theme_id = preg_replace( '/[^a-zA-Z0-9\-]/', '', $theme_id );
 
 	// Generate CSS class selector
-	$css = ".{$block_type}-theme-{$safe_theme_id} {\n";
+	$css = ".gutplus-{$block_type}-theme-{$safe_theme_id} {\n";
 
 	// Convert each value to CSS custom property
 	foreach ( $values as $attr_name => $value ) {

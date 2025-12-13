@@ -219,7 +219,7 @@ const getCustomizationStyles = () => {
 	const panelAria = getAccordionPanelAria( accordionId );
 
 	// Build class names - accordion-item is now the root element
-	const classNames = [ 'accordion-item', 'wp-block-accordion', 'sammu-blocks' ];
+	const classNames = [ 'gutplus-accordion' ];
 
 	// Add open state class
 	if ( attributes.initiallyOpen ) {
@@ -230,7 +230,7 @@ const getCustomizationStyles = () => {
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );
-		classNames.push( `accordion-theme-${ safeThemeId }` );
+		classNames.push( `gutplus-accordion-theme-${ safeThemeId }` );
 	}
 
 	// Add alignment class

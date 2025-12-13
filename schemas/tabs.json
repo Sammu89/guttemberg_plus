@@ -17,67 +17,49 @@
       "title": "Behaviour",
       "description": "Behavioral and functional settings that control how tabs work",
       "order": 1,
-      "initialOpen": true      
+      "initialOpen": true
     },
-    "borders": {
-      "title": "Borders",
+    "externalBorders": {
+      "title": "External Borders",
       "description": "Main tabs wrapper borders and radius",
       "order": 2,
-      "initialOpen": false      
+      "initialOpen": false
     },
     "buttonColors": {
       "title": "Button Colors",
-      "description": "Tab button text and background colors for inactive state",
+      "description": "Tab button text and background colors for all states",
       "order": 3,
-      "initialOpen": false      
-    },
-    "buttonHover": {
-      "title": "Button Hover",
-      "description": "Tab button colors when hovering",
-      "order": 4,
-      "initialOpen": false      
-    },
-    "buttonActive": {
-      "title": "Button Active",
-      "description": "Tab button colors for active/selected state",
-      "order": 5,
-      "initialOpen": false      
+      "initialOpen": false
     },
     "buttonBorders": {
       "title": "Button Borders",
-      "description": "Tab button full border around the button element",
-      "order": 6,
-      "initialOpen": false      
-    },
-    "specialBorders": {
-      "title": "Special Borders",
-      "description": "Individual button borders and navigation bar divider borders adjacent to content",
-      "order": 7,
-      "initialOpen": false      
+      "description": "Tab button borders including enhanced border adjacent to content",
+      "order": 4,
+      "initialOpen": false
     },
     "buttonTypography": {
       "title": "Button Typography",
       "description": "Tab button typography and alignment",
-      "order": 8,
-      "initialOpen": false      
+      "order": 5,
+      "initialOpen": false
     },
     "navigationBar": {
       "title": "Nav Bar",
-      "description": "Navigation bar background and alignment",
-      "order": 9,
-      "initialOpen": false      
+      "description": "Navigation bar background, alignment, and border",
+      "order": 6,
+      "initialOpen": false
     },
     "content": {
       "title": "Content",
       "description": "Content panel colors, borders, and radius",
-      "order": 11,
-      "initialOpen": false      
+      "order": 7,
+      "initialOpen": false
     },
     "icon": {
       "title": "Icon",
       "description": "Icon appearance and styling",
-      "order": 12,
-      "initialOpen": false      
+      "order": 8,
+      "initialOpen": false
     }
   },
   "attributes": {
@@ -151,13 +133,14 @@
       "label": "Orientation",
       "description": "Tab layout orientation",
       "themeable": false,
-      "reason": "generalal",
+      "reason": "structural",
       "control": "SelectControl",
       "options": [
-        "horizontal",
-        "vertical"
+        { "label": "Horizontal", "value": "horizontal" },
+        { "label": "Vertical Left", "value": "vertical-left" },
+        { "label": "Vertical Right", "value": "vertical-right" }
       ],
-      "order": 5      
+      "order": 5
     },
     "activationMode": {
       "type": "string",
@@ -357,7 +340,7 @@
       "default": "#666666",
       "cssVar": "tabs-button-color",
       "group": "buttonColors",
-      "label": "Tab Button Color",
+      "label": "Button Text Color",
       "description": "Text color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
@@ -371,7 +354,7 @@
       "default": "#f5f5f5",
       "cssVar": "tabs-button-bg",
       "group": "buttonColors",
-      "label": "Tab Button Background",
+      "label": "Button Background",
       "description": "Background color for inactive tab buttons",
       "themeable": true,
       "control": "ColorPicker",
@@ -383,13 +366,13 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "tabs-button-hover-color",
-      "group": "buttonHover",
-      "label": "Tab Button Hover Color",
+      "group": "buttonColors",
+      "label": "Button Text Hover Color",
       "description": "Text color when hovering over tab",
       "themeable": true,
       "control": "ColorPicker",
       "state": "hover",
-      "order": 1,
+      "order": 3,
       "appliesTo": "tabButton",
       "cssProperty": "color"
     },
@@ -397,13 +380,13 @@
       "type": "string",
       "default": "#e8e8e8",
       "cssVar": "tabs-button-hover-bg",
-      "group": "buttonHover",
-      "label": "Tab Button Hover Background",
+      "group": "buttonColors",
+      "label": "Button Hover Background",
       "description": "Background color when hovering over tab",
       "themeable": true,
       "control": "ColorPicker",
       "state": "hover",
-      "order": 2,
+      "order": 4,
       "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
@@ -411,13 +394,13 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "tabs-button-active-color",
-      "group": "buttonActive",
-      "label": "Tab Button Active Color",
+      "group": "buttonColors",
+      "label": "Button Text Active Color",
       "description": "Text color for active/selected tab",
       "themeable": true,
       "control": "ColorPicker",
       "state": "active",
-      "order": 1,
+      "order": 5,
       "appliesTo": "tabButton",
       "cssProperty": "color"
     },
@@ -425,13 +408,13 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "tabs-button-active-bg",
-      "group": "buttonActive",
-      "label": "Tab Button Active Background",
+      "group": "buttonColors",
+      "label": "Button Active Background",
       "description": "Background color for active/selected tab",
       "themeable": true,
       "control": "ColorPicker",
       "state": "active",
-      "order": 2,
+      "order": 6,
       "appliesTo": "tabButton",
       "cssProperty": "background-color"
     },
@@ -439,13 +422,13 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "tabs-button-active-border-color",
-      "group": "buttonActive",
-      "label": "Tab Button Active Border Color",
+      "group": "buttonBorders",
+      "label": "Button Active Border Color",
       "description": "Border color for the active tab",
       "themeable": true,
       "control": "ColorPicker",
       "state": "active",
-      "order": 3,
+      "order": 10,
       "appliesTo": "tabButton",
       "cssProperty": "border-color"
     },
@@ -453,13 +436,13 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "tabs-button-active-border-bottom-color",
-      "group": "buttonActive",
-      "label": "Tab Button Active Border Bottom",
+      "group": "buttonBorders",
+      "label": "Button Active Border Bottom",
       "description": "Bottom border color for active tab (creates connected effect)",
       "themeable": true,
       "control": "ColorPicker",
       "state": "active",
-      "order": 4,
+      "order": 11,
       "appliesTo": "tabButton",
       "cssProperty": "border-bottom-color"
     },
@@ -467,8 +450,8 @@
       "type": "string",
       "default": "bold",
       "cssVar": "tabs-button-active-font-weight",
-      "group": "buttonActive",
-      "label": "Tab Button Active Font Weight",
+      "group": "buttonTypography",
+      "label": "Button Active Font Weight",
       "description": "Font weight for active/selected tab button",
       "themeable": true,
       "control": "SelectControl",
@@ -520,7 +503,7 @@
       ],
       "needsMapping": true,
       "state": "active",
-      "order": 5,
+      "order": 10,
       "appliesTo": "tabButton",
       "cssProperty": "font-weight"
     },
@@ -638,13 +621,12 @@
       "type": "boolean",
       "default": true,
       "cssVar": "tabs-enable-focus-border",
-      "group": "specialBorders",
-      "label": "Enable Focus Border",
-      "description": "Enable or disable focus border settings for tab buttons",
+      "group": "buttonBorders",
+      "label": "Enable Enhanced Border",
+      "description": "Enable or disable enhanced border settings for tab buttons (adjacent to content)",
       "themeable": false,
-      
       "control": "ToggleControl",
-      "order": 1,
+      "order": 20,
       "appliesTo": "tabButton",
       "cssProperty": "border"
     },
@@ -652,13 +634,13 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "tabs-focus-border-color",
-      "group": "specialBorders",
-      "label": "Focus Border Color",
+      "group": "buttonBorders",
+      "label": "Enhanced Border Color",
       "description": "Border color for inactive button edge adjacent to content",
       "themeable": true,
       "control": "ColorPicker",
       "state": "focus",
-      "order": 2,
+      "order": 21,
       "appliesTo": "tabButton",
       "cssProperty": "border-color"
     },
@@ -666,13 +648,13 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "tabs-focus-border-color-active",
-      "group": "specialBorders",
-      "label": "Focus Border Color Active",
+      "group": "buttonBorders",
+      "label": "Enhanced Border Color Active",
       "description": "Border color for active button edge adjacent to content",
       "themeable": true,
       "control": "ColorPicker",
       "state": "active",
-      "order": 3,
+      "order": 22,
       "appliesTo": "tabButton",
       "cssProperty": "border-color"
     },
@@ -680,15 +662,15 @@
       "type": "number",
       "default": 2,
       "cssVar": "tabs-focus-border-width",
-      "group": "specialBorders",
-      "label": "Focus Border Width",
+      "group": "buttonBorders",
+      "label": "Enhanced Border Width",
       "description": "Width of button edge adjacent to content",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 4,
+      "order": 23,
       "appliesTo": "tabButton",
       "cssProperty": "border-width"
     },
@@ -696,8 +678,8 @@
       "type": "string",
       "default": "solid",
       "cssVar": "tabs-focus-border-style",
-      "group": "specialBorders",
-      "label": "Focus Border Style",
+      "group": "buttonBorders",
+      "label": "Enhanced Border Style",
       "description": "Style of button edge adjacent to content",
       "themeable": true,
       "control": "SelectControl",
@@ -723,7 +705,7 @@
           "value": "double"
         }
       ],
-      "order": 5,
+      "order": 24,
       "appliesTo": "tabButton",
       "cssProperty": "border-style"
     },
@@ -1053,7 +1035,7 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "tabs-border-color",
-      "group": "borders",
+      "group": "externalBorders",
       "label": "Border Color",
       "description": "Border color for main tabs wrapper",
       "themeable": true,
@@ -1066,7 +1048,7 @@
       "type": "number",
       "default": 0,
       "cssVar": "tabs-border-width",
-      "group": "borders",
+      "group": "externalBorders",
       "label": "Border Width",
       "description": "Border width for main wrapper",
       "themeable": true,
@@ -1082,7 +1064,7 @@
       "type": "string",
       "default": "solid",
       "cssVar": "tabs-border-style",
-      "group": "borders",
+      "group": "externalBorders",
       "label": "Border Style",
       "description": "Border style for wrapper",
       "themeable": true,
@@ -1122,7 +1104,7 @@
         "bottomLeft": 0
       },
       "cssVar": "tabs-border-radius",
-      "group": "borders",
+      "group": "externalBorders",
       "label": "Border Radius",
       "description": "Corner radius for main wrapper",
       "themeable": true,
@@ -1136,7 +1118,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "tabs-border-shadow",
-      "group": "borders",
+      "group": "externalBorders",
       "label": "Shadow",
       "description": "Box shadow for main wrapper",
       "themeable": true,
@@ -1149,7 +1131,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "tabs-border-shadow-hover",
-      "group": "borders",
+      "group": "externalBorders",
       "label": "Shadow Hover",
       "description": "Box shadow for wrapper on hover",
       "themeable": true,
@@ -1159,56 +1141,55 @@
       "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
-    "enableDividerBorder": {
+    "enableNavBarBorder": {
       "type": "boolean",
       "default": false,
       "cssVar": "tabs-enable-divider-border",
-      "group": "specialBorders",
-      "label": "Enable Divider Border",
-      "description": "Enable or disable divider border settings for navigation bar",
+      "group": "navigationBar",
+      "label": "Enable Nav Bar Border",
+      "description": "Enable or disable border between navigation bar and content",
       "themeable": false,
-      
       "control": "ToggleControl",
-      "order": 6,
+      "order": 10,
       "appliesTo": "tabsList",
       "cssProperty": "border"
     },
-    "dividerBorderColor": {
+    "navBarBorderColor": {
       "type": "string",
       "default": "transparent",
       "cssVar": "tabs-divider-border-color",
-      "group": "specialBorders",
-      "label": "Divider Border Color",
-      "description": "Color of navbar border adjacent to content",
+      "group": "navigationBar",
+      "label": "Nav Bar Border Color",
+      "description": "Color of border between navigation bar and content",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 7,
+      "order": 11,
       "appliesTo": "tabsList",
       "cssProperty": "border-color"
     },
-    "dividerBorderWidth": {
+    "navBarBorderWidth": {
       "type": "number",
       "default": 1,
       "cssVar": "tabs-divider-border-width",
-      "group": "specialBorders",
-      "label": "Divider Border Width",
-      "description": "Width of navbar border adjacent to content",
+      "group": "navigationBar",
+      "label": "Nav Bar Border Width",
+      "description": "Width of border between navigation bar and content",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 8,
+      "order": 12,
       "appliesTo": "tabsList",
       "cssProperty": "border-width"
     },
-    "dividerBorderStyle": {
+    "navBarBorderStyle": {
       "type": "string",
       "default": "solid",
       "cssVar": "tabs-divider-border-style",
-      "group": "specialBorders",
-      "label": "Divider Border Style",
-      "description": "Style of navbar border adjacent to content",
+      "group": "navigationBar",
+      "label": "Nav Bar Border Style",
+      "description": "Style of border between navigation bar and content",
       "themeable": true,
       "control": "SelectControl",
       "options": [
@@ -1233,7 +1214,7 @@
           "value": "double"
         }
       ],
-      "order": 9,
+      "order": 13,
       "appliesTo": "tabsList",
       "cssProperty": "border-style"
     }

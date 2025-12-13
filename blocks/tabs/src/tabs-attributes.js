@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-12T18:49:18.204Z
+ * Generated at: 2025-12-13T00:48:15.525Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -255,19 +255,19 @@ export const tabsAttributes = {
     type: 'string',
     default: 'none',
   },
-  enableDividerBorder: {
+  enableNavBarBorder: {
     type: 'boolean',
     default: false,
   },
-  dividerBorderColor: {
+  navBarBorderColor: {
     type: 'string',
     default: 'transparent',
   },
-  dividerBorderWidth: {
+  navBarBorderWidth: {
     type: 'number',
     default: 1,
   },
-  dividerBorderStyle: {
+  navBarBorderStyle: {
     type: 'string',
     default: 'solid',
   },

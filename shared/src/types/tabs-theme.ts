@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-12T18:49:18.192Z
+ * Generated at: 2025-12-13T00:48:15.517Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -101,12 +101,12 @@ export interface TabsTheme {
   shadow?: string;
   /** Box shadow for wrapper on hover */
   shadowHover?: string;
-  /** Color of navbar border adjacent to content */
-  dividerBorderColor?: string;
-  /** Width of navbar border adjacent to content */
-  dividerBorderWidth?: number;
-  /** Style of navbar border adjacent to content */
-  dividerBorderStyle?: string;
+  /** Color of border between navigation bar and content */
+  navBarBorderColor?: string;
+  /** Width of border between navigation bar and content */
+  navBarBorderWidth?: number;
+  /** Style of border between navigation bar and content */
+  navBarBorderStyle?: string;
 }
 
 /**
@@ -170,9 +170,9 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   shadow: 'none',
   shadowHover: 'none',
-  dividerBorderColor: 'transparent',
-  dividerBorderWidth: 1,
-  dividerBorderStyle: 'solid',
+  navBarBorderColor: 'transparent',
+  navBarBorderWidth: 1,
+  navBarBorderStyle: 'solid',
 };
 
 /**
@@ -238,8 +238,8 @@ export interface TabsThemeAttributes {
   borderRadius?: Record<string, any>;
   shadow?: string;
   shadowHover?: string;
-  enableDividerBorder?: boolean;
-  dividerBorderColor?: string;
-  dividerBorderWidth?: number;
-  dividerBorderStyle?: string;
+  enableNavBarBorder?: boolean;
+  navBarBorderColor?: string;
+  navBarBorderWidth?: number;
+  navBarBorderStyle?: string;
 }

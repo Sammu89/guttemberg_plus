@@ -23,6 +23,16 @@ document.addEventListener( 'DOMContentLoaded', () => {
 } );
 
 /**
+ * Check if orientation is any vertical variant
+ *
+ * @param {string} orientation - The orientation value
+ * @return {boolean} True if vertical-left or vertical-right
+ */
+function isVerticalOrientation( orientation ) {
+	return orientation === 'vertical-left' || orientation === 'vertical-right';
+}
+
+/**
  * Handle window resize for responsive mode
  */
 window.addEventListener( 'resize', () => {
@@ -37,7 +47,7 @@ window.addEventListener( 'resize', () => {
  * Initialize all tabs blocks on the page
  */
 function initializeTabs() {
-	const tabsBlocks = document.querySelectorAll( '.wp-block-tabs' );
+	const tabsBlocks = document.querySelectorAll( '.gutplus-tabs' );
 
 	if ( ! tabsBlocks || tabsBlocks.length === 0 ) {
 		return; // Graceful exit, no tabs blocks found
@@ -311,7 +321,7 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
 			break;
 
 		case 'ArrowDown':
-			if ( orientation === 'vertical' ) {
+			if ( isVerticalOrientation( orientation ) ) {
 				e.preventDefault();
 				targetIndex = ( currentIndex + 1 ) % buttons.length;
 				shouldActivate = activationMode === 'auto';
@@ -319,7 +329,7 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
 			break;
 
 		case 'ArrowUp':
-			if ( orientation === 'vertical' ) {
+			if ( isVerticalOrientation( orientation ) ) {
 				e.preventDefault();
 				targetIndex = ( currentIndex - 1 + buttons.length ) % buttons.length;
 				shouldActivate = activationMode === 'auto';
@@ -462,7 +472,7 @@ function initializeResponsiveAccordion( block ) {
  * Handle responsive mode switching
  */
 function handleResponsiveMode() {
-	const tabsBlocks = document.querySelectorAll( '.wp-block-tabs.responsive-accordion' );
+	const tabsBlocks = document.querySelectorAll( '.gutplus-tabs.responsive-accordion' );
 
 	if ( ! tabsBlocks || tabsBlocks.length === 0 ) {
 		return;

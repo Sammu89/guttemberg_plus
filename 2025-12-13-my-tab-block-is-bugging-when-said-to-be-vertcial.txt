@@ -1,0 +1,449 @@
+
+ * ▐▛███▜▌ *   Claude Code v2.0.67
+* ▝▜█████▛▘ *  Opus 4.5 · Claude Pro
+ *  ▘▘ ▝▝  *   ~\Local Sites\testando\app\public\wp-content\plugins\guttemberg-…
+
+> We need to make several changes on schema We need to regorganize the tabs 
+schema as there are several variables that dont correspond to what they are.
+ 
+
+Group "Borders" renamed "External borders"
+
+Variable "Tab Button Color" renamed "Button Text color"
+Variable "Tab Button Background" renamed "Button Button Background"
+Variable "Tab Button Hover Color" renamed "Button Text hover color" and put 
+it into Button Colors group
+Variable "Tab Button Hover Background" renamed "Button Button hover 
+background" put it into Button Colors group
+Remove the now empty Button Hover group
+Variable "Tab Button Active Color" renamed "Button Text active color" and 
+put it into Button Colors group
+Variable "Tab Button Active Background" renamed "Button Button active 
+background" put it into Button Colors group
+Put Tab Button Active Border Color and Tab Button Active Border Bottom  on 
+Special borders
+Tab Button Active Font Weight onto Button Typography
+All the "Divider border" logic, is in factthe Nav bar border, should be 
+renamed as such, and put on Nav bar group. Toogle of Enable Divider Border 
+isnt working
+Focus border atributes should be named from Focus Border to Button enchanced
+ border and moved to Button Borders 
+
+● I'll reorganize the tabs schema with all these changes. Let me first read the current schema to understand the structure:
+
+● Read(schemas\tabs.json)
+  ⎿  Read 1243 lines
+
+● This is a significant schema reorganization. Let me make all the changes systematically:
+
+● Update(schemas\tabs.json)
+  ⎿  Updated schemas\tabs.json with 18 additions and 36 removals         
+       17          "title": "Behaviour",
+       18          "description": "Behavioral and functional settings 
+            that control how tabs work",
+       19          "order": 1,
+       20 -        "initialOpen": true      
+       20 +        "initialOpen": true
+       21        },
+       22 -      "borders": {
+       23 -        "title": "Borders",
+       22 +      "externalBorders": {
+       23 +        "title": "External Borders",
+       24          "description": "Main tabs wrapper borders and radius",
+       25          "order": 2,
+       26 -        "initialOpen": false      
+       26 +        "initialOpen": false
+       27        },
+       28        "buttonColors": {
+       29          "title": "Button Colors",
+       30 -        "description": "Tab button text and background colors 
+          -  for inactive state",
+       30 +        "description": "Tab button text and background colors 
+          +  for all states",
+       31          "order": 3,
+       32 -        "initialOpen": false      
+       32 +        "initialOpen": false
+       33        },
+       34 -      "buttonHover": {
+       35 -        "title": "Button Hover",
+       36 -        "description": "Tab button colors when hovering",
+       37 -        "order": 4,
+       38 -        "initialOpen": false      
+       39 -      },
+       40 -      "buttonActive": {
+       41 -        "title": "Button Active",
+       42 -        "description": "Tab button colors for active/selected 
+          - state",
+       43 -        "order": 5,
+       44 -        "initialOpen": false      
+       45 -      },
+       34        "buttonBorders": {
+       35          "title": "Button Borders",
+       36 -        "description": "Tab button full border around the 
+          - button element",
+       37 -        "order": 6,
+       38 -        "initialOpen": false      
+       36 +        "description": "Tab button borders including enhanced 
+          + border adjacent to content",
+       37 +        "order": 4,
+       38 +        "initialOpen": false
+       39        },
+       40 -      "specialBorders": {
+       41 -        "title": "Special Borders",
+       42 -        "description": "Individual button borders and 
+          - navigation bar divider borders adjacent to content",
+       43 -        "order": 7,
+       44 -        "initialOpen": false      
+       45 -      },
+       40        "buttonTypography": {
+       41          "title": "Button Typography",
+       42          "description": "Tab button typography and alignment",
+       43 -        "order": 8,
+       44 -        "initialOpen": false      
+       43 +        "order": 5,
+       44 +        "initialOpen": false
+       45        },
+       46        "navigationBar": {
+       47          "title": "Nav Bar",
+       48 -        "description": "Navigation bar background and 
+          -  alignment",
+       49 -        "order": 9,
+       50 -        "initialOpen": false      
+       48 +        "description": "Navigation bar background, alignment, 
+          +  and border",
+       49 +        "order": 6,
+       50 +        "initialOpen": false
+       51        },
+       52        "content": {
+       53          "title": "Content",
+       54          "description": "Content panel colors, borders, and 
+            radius",
+       55 -        "order": 11,
+       56 -        "initialOpen": false      
+       55 +        "order": 7,
+       56 +        "initialOpen": false
+       57        },
+       58        "icon": {
+       59          "title": "Icon",
+       60          "description": "Icon appearance and styling",
+       61 -        "order": 12,
+       62 -        "initialOpen": false      
+       61 +        "order": 8,
+       62 +        "initialOpen": false
+       63        }
+       64      },
+       65      "attributes": {
+
+● Now let me update the button color attributes:
+
+● Update(schemas\tabs.json)
+  ⎿  Updated schemas\tabs.json with 23 additions and 23 removals         
+       340          "default": "#666666",
+       341          "cssVar": "tabs-button-color",
+       342          "group": "buttonColors",
+       343 -        "label": "Tab Button Color",
+       343 +        "label": "Button Text Color",
+       344          "description": "Text color for inactive tab buttons",
+       345          "themeable": true,
+       346          "control": "ColorPicker",
+     ...
+       354          "default": "#f5f5f5",
+       355          "cssVar": "tabs-button-bg",
+       356          "group": "buttonColors",
+       357 -        "label": "Tab Button Background",
+       357 +        "label": "Button Background",
+       358          "description": "Background color for inactive tab 
+             buttons",
+       359          "themeable": true,
+       360          "control": "ColorPicker",
+     ...
+       366          "type": "string",
+       367          "default": "#333333",
+       368          "cssVar": "tabs-button-hover-color",
+       369 -        "group": "buttonHover",
+       370 -        "label": "Tab Button Hover Color",
+       369 +        "group": "buttonColors",
+       370 +        "label": "Button Text Hover Color",
+       371          "description": "Text color when hovering over tab",
+       372          "themeable": true,
+       373          "control": "ColorPicker",
+       374          "state": "hover",
+       375 -        "order": 1,
+       375 +        "order": 3,
+       376          "appliesTo": "tabButton",
+       377          "cssProperty": "color"
+       378        },
+     ...
+       380          "type": "string",
+       381          "default": "#e8e8e8",
+       382          "cssVar": "tabs-button-hover-bg",
+       383 -        "group": "buttonHover",
+       384 -        "label": "Tab Button Hover Background",
+       383 +        "group": "buttonColors",
+       384 +        "label": "Button Hover Background",
+       385          "description": "Background color when hovering over 
+             tab",
+       386          "themeable": true,
+       387          "control": "ColorPicker",
+       388          "state": "hover",
+       389 -        "order": 2,
+       389 +        "order": 4,
+       390          "appliesTo": "tabButton",
+       391          "cssProperty": "background-color"
+       392        },
+     ...
+       394          "type": "string",
+       395          "default": "#333333",
+       396          "cssVar": "tabs-button-active-color",
+       397 -        "group": "buttonActive",
+       398 -        "label": "Tab Button Active Color",
+       397 +        "group": "buttonColors",
+       398 +        "label": "Button Text Active Color",
+       399          "description": "Text color for active/selected tab",
+       400          "themeable": true,
+       401          "control": "ColorPicker",
+       402          "state": "active",
+       403 -        "order": 1,
+       403 +        "order": 5,
+       404          "appliesTo": "tabButton",
+       405          "cssProperty": "color"
+       406        },
+     ...
+       408          "type": "string",
+       409          "default": "#ffffff",
+       410          "cssVar": "tabs-button-active-bg",
+       411 -        "group": "buttonActive",
+       412 -        "label": "Tab Button Active Background",
+       411 +        "group": "buttonColors",
+       412 +        "label": "Button Active Background",
+       413          "description": "Background color for active/selected 
+             tab",
+       414          "themeable": true,
+       415          "control": "ColorPicker",
+       416          "state": "active",
+       417 -        "order": 2,
+       417 +        "order": 6,
+       418          "appliesTo": "tabButton",
+       419          "cssProperty": "background-color"
+       420        },
+     ...
+       422          "type": "string",
+       423          "default": "#dddddd",
+       424          "cssVar": "tabs-button-active-border-color",
+       425 -        "group": "buttonActive",
+       426 -        "label": "Tab Button Active Border Color",
+       425 +        "group": "buttonBorders",
+       426 +        "label": "Button Active Border Color",
+       427          "description": "Border color for the active tab",
+       428          "themeable": true,
+       429          "control": "ColorPicker",
+       430          "state": "active",
+       431 -        "order": 3,
+       431 +        "order": 10,
+       432          "appliesTo": "tabButton",
+       433          "cssProperty": "border-color"
+       434        },
+     ...
+       436          "type": "string",
+       437          "default": "#ffffff",
+       438          "cssVar": "tabs-button-active-border-bottom-color",
+       439 -        "group": "buttonActive",
+       440 -        "label": "Tab Button Active Border Bottom",
+       439 +        "group": "buttonBorders",
+       440 +        "label": "Button Active Border Bottom",
+       441          "description": "Bottom border color for active tab 
+             (creates connected effect)",
+       442          "themeable": true,
+       443          "control": "ColorPicker",
+       444          "state": "active",
+       445 -        "order": 4,
+       445 +        "order": 11,
+       446          "appliesTo": "tabButton",
+       447          "cssProperty": "border-bottom-color"
+       448        },
+     ...
+       450          "type": "string",
+       451          "default": "bold",
+       452          "cssVar": "tabs-button-active-font-weight",
+       453 -        "group": "buttonActive",
+       454 -        "label": "Tab Button Active Font Weight",
+       453 +        "group": "buttonTypography",
+       454 +        "label": "Button Active Font Weight",
+       455          "description": "Font weight for active/selected tab 
+             button",
+       456          "themeable": true,
+       457          "control": "SelectControl",
+     ...
+       503          ],
+       504          "needsMapping": true,
+       505          "state": "active",
+       506 -        "order": 5,
+       506 +        "order": 10,
+       507          "appliesTo": "tabButton",
+       508          "cssProperty": "font-weight"
+       509        },
+
+● Now let me update the focus border attributes (rename to "Button Enhanced Border" and keep in buttonBorders):
+
+● Update(schemas\tabs.json)
+  ⎿  Updated schemas\tabs.json with 16 additions and 17 removals         
+       621          "type": "boolean",
+       622          "default": true,
+       623          "cssVar": "tabs-enable-focus-border",
+       624 -        "group": "specialBorders",
+       625 -        "label": "Enable Focus Border",
+       626 -        "description": "Enable or disable focus
+           -   border settings for tab buttons",
+       624 +        "group": "buttonBorders",
+       625 +        "label": "Enable Enhanced Border",
+       626 +        "description": "Enable or disable enhanced
+           +   border settings for tab buttons (adjacent to content)",
+       627          "themeable": false,
+       628 -        
+       628          "control": "ToggleControl",
+       629 -        "order": 1,
+       629 +        "order": 20,
+       630          "appliesTo": "tabButton",
+       631          "cssProperty": "border"
+       632        },
+     ...
+       635          "type": "string",
+       636          "default": "#dddddd",
+       637          "cssVar": "tabs-focus-border-color",
+       638 -        "group": "specialBorders",
+       639 -        "label": "Focus Border Color",
+       638 +        "group": "buttonBorders",
+       639 +        "label": "Enhanced Border Color",
+       640          "description": "Border color for inactive button edge
+              adjacent to content",
+       641          "themeable": true,
+       642          "control": "ColorPicker",
+       643          "state": "focus",
+       644 -        "order": 2,
+       644 +        "order": 21,
+       645          "appliesTo": "tabButton",
+       646          "cssProperty": "border-color"
+       647        },
+     ...
+       649          "type": "string",
+       650          "default": "#ffffff",
+       651          "cssVar": "tabs-focus-border-color-active",
+       652 -        "group": "specialBorders",
+       653 -        "label": "Focus Border Color Active",
+       652 +        "group": "buttonBorders",
+       653 +        "label": "Enhanced Border Color Active",
+       654          "description": "Border color for active button edge 
+             adjacent to content",
+       655          "themeable": true,
+       656          "control": "ColorPicker",
+       657          "state": "active",
+       658 -        "order": 3,
+       658 +        "order": 22,
+       659          "appliesTo": "tabButton",
+       660          "cssProperty": "border-color"
+       661        },
+     ...
+       663          "type": "number",
+       664          "default": 2,
+       665          "cssVar": "tabs-focus-border-width",
+       666 -        "group": "specialBorders",
+       667 -        "label": "Focus Border Width",
+       666 +        "group": "buttonBorders",
+       667 +        "label": "Enhanced Border Width",
+       668          "description": "Width of button edge adjacent to 
+             content",
+       669          "themeable": true,
+       670          "control": "RangeControl",
+       671          "min": 0,
+       672          "max": 10,
+       673          "unit": "px",
+       674 -        "order": 4,
+       674 +        "order": 23,
+       675          "appliesTo": "tabButton",
+       676          "cssProperty": "border-width"
+       677        },
+     ...
+       679          "type": "string",
+       680          "default": "solid",
+       681          "cssVar": "tabs-focus-border-style",
+       682 -        "group": "specialBorders",
+       683 -        "label": "Focus Border Style",
+       682 +        "group": "buttonBorders",
+       683 +        "label": "Enhanced Border Style",
+       684          "description": "Style of button edge adjacent to 
+             content",
+       685          "themeable": true,
+       686          "control": "SelectControl",
+     ...
+       706              "value": "double"
+       707            }
+       708          ],
+       709 -        "order": 5,
+       709 +        "order": 24,
+       710          "appliesTo": "tabButton",
+       711          "cssProperty": "border-style"
+       712        },
+
+● Now let me update the external borders (change group from "borders" to "externalBorders"):
+
+● Update(schemas\tabs.json)
+  ⎿  Updated schemas\tabs.json with 6 additions and 6 removals           
+       1035          "type": "string",
+       1036          "default": "#dddddd",
+       1037          "cssVar": "tabs-border-color",
+       1038 -        "group": "borders",
+       1038 +        "group": "externalBorders",
+       1039          "label": "Border Color",
+       1040          "description": "Border color for main tabs wrapper",
+       1041          "themeable": true,
+     ...
+       1048          "type": "number",
+       1049          "default": 0,
+       1050          "cssVar": "tabs-border-width",
+       1051 -        "group": "borders",
+       1051 +        "group": "externalBorders",
+       1052          "label": "Border Width",
+       1053          "description": "Border width for main wrapper",
+       1054          "themeable": true,
+     ...
+       1064          "type": "string",
+       1065          "default": "solid",
+       1066          "cssVar": "tabs-border-style",
+       1067 -        "group": "borders",
+       1067 +        "group": "externalBorders",
+       1068          "label": "Border Style",
+       1069          "description": "Border style for wrapper",
+       1070          "themeable": true,
+     ...
+       1104            "bottomLeft": 0
+       1105          },
+       1106          "cssVar": "tabs-border-radius",
+       1107 -        "group": "borders",
+       1107 +        "group": "externalBorders",
+       1108          "label": "Border Radius",
+       1109          "description": "Corner radius for main wrapper",
+       1110          "themeable": true,
+     ...
+       1118          "type": "string",
+       1119          "default": "none",
+       1120          "cssVar": "tabs-border-shadow",
+       1121 -        "group": "borders",
+       1121 +        "group": "externalBorders",
+       1122          "label": "Shadow",
+       1123          "description": "Box shadow for main wrapper",
+       1124          "themeable": true,
+     ...
+       1131          "type": "string",
+       1132          "default": "none",
+       1133          "cssVar": "tabs-border-shadow-hover",
+       1134 -        "group": "borders",
+       1134 +        "group": "externalBorders",
+       1135          "label": "Shadow Hover",
+       1136          "description": "Box shadow for wrapper on hover",
+       1137          "themeable": true,
+  ⎿  Limit reached · resets 4am (Europe/Paris) · /upgrade to Max or turn on 
+     /extra-usage
+     /upgrade or /extra-usage to finish what you're working on.
+
+
+

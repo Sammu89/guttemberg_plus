@@ -12,29 +12,31 @@
 @use 'theme-generated';
 
 /* Block wrapper */
-.wp-block-tabs {
+.gutplus-tabs {
 	overflow: clip;
 	border: var(--tabs-border-width) var(--tabs-border-style) var(--tabs-border-color);
 	border-radius: var(--tabs-border-radius);
 	box-shadow: var(--tabs-border-shadow);
 	transition: box-shadow 0.2s ease;
+	margin-top: 1em;
+	margin-bottom: 1em;
 
 	&:hover {
 		box-shadow: var(--tabs-border-shadow-hover);
 	}
 
-	// Alignment classes (sammu-blocks)
-	&.sammu-blocks-align-left {
+	// Alignment classes
+	&.gutplus-align-left {
 		margin-left: 0 !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-center {
+	&.gutplus-align-center {
 		margin-left: auto !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-right {
+	&.gutplus-align-right {
 		margin-left: auto !important;
 		margin-right: 0 !important;
 	}
@@ -53,12 +55,22 @@
 	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
 	border-bottom: var(--tabs-divider-border-width) var(--tabs-divider-border-style) var(--tabs-divider-border-color);
 
+	/* Base vertical - shared by both left and right */
 	&[role="tablist"][aria-orientation="vertical"] {
 		flex-direction: column;
-		padding-right: 0;
-		/* Vertical orientation - divider border moves to right edge */
 		border-bottom: none;
+	}
+
+	/* Vertical-left: nav on left, border on right */
+	.gutplus-tabs[data-orientation="vertical-left"] &[role="tablist"] {
+		padding-right: 0;
 		border-right: var(--tabs-divider-border-width) var(--tabs-divider-border-style) var(--tabs-divider-border-color);
+	}
+
+	/* Vertical-right: nav on right, border on left */
+	.gutplus-tabs[data-orientation="vertical-right"] &[role="tablist"] {
+		padding-left: 0;
+		border-left: var(--tabs-divider-border-width) var(--tabs-divider-border-style) var(--tabs-divider-border-color);
 	}
 }
 
@@ -124,16 +136,39 @@
 		cursor: not-allowed;
 	}
 
-	/* Vertical orientation - focus border moves to right edge */
-	.tabs-list[aria-orientation="vertical"] & {
-		border-right-color: var(--tabs-button-active-border-color);
-		/* Override bottom border with right border for vertical */
-		border-bottom-color: transparent;
+	/* Vertical-left: focus border on right, active tab connects to panel */
+	.gutplus-tabs[data-orientation="vertical-left"] .tabs-list & {
+		/* Reset bottom to normal button border (not focus border) */
+		border-bottom: var(--tabs-button-border-width) var(--tabs-button-border-style) var(--tabs-button-border-color);
+		/* Focus border moves to right edge */
 		border-right: var(--tabs-focus-border-width) var(--tabs-focus-border-style) var(--tabs-focus-border-color);
 
 		&.active,
 		&[aria-selected="true"] {
-			border-right-color: var(--tabs-focus-border-color-active);
+			/* Hide right border to connect with panel */
+			border-right-color: var(--tabs-panel-bg, #ffffff);
+			/* Ensure other borders stay consistent */
+			border-top-color: var(--tabs-button-border-color);
+			border-bottom-color: var(--tabs-button-border-color);
+			border-left-color: var(--tabs-button-border-color);
+		}
+	}
+
+	/* Vertical-right: focus border on left, active tab connects to panel */
+	.gutplus-tabs[data-orientation="vertical-right"] .tabs-list & {
+		/* Reset bottom to normal button border (not focus border) */
+		border-bottom: var(--tabs-button-border-width) var(--tabs-button-border-style) var(--tabs-button-border-color);
+		/* Focus border moves to left edge */
+		border-left: var(--tabs-focus-border-width) var(--tabs-focus-border-style) var(--tabs-focus-border-color);
+
+		&.active,
+		&[aria-selected="true"] {
+			/* Hide left border to connect with panel */
+			border-left-color: var(--tabs-panel-bg, #ffffff);
+			/* Ensure other borders stay consistent */
+			border-top-color: var(--tabs-button-border-color);
+			border-bottom-color: var(--tabs-button-border-color);
+			border-right-color: var(--tabs-button-border-color);
 		}
 	}
 }
@@ -218,17 +253,54 @@
 }
 
 /* Layout variations */
-.wp-block-tabs[data-orientation="vertical"] {
+
+/* Vertical-left layout: nav on left, content on right */
+.gutplus-tabs[data-orientation="vertical-left"] {
 	display: flex;
-	gap: 1.5rem;
+	flex-direction: row;
+	gap: 0;
+	align-items: stretch;
 
 	.tabs-list {
 		flex-shrink: 0;
 		min-width: 200px;
+		padding-bottom: 0.5rem;
 	}
 
 	.tabs-panels {
 		flex: 1;
+	}
+
+	/* Panel border adjustment - remove left border (adjacent to tabs) */
+	.tab-panel {
+		border-left: none;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}
+
+/* Vertical-right layout: nav on right, content on left */
+.gutplus-tabs[data-orientation="vertical-right"] {
+	display: flex;
+	flex-direction: row-reverse;
+	gap: 0;
+	align-items: stretch;
+
+	.tabs-list {
+		flex-shrink: 0;
+		min-width: 200px;
+		padding-bottom: 0.5rem;
+	}
+
+	.tabs-panels {
+		flex: 1;
+	}
+
+	/* Panel border adjustment - remove right border (adjacent to tabs) */
+	.tab-panel {
+		border-right: none;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
 	}
 }
 
@@ -246,11 +318,10 @@
 
 	.tabs-list {
 		gap: 0.25rem;
-		margin-bottom: 0.75rem;
 	}
 
 	/* Hide tab navigation and show accordion on mobile if responsive fallback enabled */
-	.wp-block-tabs.responsive-accordion {
+	.gutplus-tabs.responsive-accordion {
 
 		.tabs-list,
 		.tabs-panels {

@@ -9,7 +9,7 @@
     "wrapper": {
       "id": "wrapper",
       "tag": "div",
-      "className": "wp-block-tabs sammu-blocks",
+      "className": "gutplus-tabs",
       "description": "Outermost container for the tabs block with theme class and responsive classes",
       "children": ["tabsList", "tabsPanels"],
       "attributes": {
@@ -22,7 +22,7 @@
         "data-icon-open": "{iconTypeOpen || 'none'}"
       },
       "conditionalClass": {
-        "tabs-theme-{currentTheme}": "{currentTheme}",
+        "gutplus-tabs-theme-{currentTheme}": "{currentTheme}",
         "responsive-accordion": "{enableResponsiveFallback}"
       },
       "appliesStyles": [
@@ -51,9 +51,9 @@
       "appliesStyles": [
         "tabListBackgroundColor",
         "tabListAlignment",
-        "dividerBorderColor",
-        "dividerBorderWidth",
-        "dividerBorderStyle"
+        "navBarBorderColor",
+        "navBarBorderWidth",
+        "navBarBorderStyle"
       ]
     },
 
