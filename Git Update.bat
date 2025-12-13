@@ -34,7 +34,6 @@ echo  Discarding ALL local changes...
 echo ========================================
 echo.
 
-rem === THIS IS THE FIX - force reset BEFORE any merge can fail ===
 git fetch origin main
 git reset --hard origin/main
 git clean -fd
@@ -45,7 +44,6 @@ echo.
 echo Current commit:
 git log --oneline -1
 
-rem === Optional: auto npm run build if node_modules exists ===
 if exist "node_modules\" (
   echo.
   echo **node_modules detected - running npm run build...**
@@ -83,7 +81,6 @@ if /i NOT "%CONFIRM%"=="Y" (
 
 git add .
 
-rem Commit message
 set "MSG="
 set /p MSG="Enter commit message (or press Enter for auto): "
 if "%MSG%"=="" (
@@ -97,11 +94,30 @@ git commit -m "%MSG%" || echo Nothing to commit - skipping.
 echo.
 echo Pushing to origin/main ...
 git push --force origin main
+
 if !errorlevel! NEQ 0 (
   echo.
-  echo ERROR: Push failed!
-  pause
-  exit /b 1
+  echo Push failed. Attempting automatic repair...
+
+  echo Setting core.autocrlf to input
+  git config --global core.autocrlf input
+
+  for /f %%b in ('git branch --show-current') do set "CUR_BRANCH=%%b"
+
+  if /i NOT "!CUR_BRANCH!"=="main" (
+    echo Renaming local branch "!CUR_BRANCH!" to "main"
+    git branch -m "!CUR_BRANCH!" main
+  )
+
+  echo Retrying push...
+  git push --force -u origin main
+
+  if !errorlevel! NEQ 0 (
+    echo.
+    echo ERROR: Push failed even after auto-fix.
+    pause
+    exit /b 1
+  )
 )
 
 echo.
