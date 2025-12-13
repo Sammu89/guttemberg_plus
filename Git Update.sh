@@ -2,6 +2,7 @@
 # ========================================
 # Git Sync Utility – Linux version (final)
 # - Force sync + optional npm run build ONLY if node_modules exists
+# - Auto-fix branch mismatch + autocrlf on push failure
 # ========================================
 
 pause() {
@@ -13,7 +14,7 @@ cd "$(dirname "$0")" || exit 1
 
 # Load nvm if present (so npm works when we need it)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" >/dev/null 2>&1
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" >/dev/null 2>&1
 nvm use default >/dev/null 2>&1 || true
 
 BRANCH=${1:-main}
@@ -49,7 +50,6 @@ case "$CHOICE" in
     echo "Local repository successfully forced to latest remote version."
     echo "HEAD is now at $LATEST"
 
-    # ←←← YOUR REQUESTED LOGIC ←←←
     if [ -d "node_modules" ]; then
       echo
       echo "**node_modules detected → running npm run build automatically...**"
@@ -82,8 +82,35 @@ case "$CHOICE" in
     [ -z "$MSG" ] && MSG="Auto commit $(date +'%Y-%m-%d %H:%M')"
 
     git commit -m "$MSG" || echo "Nothing to commit"
-    git push "$REMOTE" "$BRANCH" || { echo "Push failed!"; pause; exit 1; }
 
+    echo
+    echo "Pushing to $REMOTE/$BRANCH ..."
+    git push --force "$REMOTE" "$BRANCH"
+
+    if [ $? -ne 0 ]; then
+      echo
+      echo "Push failed. Attempting automatic repair..."
+
+      echo "Setting core.autocrlf to input"
+      git config --global core.autocrlf input
+
+      CUR_BRANCH=$(git branch --show-current)
+
+      if [ "$CUR_BRANCH" != "$BRANCH" ]; then
+        echo "Renaming local branch '$CUR_BRANCH' → '$BRANCH'"
+        git branch -m "$CUR_BRANCH" "$BRANCH"
+      fi
+
+      echo "Retrying push..."
+      git push --force -u "$REMOTE" "$BRANCH" || {
+        echo
+        echo "ERROR: Push failed even after auto-fix."
+        pause
+        exit 1
+      }
+    fi
+
+    echo
     echo "Remote updated successfully."
     pause
     ;;
