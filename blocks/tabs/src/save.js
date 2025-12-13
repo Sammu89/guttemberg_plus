@@ -24,6 +24,20 @@ import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-g
 import { tabsAttributes } from './tabs-attributes';
 
 /**
+ * Map orientation to ARIA-compliant value
+ * ARIA only supports 'horizontal' or 'vertical'
+ *
+ * @param {string} orientation - The orientation value from attributes
+ * @return {string} ARIA-compliant orientation value
+ */
+function getAriaOrientation( orientation ) {
+	if ( orientation === 'vertical-left' || orientation === 'vertical-right' ) {
+		return 'vertical';
+	}
+	return orientation || 'horizontal';
+}
+
+/**
  * Tabs Save Component
  *
  * @param {Object}   props            Block props
@@ -192,11 +206,11 @@ const getCustomizationStyles = () => {
 	};
 
 	// Build class names - add theme class if using a theme
-	const classNames = [ 'wp-block-tabs', 'sammu-blocks' ];
+	const classNames = [ 'gutplus-tabs' ];
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );
-		classNames.push( `tabs-theme-${ safeThemeId }` );
+		classNames.push( `gutplus-tabs-theme-${ safeThemeId }` );
 	}
 	if ( attributes.enableResponsiveFallback ) {
 		classNames.push( 'responsive-accordion' );
@@ -227,7 +241,7 @@ const getCustomizationStyles = () => {
 			<div
 				className="tabs-list"
 				role="tablist"
-				aria-orientation={ attributes.orientation || 'horizontal' }
+				aria-orientation={ getAriaOrientation( attributes.orientation ) }
 				data-current-tab={ attributes.currentTab || 0 }
 			>
 				{ renderTabButtons() }

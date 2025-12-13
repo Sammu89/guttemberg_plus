@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-12T18:49:18.219Z
+ * Generated at: 2025-12-13T00:48:15.543Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -162,14 +162,14 @@ export function buildEditorStyles(values) {
     if (values.shadowHover !== undefined && values.shadowHover !== null) {
       styles.default.boxShadow = values.shadowHover;
     }
-    if (values.dividerBorderColor !== undefined && values.dividerBorderColor !== null) {
-      styles.default.borderColor = values.dividerBorderColor;
+    if (values.navBarBorderColor !== undefined && values.navBarBorderColor !== null) {
+      styles.default.borderColor = values.navBarBorderColor;
     }
-    if (values.dividerBorderWidth !== undefined && values.dividerBorderWidth !== null) {
-      styles.default.borderWidth = `${values.dividerBorderWidth}px`;
+    if (values.navBarBorderWidth !== undefined && values.navBarBorderWidth !== null) {
+      styles.default.borderWidth = `${values.navBarBorderWidth}px`;
     }
-    if (values.dividerBorderStyle !== undefined && values.dividerBorderStyle !== null) {
-      styles.default.borderStyle = values.dividerBorderStyle;
+    if (values.navBarBorderStyle !== undefined && values.navBarBorderStyle !== null) {
+      styles.default.borderStyle = values.navBarBorderStyle;
     }
 
   return styles;
@@ -359,16 +359,16 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-border-shadow-hover'] = customizations.shadowHover;
   }
 
-  if (customizations.dividerBorderColor !== undefined && customizations.dividerBorderColor !== null) {
-    styles['--tabs-divider-border-color'] = customizations.dividerBorderColor;
+  if (customizations.navBarBorderColor !== undefined && customizations.navBarBorderColor !== null) {
+    styles['--tabs-divider-border-color'] = customizations.navBarBorderColor;
   }
 
-  if (customizations.dividerBorderWidth !== undefined && customizations.dividerBorderWidth !== null) {
-    styles['--tabs-divider-border-width'] = `${customizations.dividerBorderWidth}px`;
+  if (customizations.navBarBorderWidth !== undefined && customizations.navBarBorderWidth !== null) {
+    styles['--tabs-divider-border-width'] = `${customizations.navBarBorderWidth}px`;
   }
 
-  if (customizations.dividerBorderStyle !== undefined && customizations.dividerBorderStyle !== null) {
-    styles['--tabs-divider-border-style'] = customizations.dividerBorderStyle;
+  if (customizations.navBarBorderStyle !== undefined && customizations.navBarBorderStyle !== null) {
+    styles['--tabs-divider-border-style'] = customizations.navBarBorderStyle;
   }
 
   return styles;

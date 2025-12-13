@@ -9,7 +9,7 @@
     "wrapper": {
       "id": "wrapper",
       "tag": "div",
-      "className": "wp-block-custom-toc sammu-blocks",
+      "className": "gutplus-toc",
       "description": "Outermost container for the TOC block with theme class and position type",
       "children": ["titleStatic", "titleCollapsible", "titleIconOnly", "content"],
       "attributes": {
@@ -30,7 +30,7 @@
         "data-click-behavior": "{clickBehavior || 'navigate'}"
       },
       "conditionalClass": {
-        "toc-theme-{currentTheme}": "{currentTheme}",
+        "gutplus-toc-theme-{currentTheme}": "{currentTheme}",
         "toc-position-{positionType}": "{positionType}"
       },
       "appliesStyles": [

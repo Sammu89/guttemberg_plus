@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-12T18:49:18.263Z
+ * Generated at: 2025-12-13T00:48:15.579Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -99,9 +99,9 @@ export const CSS_VAR_MAPPINGS = {
     borderRadius: { cssVar: '--tabs-border-radius', unit: 'px', type: 'object' },
     shadow: { cssVar: '--tabs-border-shadow', unit: null, type: 'string' },
     shadowHover: { cssVar: '--tabs-border-shadow-hover', unit: null, type: 'string' },
-    dividerBorderColor: { cssVar: '--tabs-divider-border-color', unit: null, type: 'string' },
-    dividerBorderWidth: { cssVar: '--tabs-divider-border-width', unit: 'px', type: 'number' },
-    dividerBorderStyle: { cssVar: '--tabs-divider-border-style', unit: null, type: 'string' },
+    navBarBorderColor: { cssVar: '--tabs-divider-border-color', unit: null, type: 'string' },
+    navBarBorderWidth: { cssVar: '--tabs-divider-border-width', unit: 'px', type: 'number' },
+    navBarBorderStyle: { cssVar: '--tabs-divider-border-style', unit: null, type: 'string' },
   },
   toc: {
     wrapperBackgroundColor: { cssVar: '--toc-wrapper-background-color', unit: null, type: 'string' },

@@ -24,7 +24,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
  * Initialize all accordion blocks on the page
  */
 function initializeAccordions() {
-	const accordionBlocks = document.querySelectorAll( '.wp-block-accordion' );
+	const accordionBlocks = document.querySelectorAll( '.gutplus-accordion' );
 
 	if ( ! accordionBlocks || accordionBlocks.length === 0 ) {
 		return; // Graceful exit, no accordion blocks found
@@ -43,7 +43,7 @@ function initializeAccordions() {
 /**
  * Initialize a single accordion block
  *
- * New structure: .accordion-item IS the root element (.wp-block-accordion)
+ * New structure: .gutplus-accordion is the block root element
  * The block itself is the accordion item.
  *
  * @param {HTMLElement} block Accordion block element (which is also the accordion-item)
@@ -55,7 +55,7 @@ function initializeSingleAccordion( block ) {
 	}
 
 	// New structure: the block itself is the accordion-item
-	// It has classes: accordion-item wp-block-accordion sammu-blocks
+	// It has class: gutplus-accordion
 	const item = block;
 
 	try {

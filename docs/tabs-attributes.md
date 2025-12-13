@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-12T18:49:18.217Z
+> Generated at: 2025-12-13T00:48:15.541Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -27,7 +27,7 @@ Behavioral and functional settings that control how tabs work
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
 | `tabs` | array | _object_ | No (content) | Array of tab items with title, content, and state |
 | `tabsData` | array | _object_ | No (structural) | Synchronized tab button data for server-side rendering |
-| `orientation` | string | `horizontal` | No (generalal) | Tab layout orientation |
+| `orientation` | string | `horizontal` | No (structural) | Tab layout orientation |
 | `activationMode` | string | `auto` | No (generalal) | How tabs are activated (auto = focus, manual = click) |
 | `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
 | `title` | string | `Tabs` | No (content) | Block title (for accessibility) |
@@ -51,62 +51,36 @@ Icon appearance and styling
 
 ## Button Colors
 
-Tab button text and background colors for inactive state
+Tab button text and background colors for all states
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `tabButtonColor` | string | `#666666` | Yes | Text color for inactive tab buttons |
 | `tabButtonBackgroundColor` | string | `#f5f5f5` | Yes | Background color for inactive tab buttons |
-
-## Button Hover
-
-Tab button colors when hovering
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
 | `tabButtonHoverColor` | string | `#333333` | Yes | Text color when hovering over tab |
 | `tabButtonHoverBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over tab |
-
-## Button Active
-
-Tab button colors for active/selected state
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
 | `tabButtonActiveColor` | string | `#333333` | Yes | Text color for active/selected tab |
 | `tabButtonActiveBackgroundColor` | string | `#ffffff` | Yes | Background color for active/selected tab |
-| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
-| `tabButtonActiveBorderBottomColor` | string | `#ffffff` | Yes | Bottom border color for active tab (creates connected effect) |
-| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
 
 ## Button Borders
 
-Tab button full border around the button element
+Tab button borders including enhanced border adjacent to content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
+| `tabButtonActiveBorderBottomColor` | string | `#ffffff` | Yes | Bottom border color for active tab (creates connected effect) |
 | `tabButtonBorderColor` | string | `#dddddd` | Yes | Border color for inactive tab buttons |
 | `tabButtonBorderWidth` | number | `1` | Yes | Border width for tab buttons |
 | `tabButtonBorderStyle` | string | `solid` | Yes | Border style for tab buttons |
 | `tabButtonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
 | `tabButtonShadow` | string | `none` | Yes | Box shadow for tab buttons |
 | `tabButtonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
-
-## Special Borders
-
-Individual button borders and navigation bar divider borders adjacent to content
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `enableFocusBorder` | boolean | `true` | No (N/A) | Enable or disable focus border settings for tab buttons |
+| `enableFocusBorder` | boolean | `true` | No (N/A) | Enable or disable enhanced border settings for tab buttons (adjacent to content) |
 | `focusBorderColor` | string | `#dddddd` | Yes | Border color for inactive button edge adjacent to content |
 | `focusBorderColorActive` | string | `#ffffff` | Yes | Border color for active button edge adjacent to content |
 | `focusBorderWidth` | number | `2` | Yes | Width of button edge adjacent to content |
 | `focusBorderStyle` | string | `solid` | Yes | Style of button edge adjacent to content |
-| `enableDividerBorder` | boolean | `false` | No (N/A) | Enable or disable divider border settings for navigation bar |
-| `dividerBorderColor` | string | `transparent` | Yes | Color of navbar border adjacent to content |
-| `dividerBorderWidth` | number | `1` | Yes | Width of navbar border adjacent to content |
-| `dividerBorderStyle` | string | `solid` | Yes | Style of navbar border adjacent to content |
 
 ## Button Typography
 
@@ -114,6 +88,7 @@ Tab button typography and alignment
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
 | `tabButtonFontSize` | number | `16` | Yes | Font size for tab buttons |
 | `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons |
 | `tabButtonFontStyle` | string | `normal` | Yes | Font style for tab buttons |
@@ -123,12 +98,16 @@ Tab button typography and alignment
 
 ## Nav Bar
 
-Navigation bar background and alignment
+Navigation bar background, alignment, and border
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `tabListBackgroundColor` | string | `transparent` | Yes | Background color for the tab navigation bar |
 | `tabListAlignment` | string | `left` | Yes | Horizontal alignment of tabs |
+| `enableNavBarBorder` | boolean | `false` | No (N/A) | Enable or disable border between navigation bar and content |
+| `navBarBorderColor` | string | `transparent` | Yes | Color of border between navigation bar and content |
+| `navBarBorderWidth` | number | `1` | Yes | Width of border between navigation bar and content |
+| `navBarBorderStyle` | string | `solid` | Yes | Style of border between navigation bar and content |
 
 ## Content
 
@@ -143,7 +122,7 @@ Content panel colors, borders, and radius
 | `panelBorderStyle` | string | `solid` | Yes | Border style for tab content panel |
 | `panelBorderRadius` | object | _object_ | Yes | Corner radius for tab content panel |
 
-## Borders
+## External Borders
 
 Main tabs wrapper borders and radius
 
@@ -204,7 +183,7 @@ The following CSS custom properties are available for theming:
 | `borderRadius` | `--tabs-border-radius` |
 | `shadow` | `--tabs-border-shadow` |
 | `shadowHover` | `--tabs-border-shadow-hover` |
-| `dividerBorderColor` | `--tabs-divider-border-color` |
-| `dividerBorderWidth` | `--tabs-divider-border-width` |
-| `dividerBorderStyle` | `--tabs-divider-border-style` |
+| `navBarBorderColor` | `--tabs-divider-border-color` |
+| `navBarBorderWidth` | `--tabs-divider-border-width` |
+| `navBarBorderStyle` | `--tabs-divider-border-style` |
 

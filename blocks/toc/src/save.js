@@ -90,11 +90,11 @@ export default function save( { attributes } ) {
 	};
 
 	// Build class names - add theme class if using a theme
-	const classNames = [ 'wp-block-custom-toc', 'sammu-blocks', `toc-position-${ positionType }` ];
+	const classNames = [ 'gutplus-toc', `toc-position-${ positionType }` ];
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );
-		classNames.push( `toc-theme-${ safeThemeId }` );
+		classNames.push( `gutplus-toc-theme-${ safeThemeId }` );
 	}
 
 	// Add alignment class using centralized utility

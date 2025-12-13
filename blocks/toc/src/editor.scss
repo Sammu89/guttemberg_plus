@@ -8,23 +8,23 @@
  * @since 1.0.0
  */
 
-/* Sammu blocks alignment for editor */
-.sammu-blocks {
+/* Gutplus TOC alignment for editor */
+.gutplus-toc {
 	margin-top: 1em !important;
 	margin-bottom: 1em !important;
 	overflow: hidden !important;
 
-	&.sammu-blocks-align-left {
+	&.gutplus-align-left {
 		margin-left: 0 !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-center {
+	&.gutplus-align-center {
 		margin-left: auto !important;
 		margin-right: auto !important;
 	}
 
-	&.sammu-blocks-align-right {
+	&.gutplus-align-right {
 		margin-left: auto !important;
 		margin-right: 0 !important;
 	}

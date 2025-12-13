@@ -9,7 +9,7 @@
     "item": {
       "id": "item",
       "tag": "div",
-      "className": "accordion-item wp-block-accordion sammu-blocks",
+      "className": "gutplus-accordion",
       "description": "Root accordion element - combines item container with block wrapper functionality",
       "children": ["titleWrapper", "content"],
       "attributes": {
@@ -17,8 +17,8 @@
       },
       "conditionalClass": {
         "is-open": "{initiallyOpen}",
-        "accordion-theme-{currentTheme}": "{currentTheme}",
-        "sammu-blocks-align-{accordionHorizontalAlign}": "{accordionHorizontalAlign || 'left'}"
+        "gutplus-accordion-theme-{currentTheme}": "{currentTheme}",
+        "gutplus-align-{accordionHorizontalAlign}": "{accordionHorizontalAlign || 'left'}"
       },
       "appliesStyles": [
         "borderColor",

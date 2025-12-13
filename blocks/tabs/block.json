@@ -15,7 +15,7 @@
 		"html": false,
 		"align": ["wide", "full"],
 		"anchor": true,
-		"className": true,
+		"className": false,
 		"customClassName": true
 	},
 	"_comment": "NOTE: These attributes are intentionally overridden in index.js with tabsAttributes (52+ attributes from shared cascade system). This minimal set serves as documentation of core structural attributes.",

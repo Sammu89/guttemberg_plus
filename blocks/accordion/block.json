@@ -15,7 +15,7 @@
 		"html": false,
 		"align": ["wide", "full"],
 		"anchor": true,
-		"className": true,
+		"className": false,
 		"customClassName": true,
 		"spacing": {
 			"margin": true,

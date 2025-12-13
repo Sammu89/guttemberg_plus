@@ -353,12 +353,12 @@ const getInlineStyles = () => {
 	};
 
 	// Build class names - match frontend structure
-	const classNames = [ 'accordion-item', 'wp-block-accordion', 'sammu-blocks' ];
+	const classNames = [ 'gutplus-accordion' ];
 
 	// Add alignment class (same as frontend)
 	const alignmentClass = attributes.accordionHorizontalAlign
-		? `sammu-blocks-align-${ attributes.accordionHorizontalAlign }`
-		: 'sammu-blocks-align-left';
+		? `gutplus-align-${ attributes.accordionHorizontalAlign }`
+		: 'gutplus-align-left';
 	classNames.push( alignmentClass );
 
 	const blockProps = useBlockProps( {

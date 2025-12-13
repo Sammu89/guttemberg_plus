@@ -16,6 +16,6 @@
  */
 export const getAlignmentClass = ( alignmentValue ) => {
 	return alignmentValue
-		? `sammu-blocks-align-${ alignmentValue }`
-		: 'sammu-blocks-align-left';
+		? `gutplus-align-${ alignmentValue }`
+		: 'gutplus-align-left';
 };
