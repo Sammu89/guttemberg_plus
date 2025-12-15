@@ -16,7 +16,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	try {
 		initializeAccordions();
 	} catch ( error ) {
-		console.error( 'Accordion block initialization failed:', error );
+		// console.error( 'Accordion block initialization failed:', error );
 	}
 } );
 
@@ -34,7 +34,7 @@ function initializeAccordions() {
 		try {
 			initializeSingleAccordion( block );
 		} catch ( error ) {
-			console.error( 'Failed to initialize accordion block:', error );
+			// console.error( 'Failed to initialize accordion block:', error );
 			// Continue with next block
 		}
 	} );
@@ -50,7 +50,7 @@ function initializeAccordions() {
  */
 function initializeSingleAccordion( block ) {
 	if ( ! block ) {
-		console.warn( 'Accordion block is null, skipping' );
+		// console.warn( 'Accordion block is null, skipping' );
 		return;
 	}
 
@@ -63,7 +63,7 @@ function initializeSingleAccordion( block ) {
 		const panel = item.querySelector( '.accordion-content' );
 
 		if ( ! button || ! panel ) {
-			console.warn( 'Accordion item structure incomplete, skipping' );
+			// console.warn( 'Accordion item structure incomplete, skipping' );
 			return;
 		}
 
@@ -73,7 +73,7 @@ function initializeSingleAccordion( block ) {
 			try {
 				toggleAccordion( item, button, panel, block );
 			} catch ( error ) {
-				console.error( 'Failed to toggle accordion:', error );
+				// console.error( 'Failed to toggle accordion:', error );
 			}
 		} );
 
@@ -82,7 +82,7 @@ function initializeSingleAccordion( block ) {
 			try {
 				handleKeyboardNavigation( e, button, block );
 			} catch ( error ) {
-				console.error( 'Keyboard navigation failed:', error );
+				// console.error( 'Keyboard navigation failed:', error );
 			}
 		} );
 
@@ -92,7 +92,7 @@ function initializeSingleAccordion( block ) {
 			openAccordionItem( item, button, panel, false );
 		}
 	} catch ( error ) {
-		console.error( 'Failed to initialize accordion item:', error );
+		// console.error( 'Failed to initialize accordion item:', error );
 	}
 }
 
@@ -242,55 +242,84 @@ function updateIcon( button, isOpen ) {
  * @param {HTMLElement} panel Content panel
  */
 function animateOpen( panel ) {
+	console.log( '🔵 [OPEN] Starting animation' );
+
 	// Get animation duration from CSS variable
 	const duration = parseInt(
 		getComputedStyle( panel ).getPropertyValue( '--accordion-animation-duration' ) || '300'
 	);
+	console.log( '🔵 [OPEN] Duration:', duration + 'ms' );
 
-	// Ensure element is visible and set display property
+	// Step 1: Clear ALL inline styles first to ensure clean measurement
+	panel.style.cssText = '';
+	panel.removeAttribute( 'hidden' );
 	panel.style.display = 'block';
-	panel.style.overflow = 'visible';
-	panel.style.height = 'auto';
-	panel.style.opacity = '1';
-	panel.style.borderTopWidth = '';
+	console.log( '🔵 [OPEN] Cleared all inline styles, set display=block' );
 
-	// Force reflow to ensure browser has calculated the natural height
+	// Force reflow
 	panel.offsetHeight;
 
-	// NOW get the accurate target height and border width
-	const targetHeight = panel.scrollHeight;
-	const targetBorderTopWidth = getComputedStyle( panel ).borderTopWidth;
+	// Now measure the natural height
+	let computedStyle = getComputedStyle( panel );
+	console.log( '🔵 [OPEN] Computed height:', computedStyle.height );
+	console.log( '🔵 [OPEN] Computed padding:', computedStyle.paddingTop, computedStyle.paddingBottom );
+	console.log( '🔵 [OPEN] offsetHeight:', panel.offsetHeight );
+	console.log( '🔵 [OPEN] scrollHeight:', panel.scrollHeight );
+	console.log( '🔵 [OPEN] clientHeight:', panel.clientHeight );
 
-	// Set initial state - height and opacity to 0 for animation start
+	const targetHeight = panel.scrollHeight;
+	const targetBorderTopWidth = computedStyle.borderTopWidth;
+	console.log( '🔵 [OPEN] Target height for animation:', targetHeight + 'px', 'borderTopWidth:', targetBorderTopWidth );
+
+	// Step 2: Set initial collapsed state for animation
 	panel.style.height = '0';
 	panel.style.opacity = '0';
-	panel.style.overflow = 'hidden';
 	panel.style.borderTopWidth = '0';
+	panel.style.overflow = 'hidden';
+	console.log( '🔵 [OPEN] Set initial state (height=0, opacity=0, overflow=hidden)' );
 
 	// Force reflow to ensure browser registers initial state before transition
 	panel.offsetHeight;
 
-	// Set transition BEFORE animating (critical for CSS transitions to work)
-	// Include border-top-width to fade in the divider border
+	// Step 3: Set transition BEFORE animating
 	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out, border-top-width ${ duration }ms ease-in-out`;
+	console.log( '🔵 [OPEN] Transition set' );
 
-	// Animate to full height and opacity, and restore border
+	// Step 4: Trigger animation to full height
 	panel.style.height = `${ targetHeight }px`;
 	panel.style.opacity = '1';
 	panel.style.borderTopWidth = targetBorderTopWidth;
+	console.log( '🔵 [OPEN] Animation triggered to height:', targetHeight + 'px' );
 
 	// Clean up after animation completes using transitionend event
-	const handleTransitionEnd = () => {
+	// Only listen for height transition to avoid multiple firings
+	const handleTransitionEnd = ( e ) => {
+		console.log( '🔵 [OPEN] transitionend fired for property:', e.propertyName );
+
+		// Only respond to height transition end to avoid cleanup on opacity/border transitions
+		if ( e.propertyName !== 'height' ) {
+			console.log( '🔵 [OPEN] Ignoring transitionend for', e.propertyName );
+			return;
+		}
+
+		console.log( '🔵 [OPEN] Height before cleanup:', panel.style.height );
+		console.log( '🔵 [OPEN] scrollHeight before cleanup:', panel.scrollHeight );
+
+		// CRITICAL: Remove transition FIRST, then set height to auto
+		// This prevents any jump if auto height differs from animated height
+		panel.style.transition = '';
 		panel.style.height = 'auto';
 		panel.style.overflow = '';
 		panel.style.borderTopWidth = '';
-		panel.style.transition = '';
+
+		console.log( '🔵 [OPEN] Cleanup complete. Final scrollHeight:', panel.scrollHeight );
+
 		panel.removeEventListener( 'transitionend', handleTransitionEnd );
 		panel.removeEventListener( 'transitioncancel', handleTransitionEnd );
 	};
 
-	panel.addEventListener( 'transitionend', handleTransitionEnd, { once: true } );
-	panel.addEventListener( 'transitioncancel', handleTransitionEnd, { once: true } );
+	panel.addEventListener( 'transitionend', handleTransitionEnd );
+	panel.addEventListener( 'transitioncancel', handleTransitionEnd );
 }
 
 /**
@@ -300,19 +329,24 @@ function animateOpen( panel ) {
  * @param {Function}    callback Callback after animation
  */
 function animateClose( panel, callback ) {
+	console.log( '🔴 [CLOSE] Starting animation' );
+
 	// Get animation duration from CSS variable
 	const duration = parseInt(
 		getComputedStyle( panel ).getPropertyValue( '--accordion-animation-duration' ) || '300'
 	);
+	console.log( '🔴 [CLOSE] Duration:', duration + 'ms' );
 
 	// Get current height BEFORE animation starts
 	const currentHeight = panel.scrollHeight;
+	console.log( '🔴 [CLOSE] Current scrollHeight:', currentHeight + 'px' );
 
 	// Set overflow hidden for animation
 	panel.style.overflow = 'hidden';
 
 	// Set explicit height (required before animation can work)
 	panel.style.height = `${ currentHeight }px`;
+	console.log( '🔴 [CLOSE] Set explicit height:', currentHeight + 'px' );
 
 	// Force reflow to ensure browser registers current height
 	panel.offsetHeight;
@@ -320,25 +354,42 @@ function animateClose( panel, callback ) {
 	// Set transition BEFORE animating (critical for CSS transitions to work)
 	// Include border-top-width to fade out the divider border
 	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out, border-top-width ${ duration }ms ease-in-out`;
+	console.log( '🔴 [CLOSE] Transition set' );
 
 	// Animate to 0 - also fade out divider border width
 	panel.style.height = '0';
 	panel.style.opacity = '0';
 	panel.style.borderTopWidth = '0';
+	console.log( '🔴 [CLOSE] Animation triggered to height: 0' );
 
 	// Execute callback after animation completes using transitionend event
-	const handleTransitionEnd = () => {
+	// Only listen for height transition to avoid multiple firings
+	const handleTransitionEnd = ( e ) => {
+		console.log( '🔴 [CLOSE] transitionend fired for property:', e.propertyName );
+
+		// Only respond to height transition end to avoid cleanup on opacity/border transitions
+		if ( e.propertyName !== 'height' ) {
+			console.log( '🔴 [CLOSE] Ignoring transitionend for', e.propertyName );
+			return;
+		}
+
+		console.log( '🔴 [CLOSE] Cleanup starting' );
+
+		// Remove transition first to prevent any unwanted animations
 		panel.style.transition = '';
 		panel.style.overflow = '';
+		panel.removeEventListener( 'transitionend', handleTransitionEnd );
+		panel.removeEventListener( 'transitioncancel', handleTransitionEnd );
+
+		console.log( '🔴 [CLOSE] Cleanup complete, executing callback' );
+
 		if ( callback ) {
 			callback();
 		}
-		panel.removeEventListener( 'transitionend', handleTransitionEnd );
-		panel.removeEventListener( 'transitioncancel', handleTransitionEnd );
 	};
 
-	panel.addEventListener( 'transitionend', handleTransitionEnd, { once: true } );
-	panel.addEventListener( 'transitioncancel', handleTransitionEnd, { once: true } );
+	panel.addEventListener( 'transitionend', handleTransitionEnd );
+	panel.addEventListener( 'transitioncancel', handleTransitionEnd );
 }
 
 /**
@@ -372,7 +423,7 @@ function handleKeyboardNavigation( e, button, block ) {
 	const currentIndex = buttons.indexOf( button );
 
 	if ( currentIndex === -1 ) {
-		console.warn( 'Current button not found in buttons array' );
+		// console.warn( 'Current button not found in buttons array' );
 		return;
 	}
 
