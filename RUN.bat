@@ -2,31 +2,68 @@
 setlocal EnableDelayedExpansion
 
 rem ========================================
-rem Git Sync Utility for Windows
-rem Same behaviour as your Linux version
+rem Developer Tools Menu - Windows
+rem All-in-one utility script
 rem ========================================
 
-:title
+:MENU
 cls
 echo ========================================
-echo     Git Sync Utility (Windows)
+echo     Developer Tools Menu
 echo     Repo: %cd%
 echo ========================================
 echo.
-echo What do you want to do?
-echo [1] Update LOCAL from SERVER (force discard all local changes)
-echo [2] Update SERVER from LOCAL (git push)
+echo [1] Claude Code (dangerously skip permissions)
+echo [2] Codex --yolo
+echo [3] Git: Update LOCAL from SERVER
+echo [4] Git: Update SERVER from LOCAL
+echo [5] Run npm run build
+echo [0] Exit
 echo.
 set "CHOICE="
-set /p CHOICE="Select 1 or 2: "
+set /p CHOICE="Select an option (0-5): "
 
-if "%CHOICE%"=="1" goto PULL
-if "%CHOICE%"=="2" goto PUSH
+if "%CHOICE%"=="1" goto CLAUDE
+if "%CHOICE%"=="2" goto CODEX
+if "%CHOICE%"=="3" goto GIT_PULL
+if "%CHOICE%"=="4" goto GIT_PUSH
+if "%CHOICE%"=="5" goto NPM_BUILD
+if "%CHOICE%"=="0" goto END
 echo Invalid choice.
 pause
-goto end
+goto MENU
 
-:PULL
+rem ========================================
+rem Option 1: Claude Code
+rem ========================================
+:CLAUDE
+echo.
+echo ========================================
+echo  Starting Claude Code...
+echo  (dangerously skip permissions)
+echo ========================================
+echo.
+claude --dangerously-skip-permissions
+pause
+goto MENU
+
+rem ========================================
+rem Option 2: Codex
+rem ========================================
+:CODEX
+echo.
+echo ========================================
+echo  Starting Codex --yolo...
+echo ========================================
+echo.
+codex --yolo
+pause
+goto MENU
+
+rem ========================================
+rem Option 3: Git Pull (Force Local to Match Remote)
+rem ========================================
+:GIT_PULL
 echo.
 echo ========================================
 echo  FORCING local repo to match remote...
@@ -60,9 +97,12 @@ if exist "node_modules\" (
 
 echo.
 pause
-goto end
+goto MENU
 
-:PUSH
+rem ========================================
+rem Option 4: Git Push (Update Remote from Local)
+rem ========================================
+:GIT_PUSH
 echo.
 echo ========================================
 echo  PUSH: Updating remote with local changes
@@ -76,7 +116,7 @@ set /p CONFIRM="Stage and push ALL local changes? (Y/N): "
 if /i NOT "%CONFIRM%"=="Y" (
   echo Operation cancelled.
   pause
-  goto end
+  goto MENU
 )
 
 git add .
@@ -116,14 +156,41 @@ if !errorlevel! NEQ 0 (
     echo.
     echo ERROR: Push failed even after auto-fix.
     pause
-    exit /b 1
+    goto MENU
   )
 )
 
 echo.
 echo Remote updated successfully.
 pause
-goto end
+goto MENU
 
-:end
+rem ========================================
+rem Option 5: NPM Build
+rem ========================================
+:NPM_BUILD
+echo.
+echo ========================================
+echo  Running npm run build...
+echo ========================================
+echo.
+npm run build
+if !errorlevel! EQU 0 (
+  echo.
+  echo Build completed successfully.
+) else (
+  echo.
+  echo ERROR: Build failed.
+)
+echo.
+pause
+goto MENU
+
+rem ========================================
+rem Exit
+rem ========================================
+:END
+echo.
+echo Goodbye!
 endlocal
+exit /b 0

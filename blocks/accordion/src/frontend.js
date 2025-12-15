@@ -254,41 +254,160 @@ function animateOpen( panel ) {
 	panel.style.cssText = '';
 	panel.removeAttribute( 'hidden' );
 	panel.style.display = 'block';
-	console.log( '🔵 [OPEN] Cleared all inline styles, set display=block' );
+	// CRITICAL FIX: Add transparent border to create Block Formatting Context
+	// This prevents margin collapse during transitions (margins won't escape the container)
+	panel.style.borderTop = '1px solid transparent';
+	panel.style.overflow = 'hidden';
+	console.log( '🔵 [OPEN] Cleared all inline styles, set display=block, overflow=hidden, BFC border' );
 
 	// Force reflow
 	panel.offsetHeight;
+
+	// ====================================
+	// DIAGNOSTIC CODE: Monitor what changes between measurement and animation
+	// ====================================
+	const diagnosticInfo = {
+		initialScrollHeight: panel.scrollHeight,
+		measurements: [],
+		mutations: [],
+		images: [],
+		fonts: []
+	};
+
+	// Check all images in the panel
+	const images = panel.querySelectorAll( 'img' );
+	console.log( '🔍 [DIAGNOSTIC] Found', images.length, 'images in panel' );
+	images.forEach( ( img, index ) => {
+		const imgInfo = {
+			index,
+			src: img.src,
+			complete: img.complete,
+			naturalWidth: img.naturalWidth,
+			naturalHeight: img.naturalHeight,
+			width: img.width,
+			height: img.height,
+			hasExplicitDimensions: img.hasAttribute( 'width' ) && img.hasAttribute( 'height' )
+		};
+		diagnosticInfo.images.push( imgInfo );
+		console.log( `🔍 [DIAGNOSTIC] Image ${index}:`, imgInfo );
+
+		if ( ! img.complete ) {
+			img.addEventListener( 'load', () => {
+				console.log( '🖼️ [DIAGNOSTIC] Image', index, 'loaded AFTER measurement!', img.src );
+				console.log( '🖼️ [DIAGNOSTIC] New scrollHeight:', panel.scrollHeight );
+			} );
+		}
+	} );
+
+	// Monitor DOM mutations
+	const mutationObserver = new MutationObserver( ( mutations ) => {
+		mutations.forEach( ( mutation ) => {
+			const mutationInfo = {
+				type: mutation.type,
+				target: mutation.target.tagName,
+				addedNodes: mutation.addedNodes.length,
+				removedNodes: mutation.removedNodes.length,
+				attributeName: mutation.attributeName,
+				oldValue: mutation.oldValue
+			};
+			diagnosticInfo.mutations.push( mutationInfo );
+			console.log( '🧬 [DIAGNOSTIC] DOM Mutation:', mutationInfo );
+			console.log( '🧬 [DIAGNOSTIC] New scrollHeight:', panel.scrollHeight );
+		} );
+	} );
+
+	mutationObserver.observe( panel, {
+		childList: true,
+		attributes: true,
+		characterData: true,
+		subtree: true,
+		attributeOldValue: true
+	} );
+
+	// Monitor font loading
+	if ( document.fonts && document.fonts.ready ) {
+		const fontsReady = document.fonts.check( '1em sans-serif', panel.textContent );
+		console.log( '🔤 [DIAGNOSTIC] Fonts ready:', fontsReady );
+
+		document.fonts.ready.then( () => {
+			console.log( '🔤 [DIAGNOSTIC] All fonts loaded' );
+			console.log( '🔤 [DIAGNOSTIC] New scrollHeight:', panel.scrollHeight );
+		} );
+	}
+
+	// Measure height multiple times with small delays to catch changes
+	const measureHeightOverTime = () => {
+		const times = [ 0, 10, 50, 100, 200, 300 ];
+		times.forEach( ( delay ) => {
+			setTimeout( () => {
+				const measurement = {
+					time: delay,
+					scrollHeight: panel.scrollHeight,
+					offsetHeight: panel.offsetHeight,
+					clientHeight: panel.clientHeight
+				};
+				diagnosticInfo.measurements.push( measurement );
+				console.log( `📏 [DIAGNOSTIC] Measurement at ${delay}ms:`, measurement );
+			}, delay );
+		} );
+	};
+
+	measureHeightOverTime();
 
 	// Now measure the natural height
 	let computedStyle = getComputedStyle( panel );
 	console.log( '🔵 [OPEN] Computed height:', computedStyle.height );
 	console.log( '🔵 [OPEN] Computed padding:', computedStyle.paddingTop, computedStyle.paddingBottom );
+	console.log( '🔵 [OPEN] Computed font-family:', computedStyle.fontFamily );
+	console.log( '🔵 [OPEN] Computed line-height:', computedStyle.lineHeight );
 	console.log( '🔵 [OPEN] offsetHeight:', panel.offsetHeight );
 	console.log( '🔵 [OPEN] scrollHeight:', panel.scrollHeight );
 	console.log( '🔵 [OPEN] clientHeight:', panel.clientHeight );
 
+	// Check all child elements
+	const children = panel.children;
+	console.log( '🔍 [DIAGNOSTIC] Panel has', children.length, 'direct children' );
+	for ( let i = 0; i < children.length; i++ ) {
+		const child = children[ i ];
+		const childStyle = getComputedStyle( child );
+		console.log( `🔍 [DIAGNOSTIC] Child ${i} (${child.tagName}):`, {
+			offsetHeight: child.offsetHeight,
+			marginTop: childStyle.marginTop,
+			marginBottom: childStyle.marginBottom,
+			display: childStyle.display
+		} );
+	}
+
+	// CRITICAL: Set a temporary explicit height to force margins NOT to collapse
+	// This way we measure the same height we'll see during animation
+	const tempHeight = panel.scrollHeight;
+	console.log( '🔍 [DIAGNOSTIC] Initial scrollHeight (margins may be collapsed):', tempHeight );
+
+	panel.style.height = tempHeight + 'px';
+	panel.offsetHeight; // force reflow
+
 	const targetHeight = panel.scrollHeight;
+	console.log( '🔍 [DIAGNOSTIC] Final scrollHeight with explicit height (margins NOT collapsed):', targetHeight );
+
 	const targetBorderTopWidth = computedStyle.borderTopWidth;
 	console.log( '🔵 [OPEN] Target height for animation:', targetHeight + 'px', 'borderTopWidth:', targetBorderTopWidth );
 
 	// Step 2: Set initial collapsed state for animation
 	panel.style.height = '0';
 	panel.style.opacity = '0';
-	panel.style.borderTopWidth = '0';
-	panel.style.overflow = 'hidden';
-	console.log( '🔵 [OPEN] Set initial state (height=0, opacity=0, overflow=hidden)' );
+	// BFC border and overflow:hidden already set above
+	console.log( '🔵 [OPEN] Set initial state (height=0, opacity=0)' );
 
 	// Force reflow to ensure browser registers initial state before transition
 	panel.offsetHeight;
 
 	// Step 3: Set transition BEFORE animating
-	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out, border-top-width ${ duration }ms ease-in-out`;
+	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
 	console.log( '🔵 [OPEN] Transition set' );
 
 	// Step 4: Trigger animation to full height
 	panel.style.height = `${ targetHeight }px`;
 	panel.style.opacity = '1';
-	panel.style.borderTopWidth = targetBorderTopWidth;
 	console.log( '🔵 [OPEN] Animation triggered to height:', targetHeight + 'px' );
 
 	// Clean up after animation completes using transitionend event
@@ -305,12 +424,19 @@ function animateOpen( panel ) {
 		console.log( '🔵 [OPEN] Height before cleanup:', panel.style.height );
 		console.log( '🔵 [OPEN] scrollHeight before cleanup:', panel.scrollHeight );
 
+		// Disconnect mutation observer
+		mutationObserver.disconnect();
+
+		// Print diagnostic summary
+		console.log( '📊 [DIAGNOSTIC SUMMARY]', diagnosticInfo );
+		console.log( '📊 [DIAGNOSTIC] Height changed by:', panel.scrollHeight - diagnosticInfo.initialScrollHeight, 'px' );
+
 		// CRITICAL: Remove transition FIRST, then set height to auto
 		// This prevents any jump if auto height differs from animated height
 		panel.style.transition = '';
 		panel.style.height = 'auto';
 		panel.style.overflow = '';
-		panel.style.borderTopWidth = '';
+		panel.style.borderTop = '';
 
 		console.log( '🔵 [OPEN] Cleanup complete. Final scrollHeight:', panel.scrollHeight );
 
@@ -352,14 +478,12 @@ function animateClose( panel, callback ) {
 	panel.offsetHeight;
 
 	// Set transition BEFORE animating (critical for CSS transitions to work)
-	// Include border-top-width to fade out the divider border
-	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out, border-top-width ${ duration }ms ease-in-out`;
+	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
 	console.log( '🔴 [CLOSE] Transition set' );
 
-	// Animate to 0 - also fade out divider border width
+	// Animate to 0
 	panel.style.height = '0';
 	panel.style.opacity = '0';
-	panel.style.borderTopWidth = '0';
 	console.log( '🔴 [CLOSE] Animation triggered to height: 0' );
 
 	// Execute callback after animation completes using transitionend event
