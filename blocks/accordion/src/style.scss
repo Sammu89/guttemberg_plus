@@ -102,9 +102,10 @@
 	transition: opacity 300ms ease;
 }
 
-/* Content panel - handles height animation only, no padding */
+/* Content panel - handles height animation with padding */
 .accordion-content {
 	line-height: 1.6;
+	padding: 20px;
 	overflow: hidden;
 
 	/* Hide divider border when collapsing */
@@ -117,11 +118,6 @@
 	}
 }
 
-/* Content inner wrapper - has padding */
-.accordion-content-inner {
-	padding: 20px;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
 
@@ -130,11 +126,8 @@
 		font-size: 0.95rem;
 	}
 
-	.accordion-content-inner {
-		padding: 0.875rem 1.25rem;
-	}
-
 	.accordion-content {
+		padding: 0.875rem 1.25rem;
 		font-size: 0.9rem;
 	}
 

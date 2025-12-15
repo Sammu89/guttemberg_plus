@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-13T00:48:15.581Z
+ * Generated at: 2025-12-15T00:42:47.465Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -565,14 +565,14 @@ const CONTROL_CONFIGS = {
     },
     'iconTypeClosed': {
       control: 'IconPicker',
-      label: 'Closed Icon',
-      description: 'Icon when tab is closed (char or image URL)',
+      label: 'Icon Type',
+      description: 'Icon for the tab (char or image URL)',
       default: '▾',
     },
     'iconTypeOpen': {
       control: 'IconPicker',
-      label: 'Open Icon',
-      description: 'Icon when tab is open (none = use closed icon with rotation)',
+      label: 'Icon (active)',
+      description: 'Icon when tab is active (none = use closed icon with final rotation)',
       default: 'none',
     },
     'iconRotation': {
@@ -580,8 +580,17 @@ const CONTROL_CONFIGS = {
       min: -360,
       max: 360,
       unit: 'deg',
-      label: 'Icon Rotation',
-      description: 'Rotation angle when open (degrees)',
+      label: 'Base Rotation',
+      description: 'Base rotation of the icon',
+      default: 0,
+    },
+    'iconRotationActive': {
+      control: 'RangeControl',
+      min: -360,
+      max: 360,
+      unit: 'deg',
+      label: 'Final rotation',
+      description: 'Rotation of the icon for the active tab',
       default: 180,
     },
     'tabButtonColor': {
@@ -620,17 +629,48 @@ const CONTROL_CONFIGS = {
       description: 'Background color for active/selected tab',
       default: '#ffffff',
     },
-    'tabButtonActiveBorderColor': {
-      control: 'ColorPicker',
-      label: 'Button Active Border Color',
-      description: 'Border color for the active tab',
-      default: '#dddddd',
+    'enableFocusBorder': {
+      control: 'ToggleControl',
+      label: 'Enable Active Content Border',
+      description: 'Enable or disable the border on the edge touching the content (active tab only)',
+      default: true,
     },
-    'tabButtonActiveBorderBottomColor': {
-      control: 'ColorPicker',
-      label: 'Button Active Border Bottom',
-      description: 'Bottom border color for active tab (creates connected effect)',
-      default: '#ffffff',
+    'tabButtonActiveContentBorderWidth': {
+      control: 'RangeControl',
+      min: 0,
+      max: 10,
+      unit: 'px',
+      label: 'Active Content Border Width',
+      description: 'Width of the active button edge touching content',
+      default: 2,
+    },
+    'tabButtonActiveContentBorderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Active Content Border Style',
+      description: 'Style of the active button edge touching content',
+      default: 'solid',
     },
     'tabButtonActiveFontWeight': {
       control: 'SelectControl',
@@ -690,6 +730,18 @@ const CONTROL_CONFIGS = {
       description: 'Border color for inactive tab buttons',
       default: '#dddddd',
     },
+    'tabButtonActiveBorderColor': {
+      control: 'ColorPicker',
+      label: 'Button Active Border Color',
+      description: 'Border color for the active tab',
+      default: '#dddddd',
+    },
+    'tabButtonActiveContentBorderColor': {
+      control: 'ColorPicker',
+      label: 'Button Active Content Border',
+      description: 'Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border.',
+      default: '#ffffff',
+    },
     'tabButtonBorderWidth': {
       control: 'RangeControl',
       min: 0,
@@ -744,61 +796,6 @@ const CONTROL_CONFIGS = {
       label: 'Shadow Hover',
       description: 'Box shadow for tab buttons on hover',
       default: 'none',
-    },
-    'enableFocusBorder': {
-      control: 'ToggleControl',
-      label: 'Enable Enhanced Border',
-      description: 'Enable or disable enhanced border settings for tab buttons (adjacent to content)',
-      default: true,
-    },
-    'focusBorderColor': {
-      control: 'ColorPicker',
-      label: 'Enhanced Border Color',
-      description: 'Border color for inactive button edge adjacent to content',
-      default: '#dddddd',
-    },
-    'focusBorderColorActive': {
-      control: 'ColorPicker',
-      label: 'Enhanced Border Color Active',
-      description: 'Border color for active button edge adjacent to content',
-      default: '#ffffff',
-    },
-    'focusBorderWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Enhanced Border Width',
-      description: 'Width of button edge adjacent to content',
-      default: 2,
-    },
-    'focusBorderStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Enhanced Border Style',
-      description: 'Style of button edge adjacent to content',
-      default: 'solid',
     },
     'tabButtonFontSize': {
       control: 'RangeControl',
@@ -940,34 +937,107 @@ const CONTROL_CONFIGS = {
       description: 'Text alignment for tab buttons',
       default: 'center',
     },
+    'tabButtonPadding': {
+      control: 'RangeControl',
+      min: 0,
+      max: 20,
+      unit: 'px',
+      label: 'Tab Button Padding',
+      description: 'Padding for tab buttons (vertical/horizontal will be computed)',
+      default: 12,
+    },
     'tabListBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Tab List Background',
+      label: 'Tab Row Background',
       description: 'Background color for the tab navigation bar',
       default: 'transparent',
+    },
+    'tabsRowBorderColor': {
+      control: 'ColorPicker',
+      label: 'Tab Row Border Color',
+      description: 'Border color for the tab row',
+      default: '#dddddd',
+    },
+    'tabsRowBorderWidth': {
+      control: 'RangeControl',
+      min: 0,
+      max: 10,
+      unit: 'px',
+      label: 'Tab Row Border Width',
+      description: 'Border width for the tab row',
+      default: 0,
+    },
+    'tabsRowBorderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Tab Row Border Style',
+      description: 'Border style for the tab row',
+      default: 'solid',
     },
     'tabListAlignment': {
       control: 'SelectControl',
       options: [
-              "left",
-              "center",
-              "right"
+              {
+                      "label": "Start",
+                      "value": "flex-start"
+              },
+              {
+                      "label": "Center",
+                      "value": "center"
+              },
+              {
+                      "label": "End",
+                      "value": "flex-end"
+              }
       ],
-      label: 'Tab List Alignment',
-      description: 'Horizontal alignment of tabs',
-      default: 'left',
+      label: 'Tab Row Alignment',
+      description: 'Alignment of tabs along the main axis',
+      default: 'flex-start',
+    },
+    'tabsRowSpacing': {
+      control: 'RangeControl',
+      min: 0,
+      max: 30,
+      unit: 'px',
+      label: 'Spacing',
+      description: 'Padding/spacing for the tab row',
+      default: 8,
+    },
+    'tabsButtonGap': {
+      control: 'RangeControl',
+      min: 0,
+      max: 30,
+      unit: 'px',
+      label: 'Button Gap',
+      description: 'Spacing between individual tab buttons',
+      default: 8,
     },
     'panelBackgroundColor': {
       control: 'ColorPicker',
       label: 'Panel Background',
       description: 'Background color for tab panels',
       default: '#ffffff',
-    },
-    'panelColor': {
-      control: 'ColorPicker',
-      label: 'Panel Text Color',
-      description: 'Text color for tab panel content',
-      default: '#333333',
     },
     'panelBorderColor': {
       control: 'ColorPicker',
@@ -1079,28 +1149,28 @@ const CONTROL_CONFIGS = {
       description: 'Box shadow for wrapper on hover',
       default: 'none',
     },
-    'enableNavBarBorder': {
+    'enableTabsListContentBorder': {
       control: 'ToggleControl',
-      label: 'Enable Nav Bar Border',
-      description: 'Enable or disable border between navigation bar and content',
+      label: 'Enable Tab Row Divider Border',
+      description: 'Enable or disable border between tab row and content',
       default: false,
     },
-    'navBarBorderColor': {
+    'tabsListContentBorderColor': {
       control: 'ColorPicker',
-      label: 'Nav Bar Border Color',
-      description: 'Color of border between navigation bar and content',
+      label: 'Tab Row Divider Border Color',
+      description: 'Color of the tab row edge that touches the content',
       default: 'transparent',
     },
-    'navBarBorderWidth': {
+    'tabsListContentBorderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Nav Bar Border Width',
-      description: 'Width of border between navigation bar and content',
+      label: 'Tab Row Divider Border Width',
+      description: 'Width of the tab row edge that touches the content',
       default: 1,
     },
-    'navBarBorderStyle': {
+    'tabsListContentBorderStyle': {
       control: 'SelectControl',
       options: [
               {
@@ -1124,8 +1194,8 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Nav Bar Border Style',
-      description: 'Style of border between navigation bar and content',
+      label: 'Tab Row Divider Border Style',
+      description: 'Style of the tab row edge that touches the content',
       default: 'solid',
     },
   },

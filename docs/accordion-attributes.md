@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-13T00:48:15.508Z
+> Generated at: 2025-12-15T00:42:47.447Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`

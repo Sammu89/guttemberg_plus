@@ -23,9 +23,7 @@ export default function Save( { attributes } ) {
 
 	return (
 		<div { ...blockProps }>
-			<div className="tab-panel-inner">
-				<InnerBlocks.Content />
-			</div>
+			<InnerBlocks.Content />
 		</div>
 	);
 }

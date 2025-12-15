@@ -159,8 +159,28 @@
       "label": "Depth Limit",
       "description": "Maximum nesting depth to display",
       "themeable": false,
-      
-      "order": 10      
+
+      "order": 10
+    },
+    "includeAccordions": {
+      "type": "boolean",
+      "default": true,
+      "group": "behavior",
+      "label": "Include Accordion Headings",
+      "description": "Include headings from accordion blocks when they have a heading level set",
+      "themeable": false,
+      "reason": "structural",
+      "order": 10.1
+    },
+    "includeTabs": {
+      "type": "boolean",
+      "default": true,
+      "group": "behavior",
+      "label": "Include Tab Headings",
+      "description": "Include headings from tabs blocks when they have a heading level set",
+      "themeable": false,
+      "reason": "structural",
+      "order": 10.2
     },
     "numberingStyle": {
       "type": "string",

@@ -50,6 +50,8 @@ function initializeTOCBlocks() {
 					.filter( Boolean ),
 				excludeClasses: block.getAttribute( 'data-exclude-classes' ) || '',
 				depthLimit: parseInt( block.getAttribute( 'data-depth-limit' ) || '0', 10 ) || null,
+				includeAccordions: block.getAttribute( 'data-include-accordions' ) !== 'false',
+				includeTabs: block.getAttribute( 'data-include-tabs' ) !== 'false',
 				numberingStyle: block.getAttribute( 'data-numbering-style' ) || 'none',
 				smoothScroll: block.getAttribute( 'data-smooth-scroll' ) === 'true',
 				scrollOffset: parseInt( block.getAttribute( 'data-scroll-offset' ) || '0', 10 ),
@@ -163,7 +165,35 @@ function detectHeadings( tocBlock, config ) {
 		}
 
 		const level = parseInt( heading.tagName.charAt( 1 ), 10 );
-		const text = heading.textContent.trim();
+
+		// Detect if this is an accordion or tab heading
+		const isAccordionHeading = heading.classList.contains( 'accordion-heading' ) ||
+			heading.querySelector( '.accordion-title-text' );
+		const isTabHeading = heading.querySelector( '.tab-button-text' );
+
+		// Skip accordion headings if includeAccordions is false
+		if ( isAccordionHeading && ! config.includeAccordions ) {
+			return;
+		}
+
+		// Skip tab headings if includeTabs is false
+		if ( isTabHeading && ! config.includeTabs ) {
+			return;
+		}
+
+		// Extract text, excluding icons from accordion/tabs blocks
+		// Accordion structure: <h2><button><span class="accordion-title-text">text</span>...</button></h2>
+		// Tabs structure: <h2><button><span class="tab-button-text">text</span>...</button></h2>
+		let text = '';
+		const titleTextEl = heading.querySelector( '.accordion-title-text, .tab-button-text' );
+		if ( titleTextEl ) {
+			// For accordion/tabs, get text from the specific span (excludes icons)
+			text = titleTextEl.textContent.trim();
+		} else {
+			// For regular headings, use full text content
+			text = heading.textContent.trim();
+		}
+
 		const id = heading.id || '';
 		const classes = Array.from( heading.classList );
 

@@ -16,6 +16,7 @@ module.exports = {
 
 		// TOC block
 		'blocks/toc/index': path.resolve( __dirname, 'blocks/toc/src/index.js' ),
+		'blocks/toc/frontend': path.resolve( __dirname, 'blocks/toc/src/frontend.js' ),
 		'blocks/toc/toc': path.resolve( __dirname, 'blocks/toc/src/style.scss' ),
 
 		// Shared infrastructure

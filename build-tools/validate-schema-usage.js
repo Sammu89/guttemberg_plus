@@ -89,7 +89,7 @@ const IGNORE_WORDS = new Set([
 	'enableResponsiveFallback', 'responsiveBreakpoint', 'titlePadding',
 ]);
 
-// Load schemas
+// Load schemas (attribute lists)
 function loadSchemas() {
 	const schemas = {};
 
@@ -98,6 +98,23 @@ function loadSchemas() {
 			const content = fs.readFileSync(schemaPath, 'utf8');
 			const schema = JSON.parse(content);
 			schemas[blockType] = Object.keys(schema.attributes || {});
+		} catch (error) {
+			console.error(`${colors.red}✗ Error loading ${blockType} schema:${colors.reset}`, error.message);
+			process.exit(1);
+		}
+	}
+
+	return schemas;
+}
+
+// Load full schema objects (for coverage warnings)
+function loadSchemaObjects() {
+	const schemas = {};
+
+	for (const [blockType, schemaPath] of Object.entries(SCHEMAS)) {
+		try {
+			const content = fs.readFileSync(schemaPath, 'utf8');
+			schemas[blockType] = JSON.parse(content);
 		} catch (error) {
 			console.error(`${colors.red}✗ Error loading ${blockType} schema:${colors.reset}`, error.message);
 			process.exit(1);
@@ -256,6 +273,7 @@ function validateFile(filePath, schemas) {
 function validateSchemaUsage() {
 	// Load schemas
 	const schemas = loadSchemas();
+	const schemaObjects = loadSchemaObjects();
 
 	let totalViolations = 0;
 	let totalValidReferences = 0;
@@ -300,8 +318,68 @@ function validateSchemaUsage() {
 		console.log(`${colors.red}✗ ${totalViolations} invalid reference${totalViolations === 1 ? '' : 's'} in ${filesWithIssues} file${filesWithIssues === 1 ? '' : 's'}${colors.reset}`);
 		process.exit(1);
 	} else {
+		// Cross-check: warn if themeable attributes with CSS output are never referenced in edit/save/generated styles
+		const coverageFiles = {
+			accordion: [
+				'blocks/accordion/src/edit.js',
+				'blocks/accordion/src/save.js',
+				'shared/src/styles/accordion-styles-generated.js',
+			],
+			tabs: [
+				'blocks/tabs/src/edit.js',
+				'blocks/tabs/src/save.js',
+				'shared/src/styles/tabs-styles-generated.js',
+			],
+			toc: [
+				'blocks/toc/src/edit.js',
+				'blocks/toc/src/save.js',
+				'shared/src/styles/toc-styles-generated.js',
+			],
+		};
+
+		const coverageWarnings = [];
+
+		for (const [blockType, schema] of Object.entries(schemaObjects)) {
+			const attrs = schema.attributes || {};
+			const files = coverageFiles[blockType] || [];
+			const content = files
+				.filter((f) => fs.existsSync(path.join(ROOT_DIR, f)))
+				.map((f) => fs.readFileSync(path.join(ROOT_DIR, f), 'utf8'))
+				.join('\n');
+
+			Object.entries(attrs).forEach(([attrName, attr]) => {
+				const hasVariants =
+					attr.dependsOn &&
+					attr.variants &&
+					typeof attr.variants === 'object' &&
+					Object.keys(attr.variants).length > 0;
+				const hasCssProperty = Boolean(attr.cssProperty);
+
+				// Only consider themeable attributes that should render styles (cssProperty or variants)
+				if (!attr.themeable || (!hasCssProperty && !hasVariants)) {
+					return;
+				}
+
+				const regex = new RegExp(`\\b${attrName}\\b`);
+				if (!regex.test(content)) {
+					coverageWarnings.push({
+						block: blockType,
+						attr: attrName,
+					});
+				}
+			});
+		}
+
 		console.log(`${colors.green}✅ Schema usage: ${totalValidReferences} valid references in ${filesScanned} files${colors.reset}`);
-		process.exit(0);
+
+		if (coverageWarnings.length > 0) {
+			console.log(`\n${colors.yellow}${colors.bold}⚠️  Schema coverage warnings (schema → edit/save):${colors.reset}`);
+			coverageWarnings.forEach((w) => {
+				console.log(`  - ${w.block}: attribute "${w.attr}" not found in edit/save/generated styles`);
+			});
+		}
+
+		process.exit(coverageWarnings.length > 0 ? 0 : 0);
 	}
 }
 

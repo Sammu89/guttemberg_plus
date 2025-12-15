@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-13T00:48:15.564Z
+> Generated at: 2025-12-15T00:42:47.462Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -32,6 +32,8 @@ Non-themeable behavioral and structural settings
 | `excludeLevels` | array | _object_ | No (N/A) | Which heading levels to exclude |
 | `excludeClasses` | string | `` | No (N/A) | CSS classes to exclude from TOC |
 | `depthLimit` | number | _null_ | No (N/A) | Maximum nesting depth to display |
+| `includeAccordions` | boolean | `true` | No (structural) | Include headings from accordion blocks when they have a heading level set |
+| `includeTabs` | boolean | `true` | No (structural) | Include headings from tabs blocks when they have a heading level set |
 | `numberingStyle` | string | `none` | No (N/A) | Style of numbering for TOC items |
 | `isCollapsible` | boolean | `false` | No (N/A) | Allow the TOC to be collapsed/expanded |
 | `initiallyCollapsed` | boolean | `false` | No (N/A) | Start with TOC collapsed |

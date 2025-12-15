@@ -10,6 +10,7 @@
 	"keywords": ["tabs", "tabbed", "navigation", "panel", "switcher"],
 	"textdomain": "guttemberg-plus",
 	"editorScript": "file:../../build/blocks/tabs/index.js",
+	"editorStyle": "file:../../build/blocks/tabs/index.css",
 	"viewScript": "file:../../build/blocks/tabs/frontend.js",
 	"supports": {
 		"html": false,

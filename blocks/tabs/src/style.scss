@@ -45,32 +45,48 @@
 /* Tab list (navigation) */
 .tabs-list {
 	display: flex;
-	gap: 0.5rem;
+	gap: var(--tabs-button-gap);
 	background-color: var(--tabs-list-bg);
 	justify-content: var(--tabs-list-align);
 	overflow-x: auto;
-	padding: 0.5rem;
+	/* Horizontal orientation padding: top is user-controlled, bottom is 0 (connects to content), left/right are 0.5rem */
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 	padding-bottom: 0;
+	/* padding-top is set via CSS variable in _theme-generated.scss */
 	outline: none !important;
 	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
-	border-bottom: var(--tabs-divider-border-width) var(--tabs-divider-border-style) var(--tabs-divider-border-color);
+	border-bottom: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
 
 	/* Base vertical - shared by both left and right */
 	&[role="tablist"][aria-orientation="vertical"] {
 		flex-direction: column;
 		border-bottom: none;
+		/* Vertical orientation padding: top/bottom are 0.5rem, left/right depend on orientation */
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
 	}
 
 	/* Vertical-left: nav on left, border on right */
 	.gutplus-tabs[data-orientation="vertical-left"] &[role="tablist"] {
 		padding-right: 0;
-		border-right: var(--tabs-divider-border-width) var(--tabs-divider-border-style) var(--tabs-divider-border-color);
+		/* Let the list size itself to the widest button */
+		width: max-content;
+		flex: 0 0 auto;
+		min-width: 0;
+		/* padding-left is set via CSS variable in _theme-generated.scss */
+		border-right: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
 	}
 
 	/* Vertical-right: nav on right, border on left */
 	.gutplus-tabs[data-orientation="vertical-right"] &[role="tablist"] {
 		padding-left: 0;
-		border-left: var(--tabs-divider-border-width) var(--tabs-divider-border-style) var(--tabs-divider-border-color);
+		/* Let the list size itself to the widest button */
+		width: max-content;
+		flex: 0 0 auto;
+		min-width: 0;
+		/* padding-right is set via CSS variable in _theme-generated.scss */
+		border-left: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
 	}
 }
 
@@ -83,7 +99,7 @@
 
 /* Tab button */
 .tab-button {
-	padding: 0.75rem 1.5rem;
+	padding: var(--tabs-button-padding);
 	background-color: var(--tabs-button-bg);
 	color: var(--tabs-button-color);
 	font-size: var(--tabs-button-font-size);
@@ -102,8 +118,11 @@
 	display: block;
 	width: 100%;
 
-	/* Focus border - bottom edge on horizontal */
-	border-bottom: var(--tabs-focus-border-width) var(--tabs-focus-border-style) var(--tabs-focus-border-color);
+	/* In vertical layouts, let buttons size to their content so the list matches the widest button */
+	.gutplus-tabs[data-orientation="vertical-left"] &,
+	.gutplus-tabs[data-orientation="vertical-right"] & {
+		width: auto;
+	}
 
 	&:hover:not(:disabled) {
 		color: var(--tabs-button-hover-color);
@@ -126,9 +145,9 @@
 		color: var(--tabs-button-active-color);
 		background-color: var(--tabs-button-active-bg);
 		border-color: var(--tabs-button-active-border-color);
-		border-bottom-color: var(--tabs-button-active-border-bottom-color);
-		/* Focus border active color for horizontal */
-		border-bottom-color: var(--tabs-focus-border-color-active);
+		border-bottom-color: var(--tabs-button-active-content-border-color);
+		border-bottom-width: var(--tabs-button-active-content-border-width);
+		border-bottom-style: var(--tabs-button-active-content-border-style);
 	}
 
 	&:disabled {
@@ -138,37 +157,33 @@
 
 	/* Vertical-left: focus border on right, active tab connects to panel */
 	.gutplus-tabs[data-orientation="vertical-left"] .tabs-list & {
-		/* Reset bottom to normal button border (not focus border) */
-		border-bottom: var(--tabs-button-border-width) var(--tabs-button-border-style) var(--tabs-button-border-color);
-		/* Focus border moves to right edge */
-		border-right: var(--tabs-focus-border-width) var(--tabs-focus-border-style) var(--tabs-focus-border-color);
-
 		&.active,
 		&[aria-selected="true"] {
-			/* Hide right border to connect with panel */
-			border-right-color: var(--tabs-panel-bg, #ffffff);
-			/* Ensure other borders stay consistent */
-			border-top-color: var(--tabs-button-border-color);
-			border-bottom-color: var(--tabs-button-border-color);
-			border-left-color: var(--tabs-button-border-color);
+			/* Content edge uses dedicated color; others stay on active border color */
+			border-right-color: var(--tabs-button-active-content-border-color);
+			border-right-width: var(--tabs-button-active-content-border-width);
+			border-right-style: var(--tabs-button-active-content-border-style);
+			border-top-color: var(--tabs-button-active-border-color);
+			border-bottom-color: var(--tabs-button-active-border-color);
+			border-bottom-width: var(--tabs-button-border-width);
+			border-bottom-style: var(--tabs-button-border-style);
+			border-left-color: var(--tabs-button-active-border-color);
 		}
 	}
 
 	/* Vertical-right: focus border on left, active tab connects to panel */
 	.gutplus-tabs[data-orientation="vertical-right"] .tabs-list & {
-		/* Reset bottom to normal button border (not focus border) */
-		border-bottom: var(--tabs-button-border-width) var(--tabs-button-border-style) var(--tabs-button-border-color);
-		/* Focus border moves to left edge */
-		border-left: var(--tabs-focus-border-width) var(--tabs-focus-border-style) var(--tabs-focus-border-color);
-
 		&.active,
 		&[aria-selected="true"] {
-			/* Hide left border to connect with panel */
-			border-left-color: var(--tabs-panel-bg, #ffffff);
-			/* Ensure other borders stay consistent */
-			border-top-color: var(--tabs-button-border-color);
-			border-bottom-color: var(--tabs-button-border-color);
-			border-right-color: var(--tabs-button-border-color);
+			/* Content edge uses dedicated color; others stay on active border color */
+			border-left-color: var(--tabs-button-active-content-border-color);
+			border-left-width: var(--tabs-button-active-content-border-width);
+			border-left-style: var(--tabs-button-active-content-border-style);
+			border-top-color: var(--tabs-button-active-border-color);
+			border-bottom-color: var(--tabs-button-active-border-color);
+			border-bottom-width: var(--tabs-button-border-width);
+			border-bottom-style: var(--tabs-button-border-style);
+			border-right-color: var(--tabs-button-active-border-color);
 		}
 	}
 }
@@ -180,12 +195,12 @@
 	justify-content: center;
 	color: var(--tabs-icon-color);
 	font-size: var(--tabs-icon-size);
-	margin-right: 0.5rem;
 	transition: transform 300ms ease, opacity 300ms ease;
+	transform: rotate(var(--tabs-icon-rotation-base));
 
 	/* Icon rotation (for open/close states, controlled via JS) */
 	&.is-rotated {
-		transform: rotate(var(--tabs-icon-rotation));
+		transform: rotate(var(--tabs-icon-rotation-active));
 	}
 
 	/* Image icon */
@@ -197,6 +212,17 @@
 	}
 }
 
+/* Icon margin based on position */
+.gutplus-tabs[data-icon-position="left"] .tab-icon {
+	margin-right: 0.5rem;
+	margin-left: 0;
+}
+
+.gutplus-tabs[data-icon-position="right"] .tab-icon {
+	margin-left: 0.5rem;
+	margin-right: 0;
+}
+
 /* Tabs panels container */
 .tabs-panels {
 	position: relative;
@@ -206,37 +232,60 @@
 /* Tab panel */
 .tab-panel {
 	background-color: var(--tabs-panel-bg);
-	color: var(--tabs-panel-color);
 	border: var(--tabs-panel-border-width) var(--tabs-panel-border-style) var(--tabs-panel-border-color);
 	border-radius: var(--tabs-panel-border-radius);
+	padding: 1.5rem;
+	height: 100%;
+	box-sizing: border-box;
 	overflow: hidden;
 	outline: none !important;
-
 	&[hidden] {
 		display: none;
 	}
 
 	&.active {
-		animation: fadeIn 200ms ease-in-out;
+		animation: tabs-panel-fade-in 200ms ease-out;
 	}
 }
 
-/* Tab panel inner wrapper */
-.tab-panel-inner {
-	padding: 1.5rem;
+.gutplus-tabs[data-orientation="vertical-left"] .tab-panel.active {
+	animation-name: tabs-panel-fade-in-left;
 }
 
-/* Fade-in animation */
-@keyframes fadeIn {
+.gutplus-tabs[data-orientation="vertical-right"] .tab-panel.active {
+	animation-name: tabs-panel-fade-in-right;
+}
 
+@keyframes tabs-panel-fade-in {
 	from {
 		opacity: 0;
-		transform: translateY(10px);
+		transform: translateY(8px);
 	}
-
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+@keyframes tabs-panel-fade-in-left {
+	from {
+		opacity: 0;
+		transform: translateX(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes tabs-panel-fade-in-right {
+	from {
+		opacity: 0;
+		transform: translateX(-8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
 	}
 }
 
@@ -264,19 +313,12 @@
 	.tabs-list {
 		flex-shrink: 0;
 		min-width: 200px;
-		padding-bottom: 0.5rem;
 	}
 
 	.tabs-panels {
 		flex: 1;
 	}
 
-	/* Panel border adjustment - remove left border (adjacent to tabs) */
-	.tab-panel {
-		border-left: none;
-		border-top-left-radius: 0;
-		border-bottom-left-radius: 0;
-	}
 }
 
 /* Vertical-right layout: nav on right, content on left */
@@ -289,35 +331,23 @@
 	.tabs-list {
 		flex-shrink: 0;
 		min-width: 200px;
-		padding-bottom: 0.5rem;
 	}
 
 	.tabs-panels {
 		flex: 1;
 	}
 
-	/* Panel border adjustment - remove right border (adjacent to tabs) */
-	.tab-panel {
-		border-right: none;
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
-	}
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
 
 	.tab-button {
-		padding: 0.625rem 1rem;
 		font-size: 0.95rem;
 	}
 
-	.tab-panel-inner {
+	.tab-panel {
 		padding: 1rem;
-	}
-
-	.tabs-list {
-		gap: 0.25rem;
 	}
 
 	/* Hide tab navigation and show accordion on mobile if responsive fallback enabled */

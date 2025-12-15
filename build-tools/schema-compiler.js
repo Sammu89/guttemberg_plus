@@ -414,8 +414,17 @@ function generatePHPCSSDefaults(blockType, schema) {
         continue;
       }
 
+      let defaultValue = attr.default;
+
+      // Handle special transformValue for paddingRectangle
+      if (attr.transformValue === 'paddingRectangle' && typeof attr.default === 'number') {
+        const vertical = attr.default;
+        const horizontal = attr.default * 2;
+        defaultValue = `${vertical}px ${horizontal}px`;
+      }
+
       // Use the default value directly (now includes units, e.g., "18px", "1.6", "180deg")
-      content += `  '${attrName}' => '${attr.default}',\n`;
+      content += `  '${attrName}' => '${defaultValue}',\n`;
     }
   }
 
@@ -535,6 +544,9 @@ function generateJSMappings(allSchemas) {
           cssVar: `--${attr.cssVar}`,
           unit: attr.unit || null,
           type: attr.type,
+          cssProperty: attr.cssProperty || null,
+          dependsOn: attr.dependsOn || null,
+          variants: attr.variants || null,
         };
       }
     }
@@ -554,7 +566,10 @@ function generateJSMappings(allSchemas) {
  *   [attrName]: {
  *     cssVar: '--css-var-name',
  *     unit: 'px' | 'deg' | null,
- *     type: 'string' | 'number' | 'object' | 'boolean'
+ *     type: 'string' | 'number' | 'object' | 'boolean',
+ *     cssProperty?: 'border-bottom-color',
+ *     dependsOn?: 'orientation',
+ *     variants?: { [variantKey]: { cssProperty: '...' } }
  *   }
  * }
  */
@@ -565,7 +580,12 @@ export const CSS_VAR_MAPPINGS = {\n`;
 
     for (const [attrName, info] of Object.entries(attrs)) {
       const unitStr = info.unit ? `'${info.unit}'` : 'null';
-      content += `    ${attrName}: { cssVar: '${info.cssVar}', unit: ${unitStr}, type: '${info.type}' },\n`;
+      const cssPropStr = info.cssProperty ? `'${info.cssProperty}'` : 'null';
+      const dependsOnStr = info.dependsOn ? `'${info.dependsOn}'` : 'null';
+      const variantsStr = info.variants
+        ? JSON.stringify(info.variants, null, 6).replace(/\n/g, '\n      ')
+        : 'null';
+      content += `    ${attrName}: { cssVar: '${info.cssVar}', unit: ${unitStr}, type: '${info.type}', cssProperty: ${cssPropStr}, dependsOn: ${dependsOnStr}, variants: ${variantsStr} },\n`;
     }
 
     content += `  },\n`;
@@ -621,6 +641,28 @@ export function getCssVarName(attrName, blockType) {
   return CSS_VAR_MAPPINGS[blockType]?.[attrName]?.cssVar || null;
 }
 
+/**
+ * Resolve the CSS property for an attribute, honoring conditional variants
+ * @param {string} attrName - Attribute name
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @param {Object} context - Values for dependency lookups (e.g., { orientation })
+ * @returns {string|null} CSS property name or null
+ */
+export function resolveCssProperty(attrName, blockType, context = {}) {
+  const mapping = CSS_VAR_MAPPINGS[blockType]?.[attrName];
+  if (!mapping) return null;
+
+  if (mapping.dependsOn && mapping.variants) {
+    const depValue = context?.[mapping.dependsOn];
+    const variant = (depValue && mapping.variants[depValue]) || mapping.variants._default;
+    if (variant?.cssProperty) {
+      return variant.cssProperty;
+    }
+  }
+
+  return mapping.cssProperty || null;
+}
+
 export default CSS_VAR_MAPPINGS;
 `;
 
@@ -661,8 +703,14 @@ function generateCSSVariables(blockType, schema) {
     if (attr.themeable && attr.cssVar && attr.default !== undefined && attr.default !== null && attr.default !== '') {
       let cssValue;
 
+      // Handle special transformValue for paddingRectangle
+      if (attr.transformValue === 'paddingRectangle' && typeof attr.default === 'number') {
+        const vertical = attr.default;
+        const horizontal = attr.default * 2;
+        cssValue = `${vertical}px ${horizontal}px`;
+      }
       // Handle object types (border radius, padding, etc.)
-      if (typeof attr.default === 'object') {
+      else if (typeof attr.default === 'object') {
         // Border radius format: topLeft topRight bottomRight bottomLeft
         if (attr.default.topLeft !== undefined) {
           const unit = attr.unit || 'px';

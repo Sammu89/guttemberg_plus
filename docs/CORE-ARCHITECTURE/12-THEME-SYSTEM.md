@@ -184,16 +184,30 @@ setAttributes({
 3. Replace theme with new deltas
 4. Update `modified` timestamp
 5. **Clear customizationCache** (block now uses clean updated theme)
+6. **Batch Update**: Find ALL clean blocks on current page using this theme
+7. Update those clean blocks with new theme values automatically
+8. Show notification to user about how many blocks were updated
 
-**Output**: Updated theme, block uses clean theme
+**Output**: Updated theme, current block uses clean theme, other clean blocks updated
 
 ```javascript
 const snapshot = getThemeableSnapshot(attributes, excludeList);
 const deltas = calculateDeltas(snapshot, allDefaults, excludeList);
 await updateTheme('accordion', 'Corporate Blue', deltas);
 
-// Clear cache
+// Clear cache for current block
 setAttributes({ customizationCache: {} });
+
+// Batch update other clean blocks on this page
+const updatedCount = batchUpdateCleanBlocks(
+  'accordion',
+  'Corporate Blue',
+  updatedExpectedValues,
+  excludeFromCustomizationCheck
+);
+
+// Show notification: "Updated theme 'Corporate Blue' and applied changes to 3 block(s) on this page."
+showBatchUpdateNotification('update', 'Corporate Blue', updatedCount);
 ```
 
 ### 3. Delete Theme
@@ -203,13 +217,29 @@ setAttributes({ customizationCache: {} });
 **Process**:
 1. Validate theme exists
 2. Remove from database
-3. **Blocks using deleted theme fall back to "Default"**
+3. **Reset current block to defaults**
+4. **Batch Reset**: Find ALL blocks on current page using deleted theme (clean or customized)
+5. Reset those blocks to defaults and clear their theme
+6. Show notification to user about how many blocks were reset
 
-**Output**: Theme removed
+**Output**: Theme removed, all blocks using theme reset to defaults
 
 ```javascript
 await deleteTheme('accordion', 'Corporate Blue');
-setAttributes({ currentTheme: '' }); // Fall back to Default
+
+// Reset current block
+setAttributes({ currentTheme: '', customizationCache: {} });
+
+// Batch reset all other blocks using this theme
+const resetCount = batchResetBlocksUsingTheme(
+  'accordion',
+  'Corporate Blue',
+  allDefaults,
+  excludeFromCustomizationCheck
+);
+
+// Show notification: "Deleted theme 'Corporate Blue' and reset 5 block(s) to defaults."
+showBatchUpdateNotification('delete', 'Corporate Blue', resetCount);
 ```
 
 ### 4. Rename Theme
@@ -387,6 +417,282 @@ const tabsThemes = getThemes('tabs');
 
 ---
 
+## Batch Update System
+
+### Overview
+
+When themes are updated or deleted, the system automatically propagates changes to all related blocks on the current page. This ensures consistency and reduces manual work for users.
+
+**Key Features**:
+- Automatic detection of blocks using the same theme
+- Distinguishes between "clean" and "customized" blocks
+- Only affects blocks on the current page being edited
+- Transparent user notifications
+- Integrated into `useThemeManager` hook
+
+### Clean vs Customized Blocks
+
+The batch update system uses the `customizations` attribute as the clean detector:
+
+**Clean Block**: `customizations: {}` (empty object)
+- Has no user modifications beyond what the theme provides
+- Automatically receives theme updates
+
+**Customized Block**: `customizations: { titleColor: "#ff0000", ... }` (contains values)
+- Has user modifications that differ from the theme
+- Does NOT automatically receive theme updates (preserves user intent)
+- Exception: On theme deletion, ALL blocks are reset (clean or customized)
+
+### Theme Update Flow
+
+When a user updates a theme:
+
+```
+1. User edits block with "Corporate Blue" theme
+2. User clicks "Update Theme"
+3. Theme saved to database with new values
+4. Current block reset to clean theme
+5. System searches page for other blocks:
+   - Finds Block A: using "Corporate Blue", customizations: {} → UPDATE
+   - Finds Block B: using "Corporate Blue", customizations: {titleColor: "#red"} → SKIP
+   - Finds Block C: using "Dark Mode", customizations: {} → SKIP
+6. Block A updated with new theme values
+7. User sees: "Updated theme 'Corporate Blue' and applied changes to 1 block(s) on this page."
+```
+
+**Implementation**:
+
+```javascript
+// In useThemeManager's handleUpdateTheme
+const updatedCount = batchUpdateCleanBlocks(
+  blockType,                    // 'accordion', 'tabs', or 'toc'
+  attributes.currentTheme,       // 'Corporate Blue'
+  updatedExpectedValues,         // Complete values (defaults + deltas)
+  excludeFromCustomizationCheck  // Keys to exclude (IDs, meta, etc.)
+);
+
+if (updatedCount > 0) {
+  showBatchUpdateNotification('update', attributes.currentTheme, updatedCount);
+}
+```
+
+### Theme Delete Flow
+
+When a user deletes a theme:
+
+```
+1. User clicks "Delete Theme" on "Corporate Blue"
+2. Theme removed from database
+3. Current block reset to defaults (currentTheme = '')
+4. System searches page for other blocks:
+   - Finds Block A: using "Corporate Blue", customizations: {} → RESET
+   - Finds Block B: using "Corporate Blue", customizations: {titleColor: "#red"} → RESET
+   - Finds Block C: using "Dark Mode", customizations: {} → SKIP
+5. Blocks A and B reset to defaults
+6. User sees: "Deleted theme 'Corporate Blue' and reset 2 block(s) to defaults."
+```
+
+**Important**: Theme deletion resets ALL blocks using that theme, regardless of customizations. This prevents blocks from being in an invalid state with a non-existent theme.
+
+**Implementation**:
+
+```javascript
+// In useThemeManager's handleDeleteTheme
+const resetCount = batchResetBlocksUsingTheme(
+  blockType,                    // 'accordion', 'tabs', or 'toc'
+  themeToDelete,                // 'Corporate Blue'
+  allDefaults,                  // Default values
+  excludeFromCustomizationCheck // Keys to exclude (IDs, meta, etc.)
+);
+
+if (resetCount > 0) {
+  showBatchUpdateNotification('delete', themeToDelete, resetCount);
+}
+```
+
+### Block Discovery Algorithm
+
+The system recursively searches the current page's block tree:
+
+```javascript
+// Simplified algorithm
+function findBlocksUsingTheme(blockType, themeName, cleanOnly = false) {
+  const blocks = select('core/block-editor').getBlocks(); // All blocks on page
+
+  return findBlocks(blocks, blockType, (block) => {
+    const attrs = block.attributes || {};
+
+    // Must be using this theme
+    if (attrs.currentTheme !== themeName) {
+      return false;
+    }
+
+    // If cleanOnly, check customizations attribute
+    if (cleanOnly) {
+      const customizations = attrs.customizations || {};
+      const isClean = Object.keys(customizations).length === 0;
+      return isClean;
+    }
+
+    return true;
+  });
+}
+```
+
+**Search Behavior**:
+- Searches all blocks including nested inner blocks
+- Only finds blocks of the same type (accordion/tabs/toc are separate)
+- Uses block `clientId` for updates
+- Returns array of `{ clientId, attributes }` objects
+
+### Batch Update Details
+
+**batchUpdateCleanBlocks**:
+
+```javascript
+function batchUpdateCleanBlocks(blockType, themeName, newThemeValues, excludeKeys) {
+  // 1. Find clean blocks using this theme
+  const blocksToUpdate = findBlocksUsingTheme(blockType, themeName, true);
+
+  // 2. Update each block
+  blocksToUpdate.forEach(({ clientId, attributes }) => {
+    const updateAttrs = {};
+
+    // Apply new theme values
+    Object.keys(newThemeValues).forEach((key) => {
+      if (!excludeKeys.includes(key) && attributes[key] !== newThemeValues[key]) {
+        updateAttrs[key] = newThemeValues[key];
+      }
+    });
+
+    // Ensure customizations stays empty
+    updateAttrs.customizations = {};
+
+    // Update via WordPress block editor
+    dispatch('core/block-editor').updateBlockAttributes(clientId, updateAttrs);
+  });
+
+  return blocksToUpdate.length;
+}
+```
+
+**Key Points**:
+- Only updates attributes that actually changed (performance)
+- Preserves excluded keys (IDs, structural attributes)
+- Ensures `customizations` remains empty (maintains clean state)
+- Uses `dispatch('core/block-editor').updateBlockAttributes()` for updates
+
+### Batch Reset Details
+
+**batchResetBlocksUsingTheme**:
+
+```javascript
+function batchResetBlocksUsingTheme(blockType, themeName, defaults, excludeKeys) {
+  // 1. Find ALL blocks using this theme (clean or customized)
+  const blocksToReset = findBlocksUsingTheme(blockType, themeName, false);
+
+  // 2. Reset each block
+  blocksToReset.forEach(({ clientId }) => {
+    const resetAttrs = { ...defaults };
+
+    // Remove excluded keys (except currentTheme and customizations)
+    excludeKeys.forEach((key) => {
+      if (key !== 'currentTheme' && key !== 'customizations') {
+        delete resetAttrs[key];
+      }
+    });
+
+    // Reset to Default theme
+    resetAttrs.currentTheme = '';
+    resetAttrs.customizations = {};
+
+    dispatch('core/block-editor').updateBlockAttributes(clientId, resetAttrs);
+  });
+
+  return blocksToReset.length;
+}
+```
+
+**Key Points**:
+- Finds ALL blocks (not just clean ones)
+- Resets to complete defaults
+- Clears theme (`currentTheme = ''`)
+- Clears customizations (`customizations = {}`)
+
+### User Notifications
+
+Users receive transparent feedback about batch operations:
+
+```javascript
+function showBatchUpdateNotification(operation, themeName, count) {
+  if (count === 0) return;
+
+  let message;
+  if (operation === 'update') {
+    message = `Updated theme "${themeName}" and applied changes to ${count} block(s) on this page.`;
+  } else if (operation === 'delete') {
+    message = `Deleted theme "${themeName}" and reset ${count} block(s) to defaults.`;
+  }
+
+  dispatch('core/notices').createSuccessNotice(message, {
+    type: 'snackbar',
+    isDismissible: true,
+  });
+}
+```
+
+**Notification Examples**:
+- "Updated theme 'Dark Mode' and applied changes to 3 block(s) on this page."
+- "Deleted theme 'Corporate Blue' and reset 5 block(s) to defaults."
+
+### Scope and Limitations
+
+**What IS Affected**:
+- Only blocks on the current page being edited
+- Only blocks of the same type (accordion themes don't affect tabs)
+- All blocks found in the page's block tree (including nested blocks)
+
+**What is NOT Affected**:
+- Blocks on other pages/posts
+- Blocks in other browser tabs
+- Saved/published content (until page is saved)
+- Blocks of different types
+
+**WordPress Standard Behavior**:
+- Changes are in-memory until user saves the post
+- WordPress autosave will persist changes
+- User can undo/redo batch updates like any block change
+- Closing without saving loses all changes
+
+### Performance Considerations
+
+**Efficiency**:
+- Block search is recursive but fast (typical page has <100 blocks)
+- Only updates attributes that actually changed
+- Uses WordPress's optimized `updateBlockAttributes()`
+- No database operations during batch update (only in-memory)
+
+**Timing**:
+- Batch update happens immediately after theme update/delete
+- Updates appear instantly in the editor
+- No noticeable performance impact for typical pages
+
+### Implementation Files
+
+**Batch Update Utilities**:
+- `shared/src/utils/batch-block-updater.js` - Core batch update logic
+
+**Hook Integration**:
+- `shared/src/hooks/useThemeManager.js` - Integrates batch updates into theme operations
+
+**Functions**:
+- `findBlocksUsingTheme()` - Find blocks by theme and clean state
+- `batchUpdateCleanBlocks()` - Update clean blocks with new theme values
+- `batchResetBlocksUsingTheme()` - Reset blocks using deleted theme
+- `showBatchUpdateNotification()` - Show user feedback
+
+---
+
 ## Performance Considerations
 
 ### Caching
@@ -405,6 +711,6 @@ const tabsThemes = getThemes('tabs');
 
 ---
 
-**Document Version**: 2.0 (Simplified Architecture)
-**Last Updated**: 2025-11-17
+**Document Version**: 2.1 (Batch Update System)
+**Last Updated**: 2025-12-14
 **Part of**: WordPress Gutenberg Blocks Documentation Suite

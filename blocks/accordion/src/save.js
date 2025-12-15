@@ -255,9 +255,7 @@ const getCustomizationStyles = () => {
 				{ ...panelAria }
 				{ ...( ! attributes.initiallyOpen && { hidden: true } ) }
 			>
-				<div className="accordion-content-inner">
-					<InnerBlocks.Content />
-				</div>
+				<InnerBlocks.Content />
 			</div>
 		</div>
 	);

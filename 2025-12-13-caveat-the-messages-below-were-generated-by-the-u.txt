@@ -1,0 +1,222 @@
+
+ ▐▛███▜▌   Claude Code v2.0.65
+▝▜█████▛▘  Opus 4.5 · Claude Pro
+  ▘▘ ▝▝    ~/…/nome-do-site/app/public/wp-content/plugins/guttemberg-plus
+
+> My toc (table of contents, isnt detecting the headings on editor), even though i have them. Please 
+searvh online how editor guttemberg handles headings (maybe its via js and 
+the editor doesnt have acess to it?) 
+
+● Good point - Gutenberg blocks are rendered differently in the editor. Let
+  me search for how to properly access block data in the editor.
+
+● Web Search("WordPress Gutenberg editor get all blocks programmatically
+            useSelect getBlocks heading block 2024")
+  ⎿  Did 1 search in 21s                                                   
+
+● I found the issue. In Gutenberg, blocks are stored in a data store, not
+  rendered as actual HTML elements. The heading blocks are stored as block
+  data with name: 'core/heading'. I need to use useSelect with getBlocks()
+  to access them.
+
+  Let me fix the TOC edit.js to use the proper Gutenberg data API:
+
+● Read(blocks/toc/src/edit.js)
+  ⎿  Read 50 lines
+
+● Now let me update the imports and the scan function to use Gutenberg's
+  data API:
+
+● Update(blocks/toc/src/edit.js)
+  ⎿  Updated blocks/toc/src/edit.js with 3 additions and 2 removals     
+       19     * @since 1.0.0
+       20     */
+       21    
+       22 -  import { useEffect, useState, useMemo 
+          -  } from '@wordpress/element';
+       23 -  import { InspectorControls, useBlockProps 
+          -  } from '@wordpress/block-editor';
+       22 +  import { useEffect, useState, useMemo, useCallback 
+          +  } from '@wordpress/element';
+       23 +  import { InspectorControls, useBlockProps, 
+          +  store as blockEditorStore } from '@wordpress/block-editor';
+       24    import {
+       25      PanelBody,
+       26      ToggleControl,
+     ...
+       31      Button,
+       32    } from '@wordpress/components';
+       33    import { __ } from '@wordpress/i18n';
+       34 +  import { useSelect } from '@wordpress/data';
+       35    import {
+       36      generateUniqueId,
+       37      getAllDefaults,
+
+● Now let me replace the scanForHeadings function to use Gutenberg's data
+  API:
+
+● Update(blocks/toc/src/edit.js)
+  ⎿  Updated blocks/toc/src/edit.js with 90 additions and 31 removals    
+        71        }
+        72      }, [ tocId, setAttributes ] );
+        73    
+        74 +    // Get all blocks from the editor using Gutenberg's data 
+           + API
+        75 +    const allBlocks = useSelect(
+        76 +      ( select ) => select( blockEditorStore ).getBlocks(),
+        77 +      []
+        78 +    );
+        79 +  
+        80      /**
+        81 -     * Scan for headings in post content
+        82 -     * Called manually when user clicks the "Scan for 
+           - headings" button
+        81 +     * Recursively extract headings from blocks
+        82 +     * Handles core/heading blocks, accordions, tabs, and 
+           + nested blocks
+        83       */
+        84 -    const scanForHeadings = () => {
+        85 -      setIsScanning( true );
+        84 +    const extractHeadingsFromBlocks = useCallback( ( blocks, 
+           + currentClientId ) => {
+        85 +      const detectedHeadings = [];
+        86    
+        87 -      // Small delay to show scanning state
+        88 -      setTimeout( () => {
+        89 -        // Get all headings in the post content (excluding 
+           - this block)
+        90 -        const contentArea = document.querySelector( 
+           - '.editor-styles-wrapper' );
+        91 -        if ( ! contentArea ) {
+        92 -          setHeadings( [] );
+        93 -          setIsScanning( false );
+        94 -          setHasScanned( true );
+        87 +      const processBlock = ( block ) => {
+        88 +        // Skip this TOC block
+        89 +        if ( block.clientId === currentClientId ) {
+        90            return;
+        91          }
+        92    
+        93 -        const allHeadings = contentArea.querySelectorAll( 
+           - 'h2, h3, h4, h5, h6' );
+        94 -        const detectedHeadings = [];
+        93 +        // Skip other TOC blocks
+        94 +        if ( block.name === 'custom/toc' ) {
+        95 +          return;
+        96 +        }
+        97    
+        98 -        allHeadings.forEach( ( heading ) => {
+        99 -          // Skip headings inside this TOC block
+       100 -          const isInThisBlock = heading.closest( 
+           - `[data-block="${ clientId }"]` );
+       101 -          if ( isInThisBlock ) {
+       102 -            return;
+        98 +        // Handle core/heading blocks
+        99 +        if ( block.name === 'core/heading' ) {
+       100 +          const level = block.attributes.level || 2;
+       101 +          const content = block.attributes.content || '';
+       102 +          // Strip HTML tags to get plain text
+       103 +          const text = content.replace( /<[^>]*>/g, '' 
+           + ).trim();
+       104 +  
+       105 +          if ( text ) {
+       106 +            detectedHeadings.push( {
+       107 +              level,
+       108 +              text,
+       109 +              id: block.attributes.anchor || '',
+       110 +              classes: [],
+       111 +              blockType: 'heading',
+       112 +            } );
+       113            }
+       114 +        }
+       115    
+       116 -          // Skip headings inside other TOC blocks
+       117 -          const isInAnyTOC = heading.closest( '.gutplus-toc' 
+           - );
+       118 -          if ( isInAnyTOC ) {
+       119 -            return;
+       116 +        // Handle accordion blocks with headingLevel set
+       117 +        if ( block.name === 'custom/accordion' ) {
+       118 +          const headingLevel = block.attributes.headingLevel;
+       119 +          if ( headingLevel && headingLevel !== 'none' ) {
+       120 +            const level = parseInt( headingLevel.charAt( 1 ),
+           +  10 );
+       121 +            const title = block.attributes.title || '';
+       122 +            const text = title.replace( /<[^>]*>/g, '' 
+           + ).trim();
+       123 +  
+       124 +            if ( text ) {
+       125 +              detectedHeadings.push( {
+       126 +                level,
+       127 +                text,
+       128 +                id: block.attributes.accordionId || '',
+       129 +                classes: [ 'accordion-heading' ],
+       130 +                blockType: 'accordion',
+       131 +              } );
+       132 +            }
+       133            }
+       134 +        }
+       135    
+       136 -          const level = parseInt( heading.tagName.charAt( 1 
+           - ), 10 );
+       137 -          const text = heading.textContent.trim();
+       138 -          const id = heading.id || '';
+       139 -          const classes = Array.from( heading.classList );
+       136 +        // Handle tabs blocks with headingLevel set
+       137 +        if ( block.name === 'custom/tabs' ) {
+       138 +          const headingLevel = block.attributes.headingLevel;
+       139 +          if ( headingLevel && headingLevel !== 'none' ) {
+       140 +            const level = parseInt( headingLevel.charAt( 1 ),
+           +  10 );
+       141 +            const tabsData = block.attributes.tabsData || [];
+       142    
+       143 -          // Only add if there's actual text content
+       144 -          if ( text ) {
+       145 -            detectedHeadings.push( { level, text, id, classes
+           -  } );
+       143 +            tabsData.forEach( ( tab ) => {
+       144 +              const text = ( tab.title || '' ).replace( 
+           + /<[^>]*>/g, '' ).trim();
+       145 +              if ( text ) {
+       146 +                detectedHeadings.push( {
+       147 +                  level,
+       148 +                  text,
+       149 +                  id: tab.tabId || '',
+       150 +                  classes: [ 'tab-heading' ],
+       151 +                  blockType: 'tabs',
+       152 +                } );
+       153 +              }
+       154 +            } );
+       155            }
+       156 -        } );
+       156 +        }
+       157    
+       158 +        // Recursively process inner blocks
+       159 +        if ( block.innerBlocks && block.innerBlocks.length > 
+           + 0 ) {
+       160 +          block.innerBlocks.forEach( processBlock );
+       161 +        }
+       162 +      };
+       163 +  
+       164 +      blocks.forEach( processBlock );
+       165 +      return detectedHeadings;
+       166 +    }, [] );
+       167 +  
+       168 +    /**
+       169 +     * Scan for headings in post content
+       170 +     * Called manually when user clicks the "Scan for 
+           + headings" button
+       171 +     */
+       172 +    const scanForHeadings = () => {
+       173 +      setIsScanning( true );
+       174 +  
+       175 +      // Small delay to show scanning state
+       176 +      setTimeout( () => {
+       177 +        const detectedHeadings = extractHeadingsFromBlocks( 
+           + allBlocks, clientId );
+       178          setHeadings( detectedHeadings );
+       179          setIsScanning( false );
+       180          setHasScanned( true );
+  ⎿  Limit reached 
+
+

@@ -79,9 +79,16 @@ function loadStructureSchema(blockType) {
  * Format CSS value from schema default
  * Handles objects (border-radius), numbers (with units), and strings
  */
-function formatCssValue(defaultValue, unit, type) {
+function formatCssValue(defaultValue, unit, type, transformValue = null) {
   if (defaultValue === null || defaultValue === undefined || defaultValue === '') {
     return null;
+  }
+
+  // Handle special transformValue for paddingRectangle
+  if (transformValue === 'paddingRectangle' && type === 'number') {
+    const vertical = defaultValue;
+    const horizontal = defaultValue * 2;
+    return `${vertical}px ${horizontal}px`;
   }
 
   // Handle object types (e.g., borderRadius with topLeft, topRight, etc.)
@@ -104,19 +111,40 @@ function formatCssValue(defaultValue, unit, type) {
 }
 
 /**
+ * Get root element selector (first class name) for data-attribute scoping
+ */
+function getRootSelector(structure) {
+  if (!structure || !structure.root || !structure.elements) {
+    return null;
+  }
+
+  const rootElement = structure.elements[structure.root];
+  if (!rootElement || !rootElement.className) {
+    return null;
+  }
+
+  const rootClass = rootElement.className.split(' ')[0];
+  return rootClass ? `.${rootClass}` : null;
+}
+
+/**
  * Extract attributes that should generate CSS
  * Supports both old (cssSelector) and new (appliesTo + structure) systems
  */
 function extractCssAttributes(schema, structure) {
   const cssAttrs = [];
+  const rootSelector = getRootSelector(structure);
 
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
     // Skip non-themeable attributes
-    if (!attr.themeable || !attr.cssVar || !attr.cssProperty) {
+    const hasVariants = attr.dependsOn && attr.variants && typeof attr.variants === 'object' && Object.keys(attr.variants).length > 0;
+    const hasCssProperty = Boolean(attr.cssProperty);
+
+    if (!attr.themeable || !attr.cssVar || (!hasCssProperty && !hasVariants)) {
       continue;
     }
 
-    const formattedValue = formatCssValue(attr.default, attr.unit, attr.type);
+    const formattedValue = formatCssValue(attr.default, attr.unit, attr.type, attr.transformValue);
 
     // Only include if we have a valid formatted value
     if (formattedValue === null) {
@@ -158,6 +186,37 @@ function extractCssAttributes(schema, structure) {
     }
     // Skip attributes that don't have either system
     else {
+      continue;
+    }
+
+    // Handle conditional variants (e.g., orientation-aware borders)
+    if (hasVariants) {
+      Object.entries(attr.variants).forEach(([variantKey, variantConfig]) => {
+        const variantProperty = variantConfig.cssProperty || attr.cssProperty;
+        if (!variantProperty) {
+          return;
+        }
+
+        let variantSelector = selector;
+
+        // Scope to data attribute on root when dependency is present
+        if (rootSelector && attr.dependsOn && variantKey !== '_default') {
+          variantSelector = `${rootSelector}[data-${attr.dependsOn}="${variantKey}"] ${selector}`;
+        }
+
+        cssAttrs.push({
+          name: attrName,
+          cssVar: attr.cssVar,
+          selector: variantSelector,
+          property: variantProperty,
+          default: formattedValue,
+          description: attr.description,
+          elementId: elementId,
+          variantKey,
+        });
+      });
+
+      // Skip default push when variants are handled
       continue;
     }
 

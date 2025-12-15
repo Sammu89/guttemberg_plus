@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-13T00:48:15.525Z
+ * Generated at: 2025-12-15T00:42:47.455Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -93,6 +93,10 @@ export const tabsAttributes = {
   },
   iconRotation: {
     type: 'number',
+    default: 0,
+  },
+  iconRotationActive: {
+    type: 'number',
     default: 180,
   },
   tabButtonColor: {
@@ -119,13 +123,17 @@ export const tabsAttributes = {
     type: 'string',
     default: '#ffffff',
   },
-  tabButtonActiveBorderColor: {
-    type: 'string',
-    default: '#dddddd',
+  enableFocusBorder: {
+    type: 'boolean',
+    default: true,
   },
-  tabButtonActiveBorderBottomColor: {
+  tabButtonActiveContentBorderWidth: {
+    type: 'number',
+    default: 2,
+  },
+  tabButtonActiveContentBorderStyle: {
     type: 'string',
-    default: '#ffffff',
+    default: 'solid',
   },
   tabButtonActiveFontWeight: {
     type: 'string',
@@ -134,6 +142,14 @@ export const tabsAttributes = {
   tabButtonBorderColor: {
     type: 'string',
     default: '#dddddd',
+  },
+  tabButtonActiveBorderColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  tabButtonActiveContentBorderColor: {
+    type: 'string',
+    default: '#ffffff',
   },
   tabButtonBorderWidth: {
     type: 'number',
@@ -154,26 +170,6 @@ export const tabsAttributes = {
   tabButtonShadowHover: {
     type: 'string',
     default: 'none',
-  },
-  enableFocusBorder: {
-    type: 'boolean',
-    default: true,
-  },
-  focusBorderColor: {
-    type: 'string',
-    default: '#dddddd',
-  },
-  focusBorderColorActive: {
-    type: 'string',
-    default: '#ffffff',
-  },
-  focusBorderWidth: {
-    type: 'number',
-    default: 2,
-  },
-  focusBorderStyle: {
-    type: 'string',
-    default: 'solid',
   },
   tabButtonFontSize: {
     type: 'number',
@@ -199,21 +195,41 @@ export const tabsAttributes = {
     type: 'string',
     default: 'center',
   },
+  tabButtonPadding: {
+    type: 'number',
+    default: 12,
+  },
   tabListBackgroundColor: {
     type: 'string',
     default: 'transparent',
   },
+  tabsRowBorderColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  tabsRowBorderWidth: {
+    type: 'number',
+    default: 0,
+  },
+  tabsRowBorderStyle: {
+    type: 'string',
+    default: 'solid',
+  },
   tabListAlignment: {
     type: 'string',
-    default: 'left',
+    default: 'flex-start',
+  },
+  tabsRowSpacing: {
+    type: 'number',
+    default: 8,
+  },
+  tabsButtonGap: {
+    type: 'number',
+    default: 8,
   },
   panelBackgroundColor: {
     type: 'string',
     default: '#ffffff',
-  },
-  panelColor: {
-    type: 'string',
-    default: '#333333',
   },
   panelBorderColor: {
     type: 'string',
@@ -255,19 +271,19 @@ export const tabsAttributes = {
     type: 'string',
     default: 'none',
   },
-  enableNavBarBorder: {
+  enableTabsListContentBorder: {
     type: 'boolean',
     default: false,
   },
-  navBarBorderColor: {
+  tabsListContentBorderColor: {
     type: 'string',
     default: 'transparent',
   },
-  navBarBorderWidth: {
+  tabsListContentBorderWidth: {
     type: 'number',
     default: 1,
   },
-  navBarBorderStyle: {
+  tabsListContentBorderStyle: {
     type: 'string',
     default: 'solid',
   },

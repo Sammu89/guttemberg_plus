@@ -50,10 +50,15 @@
       },
       "appliesStyles": [
         "tabListBackgroundColor",
+        "tabsRowBorderColor",
+        "tabsRowBorderWidth",
+        "tabsRowBorderStyle",
         "tabListAlignment",
-        "navBarBorderColor",
-        "navBarBorderWidth",
-        "navBarBorderStyle"
+        "tabsRowSpacing",
+        "tabsButtonGap",
+        "tabsListContentBorderColor",
+        "tabsListContentBorderWidth",
+        "tabsListContentBorderStyle"
       ]
     },
 
@@ -84,23 +89,22 @@
         "tabButtonTextTransform",
         "tabButtonTextDecoration",
         "tabButtonTextAlign",
+        "tabButtonPadding",
         "tabButtonHoverColor",
         "tabButtonHoverBackgroundColor",
         "tabButtonActiveColor",
         "tabButtonActiveBackgroundColor",
         "tabButtonActiveBorderColor",
-        "tabButtonActiveBorderBottomColor",
+        "tabButtonActiveContentBorderColor",
+        "tabButtonActiveContentBorderWidth",
+        "tabButtonActiveContentBorderStyle",
         "tabButtonActiveFontWeight",
         "tabButtonBorderColor",
         "tabButtonBorderWidth",
         "tabButtonBorderStyle",
         "tabButtonBorderRadius",
         "tabButtonShadow",
-        "tabButtonShadowHover",
-        "focusBorderColor",
-        "focusBorderColorActive",
-        "focusBorderWidth",
-        "focusBorderStyle"
+        "tabButtonShadowHover"
       ]
     },
 
@@ -139,7 +143,8 @@
       "appliesStyles": [
         "iconColor",
         "iconSize",
-        "iconRotation"
+        "iconRotation",
+        "iconRotationActive"
       ]
     },
 
@@ -156,8 +161,8 @@
       "id": "tabPanel",
       "tag": "div",
       "className": "tab-panel",
-      "description": "Individual tab content panel (from InnerBlocks)",
-      "children": ["tabPanelInner"],
+      "description": "Individual tab content panel (from InnerBlocks) with padding",
+      "contentType": "InnerBlocks",
       "attributes": {
         "role": "tabpanel",
         "data-tab-index": "{index}"
@@ -170,22 +175,12 @@
         "active": "{index === currentTab}"
       },
       "appliesStyles": [
-        "panelColor",
         "panelBackgroundColor",
         "panelBorderColor",
         "panelBorderWidth",
         "panelBorderStyle",
         "panelBorderRadius"
       ]
-    },
-
-    "tabPanelInner": {
-      "id": "tabPanelInner",
-      "tag": "div",
-      "className": "tab-panel-inner",
-      "description": "Inner wrapper for tab panel content with padding",
-      "contentType": "InnerBlocks",
-      "appliesStyles": []
     }
   },
 
@@ -197,9 +192,7 @@
           "tabButton": ["tabButtonText", "tabIcon"]
         },
         "tabsPanels": {
-          "tabPanel": {
-            "tabPanelInner": []
-          }
+          "tabPanel": []
         }
       }
     }

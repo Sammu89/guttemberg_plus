@@ -1,12 +1,17 @@
 /**
  * TOC Block - Editor Styles
  *
- * Styles specifically for the WordPress block editor.
- * Handles alignment and layout in the editor context.
+ * Includes all frontend styles plus editor-specific overrides.
+ * This ensures the editor matches the frontend appearance.
  *
  * @package
  * @since 1.0.0
  */
+
+/* Import frontend styles for consistency */
+@import 'style.scss';
+
+/* Editor-specific overrides and additions */
 
 /* Gutplus TOC alignment for editor */
 .gutplus-toc {
@@ -27,5 +32,45 @@
 	&.gutplus-align-right {
 		margin-left: auto !important;
 		margin-right: 0 !important;
+	}
+
+	/* Scan for headings button */
+	.toc-scan-container {
+		.components-button {
+			background-color: #0073aa;
+			color: #fff;
+			border: none;
+			padding: 10px 16px;
+			font-size: 14px;
+			font-weight: 500;
+			border-radius: 4px;
+			transition: background-color 0.2s ease;
+
+			&:hover:not(:disabled) {
+				background-color: #005a87;
+				color: #fff;
+			}
+
+			&:focus {
+				box-shadow: 0 0 0 2px #0073aa;
+			}
+
+			&:disabled {
+				opacity: 0.7;
+				cursor: not-allowed;
+			}
+
+			&.is-busy {
+				background-color: #555;
+			}
+		}
+	}
+
+	/* Empty message styling */
+	.toc-empty-message {
+		text-align: center;
+		padding: 16px;
+		margin: 0;
+		font-size: 13px;
 	}
 }
