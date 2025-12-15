@@ -39,7 +39,7 @@ import {
 	useThemeManager,
 	useBlockAlignment,
 } from '@shared';
-import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
+import { getCssVarName, formatCssValue, resolveCssProperty } from '@shared/config/css-var-mappings-generated';
 import tabsSchema from '../../../schemas/tabs.json';
 import { tabsAttributes } from './tabs-attributes';
 import './editor.scss';
@@ -57,6 +57,9 @@ function getAriaOrientation( orientation ) {
 	}
 	return orientation || 'horizontal';
 }
+
+const toCamelCase = ( prop ) =>
+	prop.replace( /-([a-z])/g, ( _, letter ) => letter.toUpperCase() );
 
 /**
  * Tabs Edit Component
@@ -199,18 +202,18 @@ const getInlineStyles = () => {
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
 			fontSize: `${effectiveValues.iconSize || 16}px`,
-			transform: `${effectiveValues.iconRotation || 180}deg`,
+			transform: `${effectiveValues.iconRotation || 0}deg`,
 		},
 		tabList: {
 			backgroundColor: effectiveValues.tabListBackgroundColor || 'transparent',
-			justifyContent: effectiveValues.tabListAlignment || 'left',
-			borderColor: effectiveValues.navBarBorderColor || 'transparent',
-			borderWidth: `${effectiveValues.navBarBorderWidth || 1}px`,
-			borderStyle: effectiveValues.navBarBorderStyle || 'solid',
+			borderColor: effectiveValues.tabsRowBorderColor || '#dddddd',
+			borderWidth: `${effectiveValues.tabsRowBorderWidth || 0}px`,
+			borderStyle: effectiveValues.tabsRowBorderStyle || 'solid',
+			justifyContent: effectiveValues.tabListAlignment || 'flex-start',
+			gap: `${effectiveValues.tabsButtonGap || 8}px`,
 		},
 		panel: {
 			backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',
-			color: effectiveValues.panelColor || '#333333',
 			borderColor: effectiveValues.panelBorderColor || '#dddddd',
 			borderWidth: `${effectiveValues.panelBorderWidth || 1}px`,
 			borderStyle: effectiveValues.panelBorderStyle || 'solid',
@@ -220,10 +223,57 @@ const getInlineStyles = () => {
 };
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
-	const styles = getInlineStyles();
+		const styles = getInlineStyles();
+			const orientation = attributes.orientation || 'horizontal';
+			const navContext = { orientation };
+			const isDividerEnabled = attributes.enableTabsListContentBorder !== false;
 
-	// Add tabButton function to styles object to handle active/disabled states
-	styles.tabButton = (isActive, isDisabled) => {
+			// Apply nav bar content border inline styles using schema variants (orientation-aware)
+			if ( isDividerEnabled ) {
+				const navColorProp = resolveCssProperty(
+					'tabsListContentBorderColor',
+					'tabs',
+					navContext
+				);
+				if (
+					navColorProp &&
+					effectiveValues.tabsListContentBorderColor !== undefined &&
+					effectiveValues.tabsListContentBorderColor !== null
+				) {
+					styles.tabList[ toCamelCase( navColorProp ) ] = effectiveValues.tabsListContentBorderColor;
+				}
+
+				const navWidthProp = resolveCssProperty(
+					'tabsListContentBorderWidth',
+					'tabs',
+					navContext
+				);
+				if (
+					navWidthProp &&
+					effectiveValues.tabsListContentBorderWidth !== undefined &&
+					effectiveValues.tabsListContentBorderWidth !== null
+				) {
+					styles.tabList[ toCamelCase( navWidthProp ) ] = `${ effectiveValues.tabsListContentBorderWidth }px`;
+				}
+
+				const navStyleProp = resolveCssProperty(
+					'tabsListContentBorderStyle',
+					'tabs',
+					navContext
+				);
+				if (
+					navStyleProp &&
+					effectiveValues.tabsListContentBorderStyle !== undefined &&
+					effectiveValues.tabsListContentBorderStyle !== null
+				) {
+					styles.tabList[ toCamelCase( navStyleProp ) ] = effectiveValues.tabsListContentBorderStyle;
+				}
+			}
+
+		// Add tabButton function to styles object to handle active/disabled states
+		styles.tabButton = (isActive, isDisabled) => {
+			const isActiveContentBorderEnabled = attributes.enableFocusBorder !== false;
+
 		const baseStyles = {
 			color: effectiveValues.tabButtonColor,
 			backgroundColor: effectiveValues.tabButtonBackgroundColor,
@@ -235,18 +285,65 @@ const getInlineStyles = () => {
 			fontSize: `${effectiveValues.tabButtonFontSize}px`,
 			fontWeight: effectiveValues.tabButtonFontWeight,
 			fontStyle: effectiveValues.tabButtonFontStyle,
-		};
+			};
 
-		if (isActive) {
-			return {
-				...baseStyles,
+			if (isActive) {
+				const activeStyles = {
+					...baseStyles,
 				color: effectiveValues.tabButtonActiveColor,
 				backgroundColor: effectiveValues.tabButtonActiveBackgroundColor,
-				borderColor: effectiveValues.tabButtonActiveBorderColor,
-				borderBottomColor: effectiveValues.tabButtonActiveBorderBottomColor,
-				fontWeight: effectiveValues.tabButtonActiveFontWeight,
-			};
-		}
+					borderColor: effectiveValues.tabButtonActiveBorderColor,
+					fontWeight: effectiveValues.tabButtonActiveFontWeight,
+				};
+
+				if (!isActiveContentBorderEnabled) {
+					return activeStyles;
+				}
+
+				const contentBorderColor =
+					effectiveValues.tabButtonActiveContentBorderColor;
+				const contentBorderWidth =
+					effectiveValues.tabButtonActiveContentBorderWidth;
+				const contentBorderStyle =
+					effectiveValues.tabButtonActiveContentBorderStyle;
+
+				const propertyContext = { orientation };
+
+				const colorProp = resolveCssProperty(
+					'tabButtonActiveContentBorderColor',
+					'tabs',
+					propertyContext
+				);
+
+				const widthProp = resolveCssProperty(
+					'tabButtonActiveContentBorderWidth',
+					'tabs',
+					propertyContext
+				);
+
+				const styleProp = resolveCssProperty(
+					'tabButtonActiveContentBorderStyle',
+					'tabs',
+					propertyContext
+				);
+
+				const contentEdgeStyles = {};
+
+				if (colorProp && contentBorderColor !== undefined && contentBorderColor !== null) {
+					contentEdgeStyles[ toCamelCase( colorProp ) ] = contentBorderColor;
+				}
+				if (widthProp && contentBorderWidth !== undefined && contentBorderWidth !== null) {
+					contentEdgeStyles[ toCamelCase( widthProp ) ] = `${contentBorderWidth}px`;
+				}
+				if (styleProp && contentBorderStyle !== undefined && contentBorderStyle !== null) {
+					contentEdgeStyles[ toCamelCase( styleProp ) ] = contentBorderStyle;
+				}
+
+				return {
+					...activeStyles,
+					...contentEdgeStyles,
+				};
+			}
 
 		if (isDisabled) {
 			return {
@@ -385,29 +482,31 @@ const getInlineStyles = () => {
 
 		// Define which attributes are controlled by feature toggles
 		const toggledAttributes = {
-			// Focus border settings are controlled by enableFocusBorder
-			focusBorderColor: 'enableFocusBorder',
-			focusBorderColorActive: 'enableFocusBorder',
-			focusBorderWidth: 'enableFocusBorder',
-			focusBorderStyle: 'enableFocusBorder',
-			// Nav bar border settings are controlled by enableNavBarBorder
-			navBarBorderColor: 'enableNavBarBorder',
-			navBarBorderWidth: 'enableNavBarBorder',
-			navBarBorderStyle: 'enableNavBarBorder',
+			// Active content edge border is controlled by enableFocusBorder
+			tabButtonActiveContentBorderColor: 'enableFocusBorder',
+			tabButtonActiveContentBorderWidth: 'enableFocusBorder',
+			tabButtonActiveContentBorderStyle: 'enableFocusBorder',
+			// Nav bar border settings are controlled by enableTabsListContentBorder
+			tabsListContentBorderColor: 'enableTabsListContentBorder',
+			tabsListContentBorderWidth: 'enableTabsListContentBorder',
+			tabsListContentBorderStyle: 'enableTabsListContentBorder',
 		};
 
 		// Reset CSS variables for disabled toggles to prevent unwanted inheritance
 		if ( attributes.enableFocusBorder === false ) {
-			styles['--tabs-focus-border-color'] = 'transparent';
-			styles['--tabs-focus-border-color-active'] = 'transparent';
-			styles['--tabs-focus-border-width'] = '0';
-			styles['--tabs-focus-border-style'] = 'none';
+			styles['--tabs-button-active-content-border-color'] =
+				'var(--tabs-button-active-border-color)';
+			styles['--tabs-button-active-content-border-width'] =
+				'var(--tabs-button-border-width)';
+			styles['--tabs-button-active-content-border-style'] =
+				'var(--tabs-button-border-style)';
 		}
 
-		if ( attributes.enableNavBarBorder === false ) {
-			styles['--tabs-divider-border-color'] = 'transparent';
-			styles['--tabs-divider-border-width'] = '0';
-			styles['--tabs-divider-border-style'] = 'none';
+		if ( attributes.enableTabsListContentBorder === false ) {
+			// Fall back to the main tab row border settings when the divider is disabled
+			styles['--tabs-list-divider-border-color'] = attributes.tabsRowBorderColor || '#dddddd';
+			styles['--tabs-list-divider-border-width'] = `${ attributes.tabsRowBorderWidth || 0 }px`;
+			styles['--tabs-list-divider-border-style'] = attributes.tabsRowBorderStyle || 'solid';
 		}
 
 		// Process each attribute using schema-generated mappings
@@ -417,7 +516,7 @@ const getInlineStyles = () => {
 			}
 
 			// Skip toggle attributes themselves
-			if ( attrName === 'enableFocusBorder' || attrName === 'enableNavBarBorder' ) {
+			if ( attrName === 'enableFocusBorder' || attrName === 'enableTabsListContentBorder' ) {
 				return;
 			}
 
@@ -444,19 +543,20 @@ const getInlineStyles = () => {
 		return styles;
 	};
 
-	const customizationStyles = getCustomizationStyles();
+		const customizationStyles = getCustomizationStyles();
 
-	// Build root styles including width
-	const rootStyles = {
-		width: effectiveValues.tabsWidth,
-		...customizationStyles,
-	};
+		// Build root styles including width
+		const rootStyles = {
+			width: effectiveValues.tabsWidth,
+			...customizationStyles,
+		};
 
-	const blockProps = useBlockProps( {
-		className: 'gutplus-tabs',
-		style: rootStyles,
-		ref: blockRef,
-	} );
+			const blockProps = useBlockProps( {
+				className: 'gutplus-tabs',
+				style: rootStyles,
+				ref: blockRef,
+				'data-orientation': attributes.orientation || 'horizontal',
+			} );
 
 	return (
 		<>		<InspectorControls>
@@ -564,69 +664,87 @@ const getInlineStyles = () => {
 						>
 							{ tabPanels.map( ( panel, index ) => {
 								const tabId = panel.attributes.tabId || `tab-${ panel.clientId }`;
+								const headingLevel = attributes.headingLevel || 'none';
+
+								// The button element
+								const buttonElement = (
+									<button
+										role="tab"
+										aria-selected={ activeTab === index }
+										aria-controls={ `panel-${ tabId }` }
+										id={ `tab-${ tabId }` }
+										disabled={ panel.attributes.isDisabled }
+										onClick={ () => switchTab( index ) }
+										style={ {
+											...styles.tabButton(
+												activeTab === index,
+												panel.attributes.isDisabled
+											),
+											display: 'flex',
+											justifyContent: 'space-between',
+											alignItems: 'center',
+										} }
+										className={ `tab-button ${
+											activeTab === index ? 'active' : ''
+										}` }
+									>
+										<span className="tab-title" style={ { marginRight: '20px' } }>
+											{ effectiveValues.showIcon && effectiveValues.iconPosition === 'left' && renderIcon() }
+											<RichText
+												tagName="span"
+												value={ panel.attributes.title || `Tab ${ index + 1 }` }
+												onChange={ ( value ) => updateTab( index, 'title', value ) }
+												placeholder={ __( 'Tab title…', 'guttemberg-plus' ) }
+												keepPlaceholderOnFocus={ false }
+											/>
+											{ effectiveValues.showIcon && effectiveValues.iconPosition === 'right' && renderIcon() }
+										</span>
+										<div className="tab-actions" style={ {
+											display: 'flex',
+											flexDirection: 'column',
+											gap: '1px',
+											marginLeft: 'auto',
+										} }>
+											<button
+												onClick={ ( e ) => {
+													e.stopPropagation();
+													addTab( index );
+												} }
+												className="tab-action-button tab-add-button"
+												title={ __( 'Add tab after this one', 'guttemberg-plus' ) }
+												type="button"
+											>
+												+
+											</button>
+											<button
+												onClick={ ( e ) => {
+													e.stopPropagation();
+													removeTab( index );
+												} }
+												className="tab-action-button tab-remove-button"
+												title={ __( 'Delete this tab', 'guttemberg-plus' ) }
+												type="button"
+											>
+												−
+											</button>
+										</div>
+									</button>
+								);
+
+								// Wrap in heading if headingLevel is set - for TOC detection
+								let wrappedButton = buttonElement;
+								if ( headingLevel !== 'none' ) {
+									const HeadingTag = headingLevel;
+									wrappedButton = (
+										<HeadingTag className="tab-heading" style={ { margin: 0, display: 'contents' } }>
+											{ buttonElement }
+										</HeadingTag>
+									);
+								}
+
 								return (
 									<div key={ panel.clientId } className="tab-button-container">
-										<button
-											role="tab"
-											aria-selected={ activeTab === index }
-											aria-controls={ `panel-${ tabId }` }
-											id={ `tab-${ tabId }` }
-											disabled={ panel.attributes.isDisabled }
-											onClick={ () => switchTab( index ) }
-											style={ {
-												...styles.tabButton(
-													activeTab === index,
-													panel.attributes.isDisabled
-												),
-												display: 'flex',
-												justifyContent: 'space-between',
-												alignItems: 'center',
-											} }
-											className={ `tab-button ${
-												activeTab === index ? 'active' : ''
-											}` }
-										>
-											<span className="tab-title" style={ { marginRight: '20px' } }>
-												{ effectiveValues.showIcon && effectiveValues.iconPosition === 'left' && renderIcon() }
-												<RichText
-													tagName="span"
-													value={ panel.attributes.title || `Tab ${ index + 1 }` }
-													onChange={ ( value ) => updateTab( index, 'title', value ) }
-													placeholder={ __( 'Tab title…', 'guttemberg-plus' ) }
-													keepPlaceholderOnFocus={ false }
-												/>
-												{ effectiveValues.showIcon && effectiveValues.iconPosition === 'right' && renderIcon() }
-											</span>
-											<div className="tab-actions" style={ {
-												display: 'flex',
-												flexDirection: 'column',
-												gap: '1px',
-												marginLeft: 'auto',
-											} }>
-												<button
-													onClick={ ( e ) => {
-														e.stopPropagation();
-														addTab( index );
-													} }
-													className="tab-action-button tab-add-button"
-													title={ __( 'Add tab after this one', 'guttemberg-plus' ) }
-													type="button"
-												>
-													+
-												</button>
-												<button
-													onClick={ ( e ) => {
-														e.stopPropagation();
-														removeTab( index );
-													} }
-													className="tab-action-button tab-remove-button"
-													title={ __( 'Delete this tab', 'guttemberg-plus' ) }
-													type="button"
-												>
-													−
-												</button>
-											</div>
-										</button>
+										{ wrappedButton }
 									</div>
 								);
 							} ) }

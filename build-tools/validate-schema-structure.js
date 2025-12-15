@@ -206,6 +206,8 @@ function validateBlock(blockType) {
   } else {
     // Check all themeable attributes have appliesTo
     Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
+      const hasVariants = attr.variants && typeof attr.variants === 'object' && Object.keys(attr.variants).length > 0;
+
       if (attr.themeable) {
         if (!attr.appliesTo) {
           errors.push(
@@ -232,10 +234,87 @@ function validateBlock(blockType) {
           );
         }
 
-        if (!attr.cssProperty) {
+        const hasCssProperty = Boolean(attr.cssProperty);
+        if (!hasCssProperty && !hasVariants) {
           errors.push(
             `❌ Themeable attribute "${attrName}" is missing "cssProperty" field!\n` +
-            `   Fix: Add "cssProperty": "css-property" to this attribute.`
+            `   Fix: Add "cssProperty": "css-property" (or provide per-variant cssProperty overrides).`
+          );
+        }
+
+        if (attr.dependsOn && attr.cssProperty) {
+          errors.push(
+            `❌ Attribute "${attrName}" has both "dependsOn" and top-level "cssProperty".\n` +
+            `   Fix: Move cssProperty into each variant (and optional "_default") so conditionals are schema-driven.`
+          );
+        }
+      }
+    });
+
+    // Validate conditional variants (dependsOn + variants coverage)
+    Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
+      if (!attr.dependsOn && !attr.variants) return;
+
+      const variants = attr.variants && typeof attr.variants === 'object' ? attr.variants : null;
+      const dependencyName = attr.dependsOn;
+
+      if (dependencyName && !attributes.attributes[dependencyName]) {
+        errors.push(
+          `❌ Attribute "${attrName}" dependsOn "${dependencyName}" but that attribute is not defined in the schema.\n` +
+          `   Fix: Add the dependency attribute or remove dependsOn.`
+        );
+        return;
+      }
+
+      if (dependencyName && !variants) {
+        warnings.push(
+          `⚠️  Attribute "${attrName}" declares dependsOn "${dependencyName}" but has no "variants" block.\n` +
+          `   Add variants keyed by ${dependencyName} values (plus optional "_default").`
+        );
+        return;
+      }
+
+      if (!variants) return;
+
+      // If dependency has options, ensure variants keys align
+      const dependencyAttr = attributes.attributes[dependencyName] || {};
+      const optionValues = (dependencyAttr.options || []).map((opt) =>
+        typeof opt === 'object' ? opt.value ?? opt.label : opt
+      );
+
+      const variantKeys = Object.keys(variants);
+      const nonDefaultVariantKeys = variantKeys.filter((key) => key !== '_default');
+
+      // Each variant must declare cssProperty
+      nonDefaultVariantKeys.forEach((key) => {
+        if (!variants[key] || !variants[key].cssProperty) {
+          errors.push(
+            `❌ Variant "${key}" for attribute "${attrName}" is missing "cssProperty".\n` +
+            `   Fix: Add "cssProperty" inside the variant.`
+          );
+        }
+      });
+      if (variants._default && !variants._default.cssProperty) {
+        errors.push(
+          `❌ Variant "_default" for attribute "${attrName}" is missing "cssProperty".\n` +
+          `   Fix: Add "cssProperty" inside the default variant.`
+        );
+      }
+
+      if (optionValues.length > 0) {
+        const missing = optionValues.filter((opt) => !variantKeys.includes(opt));
+        if (missing.length > 0 && !variants._default) {
+          warnings.push(
+            `⚠️  Attribute "${attrName}" dependsOn "${dependencyName}" but is missing variants for: ${missing.join(', ')}\n` +
+            `   Add variants for these options or provide a "_default" variant.`
+          );
+        }
+
+        const unexpected = nonDefaultVariantKeys.filter((key) => !optionValues.includes(key));
+        if (unexpected.length > 0) {
+          warnings.push(
+            `⚠️  Attribute "${attrName}" has variants with keys not present in ${dependencyName} options: ${unexpected.join(', ')}\n` +
+            `   Fix: Remove unexpected variants or add matching options to "${dependencyName}".`
           );
         }
       }

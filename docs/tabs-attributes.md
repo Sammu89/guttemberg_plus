@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-13T00:48:15.541Z
+> Generated at: 2025-12-15T00:42:47.457Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -45,9 +45,10 @@ Icon appearance and styling
 | `iconPosition` | string | `right` | No (N/A) | Position of icon relative to text |
 | `iconColor` | string | `#666666` | Yes | Color of the tab icon |
 | `iconSize` | number | `16` | Yes | Size of the icon in pixels |
-| `iconTypeClosed` | string | `▾` | No (N/A) | Icon when tab is closed (char or image URL) |
-| `iconTypeOpen` | string | `none` | No (N/A) | Icon when tab is open (none = use closed icon with rotation) |
-| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
+| `iconTypeClosed` | string | `▾` | No (N/A) | Icon for the tab (char or image URL) |
+| `iconTypeOpen` | string | `none` | No (N/A) | Icon when tab is active (none = use closed icon with final rotation) |
+| `iconRotation` | number | `0` | Yes | Base rotation of the icon |
+| `iconRotationActive` | number | `180` | Yes | Rotation of the icon for the active tab |
 
 ## Button Colors
 
@@ -68,19 +69,17 @@ Tab button borders including enhanced border adjacent to content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
-| `tabButtonActiveBorderBottomColor` | string | `#ffffff` | Yes | Bottom border color for active tab (creates connected effect) |
+| `enableFocusBorder` | boolean | `true` | No (N/A) | Enable or disable the border on the edge touching the content (active tab only) |
+| `tabButtonActiveContentBorderWidth` | number | `2` | Yes | Width of the active button edge touching content |
+| `tabButtonActiveContentBorderStyle` | string | `solid` | Yes | Style of the active button edge touching content |
 | `tabButtonBorderColor` | string | `#dddddd` | Yes | Border color for inactive tab buttons |
+| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
+| `tabButtonActiveContentBorderColor` | string | `#ffffff` | Yes | Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border. |
 | `tabButtonBorderWidth` | number | `1` | Yes | Border width for tab buttons |
 | `tabButtonBorderStyle` | string | `solid` | Yes | Border style for tab buttons |
 | `tabButtonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
 | `tabButtonShadow` | string | `none` | Yes | Box shadow for tab buttons |
 | `tabButtonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
-| `enableFocusBorder` | boolean | `true` | No (N/A) | Enable or disable enhanced border settings for tab buttons (adjacent to content) |
-| `focusBorderColor` | string | `#dddddd` | Yes | Border color for inactive button edge adjacent to content |
-| `focusBorderColorActive` | string | `#ffffff` | Yes | Border color for active button edge adjacent to content |
-| `focusBorderWidth` | number | `2` | Yes | Width of button edge adjacent to content |
-| `focusBorderStyle` | string | `solid` | Yes | Style of button edge adjacent to content |
 
 ## Button Typography
 
@@ -95,19 +94,25 @@ Tab button typography and alignment
 | `tabButtonTextTransform` | string | `none` | Yes | Text transformation for tab buttons |
 | `tabButtonTextDecoration` | string | `none` | Yes | Text decoration for tab buttons |
 | `tabButtonTextAlign` | string | `center` | Yes | Text alignment for tab buttons |
+| `tabButtonPadding` | number | `12` | Yes | Padding for tab buttons (vertical/horizontal will be computed) |
 
-## Nav Bar
+## Tab Row
 
-Navigation bar background, alignment, and border
+Tab row background, alignment, and border
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `tabListBackgroundColor` | string | `transparent` | Yes | Background color for the tab navigation bar |
-| `tabListAlignment` | string | `left` | Yes | Horizontal alignment of tabs |
-| `enableNavBarBorder` | boolean | `false` | No (N/A) | Enable or disable border between navigation bar and content |
-| `navBarBorderColor` | string | `transparent` | Yes | Color of border between navigation bar and content |
-| `navBarBorderWidth` | number | `1` | Yes | Width of border between navigation bar and content |
-| `navBarBorderStyle` | string | `solid` | Yes | Style of border between navigation bar and content |
+| `tabsRowBorderColor` | string | `#dddddd` | Yes | Border color for the tab row |
+| `tabsRowBorderWidth` | number | `0` | Yes | Border width for the tab row |
+| `tabsRowBorderStyle` | string | `solid` | Yes | Border style for the tab row |
+| `tabListAlignment` | string | `flex-start` | Yes | Alignment of tabs along the main axis |
+| `tabsRowSpacing` | number | `8` | Yes | Padding/spacing for the tab row |
+| `tabsButtonGap` | number | `8` | Yes | Spacing between individual tab buttons |
+| `enableTabsListContentBorder` | boolean | `false` | No (N/A) | Enable or disable border between tab row and content |
+| `tabsListContentBorderColor` | string | `transparent` | Yes | Color of the tab row edge that touches the content |
+| `tabsListContentBorderWidth` | number | `1` | Yes | Width of the tab row edge that touches the content |
+| `tabsListContentBorderStyle` | string | `solid` | Yes | Style of the tab row edge that touches the content |
 
 ## Content
 
@@ -116,7 +121,6 @@ Content panel colors, borders, and radius
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `panelBackgroundColor` | string | `#ffffff` | Yes | Background color for tab panels |
-| `panelColor` | string | `#333333` | Yes | Text color for tab panel content |
 | `panelBorderColor` | string | `#dddddd` | Yes | Border color for tab content panel |
 | `panelBorderWidth` | number | `1` | Yes | Border width for tab content panel (0-10px) |
 | `panelBorderStyle` | string | `solid` | Yes | Border style for tab content panel |
@@ -143,36 +147,40 @@ The following CSS custom properties are available for theming:
 |-----------|-------------|
 | `iconColor` | `--tabs-icon-color` |
 | `iconSize` | `--tabs-icon-size` |
-| `iconRotation` | `--tabs-icon-rotation` |
+| `iconRotation` | `--tabs-icon-rotation-base` |
+| `iconRotationActive` | `--tabs-icon-rotation-active` |
 | `tabButtonColor` | `--tabs-button-color` |
 | `tabButtonBackgroundColor` | `--tabs-button-bg` |
 | `tabButtonHoverColor` | `--tabs-button-hover-color` |
 | `tabButtonHoverBackgroundColor` | `--tabs-button-hover-bg` |
 | `tabButtonActiveColor` | `--tabs-button-active-color` |
 | `tabButtonActiveBackgroundColor` | `--tabs-button-active-bg` |
-| `tabButtonActiveBorderColor` | `--tabs-button-active-border-color` |
-| `tabButtonActiveBorderBottomColor` | `--tabs-button-active-border-bottom-color` |
+| `tabButtonActiveContentBorderWidth` | `--tabs-button-active-content-border-width` |
+| `tabButtonActiveContentBorderStyle` | `--tabs-button-active-content-border-style` |
 | `tabButtonActiveFontWeight` | `--tabs-button-active-font-weight` |
 | `tabButtonBorderColor` | `--tabs-button-border-color` |
+| `tabButtonActiveBorderColor` | `--tabs-button-active-border-color` |
+| `tabButtonActiveContentBorderColor` | `--tabs-button-active-content-border-color` |
 | `tabButtonBorderWidth` | `--tabs-button-border-width` |
 | `tabButtonBorderStyle` | `--tabs-button-border-style` |
 | `tabButtonBorderRadius` | `--tabs-button-border-radius` |
 | `tabButtonShadow` | `--tabs-button-border-shadow` |
 | `tabButtonShadowHover` | `--tabs-button-border-shadow-hover` |
-| `focusBorderColor` | `--tabs-focus-border-color` |
-| `focusBorderColorActive` | `--tabs-focus-border-color-active` |
-| `focusBorderWidth` | `--tabs-focus-border-width` |
-| `focusBorderStyle` | `--tabs-focus-border-style` |
 | `tabButtonFontSize` | `--tabs-button-font-size` |
 | `tabButtonFontWeight` | `--tabs-button-font-weight` |
 | `tabButtonFontStyle` | `--tabs-button-font-style` |
 | `tabButtonTextTransform` | `--tabs-button-text-transform` |
 | `tabButtonTextDecoration` | `--tabs-button-text-decoration` |
 | `tabButtonTextAlign` | `--tabs-button-text-align` |
+| `tabButtonPadding` | `--tabs-button-padding` |
 | `tabListBackgroundColor` | `--tabs-list-bg` |
+| `tabsRowBorderColor` | `--tabs-row-border-color` |
+| `tabsRowBorderWidth` | `--tabs-row-border-width` |
+| `tabsRowBorderStyle` | `--tabs-row-border-style` |
 | `tabListAlignment` | `--tabs-list-align` |
+| `tabsRowSpacing` | `--tabs-row-spacing` |
+| `tabsButtonGap` | `--tabs-button-gap` |
 | `panelBackgroundColor` | `--tabs-panel-bg` |
-| `panelColor` | `--tabs-panel-color` |
 | `panelBorderColor` | `--tabs-panel-border-color` |
 | `panelBorderWidth` | `--tabs-panel-border-width` |
 | `panelBorderStyle` | `--tabs-panel-border-style` |
@@ -183,7 +191,7 @@ The following CSS custom properties are available for theming:
 | `borderRadius` | `--tabs-border-radius` |
 | `shadow` | `--tabs-border-shadow` |
 | `shadowHover` | `--tabs-border-shadow-hover` |
-| `navBarBorderColor` | `--tabs-divider-border-color` |
-| `navBarBorderWidth` | `--tabs-divider-border-width` |
-| `navBarBorderStyle` | `--tabs-divider-border-style` |
+| `tabsListContentBorderColor` | `--tabs-list-divider-border-color` |
+| `tabsListContentBorderWidth` | `--tabs-list-divider-border-width` |
+| `tabsListContentBorderStyle` | `--tabs-list-divider-border-style` |
 

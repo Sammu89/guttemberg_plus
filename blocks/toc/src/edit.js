@@ -19,8 +19,8 @@
  * @since 1.0.0
  */
 
-import { useEffect, useState, useMemo } from '@wordpress/element';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
+import { InspectorControls, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	ToggleControl,
@@ -28,7 +28,10 @@ import {
 	SelectControl,
 	CheckboxControl,
 	RangeControl,
+	Button,
 } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 import {
 	generateUniqueId,
 	getAllDefaults,
@@ -55,6 +58,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const { tocId, showTitle, titleText } = attributes;
 	const [ headings, setHeadings ] = useState( [] );
+	const [ isScanning, setIsScanning ] = useState( false );
+	const [ hasScanned, setHasScanned ] = useState( false );
 
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.tocHorizontalAlign );
@@ -66,59 +71,140 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		}
 	}, [ tocId, setAttributes ] );
 
-	// Detect headings in post content
-	useEffect( () => {
-		const detectHeadings = () => {
-			// Get all headings in the post content (excluding this block)
-			const contentArea = document.querySelector( '.editor-styles-wrapper' );
-			if ( ! contentArea ) {
-				return [];
+	// Get all blocks from the editor using Gutenberg's data API
+	const allBlocks = useSelect(
+		( select ) => select( blockEditorStore ).getBlocks(),
+		[]
+	);
+
+	/**
+	 * Strip HTML tags from text
+	 * Icons are stored separately in accordion/tabs blocks (iconTypeClosed, iconTypeOpen attributes)
+	 * and rendered in separate elements with class "accordion-icon" or similar.
+	 * The title text itself doesn't contain icons, just potential HTML formatting.
+	 */
+	const stripHtml = ( text ) => {
+		if ( ! text ) {
+			return '';
+		}
+		return text
+			// Remove HTML tags (formatting like <strong>, <em>, etc.)
+			.replace( /<[^>]*>/g, '' )
+			// Normalize whitespace
+			.replace( /\s+/g, ' ' )
+			.trim();
+	};
+
+	/**
+	 * Recursively extract headings from blocks
+	 * Handles core/heading blocks, accordions, tabs, and nested blocks
+	 * Respects includeAccordions and includeTabs filter settings
+	 */
+	const extractHeadingsFromBlocks = useCallback( ( blocks, currentClientId, options = {} ) => {
+		const { includeAccordions = true, includeTabs = true } = options;
+		const detectedHeadings = [];
+
+		const processBlock = ( block ) => {
+			// Skip this TOC block
+			if ( block.clientId === currentClientId ) {
+				return;
 			}
 
-			const allHeadings = contentArea.querySelectorAll( 'h2, h3, h4, h5, h6' );
-			const detectedHeadings = [];
+			// Skip other TOC blocks
+			if ( block.name === 'custom/toc' ) {
+				return;
+			}
 
-			allHeadings.forEach( ( heading ) => {
-				// Skip headings inside this TOC block
-				const isInThisBlock = heading.closest( `[data-block="${ clientId }"]` );
-				if ( isInThisBlock ) {
-					return;
+			// Handle core/heading blocks
+			if ( block.name === 'core/heading' ) {
+				const level = block.attributes.level || 2;
+				const content = block.attributes.content || '';
+				const text = stripHtml( content );
+
+				if ( text ) {
+					detectedHeadings.push( {
+						level,
+						text,
+						id: block.attributes.anchor || '',
+						classes: [],
+						blockType: 'heading',
+					} );
 				}
+			}
 
-				const level = parseInt( heading.tagName.charAt( 1 ), 10 );
-				const text = heading.textContent.trim();
-				const id = heading.id || '';
-				const classes = Array.from( heading.classList );
+			// Handle accordion blocks with headingLevel set (if enabled)
+			// Note: Icons are stored in iconTypeClosed/iconTypeOpen attributes, not in title
+			if ( includeAccordions && block.name === 'custom/accordion' ) {
+				const headingLevel = block.attributes.headingLevel;
+				if ( headingLevel && headingLevel !== 'none' ) {
+					const level = parseInt( headingLevel.charAt( 1 ), 10 );
+					const title = block.attributes.title || '';
+					const text = stripHtml( title );
 
-				detectedHeadings.push( { level, text, id, classes } );
-			} );
+					if ( text ) {
+						detectedHeadings.push( {
+							level,
+							text,
+							id: block.attributes.accordionId || '',
+							classes: [ 'accordion-heading' ],
+							blockType: 'accordion',
+						} );
+					}
+				}
+			}
 
-			return detectedHeadings;
+			// Handle tabs blocks with headingLevel set (if enabled)
+			// Note: Icons are stored in iconTypeClosed/iconTypeOpen attributes, not in tab.title
+			if ( includeTabs && block.name === 'custom/tabs' ) {
+				const headingLevel = block.attributes.headingLevel;
+				if ( headingLevel && headingLevel !== 'none' ) {
+					const level = parseInt( headingLevel.charAt( 1 ), 10 );
+					const tabsData = block.attributes.tabsData || [];
+
+					tabsData.forEach( ( tab ) => {
+						const text = stripHtml( tab.title );
+						if ( text ) {
+							detectedHeadings.push( {
+								level,
+								text,
+								id: tab.tabId || '',
+								classes: [ 'tab-heading' ],
+								blockType: 'tabs',
+							} );
+						}
+					} );
+				}
+			}
+
+			// Recursively process inner blocks
+			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+				block.innerBlocks.forEach( processBlock );
+			}
 		};
 
-		// Run detection
-		const detected = detectHeadings();
-		setHeadings( detected );
+		blocks.forEach( processBlock );
+		return detectedHeadings;
+	}, [] );
 
-		// Re-run on content changes (debounced)
-		const observer = new MutationObserver( () => {
-			setTimeout( () => {
-				const updated = detectHeadings();
-				setHeadings( updated );
-			}, 100 );
-		} );
+	/**
+	 * Scan for headings in post content
+	 * Called manually when user clicks the "Scan for headings" button
+	 * Respects includeAccordions and includeTabs attributes
+	 */
+	const scanForHeadings = () => {
+		setIsScanning( true );
 
-		const contentArea = document.querySelector( '.editor-styles-wrapper' );
-		if ( contentArea ) {
-			observer.observe( contentArea, {
-				childList: true,
-				subtree: true,
-				characterData: true,
+		// Small delay to show scanning state
+		setTimeout( () => {
+			const detectedHeadings = extractHeadingsFromBlocks( allBlocks, clientId, {
+				includeAccordions: attributes.includeAccordions !== false,
+				includeTabs: attributes.includeTabs !== false,
 			} );
-		}
-
-		return () => observer.disconnect();
-	}, [ clientId ] );
+			setHeadings( detectedHeadings );
+			setIsScanning( false );
+			setHasScanned( true );
+		}, 200 );
+	};
 
 	// Extract schema defaults from tocAttributes (SINGLE SOURCE OF TRUTH!)
 	const schemaDefaults = useMemo( () => {
@@ -306,6 +392,26 @@ const getInlineStyles = () => {
 
 				{ /* Heading Filter Panel */ }
 				<PanelBody title="Heading Filter" initialOpen={ false }>
+					<p style={ { marginBottom: '16px', color: '#757575', fontSize: '12px' } }>
+						<strong>Block Headings:</strong> Include headings from accordion and tab blocks when they have a heading level set.
+					</p>
+
+					<ToggleControl
+						label="Include Accordion Headings"
+						help="Include headings from accordion blocks"
+						checked={ attributes.includeAccordions !== false }
+						onChange={ ( value ) => setAttributes( { includeAccordions: value } ) }
+					/>
+
+					<ToggleControl
+						label="Include Tab Headings"
+						help="Include headings from tab blocks"
+						checked={ attributes.includeTabs !== false }
+						onChange={ ( value ) => setAttributes( { includeTabs: value } ) }
+					/>
+
+					<hr style={ { margin: '16px 0', borderTop: '1px solid #ddd' } } />
+
 					<SelectControl
 						label="Filter Mode"
 						value={ attributes.filterMode }
@@ -459,10 +565,32 @@ const getInlineStyles = () => {
 					</div>
 				) }
 
-				{ filteredHeadings.length === 0 ? (
+				{ /* Scan for headings button */ }
+				<div className="toc-scan-container" style={ { marginBottom: '12px' } }>
+					<Button
+						variant="secondary"
+						onClick={ scanForHeadings }
+						isBusy={ isScanning }
+						disabled={ isScanning }
+						style={ {
+							width: '100%',
+							justifyContent: 'center',
+						} }
+					>
+						{ isScanning
+							? __( 'Scanning…', 'guttemberg-plus' )
+							: __( 'Scan for headings', 'guttemberg-plus' ) }
+					</Button>
+				</div>
+
+				{ /* Results: show headings list or empty message */ }
+				{ ! hasScanned ? (
+					<p className="toc-empty-message" style={ { color: '#757575', fontStyle: 'italic' } }>
+						{ __( 'Click "Scan for headings" to detect headings in your content.', 'guttemberg-plus' ) }
+					</p>
+				) : filteredHeadings.length === 0 ? (
 					<p className="toc-empty-message">
-						No headings found. Add H2-H6 headings to your content to populate the table
-						of contents.
+						{ __( 'No headings found. Add H2-H6 headings to your content to populate the table of contents.', 'guttemberg-plus' ) }
 					</p>
 				) : (
 					<nav

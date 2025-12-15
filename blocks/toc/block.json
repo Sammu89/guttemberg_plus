@@ -10,6 +10,7 @@
 	"keywords": [ "toc", "table of contents", "navigation", "headings" ],
 	"textdomain": "guttemberg-plus",
 	"editorScript": "file:../../build/blocks/toc/index.js",
+	"editorStyle": "file:../../build/blocks/toc/index.css",
 	"viewScript": "file:../../build/blocks/toc/frontend.js",
 	"supports": {
 		"html": false,

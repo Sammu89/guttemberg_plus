@@ -60,6 +60,11 @@ import {
 	getThemeableSnapshot,
 } from '../utils/delta-calculator';
 import { debug } from '../utils/debug';
+import {
+	batchUpdateCleanBlocks,
+	batchResetBlocksUsingTheme,
+	showBatchUpdateNotification,
+} from '../utils/batch-block-updater';
 
 /**
  * Main theme manager hook
@@ -488,6 +493,20 @@ export function useThemeManager( {
 				return updated;
 			} );
 
+			// BATCH UPDATE: Update all other clean blocks on this page using the same theme
+			console.log( '[UPDATE THEME] Batch updating other clean blocks on this page...' );
+			const updatedCount = batchUpdateCleanBlocks(
+				blockType,
+				attributes.currentTheme,
+				updatedExpectedValues,
+				excludeFromCustomizationCheck
+			);
+
+			// Show notification
+			if ( updatedCount > 0 ) {
+				showBatchUpdateNotification( 'update', attributes.currentTheme, updatedCount );
+			}
+
 			console.log( '[UPDATE THEME] Complete' );
 		},
 		[
@@ -508,7 +527,9 @@ export function useThemeManager( {
 		async () => {
 			console.log( '\n[DELETE THEME] Starting for:', attributes.currentTheme );
 
-			await deleteTheme( blockType, attributes.currentTheme );
+			const themeToDelete = attributes.currentTheme;
+
+			await deleteTheme( blockType, themeToDelete );
 
 			const resetAttrs = { ...allDefaults };
 			resetAttrs.currentTheme = '';
@@ -529,6 +550,20 @@ export function useThemeManager( {
 			} );
 
 			setSessionCache( {} );
+
+			// BATCH RESET: Reset all other blocks on this page using the deleted theme
+			console.log( '[DELETE THEME] Batch resetting other blocks on this page using deleted theme...' );
+			const resetCount = batchResetBlocksUsingTheme(
+				blockType,
+				themeToDelete,
+				allDefaults,
+				excludeFromCustomizationCheck
+			);
+
+			// Show notification
+			if ( resetCount > 0 ) {
+				showBatchUpdateNotification( 'delete', themeToDelete, resetCount );
+			}
 
 			console.log( '[DELETE THEME] Complete - reset to Default' );
 		},

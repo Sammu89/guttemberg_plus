@@ -1,16 +1,98 @@
-# Customization Cache System
+# Customization System
 
-**Auto-updating complete snapshot for safety and restoration**
+**Understanding customizations vs customizationCache**
+
+---
+
+## Two Separate Attributes
+
+The system uses TWO different attributes for customization tracking:
+
+### 1. `customizations` - Active Customization Tracker
+
+**Purpose**: Tracks which attributes currently differ from expected theme values
+
+**Data**: Only attributes that differ from expected (deltas from theme)
+
+**Usage**:
+- **Clean Detection**: Empty object (`{}`) = clean block
+- **Batch Updates**: Determines which blocks get auto-updated
+- **Frontend Rendering**: Generates inline CSS for customized values
+- **Always Auto-Updates**: Recalculates on every attribute change
+
+**Example**:
+```javascript
+// Clean block
+customizations: {}
+
+// Customized block
+customizations: {
+  titleColor: "#ff0000",    // Different from theme
+  titleFontSize: 20         // Different from theme
+}
+```
+
+### 2. `customizationCache` - Session Snapshot (Deprecated/Legacy)
+
+**Purpose**: Complete snapshot for safety and restoration (from previous architecture)
+
+**Data**: Complete snapshot of all themeable attributes
+
+**Current Status**: Legacy attribute, maintained for backward compatibility
+
+**Note**: In the simplified architecture, `customizations` (deltas) is the primary mechanism. The cache was more important in the old architecture but is less critical now.
 
 ---
 
 ## Design Rationale
 
-### Why Complete Snapshots (Not Partial)?
+### Why Two Attributes?
+
+**Historical Context**:
+- Original architecture used `customizationCache` for complete snapshots
+- Simplified architecture introduced `customizations` for delta tracking
+- Both maintained during transition for safety and compatibility
+
+**Current Best Practice**: Use `customizations` for all customization detection and batch update logic
+
+### customizations: Delta-Based Tracking
+
+**Decision**: Store only differences from expected theme values
+
+**Why**:
+- **Efficient**: Only stores what's different (~500 bytes vs ~2KB)
+- **Clear Intent**: Shows exactly what user customized
+- **Batch Updates**: Easy to detect clean blocks (`customizations === {}`)
+- **Frontend CSS**: Only generates CSS for customized attributes
+
+**Auto-Update Behavior**:
+
+```javascript
+// In useThemeManager
+useEffect(() => {
+  const newCustomizations = {};
+
+  Object.keys(attributes).forEach((key) => {
+    if (excludeFromCustomizationCheck.includes(key)) return;
+
+    const attrValue = attributes[key];
+    const expectedValue = expectedValues[key];
+
+    // Only store if different
+    if (attrValue !== expectedValue && attrValue !== undefined) {
+      newCustomizations[key] = attrValue;
+    }
+  });
+
+  setAttributes({ customizations: newCustomizations });
+}, [attributes, expectedValues]);
+```
+
+### customizationCache: Complete Snapshots (Legacy)
 
 **Decision**: customizationCache stores a **complete snapshot** of all themeable attributes
 
-**Why**:
+**Why** (Historical):
 - **No data loss**: Every attribute value is preserved
 - **Safety**: Even though themes use deltas, cache keeps everything
 - **Restoration**: Can restore full state if needed
@@ -18,39 +100,29 @@
 
 **Trade-off**: Larger attribute object in post content (~2-3KB), but negligible and provides safety
 
-### Why Auto-Update (Not Manual)?
-
-**Decision**: customizationCache auto-updates via useEffect on every attribute change
-
-**Why**:
-- **Always current**: No risk of stale cache
-- **No manual calls**: Developers don't need to remember to update
-- **Consistent**: Every block uses same auto-update pattern
-- **Reliable**: Works even if component re-renders
-
-**Alternative Rejected**: Manual updates in every onChange handler - error-prone, inconsistent
-
-### Why Store in Block Attributes (Not Session Storage)?
-
-**Decision**: customizationCache is a block attribute (saved in post content)
-
-**Why**:
-- **Persists**: Survives page refreshes
-- **Autosave**: WordPress autosave includes it
-- **Revisions**: Included in post revisions
-- **No backend needed**: Uses standard WordPress mechanisms
-- **Block-local**: Each block has its own cache
-
-**Alternative Rejected**: localStorage/sessionStorage - doesn't survive page refresh, not block-specific
+**Current Usage**: Minimal - primarily for backward compatibility
 
 ---
 
 ## Purpose
 
-The customizationCache serves two main purposes:
+### customizations (Active)
+
+The `customizations` attribute serves these purposes:
+
+1. **Clean Detection**: Empty object = block uses clean theme
+2. **Batch Updates**: System checks this to determine auto-update eligibility
+3. **Frontend CSS**: Generates inline styles for customized attributes only
+4. **Customization Display**: Shows "(customized)" suffix in theme dropdown
+
+### customizationCache (Legacy)
+
+The `customizationCache` attribute was designed for:
 
 1. **Safety**: Keeps complete snapshot of all values (no data loss)
 2. **Future restoration**: Can be used for undo/redo or theme switching features
+
+**Note**: With the simplified architecture, most functionality moved to `customizations`
 
 ---
 
@@ -372,6 +444,105 @@ setAttributes({ currentTheme: 'New Theme' });
 
 ---
 
+## Role in Batch Update System
+
+### Clean Block Detection
+
+The batch update system uses `customizations` (NOT `customizationCache`) to determine if a block is "clean":
+
+```javascript
+// In batch-block-updater.js
+function findBlocksUsingTheme(blockType, themeName, cleanOnly = false) {
+  return findBlocks(blocks, blockType, (block) => {
+    const attrs = block.attributes || {};
+
+    // Must be using this theme
+    if (attrs.currentTheme !== themeName) {
+      return false;
+    }
+
+    // Check if clean using customizations attribute
+    if (cleanOnly) {
+      const customizations = attrs.customizations || {};
+      const isClean = Object.keys(customizations).length === 0;
+      return isClean;
+    }
+
+    return true;
+  });
+}
+```
+
+**Why `customizations` and not `customizationCache`?**
+
+The `customizations` attribute contains only deltas (differences), making it perfect for clean detection:
+- `customizations: {}` = No differences = Clean block
+- `customizations: { ... }` = Has differences = Customized block
+
+The `customizationCache` contains complete snapshots, which doesn't help determine if something is customized.
+
+### Batch Update Behavior
+
+**Theme Update (Clean Blocks Only)**:
+
+```javascript
+// Find clean blocks using this theme
+const blocksToUpdate = findBlocksUsingTheme(blockType, themeName, true);
+
+// Update each clean block
+blocksToUpdate.forEach(({ clientId }) => {
+  const updateAttrs = { ...newThemeValues };
+  updateAttrs.customizations = {}; // Ensure it stays clean
+
+  dispatch('core/block-editor').updateBlockAttributes(clientId, updateAttrs);
+});
+```
+
+**Result**: Only blocks with `customizations: {}` get updated. Customized blocks are preserved.
+
+**Theme Delete (All Blocks)**:
+
+```javascript
+// Find ALL blocks using this theme (clean or customized)
+const blocksToReset = findBlocksUsingTheme(blockType, themeName, false);
+
+// Reset each block
+blocksToReset.forEach(({ clientId }) => {
+  const resetAttrs = { ...defaults };
+  resetAttrs.currentTheme = '';
+  resetAttrs.customizations = {};
+
+  dispatch('core/block-editor').updateBlockAttributes(clientId, resetAttrs);
+});
+```
+
+**Result**: ALL blocks get reset, regardless of `customizations` state (prevents invalid theme references).
+
+### Why This Matters
+
+The distinction between `customizations` and `customizationCache` is critical for batch updates:
+
+1. **Efficiency**: Checking `Object.keys(customizations).length === 0` is fast and accurate
+2. **User Intent**: Preserves customized blocks during theme updates
+3. **Clean State**: Ensures updated blocks maintain `customizations: {}`
+4. **Transparency**: Users see which blocks will be affected based on customization state
+
+**Example Scenario**:
+
+```
+Page has 5 accordion blocks using "Dark Mode" theme:
+- Block A: customizations: {} → Will be updated
+- Block B: customizations: { titleColor: "#red" } → Will NOT be updated
+- Block C: customizations: {} → Will be updated
+- Block D: customizations: { titleFontSize: 20 } → Will NOT be updated
+- Block E: customizations: {} → Will be updated
+
+User updates "Dark Mode" theme → Blocks A, C, E updated automatically
+User sees: "Updated theme 'Dark Mode' and applied changes to 3 block(s) on this page."
+```
+
+---
+
 ## Performance Considerations
 
 ### JSON.stringify Comparison
@@ -578,6 +749,6 @@ setAttributes({ customizationCache: {} });
 
 ---
 
-**Document Version**: 2.0 (Simplified Architecture)
-**Last Updated**: 2025-11-17
+**Document Version**: 2.1 (Batch Update System & Customizations vs Cache)
+**Last Updated**: 2025-12-14
 **Part of**: WordPress Gutenberg Blocks Documentation Suite

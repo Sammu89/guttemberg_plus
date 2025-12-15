@@ -296,12 +296,16 @@ const getInlineStyles = () => {
 			</div>
 		);
 
-		// Wrap in heading if needed
-		const wrappedTitle = headingLevel !== 'none' ? (
-			<span className="accordion-heading" style={ { margin: 0, display: 'block' } }>
-				{ titleElement }
-			</span>
-		) : titleElement;
+		// Wrap in heading if needed - use actual heading tags for TOC detection
+		let wrappedTitle = titleElement;
+		if ( headingLevel !== 'none' ) {
+			const HeadingTag = headingLevel;
+			wrappedTitle = (
+				<HeadingTag className="accordion-heading" style={ { margin: 0, display: 'block' } }>
+					{ titleElement }
+				</HeadingTag>
+			);
+		}
 
 		return (
 			<div className="accordion-title-wrapper">

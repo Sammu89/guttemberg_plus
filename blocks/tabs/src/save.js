@@ -102,7 +102,22 @@ const getCustomizationStyles = () => {
 };
 /* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-END ========== */
 
-	const customizationStyles = getCustomizationStyles();
+		const customizationStyles = getCustomizationStyles();
+
+		// If the divider toggle is off, ignore its customizations and fall back to row border
+		if ( attributes.enableTabsListContentBorder === false ) {
+			delete customizationStyles['--tabs-list-divider-border-color'];
+			delete customizationStyles['--tabs-list-divider-border-width'];
+			delete customizationStyles['--tabs-list-divider-border-style'];
+
+			const rowColor = attributes.tabsRowBorderColor || '#dddddd';
+			const rowWidth = attributes.tabsRowBorderWidth || 0;
+			const rowStyle = attributes.tabsRowBorderStyle || 'solid';
+
+			customizationStyles['--tabs-list-divider-border-color'] = rowColor;
+			customizationStyles['--tabs-list-divider-border-width'] = `${ rowWidth }px`;
+			customizationStyles['--tabs-list-divider-border-style'] = rowStyle;
+		}
 
 	// Build root styles including width
 	const rootStyles = {

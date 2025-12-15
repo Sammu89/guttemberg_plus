@@ -136,8 +136,8 @@
       "id": "content",
       "tag": "div",
       "className": "accordion-content",
-      "description": "Collapsible content area that expands/collapses",
-      "children": ["contentInner"],
+      "description": "Collapsible content area that expands/collapses with padding for InnerBlocks",
+      "contentType": "InnerBlocks",
       "conditionalAttribute": {
         "hidden": "{!initiallyOpen}"
       },
@@ -154,15 +154,6 @@
         "dividerWidth",
         "dividerStyle"
       ]
-    },
-
-    "contentInner": {
-      "id": "contentInner",
-      "tag": "div",
-      "className": "accordion-content-inner",
-      "description": "Inner content wrapper with padding for InnerBlocks",
-      "contentType": "InnerBlocks",
-      "appliesStyles": []
     }
   },
 
@@ -176,9 +167,7 @@
           },
           "title": ["titleText", "icon", "titleContentWrapper"]
         },
-        "content": {
-          "contentInner": []
-        }
+        "content": []
       }
     }
   }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-13T00:48:15.556Z
+ * Generated at: 2025-12-15T00:42:47.461Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -58,6 +58,14 @@ export const tocAttributes = {
   depthLimit: {
     type: 'number',
     default: null,
+  },
+  includeAccordions: {
+    type: 'boolean',
+    default: true,
+  },
+  includeTabs: {
+    type: 'boolean',
+    default: true,
   },
   numberingStyle: {
     type: 'string',

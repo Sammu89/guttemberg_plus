@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-13T00:48:15.536Z
+ * Generated at: 2025-12-15T00:42:47.455Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,35 +21,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 return array(
   'iconColor' => '#666666',
   'iconSize' => '16',
-  'iconRotation' => '180',
+  'iconRotation' => '0',
+  'iconRotationActive' => '180',
   'tabButtonColor' => '#666666',
   'tabButtonBackgroundColor' => '#f5f5f5',
   'tabButtonHoverColor' => '#333333',
   'tabButtonHoverBackgroundColor' => '#e8e8e8',
   'tabButtonActiveColor' => '#333333',
   'tabButtonActiveBackgroundColor' => '#ffffff',
-  'tabButtonActiveBorderColor' => '#dddddd',
-  'tabButtonActiveBorderBottomColor' => '#ffffff',
+  'tabButtonActiveContentBorderWidth' => '2',
+  'tabButtonActiveContentBorderStyle' => 'solid',
   'tabButtonActiveFontWeight' => 'bold',
   'tabButtonBorderColor' => '#dddddd',
+  'tabButtonActiveBorderColor' => '#dddddd',
+  'tabButtonActiveContentBorderColor' => '#ffffff',
   'tabButtonBorderWidth' => '1',
   'tabButtonBorderStyle' => 'solid',
   'tabButtonShadow' => 'none',
   'tabButtonShadowHover' => 'none',
-  'focusBorderColor' => '#dddddd',
-  'focusBorderColorActive' => '#ffffff',
-  'focusBorderWidth' => '2',
-  'focusBorderStyle' => 'solid',
   'tabButtonFontSize' => '16',
   'tabButtonFontWeight' => '500',
   'tabButtonFontStyle' => 'normal',
   'tabButtonTextTransform' => 'none',
   'tabButtonTextDecoration' => 'none',
   'tabButtonTextAlign' => 'center',
+  'tabButtonPadding' => '12px 24px',
   'tabListBackgroundColor' => 'transparent',
-  'tabListAlignment' => 'left',
+  'tabsRowBorderColor' => '#dddddd',
+  'tabsRowBorderWidth' => '0',
+  'tabsRowBorderStyle' => 'solid',
+  'tabListAlignment' => 'flex-start',
+  'tabsRowSpacing' => '8',
+  'tabsButtonGap' => '8',
   'panelBackgroundColor' => '#ffffff',
-  'panelColor' => '#333333',
   'panelBorderColor' => '#dddddd',
   'panelBorderWidth' => '1',
   'panelBorderStyle' => 'solid',
@@ -58,7 +62,7 @@ return array(
   'borderStyle' => 'solid',
   'shadow' => 'none',
   'shadowHover' => 'none',
-  'navBarBorderColor' => 'transparent',
-  'navBarBorderWidth' => '1',
-  'navBarBorderStyle' => 'solid',
+  'tabsListContentBorderColor' => 'transparent',
+  'tabsListContentBorderWidth' => '1',
+  'tabsListContentBorderStyle' => 'solid',
 );

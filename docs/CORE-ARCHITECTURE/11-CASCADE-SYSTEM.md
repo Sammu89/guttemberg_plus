@@ -251,24 +251,61 @@ setAttributes({ customizationCache: {} });
 
 ---
 
-## Auto-Updating customizationCache
+## The customizations Attribute
 
-The `customizationCache` automatically saves a complete snapshot on every change:
+The `customizations` attribute plays a critical role in the simplified architecture:
+
+**Purpose**: Tracks which attributes differ from the expected theme values
+
+**Usage**:
+1. **Clean Detection**: Empty object (`{}`) means block uses clean theme
+2. **Batch Updates**: System uses this to determine which blocks to auto-update
+3. **Frontend Rendering**: Used by `save.js` to generate inline CSS for customized values
+
+**Auto-Update Behavior**:
 
 ```javascript
 // useEffect watches for attribute changes
 useEffect(() => {
-  const snapshot = getThemeableSnapshot(attributes, excludeList);
-  const currentCache = attributes.customizationCache || {};
+  const newCustomizations = {};
+
+  Object.keys(attributes).forEach((key) => {
+    if (excludeFromCustomizationCheck.includes(key)) return;
+
+    const attrValue = attributes[key];
+    const expectedValue = expectedValues[key];
+
+    // Check if different from expected
+    if (attrValue !== expectedValue && attrValue !== undefined) {
+      newCustomizations[key] = attrValue;
+    }
+  });
 
   // Only update if changed
-  if (JSON.stringify(snapshot) !== JSON.stringify(currentCache)) {
-    setAttributes({ customizationCache: snapshot });
+  if (JSON.stringify(newCustomizations) !== JSON.stringify(attributes.customizations)) {
+    setAttributes({ customizations: newCustomizations });
   }
-}, [attributes, excludeList, setAttributes]);
+}, [attributes, expectedValues, excludeFromCustomizationCheck]);
 ```
 
-**Purpose**: Safety/restoration. Even though we use deltas for themes, we keep complete snapshots in cache to ensure no data loss during sessions.
+**Data Structure Examples**:
+
+```javascript
+// Clean block (using theme exactly)
+customizations: {}
+
+// Customized block (modified from theme)
+customizations: {
+  titleColor: "#ff0000",
+  titleFontSize: 20
+}
+```
+
+**Critical for Batch Updates**:
+
+When a theme is updated, the system checks each block's `customizations`:
+- `customizations: {}` → Block gets updated with new theme values
+- `customizations: { ... }` → Block keeps its customizations (user intent preserved)
 
 ---
 
@@ -486,6 +523,6 @@ The old three-tier cascade (Block → Theme → CSS) is **gone**. Replaced with 
 
 ---
 
-**Document Version**: 2.0 (Simplified Architecture)
-**Last Updated**: 2025-11-17
+**Document Version**: 2.1 (Customizations Attribute Role)
+**Last Updated**: 2025-12-14
 **Part of**: WordPress Gutenberg Blocks Documentation Suite

@@ -111,12 +111,41 @@ function initializeSingleTabsBlock( block ) {
 		}
 	} );
 
+	// Normalize initial tab button state and icons based on currentTab
+	tabButtons.forEach( ( button, index ) => {
+		const isActive = index === currentTab;
+		if ( isActive ) {
+			button.setAttribute( 'aria-selected', 'true' );
+			button.setAttribute( 'tabindex', '0' );
+			button.classList.add( 'active' );
+		} else {
+			button.setAttribute( 'aria-selected', 'false' );
+			button.setAttribute( 'tabindex', '-1' );
+			button.classList.remove( 'active' );
+		}
+		updateTabIcon( button, isActive );
+	} );
+
 	// Initialize each tab button
 	tabButtons.forEach( ( button, index ) => {
 		try {
 			// Click handler
 			button.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
+				// Auto mode: activation follows focus; click already causes focus
+				if ( activationMode === 'auto' ) {
+					if ( button.disabled ) {
+						return;
+					}
+					// If already active, do nothing
+					if ( button.getAttribute( 'aria-selected' ) === 'true' ) {
+						return;
+					}
+					activateTab( block, index );
+					return;
+				}
+
+				// Manual mode: activate on click
 				if ( ! button.disabled ) {
 					try {
 						activateTab( block, index );
@@ -136,17 +165,19 @@ function initializeSingleTabsBlock( block ) {
 			} );
 
 			// Focus handler for automatic activation
-			if ( activationMode === 'auto' ) {
-				button.addEventListener( 'focus', () => {
-					if ( ! button.disabled ) {
+				if ( activationMode === 'auto' ) {
+					button.addEventListener( 'focus', () => {
+						// Avoid double-activation when click also triggers focus
+						if ( button.disabled || button.getAttribute( 'aria-selected' ) === 'true' ) {
+							return;
+						}
 						try {
 							activateTab( block, index );
 						} catch ( error ) {
 							console.error( 'Failed to activate tab on focus:', error );
 						}
-					}
-				} );
-			}
+					} );
+				}
 		} catch ( error ) {
 			console.error( 'Failed to initialize tab button:', error );
 		}
@@ -237,38 +268,33 @@ function updateTabIcon( button, isActive ) {
 		return;
 	}
 
-	const iconClosed = icon.getAttribute( 'data-icon-closed' ) || '▾';
-	const iconOpen = icon.getAttribute( 'data-icon-open' ) || 'none';
+		const iconClosed = icon.getAttribute( 'data-icon-closed' ) || '▾';
+		const iconOpen = icon.getAttribute( 'data-icon-open' ) || 'none';
 
-	// Get animation duration from CSS variable
-	const duration = parseInt(
-		getComputedStyle( icon ).getPropertyValue( '--tab-icon-animation-duration' ) || '300'
-	);
-
-	// Check if icon needs to change (not just rotate)
-	const isImage = icon.classList.contains( 'tab-icon-image' );
-	const newIcon = isActive ? iconOpen : iconClosed;
-	const currentIcon = isImage ? icon.src : icon.textContent;
-	const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
+		// Check if icon needs to change (not just rotate)
+		const isImage = icon.classList.contains( 'tab-icon-image' );
+		const newIcon = isActive ? iconOpen : iconClosed;
+		const currentIcon = isImage ? icon.src : icon.textContent;
+		const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
 
 	// Change icon content if needed
-	if ( iconIsChanging ) {
-		if ( isImage ) {
-			// For image icons, update src
-			icon.src = newIcon;
+		if ( iconIsChanging ) {
+			if ( isImage ) {
+				// For image icons, update src
+				icon.src = newIcon;
+			} else {
+				// For text/emoji icons, update text content
+				icon.textContent = newIcon;
+			}
+		}
+
+		// Toggle rotation class for CSS animation
+		if ( isActive ) {
+			icon.classList.add( 'is-rotated' );
 		} else {
-			// For text/emoji icons, update text content
-			icon.textContent = newIcon;
+			icon.classList.remove( 'is-rotated' );
 		}
 	}
-
-	// Toggle rotation class for CSS animation
-	if ( isActive ) {
-		icon.classList.add( 'is-rotated' );
-	} else {
-		icon.classList.remove( 'is-rotated' );
-	}
-}
 
 /**
  * Handle keyboard navigation for tabs
@@ -387,29 +413,7 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
  *
  * @param {HTMLElement} panel Panel element
  */
-function animatePanelIn( panel ) {
-	const duration = parseInt(
-		getComputedStyle( panel ).getPropertyValue( '--transition-duration' ) || '200'
-	);
-
-	// Set initial state
-	panel.style.opacity = '0';
-	panel.style.transform = 'translateY( 10px )';
-
-	// Force reflow
-	panel.offsetHeight;
-
-	// Animate in
-	panel.style.transition = `opacity ${ duration }ms ease-in-out, transform ${ duration }ms ease-in-out`;
-	panel.style.opacity = '1';
-	panel.style.transform = 'translateY( 0 )';
-
-	// Clean up after animation
-	setTimeout( () => {
-		panel.style.transition = '';
-		panel.style.transform = '';
-	}, duration );
-}
+	// Removed animatePanelIn: relying on simple CSS state change without extra JS animation
 
 /**
  * Initialize responsive accordion fallback
