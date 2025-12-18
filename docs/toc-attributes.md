@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-15T23:22:26.910Z
+> Generated at: 2025-12-18T23:16:18.835Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -37,7 +37,7 @@ Non-themeable behavioral and structural settings
 | `numberingStyle` | string | `none` | No (N/A) | Style of numbering for TOC items |
 | `isCollapsible` | boolean | `false` | No (N/A) | Allow the TOC to be collapsed/expanded |
 | `initiallyCollapsed` | boolean | `false` | No (N/A) | Start with TOC collapsed |
-| `positionType` | string | `block` | No (N/A) | CSS positioning type |
+| `positionType` | string | `default` | No (N/A) | CSS positioning type |
 | `smoothScroll` | boolean | `true` | No (N/A) | Enable smooth scrolling to headings |
 | `scrollOffset` | number | `0` | No (N/A) | Offset in pixels when scrolling to heading |
 | `autoHighlight` | boolean | `true` | No (N/A) | Highlight current section in TOC |
@@ -92,7 +92,7 @@ Font settings for title and heading levels
 |-----------|------|---------|-----------|-------------|
 | `titleFontSize` | number | `20` | Yes | Font size for the TOC title in pixels |
 | `titleFontWeight` | string | `700` | Yes | Font weight for the TOC title |
-| `titleTextTransform` | string | _null_ | Yes | Text transformation for the title |
+| `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the title |
 | `level1FontSize` | number | `18` | Yes | Font size for level 1 items (H2) in pixels |
 | `level1FontWeight` | string | `600` | Yes | Font weight for level 1 items |
@@ -116,8 +116,9 @@ Spacing, padding, and positioning
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `titlePadding` | object | _object_ | Yes | Padding around the title |
 | `wrapperPadding` | number | `20` | Yes | Padding inside the TOC wrapper |
-| `listPaddingLeft` | number | _null_ | Yes | Left padding for the list |
+| `listPaddingLeft` | number | `24` | Yes | Left padding for the list |
 | `itemSpacing` | number | `8` | Yes | Vertical space between TOC items |
 | `levelIndent` | number | `20` | Yes | Indentation per heading level |
 | `positionTop` | number | `100` | Yes | Top offset for sticky/fixed positioning |
@@ -147,6 +148,7 @@ The following CSS custom properties are available for theming:
 | `titleFontWeight` | `--toc-title-font-weight` |
 | `titleTextTransform` | `--toc-title-text-transform` |
 | `titleAlignment` | `--toc-title-alignment` |
+| `titlePadding` | `--toc-title-padding` |
 | `level1FontSize` | `--toc-level1-font-size` |
 | `level1FontWeight` | `--toc-level1-font-weight` |
 | `level1FontStyle` | `--toc-level1-font-style` |

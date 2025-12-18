@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-15T23:22:26.910Z
+ * Generated at: 2025-12-18T23:16:18.835Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -34,6 +34,7 @@ return array(
   'collapseIconColor' => '#666666',
   'titleFontSize' => '20',
   'titleFontWeight' => '700',
+  'titleTextTransform' => 'none',
   'titleAlignment' => 'left',
   'level1FontSize' => '18',
   'level1FontWeight' => '600',
@@ -55,6 +56,7 @@ return array(
   'blockShadow' => 'none',
   'blockShadowHover' => 'none',
   'wrapperPadding' => '20',
+  'listPaddingLeft' => '24',
   'itemSpacing' => '8',
   'levelIndent' => '20',
   'positionTop' => '100',

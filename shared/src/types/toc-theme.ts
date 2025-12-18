@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-15T23:22:26.908Z
+ * Generated at: 2025-12-18T23:16:18.832Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -48,9 +48,11 @@ export interface TocTheme {
   /** Font weight for the TOC title */
   titleFontWeight?: string;
   /** Text transformation for the title */
-  titleTextTransform?: string | undefined;
+  titleTextTransform?: string;
   /** Text alignment for the title */
   titleAlignment?: string;
+  /** Padding around the title */
+  titlePadding?: Record<string, any>;
   /** Font size for level 1 items (H2) in pixels */
   level1FontSize?: number;
   /** Font weight for level 1 items */
@@ -94,7 +96,7 @@ export interface TocTheme {
   /** Padding inside the TOC wrapper */
   wrapperPadding?: number;
   /** Left padding for the list */
-  listPaddingLeft?: number | undefined;
+  listPaddingLeft?: number;
   /** Vertical space between TOC items */
   itemSpacing?: number;
   /** Indentation per heading level */
@@ -126,7 +128,14 @@ export const tocDefaultTheme: TocTheme = {
   collapseIconColor: '#666666',
   titleFontSize: 20,
   titleFontWeight: '700',
+  titleTextTransform: 'none',
   titleAlignment: 'left',
+  titlePadding: {
+    "top": 0,
+    "right": 0,
+    "bottom": 12,
+    "left": 0
+  },
   level1FontSize: 18,
   level1FontWeight: '600',
   level1FontStyle: 'normal',
@@ -153,6 +162,7 @@ export const tocDefaultTheme: TocTheme = {
   blockShadow: 'none',
   blockShadowHover: 'none',
   wrapperPadding: 20,
+  listPaddingLeft: 24,
   itemSpacing: 8,
   levelIndent: 20,
   positionTop: 100,
@@ -201,8 +211,9 @@ export interface TocThemeAttributes {
   collapseIconColor?: string;
   titleFontSize?: number;
   titleFontWeight?: string;
-  titleTextTransform?: string | undefined;
+  titleTextTransform?: string;
   titleAlignment?: string;
+  titlePadding?: Record<string, any>;
   level1FontSize?: number;
   level1FontWeight?: string;
   level1FontStyle?: string;
@@ -224,7 +235,7 @@ export interface TocThemeAttributes {
   blockShadow?: string;
   blockShadowHover?: string;
   wrapperPadding?: number;
-  listPaddingLeft?: number | undefined;
+  listPaddingLeft?: number;
   itemSpacing?: number;
   levelIndent?: number;
   positionTop?: number;

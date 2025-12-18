@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-15T23:22:26.914Z
+ * Generated at: 2025-12-18T23:16:18.842Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -1378,6 +1378,7 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Title Text Transform',
       description: 'Text transformation for the title',
+      default: 'none',
     },
     'titleAlignment': {
       control: 'SelectControl',
@@ -1389,6 +1390,11 @@ const CONTROL_CONFIGS = {
       label: 'Title Alignment',
       description: 'Text alignment for the title',
       default: 'left',
+    },
+    'titlePadding': {
+      control: 'BoxControl',
+      label: 'Title Padding',
+      description: 'Padding around the title',
     },
     'level1FontSize': {
       control: 'RangeControl',
@@ -1832,6 +1838,7 @@ const CONTROL_CONFIGS = {
     },
     'blockBorderRadius': {
       control: 'BorderRadiusControl',
+      unit: 'px',
       label: 'Border Radius',
       description: 'Corner radius of the wrapper',
     },
@@ -1863,6 +1870,7 @@ const CONTROL_CONFIGS = {
       unit: 'px',
       label: 'List Padding Left',
       description: 'Left padding for the list',
+      default: 24,
     },
     'itemSpacing': {
       control: 'RangeControl',

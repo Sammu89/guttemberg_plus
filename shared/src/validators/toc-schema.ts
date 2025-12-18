@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-15T23:22:26.909Z
+ * Generated at: 2025-12-18T23:16:18.834Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -33,8 +33,9 @@ export const tocThemeSchema = z.object({
   collapseIconColor: z.string(),
   titleFontSize: z.number(),
   titleFontWeight: z.string(),
-  titleTextTransform: z.string().optional(),
+  titleTextTransform: z.string(),
   titleAlignment: z.string(),
+  titlePadding: z.record(z.any()),
   level1FontSize: z.number(),
   level1FontWeight: z.string(),
   level1FontStyle: z.string(),
@@ -56,7 +57,7 @@ export const tocThemeSchema = z.object({
   blockShadow: z.string(),
   blockShadowHover: z.string(),
   wrapperPadding: z.number(),
-  listPaddingLeft: z.number().optional(),
+  listPaddingLeft: z.number(),
   itemSpacing: z.number(),
   levelIndent: z.number(),
   positionTop: z.number(),
@@ -105,8 +106,9 @@ export const tocAttributesSchema = z.object({
   collapseIconColor: z.string(),
   titleFontSize: z.number(),
   titleFontWeight: z.string(),
-  titleTextTransform: z.string().optional(),
+  titleTextTransform: z.string(),
   titleAlignment: z.string(),
+  titlePadding: z.record(z.any()),
   level1FontSize: z.number(),
   level1FontWeight: z.string(),
   level1FontStyle: z.string(),
@@ -128,7 +130,7 @@ export const tocAttributesSchema = z.object({
   blockShadow: z.string(),
   blockShadowHover: z.string(),
   wrapperPadding: z.number(),
-  listPaddingLeft: z.number().optional(),
+  listPaddingLeft: z.number(),
   itemSpacing: z.number(),
   levelIndent: z.number(),
   positionTop: z.number(),

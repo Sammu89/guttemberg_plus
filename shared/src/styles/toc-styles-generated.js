@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-15T23:22:26.911Z
+ * Generated at: 2025-12-18T23:16:18.836Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -24,6 +24,17 @@ export function formatBorderRadius(radius) {
 }
 
 /**
+ * Format padding object to CSS string
+ * @param {Object} padding - Padding object with top, right, bottom, left
+ * @returns {string|null} Formatted padding or null
+ */
+export function formatPadding(padding) {
+  if (!padding || typeof padding !== 'object') return null;
+  const { top = 0, right = 0, bottom = 0, left = 0 } = padding;
+  return `${top}px ${right}px ${bottom}px ${left}px`;
+}
+
+/**
  * Build inline styles for editor based on effective values
  * @param {Object} values - Effective values (defaults + theme + customizations)
  * @returns {Object} Style objects keyed by selector type
@@ -37,7 +48,7 @@ export function buildEditorStyles(values) {
       styles.default.backgroundColor = values.wrapperBackgroundColor;
     }
     if (values.blockBorderColor !== undefined && values.blockBorderColor !== null) {
-      styles.default.color = values.blockBorderColor;
+      styles.default.borderColor = values.blockBorderColor;
     }
     if (values.titleColor !== undefined && values.titleColor !== null) {
       styles.default.color = values.titleColor;
@@ -83,6 +94,10 @@ export function buildEditorStyles(values) {
     }
     if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
       styles.default.textAlign = values.titleAlignment;
+    }
+    if (values.titlePadding) {
+      const formatted = formatPadding(values.titlePadding);
+      if (formatted) styles.default.padding = formatted;
     }
     if (values.level1FontSize !== undefined && values.level1FontSize !== null) {
       styles.default.fontSize = `${values.level1FontSize}px`;
@@ -149,7 +164,7 @@ export function buildEditorStyles(values) {
       styles.default.padding = `${values.wrapperPadding}px`;
     }
     if (values.listPaddingLeft !== undefined && values.listPaddingLeft !== null) {
-      styles.default.padding = `${values.listPaddingLeft}px`;
+      styles.default.paddingLeft = `${values.listPaddingLeft}px`;
     }
     if (values.itemSpacing !== undefined && values.itemSpacing !== null) {
       styles.default.marginBottom = `${values.itemSpacing}px`;
@@ -249,6 +264,11 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.titleAlignment !== undefined && customizations.titleAlignment !== null) {
     styles['--toc-title-alignment'] = customizations.titleAlignment;
+  }
+
+  if (customizations.titlePadding) {
+    const formatted = formatPadding(customizations.titlePadding);
+    if (formatted) styles['--toc-title-padding'] = formatted;
   }
 
   if (customizations.level1FontSize !== undefined && customizations.level1FontSize !== null) {

@@ -1204,7 +1204,7 @@ function generateInlineStylesFunction(schema, blockType) {
 
     if (!selectorKey) {
       // Unknown appliesTo - skip with warning if not a known skip case
-      const knownSkipElements = ['tocLink', 'tocList', 'link', 'list', 'collapseIcon', 'tabButton'];
+      const knownSkipElements = ['tocLink', 'tocList', 'link', 'list', 'collapseIcon', 'tabButton', 'level1Link', 'level2Link', 'level3PlusLink'];
       if (!knownSkipElements.includes(appliesTo)) {
         console.warn(`[schema-compiler] Unknown appliesTo value "${appliesTo}" for attribute "${attrName}" in ${blockType} schema - skipping`);
       }

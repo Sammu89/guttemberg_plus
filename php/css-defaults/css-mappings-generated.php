@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-12-15T23:22:26.912Z
+ * Generated at: 2025-12-18T23:16:18.838Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -119,6 +119,7 @@ $mappings = array(
       'titleFontWeight' => array( 'cssVar' => 'toc-title-font-weight', 'unit' => null, 'type' => 'string' ),
       'titleTextTransform' => array( 'cssVar' => 'toc-title-text-transform', 'unit' => null, 'type' => 'string' ),
       'titleAlignment' => array( 'cssVar' => 'toc-title-alignment', 'unit' => null, 'type' => 'string' ),
+      'titlePadding' => array( 'cssVar' => 'toc-title-padding', 'unit' => null, 'type' => 'object' ),
       'level1FontSize' => array( 'cssVar' => 'toc-level1-font-size', 'unit' => 'px', 'type' => 'number' ),
       'level1FontWeight' => array( 'cssVar' => 'toc-level1-font-weight', 'unit' => null, 'type' => 'string' ),
       'level1FontStyle' => array( 'cssVar' => 'toc-level1-font-style', 'unit' => null, 'type' => 'string' ),
@@ -136,7 +137,7 @@ $mappings = array(
       'level3PlusTextDecoration' => array( 'cssVar' => 'toc-level3-plus-text-decoration', 'unit' => null, 'type' => 'string' ),
       'blockBorderWidth' => array( 'cssVar' => 'toc-border-width', 'unit' => 'px', 'type' => 'number' ),
       'blockBorderStyle' => array( 'cssVar' => 'toc-border-style', 'unit' => null, 'type' => 'string' ),
-      'blockBorderRadius' => array( 'cssVar' => 'toc-border-radius', 'unit' => null, 'type' => 'object' ),
+      'blockBorderRadius' => array( 'cssVar' => 'toc-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'blockShadow' => array( 'cssVar' => 'toc-border-shadow', 'unit' => null, 'type' => 'string' ),
       'blockShadowHover' => array( 'cssVar' => 'toc-border-shadow-hover', 'unit' => null, 'type' => 'string' ),
       'wrapperPadding' => array( 'cssVar' => 'toc-wrapper-padding', 'unit' => 'px', 'type' => 'number' ),

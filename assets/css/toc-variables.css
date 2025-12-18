@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-15T23:22:26.910Z
+ * Generated at: 2025-12-18T23:16:18.835Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -25,6 +25,7 @@
   --toc-collapse-icon-color: #666666;
   --toc-title-font-size: 20px;
   --toc-title-font-weight: 700;
+  --toc-title-text-transform: none;
   --toc-title-alignment: left;
   --toc-level1-font-size: 18px;
   --toc-level1-font-weight: 600;
@@ -47,6 +48,7 @@
   --toc-border-shadow: none;
   --toc-border-shadow-hover: none;
   --toc-wrapper-padding: 20px;
+  --toc-list-padding-left: 24px;
   --toc-item-spacing: 8px;
   --toc-level-indent: 20px;
   --toc-position-top: 100px;

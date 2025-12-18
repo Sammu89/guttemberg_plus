@@ -264,6 +264,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 const getInlineStyles = () => {
   // Extract object-type attributes with fallbacks
+	const titlePadding = effectiveValues.titlePadding || {
+		    "top": 0,
+		    "right": 0,
+		    "bottom": 12,
+		    "left": 0
+		};
 	const blockBorderRadius = effectiveValues.blockBorderRadius || {
 		    "topLeft": 4,
 		    "topRight": 4,
@@ -274,7 +280,7 @@ const getInlineStyles = () => {
 	return {
 		container: {
 			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
-			color: effectiveValues.blockBorderColor || '#dddddd',
+			borderColor: effectiveValues.blockBorderColor || '#dddddd',
 			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
 			borderStyle: effectiveValues.blockBorderStyle || 'solid',
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
@@ -287,8 +293,9 @@ const getInlineStyles = () => {
 			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
 			fontSize: `${effectiveValues.titleFontSize || 20}px`,
 			fontWeight: effectiveValues.titleFontWeight || '700',
-			textTransform: effectiveValues.titleTextTransform || 'null',
+			textTransform: effectiveValues.titleTextTransform || 'none',
 			textAlign: effectiveValues.titleAlignment || 'left',
+			padding: `${titlePadding.top}px ${titlePadding.right}px ${titlePadding.bottom}px ${titlePadding.left}px`,
 		},
 	};
 };
@@ -525,7 +532,7 @@ const getInlineStyles = () => {
 								value: 'decimal-leading-zero',
 							},
 							{ label: 'Roman Numerals', value: 'roman' },
-							{ label: 'Letters (A, B, C)', value: 'letters' },
+							{ label: 'Letters (A, B, C)', value: 'alpha' },
 						] }
 						onChange={ ( value ) => setAttributes( { numberingStyle: value } ) }
 						__next40pxDefaultSize
@@ -676,7 +683,8 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 	return (
 		<ul className={ `toc-list numbering-${ attributes.numberingStyle }` } style={ listStyle }>
 			{ headings.map( ( heading, index ) => {
-				const levelClass = `toc-item-level-${ heading.level - 1 }`;
+				const normalizedLevel = heading.level - 1;
+				const levelClass = `toc-level-${ normalizedLevel }`;
 				const linkStyle = {
 					color: effectiveValues.linkColor,
 					textDecoration: 'none',

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-15T23:22:26.910Z
+ * Generated at: 2025-12-18T23:16:18.834Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -81,7 +81,7 @@ export const tocAttributes = {
   },
   positionType: {
     type: 'string',
-    default: 'block',
+    default: 'default',
   },
   smoothScroll: {
     type: 'boolean',
@@ -169,11 +169,15 @@ export const tocAttributes = {
   },
   titleTextTransform: {
     type: 'string',
-    default: null,
+    default: 'none',
   },
   titleAlignment: {
     type: 'string',
     default: 'left',
+  },
+  titlePadding: {
+    type: 'object',
+    default: {"top":0,"right":0,"bottom":12,"left":0},
   },
   level1FontSize: {
     type: 'number',
@@ -261,7 +265,7 @@ export const tocAttributes = {
   },
   listPaddingLeft: {
     type: 'number',
-    default: null,
+    default: 24,
   },
   itemSpacing: {
     type: 'number',

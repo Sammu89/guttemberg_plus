@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-15T23:22:26.897Z
+> Generated at: 2025-12-18T23:16:18.817Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -31,22 +31,7 @@ Non-themeable behavioral and structural settings
 | `initiallyOpen` | boolean | `false` | No (N/A) | Whether accordion is open on page load |
 | `accordionWidth` | string | `100%` | No (N/A) | Accordion container width (e.g., 100%, 500px) |
 | `accordionHorizontalAlign` | string | `left` | No (N/A) | Horizontal alignment of the accordion |
-
-## Typography
-
-Font settings for title and content
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `headingLevel` | string | `none` | No (N/A) | Semantic HTML heading level (none, h1-h6) |
-| `titleFontSize` | number | `18` | Yes | Font size for the title in pixels |
-| `titleFontWeight` | string | `600` | Yes | Font weight for the title |
-| `titleFontStyle` | string | `normal` | Yes | Font style for the title |
-| `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
-| `titleTextDecoration` | string | `none` | Yes | Text decoration for the title |
-| `titleAlignment` | string | `left` | Yes | Text alignment for the title |
-| `contentFontSize` | number | `16` | Yes | Font size for content in pixels |
-| `contentFontWeight` | string | _null_ | Yes | Font weight for content |
+| `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
 
 ## Header Colors
 
@@ -104,6 +89,21 @@ Icon appearance and behavior
 | `iconTypeClosed` | string | `▾` | No (N/A) | Icon when accordion is closed |
 | `iconTypeOpen` | string | `none` | No (N/A) | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
+
+## Typography
+
+Font settings for title and content
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `titleFontSize` | number | `18` | Yes | Font size for the title in pixels |
+| `titleFontWeight` | string | `600` | Yes | Font weight for the title |
+| `titleFontStyle` | string | `normal` | Yes | Font style for the title |
+| `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
+| `titleTextDecoration` | string | `none` | Yes | Text decoration for the title |
+| `titleAlignment` | string | `left` | Yes | Text alignment for the title |
+| `contentFontSize` | number | `16` | Yes | Font size for content in pixels |
+| `contentFontWeight` | string | _null_ | Yes | Font weight for content |
 
 ## CSS Variables
 
