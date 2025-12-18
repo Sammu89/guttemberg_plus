@@ -158,11 +158,11 @@
     "headingLevel": {
       "type": "string",
       "default": "none",
-      "group": "typography",
+      "group": "behavior",
       "label": "Heading Level",
       "description": "Semantic HTML heading level (none, h1-h6)",
       "themeable": false,
-      
+      "reason": "structural",
       "control": "SelectControl",
       "options": [
         "none",
@@ -173,7 +173,7 @@
         "h5",
         "h6"
       ],
-      "order": 13      
+      "order": 8
     },
         "titleColor": {
       "type": "string",

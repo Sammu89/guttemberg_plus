@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-15T23:22:26.914Z
+ * Generated at: 2025-12-18T23:16:18.840Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -203,7 +203,7 @@ export const CSS_VAR_MAPPINGS = {
   },
   toc: {
     wrapperBackgroundColor: { cssVar: '--toc-wrapper-background-color', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    blockBorderColor: { cssVar: '--toc-border-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    blockBorderColor: { cssVar: '--toc-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
     titleColor: { cssVar: '--toc-title-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     titleBackgroundColor: { cssVar: '--toc-title-background-color', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
     linkColor: { cssVar: '--toc-link-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
@@ -219,6 +219,7 @@ export const CSS_VAR_MAPPINGS = {
     titleFontWeight: { cssVar: '--toc-title-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     titleTextTransform: { cssVar: '--toc-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     titleAlignment: { cssVar: '--toc-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
+    titlePadding: { cssVar: '--toc-title-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
     level1FontSize: { cssVar: '--toc-level1-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     level1FontWeight: { cssVar: '--toc-level1-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     level1FontStyle: { cssVar: '--toc-level1-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
@@ -236,11 +237,11 @@ export const CSS_VAR_MAPPINGS = {
     level3PlusTextDecoration: { cssVar: '--toc-level3-plus-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
     blockBorderWidth: { cssVar: '--toc-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
     blockBorderStyle: { cssVar: '--toc-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
-    blockBorderRadius: { cssVar: '--toc-border-radius', unit: null, type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
+    blockBorderRadius: { cssVar: '--toc-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     blockShadow: { cssVar: '--toc-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     blockShadowHover: { cssVar: '--toc-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     wrapperPadding: { cssVar: '--toc-wrapper-padding', unit: 'px', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
-    listPaddingLeft: { cssVar: '--toc-list-padding-left', unit: 'px', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
+    listPaddingLeft: { cssVar: '--toc-list-padding-left', unit: 'px', type: 'number', cssProperty: 'padding-left', dependsOn: null, variants: null },
     itemSpacing: { cssVar: '--toc-item-spacing', unit: 'px', type: 'number', cssProperty: 'margin-bottom', dependsOn: null, variants: null },
     levelIndent: { cssVar: '--toc-level-indent', unit: 'px', type: 'number', cssProperty: 'margin-left', dependsOn: null, variants: null },
     positionTop: { cssVar: '--toc-position-top', unit: 'px', type: 'number', cssProperty: 'top', dependsOn: null, variants: null },

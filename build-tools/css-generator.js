@@ -128,10 +128,74 @@ function getRootSelector(structure) {
 }
 
 /**
+ * Get CSS selector from appliesTo value
+ * Maps appliesTo IDs to proper CSS selectors (including nested selectors for TOC levels)
+ *
+ * @param {string} appliesTo - The appliesTo value from schema
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @param {Object} structure - Structure schema (optional)
+ * @returns {string} CSS selector
+ */
+function getSelector(appliesTo, blockType, structure = null) {
+  // Selector mapping for each block type
+  const selectorMap = {
+    // Common selectors
+    wrapper: `.gutplus-${blockType}`,
+
+    // Accordion selectors (FIXED: Use actual class names from accordion save.js)
+    accordionItem: '.gutplus-accordion',
+    accordionTitle: '.accordion-title',
+    accordionContent: '.accordion-content',
+    accordionIcon: '.accordion-icon',
+    item: '.gutplus-accordion',
+    title: blockType === 'accordion' ? '.accordion-title' : undefined,
+    content: blockType === 'accordion' ? '.accordion-content' : undefined,
+    icon: blockType === 'accordion' ? '.accordion-icon' : undefined,
+
+    // Tabs selectors
+    tabsList: '.gutplus-tabs-list',
+    tabButton: '.gutplus-tab-button',
+    tabPanel: '.gutplus-tab-panel',
+    tabIcon: '.gutplus-tab-icon',
+
+    // TOC selectors
+    tocTitle: '.toc-title',
+    titleStatic: '.toc-title:not(.toc-toggle-button)',
+    titleCollapsible: '.toc-toggle-button',
+    link: '.toc-link',
+    list: '.toc-list',
+    nestedList: '.toc-list ul',
+    collapseIcon: '.toc-collapse-icon',
+    titleIconOnly: '.toc-icon-only .toc-collapse-icon',
+
+    // TOC level-specific selectors (nested selectors)
+    level1Link: '.toc-level-1 .toc-link',
+    level2Link: '.toc-level-2 .toc-link',
+    level3PlusLink: '.toc-level-3 .toc-link, .toc-level-4 .toc-link, .toc-level-5 .toc-link, .toc-level-6 .toc-link',
+  };
+
+  // Check if we have a direct mapping
+  if (selectorMap[appliesTo]) {
+    return selectorMap[appliesTo];
+  }
+
+  // NEW SYSTEM: Use structure schema if available
+  if (structure && structure.elements && structure.elements[appliesTo]) {
+    const element = structure.elements[appliesTo];
+    const className = element.className.split(' ')[0];
+    return `.${className}`;
+  }
+
+  // Fallback: create selector from appliesTo ID (kebab-case)
+  const kebabCase = appliesTo.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+  return `.${blockType}-${kebabCase}`;
+}
+
+/**
  * Extract attributes that should generate CSS
  * Supports both old (cssSelector) and new (appliesTo + structure) systems
  */
-function extractCssAttributes(schema, structure) {
+function extractCssAttributes(schema, structure, blockType) {
   const cssAttrs = [];
   const rootSelector = getRootSelector(structure);
 
@@ -160,24 +224,30 @@ function extractCssAttributes(schema, structure) {
       return Array.isArray(appliesTo) ? appliesTo : [appliesTo];
     };
 
-    // NEW SYSTEM: Use appliesTo + structure schema
-    if (attr.appliesTo && structure && structure.elements) {
+    // NEW SYSTEM: Use appliesTo with getSelector() helper
+    if (attr.appliesTo) {
       // appliesTo can be string or array - use first element for CSS selector
       const appliesToElements = normalizeAppliesTo(attr.appliesTo);
       elementId = appliesToElements[0];
-      const element = structure.elements[elementId];
 
-      if (!element) {
-        const availableIds = Object.keys(structure.elements).join(', ');
-        console.warn(`\n  ⚠️  WARNING: Attribute "${attrName}" references element "${elementId}"`);
-        console.warn(`      but structure schema only has: [${availableIds}]`);
-        console.warn(`      This attribute will be SKIPPED. Update appliesTo field to match structure element ID.\n`);
-        continue;
+      // Use getSelector() helper to get proper CSS selector
+      selector = getSelector(elementId, blockType, structure);
+
+      // Validate element exists in structure schema if structure is provided
+      if (structure && structure.elements && !structure.elements[elementId]) {
+        // Check if this is a known special selector (like level1Link, level2Link, etc.)
+        const knownSpecialSelectors = ['level1Link', 'level2Link', 'level3PlusLink',
+                                        'titleStatic', 'titleCollapsible', 'nestedList',
+                                        'titleIconOnly', 'link', 'list', 'collapseIcon'];
+
+        if (!knownSpecialSelectors.includes(elementId)) {
+          const availableIds = Object.keys(structure.elements).join(', ');
+          console.warn(`\n  ⚠️  WARNING: Attribute "${attrName}" references element "${elementId}"`);
+          console.warn(`      but structure schema only has: [${availableIds}]`);
+          console.warn(`      This attribute will be SKIPPED. Update appliesTo field to match structure element ID.\n`);
+          continue;
+        }
       }
-
-      // Get primary class name (first one if multiple classes)
-      const className = element.className.split(' ')[0];
-      selector = `.${className}`;
     }
     // OLD SYSTEM (DEPRECATED): Fall back to cssSelector
     else if (attr.cssSelector) {
@@ -280,7 +350,7 @@ function groupBySelector(cssAttrs) {
  * Generate SCSS partial file for a block
  */
 function generateScssPartial(blockType, schema, structure) {
-  const cssAttrs = extractCssAttributes(schema, structure);
+  const cssAttrs = extractCssAttributes(schema, structure, blockType);
 
   if (cssAttrs.length === 0) {
     console.log(`  Warning: No CSS attributes found for ${blockType}`);

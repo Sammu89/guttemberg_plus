@@ -157,6 +157,7 @@ const getCustomizationStyles = () => {
 	return (
 		<div { ...blockProps }>
 			{ showTitle && ! isCollapsible && (
+				// NOTE: Inline styles used for initial render before CSS loads. CSS variables from theme will override these via specificity
 				<div
 					className="toc-title"
 					style={ {

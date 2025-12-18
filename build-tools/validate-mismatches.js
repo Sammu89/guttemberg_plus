@@ -155,11 +155,12 @@ const CSS_ONLY_SELECT_PATTERNS = [
 
 function checkSelectControlUsage(blockType) {
 	const warnings = [];
+	const errors = [];
 
 	const schemaPath = path.join(ROOT, `schemas/${blockType}.json`);
 
 	if (!fs.existsSync(schemaPath)) {
-		return warnings;
+		return { errors, warnings };
 	}
 
 	const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -169,7 +170,7 @@ function checkSelectControlUsage(blockType) {
 		([_, attr]) => attr.control === 'SelectControl' && attr.options?.length > 0
 	);
 
-	if (selectAttrs.length === 0) return warnings;
+	if (selectAttrs.length === 0) return { errors, warnings };
 
 	// Load all code files
 	const codeFiles = ['edit.js', 'save.js', 'frontend.js']
@@ -220,9 +221,56 @@ function checkSelectControlUsage(blockType) {
 				fix: `Add conditional logic to handle different ${attrName} values`,
 			});
 		}
+
+		// For positionType-like attributes, check CSS classes/selectors exist for options
+		// Skip purely behavioral attributes (no CSS needed)
+		if (attrName.match(/position|orientation|style/i) && !attrName.match(/mode$/i)) {
+			const optionValues = attr.options.map((o) => o.value || o.label || o);
+			const stylePath = path.join(ROOT, `blocks/${blockType}/src/style.scss`);
+			const themeGeneratedPath = path.join(ROOT, `blocks/${blockType}/src/_theme-generated.scss`);
+
+			// Check both style.scss and _theme-generated.scss
+			let styleCode = '';
+			if (fs.existsSync(stylePath)) {
+				styleCode += fs.readFileSync(stylePath, 'utf8');
+			}
+			if (fs.existsSync(themeGeneratedPath)) {
+				styleCode += fs.readFileSync(themeGeneratedPath, 'utf8');
+			}
+
+			if (styleCode) {
+				const missingClasses = [];
+
+				for (const optionValue of optionValues) {
+					// Check for THREE patterns:
+					// 1. Class: .blockType-attrName-optionValue (e.g., .toc-position-sticky)
+					// 2. Class: .toc-attrName-optionValue (alternate prefix)
+					// 3. Data attribute selector: [data-attr-name="value"] (e.g., [data-orientation="horizontal"])
+					const expectedClass = `.${blockType}-${kebabCase(attrName)}-${optionValue}`;
+					const alternateClass = `.toc-${kebabCase(attrName)}-${optionValue}`;
+					const dataAttrSelector = `data-${kebabCase(attrName)}="${optionValue}"`;
+
+					if (!styleCode.includes(expectedClass) &&
+					    !styleCode.includes(alternateClass) &&
+					    !styleCode.includes(dataAttrSelector)) {
+						missingClasses.push(optionValue);
+					}
+				}
+
+				if (missingClasses.length > 0) {
+					errors.push({
+						type: 'error',
+						block: blockType,
+						attribute: attrName,
+						message: `has options [${missingClasses.join(', ')}] but CSS classes/selectors not found`,
+						fix: `Add CSS for: ${missingClasses.map(v => `.${blockType}-${kebabCase(attrName)}-${v} or [data-${kebabCase(attrName)}="${v}"]`).join(', ')}`,
+					});
+				}
+			}
+		}
 	}
 
-	return warnings;
+	return { errors, warnings };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -282,6 +330,93 @@ function checkToggleEffects(blockType) {
 				message: `toggle defined but never checked in code`,
 				fix: `Add conditional: if (${attrName}) { ... } or ${attrName} && render()`,
 			});
+		}
+	}
+
+	return warnings;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CHECK 3.5: Data Attribute Coverage Check
+// Ensures all schema behavioral attributes are saved as data attributes
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Attributes that should NOT be data attributes (structural/editor-only attributes)
+// These are used during render but don't need to be in the frontend DOM
+const STRUCTURAL_ONLY_ATTRS = new Set([
+	// IDs and identifiers (React/editor only, not needed in frontend JS)
+	'uniqueId',
+	'blockId',
+
+	// Theme is applied as CSS class, not read from data attribute
+	'currentTheme',
+
+	// Heading level is rendered as HTML tag, not read from data attribute
+	'headingLevel',
+
+	// Content attributes (used in save.js render, not frontend JS)
+	'showTitle', // Used to conditionally render, not read by frontend
+	'title',
+	'titleText',
+	'content',
+]);
+
+function checkBehaviorAttributesCoverage(blockType) {
+	const warnings = [];
+
+	const schemaPath = path.join(ROOT, `schemas/${blockType}.json`);
+	const savePath = path.join(ROOT, `blocks/${blockType}/src/save.js`);
+	const frontendPath = path.join(ROOT, `blocks/${blockType}/src/frontend.js`);
+
+	if (!fs.existsSync(schemaPath) || !fs.existsSync(savePath)) {
+		return warnings;
+	}
+
+	const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+	const saveCode = fs.readFileSync(savePath, 'utf8');
+
+	// Load frontend code to check what's actually being read
+	let frontendCode = '';
+	if (fs.existsSync(frontendPath)) {
+		frontendCode = fs.readFileSync(frontendPath, 'utf8');
+	}
+
+	// Find behavioral attributes (themeable: false, reason: behavioral or structural)
+	const behaviorAttrs = Object.entries(schema.attributes || {})
+		.filter(([_, attr]) =>
+			attr.themeable === false &&
+			(attr.reason === 'behavioral' || attr.reason === 'structural') &&
+			attr.group === 'behavior'
+		)
+		.map(([name]) => name);
+
+	// Check if each is referenced in save.js as data attribute
+	for (const attrName of behaviorAttrs) {
+		// Skip structural-only attributes (used in save.js render, not frontend JS)
+		if (STRUCTURAL_ONLY_ATTRS.has(attrName)) {
+			continue;
+		}
+
+		const dataAttrName = 'data-' + attrName.replace(/([A-Z])/g, '-$1').toLowerCase();
+
+		// Check both object notation and JSX attribute
+		const hasObjectNotation = saveCode.includes(`'${dataAttrName}':`);
+		const hasJsxAttr = saveCode.includes(`${dataAttrName}=`);
+
+		if (!hasObjectNotation && !hasJsxAttr) {
+			// Only warn if frontend.js actually tries to read this attribute
+			// This prevents false positives for attributes used only in save.js
+			const frontendReads = frontendCode.includes(dataAttrName);
+
+			if (frontendReads) {
+				warnings.push({
+					type: 'warning',
+					block: blockType,
+					attribute: attrName,
+					message: `behavioral attribute not saved as data attribute (but frontend reads it)`,
+					fix: `Add '${dataAttrName}': attributes.${attrName} to save.js data attributes`,
+				});
+			}
 		}
 	}
 
@@ -378,11 +513,131 @@ function varNameToAttrName(varName, blockType) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// CHECK 5: CSS Class Concordance
+// Ensures frontend-generated classes match CSS expectations
+// ═══════════════════════════════════════════════════════════════════════════
+
+function checkCssClassConcordance(blockType) {
+	const errors = [];
+
+	const frontendPath = path.join(ROOT, `blocks/${blockType}/src/frontend.js`);
+	const stylePath = path.join(ROOT, `blocks/${blockType}/src/style.scss`);
+
+	if (!fs.existsSync(frontendPath) || !fs.existsSync(stylePath)) {
+		return errors;
+	}
+
+	const frontendCode = fs.readFileSync(frontendPath, 'utf8');
+	const styleCode = fs.readFileSync(stylePath, 'utf8');
+
+	// Extract className assignments from frontend
+	// Pattern: className = "string" or className = `template-${var}`
+	const classAssignments = new Map();
+
+	// Simple string literals (single and double quotes only, NOT backticks)
+	const stringClassRegex = /className\s*=\s*['"]([^'"]+)['"]/g;
+	let match;
+	while ((match = stringClassRegex.exec(frontendCode)) !== null) {
+		const classes = match[1].split(' ');
+		classes.forEach(cls => {
+			if (cls.startsWith(blockType) || cls.startsWith('toc-')) {
+				classAssignments.set(cls, 'literal');
+			}
+		});
+	}
+
+	// Template literals with variables
+	const templateClassRegex = /className\s*=\s*`([^`]+)`/g;
+	while ((match = templateClassRegex.exec(frontendCode)) !== null) {
+		const template = match[1];
+
+		// Check if template contains variables
+		if (template.includes('${')) {
+			// Extract pattern like "toc-item toc-level-${var}" → check for "toc-item" and "toc-level-*"
+			// First, extract all static class names (not part of dynamic patterns)
+			const staticParts = template.split(/\$\{[^}]*\}/);
+			staticParts.forEach(part => {
+				const classes = part.trim().split(/\s+/).filter(c => c && !c.endsWith('-'));
+				classes.forEach(cls => {
+					if (cls.startsWith(blockType) || cls.startsWith('toc-')) {
+						classAssignments.set(cls, 'literal');
+					}
+				});
+			});
+
+			// Extract the pattern directly with regex - handle "toc-level-${ var }"
+			const dynamicClassPattern = /([\w-]+)-\s*\$\{/g;
+			let dynMatch;
+			while ((dynMatch = dynamicClassPattern.exec(template)) !== null) {
+				const prefix = dynMatch[1];
+				// Only add block-specific or toc- prefixed classes
+				if (prefix === blockType || prefix === 'toc-level' || prefix === 'toc-item-level') {
+					classAssignments.set(prefix + '-*', 'template');
+				}
+			}
+		} else {
+			// No variables, treat as static
+			const classes = template.split(/\s+/).filter(c => c);
+			classes.forEach(cls => {
+				if (cls.startsWith(blockType) || cls.startsWith('toc-')) {
+					classAssignments.set(cls, 'literal');
+				}
+			});
+		}
+	}
+
+	// Extract CSS class selectors from style.scss
+	const cssClasses = new Set();
+	const cssClassRegex = /\.([\w-]+)\s*[{,\s]/g;
+	while ((match = cssClassRegex.exec(styleCode)) !== null) {
+		const className = match[1];
+		if (className.startsWith(blockType) || className.startsWith('toc-')) {
+			cssClasses.add(className);
+		}
+	}
+
+	// Check for mismatches
+	for (const [frontendClass, type] of classAssignments) {
+		if (type === 'literal') {
+			// Exact match required
+			if (!cssClasses.has(frontendClass)) {
+				errors.push({
+					type: 'error',
+					block: blockType,
+					file: 'frontend.js',
+					message: `generates class '${frontendClass}' but style.scss doesn't have it`,
+					fix: `Add .${frontendClass} { } to style.scss or check class name spelling`,
+				});
+			}
+		} else if (type === 'template') {
+			// Pattern match (check if any CSS class starts with this prefix)
+			const prefix = frontendClass.replace('*', '');
+			const hasMatch = Array.from(cssClasses).some(cls => cls.startsWith(prefix));
+			if (!hasMatch) {
+				errors.push({
+					type: 'error',
+					block: blockType,
+					file: 'frontend.js',
+					message: `generates dynamic classes like '${frontendClass}' but no matching CSS found`,
+					fix: `Add .${prefix}* selectors to style.scss (e.g., .${prefix}1, .${prefix}2, etc.)`,
+				});
+			}
+		}
+	}
+
+	return errors;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════════════════════════════════════════
 
 function kebabToCamel(str) {
 	return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+function kebabCase(str) {
+	return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -399,8 +654,14 @@ function main() {
 		// Run all checks
 		allErrors.push(...checkDataAttributeSync(blockType));
 		allErrors.push(...checkCssVariableGeneration(blockType));
-		allWarnings.push(...checkSelectControlUsage(blockType));
+		allErrors.push(...checkCssClassConcordance(blockType));
+
+		const selectResults = checkSelectControlUsage(blockType);
+		allErrors.push(...selectResults.errors);
+		allWarnings.push(...selectResults.warnings);
+
 		allWarnings.push(...checkToggleEffects(blockType));
+		allWarnings.push(...checkBehaviorAttributesCoverage(blockType));
 	}
 
 	// Report errors

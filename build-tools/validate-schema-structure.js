@@ -332,11 +332,28 @@ function validateBlock(blockType) {
   };
 
   if (attributes.attributes) {
+    // Special/virtual selectors that don't need to exist in structure schema
+    // These are composite CSS selectors that combine multiple elements
+    const SPECIAL_SELECTORS = [
+      'level1Link',      // .toc-level-1 .toc-link
+      'level2Link',      // .toc-level-2 .toc-link
+      'level3PlusLink',  // .toc-level-3+ .toc-link
+      'titleStatic',     // .toc-title:not(.toc-toggle-button)
+      'titleCollapsible',// .toc-toggle-button
+      'nestedList',      // .toc-list ul
+      'titleIconOnly',   // .toc-icon-only .toc-collapse-icon
+    ];
+
     Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
       if (attr.appliesTo) {
         const appliesToElements = normalizeAppliesTo(attr.appliesTo);
 
         appliesToElements.forEach(elementId => {
+          // Skip validation for special/virtual selectors
+          if (SPECIAL_SELECTORS.includes(elementId)) {
+            return;
+          }
+
           if (!elements.has(elementId)) {
             const similarElements = findSimilarElementIds(elementId, elements);
             let suggestion = '';
@@ -388,12 +405,23 @@ function validateBlock(blockType) {
 
   // normalizeAppliesTo is defined above in Validation 3
 
+  // Special/virtual selectors (same list as in Validation 3)
+  const SPECIAL_SELECTORS = [
+    'level1Link', 'level2Link', 'level3PlusLink',
+    'titleStatic', 'titleCollapsible', 'nestedList', 'titleIconOnly',
+  ];
+
   if (attributes.attributes) {
     Object.entries(attributes.attributes).forEach(([attrName, attr]) => {
       if (attr.themeable && attr.appliesTo) {
         const appliesToElements = normalizeAppliesTo(attr.appliesTo);
 
         appliesToElements.forEach(elementId => {
+          // Skip bidirectional check for special/virtual selectors
+          if (SPECIAL_SELECTORS.includes(elementId)) {
+            return;
+          }
+
           const element = elements.get(elementId);
 
           if (element) {

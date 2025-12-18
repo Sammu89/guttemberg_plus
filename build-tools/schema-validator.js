@@ -270,6 +270,19 @@ function validateAttribute(attrName, attr, blockType) {
       }
     }
 
+    // Validate cssProperty makes sense for attribute name
+    if (attr.cssProperty) {
+      const propertyValidation = validateCssPropertyMatch(attrName, attr.cssProperty);
+      if (!propertyValidation.valid) {
+        warnings.push({
+          type: 'suspicious_cssProperty',
+          message: `Attribute "${attrName}" has suspicious cssProperty: "${attr.cssProperty}". ${propertyValidation.reason}`,
+          location: `${location}.cssProperty`,
+          suggestion: propertyValidation.suggestion,
+        });
+      }
+    }
+
     // Recommend control field for themeable attributes
     if (!attr.control) {
       warnings.push({
@@ -410,6 +423,42 @@ function validateCrossReferences(schema) {
   }
 
   return { errors, warnings };
+}
+
+/**
+ * Validate that cssProperty matches the attribute name/purpose
+ */
+function validateCssPropertyMatch(attrName, cssProperty) {
+  const name = attrName.toLowerCase();
+  const prop = cssProperty.toLowerCase();
+
+  // Common mismatches
+  const mismatches = [
+    { pattern: /color$/i, expected: 'color', actual: prop, notExpected: ['border-color'] },
+    { pattern: /bordercolor$/i, expected: 'border-color', actual: prop, notExpected: ['color'] },
+    { pattern: /backgroundcolor$/i, expected: 'background-color', actual: prop, notExpected: ['color'] },
+    { pattern: /fontsize$/i, expected: 'font-size', actual: prop, notExpected: [] },
+    { pattern: /padding$/i, expected: 'padding', actual: prop, notExpected: [] },
+  ];
+
+  for (const mismatch of mismatches) {
+    if (mismatch.pattern.test(name)) {
+      // If attribute matches pattern, check if cssProperty is correct
+      if (prop !== mismatch.expected) {
+        // Extra check: if it's in the notExpected list, it's definitely wrong
+        if (mismatch.notExpected.includes(prop)) {
+          return {
+            valid: false,
+            reason: `Attribute ending in "${name.match(mismatch.pattern)[0]}" should use "${mismatch.expected}", not "${prop}"`,
+            suggestion: mismatch.expected,
+          };
+        }
+      }
+      break;
+    }
+  }
+
+  return { valid: true };
 }
 
 /**

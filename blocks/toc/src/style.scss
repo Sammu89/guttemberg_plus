@@ -94,18 +94,19 @@
 .toc-list {
 	list-style-type: disc;
 	margin: 0;
-	padding: 0 0 0 1.5rem;
+	padding: 0 0 0 var(--toc-list-padding-left, 24px);
+}
 
-	li {
-		margin-bottom: var(--toc-item-spacing, 8px);
-		line-height: 1.6;
-	}
+/* TOC list items */
+.toc-item {
+	margin-bottom: var(--toc-item-spacing, 8px);
+	line-height: 1.6;
+}
 
-	/* Nested levels */
-	ul {
-		padding-left: var(--toc-level-indent, 20px);
-		margin-top: 0.5rem;
-	}
+/* Nested levels within TOC list */
+.toc-list ul {
+	padding-left: var(--toc-level-indent, 20px);
+	margin-top: 0.5rem;
 }
 
 /* Numbering styles */

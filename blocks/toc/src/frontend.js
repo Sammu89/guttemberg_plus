@@ -280,7 +280,8 @@ function renderTOCList( listContainer, headings ) {
 
 	headings.forEach( ( heading ) => {
 		const li = document.createElement( 'li' );
-		li.className = `toc-item toc-item-level-${ heading.level }`;
+		const normalizedLevel = heading.level - 1;
+		li.className = `toc-item toc-level-${ normalizedLevel }`;
 
 		const link = document.createElement( 'a' );
 		link.href = `#${ heading.id }`;
