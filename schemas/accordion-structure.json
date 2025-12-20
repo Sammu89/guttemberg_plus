@@ -137,7 +137,7 @@
       "tag": "div",
       "className": "accordion-content",
       "description": "Collapsible content area that expands/collapses with padding for InnerBlocks",
-      "contentType": "InnerBlocks",
+      "children": ["contentInner"],
       "conditionalAttribute": {
         "hidden": "{!initiallyOpen}"
       },
@@ -149,11 +149,19 @@
         "contentColor",
         "contentBackgroundColor",
         "contentFontSize",
-        "contentFontWeight",
         "dividerColor",
         "dividerWidth",
         "dividerStyle"
       ]
+    },
+
+    "contentInner": {
+      "id": "contentInner",
+      "tag": "div",
+      "className": "accordion-content-inner",
+      "description": "Inner wrapper around accordion panel content for padding and layout",
+      "contentType": "InnerBlocks",
+      "appliesStyles": []
     }
   },
 
@@ -167,7 +175,9 @@
           },
           "title": ["titleText", "icon", "titleContentWrapper"]
         },
-        "content": []
+        "content": {
+          "contentInner": []
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-18T23:36:50.350Z
+ * Generated at: 2025-12-20T00:28:38.466Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -119,12 +119,12 @@ const CONTROL_CONFIGS = {
     },
     'titleFontSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 48,
-      unit: 'px',
+      min: 0.6,
+      max: 3,
+      unit: 'rem',
       label: 'Title Font Size',
-      description: 'Font size for the title in pixels',
-      default: 18,
+      description: 'Font size for the title in rem',
+      default: 1.125,
     },
     'titleFontWeight': {
       control: 'SelectControl',
@@ -259,63 +259,12 @@ const CONTROL_CONFIGS = {
     },
     'contentFontSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 36,
-      unit: 'px',
+      min: 0.6,
+      max: 2.3,
+      unit: 'rem',
       label: 'Content Font Size',
-      description: 'Font size for content in pixels',
-      default: 16,
-    },
-    'contentFontWeight': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "100",
-                      "value": "100"
-              },
-              {
-                      "label": "200",
-                      "value": "200"
-              },
-              {
-                      "label": "300",
-                      "value": "300"
-              },
-              {
-                      "label": "400",
-                      "value": "400"
-              },
-              {
-                      "label": "500",
-                      "value": "500"
-              },
-              {
-                      "label": "600",
-                      "value": "600"
-              },
-              {
-                      "label": "700",
-                      "value": "700"
-              },
-              {
-                      "label": "800",
-                      "value": "800"
-              },
-              {
-                      "label": "900",
-                      "value": "900"
-              },
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Bold",
-                      "value": "bold"
-              }
-      ],
-      label: 'Content Font Weight',
-      description: 'Font weight for content',
+      description: 'Font size for content in rem',
+      default: 1,
     },
     'borderWidth': {
       control: 'RangeControl',
@@ -429,12 +378,12 @@ const CONTROL_CONFIGS = {
     },
     'iconSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 48,
-      unit: 'px',
+      min: 0.6,
+      max: 3,
+      unit: 'rem',
       label: 'Icon Size',
-      description: 'Size of the icon in pixels',
-      default: 20,
+      description: 'Size of the icon in rem',
+      default: 1.25,
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -556,12 +505,12 @@ const CONTROL_CONFIGS = {
     },
     'iconSize': {
       control: 'RangeControl',
-      min: 8,
-      max: 48,
-      unit: 'px',
+      min: 0.5,
+      max: 3,
+      unit: 'rem',
       label: 'Icon Size',
-      description: 'Size of the icon in pixels',
-      default: 16,
+      description: 'Size of the icon in rem',
+      default: 1,
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -799,12 +748,12 @@ const CONTROL_CONFIGS = {
     },
     'tabButtonFontSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 36,
-      unit: 'px',
+      min: 0.6,
+      max: 2.3,
+      unit: 'rem',
       label: 'Tab Button Font Size',
-      description: 'Font size for tab buttons',
-      default: 16,
+      description: 'Font size for tab buttons (rem)',
+      default: 1,
     },
     'tabButtonFontWeight': {
       control: 'SelectControl',
@@ -940,11 +889,11 @@ const CONTROL_CONFIGS = {
     'tabButtonPadding': {
       control: 'RangeControl',
       min: 0,
-      max: 20,
-      unit: 'px',
+      max: 1.3,
+      unit: 'rem',
       label: 'Tab Button Padding',
-      description: 'Padding for tab buttons (vertical/horizontal will be computed)',
-      default: 12,
+      description: 'Padding for tab buttons in rem (vertical/horizontal will be computed)',
+      default: 0.75,
     },
     'tabListBackgroundColor': {
       control: 'ColorPicker',
@@ -1018,20 +967,20 @@ const CONTROL_CONFIGS = {
     'tabsRowSpacing': {
       control: 'RangeControl',
       min: 0,
-      max: 30,
-      unit: 'px',
+      max: 1.9,
+      unit: 'rem',
       label: 'Spacing',
-      description: 'Padding/spacing for the tab row',
-      default: 8,
+      description: 'Padding/spacing for the tab row (rem)',
+      default: 0.5,
     },
     'tabsButtonGap': {
       control: 'RangeControl',
       min: 0,
-      max: 30,
-      unit: 'px',
+      max: 1.9,
+      unit: 'rem',
       label: 'Button Gap',
-      description: 'Spacing between individual tab buttons',
-      default: 8,
+      description: 'Spacing between individual tab buttons (rem)',
+      default: 0.5,
     },
     'panelBackgroundColor': {
       control: 'ColorPicker',
@@ -1297,12 +1246,12 @@ const CONTROL_CONFIGS = {
     },
     'titleFontSize': {
       control: 'RangeControl',
-      min: 12,
-      max: 48,
-      unit: 'px',
+      min: 0.7,
+      max: 3,
+      unit: 'rem',
       label: 'Title Font Size',
-      description: 'Font size for the TOC title in pixels',
-      default: 20,
+      description: 'Font size for the TOC title in rem',
+      default: 1.25,
     },
     'titleFontWeight': {
       control: 'SelectControl',
@@ -1398,12 +1347,12 @@ const CONTROL_CONFIGS = {
     },
     'level1FontSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 36,
-      unit: 'px',
+      min: 0.6,
+      max: 2.3,
+      unit: 'rem',
       label: 'Level 1 Font Size',
-      description: 'Font size for level 1 items (H2) in pixels',
-      default: 18,
+      description: 'Font size for level 1 items (H2) in rem',
+      default: 1.125,
     },
     'level1FontWeight': {
       control: 'SelectControl',
@@ -1527,12 +1476,12 @@ const CONTROL_CONFIGS = {
     },
     'level2FontSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 32,
-      unit: 'px',
+      min: 0.6,
+      max: 2,
+      unit: 'rem',
       label: 'Level 2 Font Size',
-      description: 'Font size for level 2 items (H3) in pixels',
-      default: 16,
+      description: 'Font size for level 2 items (H3) in rem',
+      default: 1,
     },
     'level2FontWeight': {
       control: 'SelectControl',
@@ -1656,12 +1605,12 @@ const CONTROL_CONFIGS = {
     },
     'level3PlusFontSize': {
       control: 'RangeControl',
-      min: 10,
-      max: 28,
-      unit: 'px',
+      min: 0.6,
+      max: 1.8,
+      unit: 'rem',
       label: 'Level 3+ Font Size',
-      description: 'Font size for level 3+ items (H4-H6) in pixels',
-      default: 14,
+      description: 'Font size for level 3+ items (H4-H6) in rem',
+      default: 0.875,
     },
     'level3PlusFontWeight': {
       control: 'SelectControl',
@@ -1857,47 +1806,47 @@ const CONTROL_CONFIGS = {
     'wrapperPadding': {
       control: 'RangeControl',
       min: 0,
-      max: 50,
-      unit: 'px',
+      max: 3.2,
+      unit: 'rem',
       label: 'Wrapper Padding',
-      description: 'Padding inside the TOC wrapper',
-      default: 20,
+      description: 'Padding inside the TOC wrapper (rem)',
+      default: 1.25,
     },
     'listPaddingLeft': {
       control: 'RangeControl',
       min: 0,
-      max: 50,
-      unit: 'px',
+      max: 3.2,
+      unit: 'rem',
       label: 'List Padding Left',
-      description: 'Left padding for the list',
-      default: 24,
+      description: 'Left padding for the list (rem)',
+      default: 1.5,
     },
     'itemSpacing': {
       control: 'RangeControl',
       min: 0,
-      max: 30,
-      unit: 'px',
+      max: 1.9,
+      unit: 'rem',
       label: 'Item Spacing',
-      description: 'Vertical space between TOC items',
-      default: 8,
+      description: 'Vertical space between TOC items (rem)',
+      default: 0.5,
     },
     'levelIndent': {
       control: 'RangeControl',
       min: 0,
-      max: 50,
-      unit: 'px',
+      max: 3.2,
+      unit: 'rem',
       label: 'Level Indent',
-      description: 'Indentation per heading level',
-      default: 20,
+      description: 'Indentation per heading level (rem)',
+      default: 1.25,
     },
     'positionTop': {
       control: 'RangeControl',
       min: 0,
-      max: 300,
-      unit: 'px',
+      max: 18.8,
+      unit: 'rem',
       label: 'Position Top',
-      description: 'Top offset for sticky/fixed positioning',
-      default: 100,
+      description: 'Top offset for sticky/fixed positioning (rem)',
+      default: 6.25,
     },
     'zIndex': {
       control: 'RangeControl',
@@ -1909,12 +1858,12 @@ const CONTROL_CONFIGS = {
     },
     'collapseIconSize': {
       control: 'RangeControl',
-      min: 12,
-      max: 36,
-      unit: 'px',
+      min: 0.7,
+      max: 2.3,
+      unit: 'rem',
       label: 'Collapse Icon Size',
-      description: 'Size of the collapse/expand icon',
-      default: 20,
+      description: 'Size of the collapse/expand icon (rem)',
+      default: 1.25,
     },
   },
 };

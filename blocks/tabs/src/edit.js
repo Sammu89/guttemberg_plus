@@ -194,28 +194,28 @@ const getInlineStyles = () => {
 	return {
 		container: {
 			borderColor: effectiveValues.borderColor || '#dddddd',
-			borderWidth: `${effectiveValues.borderWidth || 0}px`,
+			borderWidth: `${effectiveValues.borderWidth ?? 0}px`,
 			borderStyle: effectiveValues.borderStyle || 'solid',
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.shadow || 'none',
 		},
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
-			fontSize: `${effectiveValues.iconSize || 16}px`,
-			transform: `${effectiveValues.iconRotation || 0}deg`,
+			fontSize: `${effectiveValues.iconSize ?? 1}rem`,
+			transform: `${effectiveValues.iconRotation ?? 0}deg`,
 		},
 		tabList: {
 			backgroundColor: effectiveValues.tabListBackgroundColor || 'transparent',
 			borderColor: effectiveValues.tabsRowBorderColor || '#dddddd',
-			borderWidth: `${effectiveValues.tabsRowBorderWidth || 0}px`,
+			borderWidth: `${effectiveValues.tabsRowBorderWidth ?? 0}px`,
 			borderStyle: effectiveValues.tabsRowBorderStyle || 'solid',
 			justifyContent: effectiveValues.tabListAlignment || 'flex-start',
-			gap: `${effectiveValues.tabsButtonGap || 8}px`,
+			gap: `${effectiveValues.tabsButtonGap ?? 0.5}rem`,
 		},
 		panel: {
 			backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',
 			borderColor: effectiveValues.panelBorderColor || '#dddddd',
-			borderWidth: `${effectiveValues.panelBorderWidth || 1}px`,
+			borderWidth: `${effectiveValues.panelBorderWidth ?? 1}px`,
 			borderStyle: effectiveValues.panelBorderStyle || 'solid',
 			borderRadius: `${panelBorderRadius.topLeft}px ${panelBorderRadius.topRight}px ${panelBorderRadius.bottomRight}px ${panelBorderRadius.bottomLeft}px`,
 		},
@@ -273,25 +273,33 @@ const getInlineStyles = () => {
 		// Add tabButton function to styles object to handle active/disabled states
 		styles.tabButton = (isActive, isDisabled) => {
 			const isActiveContentBorderEnabled = attributes.enableFocusBorder !== false;
+			const tabButtonFontSize = formatCssValue(
+				'tabButtonFontSize',
+				effectiveValues.tabButtonFontSize,
+				'tabs'
+			);
 
-		const baseStyles = {
-			color: effectiveValues.tabButtonColor,
-			backgroundColor: effectiveValues.tabButtonBackgroundColor,
-			borderWidth: `${effectiveValues.tabButtonBorderWidth}px`,
-			borderStyle: effectiveValues.tabButtonBorderStyle,
-			borderColor: effectiveValues.tabButtonBorderColor,
-			borderRadius: `${effectiveValues.tabButtonBorderRadius.topLeft}px ${effectiveValues.tabButtonBorderRadius.topRight}px ${effectiveValues.tabButtonBorderRadius.bottomRight}px ${effectiveValues.tabButtonBorderRadius.bottomLeft}px`,
-			boxShadow: effectiveValues.tabButtonShadow,
-			fontSize: `${effectiveValues.tabButtonFontSize}px`,
-			fontWeight: effectiveValues.tabButtonFontWeight,
-			fontStyle: effectiveValues.tabButtonFontStyle,
+			const baseStyles = {
+				color: effectiveValues.tabButtonColor,
+				backgroundColor: effectiveValues.tabButtonBackgroundColor,
+				borderWidth: `${effectiveValues.tabButtonBorderWidth}px`,
+				borderStyle: effectiveValues.tabButtonBorderStyle,
+				borderColor: effectiveValues.tabButtonBorderColor,
+				borderRadius: `${effectiveValues.tabButtonBorderRadius.topLeft}px ${effectiveValues.tabButtonBorderRadius.topRight}px ${effectiveValues.tabButtonBorderRadius.bottomRight}px ${effectiveValues.tabButtonBorderRadius.bottomLeft}px`,
+				boxShadow: effectiveValues.tabButtonShadow,
+				fontWeight: effectiveValues.tabButtonFontWeight,
+				fontStyle: effectiveValues.tabButtonFontStyle,
 			};
+
+			if ( tabButtonFontSize !== null && tabButtonFontSize !== undefined ) {
+				baseStyles.fontSize = tabButtonFontSize;
+			}
 
 			if (isActive) {
 				const activeStyles = {
 					...baseStyles,
-				color: effectiveValues.tabButtonActiveColor,
-				backgroundColor: effectiveValues.tabButtonActiveBackgroundColor,
+					color: effectiveValues.tabButtonActiveColor,
+					backgroundColor: effectiveValues.tabButtonActiveBackgroundColor,
 					borderColor: effectiveValues.tabButtonActiveBorderColor,
 					fontWeight: effectiveValues.tabButtonActiveFontWeight,
 				};
@@ -448,6 +456,7 @@ const getInlineStyles = () => {
 
 		const iconContent = effectiveValues.iconTypeClosed;
 		const isImage = iconContent.startsWith( 'http' );
+		const isLeftPosition = effectiveValues.iconPosition === 'left';
 
 		if ( isImage ) {
 			return (
@@ -455,12 +464,8 @@ const getInlineStyles = () => {
 					src={ iconContent }
 					alt=""
 					aria-hidden="true"
-					style={ {
-						width: '18px',
-						height: '18px',
-						objectFit: 'contain',
-						marginRight: '8px',
-					} }
+					className="tab-icon"
+					style={ isLeftPosition ? { marginRight: '8px' } : { marginLeft: '8px' } }
 				/>
 			);
 		}
@@ -504,9 +509,15 @@ const getInlineStyles = () => {
 
 		if ( attributes.enableTabsListContentBorder === false ) {
 			// Fall back to the main tab row border settings when the divider is disabled
-			styles['--tabs-list-divider-border-color'] = attributes.tabsRowBorderColor || '#dddddd';
-			styles['--tabs-list-divider-border-width'] = `${ attributes.tabsRowBorderWidth || 0 }px`;
-			styles['--tabs-list-divider-border-style'] = attributes.tabsRowBorderStyle || 'solid';
+			styles['--tabs-list-divider-border-color'] =
+				attributes.tabsRowBorderColor ?? allDefaults.tabsRowBorderColor ?? '#dddddd';
+			styles['--tabs-list-divider-border-width'] = formatCssValue(
+				'tabsRowBorderWidth',
+				attributes.tabsRowBorderWidth ?? allDefaults.tabsRowBorderWidth ?? 0,
+				'tabs'
+			);
+			styles['--tabs-list-divider-border-style'] =
+				attributes.tabsRowBorderStyle ?? allDefaults.tabsRowBorderStyle ?? 'solid';
 		}
 
 		// Process each attribute using schema-generated mappings
@@ -583,14 +594,8 @@ const getInlineStyles = () => {
 			<PanelBody title={ __( 'Tabs Management', 'guttemberg-plus' ) } initialOpen={ true }>
 				<div className="tabs-management">
 					{ tabPanels.map( ( panel, index ) => (
-						<div key={ panel.clientId } style={ { marginBottom: '12px' } }>
-							<div
-								style={ {
-									display: 'flex',
-									justifyContent: 'space-between',
-									alignItems: 'center',
-								} }
-							>
+						<div key={ panel.clientId } className="tab-panel-item">
+							<div className="tab-panel-header">
 								<strong>
 									{ __( 'Tab', 'guttemberg-plus' ) } { index + 1 }
 									{ panel.attributes.title && `: ${ panel.attributes.title }` }
@@ -688,7 +693,7 @@ const getInlineStyles = () => {
 											activeTab === index ? 'active' : ''
 										}` }
 									>
-										<span className="tab-title" style={ { marginRight: '20px' } }>
+										<span className="tab-title">
 											{ effectiveValues.showIcon && effectiveValues.iconPosition === 'left' && renderIcon() }
 											<RichText
 												tagName="span"
@@ -699,12 +704,7 @@ const getInlineStyles = () => {
 											/>
 											{ effectiveValues.showIcon && effectiveValues.iconPosition === 'right' && renderIcon() }
 										</span>
-										<div className="tab-actions" style={ {
-											display: 'flex',
-											flexDirection: 'column',
-											gap: '1px',
-											marginLeft: 'auto',
-										} }>
+										<div className="tab-actions">
 											<button
 												onClick={ ( e ) => {
 													e.stopPropagation();
@@ -736,7 +736,7 @@ const getInlineStyles = () => {
 								if ( headingLevel !== 'none' ) {
 									const HeadingTag = headingLevel;
 									wrappedButton = (
-										<HeadingTag className="tab-heading" style={ { margin: 0, display: 'contents' } }>
+										<HeadingTag className="tab-heading">
 											{ buttonElement }
 										</HeadingTag>
 									);

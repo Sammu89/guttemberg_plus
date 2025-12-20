@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-18T23:36:50.364Z
+ * Generated at: 2025-12-20T00:28:38.506Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
@@ -10,8 +10,8 @@
 .gutplus-tab-icon {
   /* Color of the tab icon */
   color: var(--tabs-icon-color, #666666);
-  /* Size of the icon in pixels */
-  font-size: var(--tabs-icon-size, 16px);
+  /* Size of the icon in rem */
+  font-size: var(--tabs-icon-size, 1rem);
   /* Base rotation of the icon */
   transform: var(--tabs-icon-rotation-base, 0deg);
 
@@ -37,8 +37,8 @@
   border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
   /* Box shadow for tab buttons */
   box-shadow: var(--tabs-button-border-shadow, none);
-  /* Font size for tab buttons */
-  font-size: var(--tabs-button-font-size, 16px);
+  /* Font size for tab buttons (rem) */
+  font-size: var(--tabs-button-font-size, 1rem);
   /* Font weight for tab buttons */
   font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
@@ -49,8 +49,8 @@
   text-decoration: var(--tabs-button-text-decoration, none);
   /* Text alignment for tab buttons */
   text-align: var(--tabs-button-text-align, center);
-  /* Padding for tab buttons (vertical/horizontal will be computed) */
-  padding: var(--tabs-button-padding, 12px 24px);
+  /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
+  padding: var(--tabs-button-padding, 0.75rem 1.5rem);
 
   &:hover {
     /* Text color when hovering over tab */
@@ -130,10 +130,10 @@
   border-style: var(--tabs-row-border-style, solid);
   /* Alignment of tabs along the main axis */
   justify-content: var(--tabs-list-align, flex-start);
-  /* Padding/spacing for the tab row */
-  padding-top: var(--tabs-row-spacing, 8px);
-  /* Spacing between individual tab buttons */
-  gap: var(--tabs-button-gap, 8px);
+  /* Padding/spacing for the tab row (rem) */
+  padding-top: var(--tabs-row-spacing, 0.5rem);
+  /* Spacing between individual tab buttons (rem) */
+  gap: var(--tabs-button-gap, 0.5rem);
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
@@ -143,8 +143,8 @@
 }
 
 .gutplus-tabs[data-orientation="horizontal"] .gutplus-tabs-list {
-  /* Padding/spacing for the tab row */
-  padding-top: var(--tabs-row-spacing, 8px);
+  /* Padding/spacing for the tab row (rem) */
+  padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
@@ -154,8 +154,8 @@
 }
 
 .gutplus-tabs[data-orientation="vertical-left"] .gutplus-tabs-list {
-  /* Padding/spacing for the tab row */
-  padding-left: var(--tabs-row-spacing, 8px);
+  /* Padding/spacing for the tab row (rem) */
+  padding-left: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
   border-right-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
@@ -165,8 +165,8 @@
 }
 
 .gutplus-tabs[data-orientation="vertical-right"] .gutplus-tabs-list {
-  /* Padding/spacing for the tab row */
-  padding-right: var(--tabs-row-spacing, 8px);
+  /* Padding/spacing for the tab row (rem) */
+  padding-right: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
   border-left-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */

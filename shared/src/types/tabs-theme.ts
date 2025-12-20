@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-18T23:36:50.341Z
+ * Generated at: 2025-12-20T00:28:38.440Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -19,7 +19,7 @@
 export interface TabsTheme {
   /** Color of the tab icon */
   iconColor?: string;
-  /** Size of the icon in pixels */
+  /** Size of the icon in rem */
   iconSize?: number;
   /** Base rotation of the icon */
   iconRotation?: number;
@@ -59,7 +59,7 @@ export interface TabsTheme {
   tabButtonShadow?: string;
   /** Box shadow for tab buttons on hover */
   tabButtonShadowHover?: string;
-  /** Font size for tab buttons */
+  /** Font size for tab buttons (rem) */
   tabButtonFontSize?: number;
   /** Font weight for tab buttons */
   tabButtonFontWeight?: string;
@@ -71,7 +71,7 @@ export interface TabsTheme {
   tabButtonTextDecoration?: string;
   /** Text alignment for tab buttons */
   tabButtonTextAlign?: string;
-  /** Padding for tab buttons (vertical/horizontal will be computed) */
+  /** Padding for tab buttons in rem (vertical/horizontal will be computed) */
   tabButtonPadding?: number;
   /** Background color for the tab navigation bar */
   tabListBackgroundColor?: string;
@@ -83,9 +83,9 @@ export interface TabsTheme {
   tabsRowBorderStyle?: string;
   /** Alignment of tabs along the main axis */
   tabListAlignment?: string;
-  /** Padding/spacing for the tab row */
+  /** Padding/spacing for the tab row (rem) */
   tabsRowSpacing?: number;
-  /** Spacing between individual tab buttons */
+  /** Spacing between individual tab buttons (rem) */
   tabsButtonGap?: number;
   /** Background color for tab panels */
   panelBackgroundColor?: string;
@@ -122,7 +122,7 @@ export interface TabsTheme {
  */
 export const tabsDefaultTheme: TabsTheme = {
   iconColor: '#666666',
-  iconSize: 16,
+  iconSize: 1,
   iconRotation: 0,
   iconRotationActive: 180,
   tabButtonColor: '#666666',
@@ -147,20 +147,20 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   tabButtonShadow: 'none',
   tabButtonShadowHover: 'none',
-  tabButtonFontSize: 16,
+  tabButtonFontSize: 1,
   tabButtonFontWeight: '500',
   tabButtonFontStyle: 'normal',
   tabButtonTextTransform: 'none',
   tabButtonTextDecoration: 'none',
   tabButtonTextAlign: 'center',
-  tabButtonPadding: 12,
+  tabButtonPadding: 0.75,
   tabListBackgroundColor: 'transparent',
   tabsRowBorderColor: '#dddddd',
   tabsRowBorderWidth: 0,
   tabsRowBorderStyle: 'solid',
   tabListAlignment: 'flex-start',
-  tabsRowSpacing: 8,
-  tabsButtonGap: 8,
+  tabsRowSpacing: 0.5,
+  tabsButtonGap: 0.5,
   panelBackgroundColor: '#ffffff',
   panelBorderColor: '#dddddd',
   panelBorderWidth: 1,

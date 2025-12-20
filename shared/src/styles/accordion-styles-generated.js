@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-18T23:36:50.331Z
+ * Generated at: 2025-12-20T00:28:38.435Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -61,7 +61,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.iconColor;
     }
     if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
-      styles.default.fontSize = `${values.titleFontSize}px`;
+      styles.default.fontSize = `${values.titleFontSize}rem`;
     }
     if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
       styles.default.fontWeight = values.titleFontWeight;
@@ -79,10 +79,7 @@ export function buildEditorStyles(values) {
       styles.default.textAlign = values.titleAlignment;
     }
     if (values.contentFontSize !== undefined && values.contentFontSize !== null) {
-      styles.default.fontSize = `${values.contentFontSize}px`;
-    }
-    if (values.contentFontWeight !== undefined && values.contentFontWeight !== null) {
-      styles.default.fontWeight = values.contentFontWeight;
+      styles.default.fontSize = `${values.contentFontSize}rem`;
     }
     if (values.borderWidth !== undefined && values.borderWidth !== null) {
       styles.default.borderWidth = `${values.borderWidth}px`;
@@ -107,7 +104,7 @@ export function buildEditorStyles(values) {
       styles.default.borderTopStyle = values.dividerStyle;
     }
     if (values.iconSize !== undefined && values.iconSize !== null) {
-      styles.default.fontSize = `${values.iconSize}px`;
+      styles.default.fontSize = `${values.iconSize}rem`;
     }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
       styles.default.transform = `${values.iconRotation}deg`;
@@ -166,7 +163,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.titleFontSize !== undefined && customizations.titleFontSize !== null) {
-    styles['--accordion-title-font-size'] = `${customizations.titleFontSize}px`;
+    styles['--accordion-title-font-size'] = `${customizations.titleFontSize}rem`;
   }
 
   if (customizations.titleFontWeight !== undefined && customizations.titleFontWeight !== null) {
@@ -190,11 +187,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.contentFontSize !== undefined && customizations.contentFontSize !== null) {
-    styles['--accordion-content-font-size'] = `${customizations.contentFontSize}px`;
-  }
-
-  if (customizations.contentFontWeight !== undefined && customizations.contentFontWeight !== null) {
-    styles['--accordion-content-font-weight'] = customizations.contentFontWeight;
+    styles['--accordion-content-font-size'] = `${customizations.contentFontSize}rem`;
   }
 
   if (customizations.borderWidth !== undefined && customizations.borderWidth !== null) {
@@ -227,7 +220,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
-    styles['--accordion-icon-size'] = `${customizations.iconSize}px`;
+    styles['--accordion-icon-size'] = `${customizations.iconSize}rem`;
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {

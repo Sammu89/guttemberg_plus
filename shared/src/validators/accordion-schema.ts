@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-18T23:36:50.327Z
+ * Generated at: 2025-12-20T00:28:38.429Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -34,7 +34,6 @@ export const accordionThemeSchema = z.object({
   titleTextDecoration: z.string(),
   titleAlignment: z.string(),
   contentFontSize: z.number(),
-  contentFontWeight: z.string().optional(),
   borderWidth: z.number(),
   borderStyle: z.string(),
   borderRadius: z.record(z.any()),
@@ -76,7 +75,6 @@ export const accordionAttributesSchema = z.object({
   titleTextDecoration: z.string(),
   titleAlignment: z.string(),
   contentFontSize: z.number(),
-  contentFontWeight: z.string().optional(),
   borderWidth: z.number(),
   borderStyle: z.string(),
   borderRadius: z.record(z.any()),

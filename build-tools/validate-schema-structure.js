@@ -13,6 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 const BLOCKS = ['accordion', 'tabs', 'toc'];
+const SOURCE_EXTENSIONS = new Set(['.js', '.jsx', '.ts', '.tsx']);
 
 /**
  * Load and parse a JSON file
@@ -98,6 +99,86 @@ function detectCircularDependency(elements, startId, visited = new Set(), path =
   }
 
   return { hasCircular: false, circularPath: [] };
+}
+
+/**
+ * Recursively collect block source file contents for a given block type
+ * @param {string} blockType - The block type (accordion, tabs, toc)
+ * @returns {string[]} Array of file contents
+ */
+function collectBlockSourceContents(blockType) {
+  const baseDir = path.join(__dirname, '..', 'blocks', blockType, 'src');
+  const contents = [];
+
+  const walk = (dir) => {
+    if (!fs.existsSync(dir)) {
+      return;
+    }
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    entries.forEach((entry) => {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(fullPath);
+      } else {
+        const ext = path.extname(entry.name);
+        if (SOURCE_EXTENSIONS.has(ext)) {
+          try {
+            const fileContent = fs.readFileSync(fullPath, 'utf8');
+            contents.push(fileContent);
+          } catch (error) {
+            console.warn(`⚠️  Could not read ${fullPath}: ${error.message}`);
+          }
+        }
+      }
+    });
+  };
+
+  walk(baseDir);
+  return contents;
+}
+
+/**
+ * Validate that structure schema class names are present in block source markup
+ * This catches drift between the declared DOM structure and save.js/frontend.js
+ * @param {Object} structure - The structure schema
+ * @param {string} blockType - Block type identifier
+ * @returns {{errors: string[], warnings: string[]}}
+ */
+function validateImplementationUsage(structure, blockType) {
+  const errors = [];
+  const warnings = [];
+  const sourceContents = collectBlockSourceContents(blockType);
+
+  if (sourceContents.length === 0) {
+    warnings.push(
+      `⚠️  No source files found for block "${blockType}" under blocks/${blockType}/src.` +
+      ` Implementation checks were skipped.`
+    );
+    return { errors, warnings };
+  }
+
+  const classExistsInSource = (className) =>
+    sourceContents.some((content) => content.includes(className));
+
+  Object.entries(structure.elements || {}).forEach(([id, element]) => {
+    if (!element.className) {
+      return;
+    }
+
+    const classNames = element.className.split(/\s+/).filter(Boolean);
+
+    classNames.forEach((cls) => {
+      if (!classExistsInSource(cls)) {
+        errors.push(
+          `❌ Element "${id}" declares class "${cls}" in structure schema,` +
+          ` but it was not found in blocks/${blockType}/src save/frontend markup.\n` +
+          `   Fix: Update the schema or the block markup so they match.`
+        );
+      }
+    });
+  });
+
+  return { errors, warnings };
 }
 
 /**
@@ -459,6 +540,14 @@ function validateBlock(blockType) {
       });
     }
   });
+
+  // ========================================
+  // VALIDATION 6: Structure ↔ Implementation (save.js/frontend)
+  // ========================================
+
+  const implResults = validateImplementationUsage(structure, blockType);
+  errors.push(...implResults.errors);
+  warnings.push(...implResults.warnings);
 
   // ========================================
   // REPORT RESULTS

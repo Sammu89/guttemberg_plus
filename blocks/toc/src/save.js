@@ -153,6 +153,14 @@ const getCustomizationStyles = () => {
 	// Collapse button ID
 	const buttonId = `toc-toggle-${ tocId }`;
 	const contentId = `toc-content-${ tocId }`;
+	const titlePadding = effectiveValues.titlePadding || {
+		top: 0,
+		right: 0,
+		bottom: 12,
+		left: 0,
+	};
+	const titleFontSize = effectiveValues.titleFontSize ?? 1.25; // rem
+	const collapseIconSize = effectiveValues.collapseIconSize ?? 1.25; // rem
 
 	return (
 		<div { ...blockProps }>
@@ -161,12 +169,12 @@ const getCustomizationStyles = () => {
 				<div
 					className="toc-title"
 					style={ {
-						fontSize: `${ effectiveValues.titleFontSize || 20 }px`,
+						fontSize: `${ titleFontSize }rem`,
 						fontWeight: effectiveValues.titleFontWeight || '700',
 						color: effectiveValues.titleColor || '#333333',
 						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
 						textAlign: effectiveValues.titleAlignment || 'left',
-						padding: `${ effectiveValues.titlePadding || 12 }px`,
+						padding: `${ titlePadding.top }px ${ titlePadding.right }px ${ titlePadding.bottom }px ${ titlePadding.left }px`,
 					} }
 				>
 					{ titleText }
@@ -181,12 +189,12 @@ const getCustomizationStyles = () => {
 					aria-controls={ contentId }
 					type="button"
 					style={ {
-						fontSize: `${ effectiveValues.titleFontSize || 20 }px`,
+						fontSize: `${ titleFontSize }rem`,
 						fontWeight: effectiveValues.titleFontWeight || '700',
 						color: effectiveValues.titleColor || '#333333',
 						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
 						textAlign: effectiveValues.titleAlignment || 'left',
-						padding: `${ effectiveValues.titlePadding || 12 }px`,
+						padding: `${ titlePadding.top }px ${ titlePadding.right }px ${ titlePadding.bottom }px ${ titlePadding.left }px`,
 						border: 'none',
 						width: '100%',
 						cursor: 'pointer',
@@ -200,7 +208,7 @@ const getCustomizationStyles = () => {
 						className="toc-collapse-icon"
 						aria-hidden="true"
 						style={ {
-							fontSize: `${ effectiveValues.collapseIconSize || 20 }px`,
+							fontSize: `${ collapseIconSize }rem`,
 							color: effectiveValues.collapseIconColor || '#666666',
 						} }
 					>
@@ -224,7 +232,7 @@ const getCustomizationStyles = () => {
 						background: 'none',
 						border: 'none',
 						cursor: 'pointer',
-						fontSize: `${ effectiveValues.collapseIconSize || 20 }px`,
+						fontSize: `${ collapseIconSize }rem`,
 						color: effectiveValues.collapseIconColor || '#666666',
 					} }
 				>
@@ -244,7 +252,11 @@ const getCustomizationStyles = () => {
 					className={ `toc-list numbering-${ numberingStyle }` }
 					style={ {
 						listStyleType: numberingStyle === 'none' ? 'disc' : 'none',
-						paddingLeft: `${ effectiveValues.listPaddingLeft || 24 }px`,
+						paddingLeft: formatCssValue(
+							'listPaddingLeft',
+							effectiveValues.listPaddingLeft ?? allDefaults.listPaddingLeft,
+							'toc'
+						),
 						margin: 0,
 					} }
 				>

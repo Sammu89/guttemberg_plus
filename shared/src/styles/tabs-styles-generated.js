@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-18T23:36:50.345Z
+ * Generated at: 2025-12-20T00:28:38.449Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -53,7 +53,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.iconColor;
     }
     if (values.iconSize !== undefined && values.iconSize !== null) {
-      styles.default.fontSize = `${values.iconSize}px`;
+      styles.default.fontSize = `${values.iconSize}rem`;
     }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
       styles.default.transform = `${values.iconRotation}deg`;
@@ -123,7 +123,7 @@ export function buildEditorStyles(values) {
       styles.default.boxShadow = values.tabButtonShadowHover;
     }
     if (values.tabButtonFontSize !== undefined && values.tabButtonFontSize !== null) {
-      styles.default.fontSize = `${values.tabButtonFontSize}px`;
+      styles.default.fontSize = `${values.tabButtonFontSize}rem`;
     }
     if (values.tabButtonFontWeight !== undefined && values.tabButtonFontWeight !== null) {
       styles.default.fontWeight = values.tabButtonFontWeight;
@@ -162,11 +162,11 @@ export function buildEditorStyles(values) {
     if (values.tabsRowSpacing !== undefined && values.tabsRowSpacing !== null) {
       const resolvedProp = resolveCssProperty('tabsRowSpacing', 'tabs', values);
       if (resolvedProp) {
-        styles.default[toCamelCase(resolvedProp)] = `${values.tabsRowSpacing}px`;
+        styles.default[toCamelCase(resolvedProp)] = `${values.tabsRowSpacing}rem`;
       }
     }
     if (values.tabsButtonGap !== undefined && values.tabsButtonGap !== null) {
-      styles.default.gap = `${values.tabsButtonGap}px`;
+      styles.default.gap = `${values.tabsButtonGap}rem`;
     }
     if (values.panelBackgroundColor !== undefined && values.panelBackgroundColor !== null) {
       styles.default.backgroundColor = values.panelBackgroundColor;
@@ -243,7 +243,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
-    styles['--tabs-icon-size'] = `${customizations.iconSize}px`;
+    styles['--tabs-icon-size'] = `${customizations.iconSize}rem`;
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
@@ -324,7 +324,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.tabButtonFontSize !== undefined && customizations.tabButtonFontSize !== null) {
-    styles['--tabs-button-font-size'] = `${customizations.tabButtonFontSize}px`;
+    styles['--tabs-button-font-size'] = `${customizations.tabButtonFontSize}rem`;
   }
 
   if (customizations.tabButtonFontWeight !== undefined && customizations.tabButtonFontWeight !== null) {
@@ -373,11 +373,11 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.tabsRowSpacing !== undefined && customizations.tabsRowSpacing !== null) {
-    styles['--tabs-row-spacing'] = `${customizations.tabsRowSpacing}px`;
+    styles['--tabs-row-spacing'] = `${customizations.tabsRowSpacing}rem`;
   }
 
   if (customizations.tabsButtonGap !== undefined && customizations.tabsButtonGap !== null) {
-    styles['--tabs-button-gap'] = `${customizations.tabsButtonGap}px`;
+    styles['--tabs-button-gap'] = `${customizations.tabsButtonGap}rem`;
   }
 
   if (customizations.panelBackgroundColor !== undefined && customizations.panelBackgroundColor !== null) {

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-18T23:36:50.348Z
+ * Generated at: 2025-12-20T00:28:38.458Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -84,7 +84,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.collapseIconColor;
     }
     if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
-      styles.default.fontSize = `${values.titleFontSize}px`;
+      styles.default.fontSize = `${values.titleFontSize}rem`;
     }
     if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
       styles.default.fontWeight = values.titleFontWeight;
@@ -100,7 +100,7 @@ export function buildEditorStyles(values) {
       if (formatted) styles.default.padding = formatted;
     }
     if (values.level1FontSize !== undefined && values.level1FontSize !== null) {
-      styles.default.fontSize = `${values.level1FontSize}px`;
+      styles.default.fontSize = `${values.level1FontSize}rem`;
     }
     if (values.level1FontWeight !== undefined && values.level1FontWeight !== null) {
       styles.default.fontWeight = values.level1FontWeight;
@@ -115,7 +115,7 @@ export function buildEditorStyles(values) {
       styles.default.textDecoration = values.level1TextDecoration;
     }
     if (values.level2FontSize !== undefined && values.level2FontSize !== null) {
-      styles.default.fontSize = `${values.level2FontSize}px`;
+      styles.default.fontSize = `${values.level2FontSize}rem`;
     }
     if (values.level2FontWeight !== undefined && values.level2FontWeight !== null) {
       styles.default.fontWeight = values.level2FontWeight;
@@ -130,7 +130,7 @@ export function buildEditorStyles(values) {
       styles.default.textDecoration = values.level2TextDecoration;
     }
     if (values.level3PlusFontSize !== undefined && values.level3PlusFontSize !== null) {
-      styles.default.fontSize = `${values.level3PlusFontSize}px`;
+      styles.default.fontSize = `${values.level3PlusFontSize}rem`;
     }
     if (values.level3PlusFontWeight !== undefined && values.level3PlusFontWeight !== null) {
       styles.default.fontWeight = values.level3PlusFontWeight;
@@ -161,25 +161,25 @@ export function buildEditorStyles(values) {
       styles.default.boxShadow = values.blockShadowHover;
     }
     if (values.wrapperPadding !== undefined && values.wrapperPadding !== null) {
-      styles.default.padding = `${values.wrapperPadding}px`;
+      styles.default.padding = `${values.wrapperPadding}rem`;
     }
     if (values.listPaddingLeft !== undefined && values.listPaddingLeft !== null) {
-      styles.default.paddingLeft = `${values.listPaddingLeft}px`;
+      styles.default.paddingLeft = `${values.listPaddingLeft}rem`;
     }
     if (values.itemSpacing !== undefined && values.itemSpacing !== null) {
-      styles.default.marginBottom = `${values.itemSpacing}px`;
+      styles.default.marginBottom = `${values.itemSpacing}rem`;
     }
     if (values.levelIndent !== undefined && values.levelIndent !== null) {
-      styles.default.marginLeft = `${values.levelIndent}px`;
+      styles.default.marginLeft = `${values.levelIndent}rem`;
     }
     if (values.positionTop !== undefined && values.positionTop !== null) {
-      styles.default.top = `${values.positionTop}px`;
+      styles.default.top = `${values.positionTop}rem`;
     }
     if (values.zIndex !== undefined && values.zIndex !== null) {
       styles.default.zIndex = `${values.zIndex}`;
     }
     if (values.collapseIconSize !== undefined && values.collapseIconSize !== null) {
-      styles.default.fontSize = `${values.collapseIconSize}px`;
+      styles.default.fontSize = `${values.collapseIconSize}rem`;
     }
 
   return styles;
@@ -251,7 +251,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.titleFontSize !== undefined && customizations.titleFontSize !== null) {
-    styles['--toc-title-font-size'] = `${customizations.titleFontSize}px`;
+    styles['--toc-title-font-size'] = `${customizations.titleFontSize}rem`;
   }
 
   if (customizations.titleFontWeight !== undefined && customizations.titleFontWeight !== null) {
@@ -272,7 +272,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.level1FontSize !== undefined && customizations.level1FontSize !== null) {
-    styles['--toc-level1-font-size'] = `${customizations.level1FontSize}px`;
+    styles['--toc-level1-font-size'] = `${customizations.level1FontSize}rem`;
   }
 
   if (customizations.level1FontWeight !== undefined && customizations.level1FontWeight !== null) {
@@ -292,7 +292,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.level2FontSize !== undefined && customizations.level2FontSize !== null) {
-    styles['--toc-level2-font-size'] = `${customizations.level2FontSize}px`;
+    styles['--toc-level2-font-size'] = `${customizations.level2FontSize}rem`;
   }
 
   if (customizations.level2FontWeight !== undefined && customizations.level2FontWeight !== null) {
@@ -312,7 +312,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.level3PlusFontSize !== undefined && customizations.level3PlusFontSize !== null) {
-    styles['--toc-level3-plus-font-size'] = `${customizations.level3PlusFontSize}px`;
+    styles['--toc-level3-plus-font-size'] = `${customizations.level3PlusFontSize}rem`;
   }
 
   if (customizations.level3PlusFontWeight !== undefined && customizations.level3PlusFontWeight !== null) {
@@ -353,23 +353,23 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.wrapperPadding !== undefined && customizations.wrapperPadding !== null) {
-    styles['--toc-wrapper-padding'] = `${customizations.wrapperPadding}px`;
+    styles['--toc-wrapper-padding'] = `${customizations.wrapperPadding}rem`;
   }
 
   if (customizations.listPaddingLeft !== undefined && customizations.listPaddingLeft !== null) {
-    styles['--toc-list-padding-left'] = `${customizations.listPaddingLeft}px`;
+    styles['--toc-list-padding-left'] = `${customizations.listPaddingLeft}rem`;
   }
 
   if (customizations.itemSpacing !== undefined && customizations.itemSpacing !== null) {
-    styles['--toc-item-spacing'] = `${customizations.itemSpacing}px`;
+    styles['--toc-item-spacing'] = `${customizations.itemSpacing}rem`;
   }
 
   if (customizations.levelIndent !== undefined && customizations.levelIndent !== null) {
-    styles['--toc-level-indent'] = `${customizations.levelIndent}px`;
+    styles['--toc-level-indent'] = `${customizations.levelIndent}rem`;
   }
 
   if (customizations.positionTop !== undefined && customizations.positionTop !== null) {
-    styles['--toc-position-top'] = `${customizations.positionTop}px`;
+    styles['--toc-position-top'] = `${customizations.positionTop}rem`;
   }
 
   if (customizations.zIndex !== undefined && customizations.zIndex !== null) {
@@ -377,7 +377,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.collapseIconSize !== undefined && customizations.collapseIconSize !== null) {
-    styles['--toc-collapse-icon-size'] = `${customizations.collapseIconSize}px`;
+    styles['--toc-collapse-icon-size'] = `${customizations.collapseIconSize}rem`;
   }
 
   return styles;

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-18T23:36:50.346Z
+ * Generated at: 2025-12-20T00:28:38.451Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -43,7 +43,7 @@ export interface TocTheme {
   level3PlusColor?: string;
   /** Color of the collapse/expand icon */
   collapseIconColor?: string;
-  /** Font size for the TOC title in pixels */
+  /** Font size for the TOC title in rem */
   titleFontSize?: number;
   /** Font weight for the TOC title */
   titleFontWeight?: string;
@@ -53,7 +53,7 @@ export interface TocTheme {
   titleAlignment?: string;
   /** Padding around the title */
   titlePadding?: Record<string, any>;
-  /** Font size for level 1 items (H2) in pixels */
+  /** Font size for level 1 items (H2) in rem */
   level1FontSize?: number;
   /** Font weight for level 1 items */
   level1FontWeight?: string;
@@ -63,7 +63,7 @@ export interface TocTheme {
   level1TextTransform?: string;
   /** Text decoration for level 1 items */
   level1TextDecoration?: string;
-  /** Font size for level 2 items (H3) in pixels */
+  /** Font size for level 2 items (H3) in rem */
   level2FontSize?: number;
   /** Font weight for level 2 items */
   level2FontWeight?: string;
@@ -73,7 +73,7 @@ export interface TocTheme {
   level2TextTransform?: string;
   /** Text decoration for level 2 items */
   level2TextDecoration?: string;
-  /** Font size for level 3+ items (H4-H6) in pixels */
+  /** Font size for level 3+ items (H4-H6) in rem */
   level3PlusFontSize?: number;
   /** Font weight for level 3+ items */
   level3PlusFontWeight?: string;
@@ -93,19 +93,19 @@ export interface TocTheme {
   blockShadow?: string;
   /** CSS box-shadow for the wrapper on hover */
   blockShadowHover?: string;
-  /** Padding inside the TOC wrapper */
+  /** Padding inside the TOC wrapper (rem) */
   wrapperPadding?: number;
-  /** Left padding for the list */
+  /** Left padding for the list (rem) */
   listPaddingLeft?: number;
-  /** Vertical space between TOC items */
+  /** Vertical space between TOC items (rem) */
   itemSpacing?: number;
-  /** Indentation per heading level */
+  /** Indentation per heading level (rem) */
   levelIndent?: number;
-  /** Top offset for sticky/fixed positioning */
+  /** Top offset for sticky/fixed positioning (rem) */
   positionTop?: number;
   /** Stack order for positioned TOC */
   zIndex?: number;
-  /** Size of the collapse/expand icon */
+  /** Size of the collapse/expand icon (rem) */
   collapseIconSize?: number;
 }
 
@@ -126,7 +126,7 @@ export const tocDefaultTheme: TocTheme = {
   level2Color: '#0073aa',
   level3PlusColor: '#0073aa',
   collapseIconColor: '#666666',
-  titleFontSize: 20,
+  titleFontSize: 1.25,
   titleFontWeight: '700',
   titleTextTransform: 'none',
   titleAlignment: 'left',
@@ -136,17 +136,17 @@ export const tocDefaultTheme: TocTheme = {
     "bottom": 12,
     "left": 0
   },
-  level1FontSize: 18,
+  level1FontSize: 1.125,
   level1FontWeight: '600',
   level1FontStyle: 'normal',
   level1TextTransform: 'none',
   level1TextDecoration: 'none',
-  level2FontSize: 16,
+  level2FontSize: 1,
   level2FontWeight: 'normal',
   level2FontStyle: 'normal',
   level2TextTransform: 'none',
   level2TextDecoration: 'none',
-  level3PlusFontSize: 14,
+  level3PlusFontSize: 0.875,
   level3PlusFontWeight: 'normal',
   level3PlusFontStyle: 'normal',
   level3PlusTextTransform: 'none',
@@ -161,13 +161,13 @@ export const tocDefaultTheme: TocTheme = {
   },
   blockShadow: 'none',
   blockShadowHover: 'none',
-  wrapperPadding: 20,
-  listPaddingLeft: 24,
-  itemSpacing: 8,
-  levelIndent: 20,
-  positionTop: 100,
+  wrapperPadding: 1.25,
+  listPaddingLeft: 1.5,
+  itemSpacing: 0.5,
+  levelIndent: 1.25,
+  positionTop: 6.25,
   zIndex: 100,
-  collapseIconSize: 20,
+  collapseIconSize: 1.25,
 };
 
 /**

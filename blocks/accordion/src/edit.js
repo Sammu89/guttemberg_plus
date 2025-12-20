@@ -135,7 +135,7 @@ const getInlineStyles = () => {
 	return {
 		container: {
 			borderColor: effectiveValues.borderColor || '#dddddd',
-			borderWidth: `${effectiveValues.borderWidth || 1}px`,
+			borderWidth: `${effectiveValues.borderWidth ?? 1}px`,
 			borderStyle: effectiveValues.borderStyle || 'solid',
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.shadow || 'none',
@@ -143,7 +143,7 @@ const getInlineStyles = () => {
 		title: {
 			color: effectiveValues.titleColor || '#333333',
 			backgroundColor: effectiveValues.titleBackgroundColor || '#f5f5f5',
-			fontSize: `${effectiveValues.titleFontSize || 18}px`,
+			fontSize: `${effectiveValues.titleFontSize ?? 1.125}rem`,
 			fontWeight: effectiveValues.titleFontWeight || '600',
 			fontStyle: effectiveValues.titleFontStyle || 'normal',
 			textTransform: effectiveValues.titleTextTransform || 'none',
@@ -154,15 +154,14 @@ const getInlineStyles = () => {
 			color: effectiveValues.contentColor || '#333333',
 			backgroundColor: effectiveValues.contentBackgroundColor || '#ffffff',
 			borderTopColor: effectiveValues.dividerColor || '#dddddd',
-			fontSize: `${effectiveValues.contentFontSize || 16}px`,
-			fontWeight: effectiveValues.contentFontWeight || 'null',
-			borderTopWidth: `${effectiveValues.dividerWidth || 0}px`,
+			fontSize: `${effectiveValues.contentFontSize ?? 1}rem`,
+			borderTopWidth: `${effectiveValues.dividerWidth ?? 0}px`,
 			borderTopStyle: effectiveValues.dividerStyle || 'solid',
 		},
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
-			fontSize: `${effectiveValues.iconSize || 20}px`,
-			transform: `${effectiveValues.iconRotation || 180}deg`,
+			fontSize: `${effectiveValues.iconSize ?? 1.25}rem`,
+			transform: `${effectiveValues.iconRotation ?? 180}deg`,
 		},
 	};
 };
@@ -182,11 +181,8 @@ const getInlineStyles = () => {
 		const iconContent = effectiveValues.iconTypeClosed;
 		const isImage = iconContent.startsWith( 'http' );
 
-		// Determine margin based on position
-		const isLeftPosition = position === 'left' || position === 'extreme-left';
 		const iconStyle = {
 			...styles.icon,
-			margin: isLeftPosition ? '0 8px 0 0' : '0 0 0 8px', // right margin if left, left margin if right
 		};
 
 		if ( isImage ) {
@@ -195,12 +191,8 @@ const getInlineStyles = () => {
 					src={ iconContent }
 					alt=""
 					aria-hidden="true"
-					style={ {
-						width: '18px',
-						height: '18px',
-						objectFit: 'contain',
-						...( isLeftPosition ? { marginRight: '8px' } : { marginLeft: '8px' } ),
-					} }
+					className="accordion-icon accordion-icon-image"
+					style={ iconStyle }
 				/>
 			);
 		}
@@ -219,10 +211,13 @@ const getInlineStyles = () => {
 	const renderTitle = () => {
 		const headingLevel = effectiveValues.headingLevel;
 		const iconPosition = effectiveValues.iconPosition;
-		const titleAlignment = effectiveValues.titleAlignment;
+		const titleAlignment = effectiveValues.titleAlignment || 'left';
 
 		// Determine icon position class
 		const iconPositionClass = iconPosition ? `icon-${ iconPosition }` : 'icon-right';
+		const titleAlignClass = titleAlignment ? `title-align-${ titleAlignment }` : 'title-align-left';
+		const iconElement = renderIcon( iconPosition );
+		const hasIcon = !! iconElement;
 
 		// Build inner content based on icon position
 		let innerContent;
@@ -230,33 +225,45 @@ const getInlineStyles = () => {
 		if ( iconPosition === 'extreme-left' ) {
 			innerContent = (
 				<>
-					{ renderIcon( iconPosition ) }
-					<RichText
-						tagName="span"
-						value={ attributes.title || '' }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
-						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						className="accordion-title-text"
-					/>
+					{ hasIcon && (
+						<span className="accordion-icon-slot">
+							{ iconElement }
+						</span>
+					) }
+					<div className="accordion-title-text-wrapper">
+						<RichText
+							tagName="span"
+							value={ attributes.title || '' }
+							onChange={ ( value ) => setAttributes( { title: value } ) }
+							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+							className="accordion-title-text"
+						/>
+					</div>
 				</>
 			);
 		} else if ( iconPosition === 'extreme-right' ) {
 			innerContent = (
 				<>
-					<RichText
-						tagName="span"
-						value={ attributes.title || '' }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
-						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						className="accordion-title-text"
-					/>
-					{ renderIcon( iconPosition ) }
+					<div className="accordion-title-text-wrapper">
+						<RichText
+							tagName="span"
+							value={ attributes.title || '' }
+							onChange={ ( value ) => setAttributes( { title: value } ) }
+							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
+							className="accordion-title-text"
+						/>
+					</div>
+					{ hasIcon && (
+						<span className="accordion-icon-slot">
+							{ iconElement }
+						</span>
+					) }
 				</>
 			);
 		} else if ( iconPosition === 'left' ) {
 			innerContent = (
-				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
-					{ renderIcon( iconPosition ) }
+				<div className="accordion-title-inline">
+					{ hasIcon && iconElement }
 					<RichText
 						tagName="span"
 						value={ attributes.title || '' }
@@ -269,7 +276,7 @@ const getInlineStyles = () => {
 		} else {
 			// Right of text (default)
 			innerContent = (
-				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
+				<div className="accordion-title-inline">
 					<RichText
 						tagName="span"
 						value={ attributes.title || '' }
@@ -277,7 +284,7 @@ const getInlineStyles = () => {
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 						className="accordion-title-text"
 					/>
-					{ renderIcon( iconPosition ) }
+					{ hasIcon && iconElement }
 				</div>
 			);
 		}
@@ -285,11 +292,9 @@ const getInlineStyles = () => {
 		// The accordion-title div mimics the button structure from save.js
 		const titleElement = (
 			<div
-				className={ `accordion-title ${ iconPositionClass }` }
+				className={ `accordion-title static-padding-default ${ iconPositionClass } ${ titleAlignClass }` }
 				style={ {
 					...styles.title,
-					padding: '1rem 1.5rem',
-					justifyContent: ( iconPosition === 'extreme-left' || iconPosition === 'extreme-right' ) ? 'space-between' : titleAlignment,
 				} }
 			>
 				{ innerContent }
@@ -301,7 +306,7 @@ const getInlineStyles = () => {
 		if ( headingLevel !== 'none' ) {
 			const HeadingTag = headingLevel;
 			wrappedTitle = (
-				<HeadingTag className="accordion-heading" style={ { margin: 0, display: 'block' } }>
+				<HeadingTag className="accordion-heading heading-reset">
 					{ titleElement }
 				</HeadingTag>
 			);
@@ -433,11 +438,13 @@ const getInlineStyles = () => {
 					<>
 						{ renderTitle() }
 
-						<div className="accordion-content" style={ { ...styles.content, padding: '1rem 1.5rem' } }>
-							<InnerBlocks
-								templateLock={ false }
-								placeholder={ __( 'Add accordion content…', 'guttemberg-plus' ) }
-							/>
+						<div className="accordion-content" style={ { ...styles.content } }>
+							<div className="accordion-content-inner">
+								<InnerBlocks
+									templateLock={ false }
+									placeholder={ __( 'Add accordion content…', 'guttemberg-plus' ) }
+								/>
+							</div>
 						</div>
 					</>
 				) }

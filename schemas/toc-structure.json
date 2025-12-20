@@ -204,25 +204,7 @@
         "linkColor",
         "linkHoverColor",
         "linkActiveColor",
-        "linkVisitedColor",
-        "level1Color",
-        "level2Color",
-        "level3PlusColor",
-        "level1FontSize",
-        "level1FontWeight",
-        "level1FontStyle",
-        "level1TextTransform",
-        "level1TextDecoration",
-        "level2FontSize",
-        "level2FontWeight",
-        "level2FontStyle",
-        "level2TextTransform",
-        "level2TextDecoration",
-        "level3PlusFontSize",
-        "level3PlusFontWeight",
-        "level3PlusFontStyle",
-        "level3PlusTextTransform",
-        "level3PlusTextDecoration"
+        "linkVisitedColor"
       ]
     },
 

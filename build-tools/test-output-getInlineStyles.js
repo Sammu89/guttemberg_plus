@@ -55,9 +55,6 @@
     if (effectiveValues.contentFontSize !== undefined && effectiveValues.contentFontSize !== null) {
       contentStyles.fontSize = `${effectiveValues.contentFontSize}px`;
     }
-    if (effectiveValues.contentFontWeight !== undefined && effectiveValues.contentFontWeight !== null) {
-      contentStyles.fontWeight = effectiveValues.contentFontWeight;
-    }
 
     // Styles for .wp-block-guttemberg-plus-accordion
     // border shorthand

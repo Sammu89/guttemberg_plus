@@ -1,6 +1,51 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const path = require( 'path' );
 
+// Quiet Sass deprecation noise (legacy JS API, @import) in build output
+function silenceSassDeprecations( rules = [] ) {
+	return rules.map( ( rule ) => {
+		const clonedRule = { ...rule };
+
+		// Recurse into nested rule sets (oneOf, rules)
+		if ( Array.isArray( clonedRule.oneOf ) ) {
+			clonedRule.oneOf = silenceSassDeprecations( clonedRule.oneOf );
+		}
+		if ( Array.isArray( clonedRule.rules ) ) {
+			clonedRule.rules = silenceSassDeprecations( clonedRule.rules );
+		}
+
+		// Normalize use into an array of loader entries
+		const uses = Array.isArray( clonedRule.use ) ? clonedRule.use : clonedRule.use ? [ clonedRule.use ] : [];
+		clonedRule.use = uses.map( ( useEntry ) => {
+			if ( typeof useEntry === 'string' ) {
+				// String form can't carry options; leave as-is
+				return useEntry;
+			}
+
+			if ( useEntry?.loader && useEntry.loader.includes( 'sass-loader' ) ) {
+				const existingOptions = useEntry.options || {};
+				const existingSassOptions = existingOptions.sassOptions || {};
+
+				return {
+					...useEntry,
+					options: {
+						...existingOptions,
+						sassOptions: {
+							...existingSassOptions,
+							quietDeps: true,
+							silenceDeprecations: [ 'legacy-js-api', 'import' ],
+						},
+					},
+				};
+			}
+
+			return useEntry;
+		} );
+
+		return clonedRule;
+	} );
+}
+
 module.exports = {
 	...defaultConfig,
 	entry: {
@@ -34,6 +79,6 @@ module.exports = {
 		},
 	},
 	module: {
-		rules: defaultConfig.module.rules,
+		rules: silenceSassDeprecations( defaultConfig.module.rules ),
 	},
 };

@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-18T23:36:50.347Z
+> Generated at: 2025-12-20T00:28:38.457Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -90,21 +90,21 @@ Font settings for title and heading levels
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `titleFontSize` | number | `20` | Yes | Font size for the TOC title in pixels |
+| `titleFontSize` | number | `1.25` | Yes | Font size for the TOC title in rem |
 | `titleFontWeight` | string | `700` | Yes | Font weight for the TOC title |
 | `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the title |
-| `level1FontSize` | number | `18` | Yes | Font size for level 1 items (H2) in pixels |
+| `level1FontSize` | number | `1.125` | Yes | Font size for level 1 items (H2) in rem |
 | `level1FontWeight` | string | `600` | Yes | Font weight for level 1 items |
 | `level1FontStyle` | string | `normal` | Yes | Font style for level 1 items |
 | `level1TextTransform` | string | `none` | Yes | Text transformation for level 1 items |
 | `level1TextDecoration` | string | `none` | Yes | Text decoration for level 1 items |
-| `level2FontSize` | number | `16` | Yes | Font size for level 2 items (H3) in pixels |
+| `level2FontSize` | number | `1` | Yes | Font size for level 2 items (H3) in rem |
 | `level2FontWeight` | string | `normal` | Yes | Font weight for level 2 items |
 | `level2FontStyle` | string | `normal` | Yes | Font style for level 2 items |
 | `level2TextTransform` | string | `none` | Yes | Text transformation for level 2 items |
 | `level2TextDecoration` | string | `none` | Yes | Text decoration for level 2 items |
-| `level3PlusFontSize` | number | `14` | Yes | Font size for level 3+ items (H4-H6) in pixels |
+| `level3PlusFontSize` | number | `0.875` | Yes | Font size for level 3+ items (H4-H6) in rem |
 | `level3PlusFontWeight` | string | `normal` | Yes | Font weight for level 3+ items |
 | `level3PlusFontStyle` | string | `normal` | Yes | Font style for level 3+ items |
 | `level3PlusTextTransform` | string | `none` | Yes | Text transformation for level 3+ items |
@@ -117,13 +117,13 @@ Spacing, padding, and positioning
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `titlePadding` | object | _object_ | Yes | Padding around the title |
-| `wrapperPadding` | number | `20` | Yes | Padding inside the TOC wrapper |
-| `listPaddingLeft` | number | `24` | Yes | Left padding for the list |
-| `itemSpacing` | number | `8` | Yes | Vertical space between TOC items |
-| `levelIndent` | number | `20` | Yes | Indentation per heading level |
-| `positionTop` | number | `100` | Yes | Top offset for sticky/fixed positioning |
+| `wrapperPadding` | number | `1.25` | Yes | Padding inside the TOC wrapper (rem) |
+| `listPaddingLeft` | number | `1.5` | Yes | Left padding for the list (rem) |
+| `itemSpacing` | number | `0.5` | Yes | Vertical space between TOC items (rem) |
+| `levelIndent` | number | `1.25` | Yes | Indentation per heading level (rem) |
+| `positionTop` | number | `6.25` | Yes | Top offset for sticky/fixed positioning (rem) |
 | `zIndex` | number | `100` | Yes | Stack order for positioned TOC |
-| `collapseIconSize` | number | `20` | Yes | Size of the collapse/expand icon |
+| `collapseIconSize` | number | `1.25` | Yes | Size of the collapse/expand icon (rem) |
 
 ## CSS Variables
 

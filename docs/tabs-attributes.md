@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-18T23:36:50.344Z
+> Generated at: 2025-12-20T00:28:38.447Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -44,7 +44,7 @@ Icon appearance and styling
 | `showIcon` | boolean | `true` | No (N/A) | Display icons in tab buttons |
 | `iconPosition` | string | `right` | No (N/A) | Position of icon relative to text |
 | `iconColor` | string | `#666666` | Yes | Color of the tab icon |
-| `iconSize` | number | `16` | Yes | Size of the icon in pixels |
+| `iconSize` | number | `1` | Yes | Size of the icon in rem |
 | `iconTypeClosed` | string | `▾` | No (N/A) | Icon for the tab (char or image URL) |
 | `iconTypeOpen` | string | `none` | No (N/A) | Icon when tab is active (none = use closed icon with final rotation) |
 | `iconRotation` | number | `0` | Yes | Base rotation of the icon |
@@ -88,13 +88,13 @@ Tab button typography and alignment
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
-| `tabButtonFontSize` | number | `16` | Yes | Font size for tab buttons |
+| `tabButtonFontSize` | number | `1` | Yes | Font size for tab buttons (rem) |
 | `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons |
 | `tabButtonFontStyle` | string | `normal` | Yes | Font style for tab buttons |
 | `tabButtonTextTransform` | string | `none` | Yes | Text transformation for tab buttons |
 | `tabButtonTextDecoration` | string | `none` | Yes | Text decoration for tab buttons |
 | `tabButtonTextAlign` | string | `center` | Yes | Text alignment for tab buttons |
-| `tabButtonPadding` | number | `12` | Yes | Padding for tab buttons (vertical/horizontal will be computed) |
+| `tabButtonPadding` | number | `0.75` | Yes | Padding for tab buttons in rem (vertical/horizontal will be computed) |
 
 ## Tab Row
 
@@ -107,8 +107,8 @@ Tab row background, alignment, and border
 | `tabsRowBorderWidth` | number | `0` | Yes | Border width for the tab row |
 | `tabsRowBorderStyle` | string | `solid` | Yes | Border style for the tab row |
 | `tabListAlignment` | string | `flex-start` | Yes | Alignment of tabs along the main axis |
-| `tabsRowSpacing` | number | `8` | Yes | Padding/spacing for the tab row |
-| `tabsButtonGap` | number | `8` | Yes | Spacing between individual tab buttons |
+| `tabsRowSpacing` | number | `0.5` | Yes | Padding/spacing for the tab row (rem) |
+| `tabsButtonGap` | number | `0.5` | Yes | Spacing between individual tab buttons (rem) |
 | `enableTabsListContentBorder` | boolean | `false` | No (N/A) | Enable or disable border between tab row and content |
 | `tabsListContentBorderColor` | string | `transparent` | Yes | Color of the tab row edge that touches the content |
 | `tabsListContentBorderWidth` | number | `1` | Yes | Width of the tab row edge that touches the content |
