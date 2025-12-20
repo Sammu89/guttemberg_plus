@@ -420,7 +420,8 @@ function generatePHPCSSDefaults(blockType, schema) {
       if (attr.transformValue === 'paddingRectangle' && typeof attr.default === 'number') {
         const vertical = attr.default;
         const horizontal = attr.default * 2;
-        defaultValue = `${vertical}px ${horizontal}px`;
+        const unit = attr.unit || 'px';
+        defaultValue = `${vertical}${unit} ${horizontal}${unit}`;
       }
 
       // Use the default value directly (now includes units, e.g., "18px", "1.6", "180deg")
@@ -707,7 +708,8 @@ function generateCSSVariables(blockType, schema) {
       if (attr.transformValue === 'paddingRectangle' && typeof attr.default === 'number') {
         const vertical = attr.default;
         const horizontal = attr.default * 2;
-        cssValue = `${vertical}px ${horizontal}px`;
+        const unit = attr.unit || 'px';
+        cssValue = `${vertical}${unit} ${horizontal}${unit}`;
       }
       // Handle object types (border radius, padding, etc.)
       else if (typeof attr.default === 'object') {
@@ -1250,7 +1252,7 @@ function generateInlineStylesFunction(schema, blockType) {
         }
       } else if (attr.type === 'number' && attr.unit) {
         // Number with unit
-        styleValue = `\`\${effectiveValues.${attrName} || ${defaultValue}}${attr.unit}\``;
+        styleValue = `\`\${effectiveValues.${attrName} ?? ${defaultValue}}${attr.unit}\``;
       } else if (attr.type === 'string') {
         // String value with proper quoting
         const quotedDefault = String(defaultValue).replace(/'/g, "\\'");

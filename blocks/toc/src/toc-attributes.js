@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-18T23:36:50.347Z
+ * Generated at: 2025-12-20T00:28:38.455Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -161,7 +161,7 @@ export const tocAttributes = {
   },
   titleFontSize: {
     type: 'number',
-    default: 20,
+    default: 1.25,
   },
   titleFontWeight: {
     type: 'string',
@@ -181,7 +181,7 @@ export const tocAttributes = {
   },
   level1FontSize: {
     type: 'number',
-    default: 18,
+    default: 1.125,
   },
   level1FontWeight: {
     type: 'string',
@@ -201,7 +201,7 @@ export const tocAttributes = {
   },
   level2FontSize: {
     type: 'number',
-    default: 16,
+    default: 1,
   },
   level2FontWeight: {
     type: 'string',
@@ -221,7 +221,7 @@ export const tocAttributes = {
   },
   level3PlusFontSize: {
     type: 'number',
-    default: 14,
+    default: 0.875,
   },
   level3PlusFontWeight: {
     type: 'string',
@@ -261,23 +261,23 @@ export const tocAttributes = {
   },
   wrapperPadding: {
     type: 'number',
-    default: 20,
+    default: 1.25,
   },
   listPaddingLeft: {
     type: 'number',
-    default: 24,
+    default: 1.5,
   },
   itemSpacing: {
     type: 'number',
-    default: 8,
+    default: 0.5,
   },
   levelIndent: {
     type: 'number',
-    default: 20,
+    default: 1.25,
   },
   positionTop: {
     type: 'number',
-    default: 100,
+    default: 6.25,
   },
   zIndex: {
     type: 'number',
@@ -285,7 +285,7 @@ export const tocAttributes = {
   },
   collapseIconSize: {
     type: 'number',
-    default: 20,
+    default: 1.25,
   },
 };
 

@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/toc.json + schemas/toc-structure.json
- * Generated at: 2025-12-18T23:36:50.365Z
+ * Generated at: 2025-12-20T00:28:38.509Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
@@ -20,10 +20,10 @@
   border-radius: var(--toc-border-radius, 4px 4px 4px 4px);
   /* CSS box-shadow for the wrapper */
   box-shadow: var(--toc-border-shadow, none);
-  /* Padding inside the TOC wrapper */
-  padding: var(--toc-wrapper-padding, 20px);
-  /* Top offset for sticky/fixed positioning */
-  top: var(--toc-position-top, 100px);
+  /* Padding inside the TOC wrapper (rem) */
+  padding: var(--toc-wrapper-padding, 1.25rem);
+  /* Top offset for sticky/fixed positioning (rem) */
+  top: var(--toc-position-top, 6.25rem);
   /* Stack order for positioned TOC */
   z-index: var(--toc-z-index, 100);
 
@@ -38,8 +38,8 @@
   color: var(--toc-title-color, #333333);
   /* Background color for the TOC title */
   background-color: var(--toc-title-background-color, transparent);
-  /* Font size for the TOC title in pixels */
-  font-size: var(--toc-title-font-size, 20px);
+  /* Font size for the TOC title in rem */
+  font-size: var(--toc-title-font-size, 1.25rem);
   /* Font weight for the TOC title */
   font-weight: var(--toc-title-font-weight, 700);
   /* Text transformation for the title */
@@ -72,19 +72,19 @@
 .toc-list {
   /* Color for list numbering */
   color: var(--toc-numbering-color, #0073aa);
-  /* Left padding for the list */
-  padding-left: var(--toc-list-padding-left, 24px);
-  /* Vertical space between TOC items */
-  margin-bottom: var(--toc-item-spacing, 8px);
-  /* Indentation per heading level */
-  margin-left: var(--toc-level-indent, 20px);
+  /* Left padding for the list (rem) */
+  padding-left: var(--toc-list-padding-left, 1.5rem);
+  /* Vertical space between TOC items (rem) */
+  margin-bottom: var(--toc-item-spacing, 0.5rem);
+  /* Indentation per heading level (rem) */
+  margin-left: var(--toc-level-indent, 1.25rem);
 }
 
 .toc-level-1 .toc-link {
   /* Text color for level 1 headings (H2) */
   color: var(--toc-level1-color, #0073aa);
-  /* Font size for level 1 items (H2) in pixels */
-  font-size: var(--toc-level1-font-size, 18px);
+  /* Font size for level 1 items (H2) in rem */
+  font-size: var(--toc-level1-font-size, 1.125rem);
   /* Font weight for level 1 items */
   font-weight: var(--toc-level1-font-weight, 600);
   /* Font style for level 1 items */
@@ -98,8 +98,8 @@
 .toc-level-2 .toc-link {
   /* Text color for level 2 headings (H3) */
   color: var(--toc-level2-color, #0073aa);
-  /* Font size for level 2 items (H3) in pixels */
-  font-size: var(--toc-level2-font-size, 16px);
+  /* Font size for level 2 items (H3) in rem */
+  font-size: var(--toc-level2-font-size, 1rem);
   /* Font weight for level 2 items */
   font-weight: var(--toc-level2-font-weight, normal);
   /* Font style for level 2 items */
@@ -113,8 +113,8 @@
 .toc-level-3 .toc-link, .toc-level-4 .toc-link, .toc-level-5 .toc-link, .toc-level-6 .toc-link {
   /* Text color for level 3+ headings (H4-H6) */
   color: var(--toc-level3-plus-color, #0073aa);
-  /* Font size for level 3+ items (H4-H6) in pixels */
-  font-size: var(--toc-level3-plus-font-size, 14px);
+  /* Font size for level 3+ items (H4-H6) in rem */
+  font-size: var(--toc-level3-plus-font-size, 0.875rem);
   /* Font weight for level 3+ items */
   font-weight: var(--toc-level3-plus-font-weight, normal);
   /* Font style for level 3+ items */
@@ -128,7 +128,7 @@
 .toc-collapse-icon {
   /* Color of the collapse/expand icon */
   color: var(--toc-collapse-icon-color, #666666);
-  /* Size of the collapse/expand icon */
-  font-size: var(--toc-collapse-icon-size, 20px);
+  /* Size of the collapse/expand icon (rem) */
+  font-size: var(--toc-collapse-icon-size, 1.25rem);
 }
 

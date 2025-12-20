@@ -15,7 +15,7 @@
  * Border styles come from _theme-generated.scss via CSS variables
  */
 .gutplus-accordion {
-	min-width: 300px;
+	min-width: 18.75rem;
 	margin: 1em 0;
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
@@ -43,29 +43,51 @@
 	border: none;
 	display: flex;
 	align-items: center;
+	justify-content: flex-start;
 	width: 100%;
 	padding: 1rem 1.5rem;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
+	box-sizing: border-box;
+	gap: 0.5rem;
+	text-align: left;
+
+	&.title-align-center {
+		justify-content: center;
+		text-align: center;
+	}
+
+	&.title-align-right {
+		justify-content: flex-end;
+		text-align: right;
+	}
 
 	&:focus {
 		// Inset box-shadow with blur for darker gradient entering from edges
-		box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+		box-shadow: inset 0 0 0.625rem rgba(0, 0, 0, 0.05);
 		// Override WordPress global focus outline style
 		outline: none;
 	}
 
-	// Extreme positions: use space-between to push icon to extremes, text grows with flex
+	// Extreme positions: keep icon anchored to edges while text aligns independently
 	&.icon-extreme-left,
 	&.icon-extreme-right {
-		justify-content: space-between;
-	}
-
-	// Left/right of text positions: content left-aligned
-	&.icon-left,
-	&.icon-right {
 		justify-content: flex-start;
+		gap: 0.75rem;
 	}
+}
+
+.accordion-title-inline {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.accordion-icon-slot {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
 }
 
 /* Title text */
@@ -75,6 +97,28 @@
 	/* Ensure min-width allows text to take available space */
 	/* Use !important to override WordPress RichText's inline min-width: 1px */
 	min-width: 0 !important;
+	text-align: inherit;
+}
+
+.accordion-title-text-wrapper {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+}
+
+.accordion-title.title-align-left .accordion-title-text-wrapper {
+	justify-content: flex-start;
+	text-align: left;
+}
+
+.accordion-title.title-align-center .accordion-title-text-wrapper {
+	justify-content: center;
+	text-align: center;
+}
+
+.accordion-title.title-align-right .accordion-title-text-wrapper {
+	justify-content: flex-end;
+	text-align: right;
 }
 
 /* Icon */
@@ -85,6 +129,7 @@
 	width: var(--accordion-icon-size, 1.5rem);
 	height: var(--accordion-icon-size, 1.5rem);
 	transition: transform 300ms ease, opacity 300ms ease;
+	flex-shrink: 0;
 
 	&.is-rotated {
 		transform: rotate(var(--accordion-icon-rotation, 180deg));
@@ -96,16 +141,16 @@
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
-	/* Enforce maximum size of 18x18px for image icons */
-	max-width: 18px;
-	max-height: 18px;
+	/* Enforce maximum size of 1.125rem (18px) for image icons */
+	max-width: 1.125rem;
+	max-height: 1.125rem;
 	transition: opacity 300ms ease;
 }
 
 /* Content panel - handles height animation with padding */
 .accordion-content {
 	line-height: 1.6;
-	padding: 20px;
+	padding: 0;
 	overflow: hidden;
 
 	/* Hide divider border when collapsing */
@@ -118,6 +163,10 @@
 	}
 }
 
+.accordion-content-inner {
+	padding: 1.25rem;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
 
@@ -127,8 +176,11 @@
 	}
 
 	.accordion-content {
-		padding: 0.875rem 1.25rem;
 		font-size: 0.9rem;
+	}
+
+	.accordion-content-inner {
+		padding: 0.875rem 1.25rem;
 	}
 
 	.accordion-icon {

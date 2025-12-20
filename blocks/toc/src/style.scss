@@ -14,8 +14,8 @@
 .gutplus-toc {
 	background-color: var(--toc-wrapper-background-color, #ffffff);
 	border: var(--toc-border-width, 1px) var(--toc-border-style, solid) var(--toc-border-color, #dddddd);
-	border-radius: var(--toc-border-radius, 4px 4px 4px 4px);
-	padding: var(--toc-wrapper-padding, 20px);
+	border-radius: var(--toc-border-radius, 0.25rem 0.25rem 0.25rem 0.25rem);
+	padding: var(--toc-wrapper-padding, 1.25rem);
 	box-shadow: var(--toc-border-shadow, none);
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
@@ -46,10 +46,10 @@
 .toc-title {
 	color: var(--toc-title-color, #333333);
 	background-color: var(--toc-title-background-color, transparent);
-	font-size: var(--toc-title-font-size, 20px);
+	font-size: var(--toc-title-font-size, 1.25rem);
 	font-weight: var(--toc-title-font-weight, 700);
 	text-align: var(--toc-title-alignment, left);
-	padding: 12px;
+	padding: 0.75rem;
 	margin: 0 0 1rem 0;
 }
 
@@ -64,6 +64,11 @@
 	align-items: center;
 	transition: background-color 0.2s ease;
 
+	&.toc-icon-only {
+		font-size: var(--toc-collapse-icon-size, 1.25rem);
+		color: var(--toc-collapse-icon-color, #666666);
+	}
+
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.05);
 	}
@@ -76,7 +81,7 @@
 
 /* Collapse icon */
 .toc-collapse-icon {
-	font-size: var(--toc-collapse-icon-size, 20px);
+	font-size: var(--toc-collapse-icon-size, 1.25rem);
 	color: var(--toc-collapse-icon-color, #666666);
 	transition: transform 0.3s ease;
 }
@@ -94,18 +99,18 @@
 .toc-list {
 	list-style-type: disc;
 	margin: 0;
-	padding: 0 0 0 var(--toc-list-padding-left, 24px);
+	padding: 0 0 0 var(--toc-list-padding-left, 1.5rem);
 }
 
 /* TOC list items */
 .toc-item {
-	margin-bottom: var(--toc-item-spacing, 8px);
+	margin-bottom: var(--toc-item-spacing, 0.5rem);
 	line-height: 1.6;
 }
 
 /* Nested levels within TOC list */
 .toc-list ul {
-	padding-left: var(--toc-level-indent, 20px);
+	padding-left: var(--toc-level-indent, 1.25rem);
 	margin-top: 0.5rem;
 }
 
@@ -140,7 +145,7 @@
 
 	ul {
 		list-style-type: none;
-		padding-left: var(--toc-level-indent, 20px);
+		padding-left: var(--toc-level-indent, 1.25rem);
 	}
 }
 
@@ -171,7 +176,7 @@
 
 /* Level-specific styling */
 .toc-level-1 {
-	font-size: var(--toc-level1-font-size, 18px);
+	font-size: var(--toc-level1-font-size, 1.125rem);
 	font-weight: var(--toc-level1-font-weight, 600);
 	font-style: var(--toc-level1-font-style, normal);
 	text-transform: var(--toc-level1-text-transform, none);
@@ -183,7 +188,7 @@
 }
 
 .toc-level-2 {
-	font-size: var(--toc-level2-font-size, 16px);
+	font-size: var(--toc-level2-font-size, 1rem);
 	font-weight: var(--toc-level2-font-weight, normal);
 	font-style: var(--toc-level2-font-style, normal);
 	text-transform: var(--toc-level2-text-transform, none);
@@ -198,7 +203,7 @@
 .toc-level-4,
 .toc-level-5,
 .toc-level-6 {
-	font-size: var(--toc-level3-plus-font-size, 14px);
+	font-size: var(--toc-level3-plus-font-size, 0.875rem);
 	font-weight: var(--toc-level3-plus-font-weight, normal);
 	font-style: var(--toc-level3-plus-font-style, normal);
 	text-transform: var(--toc-level3-plus-text-transform, none);
@@ -223,15 +228,15 @@
 
 .toc-position-sticky {
 	position: sticky;
-	top: var(--toc-position-top, 100px);
+	top: var(--toc-position-top, 6.25rem);
 	z-index: var(--toc-z-index, 100);
 }
 
 .toc-position-fixed {
 	position: fixed;
-	top: var(--toc-position-top, 100px);
-	right: 20px;
-	max-width: 300px;
+	top: var(--toc-position-top, 6.25rem);
+	right: 1.25rem;
+	max-width: 18.75rem;
 	z-index: var(--toc-z-index, 100);
 }
 

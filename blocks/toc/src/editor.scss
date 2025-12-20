@@ -40,10 +40,10 @@
 			background-color: #0073aa;
 			color: #fff;
 			border: none;
-			padding: 10px 16px;
-			font-size: 14px;
+			padding: 0.625rem 1rem;
+			font-size: 0.875rem;
 			font-weight: 500;
-			border-radius: 4px;
+			border-radius: 0.25rem;
 			transition: background-color 0.2s ease;
 
 			&:hover:not(:disabled) {
@@ -69,8 +69,38 @@
 	/* Empty message styling */
 	.toc-empty-message {
 		text-align: center;
-		padding: 16px;
+		padding: 1rem;
 		margin: 0;
-		font-size: 13px;
+		font-size: 0.8125rem;
+		color: #757575;
+		font-style: italic;
 	}
+}
+
+/* Filter panel description text */
+.toc-filter-description {
+	margin-bottom: 1rem;
+	color: #757575;
+	font-size: 0.75rem;
+}
+
+/* Divider in settings */
+.toc-settings-divider {
+	margin: 1rem 0;
+	border-top: 1px solid #ddd;
+}
+
+/* Scan container spacing */
+.toc-scan-container {
+	margin-bottom: 0.75rem;
+
+	.components-button {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+/* TOC link - keep text-decoration in CSS */
+.toc-link {
+	text-decoration: none;
 }

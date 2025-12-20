@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-18T23:36:50.350Z
+ * Generated at: 2025-12-20T00:28:38.464Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -41,14 +41,13 @@ export const CSS_VAR_MAPPINGS = {
     borderColor: { cssVar: '--accordion-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
     dividerColor: { cssVar: '--accordion-divider-color', unit: null, type: 'string', cssProperty: 'border-top-color', dependsOn: null, variants: null },
     iconColor: { cssVar: '--accordion-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    titleFontSize: { cssVar: '--accordion-title-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    titleFontSize: { cssVar: '--accordion-title-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     titleFontWeight: { cssVar: '--accordion-title-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     titleFontStyle: { cssVar: '--accordion-title-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
     titleTextTransform: { cssVar: '--accordion-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     titleTextDecoration: { cssVar: '--accordion-title-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
     titleAlignment: { cssVar: '--accordion-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
-    contentFontSize: { cssVar: '--accordion-content-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
-    contentFontWeight: { cssVar: '--accordion-content-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    contentFontSize: { cssVar: '--accordion-content-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     borderWidth: { cssVar: '--accordion-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
     borderStyle: { cssVar: '--accordion-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
     borderRadius: { cssVar: '--accordion-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
@@ -56,12 +55,12 @@ export const CSS_VAR_MAPPINGS = {
     shadowHover: { cssVar: '--accordion-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     dividerWidth: { cssVar: '--accordion-divider-width', unit: 'px', type: 'number', cssProperty: 'border-top-width', dependsOn: null, variants: null },
     dividerStyle: { cssVar: '--accordion-divider-style', unit: null, type: 'string', cssProperty: 'border-top-style', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--accordion-icon-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconSize: { cssVar: '--accordion-icon-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     iconRotation: { cssVar: '--accordion-icon-rotation', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
   },
   tabs: {
     iconColor: { cssVar: '--tabs-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--tabs-icon-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconSize: { cssVar: '--tabs-icon-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     iconRotation: { cssVar: '--tabs-icon-rotation-base', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
     iconRotationActive: { cssVar: '--tabs-icon-rotation-active', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
     tabButtonColor: { cssVar: '--tabs-button-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
@@ -120,19 +119,19 @@ export const CSS_VAR_MAPPINGS = {
     tabButtonBorderRadius: { cssVar: '--tabs-button-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     tabButtonShadow: { cssVar: '--tabs-button-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     tabButtonShadowHover: { cssVar: '--tabs-button-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    tabButtonFontSize: { cssVar: '--tabs-button-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    tabButtonFontSize: { cssVar: '--tabs-button-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     tabButtonFontWeight: { cssVar: '--tabs-button-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     tabButtonFontStyle: { cssVar: '--tabs-button-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
     tabButtonTextTransform: { cssVar: '--tabs-button-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     tabButtonTextDecoration: { cssVar: '--tabs-button-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
     tabButtonTextAlign: { cssVar: '--tabs-button-text-align', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
-    tabButtonPadding: { cssVar: '--tabs-button-padding', unit: 'px', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
+    tabButtonPadding: { cssVar: '--tabs-button-padding', unit: 'rem', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
     tabListBackgroundColor: { cssVar: '--tabs-list-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
     tabsRowBorderColor: { cssVar: '--tabs-row-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
     tabsRowBorderWidth: { cssVar: '--tabs-row-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
     tabsRowBorderStyle: { cssVar: '--tabs-row-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
     tabListAlignment: { cssVar: '--tabs-list-align', unit: null, type: 'string', cssProperty: 'justify-content', dependsOn: null, variants: null },
-    tabsRowSpacing: { cssVar: '--tabs-row-spacing', unit: 'px', type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabsRowSpacing: { cssVar: '--tabs-row-spacing', unit: 'rem', type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "padding-top"
             },
@@ -146,7 +145,7 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "padding-top"
             }
       } },
-    tabsButtonGap: { cssVar: '--tabs-button-gap', unit: 'px', type: 'number', cssProperty: 'gap', dependsOn: null, variants: null },
+    tabsButtonGap: { cssVar: '--tabs-button-gap', unit: 'rem', type: 'number', cssProperty: 'gap', dependsOn: null, variants: null },
     panelBackgroundColor: { cssVar: '--tabs-panel-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
     panelBorderColor: { cssVar: '--tabs-panel-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
     panelBorderWidth: { cssVar: '--tabs-panel-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
@@ -215,22 +214,22 @@ export const CSS_VAR_MAPPINGS = {
     level2Color: { cssVar: '--toc-level2-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     level3PlusColor: { cssVar: '--toc-level3-plus-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     collapseIconColor: { cssVar: '--toc-collapse-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    titleFontSize: { cssVar: '--toc-title-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    titleFontSize: { cssVar: '--toc-title-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     titleFontWeight: { cssVar: '--toc-title-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     titleTextTransform: { cssVar: '--toc-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     titleAlignment: { cssVar: '--toc-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
     titlePadding: { cssVar: '--toc-title-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
-    level1FontSize: { cssVar: '--toc-level1-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    level1FontSize: { cssVar: '--toc-level1-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     level1FontWeight: { cssVar: '--toc-level1-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     level1FontStyle: { cssVar: '--toc-level1-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
     level1TextTransform: { cssVar: '--toc-level1-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     level1TextDecoration: { cssVar: '--toc-level1-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    level2FontSize: { cssVar: '--toc-level2-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    level2FontSize: { cssVar: '--toc-level2-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     level2FontWeight: { cssVar: '--toc-level2-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     level2FontStyle: { cssVar: '--toc-level2-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
     level2TextTransform: { cssVar: '--toc-level2-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     level2TextDecoration: { cssVar: '--toc-level2-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    level3PlusFontSize: { cssVar: '--toc-level3-plus-font-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    level3PlusFontSize: { cssVar: '--toc-level3-plus-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     level3PlusFontWeight: { cssVar: '--toc-level3-plus-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     level3PlusFontStyle: { cssVar: '--toc-level3-plus-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
     level3PlusTextTransform: { cssVar: '--toc-level3-plus-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
@@ -240,13 +239,13 @@ export const CSS_VAR_MAPPINGS = {
     blockBorderRadius: { cssVar: '--toc-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     blockShadow: { cssVar: '--toc-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     blockShadowHover: { cssVar: '--toc-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    wrapperPadding: { cssVar: '--toc-wrapper-padding', unit: 'px', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
-    listPaddingLeft: { cssVar: '--toc-list-padding-left', unit: 'px', type: 'number', cssProperty: 'padding-left', dependsOn: null, variants: null },
-    itemSpacing: { cssVar: '--toc-item-spacing', unit: 'px', type: 'number', cssProperty: 'margin-bottom', dependsOn: null, variants: null },
-    levelIndent: { cssVar: '--toc-level-indent', unit: 'px', type: 'number', cssProperty: 'margin-left', dependsOn: null, variants: null },
-    positionTop: { cssVar: '--toc-position-top', unit: 'px', type: 'number', cssProperty: 'top', dependsOn: null, variants: null },
+    wrapperPadding: { cssVar: '--toc-wrapper-padding', unit: 'rem', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
+    listPaddingLeft: { cssVar: '--toc-list-padding-left', unit: 'rem', type: 'number', cssProperty: 'padding-left', dependsOn: null, variants: null },
+    itemSpacing: { cssVar: '--toc-item-spacing', unit: 'rem', type: 'number', cssProperty: 'margin-bottom', dependsOn: null, variants: null },
+    levelIndent: { cssVar: '--toc-level-indent', unit: 'rem', type: 'number', cssProperty: 'margin-left', dependsOn: null, variants: null },
+    positionTop: { cssVar: '--toc-position-top', unit: 'rem', type: 'number', cssProperty: 'top', dependsOn: null, variants: null },
     zIndex: { cssVar: '--toc-z-index', unit: null, type: 'number', cssProperty: 'z-index', dependsOn: null, variants: null },
-    collapseIconSize: { cssVar: '--toc-collapse-icon-size', unit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    collapseIconSize: { cssVar: '--toc-collapse-icon-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
   },
 };
 

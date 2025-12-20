@@ -136,12 +136,16 @@ const getCustomizationStyles = () => {
 		const headingLevel = effectiveValues.headingLevel || 'none';
 		const iconPosition = effectiveValues.iconPosition || 'right';
 		const titleAlignment = effectiveValues.titleAlignment || 'left';
+		const titleAlignClass = titleAlignment ? `title-align-${ titleAlignment }` : 'title-align-left';
 
 		// ARIA attributes for button
 		const buttonAria = getAccordionButtonAria(
 			accordionId,
 			attributes.initiallyOpen || false
 		);
+
+		const iconElement = renderIcon();
+		const hasIcon = !! iconElement;
 
 		// Build button content - icon position affects layout structure
 		let buttonChildren;
@@ -150,31 +154,43 @@ const getCustomizationStyles = () => {
 			// Extreme left: icon at far left, text with flex grows to fill
 			buttonChildren = (
 				<>
-					{ renderIcon() }
-					<RichText.Content
-						tagName="span"
-						value={ attributes.title || '' }
-						className="accordion-title-text"
-					/>
+					{ hasIcon && (
+						<span className="accordion-icon-slot">
+							{ iconElement }
+						</span>
+					) }
+					<div className="accordion-title-text-wrapper">
+						<RichText.Content
+							tagName="span"
+							value={ attributes.title || '' }
+							className="accordion-title-text"
+						/>
+					</div>
 				</>
 			);
 		} else if ( iconPosition === 'extreme-right' ) {
 			// Extreme right: text with flex grows, icon at far right
 			buttonChildren = (
 				<>
-					<RichText.Content
-						tagName="span"
-						value={ attributes.title || '' }
-						className="accordion-title-text"
-					/>
-					{ renderIcon() }
+					<div className="accordion-title-text-wrapper">
+						<RichText.Content
+							tagName="span"
+							value={ attributes.title || '' }
+							className="accordion-title-text"
+						/>
+					</div>
+					{ hasIcon && (
+						<span className="accordion-icon-slot">
+							{ iconElement }
+						</span>
+					) }
 				</>
 			);
 		} else if ( iconPosition === 'left' ) {
 			// Left of text: wrap icon+text as single group that can be aligned
 			buttonChildren = (
-				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
-					{ renderIcon() }
+				<div className="accordion-title-inline">
+					{ hasIcon && iconElement }
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
@@ -185,13 +201,13 @@ const getCustomizationStyles = () => {
 		} else {
 			// Right of text (default): wrap text+icon as single group that can be aligned
 			buttonChildren = (
-				<div style={ { display: 'flex', alignItems: 'center', justifyContent: titleAlignment } }>
+				<div className="accordion-title-inline">
 					<RichText.Content
 						tagName="span"
 						value={ attributes.title || '' }
 						className="accordion-title-text"
 					/>
-					{ renderIcon() }
+					{ hasIcon && iconElement }
 				</div>
 			);
 		}
@@ -199,9 +215,8 @@ const getCustomizationStyles = () => {
 		const buttonContent = (
 			<button
 				type="button"
-				className={ `accordion-title ${ iconPosition ? `icon-${ iconPosition }` : '' }` }
+				className={ `accordion-title ${ iconPosition ? `icon-${ iconPosition }` : '' } ${ titleAlignClass }` }
 				{ ...buttonAria }
-				style={ { justifyContent: ( iconPosition === 'extreme-left' || iconPosition === 'extreme-right' ) ? 'space-between' : titleAlignment } }
 			>
 				{ buttonChildren }
 			</button>
@@ -255,7 +270,9 @@ const getCustomizationStyles = () => {
 				{ ...panelAria }
 				{ ...( ! attributes.initiallyOpen && { hidden: true } ) }
 			>
-				<InnerBlocks.Content />
+				<div className="accordion-content-inner">
+					<InnerBlocks.Content />
+				</div>
 			</div>
 		</div>
 	);

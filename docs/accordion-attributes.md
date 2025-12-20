@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-18T23:36:50.330Z
+> Generated at: 2025-12-20T00:28:38.433Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -85,7 +85,7 @@ Icon appearance and behavior
 | `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
 | `showIcon` | boolean | `true` | No (N/A) | Display expand/collapse icon |
 | `iconPosition` | string | `right` | No (N/A) | Position of icon relative to title |
-| `iconSize` | number | `20` | Yes | Size of the icon in pixels |
+| `iconSize` | number | `1.25` | Yes | Size of the icon in rem |
 | `iconTypeClosed` | string | `▾` | No (N/A) | Icon when accordion is closed |
 | `iconTypeOpen` | string | `none` | No (N/A) | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
@@ -96,14 +96,13 @@ Font settings for title and content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `titleFontSize` | number | `18` | Yes | Font size for the title in pixels |
+| `titleFontSize` | number | `1.125` | Yes | Font size for the title in rem |
 | `titleFontWeight` | string | `600` | Yes | Font weight for the title |
 | `titleFontStyle` | string | `normal` | Yes | Font style for the title |
 | `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
 | `titleTextDecoration` | string | `none` | Yes | Text decoration for the title |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the title |
-| `contentFontSize` | number | `16` | Yes | Font size for content in pixels |
-| `contentFontWeight` | string | _null_ | Yes | Font weight for content |
+| `contentFontSize` | number | `1` | Yes | Font size for content in rem |
 
 ## CSS Variables
 
@@ -127,7 +126,6 @@ The following CSS custom properties are available for theming:
 | `titleTextDecoration` | `--accordion-title-text-decoration` |
 | `titleAlignment` | `--accordion-title-alignment` |
 | `contentFontSize` | `--accordion-content-font-size` |
-| `contentFontWeight` | `--accordion-content-font-weight` |
 | `borderWidth` | `--accordion-border-width` |
 | `borderStyle` | `--accordion-border-style` |
 | `borderRadius` | `--accordion-border-radius` |

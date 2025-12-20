@@ -281,17 +281,17 @@ const getInlineStyles = () => {
 		container: {
 			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
 			borderColor: effectiveValues.blockBorderColor || '#dddddd',
-			borderWidth: `${effectiveValues.blockBorderWidth || 1}px`,
+			borderWidth: `${effectiveValues.blockBorderWidth ?? 1}px`,
 			borderStyle: effectiveValues.blockBorderStyle || 'solid',
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.blockShadow || 'none',
-			padding: `${effectiveValues.wrapperPadding || 20}px`,
-			top: `${effectiveValues.positionTop || 100}px`,
+			padding: `${effectiveValues.wrapperPadding ?? 1.25}rem`,
+			top: `${effectiveValues.positionTop ?? 6.25}rem`,
 		},
 		title: {
 			color: effectiveValues.titleColor || '#333333',
 			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-			fontSize: `${effectiveValues.titleFontSize || 20}px`,
+			fontSize: `${effectiveValues.titleFontSize ?? 1.25}rem`,
 			fontWeight: effectiveValues.titleFontWeight || '700',
 			textTransform: effectiveValues.titleTextTransform || 'none',
 			textAlign: effectiveValues.titleAlignment || 'left',
@@ -399,7 +399,7 @@ const getInlineStyles = () => {
 
 				{ /* Heading Filter Panel */ }
 				<PanelBody title="Heading Filter" initialOpen={ false }>
-					<p style={ { marginBottom: '16px', color: '#757575', fontSize: '12px' } }>
+					<p className="toc-filter-description">
 						<strong>Block Headings:</strong> Include headings from accordion and tab blocks when they have a heading level set.
 					</p>
 
@@ -417,7 +417,7 @@ const getInlineStyles = () => {
 						onChange={ ( value ) => setAttributes( { includeTabs: value } ) }
 					/>
 
-					<hr style={ { margin: '16px 0', borderTop: '1px solid #ddd' } } />
+					<hr className="toc-settings-divider" />
 
 					<SelectControl
 						label="Filter Mode"
@@ -559,30 +559,26 @@ const getInlineStyles = () => {
 
 			<div { ...blockProps }>
 				{ showTitle && (
-					<div
-						className="toc-title"
-						style={ {
-							fontSize: `${ effectiveValues.titleFontSize }px`,
-							fontWeight: effectiveValues.titleFontWeight,
-							color: effectiveValues.titleColor,
-							textAlign: effectiveValues.titleAlignment,
-						} }
+			<div
+				className="toc-title"
+				style={ {
+					fontSize: `${ effectiveValues.titleFontSize ?? 1.25 }rem`,
+					fontWeight: effectiveValues.titleFontWeight,
+					color: effectiveValues.titleColor,
+					textAlign: effectiveValues.titleAlignment,
+				} }
 					>
 						{ titleText }
 					</div>
 				) }
 
 				{ /* Scan for headings button */ }
-				<div className="toc-scan-container" style={ { marginBottom: '12px' } }>
+				<div className="toc-scan-container">
 					<Button
 						variant="secondary"
 						onClick={ scanForHeadings }
 						isBusy={ isScanning }
 						disabled={ isScanning }
-						style={ {
-							width: '100%',
-							justifyContent: 'center',
-						} }
 					>
 						{ isScanning
 							? __( 'Scanning…', 'guttemberg-plus' )
@@ -592,7 +588,7 @@ const getInlineStyles = () => {
 
 				{ /* Results: show headings list or empty message */ }
 				{ ! hasScanned ? (
-					<p className="toc-empty-message" style={ { color: '#757575', fontStyle: 'italic' } }>
+					<p className="toc-empty-message">
 						{ __( 'Click "Scan for headings" to detect headings in your content.', 'guttemberg-plus' ) }
 					</p>
 				) : filteredHeadings.length === 0 ? (
@@ -685,17 +681,13 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 			{ headings.map( ( heading, index ) => {
 				const normalizedLevel = heading.level - 1;
 				const levelClass = `toc-level-${ normalizedLevel }`;
-				const linkStyle = {
-					color: effectiveValues.linkColor,
-					textDecoration: 'none',
-				};
 
 				return (
 					<li key={ index } className={ `toc-item ${ levelClass }` }>
 						<a
 							href={ `#${ heading.id || `heading-${ index }` }` }
 							className="toc-link"
-							style={ linkStyle }
+							style={ { color: effectiveValues.linkColor } }
 						>
 							{ heading.text }
 						</a>

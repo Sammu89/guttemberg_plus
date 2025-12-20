@@ -13,17 +13,17 @@ const path = require( 'path' );
 
 const BLOCKS = [
 	{
-		oldName: 'style-index.css',
+		oldName: 'style-accordion.css',
 		newName: 'accordion.css',
 		dir: 'accordion',
 	},
 	{
-		oldName: 'style-index.css',
+		oldName: 'style-tabs.css',
 		newName: 'tabs.css',
 		dir: 'tabs',
 	},
 	{
-		oldName: 'style-index.css',
+		oldName: 'style-toc.css',
 		newName: 'toc.css',
 		dir: 'toc',
 	},

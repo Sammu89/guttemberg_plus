@@ -296,16 +296,17 @@
     },
     "titleFontSize": {
       "type": "number",
-      "default": 18,
+      "default": 1.125,
       "cssVar": "accordion-title-font-size",
       "group": "typography",
       "label": "Title Font Size",
-      "description": "Font size for the title in pixels",
+      "description": "Font size for the title in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 10,
-      "max": 48,
-      "unit": "px",
+      "min": 0.6,
+      "max": 3.0,
+      "step": 0.0625,
+      "unit": "rem",
       "order": 24,
       "appliesTo": "title",
       "cssProperty": "font-size"
@@ -478,78 +479,20 @@
     },
     "contentFontSize": {
       "type": "number",
-      "default": 16,
+      "default": 1,
       "cssVar": "accordion-content-font-size",
       "group": "typography",
       "label": "Content Font Size",
-      "description": "Font size for content in pixels",
+      "description": "Font size for content in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 10,
-      "max": 36,
-      "unit": "px",
+      "min": 0.6,
+      "max": 2.3,
+      "step": 0.0625,
+      "unit": "rem",
       "order": 32,
       "appliesTo": "content",
       "cssProperty": "font-size"
-    },
-    "contentFontWeight": {
-      "type": "string",
-      "default": null,
-      "cssVar": "accordion-content-font-weight",
-      "group": "typography",
-      "label": "Content Font Weight",
-      "description": "Font weight for content",
-      "themeable": true,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "100",
-          "value": "100"
-        },
-        {
-          "label": "200",
-          "value": "200"
-        },
-        {
-          "label": "300",
-          "value": "300"
-        },
-        {
-          "label": "400",
-          "value": "400"
-        },
-        {
-          "label": "500",
-          "value": "500"
-        },
-        {
-          "label": "600",
-          "value": "600"
-        },
-        {
-          "label": "700",
-          "value": "700"
-        },
-        {
-          "label": "800",
-          "value": "800"
-        },
-        {
-          "label": "900",
-          "value": "900"
-        },
-        {
-          "label": "Normal",
-          "value": "normal"
-        },
-        {
-          "label": "Bold",
-          "value": "bold"
-        }
-      ],
-      "order": 33,
-      "appliesTo": "content",
-      "cssProperty": "font-weight"
     },
     "borderWidth": {
       "type": "number",
@@ -727,16 +670,17 @@
     },
     "iconSize": {
       "type": "number",
-      "default": 20,
+      "default": 1.25,
       "cssVar": "accordion-icon-size",
       "group": "icon",
       "label": "Icon Size",
-      "description": "Size of the icon in pixels",
+      "description": "Size of the icon in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 10,
-      "max": 48,
-      "unit": "px",
+      "min": 0.6,
+      "max": 3.0,
+      "step": 0.0625,
+      "unit": "rem",
       "order": 52,
       "appliesTo": "icon",
       "cssProperty": "font-size"

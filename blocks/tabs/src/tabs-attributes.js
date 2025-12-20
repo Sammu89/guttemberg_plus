@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-18T23:36:50.343Z
+ * Generated at: 2025-12-20T00:28:38.445Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -81,7 +81,7 @@ export const tabsAttributes = {
   },
   iconSize: {
     type: 'number',
-    default: 16,
+    default: 1,
   },
   iconTypeClosed: {
     type: 'string',
@@ -173,7 +173,7 @@ export const tabsAttributes = {
   },
   tabButtonFontSize: {
     type: 'number',
-    default: 16,
+    default: 1,
   },
   tabButtonFontWeight: {
     type: 'string',
@@ -197,7 +197,7 @@ export const tabsAttributes = {
   },
   tabButtonPadding: {
     type: 'number',
-    default: 12,
+    default: 0.75,
   },
   tabListBackgroundColor: {
     type: 'string',
@@ -221,11 +221,11 @@ export const tabsAttributes = {
   },
   tabsRowSpacing: {
     type: 'number',
-    default: 8,
+    default: 0.5,
   },
   tabsButtonGap: {
     type: 'number',
-    default: 8,
+    default: 0.5,
   },
   panelBackgroundColor: {
     type: 'string',

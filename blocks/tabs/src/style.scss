@@ -49,11 +49,12 @@
 	background-color: var(--tabs-list-bg);
 	justify-content: var(--tabs-list-align);
 	overflow-x: auto;
+	border: var(--tabs-row-border-width) var(--tabs-row-border-style) var(--tabs-row-border-color);
 	/* Horizontal orientation padding: top is user-controlled, bottom is 0 (connects to content), left/right are 0.5rem */
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 	padding-bottom: 0;
-	/* padding-top is set via CSS variable in _theme-generated.scss */
+	padding-top: var(--tabs-row-spacing);
 	outline: none !important;
 	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
 	border-bottom: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
@@ -62,9 +63,9 @@
 	&[role="tablist"][aria-orientation="vertical"] {
 		flex-direction: column;
 		border-bottom: none;
-		/* Vertical orientation padding: top/bottom are 0.5rem, left/right depend on orientation */
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
+		/* Vertical orientation padding: top/bottom use row spacing var, left/right depend on orientation */
+		padding-top: var(--tabs-row-spacing);
+		padding-bottom: var(--tabs-row-spacing);
 	}
 
 	/* Vertical-left: nav on left, border on right */
@@ -74,7 +75,7 @@
 		width: max-content;
 		flex: 0 0 auto;
 		min-width: 0;
-		/* padding-left is set via CSS variable in _theme-generated.scss */
+		padding-left: var(--tabs-row-spacing);
 		border-right: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
 	}
 
@@ -85,7 +86,7 @@
 		width: max-content;
 		flex: 0 0 auto;
 		min-width: 0;
-		/* padding-right is set via CSS variable in _theme-generated.scss */
+		padding-right: var(--tabs-row-spacing);
 		border-left: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
 	}
 }
@@ -135,7 +136,7 @@
 		background-color: var(--tabs-button-bg);
 		color: var(--tabs-button-color);
 		// Inset box-shadow with blur for darker gradient entering from edges
-		box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+		box-shadow: inset 0 0 0.625rem rgba(0, 0, 0, 0.05);
 		// Override WordPress global focus outline style
 		outline: none;
 	}
@@ -144,6 +145,7 @@
 	&[aria-selected="true"] {
 		color: var(--tabs-button-active-color);
 		background-color: var(--tabs-button-active-bg);
+		font-weight: var(--tabs-button-active-font-weight, bold);
 		border-color: var(--tabs-button-active-border-color);
 		border-bottom-color: var(--tabs-button-active-content-border-color);
 		border-bottom-width: var(--tabs-button-active-content-border-width);
@@ -259,7 +261,7 @@
 @keyframes tabs-panel-fade-in {
 	from {
 		opacity: 0;
-		transform: translateY(8px);
+		transform: translateY(0.5rem);
 	}
 	to {
 		opacity: 1;
@@ -270,7 +272,7 @@
 @keyframes tabs-panel-fade-in-left {
 	from {
 		opacity: 0;
-		transform: translateX(8px);
+		transform: translateX(0.5rem);
 	}
 	to {
 		opacity: 1;
@@ -281,7 +283,7 @@
 @keyframes tabs-panel-fade-in-right {
 	from {
 		opacity: 0;
-		transform: translateX(-8px);
+		transform: translateX(-0.5rem);
 	}
 	to {
 		opacity: 1;
@@ -312,7 +314,7 @@
 
 	.tabs-list {
 		flex-shrink: 0;
-		min-width: 200px;
+		min-width: 12.5rem;
 	}
 
 	.tabs-panels {
@@ -330,7 +332,7 @@
 
 	.tabs-list {
 		flex-shrink: 0;
-		min-width: 200px;
+		min-width: 12.5rem;
 	}
 
 	.tabs-panels {

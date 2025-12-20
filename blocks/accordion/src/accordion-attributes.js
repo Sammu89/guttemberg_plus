@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-18T23:36:50.328Z
+ * Generated at: 2025-12-20T00:28:38.430Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -97,7 +97,7 @@ export const accordionAttributes = {
   },
   titleFontSize: {
     type: 'number',
-    default: 18,
+    default: 1.125,
   },
   titleFontWeight: {
     type: 'string',
@@ -121,11 +121,7 @@ export const accordionAttributes = {
   },
   contentFontSize: {
     type: 'number',
-    default: 16,
-  },
-  contentFontWeight: {
-    type: 'string',
-    default: null,
+    default: 1,
   },
   borderWidth: {
     type: 'number',
@@ -165,7 +161,7 @@ export const accordionAttributes = {
   },
   iconSize: {
     type: 'number',
-    default: 20,
+    default: 1.25,
   },
   iconTypeClosed: {
     type: 'string',

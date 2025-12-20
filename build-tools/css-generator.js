@@ -88,7 +88,8 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
   if (transformValue === 'paddingRectangle' && type === 'number') {
     const vertical = defaultValue;
     const horizontal = defaultValue * 2;
-    return `${vertical}px ${horizontal}px`;
+    const u = unit || 'px';
+    return `${vertical}${u} ${horizontal}${u}`;
   }
 
   // Handle object types (e.g., borderRadius with topLeft, topRight, etc.)

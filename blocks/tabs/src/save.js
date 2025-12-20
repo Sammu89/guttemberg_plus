@@ -104,18 +104,37 @@ const getCustomizationStyles = () => {
 
 		const customizationStyles = getCustomizationStyles();
 
+		// If active content border is disabled, force content-edge vars to fall back to main border
+		if ( attributes.enableFocusBorder === false ) {
+			const activeBorderColor = r.tabButtonActiveBorderColor ?? allDefaults.tabButtonActiveBorderColor ?? '#dddddd';
+			const baseBorderWidth = r.tabButtonBorderWidth ?? 1;
+			const baseBorderStyle = r.tabButtonBorderStyle ?? allDefaults.tabButtonBorderStyle ?? 'solid';
+
+			customizationStyles['--tabs-button-active-content-border-color'] = activeBorderColor;
+			customizationStyles['--tabs-button-active-content-border-width'] = formatCssValue(
+				'tabButtonBorderWidth',
+				baseBorderWidth,
+				'tabs'
+			);
+			customizationStyles['--tabs-button-active-content-border-style'] = baseBorderStyle;
+		}
+
 		// If the divider toggle is off, ignore its customizations and fall back to row border
 		if ( attributes.enableTabsListContentBorder === false ) {
 			delete customizationStyles['--tabs-list-divider-border-color'];
 			delete customizationStyles['--tabs-list-divider-border-width'];
 			delete customizationStyles['--tabs-list-divider-border-style'];
 
-			const rowColor = attributes.tabsRowBorderColor || '#dddddd';
-			const rowWidth = attributes.tabsRowBorderWidth || 0;
-			const rowStyle = attributes.tabsRowBorderStyle || 'solid';
+			const rowColor = attributes.tabsRowBorderColor ?? allDefaults.tabsRowBorderColor ?? '#dddddd';
+			const rowWidth = attributes.tabsRowBorderWidth ?? r.tabsRowBorderWidth ?? 0;
+			const rowStyle = attributes.tabsRowBorderStyle ?? allDefaults.tabsRowBorderStyle ?? 'solid';
 
 			customizationStyles['--tabs-list-divider-border-color'] = rowColor;
-			customizationStyles['--tabs-list-divider-border-width'] = `${ rowWidth }px`;
+			customizationStyles['--tabs-list-divider-border-width'] = formatCssValue(
+				'tabsRowBorderWidth',
+				rowWidth,
+				'tabs'
+			);
 			customizationStyles['--tabs-list-divider-border-style'] = rowStyle;
 		}
 
