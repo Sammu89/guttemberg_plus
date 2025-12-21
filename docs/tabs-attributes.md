@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-20T00:28:38.447Z
+> Generated at: 2025-12-21T02:54:11.051Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -16,9 +16,9 @@ Complete theme and appearance configuration for Tabs blocks
 - **Block Type:** `tabs`
 - **Version:** 2.0.0
 
-## Behaviour
+## Block Options
 
-Behavioral and functional settings that control how tabs work
+Block-level options
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -28,80 +28,19 @@ Behavioral and functional settings that control how tabs work
 | `tabs` | array | _object_ | No (content) | Array of tab items with title, content, and state |
 | `tabsData` | array | _object_ | No (structural) | Synchronized tab button data for server-side rendering |
 | `orientation` | string | `horizontal` | No (structural) | Tab layout orientation |
-| `activationMode` | string | `auto` | No (generalal) | How tabs are activated (auto = focus, manual = click) |
+| `activationMode` | string | `click` | No (generalal) | How tabs are activated (click or hover) |
 | `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
 | `title` | string | `Tabs` | No (content) | Block title (for accessibility) |
-| `verticalTabButtonTextAlign` | string | `left` | No (generalal) | Text alignment for vertical tabs |
-| `tabsHorizontalAlign` | string | `left` | No (N/A) | Horizontal alignment of the tabs block |
+| `tabsHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the tabs block |
 | `tabsWidth` | string | `100%` | No (N/A) | Tabs container width (e.g., 100%, 500px) |
 
-## Icon
+## Header Row Options
 
-Icon appearance and styling
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `showIcon` | boolean | `true` | No (N/A) | Display icons in tab buttons |
-| `iconPosition` | string | `right` | No (N/A) | Position of icon relative to text |
-| `iconColor` | string | `#666666` | Yes | Color of the tab icon |
-| `iconSize` | number | `1` | Yes | Size of the icon in rem |
-| `iconTypeClosed` | string | `▾` | No (N/A) | Icon for the tab (char or image URL) |
-| `iconTypeOpen` | string | `none` | No (N/A) | Icon when tab is active (none = use closed icon with final rotation) |
-| `iconRotation` | number | `0` | Yes | Base rotation of the icon |
-| `iconRotationActive` | number | `180` | Yes | Rotation of the icon for the active tab |
-
-## Button Colors
-
-Tab button text and background colors for all states
+Row background, spacing, alignment, dividers
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `tabButtonColor` | string | `#666666` | Yes | Text color for inactive tab buttons |
-| `tabButtonBackgroundColor` | string | `#f5f5f5` | Yes | Background color for inactive tab buttons |
-| `tabButtonHoverColor` | string | `#333333` | Yes | Text color when hovering over tab |
-| `tabButtonHoverBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over tab |
-| `tabButtonActiveColor` | string | `#333333` | Yes | Text color for active/selected tab |
-| `tabButtonActiveBackgroundColor` | string | `#ffffff` | Yes | Background color for active/selected tab |
-
-## Button Borders
-
-Tab button borders including enhanced border adjacent to content
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `enableFocusBorder` | boolean | `true` | No (N/A) | Enable or disable the border on the edge touching the content (active tab only) |
-| `tabButtonActiveContentBorderWidth` | number | `2` | Yes | Width of the active button edge touching content |
-| `tabButtonActiveContentBorderStyle` | string | `solid` | Yes | Style of the active button edge touching content |
-| `tabButtonBorderColor` | string | `#dddddd` | Yes | Border color for inactive tab buttons |
-| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
-| `tabButtonActiveContentBorderColor` | string | `#ffffff` | Yes | Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border. |
-| `tabButtonBorderWidth` | number | `1` | Yes | Border width for tab buttons |
-| `tabButtonBorderStyle` | string | `solid` | Yes | Border style for tab buttons |
-| `tabButtonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
-| `tabButtonShadow` | string | `none` | Yes | Box shadow for tab buttons |
-| `tabButtonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
-
-## Button Typography
-
-Tab button typography and alignment
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
-| `tabButtonFontSize` | number | `1` | Yes | Font size for tab buttons (rem) |
-| `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons |
-| `tabButtonFontStyle` | string | `normal` | Yes | Font style for tab buttons |
-| `tabButtonTextTransform` | string | `none` | Yes | Text transformation for tab buttons |
-| `tabButtonTextDecoration` | string | `none` | Yes | Text decoration for tab buttons |
-| `tabButtonTextAlign` | string | `center` | Yes | Text alignment for tab buttons |
-| `tabButtonPadding` | number | `0.75` | Yes | Padding for tab buttons in rem (vertical/horizontal will be computed) |
-
-## Tab Row
-
-Tab row background, alignment, and border
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
+| `stretchButtonsToRow` | boolean | `false` | No (structural) | Make tab buttons fill the full width of the row (horizontal orientation only) |
 | `tabListBackgroundColor` | string | `transparent` | Yes | Background color for the tab navigation bar |
 | `tabsRowBorderColor` | string | `#dddddd` | Yes | Border color for the tab row |
 | `tabsRowBorderWidth` | number | `0` | Yes | Border width for the tab row |
@@ -114,9 +53,70 @@ Tab row background, alignment, and border
 | `tabsListContentBorderWidth` | number | `1` | Yes | Width of the tab row edge that touches the content |
 | `tabsListContentBorderStyle` | string | `solid` | Yes | Style of the tab row edge that touches the content |
 
-## Content
+## Icon
 
-Content panel colors, borders, and radius
+Icon appearance and behavior
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `showIcon` | boolean | `true` | No (N/A) | Display icons in tab buttons |
+| `iconPosition` | string | `right` | No (N/A) | Position of icon relative to text |
+| `iconColor` | string | `#666666` | Yes | Color of the tab icon |
+| `iconSize` | number | `1` | Yes | Size of the icon in rem |
+| `iconTypeClosed` | string | `▾` | No (N/A) | Icon for the tab (char or image URL) |
+| `iconTypeOpen` | string | `none` | No (N/A) | Icon when tab is active (none = use closed icon with final rotation) |
+| `iconRotation` | number | `0` | Yes | Base rotation of the icon |
+| `iconRotationActive` | number | `180` | Yes | Rotation of the icon for the active tab |
+
+## Header Colors
+
+Tab header text/background colors
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `tabButtonColor` | string | `#666666` | Yes | Text color for inactive tab buttons |
+| `tabButtonBackgroundColor` | string | `#f5f5f5` | Yes | Background color for inactive tab buttons |
+| `tabButtonHoverColor` | string | `#333333` | Yes | Text color when hovering over tab |
+| `tabButtonHoverBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over tab |
+| `tabButtonActiveColor` | string | `#333333` | Yes | Text color for active/selected tab |
+| `tabButtonActiveBackgroundColor` | string | `#ffffff` | Yes | Background color for active/selected tab |
+
+## Header Borders
+
+Tab header borders and active edge
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `enableFocusBorder` | boolean | `true` | No (N/A) | Border on the edge touching the content, giving it a merged look. |
+| `tabButtonActiveContentBorderWidth` | number | `1` | Yes | Width of the active button edge touching content |
+| `tabButtonActiveContentBorderStyle` | string | `solid` | Yes | Style of the active button edge touching content |
+| `tabButtonBorderColor` | string | `#dddddd` | Yes | Border color for inactive tab buttons |
+| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
+| `tabButtonActiveContentBorderColor` | string | `#ffffff` | Yes | Color of the border. Keep it the same color as panel background for a merged look. |
+| `tabButtonBorderWidth` | number | `1` | Yes | Border width for tab buttons |
+| `tabButtonBorderStyle` | string | `solid` | Yes | Border style for tab buttons |
+| `tabButtonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
+| `tabButtonShadow` | string | `none` | Yes | Box shadow for tab buttons |
+| `tabButtonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
+
+## Header Typography
+
+Tab header typography
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
+| `tabButtonFontSize` | number | `1` | Yes | Font size for tab buttons (rem) |
+| `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons |
+| `tabButtonFontStyle` | string | `normal` | Yes | Font style for tab buttons |
+| `tabButtonTextTransform` | string | `none` | Yes | Text transformation for tab buttons |
+| `tabButtonTextDecoration` | string | `none` | Yes | Text decoration for tab buttons |
+| `tabButtonTextAlign` | string | `center` | Yes | Text alignment for tab buttons |
+| `tabButtonPadding` | number | `0.75` | Yes | Padding for tab buttons in rem (vertical/horizontal will be computed) |
+
+## Panel Appearance
+
+Panel background and borders
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -126,9 +126,9 @@ Content panel colors, borders, and radius
 | `panelBorderStyle` | string | `solid` | Yes | Border style for tab content panel |
 | `panelBorderRadius` | object | _object_ | Yes | Corner radius for tab content panel |
 
-## External Borders
+## Block Borders
 
-Main tabs wrapper borders and radius
+Wrapper borders and shadows
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|

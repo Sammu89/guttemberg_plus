@@ -13,98 +13,129 @@
     "instructions": "CSS variable declarations are automatically generated. Only edit style.scss for structural/layout CSS. To add CSS variables, add cssVar, cssSelector, and cssProperty to schema attributes."
   },
   "groups": {
-    "headerColors": {
-      "title": "Header Colors",
-      "description": "Title text and background colors",
-      "order": 2,
-      "initialOpen": false      
-    },
-    "contentColors": {
-      "title": "Content Colors",
-      "description": "Link colors, level colors, and numbering colors",
-      "order": 3,
-      "initialOpen": false      
+    "blockOptions": {
+      "title": "Block Options",
+      "description": "Behavior and core options",
+      "order": 1,
+      "initialOpen": true
     },
     "blockBorders": {
       "title": "Block Borders",
-      "description": "Wrapper borders, radius, and shadows",
-      "order": 999,
-      "initialOpen": false      
+      "description": "Wrapper background, borders, and shadows",
+      "order": 2,
+      "initialOpen": false
     },
-    "typography": {
-      "title": "Typography",
-      "description": "Font settings for title and heading levels",
+    "titleColors": {
+      "title": "Title Colors",
+      "description": "Title colors",
+      "order": 3,
+      "initialOpen": false
+    },
+    "titleTypography": {
+      "title": "Title Typography",
+      "description": "Title typography and padding",
       "order": 4,
-      "initialOpen": false      
+      "initialOpen": false
     },
-    "layout": {
-      "title": "Layout",
-      "description": "Spacing, padding, and positioning",
+    "linkColors": {
+      "title": "Link Colors",
+      "description": "Link and numbering colors",
+      "order": 5,
+      "initialOpen": false
+    },
+    "levelStyling": {
+      "title": "Level Styling",
+      "description": "Per-level colors and typography",
+      "order": 6,
+      "initialOpen": false
+    },
+    "spacingLayout": {
+      "title": "Spacing & Layout",
+      "description": "Padding, spacing, indent, positioning",
+      "order": 7,
+      "initialOpen": false
+    },
+    "collapseIcon": {
+      "title": "Collapse Icon",
+      "description": "Collapse icon styles",
       "order": 8,
-      "initialOpen": false      
-    },
-    "behavior": {
-      "title": "Behavior",
-      "description": "Non-themeable behavioral and structural settings",
-      "order": 1,
-      "initialOpen": true      
+      "initialOpen": false
     }
   },
   "attributes": {
     "tocId": {
       "type": "string",
       "default": "",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "TOC ID",
       "description": "Unique identifier for the table of contents",
       "themeable": false,
       "reason": "structural",
-      "order": 1      
+      "order": 21
     },
     "showTitle": {
       "type": "boolean",
       "default": true,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Show Title",
       "description": "Display the TOC title header",
       "themeable": false,
       "reason": "structural",
-      "order": 2      
+      "order": 3
     },
     "titleText": {
       "type": "string",
       "default": "Table of Contents",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Title Text",
       "description": "The title displayed above the table of contents",
       "themeable": false,
       "reason": "content",
-      "order": 3      
+      "order": 4
     },
     "currentTheme": {
       "type": "string",
       "default": "",
-      "group": "behavior",
-      "label": "Current Theme",
+      "group": "blockOptions",
+      "label": "Theme",
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
       "reason": "structural",
-      "order": 4      
+      "order": 22
+    },
+    "tocItems": {
+      "type": "array",
+      "default": [],
+      "group": "blockOptions",
+      "label": "Curated TOC Items",
+      "description": "Persisted TOC entries with anchors and levels",
+      "themeable": false,
+      "reason": "structural",
+      "order": 23
+    },
+    "deletedHeadingIds": {
+      "type": "array",
+      "default": [],
+      "group": "blockOptions",
+      "label": "Deleted Heading IDs",
+      "description": "Anchors removed from scans until reset",
+      "themeable": false,
+      "reason": "structural",
+      "order": 24
     },
     "filterMode": {
       "type": "string",
       "default": "include-all",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Filter Mode",
       "description": "How headings are filtered for inclusion",
       "themeable": false,
-      
       "options": [
         "include-all",
         "include-only",
         "exclude-only"
       ],
-      "order": 5      
+      "order": 5
     },
     "includeLevels": {
       "type": "array",
@@ -115,81 +146,75 @@
         5,
         6
       ],
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Include Heading Levels",
       "description": "Which heading levels to include (H2-H6)",
       "themeable": false,
-      
-      "order": 6      
+      "order": 6
     },
     "includeClasses": {
       "type": "string",
       "default": "",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Include Classes",
       "description": "CSS classes to include in TOC",
       "themeable": false,
-      
-      "order": 7      
+      "order": 7
     },
     "excludeLevels": {
       "type": "array",
       "default": [],
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Exclude Heading Levels",
       "description": "Which heading levels to exclude",
       "themeable": false,
-      
-      "order": 8      
+      "order": 8
     },
     "excludeClasses": {
       "type": "string",
       "default": "",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Exclude Classes",
       "description": "CSS classes to exclude from TOC",
       "themeable": false,
-      
-      "order": 9      
+      "order": 9
     },
     "depthLimit": {
       "type": "number",
       "default": null,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Depth Limit",
       "description": "Maximum nesting depth to display",
       "themeable": false,
-
       "order": 10
     },
     "includeAccordions": {
       "type": "boolean",
       "default": true,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Include Accordion Headings",
       "description": "Include headings from accordion blocks when they have a heading level set",
       "themeable": false,
       "reason": "structural",
-      "order": 10.1
+      "order": 11
     },
     "includeTabs": {
       "type": "boolean",
       "default": true,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Include Tab Headings",
       "description": "Include headings from tabs blocks when they have a heading level set",
       "themeable": false,
       "reason": "structural",
-      "order": 10.2
+      "order": 12
     },
     "numberingStyle": {
       "type": "string",
       "default": "none",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Numbering Style",
       "description": "Style of numbering for TOC items",
       "themeable": false,
-
       "options": [
         "none",
         "decimal",
@@ -197,124 +222,115 @@
         "roman",
         "alpha"
       ],
-      "order": 11
+      "order": 13
     },
     "isCollapsible": {
       "type": "boolean",
       "default": false,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Collapsible",
       "description": "Allow the TOC to be collapsed/expanded",
       "themeable": false,
-      
-      "order": 12      
+      "order": 14
     },
     "initiallyCollapsed": {
       "type": "boolean",
       "default": false,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Initially Collapsed",
       "description": "Start with TOC collapsed",
       "themeable": false,
-      
-      "order": 13      
+      "order": 15
     },
     "positionType": {
       "type": "string",
       "default": "default",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Position Type",
       "description": "CSS positioning type",
       "themeable": false,
-
       "options": [
         "default",
         "sticky",
         "fixed"
       ],
-      "order": 14
+      "order": 16
     },
     "smoothScroll": {
       "type": "boolean",
       "default": true,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Smooth Scroll",
       "description": "Enable smooth scrolling to headings",
       "themeable": false,
-      
-      "order": 15      
+      "order": 17
     },
     "scrollOffset": {
       "type": "number",
       "default": 0,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Scroll Offset",
       "description": "Offset in pixels when scrolling to heading",
       "themeable": false,
-      
-      "order": 16      
+      "order": 18
     },
     "autoHighlight": {
       "type": "boolean",
       "default": true,
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Auto Highlight",
       "description": "Highlight current section in TOC",
       "themeable": false,
-      
-      "order": 17      
+      "order": 19
     },
     "clickBehavior": {
       "type": "string",
       "default": "navigate",
-      "group": "behavior",
+      "group": "blockOptions",
       "label": "Click Behavior",
       "description": "What happens when clicking a TOC item",
       "themeable": false,
-      
       "options": [
         "navigate",
         "scroll"
       ],
-      "order": 18      
+      "order": 20
     },
     "tocWidth": {
       "type": "string",
       "default": "100%",
-      "group": "behavior",
-      "label": "Width",
+      "group": "blockOptions",
+      "label": "Block Width",
       "description": "TOC container width (e.g., 100%, 500px)",
       "themeable": false,
-      
       "control": "TextControl",
-      "order": 18      
+      "order": 1
     },
     "tocHorizontalAlign": {
       "type": "string",
-      "default": "left",
-      "group": "behavior",
-      "label": "Horizontal Alignment",
+      "default": "center",
+      "group": "blockOptions",
+      "label": "Block Horizontal Alignment",
       "description": "Horizontal alignment of the TOC block",
       "themeable": false,
-      
       "control": "SelectControl",
       "options": [
         "left",
         "center",
         "right"
       ],
-      "order": 19      
+      "order": 2
     },
     "wrapperBackgroundColor": {
       "type": "string",
       "default": "#ffffff",
       "cssVar": "toc-wrapper-background-color",
-      "group": "contentColors",
-      "label": "Background Color",
+      "group": "blockBorders",
+      "label": "Block Background",
       "description": "Background color of the TOC wrapper",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 20,
+      "order": 1,
       "appliesTo": "wrapper",
       "cssProperty": "background-color"
     },
@@ -323,11 +339,11 @@
       "default": "#dddddd",
       "cssVar": "toc-border-color",
       "group": "blockBorders",
-      "label": "Border Color",
+      "label": "Block Border Color",
       "description": "Border color of the TOC wrapper",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 20,
+      "order": 2,
       "appliesTo": "wrapper",
       "cssProperty": "border-color"
     },
@@ -335,38 +351,44 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "toc-title-color",
-      "group": "headerColors",
-      "label": "Title Color",
+      "group": "titleColors",
+      "label": "Title Text Color",
       "description": "Text color for the TOC title",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 21,
-      "appliesTo": ["titleStatic", "titleCollapsible"],
+      "order": 1,
+      "appliesTo": [
+        "titleStatic",
+        "titleCollapsible"
+      ],
       "cssProperty": "color"
     },
     "titleBackgroundColor": {
       "type": "string",
       "default": "transparent",
       "cssVar": "toc-title-background-color",
-      "group": "headerColors",
+      "group": "titleColors",
       "label": "Title Background",
       "description": "Background color for the TOC title",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 22,
-      "appliesTo": ["titleStatic", "titleCollapsible"],
+      "order": 2,
+      "appliesTo": [
+        "titleStatic",
+        "titleCollapsible"
+      ],
       "cssProperty": "background-color"
     },
     "linkColor": {
       "type": "string",
       "default": "#0073aa",
       "cssVar": "toc-link-color",
-      "group": "contentColors",
+      "group": "linkColors",
       "label": "Link Color",
       "description": "Default color for TOC links",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 23,
+      "order": 1,
       "appliesTo": "link",
       "cssProperty": "color"
     },
@@ -374,13 +396,13 @@
       "type": "string",
       "default": "#005177",
       "cssVar": "toc-link-hover-color",
-      "group": "contentColors",
+      "group": "linkColors",
       "label": "Link Hover Color",
       "description": "Color when hovering over links",
       "themeable": true,
       "control": "ColorPicker",
       "state": "hover",
-      "order": 24,
+      "order": 2,
       "appliesTo": "link",
       "cssProperty": "color"
     },
@@ -388,13 +410,13 @@
       "type": "string",
       "default": "#005177",
       "cssVar": "toc-link-active-color",
-      "group": "contentColors",
+      "group": "linkColors",
       "label": "Link Active Color",
       "description": "Color for the currently active link",
       "themeable": true,
       "control": "ColorPicker",
       "state": "active",
-      "order": 25,
+      "order": 3,
       "appliesTo": "link",
       "cssProperty": "color"
     },
@@ -402,13 +424,13 @@
       "type": "string",
       "default": "#0073aa",
       "cssVar": "toc-link-visited-color",
-      "group": "contentColors",
+      "group": "linkColors",
       "label": "Link Visited Color",
       "description": "Color for visited links",
       "themeable": true,
       "control": "ColorPicker",
       "state": "visited",
-      "order": 26,
+      "order": 4,
       "appliesTo": "link",
       "cssProperty": "color"
     },
@@ -416,25 +438,28 @@
       "type": "string",
       "default": "#0073aa",
       "cssVar": "toc-numbering-color",
-      "group": "contentColors",
+      "group": "linkColors",
       "label": "Numbering Color",
       "description": "Color for list numbering",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 27,
-      "appliesTo": ["list", "nestedList"],
+      "order": 5,
+      "appliesTo": [
+        "list",
+        "nestedList"
+      ],
       "cssProperty": "color"
     },
     "level1Color": {
       "type": "string",
       "default": "#0073aa",
       "cssVar": "toc-level1-color",
-      "group": "contentColors",
-      "label": "Level 1 Color",
+      "group": "levelStyling",
+      "label": "Level 1 Text Color",
       "description": "Text color for level 1 headings (H2)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 28,
+      "order": 1,
       "appliesTo": "level1Link",
       "cssProperty": "color"
     },
@@ -442,12 +467,12 @@
       "type": "string",
       "default": "#0073aa",
       "cssVar": "toc-level2-color",
-      "group": "contentColors",
-      "label": "Level 2 Color",
+      "group": "levelStyling",
+      "label": "Level 2 Text Color",
       "description": "Text color for level 2 headings (H3)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 29,
+      "order": 7,
       "appliesTo": "level2Link",
       "cssProperty": "color"
     },
@@ -455,12 +480,12 @@
       "type": "string",
       "default": "#0073aa",
       "cssVar": "toc-level3-plus-color",
-      "group": "contentColors",
-      "label": "Level 3+ Color",
+      "group": "levelStyling",
+      "label": "Level 3+ Text Color",
       "description": "Text color for level 3+ headings (H4-H6)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 30,
+      "order": 13,
       "appliesTo": "level3PlusLink",
       "cssProperty": "color"
     },
@@ -468,37 +493,43 @@
       "type": "string",
       "default": "#666666",
       "cssVar": "toc-collapse-icon-color",
-      "group": "contentColors",
+      "group": "collapseIcon",
       "label": "Collapse Icon Color",
       "description": "Color of the collapse/expand icon",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 31,
-      "appliesTo": ["collapseIcon", "titleIconOnly"],
+      "order": 1,
+      "appliesTo": [
+        "collapseIcon",
+        "titleIconOnly"
+      ],
       "cssProperty": "color"
     },
     "titleFontSize": {
       "type": "number",
       "default": 1.25,
       "cssVar": "toc-title-font-size",
-      "group": "typography",
+      "group": "titleTypography",
       "label": "Title Font Size",
       "description": "Font size for the TOC title in rem",
       "themeable": true,
       "control": "RangeControl",
       "min": 0.7,
-      "max": 3.0,
-      "step": 0.0625,
+      "max": 3,
+      "step": 0.01,
       "unit": "rem",
-      "order": 32,
-      "appliesTo": ["titleStatic", "titleCollapsible"],
+      "order": 1,
+      "appliesTo": [
+        "titleStatic",
+        "titleCollapsible"
+      ],
       "cssProperty": "font-size"
     },
     "titleFontWeight": {
       "type": "string",
       "default": "700",
       "cssVar": "toc-title-font-weight",
-      "group": "typography",
+      "group": "titleTypography",
       "label": "Title Font Weight",
       "description": "Font weight for the TOC title",
       "themeable": true,
@@ -549,15 +580,18 @@
           "value": "bold"
         }
       ],
-      "order": 33,
-      "appliesTo": ["titleStatic", "titleCollapsible"],
+      "order": 2,
+      "appliesTo": [
+        "titleStatic",
+        "titleCollapsible"
+      ],
       "cssProperty": "font-weight"
     },
     "titleTextTransform": {
       "type": "string",
       "default": "none",
       "cssVar": "toc-title-text-transform",
-      "group": "typography",
+      "group": "titleTypography",
       "label": "Title Text Transform",
       "description": "Text transformation for the title",
       "themeable": true,
@@ -580,15 +614,18 @@
           "value": "capitalize"
         }
       ],
-      "order": 34,
-      "appliesTo": ["titleStatic", "titleCollapsible"],
+      "order": 3,
+      "appliesTo": [
+        "titleStatic",
+        "titleCollapsible"
+      ],
       "cssProperty": "text-transform"
     },
     "titleAlignment": {
       "type": "string",
       "default": "left",
       "cssVar": "toc-title-alignment",
-      "group": "typography",
+      "group": "titleTypography",
       "label": "Title Alignment",
       "description": "Text alignment for the title",
       "themeable": true,
@@ -598,8 +635,11 @@
         "center",
         "right"
       ],
-      "order": 35,
-      "appliesTo": ["titleStatic", "titleCollapsible"],
+      "order": 4,
+      "appliesTo": [
+        "titleStatic",
+        "titleCollapsible"
+      ],
       "cssProperty": "text-align"
     },
     "titlePadding": {
@@ -611,29 +651,32 @@
         "left": 0
       },
       "cssVar": "toc-title-padding",
-      "group": "layout",
+      "group": "titleTypography",
       "label": "Title Padding",
       "description": "Padding around the title",
       "themeable": true,
       "control": "BoxControl",
-      "order": 35.5,
-      "appliesTo": ["titleStatic", "titleCollapsible"],
+      "order": 5,
+      "appliesTo": [
+        "titleStatic",
+        "titleCollapsible"
+      ],
       "cssProperty": "padding"
     },
     "level1FontSize": {
       "type": "number",
       "default": 1.125,
       "cssVar": "toc-level1-font-size",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 1 Font Size",
       "description": "Font size for level 1 items (H2) in rem",
       "themeable": true,
       "control": "RangeControl",
       "min": 0.6,
       "max": 2.3,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 36,
+      "order": 2,
       "appliesTo": "level1Link",
       "cssProperty": "font-size"
     },
@@ -641,7 +684,7 @@
       "type": "string",
       "default": "600",
       "cssVar": "toc-level1-font-weight",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 1 Font Weight",
       "description": "Font weight for level 1 items",
       "themeable": true,
@@ -692,7 +735,7 @@
           "value": "bold"
         }
       ],
-      "order": 37,
+      "order": 3,
       "appliesTo": "level1Link",
       "cssProperty": "font-weight"
     },
@@ -700,7 +743,7 @@
       "type": "string",
       "default": "normal",
       "cssVar": "toc-level1-font-style",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 1 Font Style",
       "description": "Font style for level 1 items",
       "themeable": true,
@@ -719,7 +762,7 @@
           "value": "oblique"
         }
       ],
-      "order": 38,
+      "order": 4,
       "appliesTo": "level1Link",
       "cssProperty": "font-style"
     },
@@ -727,7 +770,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-level1-text-transform",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 1 Text Transform",
       "description": "Text transformation for level 1 items",
       "themeable": true,
@@ -750,7 +793,7 @@
           "value": "capitalize"
         }
       ],
-      "order": 39,
+      "order": 5,
       "appliesTo": "level1Link",
       "cssProperty": "text-transform"
     },
@@ -758,7 +801,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-level1-text-decoration",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 1 Text Decoration",
       "description": "Text decoration for level 1 items",
       "themeable": true,
@@ -781,7 +824,7 @@
           "value": "line-through"
         }
       ],
-      "order": 40,
+      "order": 6,
       "appliesTo": "level1Link",
       "cssProperty": "text-decoration"
     },
@@ -789,16 +832,16 @@
       "type": "number",
       "default": 1,
       "cssVar": "toc-level2-font-size",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 2 Font Size",
       "description": "Font size for level 2 items (H3) in rem",
       "themeable": true,
       "control": "RangeControl",
       "min": 0.6,
-      "max": 2.0,
-      "step": 0.0625,
+      "max": 2,
+      "step": 0.01,
       "unit": "rem",
-      "order": 41,
+      "order": 8,
       "appliesTo": "level2Link",
       "cssProperty": "font-size"
     },
@@ -806,7 +849,7 @@
       "type": "string",
       "default": "normal",
       "cssVar": "toc-level2-font-weight",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 2 Font Weight",
       "description": "Font weight for level 2 items",
       "themeable": true,
@@ -857,7 +900,7 @@
           "value": "bold"
         }
       ],
-      "order": 42,
+      "order": 9,
       "appliesTo": "level2Link",
       "cssProperty": "font-weight"
     },
@@ -865,7 +908,7 @@
       "type": "string",
       "default": "normal",
       "cssVar": "toc-level2-font-style",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 2 Font Style",
       "description": "Font style for level 2 items",
       "themeable": true,
@@ -884,7 +927,7 @@
           "value": "oblique"
         }
       ],
-      "order": 43,
+      "order": 10,
       "appliesTo": "level2Link",
       "cssProperty": "font-style"
     },
@@ -892,7 +935,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-level2-text-transform",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 2 Text Transform",
       "description": "Text transformation for level 2 items",
       "themeable": true,
@@ -915,7 +958,7 @@
           "value": "capitalize"
         }
       ],
-      "order": 44,
+      "order": 11,
       "appliesTo": "level2Link",
       "cssProperty": "text-transform"
     },
@@ -923,7 +966,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-level2-text-decoration",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 2 Text Decoration",
       "description": "Text decoration for level 2 items",
       "themeable": true,
@@ -946,7 +989,7 @@
           "value": "line-through"
         }
       ],
-      "order": 45,
+      "order": 12,
       "appliesTo": "level2Link",
       "cssProperty": "text-decoration"
     },
@@ -954,16 +997,16 @@
       "type": "number",
       "default": 0.875,
       "cssVar": "toc-level3-plus-font-size",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 3+ Font Size",
       "description": "Font size for level 3+ items (H4-H6) in rem",
       "themeable": true,
       "control": "RangeControl",
       "min": 0.6,
       "max": 1.8,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 46,
+      "order": 14,
       "appliesTo": "level3PlusLink",
       "cssProperty": "font-size"
     },
@@ -971,7 +1014,7 @@
       "type": "string",
       "default": "normal",
       "cssVar": "toc-level3-plus-font-weight",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 3+ Font Weight",
       "description": "Font weight for level 3+ items",
       "themeable": true,
@@ -1022,7 +1065,7 @@
           "value": "bold"
         }
       ],
-      "order": 47,
+      "order": 15,
       "appliesTo": "level3PlusLink",
       "cssProperty": "font-weight"
     },
@@ -1030,7 +1073,7 @@
       "type": "string",
       "default": "normal",
       "cssVar": "toc-level3-plus-font-style",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 3+ Font Style",
       "description": "Font style for level 3+ items",
       "themeable": true,
@@ -1049,7 +1092,7 @@
           "value": "oblique"
         }
       ],
-      "order": 48,
+      "order": 16,
       "appliesTo": "level3PlusLink",
       "cssProperty": "font-style"
     },
@@ -1057,7 +1100,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-level3-plus-text-transform",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 3+ Text Transform",
       "description": "Text transformation for level 3+ items",
       "themeable": true,
@@ -1080,7 +1123,7 @@
           "value": "capitalize"
         }
       ],
-      "order": 49,
+      "order": 17,
       "appliesTo": "level3PlusLink",
       "cssProperty": "text-transform"
     },
@@ -1088,7 +1131,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-level3-plus-text-decoration",
-      "group": "typography",
+      "group": "levelStyling",
       "label": "Level 3+ Text Decoration",
       "description": "Text decoration for level 3+ items",
       "themeable": true,
@@ -1111,7 +1154,7 @@
           "value": "line-through"
         }
       ],
-      "order": 50,
+      "order": 18,
       "appliesTo": "level3PlusLink",
       "cssProperty": "text-decoration"
     },
@@ -1120,14 +1163,14 @@
       "default": 1,
       "cssVar": "toc-border-width",
       "group": "blockBorders",
-      "label": "Border Width",
+      "label": "Block Border Width",
       "description": "Width of the wrapper border in pixels",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 10,
       "unit": "px",
-      "order": 51,
+      "order": 3,
       "appliesTo": "wrapper",
       "cssProperty": "border-width"
     },
@@ -1136,7 +1179,7 @@
       "default": "solid",
       "cssVar": "toc-border-style",
       "group": "blockBorders",
-      "label": "Border Style",
+      "label": "Block Border Style",
       "description": "Style of the wrapper border",
       "themeable": true,
       "control": "SelectControl",
@@ -1178,7 +1221,7 @@
           "value": "outset"
         }
       ],
-      "order": 52,
+      "order": 4,
       "appliesTo": "wrapper",
       "cssProperty": "border-style"
     },
@@ -1192,12 +1235,12 @@
       },
       "cssVar": "toc-border-radius",
       "group": "blockBorders",
-      "label": "Border Radius",
+      "label": "Block Border Radius",
       "description": "Corner radius of the wrapper",
       "themeable": true,
       "control": "BorderRadiusControl",
       "unit": "px",
-      "order": 53,
+      "order": 5,
       "appliesTo": "wrapper",
       "cssProperty": "border-radius"
     },
@@ -1206,11 +1249,11 @@
       "default": "none",
       "cssVar": "toc-border-shadow",
       "group": "blockBorders",
-      "label": "Shadow",
+      "label": "Block Shadow",
       "description": "CSS box-shadow for the wrapper",
       "themeable": true,
       "control": "TextControl",
-      "order": 54,
+      "order": 6,
       "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
@@ -1219,12 +1262,12 @@
       "default": "none",
       "cssVar": "toc-border-shadow-hover",
       "group": "blockBorders",
-      "label": "Shadow on Hover",
+      "label": "Block Hover Shadow",
       "description": "CSS box-shadow for the wrapper on hover",
       "themeable": true,
       "control": "TextControl",
       "state": "hover",
-      "order": 55,
+      "order": 7,
       "appliesTo": "wrapper",
       "cssProperty": "box-shadow"
     },
@@ -1232,16 +1275,16 @@
       "type": "number",
       "default": 1.25,
       "cssVar": "toc-wrapper-padding",
-      "group": "layout",
+      "group": "spacingLayout",
       "label": "Wrapper Padding",
       "description": "Padding inside the TOC wrapper (rem)",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 3.2,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 56,
+      "order": 1,
       "appliesTo": "wrapper",
       "cssProperty": "padding"
     },
@@ -1249,67 +1292,79 @@
       "type": "number",
       "default": 1.5,
       "cssVar": "toc-list-padding-left",
-      "group": "layout",
+      "group": "spacingLayout",
       "label": "List Padding Left",
       "description": "Left padding for the list (rem)",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 3.2,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 57,
-      "appliesTo": ["list", "nestedList"],
+      "order": 2,
+      "appliesTo": [
+        "list",
+        "nestedList"
+      ],
       "cssProperty": "padding-left"
     },
     "itemSpacing": {
       "type": "number",
       "default": 0.5,
       "cssVar": "toc-item-spacing",
-      "group": "layout",
+      "group": "spacingLayout",
       "label": "Item Spacing",
       "description": "Vertical space between TOC items (rem)",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 1.9,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 58,
-      "appliesTo": ["list", "nestedList"],
+      "order": 3,
+      "appliesTo": [
+        "list",
+        "nestedList"
+      ],
       "cssProperty": "margin-bottom"
     },
     "levelIndent": {
       "type": "number",
       "default": 1.25,
       "cssVar": "toc-level-indent",
-      "group": "layout",
+      "group": "spacingLayout",
       "label": "Level Indent",
       "description": "Indentation per heading level (rem)",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 3.2,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 59,
-      "appliesTo": ["list", "nestedList"],
+      "order": 4,
+      "appliesTo": [
+        "list",
+        "nestedList"
+      ],
       "cssProperty": "margin-left"
     },
     "positionTop": {
       "type": "number",
       "default": 6.25,
       "cssVar": "toc-position-top",
-      "group": "layout",
+      "group": "spacingLayout",
       "label": "Position Top",
       "description": "Top offset for sticky/fixed positioning (rem)",
       "themeable": true,
       "control": "RangeControl",
       "min": 0,
       "max": 18.8,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 60,
+      "order": 5,
+      "showWhen": {
+        "positionType": ["sticky", "fixed"]
+      },
       "appliesTo": "wrapper",
       "cssProperty": "top"
     },
@@ -1317,32 +1372,71 @@
       "type": "number",
       "default": 100,
       "cssVar": "toc-z-index",
-      "group": "layout",
+      "group": "spacingLayout",
       "label": "Z-Index",
       "description": "Stack order for positioned TOC",
       "themeable": true,
       "control": "RangeControl",
       "min": 1,
       "max": 9999,
-      "order": 61,
+      "order": 6,
+      "showWhen": {
+        "positionType": ["sticky", "fixed"]
+      },
       "appliesTo": "wrapper",
       "cssProperty": "z-index"
+    },
+    "positionHorizontalSide": {
+      "type": "string",
+      "default": "right",
+      "group": "spacingLayout",
+      "label": "Horizontal Side",
+      "description": "Which side to anchor the TOC (sticky/fixed positioning)",
+      "themeable": false,
+      "reason": "Applied as inline style, not CSS variable",
+      "control": "SelectControl",
+      "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Right", "value": "right" }
+      ],
+      "order": 7,
+      "showWhen": {
+        "positionType": ["sticky", "fixed"]
+      }
+    },
+    "positionHorizontalOffset": {
+      "type": "string",
+      "default": "1.25rem",
+      "group": "spacingLayout",
+      "label": "Horizontal Offset",
+      "description": "Distance from the selected side",
+      "themeable": false,
+      "reason": "Applied as inline style, not CSS variable",
+      "control": "UnitControl",
+      "units": ["rem", "px", "%"],
+      "order": 8,
+      "showWhen": {
+        "positionType": ["sticky", "fixed"]
+      }
     },
     "collapseIconSize": {
       "type": "number",
       "default": 1.25,
       "cssVar": "toc-collapse-icon-size",
-      "group": "layout",
+      "group": "collapseIcon",
       "label": "Collapse Icon Size",
       "description": "Size of the collapse/expand icon (rem)",
       "themeable": true,
       "control": "RangeControl",
       "min": 0.7,
       "max": 2.3,
-      "step": 0.0625,
+      "step": 0.01,
       "unit": "rem",
-      "order": 62,
-      "appliesTo": ["collapseIcon", "titleIconOnly"],
+      "order": 2,
+      "appliesTo": [
+        "collapseIcon",
+        "titleIconOnly"
+      ],
       "cssProperty": "font-size"
     }
   }

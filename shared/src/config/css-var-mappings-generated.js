@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-20T00:28:38.464Z
+ * Generated at: 2025-12-21T02:54:11.061Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -36,7 +36,6 @@ export const CSS_VAR_MAPPINGS = {
     titleBackgroundColor: { cssVar: '--accordion-title-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
     hoverTitleColor: { cssVar: '--accordion-title-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     hoverTitleBackgroundColor: { cssVar: '--accordion-title-hover-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    contentColor: { cssVar: '--accordion-content-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     contentBackgroundColor: { cssVar: '--accordion-content-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
     borderColor: { cssVar: '--accordion-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
     dividerColor: { cssVar: '--accordion-divider-color', unit: null, type: 'string', cssProperty: 'border-top-color', dependsOn: null, variants: null },
@@ -47,7 +46,6 @@ export const CSS_VAR_MAPPINGS = {
     titleTextTransform: { cssVar: '--accordion-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     titleTextDecoration: { cssVar: '--accordion-title-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
     titleAlignment: { cssVar: '--accordion-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
-    contentFontSize: { cssVar: '--accordion-content-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     borderWidth: { cssVar: '--accordion-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
     borderStyle: { cssVar: '--accordion-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
     borderRadius: { cssVar: '--accordion-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },

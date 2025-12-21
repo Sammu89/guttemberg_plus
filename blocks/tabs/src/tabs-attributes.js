@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-20T00:28:38.445Z
+ * Generated at: 2025-12-21T02:54:11.050Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -43,9 +43,13 @@ export const tabsAttributes = {
     type: 'string',
     default: 'horizontal',
   },
+  stretchButtonsToRow: {
+    type: 'boolean',
+    default: false,
+  },
   activationMode: {
     type: 'string',
-    default: 'auto',
+    default: 'click',
   },
   headingLevel: {
     type: 'string',
@@ -55,13 +59,9 @@ export const tabsAttributes = {
     type: 'string',
     default: 'Tabs',
   },
-  verticalTabButtonTextAlign: {
-    type: 'string',
-    default: 'left',
-  },
   tabsHorizontalAlign: {
     type: 'string',
-    default: 'left',
+    default: 'center',
   },
   tabsWidth: {
     type: 'string',
@@ -129,7 +129,7 @@ export const tabsAttributes = {
   },
   tabButtonActiveContentBorderWidth: {
     type: 'number',
-    default: 2,
+    default: 1,
   },
   tabButtonActiveContentBorderStyle: {
     type: 'string',

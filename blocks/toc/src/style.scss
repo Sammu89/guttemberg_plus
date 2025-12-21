@@ -10,6 +10,13 @@
 
 @use 'theme-generated';
 
+/* Reset all heading margins */
+.gutplus-toc {
+	h1, h2, h3, h4, h5, h6 {
+		margin: 0 !important;
+	}
+}
+
 /* Block wrapper */
 .gutplus-toc {
 	background-color: var(--toc-wrapper-background-color, #ffffff);
@@ -168,7 +175,7 @@
 		color: var(--toc-link-active-color, #005177);
 	}
 
-	&.is-active {
+	&.active {
 		font-weight: bold;
 		color: var(--toc-link-active-color, #005177);
 	}
@@ -235,9 +242,25 @@
 .toc-position-fixed {
 	position: fixed;
 	top: var(--toc-position-top, 6.25rem);
-	right: 1.25rem;
-	max-width: 18.75rem;
+	max-width: var(--toc-max-width, 18.75rem);
 	z-index: var(--toc-z-index, 100);
+
+	/* Horizontal positioning - set via inline styles based on positionHorizontalSide */
+	/* Default to right if no inline style is set */
+	&:not([style*="left:"]):not([style*="right:"]) {
+		right: 1.25rem;
+	}
+}
+
+/* Horizontal side selectors for validation/consistency */
+.gutplus-toc[data-position-horizontal-side="left"] {
+	left: var(--toc-position-horizontal-offset, auto);
+	right: auto;
+}
+
+.gutplus-toc[data-position-horizontal-side="right"] {
+	right: var(--toc-position-horizontal-offset, auto);
+	left: auto;
 }
 
 /* Placeholder (before JS loads) */

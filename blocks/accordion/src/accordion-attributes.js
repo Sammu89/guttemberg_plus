@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-20T00:28:38.430Z
+ * Generated at: 2025-12-21T02:54:11.041Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -53,7 +53,7 @@ export const accordionAttributes = {
   },
   accordionHorizontalAlign: {
     type: 'string',
-    default: 'left',
+    default: 'center',
   },
   headingLevel: {
     type: 'string',
@@ -74,10 +74,6 @@ export const accordionAttributes = {
   hoverTitleBackgroundColor: {
     type: 'string',
     default: '#e8e8e8',
-  },
-  contentColor: {
-    type: 'string',
-    default: '#333333',
   },
   contentBackgroundColor: {
     type: 'string',
@@ -118,10 +114,6 @@ export const accordionAttributes = {
   titleAlignment: {
     type: 'string',
     default: 'left',
-  },
-  contentFontSize: {
-    type: 'number',
-    default: 1,
   },
   borderWidth: {
     type: 'number',

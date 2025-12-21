@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-20T00:28:38.446Z
+ * Generated at: 2025-12-21T02:54:11.050Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -29,7 +29,7 @@ return array(
   'tabButtonHoverBackgroundColor' => '#e8e8e8',
   'tabButtonActiveColor' => '#333333',
   'tabButtonActiveBackgroundColor' => '#ffffff',
-  'tabButtonActiveContentBorderWidth' => '2',
+  'tabButtonActiveContentBorderWidth' => '1',
   'tabButtonActiveContentBorderStyle' => 'solid',
   'tabButtonActiveFontWeight' => 'bold',
   'tabButtonBorderColor' => '#dddddd',

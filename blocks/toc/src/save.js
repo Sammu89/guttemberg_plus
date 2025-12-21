@@ -47,11 +47,15 @@ export default function save( { attributes } ) {
 		depthLimit,
 		includeAccordions,
 		includeTabs,
+		tocItems,
+		deletedHeadingIds,
 		numberingStyle,
 		smoothScroll,
 		scrollOffset,
 		autoHighlight,
 		positionType,
+		positionHorizontalSide,
+		positionHorizontalOffset,
 		clickBehavior,
 	} = attributes;
 
@@ -90,7 +94,12 @@ export default function save( { attributes } ) {
 		'data-collapsible': isCollapsible,
 		'data-initially-collapsed': initiallyCollapsed,
 		'data-position-type': positionType,
+		'data-position-horizontal-side': positionHorizontalSide,
 		'data-click-behavior': clickBehavior || 'navigate',
+		'data-toc-items': encodeURIComponent(
+			JSON.stringify( tocItems || [] )
+		),
+		'data-deleted-heading-ids': ( deletedHeadingIds || [] ).join( ',' ),
 	};
 
 	// Build class names - add theme class if using a theme
@@ -142,10 +151,25 @@ const getCustomizationStyles = () => {
 
 	const customizationStyles = getCustomizationStyles();
 
+	// Add fixed positioning horizontal offset
+	// This is applied directly as inline styles since it needs to set left OR right (not both)
+	if ( positionType === 'fixed' ) {
+		const side = positionHorizontalSide || 'right';
+		const offset = positionHorizontalOffset || '1.25rem';
+
+		if ( side === 'left' ) {
+			customizationStyles.left = offset;
+			customizationStyles.right = 'auto';
+		} else {
+			customizationStyles.right = offset;
+			customizationStyles.left = 'auto';
+		}
+	}
+
 	// Block props
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
-		// Only add inline styles if there are customizations
+		// Only add inline styles if there are customizations or fixed positioning
 		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
 		...dataAttributes,
 	} );
@@ -263,6 +287,7 @@ const getCustomizationStyles = () => {
 					<li className="toc-placeholder">Loading table of contents...</li>
 				</ul>
 			</nav>
+
 		</div>
 	);
 }

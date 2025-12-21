@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-20T00:28:38.433Z
+> Generated at: 2025-12-21T02:54:11.043Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -16,9 +16,9 @@ Complete theme and appearance configuration for Accordion blocks
 - **Block Type:** `accordion`
 - **Version:** 1.0.0
 
-## Behavior
+## Block Options
 
-Non-themeable behavioral and structural settings
+Structural and layout options for the accordion block
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -30,7 +30,7 @@ Non-themeable behavioral and structural settings
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
 | `initiallyOpen` | boolean | `false` | No (N/A) | Whether accordion is open on page load |
 | `accordionWidth` | string | `100%` | No (N/A) | Accordion container width (e.g., 100%, 500px) |
-| `accordionHorizontalAlign` | string | `left` | No (N/A) | Horizontal alignment of the accordion |
+| `accordionHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the accordion |
 | `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
 
 ## Header Colors
@@ -44,18 +44,17 @@ Title/header text and background colors including hover and active states
 | `hoverTitleColor` | string | `#000000` | Yes | Text color when hovering over title |
 | `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over title |
 
-## Content Colors
+## Panel Appearance
 
-Content area text and background colors
+Content panel appearance settings
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `contentColor` | string | `#333333` | Yes | Text color for accordion content |
 | `contentBackgroundColor` | string | `#ffffff` | Yes | Background color for accordion content |
 
-## Borders
+## Block Borders
 
-Main accordion wrapper borders and radius
+Main accordion wrapper borders, radius, and shadows
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -90,9 +89,9 @@ Icon appearance and behavior
 | `iconTypeOpen` | string | `none` | No (N/A) | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
-## Typography
+## Header Typography
 
-Font settings for title and content
+Font settings for the accordion header
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -102,7 +101,6 @@ Font settings for title and content
 | `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
 | `titleTextDecoration` | string | `none` | Yes | Text decoration for the title |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the title |
-| `contentFontSize` | number | `1` | Yes | Font size for content in rem |
 
 ## CSS Variables
 
@@ -114,7 +112,6 @@ The following CSS custom properties are available for theming:
 | `titleBackgroundColor` | `--accordion-title-bg` |
 | `hoverTitleColor` | `--accordion-title-hover-color` |
 | `hoverTitleBackgroundColor` | `--accordion-title-hover-bg` |
-| `contentColor` | `--accordion-content-color` |
 | `contentBackgroundColor` | `--accordion-content-bg` |
 | `borderColor` | `--accordion-border-color` |
 | `dividerColor` | `--accordion-divider-color` |
@@ -125,7 +122,6 @@ The following CSS custom properties are available for theming:
 | `titleTextTransform` | `--accordion-title-text-transform` |
 | `titleTextDecoration` | `--accordion-title-text-decoration` |
 | `titleAlignment` | `--accordion-title-alignment` |
-| `contentFontSize` | `--accordion-content-font-size` |
 | `borderWidth` | `--accordion-border-width` |
 | `borderStyle` | `--accordion-border-style` |
 | `borderRadius` | `--accordion-border-radius` |

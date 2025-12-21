@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-20T00:28:38.427Z
+ * Generated at: 2025-12-21T02:54:11.039Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -25,8 +25,6 @@ export interface AccordionTheme {
   hoverTitleColor?: string;
   /** Background color when hovering over title */
   hoverTitleBackgroundColor?: string;
-  /** Text color for accordion content */
-  contentColor?: string;
   /** Background color for accordion content */
   contentBackgroundColor?: string;
   /** Color of the accordion wrapper border */
@@ -47,8 +45,6 @@ export interface AccordionTheme {
   titleTextDecoration?: string;
   /** Text alignment for the title */
   titleAlignment?: string;
-  /** Font size for content in rem */
-  contentFontSize?: number;
   /** Thickness of the accordion wrapper border in pixels */
   borderWidth?: number;
   /** Style of the accordion wrapper border */
@@ -77,7 +73,6 @@ export const accordionDefaultTheme: AccordionTheme = {
   titleBackgroundColor: '#f5f5f5',
   hoverTitleColor: '#000000',
   hoverTitleBackgroundColor: '#e8e8e8',
-  contentColor: '#333333',
   contentBackgroundColor: '#ffffff',
   borderColor: '#dddddd',
   dividerColor: '#dddddd',
@@ -88,7 +83,6 @@ export const accordionDefaultTheme: AccordionTheme = {
   titleTextTransform: 'none',
   titleTextDecoration: 'none',
   titleAlignment: 'left',
-  contentFontSize: 1,
   borderWidth: 1,
   borderStyle: 'solid',
   borderRadius: {
@@ -123,7 +117,6 @@ export interface AccordionThemeAttributes {
   titleBackgroundColor?: string;
   hoverTitleColor?: string;
   hoverTitleBackgroundColor?: string;
-  contentColor?: string;
   contentBackgroundColor?: string;
   borderColor?: string;
   dividerColor?: string;
@@ -134,7 +127,6 @@ export interface AccordionThemeAttributes {
   titleTextTransform?: string;
   titleTextDecoration?: string;
   titleAlignment?: string;
-  contentFontSize?: number;
   borderWidth?: number;
   borderStyle?: string;
   borderRadius?: Record<string, any>;

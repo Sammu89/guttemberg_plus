@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-20T00:28:38.455Z
+ * Generated at: 2025-12-21T02:54:11.056Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -34,6 +34,14 @@ export const tocAttributes = {
   currentTheme: {
     type: 'string',
     default: '',
+  },
+  tocItems: {
+    type: 'array',
+    default: [],
+  },
+  deletedHeadingIds: {
+    type: 'array',
+    default: [],
   },
   filterMode: {
     type: 'string',
@@ -105,7 +113,7 @@ export const tocAttributes = {
   },
   tocHorizontalAlign: {
     type: 'string',
-    default: 'left',
+    default: 'center',
   },
   wrapperBackgroundColor: {
     type: 'string',
@@ -282,6 +290,14 @@ export const tocAttributes = {
   zIndex: {
     type: 'number',
     default: 100,
+  },
+  positionHorizontalSide: {
+    type: 'string',
+    default: 'right',
+  },
+  positionHorizontalOffset: {
+    type: 'string',
+    default: '1.25rem',
   },
   collapseIconSize: {
     type: 'number',

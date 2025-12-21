@@ -4,14 +4,16 @@
   "version": "1.0.0",
   "description": "HTML structure definition for Accordion block - defines element hierarchy, class names, and ARIA attributes",
   "root": "item",
-
   "elements": {
     "item": {
       "id": "item",
       "tag": "div",
       "className": "gutplus-accordion",
       "description": "Root accordion element - combines item container with block wrapper functionality",
-      "children": ["titleWrapper", "content"],
+      "children": [
+        "titleWrapper",
+        "content"
+      ],
       "attributes": {
         "data-accordion-id": "{accordionId}"
       },
@@ -29,32 +31,38 @@
         "shadowHover"
       ]
     },
-
     "titleWrapper": {
       "id": "titleWrapper",
       "tag": "div",
       "className": "accordion-title-wrapper",
       "description": "Wrapper for title button providing structure and padding",
-      "children": ["heading", "title"],
+      "children": [
+        "heading",
+        "title"
+      ],
       "appliesStyles": []
     },
-
     "heading": {
       "id": "heading",
       "tag": "{headingLevel}",
       "className": "accordion-heading",
       "description": "Optional semantic heading wrapper (h1-h6) for title button",
-      "children": ["title"],
+      "children": [
+        "title"
+      ],
       "conditionalRender": "{headingLevel !== 'none'}",
       "appliesStyles": []
     },
-
     "title": {
       "id": "title",
       "tag": "button",
       "className": "accordion-title",
       "description": "Clickable title/header button that toggles accordion visibility",
-      "children": ["titleText", "icon", "titleContentWrapper"],
+      "children": [
+        "titleText",
+        "icon",
+        "titleContentWrapper"
+      ],
       "attributes": {
         "type": "button"
       },
@@ -81,17 +89,18 @@
         "hoverTitleBackgroundColor"
       ]
     },
-
     "titleContentWrapper": {
       "id": "titleContentWrapper",
       "tag": "div",
       "className": "",
       "description": "Wrapper for title text and icon when icon position is left or right (not extreme)",
-      "children": ["titleText", "icon"],
+      "children": [
+        "titleText",
+        "icon"
+      ],
       "conditionalRender": "{iconPosition === 'left' || iconPosition === 'right' || !iconPosition}",
       "appliesStyles": []
     },
-
     "titleText": {
       "id": "titleText",
       "tag": "span",
@@ -101,7 +110,6 @@
       "source": "{title}",
       "appliesStyles": []
     },
-
     "icon": {
       "id": "icon",
       "tag": "span",
@@ -131,13 +139,14 @@
         "iconRotation"
       ]
     },
-
     "content": {
       "id": "content",
       "tag": "div",
       "className": "accordion-content",
       "description": "Collapsible content area that expands/collapses with padding for InnerBlocks",
-      "children": ["contentInner"],
+      "children": [
+        "contentInner"
+      ],
       "conditionalAttribute": {
         "hidden": "{!initiallyOpen}"
       },
@@ -146,15 +155,12 @@
         "labelledby": "{accordionId}-header"
       },
       "appliesStyles": [
-        "contentColor",
         "contentBackgroundColor",
-        "contentFontSize",
         "dividerColor",
         "dividerWidth",
         "dividerStyle"
       ]
     },
-
     "contentInner": {
       "id": "contentInner",
       "tag": "div",
@@ -164,16 +170,23 @@
       "appliesStyles": []
     }
   },
-
   "hierarchy": {
     "root": "item",
     "tree": {
       "item": {
         "titleWrapper": {
           "heading": {
-            "title": ["titleText", "icon", "titleContentWrapper"]
+            "title": [
+              "titleText",
+              "icon",
+              "titleContentWrapper"
+            ]
           },
-          "title": ["titleText", "icon", "titleContentWrapper"]
+          "title": [
+            "titleText",
+            "icon",
+            "titleContentWrapper"
+          ]
         },
         "content": {
           "contentInner": []

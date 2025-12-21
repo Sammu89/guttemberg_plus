@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-20T00:28:38.457Z
+> Generated at: 2025-12-21T02:54:11.057Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -16,9 +16,9 @@ Complete theme and appearance configuration for Table of Contents blocks
 - **Block Type:** `toc`
 - **Version:** 1.0.0
 
-## Behavior
+## Block Options
 
-Non-themeable behavioral and structural settings
+Behavior and core options
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -26,6 +26,8 @@ Non-themeable behavioral and structural settings
 | `showTitle` | boolean | `true` | No (structural) | Display the TOC title header |
 | `titleText` | string | `Table of Contents` | No (content) | The title displayed above the table of contents |
 | `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
+| `tocItems` | array | _object_ | No (structural) | Persisted TOC entries with anchors and levels |
+| `deletedHeadingIds` | array | _object_ | No (structural) | Anchors removed from scans until reset |
 | `filterMode` | string | `include-all` | No (N/A) | How headings are filtered for inclusion |
 | `includeLevels` | array | _object_ | No (N/A) | Which heading levels to include (H2-H6) |
 | `includeClasses` | string | `` | No (N/A) | CSS classes to include in TOC |
@@ -43,31 +45,15 @@ Non-themeable behavioral and structural settings
 | `autoHighlight` | boolean | `true` | No (N/A) | Highlight current section in TOC |
 | `clickBehavior` | string | `navigate` | No (N/A) | What happens when clicking a TOC item |
 | `tocWidth` | string | `100%` | No (N/A) | TOC container width (e.g., 100%, 500px) |
-| `tocHorizontalAlign` | string | `left` | No (N/A) | Horizontal alignment of the TOC block |
+| `tocHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the TOC block |
 
-## Content Colors
+## Block Borders
 
-Link colors, level colors, and numbering colors
+Wrapper background, borders, and shadows
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `wrapperBackgroundColor` | string | `#ffffff` | Yes | Background color of the TOC wrapper |
-| `linkColor` | string | `#0073aa` | Yes | Default color for TOC links |
-| `linkHoverColor` | string | `#005177` | Yes | Color when hovering over links |
-| `linkActiveColor` | string | `#005177` | Yes | Color for the currently active link |
-| `linkVisitedColor` | string | `#0073aa` | Yes | Color for visited links |
-| `numberingColor` | string | `#0073aa` | Yes | Color for list numbering |
-| `level1Color` | string | `#0073aa` | Yes | Text color for level 1 headings (H2) |
-| `level2Color` | string | `#0073aa` | Yes | Text color for level 2 headings (H3) |
-| `level3PlusColor` | string | `#0073aa` | Yes | Text color for level 3+ headings (H4-H6) |
-| `collapseIconColor` | string | `#666666` | Yes | Color of the collapse/expand icon |
-
-## Block Borders
-
-Wrapper borders, radius, and shadows
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
 | `blockBorderColor` | string | `#dddddd` | Yes | Border color of the TOC wrapper |
 | `blockBorderWidth` | number | `1` | Yes | Width of the wrapper border in pixels |
 | `blockBorderStyle` | string | `solid` | Yes | Style of the wrapper border |
@@ -75,25 +61,36 @@ Wrapper borders, radius, and shadows
 | `blockShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |
 | `blockShadowHover` | string | `none` | Yes | CSS box-shadow for the wrapper on hover |
 
-## Header Colors
+## Title Colors
 
-Title text and background colors
+Title colors
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `titleColor` | string | `#333333` | Yes | Text color for the TOC title |
 | `titleBackgroundColor` | string | `transparent` | Yes | Background color for the TOC title |
 
-## Typography
+## Link Colors
 
-Font settings for title and heading levels
+Link and numbering colors
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `titleFontSize` | number | `1.25` | Yes | Font size for the TOC title in rem |
-| `titleFontWeight` | string | `700` | Yes | Font weight for the TOC title |
-| `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
-| `titleAlignment` | string | `left` | Yes | Text alignment for the title |
+| `linkColor` | string | `#0073aa` | Yes | Default color for TOC links |
+| `linkHoverColor` | string | `#005177` | Yes | Color when hovering over links |
+| `linkActiveColor` | string | `#005177` | Yes | Color for the currently active link |
+| `linkVisitedColor` | string | `#0073aa` | Yes | Color for visited links |
+| `numberingColor` | string | `#0073aa` | Yes | Color for list numbering |
+
+## Level Styling
+
+Per-level colors and typography
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `level1Color` | string | `#0073aa` | Yes | Text color for level 1 headings (H2) |
+| `level2Color` | string | `#0073aa` | Yes | Text color for level 2 headings (H3) |
+| `level3PlusColor` | string | `#0073aa` | Yes | Text color for level 3+ headings (H4-H6) |
 | `level1FontSize` | number | `1.125` | Yes | Font size for level 1 items (H2) in rem |
 | `level1FontWeight` | string | `600` | Yes | Font weight for level 1 items |
 | `level1FontStyle` | string | `normal` | Yes | Font style for level 1 items |
@@ -110,20 +107,41 @@ Font settings for title and heading levels
 | `level3PlusTextTransform` | string | `none` | Yes | Text transformation for level 3+ items |
 | `level3PlusTextDecoration` | string | `none` | Yes | Text decoration for level 3+ items |
 
-## Layout
+## Collapse Icon
 
-Spacing, padding, and positioning
+Collapse icon styles
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `collapseIconColor` | string | `#666666` | Yes | Color of the collapse/expand icon |
+| `collapseIconSize` | number | `1.25` | Yes | Size of the collapse/expand icon (rem) |
+
+## Title Typography
+
+Title typography and padding
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `titleFontSize` | number | `1.25` | Yes | Font size for the TOC title in rem |
+| `titleFontWeight` | string | `700` | Yes | Font weight for the TOC title |
+| `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
+| `titleAlignment` | string | `left` | Yes | Text alignment for the title |
 | `titlePadding` | object | _object_ | Yes | Padding around the title |
+
+## Spacing & Layout
+
+Padding, spacing, indent, positioning
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
 | `wrapperPadding` | number | `1.25` | Yes | Padding inside the TOC wrapper (rem) |
 | `listPaddingLeft` | number | `1.5` | Yes | Left padding for the list (rem) |
 | `itemSpacing` | number | `0.5` | Yes | Vertical space between TOC items (rem) |
 | `levelIndent` | number | `1.25` | Yes | Indentation per heading level (rem) |
 | `positionTop` | number | `6.25` | Yes | Top offset for sticky/fixed positioning (rem) |
 | `zIndex` | number | `100` | Yes | Stack order for positioned TOC |
-| `collapseIconSize` | number | `1.25` | Yes | Size of the collapse/expand icon (rem) |
+| `positionHorizontalSide` | string | `right` | No (Applied as inline style, not CSS variable) | Which side to anchor the TOC (sticky/fixed positioning) |
+| `positionHorizontalOffset` | string | `1.25rem` | No (Applied as inline style, not CSS variable) | Distance from the selected side |
 
 ## CSS Variables
 

@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-12-20T00:28:38.461Z
+ * Generated at: 2025-12-21T02:54:11.059Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -27,7 +27,6 @@ $mappings = array(
       'titleBackgroundColor' => array( 'cssVar' => 'accordion-title-bg', 'unit' => null, 'type' => 'string' ),
       'hoverTitleColor' => array( 'cssVar' => 'accordion-title-hover-color', 'unit' => null, 'type' => 'string' ),
       'hoverTitleBackgroundColor' => array( 'cssVar' => 'accordion-title-hover-bg', 'unit' => null, 'type' => 'string' ),
-      'contentColor' => array( 'cssVar' => 'accordion-content-color', 'unit' => null, 'type' => 'string' ),
       'contentBackgroundColor' => array( 'cssVar' => 'accordion-content-bg', 'unit' => null, 'type' => 'string' ),
       'borderColor' => array( 'cssVar' => 'accordion-border-color', 'unit' => null, 'type' => 'string' ),
       'dividerColor' => array( 'cssVar' => 'accordion-divider-color', 'unit' => null, 'type' => 'string' ),
@@ -38,7 +37,6 @@ $mappings = array(
       'titleTextTransform' => array( 'cssVar' => 'accordion-title-text-transform', 'unit' => null, 'type' => 'string' ),
       'titleTextDecoration' => array( 'cssVar' => 'accordion-title-text-decoration', 'unit' => null, 'type' => 'string' ),
       'titleAlignment' => array( 'cssVar' => 'accordion-title-alignment', 'unit' => null, 'type' => 'string' ),
-      'contentFontSize' => array( 'cssVar' => 'accordion-content-font-size', 'unit' => 'rem', 'type' => 'number' ),
       'borderWidth' => array( 'cssVar' => 'accordion-border-width', 'unit' => 'px', 'type' => 'number' ),
       'borderStyle' => array( 'cssVar' => 'accordion-border-style', 'unit' => null, 'type' => 'string' ),
       'borderRadius' => array( 'cssVar' => 'accordion-border-radius', 'unit' => 'px', 'type' => 'object' ),

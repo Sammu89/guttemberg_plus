@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-20T00:28:38.435Z
+ * Generated at: 2025-12-21T02:54:11.044Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -45,9 +45,6 @@ export function buildEditorStyles(values) {
     if (values.hoverTitleBackgroundColor !== undefined && values.hoverTitleBackgroundColor !== null) {
       styles.default.backgroundColor = values.hoverTitleBackgroundColor;
     }
-    if (values.contentColor !== undefined && values.contentColor !== null) {
-      styles.default.color = values.contentColor;
-    }
     if (values.contentBackgroundColor !== undefined && values.contentBackgroundColor !== null) {
       styles.default.backgroundColor = values.contentBackgroundColor;
     }
@@ -77,9 +74,6 @@ export function buildEditorStyles(values) {
     }
     if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
       styles.default.textAlign = values.titleAlignment;
-    }
-    if (values.contentFontSize !== undefined && values.contentFontSize !== null) {
-      styles.default.fontSize = `${values.contentFontSize}rem`;
     }
     if (values.borderWidth !== undefined && values.borderWidth !== null) {
       styles.default.borderWidth = `${values.borderWidth}px`;
@@ -142,10 +136,6 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-title-hover-bg'] = customizations.hoverTitleBackgroundColor;
   }
 
-  if (customizations.contentColor !== undefined && customizations.contentColor !== null) {
-    styles['--accordion-content-color'] = customizations.contentColor;
-  }
-
   if (customizations.contentBackgroundColor !== undefined && customizations.contentBackgroundColor !== null) {
     styles['--accordion-content-bg'] = customizations.contentBackgroundColor;
   }
@@ -184,10 +174,6 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.titleAlignment !== undefined && customizations.titleAlignment !== null) {
     styles['--accordion-title-alignment'] = customizations.titleAlignment;
-  }
-
-  if (customizations.contentFontSize !== undefined && customizations.contentFontSize !== null) {
-    styles['--accordion-content-font-size'] = `${customizations.contentFontSize}rem`;
   }
 
   if (customizations.borderWidth !== undefined && customizations.borderWidth !== null) {

@@ -10,6 +10,11 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 export default function Save( { attributes } ) {
+	// Don't render disabled tabs on frontend
+	if ( attributes.isDisabled ) {
+		return null;
+	}
+
 	const tabId = attributes.tabId || '';
 	const blockProps = useBlockProps.save( {
 		className: 'tab-panel',
@@ -18,7 +23,6 @@ export default function Save( { attributes } ) {
 		'aria-labelledby': `tab-${ tabId }`,
 		'data-tab-id': tabId,
 		'data-tab-title': attributes.title || '',
-		'data-disabled': attributes.isDisabled ? 'true' : 'false',
 	} );
 
 	return (
