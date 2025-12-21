@@ -10,6 +10,13 @@
 
 @use 'theme-generated';
 
+/* Reset all heading margins */
+.gutplus-accordion {
+	h1, h2, h3, h4, h5, h6 {
+		margin: 0 !important;
+	}
+}
+
 /* Accordion item - now the root element
  * .gutplus-accordion is the block root
  * Border styles come from _theme-generated.scss via CSS variables

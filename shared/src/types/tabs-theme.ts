@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-20T00:28:38.440Z
+ * Generated at: 2025-12-21T02:54:11.047Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -47,7 +47,7 @@ export interface TabsTheme {
   tabButtonBorderColor?: string;
   /** Border color for the active tab */
   tabButtonActiveBorderColor?: string;
-  /** Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border. */
+  /** Color of the border. Keep it the same color as panel background for a merged look. */
   tabButtonActiveContentBorderColor?: string;
   /** Border width for tab buttons */
   tabButtonBorderWidth?: number;
@@ -131,7 +131,7 @@ export const tabsDefaultTheme: TabsTheme = {
   tabButtonHoverBackgroundColor: '#e8e8e8',
   tabButtonActiveColor: '#333333',
   tabButtonActiveBackgroundColor: '#ffffff',
-  tabButtonActiveContentBorderWidth: 2,
+  tabButtonActiveContentBorderWidth: 1,
   tabButtonActiveContentBorderStyle: 'solid',
   tabButtonActiveFontWeight: 'bold',
   tabButtonBorderColor: '#dddddd',
@@ -197,10 +197,10 @@ export interface TabsThemeAttributes {
   tabs?: any[];
   tabsData?: any[];
   orientation?: string;
+  stretchButtonsToRow?: boolean;
   activationMode?: string;
   headingLevel?: string;
   title?: string;
-  verticalTabButtonTextAlign?: string;
   tabsHorizontalAlign?: string;
   tabsWidth?: string;
   showIcon?: boolean;

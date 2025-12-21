@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-20T00:28:38.506Z
+ * Generated at: 2025-12-21T02:54:11.091Z
  *
  * This file contains CSS variable declarations for themeable properties.
  * Import this file in style.scss: @use 'theme-generated';
@@ -68,14 +68,14 @@
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 2px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
     /* Font weight for active/selected tab button */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
-    /* Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border. */
+    /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
   }
 }
@@ -85,10 +85,10 @@
   &.active,
   &[aria-selected="true"] {
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 2px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
-    /* Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border. */
+    /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
   }
 }
@@ -98,10 +98,10 @@
   &.active,
   &[aria-selected="true"] {
     /* Width of the active button edge touching content */
-    border-right-width: var(--tabs-button-active-content-border-width, 2px);
+    border-right-width: var(--tabs-button-active-content-border-width, 1px);
     /* Style of the active button edge touching content */
     border-right-style: var(--tabs-button-active-content-border-style, solid);
-    /* Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border. */
+    /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
   }
 }
@@ -111,10 +111,10 @@
   &.active,
   &[aria-selected="true"] {
     /* Width of the active button edge touching content */
-    border-left-width: var(--tabs-button-active-content-border-width, 2px);
+    border-left-width: var(--tabs-button-active-content-border-width, 1px);
     /* Style of the active button edge touching content */
     border-left-style: var(--tabs-button-active-content-border-style, solid);
-    /* Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border. */
+    /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
   }
 }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-20T00:28:38.451Z
+ * Generated at: 2025-12-21T02:54:11.054Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -178,6 +178,8 @@ export interface TocThemeAttributes {
   showTitle?: boolean;
   titleText?: string;
   currentTheme?: string;
+  tocItems?: any[];
+  deletedHeadingIds?: any[];
   filterMode?: string;
   includeLevels?: any[];
   includeClasses?: string;
@@ -240,5 +242,7 @@ export interface TocThemeAttributes {
   levelIndent?: number;
   positionTop?: number;
   zIndex?: number;
+  positionHorizontalSide?: string;
+  positionHorizontalOffset?: string;
   collapseIconSize?: number;
 }

@@ -106,9 +106,9 @@ const getCustomizationStyles = () => {
 
 		// If active content border is disabled, force content-edge vars to fall back to main border
 		if ( attributes.enableFocusBorder === false ) {
-			const activeBorderColor = r.tabButtonActiveBorderColor ?? allDefaults.tabButtonActiveBorderColor ?? '#dddddd';
-			const baseBorderWidth = r.tabButtonBorderWidth ?? 1;
-			const baseBorderStyle = r.tabButtonBorderStyle ?? allDefaults.tabButtonBorderStyle ?? 'solid';
+			const activeBorderColor = attributes.tabButtonActiveBorderColor ?? allDefaults.tabButtonActiveBorderColor ?? '#dddddd';
+			const baseBorderWidth = attributes.tabButtonBorderWidth ?? 1;
+			const baseBorderStyle = attributes.tabButtonBorderStyle ?? allDefaults.tabButtonBorderStyle ?? 'solid';
 
 			customizationStyles['--tabs-button-active-content-border-color'] = activeBorderColor;
 			customizationStyles['--tabs-button-active-content-border-width'] = formatCssValue(
@@ -126,7 +126,7 @@ const getCustomizationStyles = () => {
 			delete customizationStyles['--tabs-list-divider-border-style'];
 
 			const rowColor = attributes.tabsRowBorderColor ?? allDefaults.tabsRowBorderColor ?? '#dddddd';
-			const rowWidth = attributes.tabsRowBorderWidth ?? r.tabsRowBorderWidth ?? 0;
+			const rowWidth = attributes.tabsRowBorderWidth ?? allDefaults.tabsRowBorderWidth ?? 0;
 			const rowStyle = attributes.tabsRowBorderStyle ?? allDefaults.tabsRowBorderStyle ?? 'solid';
 
 			customizationStyles['--tabs-list-divider-border-color'] = rowColor;
@@ -198,45 +198,46 @@ const getCustomizationStyles = () => {
 			return null;
 		}
 
-		return tabsData.map( ( tab, index ) => {
-			const isSelected = index === currentTab;
-			const tabId = tab.tabId || `tab-${ index }`;
+		return tabsData
+			.filter( ( tab ) => ! tab.isDisabled ) // Skip disabled tabs on frontend
+			.map( ( tab, index ) => {
+				const isSelected = index === currentTab;
+				const tabId = tab.tabId || `tab-${ index }`;
 
-			// Build button content with icon based on position
-			const buttonContent = (
-				<button
-					type="button"
-					className={ `tab-button${ isSelected ? ' active' : '' }` }
-					role="tab"
-					id={ `tab-${ tabId }` }
-					aria-controls={ `panel-${ tabId }` }
-					aria-selected={ isSelected ? 'true' : 'false' }
-					tabIndex={ isSelected ? 0 : -1 }
-					{ ...( tab.isDisabled && { disabled: true, 'aria-disabled': 'true' } ) }
-				>
-					{ effectiveValues.showIcon && iconPosition === 'left' && renderIcon() }
-					<span className="tab-button-text">{ tab.title || `Tab ${ index + 1 }` }</span>
-					{ effectiveValues.showIcon && iconPosition === 'right' && renderIcon() }
-				</button>
-			);
-
-			// Wrap in heading if headingLevel is set
-			if ( headingLevel !== 'none' ) {
-				const HeadingTag = headingLevel;
-				return (
-					<HeadingTag key={ tabId } className="tab-heading" style={ { margin: 0 } }>
-						{ buttonContent }
-					</HeadingTag>
+				// Build button content with icon based on position
+				const buttonContent = (
+					<button
+						type="button"
+						className={ `tab-button${ isSelected ? ' active' : '' }` }
+						role="tab"
+						id={ `tab-${ tabId }` }
+						aria-controls={ `panel-${ tabId }` }
+						aria-selected={ isSelected ? 'true' : 'false' }
+						tabIndex={ isSelected ? 0 : -1 }
+					>
+						{ effectiveValues.showIcon && iconPosition === 'left' && renderIcon() }
+						<span className="tab-button-text">{ tab.title || `Tab ${ index + 1 }` }</span>
+						{ effectiveValues.showIcon && iconPosition === 'right' && renderIcon() }
+					</button>
 				);
-			}
 
-			// Return button with key for React
-			return (
-				<span key={ tabId }>
-					{ buttonContent }
-				</span>
-			);
-		} );
+				// Wrap in heading if headingLevel is set
+				if ( headingLevel !== 'none' ) {
+					const HeadingTag = headingLevel;
+					return (
+						<HeadingTag key={ tabId } className="tab-heading" style={ { margin: 0 } }>
+							{ buttonContent }
+						</HeadingTag>
+					);
+				}
+
+				// Return button with key for React
+				return (
+					<span key={ tabId }>
+						{ buttonContent }
+					</span>
+				);
+			} );
 	};
 
 	// Build class names - add theme class if using a theme
@@ -257,7 +258,7 @@ const getCustomizationStyles = () => {
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
 		'data-orientation': attributes.orientation || 'horizontal',
-		'data-activation-mode': attributes.activationMode || 'auto',
+		'data-activation-mode': attributes.activationMode || 'click',
 		'data-breakpoint': attributes.responsiveBreakpoint || 768,
 		'data-responsive-fallback': attributes.enableResponsiveFallback || true,
 		'data-show-icon': attributes.showIcon || false,
@@ -265,6 +266,8 @@ const getCustomizationStyles = () => {
 		'data-icon-open': effectiveValues.iconTypeOpen || 'none',
 		'data-icon-position': effectiveValues.iconPosition || 'right',
 		'data-heading-level': attributes.headingLevel || 'none',
+		'data-stretch-buttons': attributes.stretchButtonsToRow || false,
+		'data-hide-inactive-edge': 'true',
 		// Apply width and customizations
 		style: rootStyles,
 	} );

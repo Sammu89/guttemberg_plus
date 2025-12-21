@@ -14,7 +14,14 @@
  * @since 1.0.0
  */
 
-import { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import {
+	PanelBody,
+	RangeControl,
+	SelectControl,
+	TextControl,
+	ToggleControl,
+	__experimentalUnitControl as UnitControl,
+} from '@wordpress/components';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { normalizeValueForControl } from '../theme-system/control-normalizer';
 import { CompactColorControl } from './CompactColorControl';
@@ -151,16 +158,27 @@ export function GenericPanel( {
 	};
 
 	/**
-	 * Render label with customization badge
+	 * Render label with customization indicator
 	 * @param {string} label - Label text
 	 * @param {string} attrName - Attribute name for customization check
-	 * @returns {JSX.Element} Label with optional badge
+	 * @returns {JSX.Element} Label with optional indicator
 	 */
 	const renderLabel = ( label, attrName ) => (
-		<span>
+		<span style={ { display: 'flex', alignItems: 'center', gap: '6px' } }>
 			{ label }
 			{ isAttrCustomized( attrName ) && (
-				<span className="customization-badge"> (Customized)</span>
+				<span
+					className="customization-indicator"
+					title="This property has been customized"
+					style={ {
+						display: 'inline-block',
+						width: '6px',
+						height: '6px',
+						borderRadius: '50%',
+						backgroundColor: '#dc3232',
+						flexShrink: 0,
+					} }
+				/>
 			) }
 		</span>
 	);
@@ -172,10 +190,36 @@ export function GenericPanel( {
 	 * @returns {JSX.Element|null} Rendered control or null
 	 */
 	const renderControl = ( attrName, attrConfig ) => {
-		const { control, label, description, options, min, max, step, default: defaultValue } = attrConfig;
+		const { control, label, description, options, min, max, step, default: defaultValue, disabledWhen, showWhen, units } = attrConfig;
 		const effectiveValue = effectiveValues[ attrName ];
 		const finalLabel = label || attrName;
 		const helpText = description || '';
+
+		// Check if control should be hidden based on showWhen conditions
+		// If showWhen is defined, control is only shown when condition is met
+		if ( showWhen ) {
+			let shouldShow = false;
+			Object.entries( showWhen ).forEach( ( [ dependencyAttr, showingValues ] ) => {
+				const dependencyValue = attributes[ dependencyAttr ];
+				if ( Array.isArray( showingValues ) && showingValues.includes( dependencyValue ) ) {
+					shouldShow = true;
+				}
+			} );
+			if ( ! shouldShow ) {
+				return null; // Hide the control entirely
+			}
+		}
+
+		// Check if control should be disabled based on disabledWhen conditions
+		let isDisabled = false;
+		if ( disabledWhen ) {
+			Object.entries( disabledWhen ).forEach( ( [ dependencyAttr, disablingValues ] ) => {
+				const dependencyValue = attributes[ dependencyAttr ];
+				if ( Array.isArray( disablingValues ) && disablingValues.includes( dependencyValue ) ) {
+					isDisabled = true;
+				}
+			} );
+		}
 
 		// Skip attributes without a defined control (e.g., SpacingControl)
 		// Note: BorderRadiusControl is now handled in the switch statement below
@@ -222,6 +266,7 @@ export function GenericPanel( {
 						max={ max ?? 100 }
 						step={ step ?? 1 }
 						help={ helpText }
+						disabled={ isDisabled }
 					/>
 				);
 			}
@@ -238,6 +283,7 @@ export function GenericPanel( {
 						options={ normalizedOptions }
 						onChange={ ( value ) => handleChange( attrName, value ) }
 						help={ helpText }
+						disabled={ isDisabled }
 						__next40pxDefaultSize
 					/>
 				);
@@ -251,6 +297,7 @@ export function GenericPanel( {
 						value={ effectiveValue ?? defaultValue ?? '' }
 						onChange={ ( value ) => handleChange( attrName, value ) }
 						help={ helpText }
+						disabled={ isDisabled }
 						__next40pxDefaultSize
 					/>
 				);
@@ -265,6 +312,7 @@ export function GenericPanel( {
 						onChange={ ( value ) => handleChange( attrName, value ) }
 						help={ helpText }
 						__nextHasNoMarginBottom
+						disabled={ isDisabled }
 					/>
 				);
 			}
@@ -298,6 +346,44 @@ export function GenericPanel( {
 						help={ iconHelp }
 						__next40pxDefaultSize
 					/>
+				);
+			}
+
+			case 'UnitControl': {
+				// UnitControl for values with selectable units (px, %, rem, em, etc.)
+				// Default units if not specified in schema
+				const defaultUnits = [
+					{ value: 'px', label: 'px', default: true },
+					{ value: '%', label: '%' },
+					{ value: 'rem', label: 'rem' },
+					{ value: 'em', label: 'em' },
+				];
+
+				// Use schema-defined units or defaults
+				const unitOptions = units
+					? units.map( ( u, index ) => ( {
+							value: u,
+							label: u,
+							default: index === 0,
+					  } ) )
+					: defaultUnits;
+
+				return (
+					<div key={ attrName } style={ { marginBottom: '16px' } }>
+						<UnitControl
+							label={ renderLabel( finalLabel, attrName ) }
+							value={ effectiveValue ?? defaultValue ?? '' }
+							onChange={ ( value ) => handleChange( attrName, value ) }
+							units={ unitOptions }
+							disabled={ isDisabled }
+							__next40pxDefaultSize
+						/>
+						{ helpText && (
+							<p style={ { fontSize: '12px', color: '#757575', marginTop: '4px' } }>
+								{ helpText }
+							</p>
+						) }
+					</div>
 				);
 			}
 

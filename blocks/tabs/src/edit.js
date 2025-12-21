@@ -27,7 +27,7 @@ import {
 	Button,
 } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useRef, useCallback } from '@wordpress/element';
 
 import {
 	generateUniqueId,
@@ -76,6 +76,13 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Local state for active tab in editor
 	const [ activeTab, setActiveTab ] = useState( attributes.currentTab || 0 );
 
+	// State for action popup balloon (track by clientId so it follows moved tabs)
+	const [ popupTabId, setPopupTabId ] = useState( null );
+	const [ popupCoords, setPopupCoords ] = useState( { top: 0, left: 0 } );
+	const popupRef = useRef( null );
+	const tabButtonRefs = useRef( {} );
+	const closeTimeoutRef = useRef( null );
+
 	// Get tab-panel children
 	const { tabPanels } = useSelect(
 		( select ) => {
@@ -110,6 +117,105 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			setAttributes( { tabsData: newTabsData } );
 		}
 	}, [ tabPanels, attributes.tabsData, setAttributes ] );
+
+	// Click-outside handler to close popup
+	useEffect( () => {
+		const handleClickOutside = ( event ) => {
+			if ( popupTabId !== null && popupRef.current && ! popupRef.current.contains( event.target ) ) {
+				// Check if click was on a gear trigger
+				const isGearClick = event.target.closest( '.tab-gear-trigger' );
+				if ( ! isGearClick ) {
+					setPopupTabId( null );
+				}
+			}
+		};
+
+		document.addEventListener( 'mousedown', handleClickOutside );
+		return () => {
+			document.removeEventListener( 'mousedown', handleClickOutside );
+		};
+	}, [ popupTabId ] );
+
+	// Update popup position when tab panels change (e.g., after move)
+	useEffect( () => {
+		if ( popupTabId !== null ) {
+			// Find the current index of the tab with this ID
+			const currentIndex = tabPanels.findIndex( ( p ) => p.clientId === popupTabId );
+			if ( currentIndex !== -1 ) {
+				const buttonElement = tabButtonRefs.current[ currentIndex ];
+				if ( buttonElement ) {
+					const rect = buttonElement.getBoundingClientRect();
+					setPopupCoords( {
+						top: rect.bottom + 4,
+						left: rect.left + rect.width / 2,
+					} );
+				}
+			} else {
+				// Tab was deleted, close popup
+				setPopupTabId( null );
+			}
+		}
+	}, [ popupTabId, tabPanels ] );
+
+	/**
+	 * Toggle popup for a specific tab using clientId for tracking
+	 * @param {string} clientId - Panel client ID
+	 * @param {number} index - Tab index (for button ref lookup)
+	 * @param {Event} event - Click event
+	 */
+	const togglePopup = useCallback( ( clientId, index, event ) => {
+		event.stopPropagation();
+
+		if ( popupTabId === clientId ) {
+			setPopupTabId( null );
+			return;
+		}
+
+		// Calculate position based on button location
+		const buttonElement = tabButtonRefs.current[ index ];
+		if ( buttonElement ) {
+			const rect = buttonElement.getBoundingClientRect();
+			setPopupCoords( {
+				top: rect.bottom + 4,
+				left: rect.left + rect.width / 2,
+			} );
+		}
+
+		setPopupTabId( clientId );
+	}, [ popupTabId ] );
+
+	/**
+	 * Delayed close - allows popup to survive translation
+	 */
+	const schedulePopupClose = useCallback( () => {
+		// Clear any existing timeout
+		if ( closeTimeoutRef.current ) {
+			clearTimeout( closeTimeoutRef.current );
+		}
+		// Schedule close after 1 second delay
+		closeTimeoutRef.current = setTimeout( () => {
+			setPopupTabId( null );
+		}, 1000 );
+	}, [] );
+
+	/**
+	 * Cancel scheduled close (when mouse re-enters)
+	 */
+	const cancelPopupClose = useCallback( () => {
+		if ( closeTimeoutRef.current ) {
+			clearTimeout( closeTimeoutRef.current );
+			closeTimeoutRef.current = null;
+		}
+	}, [] );
+
+	// Cleanup timeout on unmount
+	useEffect( () => {
+		return () => {
+			if ( closeTimeoutRef.current ) {
+				clearTimeout( closeTimeoutRef.current );
+			}
+		};
+	}, [] );
 
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.tabsHorizontalAlign );
@@ -365,7 +471,7 @@ const getInlineStyles = () => {
 	};
 
 	// Get dispatch for block manipulation
-	const { insertBlock, removeBlock, updateBlockAttributes } = useDispatch( 'core/block-editor' );
+	const { insertBlock, removeBlock, updateBlockAttributes, moveBlockToPosition } = useDispatch( 'core/block-editor' );
 
 	/**
 	 * Add new tab next to active tab (or at end if no active tab)
@@ -432,6 +538,42 @@ const getInlineStyles = () => {
 		const block = tabPanels[ index ];
 		if ( block ) {
 			updateBlockAttributes( block.clientId, { [ property ]: value } );
+		}
+	};
+
+	/**
+	 * Move tab up (to lower index)
+	 * @param {number} index - Current index of the tab
+	 */
+	const moveTabUp = ( index ) => {
+		if ( index <= 0 ) {
+			return; // Already at the top
+		}
+		const block = tabPanels[ index ];
+		moveBlockToPosition( block.clientId, clientId, clientId, index - 1 );
+		// Update active tab to follow the moved block
+		if ( activeTab === index ) {
+			setActiveTab( index - 1 );
+		} else if ( activeTab === index - 1 ) {
+			setActiveTab( index );
+		}
+	};
+
+	/**
+	 * Move tab down (to higher index)
+	 * @param {number} index - Current index of the tab
+	 */
+	const moveTabDown = ( index ) => {
+		if ( index >= tabPanels.length - 1 ) {
+			return; // Already at the bottom
+		}
+		const block = tabPanels[ index ];
+		moveBlockToPosition( block.clientId, clientId, clientId, index + 1 );
+		// Update active tab to follow the moved block
+		if ( activeTab === index ) {
+			setActiveTab( index + 1 );
+		} else if ( activeTab === index + 1 ) {
+			setActiveTab( index );
 		}
 	};
 
@@ -567,6 +709,9 @@ const getInlineStyles = () => {
 				style: rootStyles,
 				ref: blockRef,
 				'data-orientation': attributes.orientation || 'horizontal',
+				'data-stretch-buttons': attributes.stretchButtonsToRow || false,
+				'data-button-text-align': effectiveValues.tabButtonTextAlign || 'center',
+				'data-hide-inactive-edge': 'true',
 			} );
 
 	return (
@@ -591,7 +736,7 @@ const getInlineStyles = () => {
 				/>
 			</div>
 
-			<PanelBody title={ __( 'Tabs Management', 'guttemberg-plus' ) } initialOpen={ true }>
+			<PanelBody title={ __( 'Tabs Management', 'guttemberg-plus' ) } initialOpen={ false }>
 				<div className="tabs-management">
 					{ tabPanels.map( ( panel, index ) => (
 						<div key={ panel.clientId } className="tab-panel-item">
@@ -658,6 +803,8 @@ const getInlineStyles = () => {
 					<div
 						className="tabs-container"
 						data-orientation={ attributes.orientation }
+						data-stretch-buttons={ attributes.stretchButtonsToRow || false }
+						data-button-text-align={ effectiveValues.tabButtonTextAlign || 'center' }
 						style={ styles.container }
 					>
 						{ /* Tab List */ }
@@ -670,25 +817,22 @@ const getInlineStyles = () => {
 							{ tabPanels.map( ( panel, index ) => {
 								const tabId = panel.attributes.tabId || `tab-${ panel.clientId }`;
 								const headingLevel = attributes.headingLevel || 'none';
+								const isPopupOpen = popupTabId === panel.clientId;
 
-								// The button element
+								// The button element with gear trigger as span inside
 								const buttonElement = (
 									<button
+										ref={ ( el ) => { tabButtonRefs.current[ index ] = el; } }
 										role="tab"
 										aria-selected={ activeTab === index }
 										aria-controls={ `panel-${ tabId }` }
 										id={ `tab-${ tabId }` }
 										disabled={ panel.attributes.isDisabled }
 										onClick={ () => switchTab( index ) }
-										style={ {
-											...styles.tabButton(
-												activeTab === index,
-												panel.attributes.isDisabled
-											),
-											display: 'flex',
-											justifyContent: 'space-between',
-											alignItems: 'center',
-										} }
+										style={ styles.tabButton(
+											activeTab === index,
+											panel.attributes.isDisabled
+										) }
 										className={ `tab-button ${
 											activeTab === index ? 'active' : ''
 										}` }
@@ -704,30 +848,24 @@ const getInlineStyles = () => {
 											/>
 											{ effectiveValues.showIcon && effectiveValues.iconPosition === 'right' && renderIcon() }
 										</span>
-										<div className="tab-actions">
-											<button
-												onClick={ ( e ) => {
-													e.stopPropagation();
-													addTab( index );
-												} }
-												className="tab-action-button tab-add-button"
-												title={ __( 'Add tab after this one', 'guttemberg-plus' ) }
-												type="button"
-											>
-												+
-											</button>
-											<button
-												onClick={ ( e ) => {
-													e.stopPropagation();
-													removeTab( index );
-												} }
-												className="tab-action-button tab-remove-button"
-												title={ __( 'Delete this tab', 'guttemberg-plus' ) }
-												type="button"
-											>
-												−
-											</button>
-										</div>
+										{ /* Gear trigger as span (valid inside button) */ }
+										<span
+											className={ `tab-gear-trigger ${ isPopupOpen ? 'is-open' : '' }` }
+											onClick={ ( e ) => togglePopup( panel.clientId, index, e ) }
+											title={ __( 'Tab actions', 'guttemberg-plus' ) }
+											role="button"
+											tabIndex={ 0 }
+											aria-expanded={ isPopupOpen }
+											aria-haspopup="true"
+											onKeyDown={ ( e ) => {
+												if ( e.key === 'Enter' || e.key === ' ' ) {
+													e.preventDefault();
+													togglePopup( panel.clientId, index, e );
+												}
+											} }
+										>
+											⚙
+										</span>
 									</button>
 								);
 
@@ -745,6 +883,84 @@ const getInlineStyles = () => {
 								return (
 									<div key={ panel.clientId } className="tab-button-container">
 										{ wrappedButton }
+										{ /* Popup balloon rendered with fixed position */ }
+										{ isPopupOpen && (
+											<div
+												ref={ popupRef }
+												className="tab-actions-balloon"
+												role="menu"
+												aria-label={ __( 'Tab actions', 'guttemberg-plus' ) }
+												style={ {
+													position: 'fixed',
+													top: popupCoords.top,
+													left: popupCoords.left,
+													transform: 'translateX(-50%)',
+												} }
+												onMouseEnter={ cancelPopupClose }
+												onMouseLeave={ schedulePopupClose }
+											>
+												<button
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														moveTabUp( index );
+													} }
+													className="balloon-icon-button balloon-move"
+													title={ orientation === 'horizontal' ? __( 'Move left', 'guttemberg-plus' ) : __( 'Move up', 'guttemberg-plus' ) }
+													type="button"
+													disabled={ index === 0 }
+												>
+													{ orientation === 'horizontal' ? '←' : '↑' }
+												</button>
+												<button
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														moveTabDown( index );
+													} }
+													className="balloon-icon-button balloon-move"
+													title={ orientation === 'horizontal' ? __( 'Move right', 'guttemberg-plus' ) : __( 'Move down', 'guttemberg-plus' ) }
+													type="button"
+													disabled={ index === tabPanels.length - 1 }
+												>
+													{ orientation === 'horizontal' ? '→' : '↓' }
+												</button>
+												<button
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														addTab( index );
+														setPopupTabId( null );
+													} }
+													className="balloon-icon-button balloon-add"
+													title={ __( 'Add tab', 'guttemberg-plus' ) }
+													type="button"
+												>
+													+
+												</button>
+												<button
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														updateTab( index, 'isDisabled', ! panel.attributes.isDisabled );
+													} }
+													className={ `balloon-icon-button balloon-disable ${ panel.attributes.isDisabled ? 'is-disabled' : '' }` }
+													title={ panel.attributes.isDisabled ? __( 'Enable', 'guttemberg-plus' ) : __( 'Disable', 'guttemberg-plus' ) }
+													type="button"
+												>
+													{ panel.attributes.isDisabled ? '◉' : '◯' }
+												</button>
+												<button
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														removeTab( index );
+														setPopupTabId( null );
+													} }
+													className="balloon-icon-button balloon-remove"
+													title={ __( 'Delete', 'guttemberg-plus' ) }
+													type="button"
+													disabled={ tabPanels.length <= 1 }
+												>
+													×
+												</button>
+											</div>
+										) }
 									</div>
 								);
 							} ) }

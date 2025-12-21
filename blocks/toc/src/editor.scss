@@ -19,6 +19,17 @@
 	margin-bottom: 1em !important;
 	overflow: hidden !important;
 
+	/* EDITOR ONLY: Override sticky/fixed positioning to keep block in normal flow */
+	/* Prevents TOC from overlapping other blocks while editing */
+	&.toc-position-sticky,
+	&.toc-position-fixed {
+		position: static !important;
+		top: auto !important;
+		right: auto !important;
+		z-index: auto !important;
+		max-width: none !important;
+	}
+
 	&.gutplus-align-left {
 		margin-left: 0 !important;
 		margin-right: auto !important;
@@ -100,7 +111,171 @@
 	}
 }
 
+.toc-curated-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+/* Editor-only outline for inner paragraph items */
+.gutplus-toc .block-editor-block-list__layout > [data-type="core/paragraph"] {
+	border: 1px dashed #d0d0d0;
+	border-radius: 4px;
+	padding: 6px 8px;
+}
+
+.toc-reset-deleted {
+	margin-left: 0.5rem;
+}
+
 /* TOC link - keep text-decoration in CSS */
 .toc-link {
 	text-decoration: none;
+}
+
+/* TOC items editor view */
+.toc-items-editor {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+/* TOC item row with link and actions */
+.toc-item-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	border: 1px dashed #d0d0d0;
+	border-radius: 4px;
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+
+	&:hover {
+		border-color: #007cba;
+		background-color: rgba(0, 124, 186, 0.04);
+	}
+
+	.toc-link {
+		flex: 1;
+		color: var(--toc-link-color, #0073aa);
+		text-decoration: none;
+		cursor: default;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+/* TOC item action buttons - hidden by default, shown on hover */
+.toc-item-actions {
+	display: none;
+	flex-direction: row;
+	gap: 2px;
+	flex-shrink: 0;
+}
+
+.toc-item-row:hover .toc-item-actions {
+	display: flex;
+}
+
+/* TOC action buttons */
+.toc-action-button {
+	min-width: 1.25rem;
+	min-height: 1.25rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	padding: 2px 4px;
+	font-size: 0.75rem;
+	font-weight: bold;
+	line-height: 1;
+	border-radius: 2px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	border: 1px solid;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+
+	&:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+
+	&.toc-move-button {
+		background-color: #607D8B;
+		color: #fff;
+		border-color: #546E7A;
+
+		&:hover:not(:disabled) {
+			background-color: #546E7A;
+			border-color: #455A64;
+		}
+
+		&:active:not(:disabled) {
+			background-color: #455A64;
+			border-color: #37474F;
+		}
+	}
+
+	&.toc-hide-button {
+		background-color: #FF9800;
+		color: #fff;
+		border-color: #F57C00;
+		font-size: 0.625rem;
+
+		&:hover:not(:disabled) {
+			background-color: #F57C00;
+			border-color: #E65100;
+		}
+
+		&:active:not(:disabled) {
+			background-color: #E65100;
+			border-color: #BF360C;
+		}
+
+		&.is-hidden {
+			background-color: #9E9E9E;
+			border-color: #757575;
+
+			&:hover:not(:disabled) {
+				background-color: #757575;
+				border-color: #616161;
+			}
+		}
+	}
+
+	&.toc-delete-button {
+		background-color: #f44336;
+		color: #fff;
+		border-color: #da190b;
+
+		&:hover:not(:disabled) {
+			background-color: #da190b;
+			border-color: #ba0000;
+		}
+
+		&:active:not(:disabled) {
+			background-color: #ba0000;
+			border-color: #980000;
+		}
+	}
+}
+
+/* Hidden TOC item styling */
+.toc-item-row.toc-item-hidden {
+	opacity: 0.5;
+	background-color: rgba(0, 0, 0, 0.05);
+	border-style: dotted;
+
+	.toc-link {
+		text-decoration: line-through;
+		color: #999;
+	}
+
+	.toc-item-actions {
+		display: flex; /* Always show actions for hidden items */
+	}
 }

@@ -42,7 +42,8 @@
 			"type": "string"
 		},
 		"activationMode": {
-			"type": "string"
+			"type": "string",
+			"default": "click"
 		},
 		"enableResponsiveFallback": {
 			"type": "boolean",

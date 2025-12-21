@@ -82,8 +82,14 @@ function initTOC( block, config ) {
 	}
 
 	try {
+		const curatedItems = parseCuratedItems( block );
+
 		// Detect headings
-		const headings = detectHeadings( block, config );
+		const detectedHeadings = detectHeadings( block, config );
+		const headings =
+			curatedItems && curatedItems.length > 0
+				? mapCuratedItemsToHeadings( curatedItems, detectedHeadings, config )
+				: detectedHeadings;
 
 		if ( ! headings ) {
 			console.warn( 'Failed to detect headings' );
@@ -218,6 +224,97 @@ function detectHeadings( tocBlock, config ) {
 	}
 
 	return detectedHeadings;
+}
+
+function parseCuratedItems( block ) {
+	if ( ! block ) {
+		return [];
+	}
+
+	const raw = block.getAttribute( 'data-toc-items' );
+	if ( ! raw ) {
+		return [];
+	}
+
+	try {
+		const decoded = decodeURIComponent( raw );
+		const parsed = JSON.parse( decoded );
+		if ( Array.isArray( parsed ) ) {
+			return parsed
+				.filter( ( item ) => ! item.hidden ) // Filter out hidden items
+				.map( ( item, index ) => {
+					const anchor = item.anchor || item.id || `heading-${ index }`;
+					return {
+						anchor,
+						id: anchor,
+						text: item.text || '',
+						level: item.level || 2,
+					};
+				} )
+				.filter( ( item ) => item.id );
+		}
+	} catch ( error ) {
+		console.warn( 'Failed to parse curated TOC items', error );
+	}
+
+	return [];
+}
+
+function normalizeTextForMatch( text = '' ) {
+	return text.toString().trim().toLowerCase();
+}
+
+function mapCuratedItemsToHeadings( curatedItems, detectedHeadings, config ) {
+	if ( ! Array.isArray( curatedItems ) || curatedItems.length === 0 ) {
+		return detectedHeadings || [];
+	}
+
+	const detected = Array.isArray( detectedHeadings ) ? detectedHeadings : [];
+	const detectedById = new Map();
+	detected.forEach( ( heading ) => {
+		if ( heading && heading.id ) {
+			detectedById.set( heading.id, heading );
+		}
+	} );
+
+	const used = new Set();
+
+	return curatedItems.map( ( item, index ) => {
+		const anchor = item.anchor || item.id || `heading-${ config?.tocId || 'toc' }-${ index }`;
+
+		let match = detectedById.get( anchor );
+		if ( ! match ) {
+			match = detected.find( ( heading ) => {
+				if ( used.has( heading ) ) {
+					return false;
+				}
+				if ( item.level && heading.level !== item.level ) {
+					return false;
+				}
+				return (
+					normalizeTextForMatch( heading.text ) ===
+					normalizeTextForMatch( item.text )
+				);
+			} );
+		}
+
+		if ( match ) {
+			used.add( match );
+
+			if ( match.element && match.element.id !== anchor ) {
+				match.element.id = anchor;
+			}
+
+			return { ...match, id: anchor };
+		}
+
+		return {
+			level: item.level || 2,
+			text: item.text || '',
+			id: anchor,
+			element: null,
+		};
+	} );
 }
 
 /**

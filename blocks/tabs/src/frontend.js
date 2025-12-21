@@ -75,7 +75,9 @@ function initializeSingleTabsBlock( block ) {
 	}
 
 	const orientation = block.getAttribute( 'data-orientation' ) || 'horizontal';
-	const activationMode = block.getAttribute( 'data-activation-mode' ) || 'auto';
+	const activationModeRaw =
+		block.getAttribute( 'data-activation-mode' ) || 'click';
+	const activationMode = activationModeRaw === 'hover' ? 'hover' : 'click';
 	const responsiveFallback = block.getAttribute( 'data-responsive-fallback' ) === 'true';
 
 	// Find tab list and panels
@@ -132,26 +134,13 @@ function initializeSingleTabsBlock( block ) {
 			// Click handler
 			button.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
-				// Auto mode: activation follows focus; click already causes focus
-				if ( activationMode === 'auto' ) {
-					if ( button.disabled ) {
-						return;
-					}
-					// If already active, do nothing
-					if ( button.getAttribute( 'aria-selected' ) === 'true' ) {
-						return;
-					}
-					activateTab( block, index );
+				if ( button.disabled || button.getAttribute( 'aria-selected' ) === 'true' ) {
 					return;
 				}
-
-				// Manual mode: activate on click
-				if ( ! button.disabled ) {
-					try {
-						activateTab( block, index );
-					} catch ( error ) {
-						console.error( 'Failed to activate tab:', error );
-					}
+				try {
+					activateTab( block, index );
+				} catch ( error ) {
+					console.error( 'Failed to activate tab:', error );
 				}
 			} );
 
@@ -164,20 +153,34 @@ function initializeSingleTabsBlock( block ) {
 				}
 			} );
 
-			// Focus handler for automatic activation
-				if ( activationMode === 'auto' ) {
-					button.addEventListener( 'focus', () => {
-						// Avoid double-activation when click also triggers focus
-						if ( button.disabled || button.getAttribute( 'aria-selected' ) === 'true' ) {
-							return;
-						}
-						try {
-							activateTab( block, index );
-						} catch ( error ) {
-							console.error( 'Failed to activate tab on focus:', error );
-						}
-					} );
-				}
+			// Focus handler for hover activation mode (keyboard users)
+			if ( activationMode === 'hover' ) {
+				button.addEventListener( 'focus', () => {
+					// Avoid double-activation when click also triggers focus
+					if ( button.disabled || button.getAttribute( 'aria-selected' ) === 'true' ) {
+						return;
+					}
+					try {
+						activateTab( block, index );
+					} catch ( error ) {
+						console.error( 'Failed to activate tab on focus:', error );
+					}
+				} );
+			}
+
+			// Hover activation
+			if ( activationMode === 'hover' ) {
+				button.addEventListener( 'mouseenter', () => {
+					if ( button.disabled || button.getAttribute( 'aria-selected' ) === 'true' ) {
+						return;
+					}
+					try {
+						activateTab( block, index );
+					} catch ( error ) {
+						console.error( 'Failed to activate tab on hover:', error );
+					}
+				} );
+			}
 		} catch ( error ) {
 			console.error( 'Failed to initialize tab button:', error );
 		}
@@ -303,7 +306,7 @@ function updateTabIcon( button, isActive ) {
  * @param {HTMLElement}   currentButton  Current button
  * @param {NodeList}      allButtons     All tab buttons
  * @param {string}        orientation    Horizontal or vertical
- * @param {string}        activationMode Auto or manual
+ * @param {string}        activationMode click or hover
  * @param {HTMLElement}   block          Parent block
  */
 function handleTabKeyboard( e, currentButton, allButtons, orientation, activationMode, block ) {
@@ -334,7 +337,7 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
 			if ( orientation === 'horizontal' ) {
 				e.preventDefault();
 				targetIndex = ( currentIndex + 1 ) % buttons.length;
-				shouldActivate = activationMode === 'auto';
+				shouldActivate = activationMode === 'hover';
 			}
 			break;
 
@@ -342,7 +345,7 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
 			if ( orientation === 'horizontal' ) {
 				e.preventDefault();
 				targetIndex = ( currentIndex - 1 + buttons.length ) % buttons.length;
-				shouldActivate = activationMode === 'auto';
+				shouldActivate = activationMode === 'hover';
 			}
 			break;
 
@@ -350,7 +353,7 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
 			if ( isVerticalOrientation( orientation ) ) {
 				e.preventDefault();
 				targetIndex = ( currentIndex + 1 ) % buttons.length;
-				shouldActivate = activationMode === 'auto';
+				shouldActivate = activationMode === 'hover';
 			}
 			break;
 
@@ -358,26 +361,26 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
 			if ( isVerticalOrientation( orientation ) ) {
 				e.preventDefault();
 				targetIndex = ( currentIndex - 1 + buttons.length ) % buttons.length;
-				shouldActivate = activationMode === 'auto';
+				shouldActivate = activationMode === 'hover';
 			}
 			break;
 
 		case 'Home':
 			e.preventDefault();
 			targetIndex = 0;
-			shouldActivate = activationMode === 'auto';
+			shouldActivate = activationMode === 'hover';
 			break;
 
 		case 'End':
 			e.preventDefault();
 			targetIndex = buttons.length - 1;
-			shouldActivate = activationMode === 'auto';
+			shouldActivate = activationMode === 'hover';
 			break;
 
 		case 'Enter':
 		case ' ':
-			// Manual activation: Enter/Space activates tab
-			if ( activationMode === 'manual' ) {
+			// Click activation: Enter/Space activates tab
+			if ( activationMode === 'click' ) {
 				e.preventDefault();
 				const allButtonsList = Array.from( allButtons );
 				const actualIndex = allButtonsList.indexOf( currentButton );

@@ -20,7 +20,12 @@
  */
 
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
-import { InspectorControls, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+	useBlockProps,
+	store as blockEditorStore,
+	RichText,
+} from '@wordpress/block-editor';
 import {
 	PanelBody,
 	ToggleControl,
@@ -56,13 +61,20 @@ import './editor.scss';
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] TOC Edit mounted with attributes:', attributes );
 
-	const { tocId, showTitle, titleText } = attributes;
+	const { tocId, showTitle, titleText, tocItems = [], deletedHeadingIds = [] } = attributes;
 	const [ headings, setHeadings ] = useState( [] );
 	const [ isScanning, setIsScanning ] = useState( false );
 	const [ hasScanned, setHasScanned ] = useState( false );
+	const safeTocId = tocId || clientId || 'toc';
 
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.tocHorizontalAlign );
+
+	// Get all blocks from the editor using Gutenberg's data API
+	const allBlocks = useSelect(
+		( select ) => select( blockEditorStore ).getBlocks(),
+		[]
+	);
 
 	// Generate unique ID on mount
 	useEffect( () => {
@@ -71,11 +83,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		}
 	}, [ tocId, setAttributes ] );
 
-	// Get all blocks from the editor using Gutenberg's data API
-	const allBlocks = useSelect(
-		( select ) => select( blockEditorStore ).getBlocks(),
-		[]
-	);
+	// Mark as scanned if tocItems exist
+	useEffect( () => {
+		if ( tocItems.length > 0 && ! hasScanned ) {
+			setHasScanned( true );
+		}
+	}, [ tocItems, hasScanned ] );
 
 	/**
 	 * Strip HTML tags from text
@@ -128,6 +141,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						id: block.attributes.anchor || '',
 						classes: [],
 						blockType: 'heading',
+						sourceClientId: block.clientId,
 					} );
 				}
 			}
@@ -148,6 +162,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							id: block.attributes.accordionId || '',
 							classes: [ 'accordion-heading' ],
 							blockType: 'accordion',
+							sourceClientId: block.clientId,
 						} );
 					}
 				}
@@ -170,6 +185,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								id: tab.tabId || '',
 								classes: [ 'tab-heading' ],
 								blockType: 'tabs',
+								sourceClientId: block.clientId,
 							} );
 						}
 					} );
@@ -200,11 +216,131 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				includeAccordions: attributes.includeAccordions !== false,
 				includeTabs: attributes.includeTabs !== false,
 			} );
-			setHeadings( detectedHeadings );
+			const filtered = filterHeadings( detectedHeadings, attributes );
+			setHeadings( filtered );
+
+			// Merge with existing curated items
+			const mergedItems = mergeHeadingsWithExisting(
+				filtered,
+				tocItems,
+				deletedHeadingIds,
+				safeTocId
+			);
+			setAttributes( { tocItems: mergedItems } );
 			setIsScanning( false );
 			setHasScanned( true );
 		}, 200 );
 	};
+
+	const handleDeleteItem = useCallback(
+		( anchor ) => {
+			if ( ! anchor ) {
+				return;
+			}
+
+			const updatedItems = tocItems.filter(
+				( item ) => getItemAnchor( item ) !== anchor
+			);
+			const updatedDeleted = Array.from(
+				new Set( [ ...deletedHeadingIds, anchor ] )
+			);
+
+			setAttributes( {
+				tocItems: updatedItems,
+				deletedHeadingIds: updatedDeleted,
+			} );
+		},
+		[ tocItems, deletedHeadingIds, setAttributes ]
+	);
+
+	const handleResetDeleted = useCallback( () => {
+		setAttributes( { deletedHeadingIds: [] } );
+	}, [ setAttributes ] );
+
+	/**
+	 * Move TOC item up (to lower index)
+	 * @param {number} index - Current index of the item
+	 */
+	const handleMoveItemUp = useCallback(
+		( index ) => {
+			if ( index <= 0 || tocItems.length === 0 ) {
+				return;
+			}
+
+			const newItems = [ ...tocItems ];
+			const temp = newItems[ index - 1 ];
+			newItems[ index - 1 ] = newItems[ index ];
+			newItems[ index ] = temp;
+
+			setAttributes( { tocItems: newItems } );
+		},
+		[ tocItems, setAttributes ]
+	);
+
+	/**
+	 * Move TOC item down (to higher index)
+	 * @param {number} index - Current index of the item
+	 */
+	const handleMoveItemDown = useCallback(
+		( index ) => {
+			if ( index >= tocItems.length - 1 || tocItems.length === 0 ) {
+				return;
+			}
+
+			const newItems = [ ...tocItems ];
+			const temp = newItems[ index + 1 ];
+			newItems[ index + 1 ] = newItems[ index ];
+			newItems[ index ] = temp;
+
+			setAttributes( { tocItems: newItems } );
+		},
+		[ tocItems, setAttributes ]
+	);
+
+	/**
+	 * Toggle item visibility (hidden/visible)
+	 * @param {string} anchor - Anchor of the item to toggle
+	 */
+	const handleToggleHidden = useCallback(
+		( anchor ) => {
+			if ( ! anchor ) {
+				return;
+			}
+
+			const updatedItems = tocItems.map( ( item ) => {
+				if ( getItemAnchor( item ) === anchor ) {
+					return { ...item, hidden: ! item.hidden };
+				}
+				return item;
+			} );
+
+			setAttributes( { tocItems: updatedItems } );
+		},
+		[ tocItems, setAttributes ]
+	);
+
+	/**
+	 * Update item text
+	 * @param {string} anchor - Anchor of the item to update
+	 * @param {string} newText - New text value
+	 */
+	const handleUpdateItemText = useCallback(
+		( anchor, newText ) => {
+			if ( ! anchor ) {
+				return;
+			}
+
+			const updatedItems = tocItems.map( ( item ) => {
+				if ( getItemAnchor( item ) === anchor ) {
+					return { ...item, text: newText };
+				}
+				return item;
+			} );
+
+			setAttributes( { tocItems: updatedItems } );
+		},
+		[ tocItems, setAttributes ]
+	);
 
 	// Extract schema defaults from tocAttributes (SINGLE SOURCE OF TRUTH!)
 	const schemaDefaults = useMemo( () => {
@@ -305,11 +441,21 @@ const getInlineStyles = () => {
 
 	// Filter headings based on settings
 	const filteredHeadings = filterHeadings( headings, attributes );
+	const curatedHeadings = ( tocItems || [] ).map( ( item, index ) => ( {
+		id: getItemAnchor( item ) || `heading-${ index }`,
+		anchor: getItemAnchor( item ),
+		text: item.text || '',
+		level: item.level || 2,
+	} ) );
+	const displayHeadings =
+		curatedHeadings.length > 0 ? curatedHeadings : filteredHeadings;
 
 	// Build inline styles - apply width from attributes
+	// Exclude position-related properties (top) in editor to prevent overlap issues
+	const { top: _top, ...containerStyles } = styles.container;
 	const rootStyles = {
 		width: effectiveValues.tocWidth,
-		...styles.container,
+		...containerStyles,
 	};
 
 	// Block props
@@ -584,24 +730,85 @@ const getInlineStyles = () => {
 							? __( 'Scanning…', 'guttemberg-plus' )
 							: __( 'Scan for headings', 'guttemberg-plus' ) }
 					</Button>
+
+					{ deletedHeadingIds.length > 0 && (
+						<Button
+							variant="tertiary"
+							onClick={ handleResetDeleted }
+							className="toc-reset-deleted"
+						>
+							{ __( 'Reset deleted headings', 'guttemberg-plus' ) }
+						</Button>
+					) }
 				</div>
 
 				{ /* Results: show headings list or empty message */ }
-				{ ! hasScanned ? (
+				{ ! hasScanned && displayHeadings.length === 0 ? (
 					<p className="toc-empty-message">
 						{ __( 'Click "Scan for headings" to detect headings in your content.', 'guttemberg-plus' ) }
 					</p>
-				) : filteredHeadings.length === 0 ? (
+				) : displayHeadings.length === 0 ? (
 					<p className="toc-empty-message">
 						{ __( 'No headings found. Add H2-H6 headings to your content to populate the table of contents.', 'guttemberg-plus' ) }
 					</p>
 				) : (
-					<nav
-						className="toc-list-wrapper"
-						aria-label={ titleText || 'Table of Contents' }
-					>
-						{ renderHeadingsList( filteredHeadings, effectiveValues, attributes ) }
-					</nav>
+					<div className="toc-curated-wrapper">
+						{ /* Custom render with action buttons and editable text */ }
+						<div className="toc-items-editor">
+							{ tocItems.map( ( item, index ) => {
+								const anchor = getItemAnchor( item );
+								const isHidden = item.hidden === true;
+								return (
+									<div key={ anchor || index } className={ `toc-item-row${ isHidden ? ' toc-item-hidden' : '' }` }>
+										<RichText
+											tagName="span"
+											className="toc-link"
+											value={ item.text }
+											onChange={ ( newText ) => handleUpdateItemText( anchor, newText ) }
+											placeholder={ __( 'TOC item…', 'guttemberg-plus' ) }
+											allowedFormats={ [] }
+										/>
+										<div className="toc-item-actions">
+											<button
+												onClick={ () => handleMoveItemUp( index ) }
+												className="toc-action-button toc-move-button"
+												title={ __( 'Move up', 'guttemberg-plus' ) }
+												type="button"
+												disabled={ index === 0 }
+											>
+												↑
+											</button>
+											<button
+												onClick={ () => handleMoveItemDown( index ) }
+												className="toc-action-button toc-move-button"
+												title={ __( 'Move down', 'guttemberg-plus' ) }
+												type="button"
+												disabled={ index === tocItems.length - 1 }
+											>
+												↓
+											</button>
+											<button
+												onClick={ () => handleToggleHidden( anchor ) }
+												className={ `toc-action-button toc-hide-button${ isHidden ? ' is-hidden' : '' }` }
+												title={ isHidden ? __( 'Enable', 'guttemberg-plus' ) : __( 'Disable', 'guttemberg-plus' ) }
+												type="button"
+											>
+												{ isHidden ? '◉' : '◯' }
+											</button>
+											<button
+												onClick={ () => handleDeleteItem( anchor ) }
+												className="toc-action-button toc-delete-button"
+												title={ __( 'Delete item', 'guttemberg-plus' ) }
+												type="button"
+											>
+												×
+											</button>
+										</div>
+									</div>
+								);
+							} ) }
+						</div>
+					</div>
 				) }
 			</div>
 		</>
@@ -685,7 +892,7 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 				return (
 					<li key={ index } className={ `toc-item ${ levelClass }` }>
 						<a
-							href={ `#${ heading.id || `heading-${ index }` }` }
+							href={ `#${ heading.id || heading.anchor || `heading-${ index }` }` }
 							className="toc-link"
 							style={ { color: effectiveValues.linkColor } }
 						>
@@ -697,3 +904,77 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 		</ul>
 	);
 }
+
+function slugify( text = '' ) {
+	return text
+		.toString()
+		.trim()
+		.toLowerCase()
+		.replace( /[^a-z0-9\s-]/g, '' )
+		.replace( /\s+/g, '-' )
+		.replace( /-+/g, '-' )
+		.replace( /^-+|-+$/g, '' );
+}
+
+const getItemAnchor = ( item = {} ) => item.anchor || item.id || '';
+
+function buildHeadingAnchor( heading = {}, tocId = '', index = 0 ) {
+	if ( heading.id ) {
+		return heading.id;
+	}
+
+	if ( heading.anchor ) {
+		return heading.anchor;
+	}
+
+	const textSlug = slugify( heading.text || `heading-${ index + 1 }` );
+	const safeTocId = tocId || 'toc';
+	const suffix = heading.sourceClientId ? `-${ heading.sourceClientId }` : `-${ index + 1 }`;
+	return `${ safeTocId }-${ textSlug || `heading-${ index + 1 }` }${ suffix }`;
+}
+
+function headingToItem( heading, tocId, index = 0 ) {
+	const anchor = buildHeadingAnchor( heading, tocId, index );
+	return {
+		anchor,
+		id: anchor,
+		text: heading.text || '',
+		level: heading.level || 2,
+		sourceClientId: heading.sourceClientId || null,
+	};
+}
+
+function mergeHeadingsWithExisting( headings, existingItems, deletedHeadingIds, tocId ) {
+	const deletedSet = new Set( deletedHeadingIds );
+	const incoming = new Map();
+
+	headings.forEach( ( heading, index ) => {
+		const anchor = buildHeadingAnchor( heading, tocId, index );
+		if ( ! anchor || deletedSet.has( anchor ) ) {
+			return;
+		}
+		incoming.set( anchor, headingToItem( heading, tocId, index ) );
+	} );
+
+	const merged = [];
+	existingItems.forEach( ( item ) => {
+		const anchor = getItemAnchor( item );
+		if ( ! anchor || deletedSet.has( anchor ) ) {
+			return;
+		}
+
+		if ( incoming.has( anchor ) ) {
+			merged.push( { ...item, ...incoming.get( anchor ) } );
+			incoming.delete( anchor );
+		} else {
+			merged.push( { ...item, anchor, id: anchor } );
+		}
+	} );
+
+	incoming.forEach( ( item ) => {
+		merged.push( item );
+	} );
+
+	return merged;
+}
+

@@ -11,6 +11,13 @@
 
 @use 'theme-generated';
 
+/* Reset all heading margins */
+.gutplus-tabs {
+	h1, h2, h3, h4, h5, h6 {
+		margin: 0 !important;
+	}
+}
+
 /* Block wrapper */
 .gutplus-tabs {
 	overflow: clip;
@@ -48,7 +55,8 @@
 	gap: var(--tabs-button-gap);
 	background-color: var(--tabs-list-bg);
 	justify-content: var(--tabs-list-align);
-	overflow-x: auto;
+	overflow: visible;
+	flex-wrap: wrap;
 	border: var(--tabs-row-border-width) var(--tabs-row-border-style) var(--tabs-row-border-color);
 	/* Horizontal orientation padding: top is user-controlled, bottom is 0 (connects to content), left/right are 0.5rem */
 	padding-left: 0.5rem;
@@ -58,6 +66,11 @@
 	outline: none !important;
 	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
 	border-bottom: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
+
+	/* When stretch buttons is enabled, prevent wrapping */
+	.gutplus-tabs[data-orientation="horizontal"][data-stretch-buttons="true"] & {
+		flex-wrap: nowrap;
+	}
 
 	/* Base vertical - shared by both left and right */
 	&[role="tablist"][aria-orientation="vertical"] {
@@ -114,12 +127,42 @@
 	box-shadow: var(--tabs-button-border-shadow);
 	cursor: pointer;
 	white-space: nowrap;
-	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 	outline: none !important;
 	display: block;
-	width: 100%;
+	width: auto;
+	position: relative;
+	z-index: 1;
 
-	/* In vertical layouts, let buttons size to their content so the list matches the widest button */
+	/* Stretch buttons to full width when toggle is enabled (horizontal only) */
+	.gutplus-tabs[data-orientation="horizontal"][data-stretch-buttons="true"] & {
+		width: 100%;
+		flex: 1 1 0; /* Equal width distribution */
+	}
+
+	/* Hide content-facing border for inactive tabs (per orientation) */
+	.gutplus-tabs[data-hide-inactive-edge="true"][data-orientation="horizontal"] & {
+		&:not(.active):not([aria-selected="true"]) {
+			border-bottom-style: none !important;
+			border-bottom-width: 0 !important;
+		}
+	}
+
+	.gutplus-tabs[data-hide-inactive-edge="true"][data-orientation="vertical-left"] & {
+		&:not(.active):not([aria-selected="true"]) {
+			border-right-style: none !important;
+			border-right-width: 0 !important;
+		}
+	}
+
+	.gutplus-tabs[data-hide-inactive-edge="true"][data-orientation="vertical-right"] & {
+		&:not(.active):not([aria-selected="true"]) {
+			border-left-style: none !important;
+			border-left-width: 0 !important;
+		}
+	}
+
+	/* In vertical layouts, always size to content regardless of stretch setting */
 	.gutplus-tabs[data-orientation="vertical-left"] &,
 	.gutplus-tabs[data-orientation="vertical-right"] & {
 		width: auto;
@@ -135,10 +178,29 @@
 		// Use same colors as normal state to prevent theme CSS override
 		background-color: var(--tabs-button-bg);
 		color: var(--tabs-button-color);
-		// Inset box-shadow with blur for darker gradient entering from edges
-		box-shadow: inset 0 0 0.625rem rgba(0, 0, 0, 0.05);
 		// Override WordPress global focus outline style
 		outline: none;
+		// Default (horizontal): shadow from top, left, right - NOT bottom (content edge)
+		box-shadow:
+			inset 0 4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 4px 0 6px -2px rgba(0, 0, 0, 0.06),
+			inset -4px 0 6px -2px rgba(0, 0, 0, 0.06);
+	}
+
+	/* Vertical-left focus: shadow from top, bottom, left - NOT right (content edge) */
+	.gutplus-tabs[data-orientation="vertical-left"] .tabs-list &:focus {
+		box-shadow:
+			inset 0 4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 0 -4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 4px 0 6px -2px rgba(0, 0, 0, 0.06);
+	}
+
+	/* Vertical-right focus: shadow from top, bottom, right - NOT left (content edge) */
+	.gutplus-tabs[data-orientation="vertical-right"] .tabs-list &:focus {
+		box-shadow:
+			inset 0 4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 0 -4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset -4px 0 6px -2px rgba(0, 0, 0, 0.06);
 	}
 
 	&.active,
@@ -150,6 +212,8 @@
 		border-bottom-color: var(--tabs-button-active-content-border-color);
 		border-bottom-width: var(--tabs-button-active-content-border-width);
 		border-bottom-style: var(--tabs-button-active-content-border-style);
+		transform: translateY(2px);
+		z-index: 3;
 	}
 
 	&:disabled {
@@ -170,6 +234,7 @@
 			border-bottom-width: var(--tabs-button-border-width);
 			border-bottom-style: var(--tabs-button-border-style);
 			border-left-color: var(--tabs-button-active-border-color);
+			transform: translateX(2px);
 		}
 	}
 
@@ -186,8 +251,55 @@
 			border-bottom-width: var(--tabs-button-border-width);
 			border-bottom-style: var(--tabs-button-border-style);
 			border-right-color: var(--tabs-button-active-border-color);
+			transform: translateX(-2px);
 		}
 	}
+}
+
+/* Active content-edge pseudo elements (keep edge visible during translation) */
+.gutplus-tabs[data-orientation="horizontal"] .tab-button.active::after,
+.gutplus-tabs[data-orientation="horizontal"] .tab-button[aria-selected="true"]::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc(-1 * var(--tabs-button-active-content-border-width));
+	height: 0;
+	border-bottom: var(--tabs-button-active-content-border-width)
+		var(--tabs-button-active-content-border-style)
+		var(--tabs-button-active-content-border-color);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.gutplus-tabs[data-orientation="vertical-left"] .tab-button.active::after,
+.gutplus-tabs[data-orientation="vertical-left"] .tab-button[aria-selected="true"]::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: calc(-1 * var(--tabs-button-active-content-border-width));
+	width: 0;
+	border-right: var(--tabs-button-active-content-border-width)
+		var(--tabs-button-active-content-border-style)
+		var(--tabs-button-active-content-border-color);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.gutplus-tabs[data-orientation="vertical-right"] .tab-button.active::after,
+.gutplus-tabs[data-orientation="vertical-right"] .tab-button[aria-selected="true"]::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(-1 * var(--tabs-button-active-content-border-width));
+	width: 0;
+	border-left: var(--tabs-button-active-content-border-width)
+		var(--tabs-button-active-content-border-style)
+		var(--tabs-button-active-content-border-color);
+	pointer-events: none;
+	z-index: 2;
 }
 
 /* Tab icon (rendered when showIcon is true in JS) */

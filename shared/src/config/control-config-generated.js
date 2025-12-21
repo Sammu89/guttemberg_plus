@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-20T00:28:38.466Z
+ * Generated at: 2025-12-21T02:54:11.063Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -27,13 +27,13 @@ const CONTROL_CONFIGS = {
   'accordion': {
     'initiallyOpen': {
       control: 'ToggleControl',
-      label: 'Initially Open',
+      label: 'Open by Default',
       description: 'Whether accordion is open on page load',
       default: false,
     },
     'accordionWidth': {
       control: 'TextControl',
-      label: 'Width',
+      label: 'Block Width',
       description: 'Accordion container width (e.g., 100%, 500px)',
       default: '100%',
     },
@@ -44,9 +44,9 @@ const CONTROL_CONFIGS = {
               "center",
               "right"
       ],
-      label: 'Horizontal Alignment',
+      label: 'Block Horizontal Alignment',
       description: 'Horizontal alignment of the accordion',
-      default: 'left',
+      default: 'center',
     },
     'headingLevel': {
       control: 'SelectControl',
@@ -65,43 +65,37 @@ const CONTROL_CONFIGS = {
     },
     'titleColor': {
       control: 'ColorPicker',
-      label: 'Title Color',
+      label: 'Header Text Color',
       description: 'Text color for the accordion title',
       default: '#333333',
     },
     'titleBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Title Background',
+      label: 'Header Background',
       description: 'Background color for the accordion title',
       default: '#f5f5f5',
     },
     'hoverTitleColor': {
       control: 'ColorPicker',
-      label: 'Title Hover Color',
+      label: 'Header Hover Text Color',
       description: 'Text color when hovering over title',
       default: '#000000',
     },
     'hoverTitleBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Title Hover Background',
+      label: 'Header Hover Background',
       description: 'Background color when hovering over title',
       default: '#e8e8e8',
     },
-    'contentColor': {
-      control: 'ColorPicker',
-      label: 'Content Color',
-      description: 'Text color for accordion content',
-      default: '#333333',
-    },
     'contentBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Content Background',
+      label: 'Panel Background',
       description: 'Background color for accordion content',
       default: '#ffffff',
     },
     'borderColor': {
       control: 'ColorPicker',
-      label: 'Border Color',
+      label: 'Block Border Color',
       description: 'Color of the accordion wrapper border',
       default: '#dddddd',
     },
@@ -122,7 +116,7 @@ const CONTROL_CONFIGS = {
       min: 0.6,
       max: 3,
       unit: 'rem',
-      label: 'Title Font Size',
+      label: 'Header Font Size',
       description: 'Font size for the title in rem',
       default: 1.125,
     },
@@ -174,7 +168,7 @@ const CONTROL_CONFIGS = {
                       "value": "bold"
               }
       ],
-      label: 'Title Font Weight',
+      label: 'Header Font Weight',
       description: 'Font weight for the title',
       default: '600',
     },
@@ -194,7 +188,7 @@ const CONTROL_CONFIGS = {
                       "value": "oblique"
               }
       ],
-      label: 'Title Font Style',
+      label: 'Header Font Style',
       description: 'Font style for the title',
       default: 'normal',
     },
@@ -218,7 +212,7 @@ const CONTROL_CONFIGS = {
                       "value": "capitalize"
               }
       ],
-      label: 'Title Text Transform',
+      label: 'Header Text Transform',
       description: 'Text transformation for the title',
       default: 'none',
     },
@@ -242,7 +236,7 @@ const CONTROL_CONFIGS = {
                       "value": "line-through"
               }
       ],
-      label: 'Title Text Decoration',
+      label: 'Header Text Decoration',
       description: 'Text decoration for the title',
       default: 'none',
     },
@@ -253,25 +247,16 @@ const CONTROL_CONFIGS = {
               "center",
               "right"
       ],
-      label: 'Title Alignment',
+      label: 'Header Text Alignment',
       description: 'Text alignment for the title',
       default: 'left',
-    },
-    'contentFontSize': {
-      control: 'RangeControl',
-      min: 0.6,
-      max: 2.3,
-      unit: 'rem',
-      label: 'Content Font Size',
-      description: 'Font size for content in rem',
-      default: 1,
     },
     'borderWidth': {
       control: 'RangeControl',
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Border Width',
+      label: 'Block Border Width',
       description: 'Thickness of the accordion wrapper border in pixels',
       default: 1,
     },
@@ -299,25 +284,25 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Border Style',
+      label: 'Block Border Style',
       description: 'Style of the accordion wrapper border',
       default: 'solid',
     },
     'borderRadius': {
       control: 'BorderRadiusControl',
       unit: 'px',
-      label: 'Border Radius',
+      label: 'Block Border Radius',
       description: 'Corner radius of the accordion wrapper',
     },
     'shadow': {
       control: 'TextControl',
-      label: 'Shadow',
+      label: 'Block Shadow',
       description: 'CSS box-shadow for the accordion wrapper',
       default: 'none',
     },
     'shadowHover': {
       control: 'TextControl',
-      label: 'Shadow Hover',
+      label: 'Block Hover Shadow',
       description: 'CSS box-shadow for the accordion wrapper on hover',
       default: 'none',
     },
@@ -424,19 +409,31 @@ const CONTROL_CONFIGS = {
                       "value": "vertical-right"
               }
       ],
-      label: 'Orientation',
+      label: 'Tab Orientation',
       description: 'Tab layout orientation',
       default: 'horizontal',
+    },
+    'stretchButtonsToRow': {
+      control: 'ToggleControl',
+      label: 'Stretch Buttons to Row Width',
+      description: 'Make tab buttons fill the full width of the row (horizontal orientation only)',
+      default: false,
     },
     'activationMode': {
       control: 'SelectControl',
       options: [
-              "auto",
-              "manual"
+              {
+                      "label": "Click",
+                      "value": "click"
+              },
+              {
+                      "label": "Hover",
+                      "value": "hover"
+              }
       ],
       label: 'Activation Mode',
-      description: 'How tabs are activated (auto = focus, manual = click)',
-      default: 'auto',
+      description: 'How tabs are activated (click or hover)',
+      default: 'click',
     },
     'headingLevel': {
       control: 'SelectControl',
@@ -453,17 +450,6 @@ const CONTROL_CONFIGS = {
       description: 'Semantic HTML heading level (none, h1-h6)',
       default: 'none',
     },
-    'verticalTabButtonTextAlign': {
-      control: 'SelectControl',
-      options: [
-              "left",
-              "center",
-              "right"
-      ],
-      label: 'Vertical Tab Alignment',
-      description: 'Text alignment for vertical tabs',
-      default: 'left',
-    },
     'tabsHorizontalAlign': {
       control: 'SelectControl',
       options: [
@@ -471,13 +457,13 @@ const CONTROL_CONFIGS = {
               "center",
               "right"
       ],
-      label: 'Horizontal Alignment',
+      label: 'Block Horizontal Alignment',
       description: 'Horizontal alignment of the tabs block',
-      default: 'left',
+      default: 'center',
     },
     'tabsWidth': {
       control: 'TextControl',
-      label: 'Width',
+      label: 'Block Width',
       description: 'Tabs container width (e.g., 100%, 500px)',
       default: '100%',
     },
@@ -514,13 +500,13 @@ const CONTROL_CONFIGS = {
     },
     'iconTypeClosed': {
       control: 'IconPicker',
-      label: 'Icon Type',
+      label: 'Icon Closed',
       description: 'Icon for the tab (char or image URL)',
       default: '▾',
     },
     'iconTypeOpen': {
       control: 'IconPicker',
-      label: 'Icon (active)',
+      label: 'Icon Open',
       description: 'Icon when tab is active (none = use closed icon with final rotation)',
       default: 'none',
     },
@@ -529,7 +515,7 @@ const CONTROL_CONFIGS = {
       min: -360,
       max: 360,
       unit: 'deg',
-      label: 'Base Rotation',
+      label: 'Icon Base Rotation',
       description: 'Base rotation of the icon',
       default: 0,
     },
@@ -538,50 +524,50 @@ const CONTROL_CONFIGS = {
       min: -360,
       max: 360,
       unit: 'deg',
-      label: 'Final rotation',
+      label: 'Icon Active Rotation',
       description: 'Rotation of the icon for the active tab',
       default: 180,
     },
     'tabButtonColor': {
       control: 'ColorPicker',
-      label: 'Button Text Color',
+      label: 'Header Text Color',
       description: 'Text color for inactive tab buttons',
       default: '#666666',
     },
     'tabButtonBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Button Background',
+      label: 'Header Background',
       description: 'Background color for inactive tab buttons',
       default: '#f5f5f5',
     },
     'tabButtonHoverColor': {
       control: 'ColorPicker',
-      label: 'Button Text Hover Color',
+      label: 'Header Hover Text Color',
       description: 'Text color when hovering over tab',
       default: '#333333',
     },
     'tabButtonHoverBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Button Hover Background',
+      label: 'Header Hover Background',
       description: 'Background color when hovering over tab',
       default: '#e8e8e8',
     },
     'tabButtonActiveColor': {
       control: 'ColorPicker',
-      label: 'Button Text Active Color',
+      label: 'Header Active Text Color',
       description: 'Text color for active/selected tab',
       default: '#333333',
     },
     'tabButtonActiveBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Button Active Background',
+      label: 'Header Active Background',
       description: 'Background color for active/selected tab',
       default: '#ffffff',
     },
     'enableFocusBorder': {
       control: 'ToggleControl',
-      label: 'Enable Active Content Border',
-      description: 'Enable or disable the border on the edge touching the content (active tab only)',
+      label: 'Enable Button / Content Border',
+      description: 'Border on the edge touching the content, giving it a merged look.',
       default: true,
     },
     'tabButtonActiveContentBorderWidth': {
@@ -589,9 +575,9 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Active Content Border Width',
+      label: 'Active Content Edge Border Width',
       description: 'Width of the active button edge touching content',
-      default: 2,
+      default: 1,
     },
     'tabButtonActiveContentBorderStyle': {
       control: 'SelectControl',
@@ -617,7 +603,7 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Active Content Border Style',
+      label: 'Active Content Edge Border Style',
       description: 'Style of the active button edge touching content',
       default: 'solid',
     },
@@ -669,26 +655,26 @@ const CONTROL_CONFIGS = {
                       "value": "bold"
               }
       ],
-      label: 'Button Active Font Weight',
+      label: 'Header Active Font Weight',
       description: 'Font weight for active/selected tab button',
       default: 'bold',
     },
     'tabButtonBorderColor': {
       control: 'ColorPicker',
-      label: 'Border Color',
+      label: 'Header Border Color',
       description: 'Border color for inactive tab buttons',
       default: '#dddddd',
     },
     'tabButtonActiveBorderColor': {
       control: 'ColorPicker',
-      label: 'Button Active Border Color',
+      label: 'Header Active Border Color',
       description: 'Border color for the active tab',
       default: '#dddddd',
     },
     'tabButtonActiveContentBorderColor': {
       control: 'ColorPicker',
-      label: 'Button Active Content Border',
-      description: 'Border color on the edge touching content (bottom on horizontal, right on vertical-left, left on vertical-right). Controlled by Enable Active Content Border.',
+      label: 'Active Content Edge Border Color',
+      description: 'Color of the border. Keep it the same color as panel background for a merged look.',
       default: '#ffffff',
     },
     'tabButtonBorderWidth': {
@@ -696,7 +682,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Border Width',
+      label: 'Header Border Width',
       description: 'Border width for tab buttons',
       default: 1,
     },
@@ -724,25 +710,25 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Border Style',
+      label: 'Header Border Style',
       description: 'Border style for tab buttons',
       default: 'solid',
     },
     'tabButtonBorderRadius': {
       control: 'BorderRadiusControl',
       unit: 'px',
-      label: 'Border Radius',
+      label: 'Header Border Radius',
       description: 'Corner radius for tab buttons',
     },
     'tabButtonShadow': {
       control: 'TextControl',
-      label: 'Shadow',
+      label: 'Header Shadow',
       description: 'Box shadow for tab buttons',
       default: 'none',
     },
     'tabButtonShadowHover': {
       control: 'TextControl',
-      label: 'Shadow Hover',
+      label: 'Header Hover Shadow',
       description: 'Box shadow for tab buttons on hover',
       default: 'none',
     },
@@ -751,7 +737,7 @@ const CONTROL_CONFIGS = {
       min: 0.6,
       max: 2.3,
       unit: 'rem',
-      label: 'Tab Button Font Size',
+      label: 'Header Font Size',
       description: 'Font size for tab buttons (rem)',
       default: 1,
     },
@@ -803,7 +789,7 @@ const CONTROL_CONFIGS = {
                       "value": "bold"
               }
       ],
-      label: 'Tab Button Font Weight',
+      label: 'Header Font Weight',
       description: 'Font weight for tab buttons',
       default: '500',
     },
@@ -823,7 +809,7 @@ const CONTROL_CONFIGS = {
                       "value": "oblique"
               }
       ],
-      label: 'Tab Button Font Style',
+      label: 'Header Font Style',
       description: 'Font style for tab buttons',
       default: 'normal',
     },
@@ -847,7 +833,7 @@ const CONTROL_CONFIGS = {
                       "value": "capitalize"
               }
       ],
-      label: 'Tab Button Text Transform',
+      label: 'Header Text Transform',
       description: 'Text transformation for tab buttons',
       default: 'none',
     },
@@ -871,7 +857,7 @@ const CONTROL_CONFIGS = {
                       "value": "line-through"
               }
       ],
-      label: 'Tab Button Text Decoration',
+      label: 'Header Text Decoration',
       description: 'Text decoration for tab buttons',
       default: 'none',
     },
@@ -882,7 +868,7 @@ const CONTROL_CONFIGS = {
               "center",
               "right"
       ],
-      label: 'Tab Button Text Alignment',
+      label: 'Header Text Alignment',
       description: 'Text alignment for tab buttons',
       default: 'center',
     },
@@ -891,19 +877,19 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 1.3,
       unit: 'rem',
-      label: 'Tab Button Padding',
+      label: 'Header Padding',
       description: 'Padding for tab buttons in rem (vertical/horizontal will be computed)',
       default: 0.75,
     },
     'tabListBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Tab Row Background',
+      label: 'Row Background',
       description: 'Background color for the tab navigation bar',
       default: 'transparent',
     },
     'tabsRowBorderColor': {
       control: 'ColorPicker',
-      label: 'Tab Row Border Color',
+      label: 'Row Border Color',
       description: 'Border color for the tab row',
       default: '#dddddd',
     },
@@ -912,7 +898,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Tab Row Border Width',
+      label: 'Row Border Width',
       description: 'Border width for the tab row',
       default: 0,
     },
@@ -940,7 +926,7 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Tab Row Border Style',
+      label: 'Row Border Style',
       description: 'Border style for the tab row',
       default: 'solid',
     },
@@ -960,7 +946,7 @@ const CONTROL_CONFIGS = {
                       "value": "flex-end"
               }
       ],
-      label: 'Tab Row Alignment',
+      label: 'Header Row Alignment',
       description: 'Alignment of tabs along the main axis',
       default: 'flex-start',
     },
@@ -969,7 +955,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 1.9,
       unit: 'rem',
-      label: 'Spacing',
+      label: 'Row Spacing',
       description: 'Padding/spacing for the tab row (rem)',
       default: 0.5,
     },
@@ -990,7 +976,7 @@ const CONTROL_CONFIGS = {
     },
     'panelBorderColor': {
       control: 'ColorPicker',
-      label: 'Border Color',
+      label: 'Panel Border Color',
       description: 'Border color for tab content panel',
       default: '#dddddd',
     },
@@ -999,7 +985,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Border Width',
+      label: 'Panel Border Width',
       description: 'Border width for tab content panel (0-10px)',
       default: 1,
     },
@@ -1027,19 +1013,19 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Border Style',
+      label: 'Panel Border Style',
       description: 'Border style for tab content panel',
       default: 'solid',
     },
     'panelBorderRadius': {
       control: 'BorderRadiusControl',
       unit: 'px',
-      label: 'Border Radius',
+      label: 'Panel Border Radius',
       description: 'Corner radius for tab content panel',
     },
     'borderColor': {
       control: 'ColorPicker',
-      label: 'Border Color',
+      label: 'Block Border Color',
       description: 'Border color for main tabs wrapper',
       default: '#dddddd',
     },
@@ -1048,7 +1034,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Border Width',
+      label: 'Block Border Width',
       description: 'Border width for main wrapper',
       default: 0,
     },
@@ -1076,37 +1062,37 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Border Style',
+      label: 'Block Border Style',
       description: 'Border style for wrapper',
       default: 'solid',
     },
     'borderRadius': {
       control: 'BorderRadiusControl',
       unit: 'px',
-      label: 'Border Radius',
+      label: 'Block Border Radius',
       description: 'Corner radius for main wrapper',
     },
     'shadow': {
       control: 'TextControl',
-      label: 'Shadow',
+      label: 'Block Shadow',
       description: 'Box shadow for main wrapper',
       default: 'none',
     },
     'shadowHover': {
       control: 'TextControl',
-      label: 'Shadow Hover',
+      label: 'Block Hover Shadow',
       description: 'Box shadow for wrapper on hover',
       default: 'none',
     },
     'enableTabsListContentBorder': {
       control: 'ToggleControl',
-      label: 'Enable Tab Row Divider Border',
+      label: 'Enable Row Divider Border',
       description: 'Enable or disable border between tab row and content',
       default: false,
     },
     'tabsListContentBorderColor': {
       control: 'ColorPicker',
-      label: 'Tab Row Divider Border Color',
+      label: 'Row Divider Border Color',
       description: 'Color of the tab row edge that touches the content',
       default: 'transparent',
     },
@@ -1115,7 +1101,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Tab Row Divider Border Width',
+      label: 'Row Divider Border Width',
       description: 'Width of the tab row edge that touches the content',
       default: 1,
     },
@@ -1143,7 +1129,7 @@ const CONTROL_CONFIGS = {
                       "value": "double"
               }
       ],
-      label: 'Tab Row Divider Border Style',
+      label: 'Row Divider Border Style',
       description: 'Style of the tab row edge that touches the content',
       default: 'solid',
     },
@@ -1151,7 +1137,7 @@ const CONTROL_CONFIGS = {
   'toc': {
     'tocWidth': {
       control: 'TextControl',
-      label: 'Width',
+      label: 'Block Width',
       description: 'TOC container width (e.g., 100%, 500px)',
       default: '100%',
     },
@@ -1162,25 +1148,25 @@ const CONTROL_CONFIGS = {
               "center",
               "right"
       ],
-      label: 'Horizontal Alignment',
+      label: 'Block Horizontal Alignment',
       description: 'Horizontal alignment of the TOC block',
-      default: 'left',
+      default: 'center',
     },
     'wrapperBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Background Color',
+      label: 'Block Background',
       description: 'Background color of the TOC wrapper',
       default: '#ffffff',
     },
     'blockBorderColor': {
       control: 'ColorPicker',
-      label: 'Border Color',
+      label: 'Block Border Color',
       description: 'Border color of the TOC wrapper',
       default: '#dddddd',
     },
     'titleColor': {
       control: 'ColorPicker',
-      label: 'Title Color',
+      label: 'Title Text Color',
       description: 'Text color for the TOC title',
       default: '#333333',
     },
@@ -1222,19 +1208,19 @@ const CONTROL_CONFIGS = {
     },
     'level1Color': {
       control: 'ColorPicker',
-      label: 'Level 1 Color',
+      label: 'Level 1 Text Color',
       description: 'Text color for level 1 headings (H2)',
       default: '#0073aa',
     },
     'level2Color': {
       control: 'ColorPicker',
-      label: 'Level 2 Color',
+      label: 'Level 2 Text Color',
       description: 'Text color for level 2 headings (H3)',
       default: '#0073aa',
     },
     'level3PlusColor': {
       control: 'ColorPicker',
-      label: 'Level 3+ Color',
+      label: 'Level 3+ Text Color',
       description: 'Text color for level 3+ headings (H4-H6)',
       default: '#0073aa',
     },
@@ -1737,7 +1723,7 @@ const CONTROL_CONFIGS = {
       min: 0,
       max: 10,
       unit: 'px',
-      label: 'Border Width',
+      label: 'Block Border Width',
       description: 'Width of the wrapper border in pixels',
       default: 1,
     },
@@ -1781,25 +1767,25 @@ const CONTROL_CONFIGS = {
                       "value": "outset"
               }
       ],
-      label: 'Border Style',
+      label: 'Block Border Style',
       description: 'Style of the wrapper border',
       default: 'solid',
     },
     'blockBorderRadius': {
       control: 'BorderRadiusControl',
       unit: 'px',
-      label: 'Border Radius',
+      label: 'Block Border Radius',
       description: 'Corner radius of the wrapper',
     },
     'blockShadow': {
       control: 'TextControl',
-      label: 'Shadow',
+      label: 'Block Shadow',
       description: 'CSS box-shadow for the wrapper',
       default: 'none',
     },
     'blockShadowHover': {
       control: 'TextControl',
-      label: 'Shadow on Hover',
+      label: 'Block Hover Shadow',
       description: 'CSS box-shadow for the wrapper on hover',
       default: 'none',
     },
@@ -1855,6 +1841,28 @@ const CONTROL_CONFIGS = {
       label: 'Z-Index',
       description: 'Stack order for positioned TOC',
       default: 100,
+    },
+    'positionHorizontalSide': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "Left",
+                      "value": "left"
+              },
+              {
+                      "label": "Right",
+                      "value": "right"
+              }
+      ],
+      label: 'Horizontal Side',
+      description: 'Which side to anchor the TOC (sticky/fixed positioning)',
+      default: 'right',
+    },
+    'positionHorizontalOffset': {
+      control: 'UnitControl',
+      label: 'Horizontal Offset',
+      description: 'Distance from the selected side',
+      default: '1.25rem',
     },
     'collapseIconSize': {
       control: 'RangeControl',

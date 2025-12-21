@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-20T00:28:38.429Z
+ * Generated at: 2025-12-21T02:54:11.040Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -22,7 +22,6 @@ export const accordionThemeSchema = z.object({
   titleBackgroundColor: z.string(),
   hoverTitleColor: z.string(),
   hoverTitleBackgroundColor: z.string(),
-  contentColor: z.string(),
   contentBackgroundColor: z.string(),
   borderColor: z.string(),
   dividerColor: z.string(),
@@ -33,7 +32,6 @@ export const accordionThemeSchema = z.object({
   titleTextTransform: z.string(),
   titleTextDecoration: z.string(),
   titleAlignment: z.string(),
-  contentFontSize: z.number(),
   borderWidth: z.number(),
   borderStyle: z.string(),
   borderRadius: z.record(z.any()),
@@ -63,7 +61,6 @@ export const accordionAttributesSchema = z.object({
   titleBackgroundColor: z.string(),
   hoverTitleColor: z.string(),
   hoverTitleBackgroundColor: z.string(),
-  contentColor: z.string(),
   contentBackgroundColor: z.string(),
   borderColor: z.string(),
   dividerColor: z.string(),
@@ -74,7 +71,6 @@ export const accordionAttributesSchema = z.object({
   titleTextTransform: z.string(),
   titleTextDecoration: z.string(),
   titleAlignment: z.string(),
-  contentFontSize: z.number(),
   borderWidth: z.number(),
   borderStyle: z.string(),
   borderRadius: z.record(z.any()),

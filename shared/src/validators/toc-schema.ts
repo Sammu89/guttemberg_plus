@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-20T00:28:38.454Z
+ * Generated at: 2025-12-21T02:54:11.055Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -73,6 +73,8 @@ export const tocAttributesSchema = z.object({
   showTitle: z.boolean(),
   titleText: z.string(),
   currentTheme: z.string(),
+  tocItems: z.array(z.any()),
+  deletedHeadingIds: z.array(z.any()),
   filterMode: z.string(),
   includeLevels: z.array(z.any()),
   includeClasses: z.string(),
@@ -135,6 +137,8 @@ export const tocAttributesSchema = z.object({
   levelIndent: z.number(),
   positionTop: z.number(),
   zIndex: z.number(),
+  positionHorizontalSide: z.string(),
+  positionHorizontalOffset: z.string(),
   collapseIconSize: z.number(),
 });
 

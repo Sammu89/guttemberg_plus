@@ -151,10 +151,8 @@ const getInlineStyles = () => {
 			textAlign: effectiveValues.titleAlignment || 'left',
 		},
 		content: {
-			color: effectiveValues.contentColor || '#333333',
 			backgroundColor: effectiveValues.contentBackgroundColor || '#ffffff',
 			borderTopColor: effectiveValues.dividerColor || '#dddddd',
-			fontSize: `${effectiveValues.contentFontSize ?? 1}rem`,
 			borderTopWidth: `${effectiveValues.dividerWidth ?? 0}px`,
 			borderTopStyle: effectiveValues.dividerStyle || 'solid',
 		},
