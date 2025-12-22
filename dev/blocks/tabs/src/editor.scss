@@ -1,0 +1,345 @@
+/**
+ * Tabs Block - Editor Styles
+ *
+ * Includes all frontend styles plus editor-specific overrides.
+ * This ensures the editor matches the frontend appearance.
+ *
+ * @package
+ * @since 1.0.0
+ */
+
+/* Import frontend styles (style.scss includes block_schema.scss) */
+@import 'style.scss';
+
+/* Editor-specific overrides and additions */
+
+/* Gutplus tabs alignment for editor */
+.gutplus-tabs {
+	margin-top: 1em !important;
+	margin-bottom: 1em !important;
+	overflow: hidden !important;
+
+	&.gutplus-align-left {
+		margin-left: 0 !important;
+		margin-right: auto !important;
+	}
+
+	&.gutplus-align-center {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
+	&.gutplus-align-right {
+		margin-left: auto !important;
+		margin-right: 0 !important;
+	}
+}
+
+/* Tab button container */
+.tab-button-container {
+	position: relative;
+	display: contents; /* Makes wrapper transparent - children behave as if wrapper doesn't exist */
+	margin: 0;
+	padding: 0;
+}
+
+/* Tab button with action buttons inside */
+.gutplus-tabs .tab-button {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	position: relative !important;
+	gap: 0.5rem !important;
+	white-space: normal !important;
+	flex-wrap: nowrap !important;
+}
+
+.tab-title {
+	display: flex !important;
+	align-items: center !important;
+	gap: 0.375rem !important;
+	flex: 1 !important;
+	white-space: nowrap !important;
+	justify-content: center !important; /* Default to center */
+}
+
+/* Map text-align values to justify-content for flex layout */
+.gutplus-tabs[data-button-text-align="left"] .tab-title {
+	justify-content: flex-start !important;
+}
+
+.gutplus-tabs[data-button-text-align="center"] .tab-title {
+	justify-content: center !important;
+}
+
+.gutplus-tabs[data-button-text-align="right"] .tab-title {
+	justify-content: flex-end !important;
+}
+
+/* Gear trigger span - subtle icon inside tab button */
+.tab-gear-trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	/* Hidden state: zero width, no margin, transparent */
+	width: 0;
+	margin-left: 0;
+	font-size: 1rem;
+	line-height: 1;
+	cursor: pointer;
+	opacity: 0;
+	overflow: hidden;
+	flex-shrink: 0;
+	border-radius: 2px;
+	/* Smooth transition for all properties */
+	transition: width 0.2s ease, margin-left 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	&:focus {
+		opacity: 1;
+		outline: 1px solid currentColor;
+		outline-offset: 1px;
+	}
+
+	&:active {
+		transform: scale(0.8);
+	}
+
+	/* When popup is open */
+	&.is-open {
+		width: 1.25rem;
+		margin-left: 0.5rem;
+		opacity: 1;
+	}
+}
+
+/* Show gear trigger on hover or when tab is active */
+.tab-button:hover .tab-gear-trigger,
+.tab-button.active .tab-gear-trigger {
+	width: 1.25rem;
+	margin-left: 0.5rem;
+	opacity: 0.5;
+}
+
+/* Horizontal popup balloon for tab actions */
+.tab-actions-balloon {
+	position: fixed;
+	z-index: 999999;
+	display: flex;
+	flex-direction: row;
+	gap: 2px;
+	padding: 4px;
+	background: #ffffff;
+	border: 1px solid #1e1e1e;
+	border-radius: 4px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	/* Smooth transition when following moved tabs */
+	transition: top 0.2s ease-out, left 0.2s ease-out;
+
+	/* Icon-only buttons */
+	.balloon-icon-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		font-size: 0.875rem;
+		font-weight: bold;
+		line-height: 1;
+		border: 1px solid;
+		border-radius: 3px;
+		cursor: pointer;
+		transition: all 0.1s ease;
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+
+		&.balloon-move {
+			background-color: #607D8B;
+			color: #fff;
+			border-color: #546E7A;
+
+			&:hover:not(:disabled) {
+				background-color: #455A64;
+			}
+		}
+
+		&.balloon-add {
+			background-color: #4CAF50;
+			color: #fff;
+			border-color: #43A047;
+
+			&:hover:not(:disabled) {
+				background-color: #388E3C;
+			}
+		}
+
+		&.balloon-disable {
+			background-color: #FF9800;
+			color: #fff;
+			border-color: #F57C00;
+
+			&:hover:not(:disabled) {
+				background-color: #EF6C00;
+			}
+
+			&.is-disabled {
+				background-color: #2196F3;
+				border-color: #1976D2;
+
+				&:hover:not(:disabled) {
+					background-color: #1565C0;
+				}
+			}
+		}
+
+		&.balloon-remove {
+			background-color: #f44336;
+			color: #fff;
+			border-color: #d32f2f;
+
+			&:hover:not(:disabled) {
+				background-color: #c62828;
+			}
+		}
+	}
+}
+
+
+/* Orientation layouts in editor - scoped to individual block */
+	.wp-block[data-type="custom/tabs"] {
+
+	.tabs-container {
+		width: 100%;
+	}
+
+	.tab-panel-content {
+		height: 100%;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 1.5rem;
+	}
+
+	/* Horizontal (default) - tabs in a row */
+	.tabs-container[data-orientation="horizontal"] {
+		.tabs-list {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.tab-button-container {
+			display: contents; /* Transparent wrapper - lets gap work properly */
+		}
+
+		.tab-button {
+			width: auto; /* Default: buttons size to content */
+		}
+	}
+
+	/* Horizontal with stretch buttons enabled */
+	.tabs-container[data-orientation="horizontal"][data-stretch-buttons="true"] {
+		.tabs-list {
+			flex-wrap: nowrap; /* Prevent stacking when stretched */
+		}
+
+		.tab-button {
+			width: 100%; /* Stretch to fill row */
+			flex: 1 1 0; /* Equal width distribution */
+		}
+	}
+
+	/* Vertical-left - nav on left, content on right */
+		.tabs-container[data-orientation="vertical-left"] {
+			display: flex;
+			flex-direction: row;
+			gap: 0;
+
+			.tabs-list {
+				display: flex;
+				flex-direction: column;
+				width: max-content;
+				flex: 0 0 auto;
+				min-width: 0;
+				border-right: 1px solid #ddd;
+				border-bottom: none;
+				gap: 0.5rem; /* Match frontend gap */
+			}
+
+			.tabs-panels {
+				flex: 1;
+			}
+
+			.tab-button-container {
+				display: contents; /* Transparent wrapper */
+			}
+
+			.tab-button {
+				/* Let the button size itself to its text */
+				width: auto;
+			}
+		}
+
+	/* Vertical-right - nav on right, content on left */
+		.tabs-container[data-orientation="vertical-right"] {
+			display: flex;
+			flex-direction: row-reverse;
+			gap: 0;
+
+			.tabs-list {
+				display: flex;
+				flex-direction: column;
+				width: max-content;
+				flex: 0 0 auto;
+				min-width: 0;
+				border-left: 1px solid #ddd;
+				border-bottom: none;
+				gap: 0.5rem; /* Match frontend gap */
+			}
+
+			.tabs-panels {
+				flex: 1;
+			}
+
+			.tab-button-container {
+				display: contents; /* Transparent wrapper */
+			}
+
+			.tab-button {
+				/* Let the button size itself to its text */
+				width: auto;
+			}
+		}
+}
+
+/* Icon styling */
+.tab-icon img {
+	width: 1.125rem;
+	height: 1.125rem;
+	object-fit: contain;
+}
+
+/* Tab management panel item */
+.tab-panel-item {
+	margin-bottom: 0.75rem;
+}
+
+/* Tab panel header - flex layout */
+.tab-panel-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/* Heading reset for tab buttons */
+.tab-heading {
+	margin: 0;
+	display: contents;
+}
