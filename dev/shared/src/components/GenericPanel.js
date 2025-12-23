@@ -149,11 +149,20 @@ export function GenericPanel( {
 	};
 
 	/**
-	 * Check if attribute is customized
+	 * Check if attribute is customized AND themeable
+	 * Red dot only shows for themeable attributes (those saved in themes)
 	 * @param {string} attrName - Attribute name
-	 * @returns {boolean} Whether attribute is customized
+	 * @returns {boolean} Whether attribute is customized and themeable
 	 */
 	const isAttrCustomized = ( attrName ) => {
+		// Get attribute definition from schema
+		const attrDef = schema.attributes?.[ attrName ];
+
+		// Only show red dot for themeable attributes
+		if ( ! attrDef || attrDef.themeable === false ) {
+			return false;
+		}
+
 		return isCustomizedFromDefaults( attrName, attributes, theme, cssDefaults );
 	};
 

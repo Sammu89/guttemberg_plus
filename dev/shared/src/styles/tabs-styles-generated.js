@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-23T02:43:04.668Z
+ * Generated at: 2025-12-23T22:20:59.779Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -49,11 +49,23 @@ export function buildEditorStyles(values) {
 
   // Styles for default
   styles.default = {};
+    if (values.showIcon !== undefined && values.showIcon !== null) {
+      styles.default.display = values.showIcon;
+    }
+    if (values.iconPosition !== undefined && values.iconPosition !== null) {
+      styles.default.flexDirection = values.iconPosition;
+    }
     if (values.iconColor !== undefined && values.iconColor !== null) {
       styles.default.color = values.iconColor;
     }
     if (values.iconSize !== undefined && values.iconSize !== null) {
       styles.default.fontSize = `${values.iconSize}rem`;
+    }
+    if (values.iconTypeClosed !== undefined && values.iconTypeClosed !== null) {
+      styles.default.content = values.iconTypeClosed;
+    }
+    if (values.iconTypeOpen !== undefined && values.iconTypeOpen !== null) {
+      styles.default.content = values.iconTypeOpen;
     }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
       styles.default.transform = `${values.iconRotation}deg`;
@@ -78,6 +90,9 @@ export function buildEditorStyles(values) {
     }
     if (values.tabButtonActiveBackgroundColor !== undefined && values.tabButtonActiveBackgroundColor !== null) {
       styles.default.backgroundColor = values.tabButtonActiveBackgroundColor;
+    }
+    if (values.enableFocusBorder !== undefined && values.enableFocusBorder !== null) {
+      styles.default.border = values.enableFocusBorder;
     }
     if (values.tabButtonActiveContentBorderWidth !== undefined && values.tabButtonActiveContentBorderWidth !== null) {
       const resolvedProp = resolveCssProperty('tabButtonActiveContentBorderWidth', 'tabs', values);
@@ -203,6 +218,9 @@ export function buildEditorStyles(values) {
     if (values.shadowHover !== undefined && values.shadowHover !== null) {
       styles.default.boxShadow = values.shadowHover;
     }
+    if (values.enableTabsListContentBorder !== undefined && values.enableTabsListContentBorder !== null) {
+      styles.default.border = values.enableTabsListContentBorder;
+    }
     if (values.tabsListContentBorderColor !== undefined && values.tabsListContentBorderColor !== null) {
       const resolvedProp = resolveCssProperty('tabsListContentBorderColor', 'tabs', values);
       if (resolvedProp) {
@@ -238,12 +256,28 @@ export function buildFrontendStyles(customizations) {
     return styles;
   }
 
+  if (customizations.showIcon !== undefined && customizations.showIcon !== null) {
+    styles['--tabs-show-icon'] = customizations.showIcon;
+  }
+
+  if (customizations.iconPosition !== undefined && customizations.iconPosition !== null) {
+    styles['--tabs-icon-position'] = customizations.iconPosition;
+  }
+
   if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
     styles['--tabs-icon-color'] = customizations.iconColor;
   }
 
   if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
     styles['--tabs-icon-size'] = `${customizations.iconSize}rem`;
+  }
+
+  if (customizations.iconTypeClosed !== undefined && customizations.iconTypeClosed !== null) {
+    styles['--tabs-icon-type-closed'] = customizations.iconTypeClosed;
+  }
+
+  if (customizations.iconTypeOpen !== undefined && customizations.iconTypeOpen !== null) {
+    styles['--tabs-icon-type-open'] = customizations.iconTypeOpen;
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
@@ -276,6 +310,10 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.tabButtonActiveBackgroundColor !== undefined && customizations.tabButtonActiveBackgroundColor !== null) {
     styles['--tabs-button-active-bg'] = customizations.tabButtonActiveBackgroundColor;
+  }
+
+  if (customizations.enableFocusBorder !== undefined && customizations.enableFocusBorder !== null) {
+    styles['--tabs-enable-focus-border'] = customizations.enableFocusBorder;
   }
 
   if (customizations.tabButtonActiveContentBorderWidth !== undefined && customizations.tabButtonActiveContentBorderWidth !== null) {
@@ -424,6 +462,10 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.shadowHover !== undefined && customizations.shadowHover !== null) {
     styles['--tabs-border-shadow-hover'] = customizations.shadowHover;
+  }
+
+  if (customizations.enableTabsListContentBorder !== undefined && customizations.enableTabsListContentBorder !== null) {
+    styles['--tabs-enable-list-divider-border'] = customizations.enableTabsListContentBorder;
   }
 
   if (customizations.tabsListContentBorderColor !== undefined && customizations.tabsListContentBorderColor !== null) {

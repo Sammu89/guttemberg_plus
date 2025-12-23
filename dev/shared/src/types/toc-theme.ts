@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-23T02:43:04.670Z
+ * Generated at: 2025-12-23T22:20:59.785Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -17,6 +17,35 @@
  * Contains all themeable attributes
  */
 export interface TocTheme {
+  /** Include H1 headings in TOC */
+  includeH1?: boolean;
+  includeH2?: boolean;
+  includeH3?: boolean;
+  includeH4?: boolean;
+  includeH5?: boolean;
+  includeH6?: boolean;
+  /** Which heading levels to include (H1-H6) - derived from includeH1-H6 toggles */
+  includeLevels?: any[];
+  /** CSS classes to include in TOC */
+  includeClasses?: string;
+  /** Which heading levels to exclude */
+  excludeLevels?: any[];
+  /** CSS classes to exclude from TOC */
+  excludeClasses?: string;
+  /** Include headings from accordion blocks when they have a heading level set */
+  includeAccordions?: boolean;
+  /** Include headings from tabs blocks when they have a heading level set */
+  includeTabs?: boolean;
+  /** CSS positioning type */
+  positionType?: string;
+  /** Enable smooth scrolling to headings */
+  smoothScroll?: boolean;
+  /** Offset in pixels when scrolling to heading */
+  scrollOffset?: number;
+  /** Highlight current section in TOC */
+  autoHighlight?: boolean;
+  /** What happens when clicking a TOC item */
+  clickBehavior?: string;
   /** Background color of the TOC wrapper */
   wrapperBackgroundColor?: string;
   /** Border color of the TOC wrapper */
@@ -29,6 +58,8 @@ export interface TocTheme {
   hoverTitleColor?: string;
   /** Background color when hovering over title */
   hoverTitleBackgroundColor?: string;
+  /** Use the same link colors for all heading levels */
+  unifiedLinkColors?: boolean;
   /** Default color for all TOC links */
   linkColor?: string;
   /** Color when hovering over links */
@@ -37,6 +68,18 @@ export interface TocTheme {
   linkActiveColor?: string;
   /** Color for visited links */
   linkVisitedColor?: string;
+  /** Numbering style for H1 headings */
+  h1NumberingStyle?: string;
+  /** Numbering style for H2 headings */
+  h2NumberingStyle?: string;
+  /** Numbering style for H3 headings */
+  h3NumberingStyle?: string;
+  /** Numbering style for H4 headings */
+  h4NumberingStyle?: string;
+  /** Numbering style for H5 headings */
+  h5NumberingStyle?: string;
+  /** Numbering style for H6 headings */
+  h6NumberingStyle?: string;
   /** Link color for H1 headings (inherits general color if not set) */
   h1Color?: string;
   h1HoverColor?: string;
@@ -127,8 +170,16 @@ export interface TocTheme {
   h6TextTransform?: string;
   /** Text decoration for H6 headings */
   h6TextDecoration?: string;
+  /** Display expand/collapse icon */
+  showIcon?: boolean;
+  /** Position of icon relative to title */
+  iconPosition?: string;
   /** Size of the icon in rem */
   iconSize?: number;
+  /** Icon when TOC is collapsed */
+  iconTypeClosed?: string;
+  /** Icon when TOC is expanded (none = use iconTypeClosed with rotation) */
+  iconTypeOpen?: string;
   /** Rotation angle when open (degrees) */
   iconRotation?: number;
   /** Color of the expand/collapse icon */
@@ -157,28 +208,64 @@ export interface TocTheme {
   wrapperPadding?: number;
   /** Vertical space between TOC items (rem) */
   itemSpacing?: number;
+  /** Indent headings based on document hierarchy (e.g., H3 under H2 indents once) */
+  enableHierarchicalIndent?: boolean;
   /** Amount to indent each nested level */
   levelIndent?: string;
   /** Top offset for sticky/fixed positioning (rem) */
   positionTop?: number;
   /** Stack order for positioned TOC */
   zIndex?: number;
+  /** Which side to anchor the TOC (sticky/fixed positioning) */
+  positionHorizontalSide?: string;
+  /** Distance from the selected side */
+  positionHorizontalOffset?: string;
 }
 
 /**
  * Default theme values for Table of Contents block
  */
 export const tocDefaultTheme: TocTheme = {
+  includeH1: false,
+  includeH2: true,
+  includeH3: true,
+  includeH4: true,
+  includeH5: true,
+  includeH6: true,
+  includeLevels: [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  includeClasses: '',
+  excludeLevels: [],
+  excludeClasses: '',
+  includeAccordions: true,
+  includeTabs: true,
+  positionType: 'normal',
+  smoothScroll: true,
+  scrollOffset: 0,
+  autoHighlight: true,
+  clickBehavior: 'navigate',
   wrapperBackgroundColor: '#ffffff',
   blockBorderColor: '#dddddd',
   titleColor: '#333333',
   titleBackgroundColor: 'transparent',
   hoverTitleColor: '#000000',
   hoverTitleBackgroundColor: 'transparent',
+  unifiedLinkColors: true,
   linkColor: '#0073aa',
   linkHoverColor: '#005177',
   linkActiveColor: '#005177',
   linkVisitedColor: '#0073aa',
+  h1NumberingStyle: 'decimal',
+  h2NumberingStyle: 'decimal',
+  h3NumberingStyle: 'decimal',
+  h4NumberingStyle: 'decimal',
+  h5NumberingStyle: 'decimal',
+  h6NumberingStyle: 'decimal',
   h1Color: 'inherit',
   h1HoverColor: 'inherit',
   h1VisitedColor: 'inherit',
@@ -233,7 +320,11 @@ export const tocDefaultTheme: TocTheme = {
   h6FontStyle: 'normal',
   h6TextTransform: 'none',
   h6TextDecoration: 'none',
+  showIcon: true,
+  iconPosition: 'right',
   iconSize: 1.25,
+  iconTypeClosed: '▾',
+  iconTypeOpen: 'none',
   iconRotation: 180,
   iconColor: '#666666',
   titleFontSize: 1.25,
@@ -254,9 +345,12 @@ export const tocDefaultTheme: TocTheme = {
   blockShadowHover: 'none',
   wrapperPadding: 1.25,
   itemSpacing: 0.5,
+  enableHierarchicalIndent: true,
   levelIndent: '1.25rem',
   positionTop: 6.25,
   zIndex: 100,
+  positionHorizontalSide: 'right',
+  positionHorizontalOffset: '1.25rem',
 };
 
 /**

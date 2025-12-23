@@ -137,6 +137,11 @@ function main() {
 					return;
 				}
 
+				// Skip attributes that don't output CSS (outputsCSS: false)
+				if (attr.outputsCSS === false) {
+					return;
+				}
+
 				const cssVarName = attr.cssVar.startsWith('--')
 					? attr.cssVar
 					: `--${attr.cssVar}`;

@@ -141,16 +141,17 @@ function validateSchema(schemaName, schema, errors) {
 		const hasControl = Boolean(attr.control);
 		const inGroup = Boolean(attr.group);
 		const skipReason = attr.reason && SKIP_REASONS.has(attr.reason);
+		const noCSS = attr.outputsCSS === false; // Attributes that don't output CSS don't need controls
 		const knownNonUi = KNOWN_NON_UI_ATTRS.has(attrName);
 
 		// Missing control detection (likely forgotten UI)
-		if (inGroup && !hasControl && !skipReason && !knownNonUi) {
+		if (inGroup && !hasControl && !skipReason && !noCSS && !knownNonUi) {
 			recordError(
 				errors,
 				schemaName,
 				attrName,
 				'Attribute is in a UI group but has no control defined',
-				`Add "control" to ${attrName} in schemas/${schemaName}.json or mark it with reason:"structural"/"behavioral"/"content" if intentional`
+				`Add "control" to ${attrName} in schemas/${schemaName}.json or set "outputsCSS": false if this attribute doesn't need CSS output`
 			);
 		}
 

@@ -290,37 +290,44 @@ function validateBlock(blockType) {
       const hasVariants = attr.variants && typeof attr.variants === 'object' && Object.keys(attr.variants).length > 0;
 
       if (attr.themeable) {
-        if (!attr.appliesTo) {
-          errors.push(
-            `❌ Attribute "${attrName}" is themeable but missing "appliesTo" field!\n` +
-            `   All themeable attributes must specify which element they apply to.\n` +
-            `   Fix: Add "appliesTo": "elementId" to this attribute.`
-          );
-        }
+        // Attributes with outputsCSS: false can be themeable without CSS fields
+        // They're stored in themes but don't generate CSS
+        const outputsCSS = attr.outputsCSS !== false; // Default to true if not specified
 
-        // Check for deprecated cssSelector field
-        if (attr.cssSelector) {
-          warnings.push(
-            `⚠️  Attribute "${attrName}" has deprecated "cssSelector" field: "${attr.cssSelector}"\n` +
-            `   This field should be removed in favor of "appliesTo".\n` +
-            `   Fix: Remove "cssSelector" and ensure "appliesTo" is set correctly.`
-          );
-        }
+        if (outputsCSS) {
+          // Only CSS-generating attributes need these fields
+          if (!attr.appliesTo) {
+            errors.push(
+              `❌ Attribute "${attrName}" is themeable but missing "appliesTo" field!\n` +
+              `   All themeable CSS attributes must specify which element they apply to.\n` +
+              `   Fix: Add "appliesTo": "elementId" to this attribute, OR add "outputsCSS": false if this attribute doesn't generate CSS.`
+            );
+          }
 
-        // Validate cssVar and cssProperty exist
-        if (!attr.cssVar) {
-          errors.push(
-            `❌ Themeable attribute "${attrName}" is missing "cssVar" field!\n` +
-            `   Fix: Add "cssVar": "variable-name" to this attribute.`
-          );
-        }
+          // Check for deprecated cssSelector field
+          if (attr.cssSelector) {
+            warnings.push(
+              `⚠️  Attribute "${attrName}" has deprecated "cssSelector" field: "${attr.cssSelector}"\n` +
+              `   This field should be removed in favor of "appliesTo".\n` +
+              `   Fix: Remove "cssSelector" and ensure "appliesTo" is set correctly.`
+            );
+          }
 
-        const hasCssProperty = Boolean(attr.cssProperty);
-        if (!hasCssProperty && !hasVariants) {
-          errors.push(
-            `❌ Themeable attribute "${attrName}" is missing "cssProperty" field!\n` +
-            `   Fix: Add "cssProperty": "css-property" (or provide per-variant cssProperty overrides).`
-          );
+          // Validate cssVar and cssProperty exist
+          if (!attr.cssVar) {
+            errors.push(
+              `❌ Themeable attribute "${attrName}" is missing "cssVar" field!\n` +
+              `   Fix: Add "cssVar": "variable-name" to this attribute, OR add "outputsCSS": false if this attribute doesn't generate CSS.`
+            );
+          }
+
+          const hasCssProperty = Boolean(attr.cssProperty);
+          if (!hasCssProperty && !hasVariants) {
+            errors.push(
+              `❌ Themeable attribute "${attrName}" is missing "cssProperty" field!\n` +
+              `   Fix: Add "cssProperty": "css-property" (or provide per-variant cssProperty overrides), OR add "outputsCSS": false if this attribute doesn't generate CSS.`
+            );
+          }
         }
 
         if (attr.dependsOn && attr.cssProperty) {

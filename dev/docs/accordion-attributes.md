@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-23T02:43:04.659Z
+> Generated at: 2025-12-23T22:20:59.750Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -22,16 +22,16 @@ Structural and layout options for the accordion block
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `accordionId` | string | `` | No (structural) | Unique identifier for the accordion block |
-| `uniqueId` | string | `` | No (structural) | Auto-generated unique block identifier |
-| `blockId` | string | `` | No (structural) | Block-specific identification |
-| `title` | string | `Accordion Title` | No (content) | The accordion title text |
-| `content` | string | `` | No (content) | The accordion content (rich text) |
-| `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
+| `accordionId` | string | `` | No (N/A) | Unique identifier for the accordion block |
+| `uniqueId` | string | `` | No (N/A) | Auto-generated unique block identifier |
+| `blockId` | string | `` | No (N/A) | Block-specific identification |
+| `title` | string | `Accordion Title` | No (N/A) | The accordion title text |
+| `content` | string | `` | No (N/A) | The accordion content (rich text) |
+| `currentTheme` | string | `` | No (N/A) | Currently active theme name (empty = Default) |
 | `initiallyOpen` | boolean | `false` | No (N/A) | Whether accordion is open on page load |
 | `accordionWidth` | string | `100%` | No (N/A) | Accordion container width (e.g., 100%, 500px) |
 | `accordionHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the accordion |
-| `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
+| `headingLevel` | string | `none` | No (N/A) | Semantic HTML heading level (none, h1-h6) |
 
 ## Header Colors
 
@@ -82,11 +82,11 @@ Icon appearance and behavior
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
-| `showIcon` | boolean | `true` | No (N/A) | Display expand/collapse icon |
-| `iconPosition` | string | `right` | No (N/A) | Position of icon relative to title |
+| `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
+| `iconPosition` | string | `right` | Yes | Position of icon relative to title |
 | `iconSize` | number | `1.25` | Yes | Size of the icon in rem |
-| `iconTypeClosed` | string | `▾` | No (N/A) | Icon when accordion is closed |
-| `iconTypeOpen` | string | `none` | No (N/A) | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
+| `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed |
+| `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
 ## Header Typography

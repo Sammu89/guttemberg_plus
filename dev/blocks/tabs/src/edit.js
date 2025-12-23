@@ -308,6 +308,7 @@ const getInlineStyles = () => {
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
 			fontSize: `${effectiveValues.iconSize ?? 1}rem`,
+			content: effectiveValues.iconTypeClosed || '▾',
 			transform: `${effectiveValues.iconRotation ?? 0}deg`,
 		},
 		tabList: {
@@ -317,6 +318,7 @@ const getInlineStyles = () => {
 			borderStyle: effectiveValues.tabsRowBorderStyle || 'solid',
 			justifyContent: effectiveValues.tabListAlignment || 'flex-start',
 			gap: `${effectiveValues.tabsButtonGap ?? 0.5}rem`,
+			border: effectiveValues.enableTabsListContentBorder ? 'flex' : 'none',
 		},
 		panel: {
 			backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',

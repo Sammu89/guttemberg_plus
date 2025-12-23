@@ -214,7 +214,7 @@
 		flex: 1;
 		color: var(--toc-link-color, #0073aa);
 		text-decoration: none;
-		cursor: default;
+		cursor: text; // Allow text selection in editor
 
 		&:hover {
 			text-decoration: underline;

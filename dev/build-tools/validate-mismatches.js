@@ -553,14 +553,19 @@ function checkCssVariableMappingCompleteness(blockType) {
 			attrName,
 			cssVar: attr.cssVar.startsWith('--') ? attr.cssVar : `--${attr.cssVar}`,
 			reason: attr.reason || null,
+			outputsCSS: attr.outputsCSS !== false, // Default to true if not specified
 		}));
 
 	const SKIP_REASONS = new Set(['behavioral', 'structural']);
 
 	// For each attribute with cssVar, check if it exists in CSS_VAR_MAPPINGS
-	for (const { attrName, cssVar, reason } of attrsWithCssVar) {
+	for (const { attrName, cssVar, reason, outputsCSS } of attrsWithCssVar) {
 		// Skip attributes explicitly marked behavioral/structural
 		if (reason && SKIP_REASONS.has(reason)) {
+			continue;
+		}
+		// Skip attributes that don't output CSS (outputsCSS: false)
+		if (!outputsCSS) {
 			continue;
 		}
 		// Check if attribute is in the mappings for this block

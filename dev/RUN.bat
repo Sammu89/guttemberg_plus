@@ -176,7 +176,7 @@ echo  Running npm run build (from script dir)...
 echo ========================================
 echo.
 pushd "%~dp0"
-npm run build
+call npm run build
 set "NPM_ERROR=%ERRORLEVEL%"
 popd
 if %NPM_ERROR%==0 (
@@ -198,4 +198,4 @@ echo.
 echo Goodbye!
 popd
 endlocal
-exit /b 0
+pause
