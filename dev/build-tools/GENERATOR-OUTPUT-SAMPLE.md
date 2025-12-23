@@ -320,7 +320,6 @@ const getCustomizationStyles = () => {
 --toc-border-shadow
 --toc-border-shadow-hover
 --toc-wrapper-padding
---toc-list-padding-left
 --toc-item-spacing
 --toc-level-indent
 --toc-position-top

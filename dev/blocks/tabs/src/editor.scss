@@ -231,7 +231,7 @@
 		.tabs-list {
 			display: flex;
 			flex-direction: row;
-			flex-wrap: wrap;
+			flex-wrap: wrap; /* Wrap in editor for easier management */
 			gap: 0.5rem;
 		}
 

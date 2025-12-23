@@ -73,21 +73,21 @@ const SKIP_PATTERNS = [
 	/innerBlock\.attributes\.(\w+)/g,  // Inner block attributes
 ];
 
-// Common JavaScript keywords/properties to ignore
-const IGNORE_WORDS = new Set([
-	'length', 'map', 'filter', 'forEach', 'find', 'some', 'every', 'reduce',
-	'push', 'pop', 'shift', 'unshift', 'slice', 'splice', 'sort', 'reverse',
-	'join', 'concat', 'includes', 'indexOf', 'lastIndexOf', 'keys', 'values',
-	'entries', 'hasOwnProperty', 'toString', 'valueOf', 'constructor',
-	'name', 'value', 'label', 'id', 'key', 'type', 'default', 'onChange',
-	'onClick', 'onFocus', 'onBlur', 'className', 'style', 'children',
-	'props', 'state', 'setState', 'render', 'componentDidMount',
-	'componentWillUnmount', 'useEffect', 'useState', 'useCallback',
-	'useRef', 'useMemo', 'useContext', 'min', 'max', 'step', 'unit',
-	// Internal/structural attributes (removed from schemas but still used in code)
-	'customizations', 'customizationCache', 'currentTab',
-	'enableResponsiveFallback', 'responsiveBreakpoint', 'titlePadding',
-]);
+	// Common JavaScript keywords/properties to ignore
+	const IGNORE_WORDS = new Set([
+		'length', 'map', 'filter', 'forEach', 'find', 'some', 'every', 'reduce',
+		'push', 'pop', 'shift', 'unshift', 'slice', 'splice', 'sort', 'reverse',
+		'join', 'concat', 'includes', 'indexOf', 'lastIndexOf', 'keys', 'values',
+		'entries', 'hasOwnProperty', 'toString', 'valueOf', 'constructor',
+		'name', 'value', 'label', 'id', 'key', 'type', 'default', 'onChange',
+		'onClick', 'onFocus', 'onBlur', 'className', 'style', 'children',
+		'props', 'state', 'setState', 'render', 'componentDidMount',
+		'componentWillUnmount', 'useEffect', 'useState', 'useCallback',
+		'useRef', 'useMemo', 'useContext', 'min', 'max', 'step', 'unit',
+		// Internal/structural attributes (removed from schemas but still used in code)
+		'customizations', 'customizationCache', 'currentTab',
+		'enableResponsiveFallback', 'responsiveBreakpoint',
+	]);
 
 // Load schemas (attribute lists)
 function loadSchemas() {

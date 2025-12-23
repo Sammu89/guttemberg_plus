@@ -49,7 +49,12 @@ export default function save( { attributes } ) {
 		includeTabs,
 		tocItems,
 		deletedHeadingIds,
-		numberingStyle,
+		h1NumberingStyle,
+		h2NumberingStyle,
+		h3NumberingStyle,
+		h4NumberingStyle,
+		h5NumberingStyle,
+		h6NumberingStyle,
 		smoothScroll,
 		scrollOffset,
 		autoHighlight,
@@ -59,6 +64,18 @@ export default function save( { attributes } ) {
 		clickBehavior,
 		enableHierarchicalIndent,
 		levelIndent,
+		showIcon,
+		iconPosition,
+		iconTypeClosed,
+		iconTypeOpen,
+		iconRotation,
+		unifiedLinkColors,
+		includeH1,
+		includeH2,
+		includeH3,
+		includeH4,
+		includeH5,
+		includeH6,
 	} = attributes;
 
 	// Extract schema defaults (single source of truth)
@@ -89,7 +106,6 @@ export default function save( { attributes } ) {
 		'data-depth-limit': depthLimit || 0,
 		'data-include-accordions': includeAccordions !== false,
 		'data-include-tabs': includeTabs !== false,
-		'data-numbering-style': numberingStyle,
 		'data-smooth-scroll': smoothScroll,
 		'data-scroll-offset': scrollOffset,
 		'data-auto-highlight': autoHighlight,
@@ -100,18 +116,69 @@ export default function save( { attributes } ) {
 		'data-click-behavior': clickBehavior || 'navigate',
 		'data-enable-hierarchical-indent': enableHierarchicalIndent || false,
 		'data-level-indent': levelIndent || '1.25rem',
+		'data-h1-numbering': h1NumberingStyle || 'decimal',
+		'data-h2-numbering': h2NumberingStyle || 'decimal',
+		'data-h3-numbering': h3NumberingStyle || 'decimal',
+		'data-h4-numbering': h4NumberingStyle || 'decimal',
+		'data-h5-numbering': h5NumberingStyle || 'decimal',
+		'data-h6-numbering': h6NumberingStyle || 'decimal',
 		'data-toc-items': encodeURIComponent(
 			JSON.stringify( tocItems || [] )
 		),
 		'data-deleted-heading-ids': ( deletedHeadingIds || [] ).join( ',' ),
+		'data-show-icon': showIcon !== false,
+		'data-icon-closed': iconTypeClosed || '▾',
+		'data-icon-open': iconTypeOpen || 'none',
+		'data-icon-rotation': iconRotation || 180,
+		'data-include-h1': includeH1 !== false,
+		'data-include-h2': includeH2 !== false,
+		'data-include-h3': includeH3 !== false,
+		'data-include-h4': includeH4 !== false,
+		'data-include-h5': includeH5 !== false,
+		'data-include-h6': includeH6 !== false,
+	};
+	const numberingDataAttributes = {
+		'data-h1-numbering': h1NumberingStyle || 'decimal',
+		'data-h2-numbering': h2NumberingStyle || 'decimal',
+		'data-h3-numbering': h3NumberingStyle || 'decimal',
+		'data-h4-numbering': h4NumberingStyle || 'decimal',
+		'data-h5-numbering': h5NumberingStyle || 'decimal',
+		'data-h6-numbering': h6NumberingStyle || 'decimal',
 	};
 
 	// Build class names - add theme class if using a theme
 	const classNames = [ 'gutplus-toc', `toc-position-${ positionType }` ];
+
+	// Track heading toggle state for validation and CSS targeting
+	const headingToggleAny = includeH1 || includeH2 || includeH3 || includeH4 || includeH5 || includeH6;
+	if ( ! headingToggleAny ) {
+		classNames.push( 'toc-no-headings-selected' );
+	}
+	if ( includeH6 === false ) {
+		classNames.push( 'toc-excludes-h6' );
+	}
+
+	// Link color mode (unified vs per-level)
+	if ( unifiedLinkColors === false ) {
+		classNames.push( 'toc-link-colors-per-level' );
+	} else {
+		classNames.push( 'toc-link-colors-unified' );
+	}
+
+	// Add open state class
+	if ( ! initiallyCollapsed ) {
+		classNames.push( 'is-open' );
+	}
+
 	if ( attributes.currentTheme ) {
 		// Sanitize theme ID for CSS class (alphanumeric and hyphens only)
 		const safeThemeId = attributes.currentTheme.replace( /[^a-zA-Z0-9\-]/g, '' );
 		classNames.push( `gutplus-toc-theme-${ safeThemeId }` );
+	}
+
+	// Add icon position class
+	if ( iconPosition ) {
+		classNames.push( `icon-${ iconPosition }` );
 	}
 
 	// Add alignment class using centralized utility
@@ -154,6 +221,14 @@ const getCustomizationStyles = () => {
 /* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-END ========== */
 
 	const customizationStyles = getCustomizationStyles();
+
+	// Add numbering style CSS variables
+	[ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ].forEach( ( level ) => {
+		const numbering = attributes[ `${ level }NumberingStyle` ];
+		if ( numbering !== undefined && numbering !== null ) {
+			customizationStyles[ `--toc-${ level }-numbering` ] = numbering;
+		}
+	} );
 
 	// Add heading-level CSS variables (h1-h6 styling)
 	// These are set directly as attributes, not via customizations
@@ -202,115 +277,176 @@ const getCustomizationStyles = () => {
 	// Collapse button ID
 	const buttonId = `toc-toggle-${ tocId }`;
 	const contentId = `toc-content-${ tocId }`;
-	const titlePadding = effectiveValues.titlePadding || {
-		top: 0,
-		right: 0,
-		bottom: 12,
-		left: 0,
-	};
 	const titleFontSize = effectiveValues.titleFontSize ?? 1.25; // rem
-	const collapseIconSize = effectiveValues.collapseIconSize ?? 1.25; // rem
+
+	/**
+	 * Render icon based on settings (accordion-like pattern)
+	 */
+	const renderIcon = () => {
+		if ( ! showIcon ) {
+			return null;
+		}
+
+		const iconContent = iconTypeClosed || '▾';
+		const iconOpen = iconTypeOpen || 'none';
+		const isImage = iconContent.startsWith( 'http' );
+
+		if ( isImage ) {
+			return (
+				<img
+					src={ iconContent }
+					alt=""
+					aria-hidden="true"
+					className="toc-icon toc-icon-image"
+					data-icon-closed={ iconContent }
+					data-icon-open={ iconOpen !== 'none' ? iconOpen : iconContent }
+					data-icon-rotation={ iconRotation || 180 }
+				/>
+			);
+		}
+
+		return (
+			<span
+				className="toc-icon"
+				aria-hidden="true"
+				data-icon-closed={ iconContent }
+				data-icon-open={ iconOpen !== 'none' ? iconOpen : iconContent }
+				data-icon-rotation={ iconRotation || 180 }
+			>
+				{ iconContent }
+			</span>
+		);
+	};
+
+	/**
+	 * Render header with accordion-like structure
+	 */
+	const renderHeader = () => {
+		if ( ! showTitle && ! isCollapsible ) {
+			return null;
+		}
+
+		const iconElement = renderIcon();
+		const hasIcon = !! iconElement;
+		const currentIconPosition = iconPosition || 'right';
+		const titleAlignment = effectiveValues.titleAlignment || 'left';
+		const titleAlignClass = titleAlignment ? `title-align-${ titleAlignment }` : 'title-align-left';
+
+		// Build header content based on icon position
+		let buttonChildren;
+
+		if ( currentIconPosition === 'extreme-left' ) {
+			// Extreme left: icon at far left, text with flex grows to fill
+			buttonChildren = (
+				<>
+					{ hasIcon && (
+						<span className="toc-icon-slot">
+							{ iconElement }
+						</span>
+					) }
+					<div className="toc-title-text-wrapper">
+						<span className="toc-title-text">{ titleText }</span>
+					</div>
+				</>
+			);
+		} else if ( currentIconPosition === 'extreme-right' ) {
+			// Extreme right: text with flex grows, icon at far right
+			buttonChildren = (
+				<>
+					<div className="toc-title-text-wrapper">
+						<span className="toc-title-text">{ titleText }</span>
+					</div>
+					{ hasIcon && (
+						<span className="toc-icon-slot">
+							{ iconElement }
+						</span>
+					) }
+				</>
+			);
+		} else if ( currentIconPosition === 'left' ) {
+			// Left of text: wrap icon+text as single group that can be aligned
+			buttonChildren = (
+				<div className="toc-title-inline">
+					{ hasIcon && iconElement }
+					<span className="toc-title-text">{ titleText }</span>
+				</div>
+			);
+		} else {
+			// Right of text (default): wrap text+icon as single group that can be aligned
+			buttonChildren = (
+				<div className="toc-title-inline">
+					<span className="toc-title-text">{ titleText }</span>
+					{ hasIcon && iconElement }
+				</div>
+			);
+		}
+
+		// If collapsible, render as button
+		if ( isCollapsible ) {
+			return (
+				<button
+					id={ buttonId }
+					className={ `toc-title toc-toggle-button ${ currentIconPosition ? `icon-${ currentIconPosition }` : '' } ${ titleAlignClass }` }
+					aria-expanded={ ! initiallyCollapsed }
+					aria-controls={ contentId }
+					type="button"
+					style={ {
+						fontSize: `${ titleFontSize }rem`,
+						fontWeight: effectiveValues.titleFontWeight || '700',
+						color: effectiveValues.titleColor || '#333333',
+						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
+						textAlign: titleAlignment,
+					} }
+				>
+					{ buttonChildren }
+				</button>
+			);
+		}
+
+		// If not collapsible but showTitle is true, render as static title
+		if ( showTitle ) {
+			return (
+				<div
+					className={ `toc-title ${ titleAlignClass }` }
+					style={ {
+						fontSize: `${ titleFontSize }rem`,
+						fontWeight: effectiveValues.titleFontWeight || '700',
+						color: effectiveValues.titleColor || '#333333',
+						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
+						textAlign: titleAlignment,
+					} }
+				>
+					<span className="toc-title-text">{ titleText }</span>
+				</div>
+			);
+		}
+
+		return null;
+	};
 
 	return (
 		<div { ...blockProps }>
-			{ showTitle && ! isCollapsible && (
-				// NOTE: Inline styles used for initial render before CSS loads. CSS variables from theme will override these via specificity
-				<div
-					className="toc-title"
-					style={ {
-						fontSize: `${ titleFontSize }rem`,
-						fontWeight: effectiveValues.titleFontWeight || '700',
-						color: effectiveValues.titleColor || '#333333',
-						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-						textAlign: effectiveValues.titleAlignment || 'left',
-						padding: `${ titlePadding.top }px ${ titlePadding.right }px ${ titlePadding.bottom }px ${ titlePadding.left }px`,
-					} }
-				>
-					{ titleText }
-				</div>
-			) }
+			{/* Header Section (accordion-like) */}
+			<div className="toc-header-wrapper">
+				{ renderHeader() }
+			</div>
 
-			{ showTitle && isCollapsible && (
-				<button
-					id={ buttonId }
-					className="toc-title toc-toggle-button"
-					aria-expanded={ ! initiallyCollapsed }
-					aria-controls={ contentId }
-					type="button"
-					style={ {
-						fontSize: `${ titleFontSize }rem`,
-						fontWeight: effectiveValues.titleFontWeight || '700',
-						color: effectiveValues.titleColor || '#333333',
-						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-						textAlign: effectiveValues.titleAlignment || 'left',
-						padding: `${ titlePadding.top }px ${ titlePadding.right }px ${ titlePadding.bottom }px ${ titlePadding.left }px`,
-						border: 'none',
-						width: '100%',
-						cursor: 'pointer',
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-					} }
-				>
-					<span>{ titleText }</span>
-					<span
-						className="toc-collapse-icon"
-						aria-hidden="true"
-						style={ {
-							fontSize: `${ collapseIconSize }rem`,
-							color: effectiveValues.collapseIconColor || '#666666',
-						} }
-					>
-						▾
-					</span>
-				</button>
-			) }
-
-			{ ! showTitle && isCollapsible && (
-				<button
-					id={ buttonId }
-					className="toc-toggle-button toc-icon-only"
-					aria-expanded={ ! initiallyCollapsed }
-					aria-controls={ contentId }
-					aria-label="Toggle Table of Contents"
-					type="button"
-					style={ {
-						position: 'absolute',
-						top: '10px',
-						right: '10px',
-						background: 'none',
-						border: 'none',
-						cursor: 'pointer',
-						fontSize: `${ collapseIconSize }rem`,
-						color: effectiveValues.collapseIconColor || '#666666',
-					} }
-				>
-					▾
-				</button>
-			) }
-
+			{/* Content Section */}
 			<nav
 				id={ contentId }
 				className="toc-content"
 				aria-label={ titleText || 'Table of Contents' }
-				style={ {
-					display: isCollapsible && initiallyCollapsed ? 'none' : 'block',
-				} }
+				{ ...( isCollapsible && initiallyCollapsed && { hidden: true } ) }
 			>
-				<ul
-					className={ `toc-list numbering-${ numberingStyle }` }
-					style={ {
-						listStyleType: numberingStyle === 'none' ? 'disc' : 'none',
-						paddingLeft: formatCssValue(
-							'listPaddingLeft',
-							effectiveValues.listPaddingLeft ?? allDefaults.listPaddingLeft,
-							'toc'
-						),
-						margin: 0,
-					} }
-				>
-					<li className="toc-placeholder">Loading table of contents...</li>
-				</ul>
+			<ul
+				className="toc-list toc-hierarchical-numbering"
+				style={ {
+					margin: 0,
+				} }
+				{ ...numberingDataAttributes }
+			>
+				<li className="toc-placeholder">Loading table of contents...</li>
+			</ul>
 			</nav>
 
 		</div>

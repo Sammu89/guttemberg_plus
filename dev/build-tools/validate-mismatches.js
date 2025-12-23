@@ -189,6 +189,11 @@ function checkSelectControlUsage(blockType) {
 			continue;
 		}
 
+		// Skip hierarchical numbering controls (handled via CSS counters and data attributes)
+		if (attrName.endsWith('NumberingStyle')) {
+			continue;
+		}
+
 		// Check if attribute is used in any conditional
 		const conditionalPatterns = [
 			new RegExp(`${attrName}\\s*[!=]==?\\s*['"\`]`, 'g'), // attr === 'value' or attr !== 'value'

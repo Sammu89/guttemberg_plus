@@ -52,7 +52,12 @@ function initializeTOCBlocks() {
 				depthLimit: parseInt( block.getAttribute( 'data-depth-limit' ) || '0', 10 ) || null,
 				includeAccordions: block.getAttribute( 'data-include-accordions' ) !== 'false',
 				includeTabs: block.getAttribute( 'data-include-tabs' ) !== 'false',
-				numberingStyle: block.getAttribute( 'data-numbering-style' ) || 'none',
+				h1NumberingStyle: block.getAttribute( 'data-h1-numbering' ) || 'decimal',
+				h2NumberingStyle: block.getAttribute( 'data-h2-numbering' ) || 'decimal',
+				h3NumberingStyle: block.getAttribute( 'data-h3-numbering' ) || 'decimal',
+				h4NumberingStyle: block.getAttribute( 'data-h4-numbering' ) || 'decimal',
+				h5NumberingStyle: block.getAttribute( 'data-h5-numbering' ) || 'decimal',
+				h6NumberingStyle: block.getAttribute( 'data-h6-numbering' ) || 'decimal',
 				smoothScroll: block.getAttribute( 'data-smooth-scroll' ) === 'true',
 				scrollOffset: parseInt( block.getAttribute( 'data-scroll-offset' ) || '0', 10 ),
 				autoHighlight: block.getAttribute( 'data-auto-highlight' ) === 'true',
@@ -61,6 +66,16 @@ function initializeTOCBlocks() {
 				clickBehavior: block.getAttribute( 'data-click-behavior' ) || 'navigate',
 				enableHierarchicalIndent: block.getAttribute( 'data-enable-hierarchical-indent' ) === 'true',
 				levelIndent: block.getAttribute( 'data-level-indent' ) || '1.25rem',
+				showIcon: block.getAttribute( 'data-show-icon' ) !== 'false',
+				iconClosed: block.getAttribute( 'data-icon-closed' ) || '▾',
+				iconOpen: block.getAttribute( 'data-icon-open' ) || 'none',
+				iconRotation: parseInt( block.getAttribute( 'data-icon-rotation' ) || '180', 10 ),
+				includeH1: block.getAttribute( 'data-include-h1' ) !== 'false',
+				includeH2: block.getAttribute( 'data-include-h2' ) !== 'false',
+				includeH3: block.getAttribute( 'data-include-h3' ) !== 'false',
+				includeH4: block.getAttribute( 'data-include-h4' ) !== 'false',
+				includeH5: block.getAttribute( 'data-include-h5' ) !== 'false',
+				includeH6: block.getAttribute( 'data-include-h6' ) !== 'false',
 			};
 
 			// Initialize this TOC
@@ -157,18 +172,42 @@ function initTOC( block, config ) {
  * @param config
  */
 function detectHeadings( tocBlock, config ) {
-	// Get all headings in the main content
-	const contentArea = document.querySelector( '.entry-content, main, article, body' );
+	// Get all headings in the main content area only (not header/footer/sidebar)
+	// Try multiple common WordPress content area selectors
+	const contentArea = document.querySelector(
+		'.entry-content, .post-content, .page-content, article .content, main.content, .site-content article'
+	);
+
 	if ( ! contentArea ) {
+		console.warn( 'TOC: Could not find content area. Headings will not be detected.' );
 		return [];
 	}
 
-	const allHeadings = contentArea.querySelectorAll( 'h2, h3, h4, h5, h6' );
+	// Build heading selector based on includeH1-H6 attributes
+	const selectors = [];
+	[ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ].forEach( ( level ) => {
+		const includeAttr = config[ `include${ level.toUpperCase() }` ];
+		if ( includeAttr !== false ) {
+			selectors.push( level );
+		}
+	} );
+
+	// If no headings are selected, return empty
+	if ( selectors.length === 0 ) {
+		return [];
+	}
+
+	const allHeadings = contentArea.querySelectorAll( selectors.join( ', ' ) );
 	const detectedHeadings = [];
 
 	allHeadings.forEach( ( heading ) => {
 		// Skip headings inside TOC blocks
 		if ( heading.closest( '.gutplus-toc' ) ) {
+			return;
+		}
+
+		// Skip headings in header, footer, nav, sidebar, or aside elements
+		if ( heading.closest( 'header, footer, nav, aside, .sidebar, .widget' ) ) {
 			return;
 		}
 
@@ -370,6 +409,30 @@ function renderTOCList( listContainer, headings, config ) {
 	// Clear placeholder
 	listContainer.innerHTML = '';
 
+	// Set CSS variables for hierarchical numbering
+	listContainer.style.setProperty( '--toc-h1-numbering', config.h1NumberingStyle || 'decimal' );
+	listContainer.style.setProperty( '--toc-h2-numbering', config.h2NumberingStyle || 'decimal' );
+	listContainer.style.setProperty( '--toc-h3-numbering', config.h3NumberingStyle || 'decimal' );
+	listContainer.style.setProperty( '--toc-h4-numbering', config.h4NumberingStyle || 'decimal' );
+	listContainer.style.setProperty( '--toc-h5-numbering', config.h5NumberingStyle || 'decimal' );
+	listContainer.style.setProperty( '--toc-h6-numbering', config.h6NumberingStyle || 'decimal' );
+
+	// Add hierarchical numbering class and cascade data attributes
+	listContainer.classList.add( 'toc-hierarchical-numbering' );
+	listContainer.setAttribute( 'data-h1-numbering', config.h1NumberingStyle || 'decimal' );
+	listContainer.setAttribute( 'data-h2-numbering', config.h2NumberingStyle || 'decimal' );
+	listContainer.setAttribute( 'data-h3-numbering', config.h3NumberingStyle || 'decimal' );
+	listContainer.setAttribute( 'data-h4-numbering', config.h4NumberingStyle || 'decimal' );
+	listContainer.setAttribute( 'data-h5-numbering', config.h5NumberingStyle || 'decimal' );
+	listContainer.setAttribute( 'data-h6-numbering', config.h6NumberingStyle || 'decimal' );
+
+	// Determine base level (lowest heading level present) to avoid leading zeroes
+	let baseLevel = headings.length > 0 ? Math.min( ...headings.map( ( h ) => h.level || 6 ) ) : 1;
+	if ( ( config.h1NumberingStyle || 'decimal' ) === 'none' && baseLevel <= 1 ) {
+		baseLevel = 2;
+	}
+	listContainer.setAttribute( 'data-base-level', baseLevel );
+
 	if ( headings.length === 0 ) {
 		listContainer.innerHTML = '<li class="toc-empty">No headings found.</li>';
 		return;
@@ -442,6 +505,67 @@ function renderTOCList( listContainer, headings, config ) {
 }
 
 /**
+ * Open parent accordion or tab if target element is inside one
+ * @param targetElement - The heading element to navigate to
+ * @returns {boolean} - True if an accordion/tab was opened, false otherwise
+ */
+function openParentAccordionOrTab( targetElement ) {
+	if ( ! targetElement ) {
+		return false;
+	}
+
+	let wasOpened = false;
+
+	// Check if target is inside an accordion
+	const accordionBlock = targetElement.closest( '.gutplus-accordion' );
+	if ( accordionBlock ) {
+		const accordionButton = accordionBlock.querySelector( '.accordion-title' );
+		const accordionPanel = accordionBlock.querySelector( '.accordion-content' );
+
+		if ( accordionButton && accordionPanel ) {
+			const isOpen = accordionButton.getAttribute( 'aria-expanded' ) === 'true';
+
+			// If accordion is closed, open it
+			if ( ! isOpen ) {
+				// Trigger click to open the accordion (reuses existing accordion logic)
+				accordionButton.click();
+				wasOpened = true;
+			}
+		}
+	}
+
+	// Check if target is a tab button or inside a tab heading
+	let tabButton = null;
+
+	// Case 1: Target is the tab button itself
+	if ( targetElement.classList && targetElement.classList.contains( 'tab-button' ) ) {
+		tabButton = targetElement;
+	}
+	// Case 2: Target is inside a tab heading (heading wraps the button)
+	else if ( targetElement.closest && targetElement.closest( '.tab-heading' ) ) {
+		const tabHeading = targetElement.closest( '.tab-heading' );
+		tabButton = tabHeading.querySelector( '.tab-button' );
+	}
+	// Case 3: Target contains a tab button (e.g., target is the heading)
+	else if ( targetElement.querySelector ) {
+		tabButton = targetElement.querySelector( '.tab-button' );
+	}
+
+	// If we found a tab button, activate it if it's not already active
+	if ( tabButton ) {
+		const isActive = tabButton.getAttribute( 'aria-selected' ) === 'true';
+
+		if ( ! isActive ) {
+			// Trigger click to activate the tab (reuses existing tabs logic)
+			tabButton.click();
+			wasOpened = true;
+		}
+	}
+
+	return wasOpened;
+}
+
+/**
  * Setup smooth scroll behavior
  * @param block
  * @param config
@@ -480,17 +604,58 @@ function setupSmoothScroll( block, config ) {
 					return;
 				}
 
-				// Calculate scroll position with offset
-				const targetPosition =
-					targetElement.getBoundingClientRect().top +
-					window.pageYOffset -
-					config.scrollOffset;
+				// Open accordion or tab if target is inside one
+				const wasOpened = openParentAccordionOrTab( targetElement );
 
-				// Smooth scroll
-				window.scrollTo( {
-					top: targetPosition,
-					behavior: 'smooth',
-				} );
+				// Function to perform scroll
+				const performScroll = () => {
+					// Determine scroll target element
+					// For tabs and accordions, scroll to the parent block instead of the button/heading
+					let scrollTarget = targetElement;
+
+					// Check if target is a tab button or inside a tab heading
+					const isTabButton = targetElement.classList && targetElement.classList.contains( 'tab-button' );
+					const tabHeading = targetElement.closest && targetElement.closest( '.tab-heading' );
+
+					if ( isTabButton || tabHeading ) {
+						// Find parent tabs block
+						const tabsBlock = targetElement.closest( '.gutplus-tabs' );
+						if ( tabsBlock ) {
+							scrollTarget = tabsBlock;
+						}
+					}
+
+					// Check if target is an accordion heading or button
+					const accordionHeading = targetElement.closest && targetElement.closest( '.accordion-heading' );
+					const isAccordionButton = targetElement.classList && targetElement.classList.contains( 'accordion-title' );
+
+					if ( accordionHeading || isAccordionButton ) {
+						// Find parent accordion block
+						const accordionBlock = targetElement.closest( '.gutplus-accordion' );
+						if ( accordionBlock ) {
+							scrollTarget = accordionBlock;
+						}
+					}
+
+					// Calculate scroll position with offset
+					const targetPosition =
+						scrollTarget.getBoundingClientRect().top +
+						window.pageYOffset -
+						config.scrollOffset;
+
+					// Smooth scroll
+					window.scrollTo( {
+						top: targetPosition,
+						behavior: 'smooth',
+					} );
+				};
+
+				// If we opened a tab/accordion, wait a bit for DOM to update before scrolling
+				if ( wasOpened ) {
+					setTimeout( performScroll, 50 );
+				} else {
+					performScroll();
+				}
 
 				// Update URL hash without jumping
 				if ( history.pushState ) {
@@ -503,20 +668,24 @@ function setupSmoothScroll( block, config ) {
 				targetElement.focus( { preventScroll: true } );
 
 				// Handle click behavior - collapse TOC if configured
-				if ( config.clickBehavior === 'navigate-and-collapse' && config.isCollapsible ) {
+				if ( config.clickBehavior === 'navigate-and-collapse' && config.isCollapsible && config.showIcon ) {
 					// Wait for scroll to complete before collapsing
 					setTimeout( () => {
 						try {
 							const toggleButton = block.querySelector( '.toc-toggle-button' );
 							const content = block.querySelector( '.toc-content' );
-							const icon = block.querySelector( '.toc-collapse-icon' );
+							const icon = block.querySelector( '.toc-icon' );
 
 							if ( toggleButton && content ) {
 								// Collapse the TOC
-								content.style.display = 'none';
+								content.setAttribute( 'hidden', 'true' );
 								toggleButton.setAttribute( 'aria-expanded', 'false' );
+								block.classList.remove( 'is-open' );
+
 								if ( icon ) {
-									icon.style.transform = 'rotate(-90deg)';
+									const iconClosed = toggleButton.getAttribute( 'data-icon-closed' ) || '▾';
+									icon.textContent = iconClosed;
+									icon.style.transform = 'rotate(0deg)';
 								}
 							}
 						} catch ( error ) {
@@ -638,36 +807,74 @@ function setupCollapsible( block, config ) {
 
 	const toggleButton = block.querySelector( '.toc-toggle-button' );
 	const content = block.querySelector( '.toc-content' );
-	const icon = block.querySelector( '.toc-collapse-icon' );
+	const icon = block.querySelector( '.toc-icon' );
 
 	if ( ! toggleButton || ! content ) {
 		console.warn( 'TOC collapsible elements not found' );
 		return;
 	}
 
+	// Get icon data attributes
+	const showIcon = config.showIcon !== false;
+	const iconClosed = toggleButton.getAttribute( 'data-icon-closed' ) || '▾';
+	const iconOpen = toggleButton.getAttribute( 'data-icon-open' ) || 'none';
+	const iconRotation = parseInt( toggleButton.getAttribute( 'data-icon-rotation' ) || '180', 10 );
+
+	// If showIcon is false, don't allow toggling
+	if ( ! showIcon ) {
+		// Remove click handlers to prevent collapse/expand
+		return;
+	}
+
 	// Set initial state
 	const isCollapsed = config.initiallyCollapsed;
-	content.style.display = isCollapsed ? 'none' : 'block';
+	if ( isCollapsed ) {
+		content.setAttribute( 'hidden', 'true' );
+	} else {
+		content.removeAttribute( 'hidden' );
+		block.classList.add( 'is-open' );
+	}
 	toggleButton.setAttribute( 'aria-expanded', ! isCollapsed );
+
+	// Apply initial icon state
+	if ( icon && ! isCollapsed ) {
+		if ( iconOpen && iconOpen !== 'none' ) {
+			icon.textContent = iconOpen;
+		} else {
+			icon.style.transform = `rotate(${ iconRotation }deg)`;
+		}
+	}
 
 	// Toggle function
 	const toggle = () => {
 		try {
-			const isCurrentlyCollapsed = content.style.display === 'none';
+			const isCurrentlyCollapsed = content.hasAttribute( 'hidden' );
 
 			if ( isCurrentlyCollapsed ) {
 				// Expand
-				content.style.display = 'block';
+				content.removeAttribute( 'hidden' );
 				toggleButton.setAttribute( 'aria-expanded', 'true' );
+				block.classList.add( 'is-open' );
+
 				if ( icon ) {
-					icon.style.transform = 'rotate(0deg)';
+					if ( iconOpen && iconOpen !== 'none' ) {
+						// Swap to open icon
+						icon.textContent = iconOpen;
+					} else {
+						// Rotate closed icon
+						icon.style.transform = `rotate(${ iconRotation }deg)`;
+					}
 				}
 			} else {
 				// Collapse
-				content.style.display = 'none';
+				content.setAttribute( 'hidden', 'true' );
 				toggleButton.setAttribute( 'aria-expanded', 'false' );
+				block.classList.remove( 'is-open' );
+
 				if ( icon ) {
-					icon.style.transform = 'rotate(-90deg)';
+					// Reset to closed icon
+					icon.textContent = iconClosed;
+					icon.style.transform = 'rotate(0deg)';
 				}
 			}
 		} catch ( error ) {
@@ -713,4 +920,4 @@ if ( document.readyState === 'loading' ) {
 /**
  * Export functions for potential reuse
  */
-export { initializeTOCBlocks, detectHeadings, setupSmoothScroll, setupScrollSpy, setupCollapsible };
+export { initializeTOCBlocks, detectHeadings, setupSmoothScroll, setupScrollSpy, setupCollapsible, openParentAccordionOrTab };

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-22T19:13:33.427Z
+ * Generated at: 2025-12-23T02:43:04.672Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -45,7 +45,31 @@ export const tocAttributes = {
   },
   filterMode: {
     type: 'string',
-    default: 'include-all',
+    default: 'Include all headings',
+  },
+  includeH1: {
+    type: 'boolean',
+    default: false,
+  },
+  includeH2: {
+    type: 'boolean',
+    default: true,
+  },
+  includeH3: {
+    type: 'boolean',
+    default: true,
+  },
+  includeH4: {
+    type: 'boolean',
+    default: true,
+  },
+  includeH5: {
+    type: 'boolean',
+    default: true,
+  },
+  includeH6: {
+    type: 'boolean',
+    default: true,
   },
   includeLevels: {
     type: 'array',
@@ -63,10 +87,6 @@ export const tocAttributes = {
     type: 'string',
     default: '',
   },
-  depthLimit: {
-    type: 'number',
-    default: null,
-  },
   includeAccordions: {
     type: 'boolean',
     default: true,
@@ -75,13 +95,9 @@ export const tocAttributes = {
     type: 'boolean',
     default: true,
   },
-  numberingStyle: {
-    type: 'string',
-    default: 'none',
-  },
   isCollapsible: {
     type: 'boolean',
-    default: false,
+    default: true,
   },
   initiallyCollapsed: {
     type: 'boolean',
@@ -89,7 +105,7 @@ export const tocAttributes = {
   },
   positionType: {
     type: 'string',
-    default: 'default',
+    default: 'normal',
   },
   smoothScroll: {
     type: 'boolean',
@@ -131,6 +147,18 @@ export const tocAttributes = {
     type: 'string',
     default: 'transparent',
   },
+  hoverTitleColor: {
+    type: 'string',
+    default: '#000000',
+  },
+  hoverTitleBackgroundColor: {
+    type: 'string',
+    default: 'transparent',
+  },
+  unifiedLinkColors: {
+    type: 'boolean',
+    default: true,
+  },
   linkColor: {
     type: 'string',
     default: '#0073aa',
@@ -147,13 +175,45 @@ export const tocAttributes = {
     type: 'string',
     default: '#0073aa',
   },
-  numberingColor: {
+  h1NumberingStyle: {
     type: 'string',
-    default: '#0073aa',
+    default: 'decimal',
+  },
+  h2NumberingStyle: {
+    type: 'string',
+    default: 'decimal',
+  },
+  h3NumberingStyle: {
+    type: 'string',
+    default: 'decimal',
+  },
+  h4NumberingStyle: {
+    type: 'string',
+    default: 'decimal',
+  },
+  h5NumberingStyle: {
+    type: 'string',
+    default: 'decimal',
+  },
+  h6NumberingStyle: {
+    type: 'string',
+    default: 'decimal',
   },
   h1Color: {
     type: 'string',
-    default: '#0073aa',
+    default: 'inherit',
+  },
+  h1HoverColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h1VisitedColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h1ActiveColor: {
+    type: 'string',
+    default: 'inherit',
   },
   h1FontSize: {
     type: 'number',
@@ -177,7 +237,19 @@ export const tocAttributes = {
   },
   h2Color: {
     type: 'string',
-    default: '#0073aa',
+    default: 'inherit',
+  },
+  h2HoverColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h2VisitedColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h2ActiveColor: {
+    type: 'string',
+    default: 'inherit',
   },
   h2FontSize: {
     type: 'number',
@@ -201,7 +273,19 @@ export const tocAttributes = {
   },
   h3Color: {
     type: 'string',
-    default: '#0073aa',
+    default: 'inherit',
+  },
+  h3HoverColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h3VisitedColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h3ActiveColor: {
+    type: 'string',
+    default: 'inherit',
   },
   h3FontSize: {
     type: 'number',
@@ -225,7 +309,19 @@ export const tocAttributes = {
   },
   h4Color: {
     type: 'string',
-    default: '#0073aa',
+    default: 'inherit',
+  },
+  h4HoverColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h4VisitedColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h4ActiveColor: {
+    type: 'string',
+    default: 'inherit',
   },
   h4FontSize: {
     type: 'number',
@@ -249,7 +345,19 @@ export const tocAttributes = {
   },
   h5Color: {
     type: 'string',
-    default: '#0073aa',
+    default: 'inherit',
+  },
+  h5HoverColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h5VisitedColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h5ActiveColor: {
+    type: 'string',
+    default: 'inherit',
   },
   h5FontSize: {
     type: 'number',
@@ -273,7 +381,19 @@ export const tocAttributes = {
   },
   h6Color: {
     type: 'string',
-    default: '#0073aa',
+    default: 'inherit',
+  },
+  h6HoverColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h6VisitedColor: {
+    type: 'string',
+    default: 'inherit',
+  },
+  h6ActiveColor: {
+    type: 'string',
+    default: 'inherit',
   },
   h6FontSize: {
     type: 'number',
@@ -295,7 +415,31 @@ export const tocAttributes = {
     type: 'string',
     default: 'none',
   },
-  collapseIconColor: {
+  showIcon: {
+    type: 'boolean',
+    default: true,
+  },
+  iconPosition: {
+    type: 'string',
+    default: 'right',
+  },
+  iconSize: {
+    type: 'number',
+    default: 1.25,
+  },
+  iconTypeClosed: {
+    type: 'string',
+    default: '▾',
+  },
+  iconTypeOpen: {
+    type: 'string',
+    default: 'none',
+  },
+  iconRotation: {
+    type: 'number',
+    default: 180,
+  },
+  iconColor: {
     type: 'string',
     default: '#666666',
   },
@@ -307,17 +451,21 @@ export const tocAttributes = {
     type: 'string',
     default: '700',
   },
+  titleFontStyle: {
+    type: 'string',
+    default: 'normal',
+  },
   titleTextTransform: {
+    type: 'string',
+    default: 'none',
+  },
+  titleTextDecoration: {
     type: 'string',
     default: 'none',
   },
   titleAlignment: {
     type: 'string',
     default: 'left',
-  },
-  titlePadding: {
-    type: 'object',
-    default: {"top":0,"right":0,"bottom":12,"left":0},
   },
   blockBorderWidth: {
     type: 'number',
@@ -343,17 +491,13 @@ export const tocAttributes = {
     type: 'number',
     default: 1.25,
   },
-  listPaddingLeft: {
-    type: 'number',
-    default: 1.5,
-  },
   itemSpacing: {
     type: 'number',
     default: 0.5,
   },
   enableHierarchicalIndent: {
     type: 'boolean',
-    default: false,
+    default: true,
   },
   levelIndent: {
     type: 'string',
@@ -374,10 +518,6 @@ export const tocAttributes = {
   positionHorizontalOffset: {
     type: 'string',
     default: '1.25rem',
-  },
-  collapseIconSize: {
-    type: 'number',
-    default: 1.25,
   },
 };
 

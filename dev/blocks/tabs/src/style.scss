@@ -49,16 +49,74 @@
 	}
 }
 
+/* Tab list wrapper for horizontal scrolling */
+.tabs-list-wrapper {
+	position: relative;
+	display: flex;
+	align-items: stretch;
+	background-color: var(--tabs-list-bg);
+	/* Allow vertical overflow so active tab can translate down and overlap content */
+	overflow: visible;
+}
+
+/* Scroll navigation buttons */
+.tabs-scroll-button {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 2rem;
+	height: 2rem;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+	background: white;
+	cursor: pointer;
+	z-index: 2; /* Below active tab (z-index: 3) but above inactive tabs */
+	display: none; /* Hidden by default, shown by JS when needed */
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	opacity: 0.9;
+	color: var(--tabs-button-color, #666);
+	pointer-events: auto; /* Ensure buttons are clickable */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+	&:hover:not(:disabled) {
+		opacity: 1;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	}
+
+	&:disabled {
+		opacity: 0; /* Fade out completely when disabled */
+		pointer-events: none; /* Don't capture clicks when invisible */
+		cursor: default;
+	}
+
+	&.scroll-left {
+		left: 0.5rem;
+	}
+
+	&.scroll-right {
+		right: 0.5rem;
+	}
+
+	/* Show when parent has overflow class */
+	.tabs-list-wrapper.has-overflow & {
+		display: flex;
+	}
+}
+
 /* Tab list (navigation) */
 .tabs-list {
 	display: flex;
 	gap: var(--tabs-button-gap);
 	background-color: var(--tabs-list-bg);
 	justify-content: var(--tabs-list-align);
-	overflow: visible;
-	flex-wrap: wrap;
+	overflow-x: auto;
+	overflow-y: visible;
+	flex-wrap: nowrap; /* Changed from wrap to nowrap for horizontal scrolling */
 	border: var(--tabs-row-border-width) var(--tabs-row-border-style) var(--tabs-row-border-color);
-	/* Horizontal orientation padding: top is user-controlled, bottom is 0 (connects to content), left/right are 0.5rem */
+	/* Horizontal orientation padding: top is user-controlled, left/right are 0.5rem */
+	/* Bottom padding removed to allow seamless connection with content panel */
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 	padding-bottom: 0;
@@ -66,6 +124,17 @@
 	outline: none !important;
 	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
 	border-bottom: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
+	/* Hide scrollbar but keep functionality */
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE/Edge */
+	scroll-behavior: smooth;
+	flex: 1; /* Take available space */
+	/* Create space below for active tab to translate down without being clipped */
+	margin-bottom: -2px;
+
+	&::-webkit-scrollbar {
+		display: none; /* Chrome/Safari/Opera */
+	}
 
 	/* When stretch buttons is enabled, prevent wrapping */
 	.gutplus-tabs[data-orientation="horizontal"][data-stretch-buttons="true"] & {

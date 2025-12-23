@@ -19,46 +19,58 @@
       "order": 1,
       "initialOpen": true
     },
-    "blockBorders": {
-      "title": "Block Borders",
-      "description": "Wrapper background, borders, and shadows",
+    "filtering": {
+      "title": "Filtering",
+      "description": "Heading inclusion and class filters",
       "order": 2,
-      "initialOpen": false
+      "initialOpen": true
     },
-    "titleColors": {
-      "title": "Title Colors",
-      "description": "Title colors",
+    "positionScroll": {
+      "title": "Position and Scroll",
+      "description": "Positioning and scroll behavior",
       "order": 3,
-      "initialOpen": false
-    },
-    "titleTypography": {
-      "title": "Title Typography",
-      "description": "Title typography and padding",
-      "order": 4,
-      "initialOpen": false
-    },
-    "linkColors": {
-      "title": "Link Colors",
-      "description": "Link and numbering colors",
-      "order": 5,
       "initialOpen": false
     },
     "headingStyles": {
       "title": "Heading Styles",
       "description": "Per-heading-level colors and typography (H1-H6)",
+      "order": 4,
+      "initialOpen": false
+    },
+    "externalBorders": {
+      "title": "External Borders",
+      "description": "TOC wrapper borders, radius, and shadows",
+      "order": 5,
+      "initialOpen": false
+    },
+    "icon": {
+      "title": "Icon",
+      "description": "Expand/collapse icon settings",
       "order": 6,
+      "initialOpen": false
+    },
+    "linkColors": {
+      "title": "Link Colors",
+      "description": "Colors for TOC links (all text in TOC is a link)",
+      "order": 7,
+      "initialOpen": false
+    },
+    "headerColors": {
+      "title": "Header Colors",
+      "description": "Header colors and hover states",
+      "order": 8,
+      "initialOpen": false
+    },
+    "headerTypography": {
+      "title": "Header Typography",
+      "description": "Header typography and padding",
+      "order": 9,
       "initialOpen": false
     },
     "spacingLayout": {
       "title": "Spacing & Layout",
-      "description": "Padding, spacing, indent, positioning",
-      "order": 7,
-      "initialOpen": false
-    },
-    "collapseIcon": {
-      "title": "Collapse Icon",
-      "description": "Collapse icon styles",
-      "order": 8,
+      "description": "Padding and item spacing",
+      "order": 10,
       "initialOpen": false
     }
   },
@@ -71,7 +83,7 @@
       "description": "Unique identifier for the table of contents",
       "themeable": false,
       "reason": "structural",
-      "order": 21
+      "order": 8
     },
     "showTitle": {
       "type": "boolean",
@@ -101,7 +113,7 @@
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
       "reason": "structural",
-      "order": 22
+      "order": 9
     },
     "tocItems": {
       "type": "array",
@@ -111,7 +123,7 @@
       "description": "Persisted TOC entries with anchors and levels",
       "themeable": false,
       "reason": "structural",
-      "order": 23
+      "order": 10
     },
     "deletedHeadingIds": {
       "type": "array",
@@ -121,121 +133,153 @@
       "description": "Anchors removed from scans until reset",
       "themeable": false,
       "reason": "structural",
-      "order": 24
+      "order": 11
     },
     "filterMode": {
       "type": "string",
-      "default": "include-all",
-      "group": "blockOptions",
-      "label": "Filter Mode",
-      "description": "How headings are filtered for inclusion",
+      "default": "Include all headings",
+      "group": "filtering",
+      "label": "Class Filter Mode",
+      "description": "Filter headings by CSS class",
       "themeable": false,
       "control": "SelectControl",
       "options": [
-        "include-all",
-        "include-only",
-        "exclude-only"
+        "Include all headings",
+        "Include by class",
+        "Excluse by class"
       ],
+      "order": 9
+    },
+    "includeH1": {
+      "type": "boolean",
+      "default": false,
+      "group": "filtering",
+      "label": "Include H1",
+      "description": "Include H1 headings in TOC",
+      "themeable": false,
+      "control": "ToggleControl",
+      "order": 1
+    },
+    "includeH2": {
+      "type": "boolean",
+      "default": true,
+      "group": "filtering",
+      "label": "Include H2",
+      "themeable": false,
+      "control": "ToggleControl",
+      "order": 2
+    },
+    "includeH3": {
+      "type": "boolean",
+      "default": true,
+      "group": "filtering",
+      "label": "Include H3",
+      "themeable": false,
+      "control": "ToggleControl",
+      "order": 3
+    },
+    "includeH4": {
+      "type": "boolean",
+      "default": true,
+      "group": "filtering",
+      "label": "Include H4",
+      "themeable": false,
+      "control": "ToggleControl",
+      "order": 4
+    },
+    "includeH5": {
+      "type": "boolean",
+      "default": true,
+      "group": "filtering",
+      "label": "Include H5",
+      "themeable": false,
+      "control": "ToggleControl",
       "order": 5
+    },
+    "includeH6": {
+      "type": "boolean",
+      "default": true,
+      "group": "filtering",
+      "label": "Include H6",
+      "themeable": false,
+      "control": "ToggleControl",
+      "order": 6
     },
     "includeLevels": {
       "type": "array",
-      "default": [2, 3, 4, 5, 6],
-      "group": "blockOptions",
+      "default": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "group": "filtering",
       "label": "Include Heading Levels",
-      "description": "Which heading levels to include (H1-H6)",
-      "themeable": false,
-      "reason": "structural",
-      "order": 6
-    },
-    "includeClasses": {
-      "type": "string",
-      "default": "",
-      "group": "blockOptions",
-      "label": "Include Classes",
-      "description": "CSS classes to include in TOC",
-      "themeable": false,
-      "control": "TextControl",
-      "order": 7
-    },
-    "excludeLevels": {
-      "type": "array",
-      "default": [],
-      "group": "blockOptions",
-      "label": "Exclude Heading Levels",
-      "description": "Which heading levels to exclude",
+      "description": "Which heading levels to include (H1-H6) - derived from includeH1-H6 toggles",
       "themeable": false,
       "reason": "structural",
       "order": 8
     },
+    "includeClasses": {
+      "type": "string",
+      "default": "",
+      "group": "filtering",
+      "label": "Include Classes",
+      "description": "CSS classes to include in TOC",
+      "themeable": false,
+      "control": "TextControl",
+      "order": 10
+    },
+    "excludeLevels": {
+      "type": "array",
+      "default": [],
+      "group": "filtering",
+      "label": "Exclude Heading Levels",
+      "description": "Which heading levels to exclude",
+      "themeable": false,
+      "reason": "structural",
+      "order": 7
+    },
     "excludeClasses": {
       "type": "string",
       "default": "",
-      "group": "blockOptions",
+      "group": "filtering",
       "label": "Exclude Classes",
       "description": "CSS classes to exclude from TOC",
       "themeable": false,
       "control": "TextControl",
-      "order": 9
-    },
-    "depthLimit": {
-      "type": "number",
-      "default": null,
-      "group": "blockOptions",
-      "label": "Depth Limit",
-      "description": "Maximum nesting depth to display",
-      "themeable": false,
-      "control": "RangeControl",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "order": 10
+      "order": 11
     },
     "includeAccordions": {
       "type": "boolean",
       "default": true,
-      "group": "blockOptions",
+      "group": "filtering",
       "label": "Include Accordion Headings",
       "description": "Include headings from accordion blocks when they have a heading level set",
       "themeable": false,
       "reason": "structural",
-      "order": 11
+      "order": 12
     },
     "includeTabs": {
       "type": "boolean",
       "default": true,
-      "group": "blockOptions",
+      "group": "filtering",
       "label": "Include Tab Headings",
       "description": "Include headings from tabs blocks when they have a heading level set",
       "themeable": false,
       "reason": "structural",
-      "order": 12
-    },
-    "numberingStyle": {
-      "type": "string",
-      "default": "none",
-      "group": "blockOptions",
-      "label": "Numbering Style",
-      "description": "Style of numbering for TOC items",
-      "themeable": false,
-      "control": "SelectControl",
-      "options": [
-        "none",
-        "decimal",
-        "roman",
-        "alpha"
-      ],
       "order": 13
     },
     "isCollapsible": {
       "type": "boolean",
-      "default": false,
+      "default": true,
       "group": "blockOptions",
       "label": "Collapsible",
       "description": "Allow the TOC to be collapsed/expanded",
       "themeable": false,
       "control": "ToggleControl",
-      "order": 14
+      "order": 5
     },
     "initiallyCollapsed": {
       "type": "boolean",
@@ -245,37 +289,37 @@
       "description": "Start with TOC collapsed",
       "themeable": false,
       "control": "ToggleControl",
-      "order": 15
+      "order": 6
     },
     "positionType": {
       "type": "string",
-      "default": "default",
-      "group": "blockOptions",
+      "default": "normal",
+      "group": "positionScroll",
       "label": "Position Type",
       "description": "CSS positioning type",
       "themeable": false,
       "control": "SelectControl",
       "options": [
-        "default",
+        "normal",
         "sticky",
         "fixed"
       ],
-      "order": 16
+      "order": 1
     },
     "smoothScroll": {
       "type": "boolean",
       "default": true,
-      "group": "blockOptions",
+      "group": "positionScroll",
       "label": "Smooth Scroll",
       "description": "Enable smooth scrolling to headings",
       "themeable": false,
       "control": "ToggleControl",
-      "order": 17
+      "order": 6
     },
     "scrollOffset": {
       "type": "number",
       "default": 0,
-      "group": "blockOptions",
+      "group": "positionScroll",
       "label": "Scroll Offset",
       "description": "Offset in pixels when scrolling to heading",
       "themeable": false,
@@ -283,17 +327,17 @@
       "min": 0,
       "max": 500,
       "step": 10,
-      "order": 18
+      "order": 7
     },
     "autoHighlight": {
       "type": "boolean",
       "default": true,
-      "group": "blockOptions",
+      "group": "positionScroll",
       "label": "Auto Highlight",
       "description": "Highlight current section in TOC",
       "themeable": false,
       "control": "ToggleControl",
-      "order": 19
+      "order": 8
     },
     "clickBehavior": {
       "type": "string",
@@ -305,9 +349,14 @@
       "control": "SelectControl",
       "options": [
         "navigate",
-        "scroll"
+        "navigate-and-collapse"
       ],
-      "order": 20
+      "showWhen": {
+        "isCollapsible": [
+          true
+        ]
+      },
+      "order": 7
     },
     "tocWidth": {
       "type": "string",
@@ -338,7 +387,7 @@
       "type": "string",
       "default": "#ffffff",
       "cssVar": "toc-wrapper-background-color",
-      "group": "blockBorders",
+      "group": "externalBorders",
       "label": "Block Background",
       "description": "Background color of the TOC wrapper",
       "themeable": true,
@@ -351,7 +400,7 @@
       "type": "string",
       "default": "#dddddd",
       "cssVar": "toc-border-color",
-      "group": "blockBorders",
+      "group": "externalBorders",
       "label": "Block Border Color",
       "description": "Border color of the TOC wrapper",
       "themeable": true,
@@ -364,15 +413,15 @@
       "type": "string",
       "default": "#333333",
       "cssVar": "toc-title-color",
-      "group": "titleColors",
-      "label": "Title Text Color",
-      "description": "Text color for the TOC title",
+      "group": "headerColors",
+      "label": "Header Text Color",
+      "description": "Text color for the TOC header",
       "themeable": true,
       "control": "ColorPicker",
       "order": 1,
       "appliesTo": [
         "titleStatic",
-        "titleCollapsible"
+        "titleButton"
       ],
       "cssProperty": "color"
     },
@@ -380,28 +429,77 @@
       "type": "string",
       "default": "transparent",
       "cssVar": "toc-title-background-color",
-      "group": "titleColors",
-      "label": "Title Background",
-      "description": "Background color for the TOC title",
+      "group": "headerColors",
+      "label": "Header Background",
+      "description": "Background color for the TOC header",
       "themeable": true,
       "control": "ColorPicker",
       "order": 2,
       "appliesTo": [
         "titleStatic",
-        "titleCollapsible"
+        "titleButton"
       ],
       "cssProperty": "background-color"
+    },
+    "hoverTitleColor": {
+      "type": "string",
+      "default": "#000000",
+      "cssVar": "toc-title-hover-color",
+      "state": "hover",
+      "group": "headerColors",
+      "label": "Header Hover Text Color",
+      "description": "Text color when hovering over title",
+      "themeable": true,
+      "control": "ColorPicker",
+      "order": 3,
+      "appliesTo": [
+        "titleStatic",
+        "titleButton"
+      ],
+      "cssProperty": "color"
+    },
+    "hoverTitleBackgroundColor": {
+      "type": "string",
+      "default": "transparent",
+      "cssVar": "toc-title-hover-bg",
+      "state": "hover",
+      "group": "headerColors",
+      "label": "Header Hover Background",
+      "description": "Background color when hovering over title",
+      "themeable": true,
+      "control": "ColorPicker",
+      "order": 4,
+      "appliesTo": [
+        "titleStatic",
+        "titleButton"
+      ],
+      "cssProperty": "background-color"
+    },
+    "unifiedLinkColors": {
+      "type": "boolean",
+      "default": true,
+      "group": "linkColors",
+      "label": "Same Colors for All Levels",
+      "description": "Use the same link colors for all heading levels",
+      "themeable": false,
+      "control": "ToggleControl",
+      "order": 1
     },
     "linkColor": {
       "type": "string",
       "default": "#0073aa",
       "cssVar": "toc-link-color",
       "group": "linkColors",
-      "label": "Link Color",
-      "description": "Default color for TOC links",
+      "label": "Link Color (General)",
+      "description": "Default color for all TOC links",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 1,
+      "order": 2,
+      "showWhen": {
+        "unifiedLinkColors": [
+          true
+        ]
+      },
       "appliesTo": "link",
       "cssProperty": "color"
     },
@@ -415,7 +513,12 @@
       "themeable": true,
       "control": "ColorPicker",
       "state": "hover",
-      "order": 2,
+      "order": 3,
+      "showWhen": {
+        "unifiedLinkColors": [
+          true
+        ]
+      },
       "appliesTo": "link",
       "cssProperty": "color"
     },
@@ -429,7 +532,12 @@
       "themeable": true,
       "control": "ColorPicker",
       "state": "active",
-      "order": 3,
+      "order": 4,
+      "showWhen": {
+        "unifiedLinkColors": [
+          true
+        ]
+      },
       "appliesTo": "link",
       "cssProperty": "color"
     },
@@ -443,36 +551,324 @@
       "themeable": true,
       "control": "ColorPicker",
       "state": "visited",
-      "order": 4,
+      "order": 5,
+      "showWhen": {
+        "unifiedLinkColors": [
+          true
+        ]
+      },
       "appliesTo": "link",
       "cssProperty": "color"
     },
-    "numberingColor": {
+    "h1NumberingStyle": {
       "type": "string",
-      "default": "#0073aa",
-      "cssVar": "toc-numbering-color",
-      "group": "linkColors",
-      "label": "Numbering Color",
-      "description": "Color for list numbering",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 5,
-      "appliesTo": [
-        "list",
-        "nestedList"
+      "default": "decimal",
+      "group": "headingStyles",
+      "label": "H1 Numbering Style",
+      "description": "Numbering style for H1 headings",
+      "themeable": false,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Decimal (1, 2, 3)",
+          "value": "decimal"
+        },
+        {
+          "label": "Decimal Leading Zero (01, 02, 03)",
+          "value": "decimal-leading-zero"
+        },
+        {
+          "label": "Upper Roman (I, II, III)",
+          "value": "upper-roman"
+        },
+        {
+          "label": "Lower Roman (i, ii, iii)",
+          "value": "lower-roman"
+        },
+        {
+          "label": "Upper Alpha (A, B, C)",
+          "value": "upper-alpha"
+        },
+        {
+          "label": "Lower Alpha (a, b, c)",
+          "value": "lower-alpha"
+        }
       ],
-      "cssProperty": "color"
+      "order": 3
+    },
+    "h2NumberingStyle": {
+      "type": "string",
+      "default": "decimal",
+      "group": "headingStyles",
+      "label": "H2 Numbering Style",
+      "description": "Numbering style for H2 headings",
+      "themeable": false,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Decimal (1, 2, 3)",
+          "value": "decimal"
+        },
+        {
+          "label": "Decimal Leading Zero (01, 02, 03)",
+          "value": "decimal-leading-zero"
+        },
+        {
+          "label": "Upper Roman (I, II, III)",
+          "value": "upper-roman"
+        },
+        {
+          "label": "Lower Roman (i, ii, iii)",
+          "value": "lower-roman"
+        },
+        {
+          "label": "Upper Alpha (A, B, C)",
+          "value": "upper-alpha"
+        },
+        {
+          "label": "Lower Alpha (a, b, c)",
+          "value": "lower-alpha"
+        }
+      ],
+      "order": 13
+    },
+    "h3NumberingStyle": {
+      "type": "string",
+      "default": "decimal",
+      "group": "headingStyles",
+      "label": "H3 Numbering Style",
+      "description": "Numbering style for H3 headings",
+      "themeable": false,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Decimal (1, 2, 3)",
+          "value": "decimal"
+        },
+        {
+          "label": "Decimal Leading Zero (01, 02, 03)",
+          "value": "decimal-leading-zero"
+        },
+        {
+          "label": "Upper Roman (I, II, III)",
+          "value": "upper-roman"
+        },
+        {
+          "label": "Lower Roman (i, ii, iii)",
+          "value": "lower-roman"
+        },
+        {
+          "label": "Upper Alpha (A, B, C)",
+          "value": "upper-alpha"
+        },
+        {
+          "label": "Lower Alpha (a, b, c)",
+          "value": "lower-alpha"
+        }
+      ],
+      "order": 23
+    },
+    "h4NumberingStyle": {
+      "type": "string",
+      "default": "decimal",
+      "group": "headingStyles",
+      "label": "H4 Numbering Style",
+      "description": "Numbering style for H4 headings",
+      "themeable": false,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Decimal (1, 2, 3)",
+          "value": "decimal"
+        },
+        {
+          "label": "Decimal Leading Zero (01, 02, 03)",
+          "value": "decimal-leading-zero"
+        },
+        {
+          "label": "Upper Roman (I, II, III)",
+          "value": "upper-roman"
+        },
+        {
+          "label": "Lower Roman (i, ii, iii)",
+          "value": "lower-roman"
+        },
+        {
+          "label": "Upper Alpha (A, B, C)",
+          "value": "upper-alpha"
+        },
+        {
+          "label": "Lower Alpha (a, b, c)",
+          "value": "lower-alpha"
+        }
+      ],
+      "order": 33
+    },
+    "h5NumberingStyle": {
+      "type": "string",
+      "default": "decimal",
+      "group": "headingStyles",
+      "label": "H5 Numbering Style",
+      "description": "Numbering style for H5 headings",
+      "themeable": false,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Decimal (1, 2, 3)",
+          "value": "decimal"
+        },
+        {
+          "label": "Decimal Leading Zero (01, 02, 03)",
+          "value": "decimal-leading-zero"
+        },
+        {
+          "label": "Upper Roman (I, II, III)",
+          "value": "upper-roman"
+        },
+        {
+          "label": "Lower Roman (i, ii, iii)",
+          "value": "lower-roman"
+        },
+        {
+          "label": "Upper Alpha (A, B, C)",
+          "value": "upper-alpha"
+        },
+        {
+          "label": "Lower Alpha (a, b, c)",
+          "value": "lower-alpha"
+        }
+      ],
+      "order": 43
+    },
+    "h6NumberingStyle": {
+      "type": "string",
+      "default": "decimal",
+      "group": "headingStyles",
+      "label": "H6 Numbering Style",
+      "description": "Numbering style for H6 headings",
+      "themeable": false,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Decimal (1, 2, 3)",
+          "value": "decimal"
+        },
+        {
+          "label": "Decimal Leading Zero (01, 02, 03)",
+          "value": "decimal-leading-zero"
+        },
+        {
+          "label": "Upper Roman (I, II, III)",
+          "value": "upper-roman"
+        },
+        {
+          "label": "Lower Roman (i, ii, iii)",
+          "value": "lower-roman"
+        },
+        {
+          "label": "Upper Alpha (A, B, C)",
+          "value": "upper-alpha"
+        },
+        {
+          "label": "Lower Alpha (a, b, c)",
+          "value": "lower-alpha"
+        }
+      ],
+      "order": 53
     },
     "h1Color": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "inherit",
       "cssVar": "toc-h1-color",
       "group": "headingStyles",
-      "label": "H1 Text Color",
-      "description": "Text color for H1 headings",
+      "label": "H1 Link Color",
+      "description": "Link color for H1 headings (inherits general color if not set)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 1,
+      "order": 4,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h1Link",
+      "cssProperty": "color"
+    },
+    "h1HoverColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h1-hover-color",
+      "group": "headingStyles",
+      "label": "H1 Hover Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "hover",
+      "order": 5,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h1Link",
+      "cssProperty": "color"
+    },
+    "h1VisitedColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h1-visited-color",
+      "group": "headingStyles",
+      "label": "H1 Visited Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "visited",
+      "order": 6,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h1Link",
+      "cssProperty": "color"
+    },
+    "h1ActiveColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h1-active-color",
+      "group": "headingStyles",
+      "label": "H1 Active Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "active",
+      "order": 7,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
       "appliesTo": "h1Link",
       "cssProperty": "color"
     },
@@ -489,7 +885,7 @@
       "max": 3,
       "step": 0.01,
       "unit": "rem",
-      "order": 2,
+      "order": 8,
       "appliesTo": "h1Link",
       "cssProperty": "font-size"
     },
@@ -503,19 +899,52 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
       ],
-      "order": 3,
+      "order": 9,
       "appliesTo": "h1Link",
       "cssProperty": "font-weight"
     },
@@ -529,11 +958,20 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "Normal", "value": "normal" },
-        { "label": "Italic", "value": "italic" },
-        { "label": "Oblique", "value": "oblique" }
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
       ],
-      "order": 4,
+      "order": 10,
       "appliesTo": "h1Link",
       "cssProperty": "font-style"
     },
@@ -547,12 +985,24 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
       ],
-      "order": 5,
+      "order": 11,
       "appliesTo": "h1Link",
       "cssProperty": "text-transform"
     },
@@ -566,25 +1016,96 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Underline", "value": "underline" },
-        { "label": "Overline", "value": "overline" },
-        { "label": "Line Through", "value": "line-through" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
       ],
-      "order": 6,
+      "order": 12,
       "appliesTo": "h1Link",
       "cssProperty": "text-decoration"
     },
     "h2Color": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "inherit",
       "cssVar": "toc-h2-color",
       "group": "headingStyles",
-      "label": "H2 Text Color",
-      "description": "Text color for H2 headings",
+      "label": "H2 Link Color",
+      "description": "Link color for H2 headings (inherits general color if not set)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 7,
+      "order": 14,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h2Link",
+      "cssProperty": "color"
+    },
+    "h2HoverColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h2-hover-color",
+      "group": "headingStyles",
+      "label": "H2 Hover Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "hover",
+      "order": 15,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h2Link",
+      "cssProperty": "color"
+    },
+    "h2VisitedColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h2-visited-color",
+      "group": "headingStyles",
+      "label": "H2 Visited Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "visited",
+      "order": 16,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h2Link",
+      "cssProperty": "color"
+    },
+    "h2ActiveColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h2-active-color",
+      "group": "headingStyles",
+      "label": "H2 Active Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "active",
+      "order": 17,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
       "appliesTo": "h2Link",
       "cssProperty": "color"
     },
@@ -601,7 +1122,7 @@
       "max": 2.5,
       "step": 0.01,
       "unit": "rem",
-      "order": 8,
+      "order": 18,
       "appliesTo": "h2Link",
       "cssProperty": "font-size"
     },
@@ -615,19 +1136,52 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
       ],
-      "order": 9,
+      "order": 19,
       "appliesTo": "h2Link",
       "cssProperty": "font-weight"
     },
@@ -641,11 +1195,20 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "Normal", "value": "normal" },
-        { "label": "Italic", "value": "italic" },
-        { "label": "Oblique", "value": "oblique" }
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
       ],
-      "order": 10,
+      "order": 20,
       "appliesTo": "h2Link",
       "cssProperty": "font-style"
     },
@@ -659,12 +1222,24 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
       ],
-      "order": 11,
+      "order": 21,
       "appliesTo": "h2Link",
       "cssProperty": "text-transform"
     },
@@ -678,25 +1253,96 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Underline", "value": "underline" },
-        { "label": "Overline", "value": "overline" },
-        { "label": "Line Through", "value": "line-through" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
       ],
-      "order": 12,
+      "order": 22,
       "appliesTo": "h2Link",
       "cssProperty": "text-decoration"
     },
     "h3Color": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "inherit",
       "cssVar": "toc-h3-color",
       "group": "headingStyles",
-      "label": "H3 Text Color",
-      "description": "Text color for H3 headings",
+      "label": "H3 Link Color",
+      "description": "Link color for H3 headings (inherits general color if not set)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 13,
+      "order": 24,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h3Link",
+      "cssProperty": "color"
+    },
+    "h3HoverColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h3-hover-color",
+      "group": "headingStyles",
+      "label": "H3 Hover Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "hover",
+      "order": 25,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h3Link",
+      "cssProperty": "color"
+    },
+    "h3VisitedColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h3-visited-color",
+      "group": "headingStyles",
+      "label": "H3 Visited Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "visited",
+      "order": 26,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h3Link",
+      "cssProperty": "color"
+    },
+    "h3ActiveColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h3-active-color",
+      "group": "headingStyles",
+      "label": "H3 Active Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "active",
+      "order": 27,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
       "appliesTo": "h3Link",
       "cssProperty": "color"
     },
@@ -713,7 +1359,7 @@
       "max": 2,
       "step": 0.01,
       "unit": "rem",
-      "order": 14,
+      "order": 28,
       "appliesTo": "h3Link",
       "cssProperty": "font-size"
     },
@@ -727,19 +1373,52 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
       ],
-      "order": 15,
+      "order": 29,
       "appliesTo": "h3Link",
       "cssProperty": "font-weight"
     },
@@ -753,11 +1432,20 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "Normal", "value": "normal" },
-        { "label": "Italic", "value": "italic" },
-        { "label": "Oblique", "value": "oblique" }
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
       ],
-      "order": 16,
+      "order": 30,
       "appliesTo": "h3Link",
       "cssProperty": "font-style"
     },
@@ -771,12 +1459,24 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
       ],
-      "order": 17,
+      "order": 31,
       "appliesTo": "h3Link",
       "cssProperty": "text-transform"
     },
@@ -790,25 +1490,96 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Underline", "value": "underline" },
-        { "label": "Overline", "value": "overline" },
-        { "label": "Line Through", "value": "line-through" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
       ],
-      "order": 18,
+      "order": 32,
       "appliesTo": "h3Link",
       "cssProperty": "text-decoration"
     },
     "h4Color": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "inherit",
       "cssVar": "toc-h4-color",
       "group": "headingStyles",
-      "label": "H4 Text Color",
-      "description": "Text color for H4 headings",
+      "label": "H4 Link Color",
+      "description": "Link color for H4 headings (inherits general color if not set)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 19,
+      "order": 34,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h4Link",
+      "cssProperty": "color"
+    },
+    "h4HoverColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h4-hover-color",
+      "group": "headingStyles",
+      "label": "H4 Hover Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "hover",
+      "order": 35,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h4Link",
+      "cssProperty": "color"
+    },
+    "h4VisitedColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h4-visited-color",
+      "group": "headingStyles",
+      "label": "H4 Visited Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "visited",
+      "order": 36,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h4Link",
+      "cssProperty": "color"
+    },
+    "h4ActiveColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h4-active-color",
+      "group": "headingStyles",
+      "label": "H4 Active Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "active",
+      "order": 37,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
       "appliesTo": "h4Link",
       "cssProperty": "color"
     },
@@ -825,7 +1596,7 @@
       "max": 1.8,
       "step": 0.01,
       "unit": "rem",
-      "order": 20,
+      "order": 38,
       "appliesTo": "h4Link",
       "cssProperty": "font-size"
     },
@@ -839,19 +1610,52 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
       ],
-      "order": 21,
+      "order": 39,
       "appliesTo": "h4Link",
       "cssProperty": "font-weight"
     },
@@ -865,11 +1669,20 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "Normal", "value": "normal" },
-        { "label": "Italic", "value": "italic" },
-        { "label": "Oblique", "value": "oblique" }
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
       ],
-      "order": 22,
+      "order": 40,
       "appliesTo": "h4Link",
       "cssProperty": "font-style"
     },
@@ -883,12 +1696,24 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
       ],
-      "order": 23,
+      "order": 41,
       "appliesTo": "h4Link",
       "cssProperty": "text-transform"
     },
@@ -902,25 +1727,96 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Underline", "value": "underline" },
-        { "label": "Overline", "value": "overline" },
-        { "label": "Line Through", "value": "line-through" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
       ],
-      "order": 24,
+      "order": 42,
       "appliesTo": "h4Link",
       "cssProperty": "text-decoration"
     },
     "h5Color": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "inherit",
       "cssVar": "toc-h5-color",
       "group": "headingStyles",
-      "label": "H5 Text Color",
-      "description": "Text color for H5 headings",
+      "label": "H5 Link Color",
+      "description": "Link color for H5 headings (inherits general color if not set)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 25,
+      "order": 44,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h5Link",
+      "cssProperty": "color"
+    },
+    "h5HoverColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h5-hover-color",
+      "group": "headingStyles",
+      "label": "H5 Hover Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "hover",
+      "order": 45,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h5Link",
+      "cssProperty": "color"
+    },
+    "h5VisitedColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h5-visited-color",
+      "group": "headingStyles",
+      "label": "H5 Visited Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "visited",
+      "order": 46,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h5Link",
+      "cssProperty": "color"
+    },
+    "h5ActiveColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h5-active-color",
+      "group": "headingStyles",
+      "label": "H5 Active Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "active",
+      "order": 47,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
       "appliesTo": "h5Link",
       "cssProperty": "color"
     },
@@ -937,7 +1833,7 @@
       "max": 1.6,
       "step": 0.01,
       "unit": "rem",
-      "order": 26,
+      "order": 48,
       "appliesTo": "h5Link",
       "cssProperty": "font-size"
     },
@@ -951,19 +1847,52 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
       ],
-      "order": 27,
+      "order": 49,
       "appliesTo": "h5Link",
       "cssProperty": "font-weight"
     },
@@ -977,11 +1906,20 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "Normal", "value": "normal" },
-        { "label": "Italic", "value": "italic" },
-        { "label": "Oblique", "value": "oblique" }
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
       ],
-      "order": 28,
+      "order": 50,
       "appliesTo": "h5Link",
       "cssProperty": "font-style"
     },
@@ -995,12 +1933,24 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
       ],
-      "order": 29,
+      "order": 51,
       "appliesTo": "h5Link",
       "cssProperty": "text-transform"
     },
@@ -1014,25 +1964,96 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Underline", "value": "underline" },
-        { "label": "Overline", "value": "overline" },
-        { "label": "Line Through", "value": "line-through" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
       ],
-      "order": 30,
+      "order": 52,
       "appliesTo": "h5Link",
       "cssProperty": "text-decoration"
     },
     "h6Color": {
       "type": "string",
-      "default": "#0073aa",
+      "default": "inherit",
       "cssVar": "toc-h6-color",
       "group": "headingStyles",
-      "label": "H6 Text Color",
-      "description": "Text color for H6 headings",
+      "label": "H6 Link Color",
+      "description": "Link color for H6 headings (inherits general color if not set)",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 31,
+      "order": 54,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h6Link",
+      "cssProperty": "color"
+    },
+    "h6HoverColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h6-hover-color",
+      "group": "headingStyles",
+      "label": "H6 Hover Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "hover",
+      "order": 55,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h6Link",
+      "cssProperty": "color"
+    },
+    "h6VisitedColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h6-visited-color",
+      "group": "headingStyles",
+      "label": "H6 Visited Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "visited",
+      "order": 56,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
+      "appliesTo": "h6Link",
+      "cssProperty": "color"
+    },
+    "h6ActiveColor": {
+      "type": "string",
+      "default": "inherit",
+      "cssVar": "toc-h6-active-color",
+      "group": "headingStyles",
+      "label": "H6 Active Color",
+      "themeable": true,
+      "control": "ColorPicker",
+      "state": "active",
+      "order": 57,
+      "showWhen": {
+        "unifiedLinkColors": [
+          false
+        ]
+      },
       "appliesTo": "h6Link",
       "cssProperty": "color"
     },
@@ -1049,7 +2070,7 @@
       "max": 1.5,
       "step": 0.01,
       "unit": "rem",
-      "order": 32,
+      "order": 58,
       "appliesTo": "h6Link",
       "cssProperty": "font-size"
     },
@@ -1063,19 +2084,52 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
       ],
-      "order": 33,
+      "order": 59,
       "appliesTo": "h6Link",
       "cssProperty": "font-weight"
     },
@@ -1089,11 +2143,20 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "Normal", "value": "normal" },
-        { "label": "Italic", "value": "italic" },
-        { "label": "Oblique", "value": "oblique" }
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
       ],
-      "order": 34,
+      "order": 60,
       "appliesTo": "h6Link",
       "cssProperty": "font-style"
     },
@@ -1107,12 +2170,24 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
       ],
-      "order": 35,
+      "order": 61,
       "appliesTo": "h6Link",
       "cssProperty": "text-transform"
     },
@@ -1126,28 +2201,122 @@
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Underline", "value": "underline" },
-        { "label": "Overline", "value": "overline" },
-        { "label": "Line Through", "value": "line-through" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
       ],
-      "order": 36,
+      "order": 62,
       "appliesTo": "h6Link",
       "cssProperty": "text-decoration"
     },
-    "collapseIconColor": {
+    "showIcon": {
+      "type": "boolean",
+      "default": true,
+      "group": "icon",
+      "label": "Show Icon",
+      "description": "Display expand/collapse icon",
+      "themeable": false,
+      "control": "ToggleControl",
+      "order": 1
+    },
+    "iconPosition": {
+      "type": "string",
+      "default": "right",
+      "group": "icon",
+      "label": "Icon Position",
+      "description": "Position of icon relative to title",
+      "themeable": false,
+      "control": "SelectControl",
+      "options": [
+        "left",
+        "right",
+        "extreme-left",
+        "extreme-right"
+      ],
+      "order": 2
+    },
+    "iconSize": {
+      "type": "number",
+      "default": 1.25,
+      "cssVar": "toc-icon-size",
+      "group": "icon",
+      "label": "Icon Size",
+      "description": "Size of the icon in rem",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": 0.6,
+      "max": 3,
+      "step": 0.01,
+      "unit": "rem",
+      "order": 3,
+      "appliesTo": [
+        "icon"
+      ],
+      "cssProperty": "font-size"
+    },
+    "iconTypeClosed": {
+      "type": "string",
+      "default": "▾",
+      "group": "icon",
+      "label": "Closed Icon",
+      "description": "Icon when TOC is collapsed",
+      "themeable": false,
+      "control": "IconPicker",
+      "order": 4
+    },
+    "iconTypeOpen": {
+      "type": "string",
+      "default": "none",
+      "group": "icon",
+      "label": "Open Icon",
+      "description": "Icon when TOC is expanded (none = use iconTypeClosed with rotation)",
+      "themeable": false,
+      "control": "IconPicker",
+      "order": 5
+    },
+    "iconRotation": {
+      "type": "number",
+      "default": 180,
+      "cssVar": "toc-icon-rotation",
+      "group": "icon",
+      "label": "Icon Rotation",
+      "description": "Rotation angle when open (degrees)",
+      "themeable": true,
+      "control": "RangeControl",
+      "min": -360,
+      "max": 360,
+      "unit": "deg",
+      "order": 6,
+      "appliesTo": [
+        "icon"
+      ],
+      "cssProperty": "transform"
+    },
+    "iconColor": {
       "type": "string",
       "default": "#666666",
-      "cssVar": "toc-collapse-icon-color",
-      "group": "collapseIcon",
-      "label": "Collapse Icon Color",
-      "description": "Color of the collapse/expand icon",
+      "cssVar": "toc-icon-color",
+      "group": "icon",
+      "label": "Icon Color",
+      "description": "Color of the expand/collapse icon",
       "themeable": true,
       "control": "ColorPicker",
-      "order": 1,
+      "order": 7,
       "appliesTo": [
-        "collapseIcon",
-        "titleIconOnly"
+        "icon"
       ],
       "cssProperty": "color"
     },
@@ -1155,9 +2324,9 @@
       "type": "number",
       "default": 1.25,
       "cssVar": "toc-title-font-size",
-      "group": "titleTypography",
-      "label": "Title Font Size",
-      "description": "Font size for the TOC title in rem",
+      "group": "headerTypography",
+      "label": "Header Font Size",
+      "description": "Font size for the TOC header in rem",
       "themeable": true,
       "control": "RangeControl",
       "min": 0.7,
@@ -1167,7 +2336,7 @@
       "order": 1,
       "appliesTo": [
         "titleStatic",
-        "titleCollapsible"
+        "titleButton"
       ],
       "cssProperty": "font-size"
     },
@@ -1175,60 +2344,167 @@
       "type": "string",
       "default": "700",
       "cssVar": "toc-title-font-weight",
-      "group": "titleTypography",
-      "label": "Title Font Weight",
-      "description": "Font weight for the TOC title",
+      "group": "headerTypography",
+      "label": "Header Font Weight",
+      "description": "Font weight for the TOC header",
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "100", "value": "100" },
-        { "label": "200", "value": "200" },
-        { "label": "300", "value": "300" },
-        { "label": "400", "value": "400" },
-        { "label": "500", "value": "500" },
-        { "label": "600", "value": "600" },
-        { "label": "700", "value": "700" },
-        { "label": "800", "value": "800" },
-        { "label": "900", "value": "900" },
-        { "label": "Normal", "value": "normal" },
-        { "label": "Bold", "value": "bold" }
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
       ],
       "order": 2,
       "appliesTo": [
         "titleStatic",
-        "titleCollapsible"
+        "titleButton"
       ],
       "cssProperty": "font-weight"
+    },
+    "titleFontStyle": {
+      "type": "string",
+      "default": "normal",
+      "cssVar": "toc-title-font-style",
+      "group": "headerTypography",
+      "label": "Header Font Style",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Italic",
+          "value": "italic"
+        },
+        {
+          "label": "Oblique",
+          "value": "oblique"
+        }
+      ],
+      "order": 3,
+      "appliesTo": [
+        "titleStatic",
+        "titleButton"
+      ],
+      "cssProperty": "font-style"
     },
     "titleTextTransform": {
       "type": "string",
       "default": "none",
       "cssVar": "toc-title-text-transform",
-      "group": "titleTypography",
-      "label": "Title Text Transform",
-      "description": "Text transformation for the title",
+      "group": "headerTypography",
+      "label": "Header Text Transform",
+      "description": "Text transformation for the header",
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Uppercase", "value": "uppercase" },
-        { "label": "Lowercase", "value": "lowercase" },
-        { "label": "Capitalize", "value": "capitalize" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
       ],
-      "order": 3,
+      "order": 4,
       "appliesTo": [
         "titleStatic",
-        "titleCollapsible"
+        "titleButton"
       ],
       "cssProperty": "text-transform"
+    },
+    "titleTextDecoration": {
+      "type": "string",
+      "default": "none",
+      "cssVar": "toc-title-text-decoration",
+      "group": "headerTypography",
+      "label": "Header Text Decoration",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        },
+        {
+          "label": "Overline",
+          "value": "overline"
+        },
+        {
+          "label": "Line Through",
+          "value": "line-through"
+        }
+      ],
+      "order": 5,
+      "appliesTo": [
+        "titleStatic",
+        "titleButton"
+      ],
+      "cssProperty": "text-decoration"
     },
     "titleAlignment": {
       "type": "string",
       "default": "left",
       "cssVar": "toc-title-alignment",
-      "group": "titleTypography",
-      "label": "Title Alignment",
-      "description": "Text alignment for the title",
+      "group": "headerTypography",
+      "label": "Header Alignment",
+      "description": "Text alignment for the header",
       "themeable": true,
       "control": "SelectControl",
       "options": [
@@ -1236,39 +2512,18 @@
         "center",
         "right"
       ],
-      "order": 4,
+      "order": 6,
       "appliesTo": [
         "titleStatic",
-        "titleCollapsible"
+        "titleButton"
       ],
       "cssProperty": "text-align"
-    },
-    "titlePadding": {
-      "type": "object",
-      "default": {
-        "top": 0,
-        "right": 0,
-        "bottom": 12,
-        "left": 0
-      },
-      "cssVar": "toc-title-padding",
-      "group": "titleTypography",
-      "label": "Title Padding",
-      "description": "Padding around the title",
-      "themeable": true,
-      "control": "BoxControl",
-      "order": 5,
-      "appliesTo": [
-        "titleStatic",
-        "titleCollapsible"
-      ],
-      "cssProperty": "padding"
     },
     "blockBorderWidth": {
       "type": "number",
       "default": 1,
       "cssVar": "toc-border-width",
-      "group": "blockBorders",
+      "group": "externalBorders",
       "label": "Block Border Width",
       "description": "Width of the wrapper border in pixels",
       "themeable": true,
@@ -1284,21 +2539,48 @@
       "type": "string",
       "default": "solid",
       "cssVar": "toc-border-style",
-      "group": "blockBorders",
+      "group": "externalBorders",
       "label": "Block Border Style",
       "description": "Style of the wrapper border",
       "themeable": true,
       "control": "SelectControl",
       "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Solid", "value": "solid" },
-        { "label": "Dashed", "value": "dashed" },
-        { "label": "Dotted", "value": "dotted" },
-        { "label": "Double", "value": "double" },
-        { "label": "Groove", "value": "groove" },
-        { "label": "Ridge", "value": "ridge" },
-        { "label": "Inset", "value": "inset" },
-        { "label": "Outset", "value": "outset" }
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        },
+        {
+          "label": "Groove",
+          "value": "groove"
+        },
+        {
+          "label": "Ridge",
+          "value": "ridge"
+        },
+        {
+          "label": "Inset",
+          "value": "inset"
+        },
+        {
+          "label": "Outset",
+          "value": "outset"
+        }
       ],
       "order": 4,
       "appliesTo": "wrapper",
@@ -1313,7 +2595,7 @@
         "bottomLeft": 4
       },
       "cssVar": "toc-border-radius",
-      "group": "blockBorders",
+      "group": "externalBorders",
       "label": "Block Border Radius",
       "description": "Corner radius of the wrapper",
       "themeable": true,
@@ -1327,7 +2609,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-border-shadow",
-      "group": "blockBorders",
+      "group": "externalBorders",
       "label": "Block Shadow",
       "description": "CSS box-shadow for the wrapper",
       "themeable": true,
@@ -1340,7 +2622,7 @@
       "type": "string",
       "default": "none",
       "cssVar": "toc-border-shadow-hover",
-      "group": "blockBorders",
+      "group": "externalBorders",
       "label": "Block Hover Shadow",
       "description": "CSS box-shadow for the wrapper on hover",
       "themeable": true,
@@ -1364,28 +2646,8 @@
       "step": 0.01,
       "unit": "rem",
       "order": 1,
-      "appliesTo": "wrapper",
+      "appliesTo": "content",
       "cssProperty": "padding"
-    },
-    "listPaddingLeft": {
-      "type": "number",
-      "default": 1.5,
-      "cssVar": "toc-list-padding-left",
-      "group": "spacingLayout",
-      "label": "List Padding Left",
-      "description": "Left padding for the list (rem)",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 3.2,
-      "step": 0.01,
-      "unit": "rem",
-      "order": 2,
-      "appliesTo": [
-        "list",
-        "nestedList"
-      ],
-      "cssProperty": "padding-left"
     },
     "itemSpacing": {
       "type": "number",
@@ -1405,31 +2667,38 @@
         "list",
         "nestedList"
       ],
-      "cssProperty": "margin-bottom"
+      "cssProperty": "gap"
     },
     "enableHierarchicalIndent": {
       "type": "boolean",
-      "default": false,
-      "group": "spacingLayout",
+      "default": true,
+      "group": "headingStyles",
       "label": "Enable Hierarchical Indentation",
       "description": "Indent headings based on document hierarchy (e.g., H3 under H2 indents once)",
       "themeable": false,
       "control": "ToggleControl",
-      "order": 4
+      "order": 1
     },
     "levelIndent": {
       "type": "string",
       "default": "1.25rem",
       "cssVar": "toc-level-indent",
-      "group": "spacingLayout",
+      "group": "headingStyles",
       "label": "Indentation Amount",
       "description": "Amount to indent each nested level",
       "themeable": true,
       "control": "UnitControl",
-      "units": ["px", "rem", "em", "%"],
-      "order": 5,
+      "units": [
+        "px",
+        "rem",
+        "em",
+        "%"
+      ],
+      "order": 2,
       "disabledWhen": {
-        "enableHierarchicalIndent": [false]
+        "enableHierarchicalIndent": [
+          false
+        ]
       },
       "appliesTo": [
         "list",
@@ -1441,7 +2710,7 @@
       "type": "number",
       "default": 6.25,
       "cssVar": "toc-position-top",
-      "group": "spacingLayout",
+      "group": "positionScroll",
       "label": "Position Top",
       "description": "Top offset for sticky/fixed positioning (rem)",
       "themeable": true,
@@ -1450,9 +2719,12 @@
       "max": 18.8,
       "step": 0.01,
       "unit": "rem",
-      "order": 6,
+      "order": 2,
       "showWhen": {
-        "positionType": ["sticky", "fixed"]
+        "positionType": [
+          "sticky",
+          "fixed"
+        ]
       },
       "appliesTo": "wrapper",
       "cssProperty": "top"
@@ -1461,16 +2733,19 @@
       "type": "number",
       "default": 100,
       "cssVar": "toc-z-index",
-      "group": "spacingLayout",
+      "group": "positionScroll",
       "label": "Z-Index",
       "description": "Stack order for positioned TOC",
       "themeable": true,
       "control": "RangeControl",
       "min": 1,
       "max": 9999,
-      "order": 7,
+      "order": 3,
       "showWhen": {
-        "positionType": ["sticky", "fixed"]
+        "positionType": [
+          "sticky",
+          "fixed"
+        ]
       },
       "appliesTo": "wrapper",
       "cssProperty": "z-index"
@@ -1478,55 +2753,51 @@
     "positionHorizontalSide": {
       "type": "string",
       "default": "right",
-      "group": "spacingLayout",
+      "group": "positionScroll",
       "label": "Horizontal Side",
       "description": "Which side to anchor the TOC (sticky/fixed positioning)",
       "themeable": false,
       "reason": "Applied as inline style, not CSS variable",
       "control": "SelectControl",
       "options": [
-        { "label": "Left", "value": "left" },
-        { "label": "Right", "value": "right" }
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
       ],
-      "order": 8,
+      "order": 4,
       "showWhen": {
-        "positionType": ["sticky", "fixed"]
+        "positionType": [
+          "sticky",
+          "fixed"
+        ]
       }
     },
     "positionHorizontalOffset": {
       "type": "string",
       "default": "1.25rem",
-      "group": "spacingLayout",
+      "group": "positionScroll",
       "label": "Horizontal Offset",
       "description": "Distance from the selected side",
       "themeable": false,
       "reason": "Applied as inline style, not CSS variable",
       "control": "UnitControl",
-      "units": ["rem", "px", "%"],
-      "order": 9,
-      "showWhen": {
-        "positionType": ["sticky", "fixed"]
-      }
-    },
-    "collapseIconSize": {
-      "type": "number",
-      "default": 1.25,
-      "cssVar": "toc-collapse-icon-size",
-      "group": "collapseIcon",
-      "label": "Collapse Icon Size",
-      "description": "Size of the collapse/expand icon (rem)",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0.7,
-      "max": 2.3,
-      "step": 0.01,
-      "unit": "rem",
-      "order": 2,
-      "appliesTo": [
-        "collapseIcon",
-        "titleIconOnly"
+      "units": [
+        "rem",
+        "px",
+        "%"
       ],
-      "cssProperty": "font-size"
+      "order": 5,
+      "showWhen": {
+        "positionType": [
+          "sticky",
+          "fixed"
+        ]
+      }
     }
   }
 }
