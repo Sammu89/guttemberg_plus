@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-23T02:43:04.657Z
+ * Generated at: 2025-12-23T22:20:59.745Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -39,6 +39,10 @@ return array(
   'shadowHover' => 'none',
   'dividerWidth' => '0',
   'dividerStyle' => 'solid',
+  'showIcon' => 'true',
+  'iconPosition' => 'right',
   'iconSize' => '1.25',
+  'iconTypeClosed' => '▾',
+  'iconTypeOpen' => 'none',
   'iconRotation' => '180',
 );

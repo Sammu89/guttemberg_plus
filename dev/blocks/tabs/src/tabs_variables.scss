@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-23T02:43:04.703Z
+ * Generated at: 2025-12-23T22:20:59.848Z
  *
  * This file contains:
  * 1. :root CSS variable declarations with default values
@@ -11,8 +11,12 @@
  */
 
 :root {
+  --tabs-show-icon: true;
+  --tabs-icon-position: right;
   --tabs-icon-color: #666666;
   --tabs-icon-size: 1rem;
+  --tabs-icon-type-closed: ▾;
+  --tabs-icon-type-open: none;
   --tabs-icon-rotation-base: 0deg;
   --tabs-icon-rotation-active: 180deg;
   --tabs-button-color: #666666;
@@ -21,6 +25,7 @@
   --tabs-button-hover-bg: #e8e8e8;
   --tabs-button-active-color: #333333;
   --tabs-button-active-bg: #ffffff;
+  --tabs-enable-focus-border: true;
   --tabs-button-active-content-border-width: 1px;
   --tabs-button-active-content-border-width: 1px;
   --tabs-button-active-content-border-width: 1px;
@@ -69,6 +74,7 @@
   --tabs-border-radius: 0px 0px 0px 0px;
   --tabs-border-shadow: none;
   --tabs-border-shadow-hover: none;
+  --tabs-enable-list-divider-border: false;
   --tabs-list-divider-border-color: transparent;
   --tabs-list-divider-border-color: transparent;
   --tabs-list-divider-border-color: transparent;
@@ -81,24 +87,13 @@
   --tabs-list-divider-border-style: solid;
   --tabs-list-divider-border-style: solid;
   --tabs-list-divider-border-style: solid;
-}
-
-.tab-icon {
-  /* Color of the tab icon */
-  color: var(--tabs-icon-color, #666666);
-  /* Size of the icon in rem */
-  font-size: var(--tabs-icon-size, 1rem);
-  /* Base rotation of the icon */
-  transform: var(--tabs-icon-rotation-base, 0deg);
-
-  &.active,
-  &[aria-selected="true"] {
-    /* Rotation of the icon for the active tab */
-    transform: var(--tabs-icon-rotation-active, 180deg);
-  }
 }
 
 .tab-button {
+  /* Display icons in tab buttons */
+  display: var(--tabs-show-icon, true);
+  /* Position of icon relative to text */
+  flex-direction: var(--tabs-icon-position, right);
   /* Text color for inactive tab buttons */
   color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
@@ -153,6 +148,31 @@
     border-color: var(--tabs-button-active-border-color, #dddddd);
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
+  }
+
+  &:focus,
+  &:focus-visible {
+    /* Border on the edge touching the content, giving it a merged look. */
+    border: var(--tabs-enable-focus-border, true);
+  }
+}
+
+.tab-icon {
+  /* Color of the tab icon */
+  color: var(--tabs-icon-color, #666666);
+  /* Size of the icon in rem */
+  font-size: var(--tabs-icon-size, 1rem);
+  /* Icon for the tab (char or image URL) */
+  content: var(--tabs-icon-type-closed, ▾);
+  /* Icon when tab is active (none = use closed icon with final rotation) */
+  content: var(--tabs-icon-type-open, none);
+  /* Base rotation of the icon */
+  transform: var(--tabs-icon-rotation-base, 0deg);
+
+  &.active,
+  &[aria-selected="true"] {
+    /* Rotation of the icon for the active tab */
+    transform: var(--tabs-icon-rotation-active, 180deg);
   }
 }
 
@@ -210,6 +230,8 @@
   padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Spacing between individual tab buttons (rem) */
   gap: var(--tabs-button-gap, 0.5rem);
+  /* Enable or disable border between tab row and content */
+  border: var(--tabs-enable-list-divider-border, false);
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */

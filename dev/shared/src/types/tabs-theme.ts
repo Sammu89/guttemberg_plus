@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-23T02:43:04.664Z
+ * Generated at: 2025-12-23T22:20:59.758Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -17,10 +17,20 @@
  * Contains all themeable attributes
  */
 export interface TabsTheme {
+  /** Make tab buttons fill the full width of the row (horizontal orientation only) */
+  stretchButtonsToRow?: boolean;
+  /** Display icons in tab buttons */
+  showIcon?: boolean;
+  /** Position of icon relative to text */
+  iconPosition?: string;
   /** Color of the tab icon */
   iconColor?: string;
   /** Size of the icon in rem */
   iconSize?: number;
+  /** Icon for the tab (char or image URL) */
+  iconTypeClosed?: string;
+  /** Icon when tab is active (none = use closed icon with final rotation) */
+  iconTypeOpen?: string;
   /** Base rotation of the icon */
   iconRotation?: number;
   /** Rotation of the icon for the active tab */
@@ -37,6 +47,8 @@ export interface TabsTheme {
   tabButtonActiveColor?: string;
   /** Background color for active/selected tab */
   tabButtonActiveBackgroundColor?: string;
+  /** Border on the edge touching the content, giving it a merged look. */
+  enableFocusBorder?: boolean;
   /** Width of the active button edge touching content */
   tabButtonActiveContentBorderWidth?: number;
   /** Style of the active button edge touching content */
@@ -109,6 +121,8 @@ export interface TabsTheme {
   shadow?: string;
   /** Box shadow for wrapper on hover */
   shadowHover?: string;
+  /** Enable or disable border between tab row and content */
+  enableTabsListContentBorder?: boolean;
   /** Color of the tab row edge that touches the content */
   tabsListContentBorderColor?: string;
   /** Width of the tab row edge that touches the content */
@@ -121,8 +135,13 @@ export interface TabsTheme {
  * Default theme values for Tabs block
  */
 export const tabsDefaultTheme: TabsTheme = {
+  stretchButtonsToRow: false,
+  showIcon: true,
+  iconPosition: 'right',
   iconColor: '#666666',
   iconSize: 1,
+  iconTypeClosed: '▾',
+  iconTypeOpen: 'none',
   iconRotation: 0,
   iconRotationActive: 180,
   tabButtonColor: '#666666',
@@ -131,6 +150,7 @@ export const tabsDefaultTheme: TabsTheme = {
   tabButtonHoverBackgroundColor: '#e8e8e8',
   tabButtonActiveColor: '#333333',
   tabButtonActiveBackgroundColor: '#ffffff',
+  enableFocusBorder: true,
   tabButtonActiveContentBorderWidth: 1,
   tabButtonActiveContentBorderStyle: 'solid',
   tabButtonActiveFontWeight: 'bold',
@@ -182,6 +202,7 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   shadow: 'none',
   shadowHover: 'none',
+  enableTabsListContentBorder: false,
   tabsListContentBorderColor: 'transparent',
   tabsListContentBorderWidth: 1,
   tabsListContentBorderStyle: 'solid',

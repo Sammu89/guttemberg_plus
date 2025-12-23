@@ -70,7 +70,7 @@
       "label": "Unique ID",
       "description": "Auto-generated unique block identifier",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 10
     },
     "blockId": {
@@ -80,7 +80,7 @@
       "label": "Block ID",
       "description": "Block-specific identification",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 11
     },
     "currentTheme": {
@@ -90,7 +90,7 @@
       "label": "Theme",
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 9
     },
     "tabs": {
@@ -113,7 +113,7 @@
       "label": "Tabs",
       "description": "Array of tab items with title, content, and state",
       "themeable": false,
-      "reason": "content",
+      "outputsCSS": false,
       "order": 7
     },
     "tabsData": {
@@ -123,7 +123,7 @@
       "label": "Tabs Data",
       "description": "Synchronized tab button data for server-side rendering",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 8
     },
     "orientation": {
@@ -133,7 +133,7 @@
       "label": "Tab Orientation",
       "description": "Tab layout orientation",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -157,8 +157,8 @@
       "group": "headerRowOptions",
       "label": "Stretch Buttons to Row Width",
       "description": "Make tab buttons fill the full width of the row (horizontal orientation only)",
-      "themeable": false,
-      "reason": "structural",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "disabledWhen": {
         "orientation": [
@@ -196,7 +196,7 @@
       "label": "Heading Level",
       "description": "Semantic HTML heading level (none, h1-h6)",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         "none",
@@ -216,7 +216,7 @@
       "label": "Title",
       "description": "Block title (for accessibility)",
       "themeable": false,
-      "reason": "content",
+      "outputsCSS": false,
       "order": 6
     },
     "tabsHorizontalAlign": {
@@ -251,8 +251,8 @@
       "group": "icon",
       "label": "Show Icon",
       "description": "Display icons in tab buttons",
-      "themeable": false,
-      "reason": "behavioral",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 1,
       "appliesTo": "tabButton",
@@ -265,8 +265,8 @@
       "group": "icon",
       "label": "Icon Position",
       "description": "Position of icon relative to text",
-      "themeable": false,
-      "reason": "behavioral",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         "left",
@@ -308,13 +308,13 @@
     },
     "iconTypeClosed": {
       "type": "string",
-      "default": "▾",
+      "default": "\u25be",
       "cssVar": "tabs-icon-type-closed",
       "group": "icon",
       "label": "Icon Closed",
       "description": "Icon for the tab (char or image URL)",
-      "themeable": false,
-      "reason": "behavioral",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "IconPicker",
       "order": 5,
       "appliesTo": "tabIcon",
@@ -327,8 +327,8 @@
       "group": "icon",
       "label": "Icon Open",
       "description": "Icon when tab is active (none = use closed icon with final rotation)",
-      "themeable": false,
-      "reason": "behavioral",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "IconPicker",
       "order": 6,
       "appliesTo": "tabIcon",
@@ -456,8 +456,8 @@
       "group": "headerBorders",
       "label": "Enable Button / Content Border",
       "description": "Border on the edge touching the content, giving it a merged look.",
-      "themeable": false,
-      "reason": "behavioral",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 8,
       "appliesTo": "tabButton",
@@ -1326,8 +1326,8 @@
       "group": "headerRowOptions",
       "label": "Enable Row Divider Border",
       "description": "Enable or disable border between tab row and content",
-      "themeable": false,
-      "reason": "behavioral",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 9,
       "appliesTo": "tabsList",

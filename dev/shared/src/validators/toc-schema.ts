@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-23T02:43:04.672Z
+ * Generated at: 2025-12-23T22:20:59.789Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -18,16 +18,40 @@ import { z } from 'zod';
  * Validation schema for Table of Contents theme values
  */
 export const tocThemeSchema = z.object({
+  includeH1: z.boolean(),
+  includeH2: z.boolean(),
+  includeH3: z.boolean(),
+  includeH4: z.boolean(),
+  includeH5: z.boolean(),
+  includeH6: z.boolean(),
+  includeLevels: z.array(z.any()),
+  includeClasses: z.string(),
+  excludeLevels: z.array(z.any()),
+  excludeClasses: z.string(),
+  includeAccordions: z.boolean(),
+  includeTabs: z.boolean(),
+  positionType: z.string(),
+  smoothScroll: z.boolean(),
+  scrollOffset: z.number(),
+  autoHighlight: z.boolean(),
+  clickBehavior: z.string(),
   wrapperBackgroundColor: z.string(),
   blockBorderColor: z.string(),
   titleColor: z.string(),
   titleBackgroundColor: z.string(),
   hoverTitleColor: z.string(),
   hoverTitleBackgroundColor: z.string(),
+  unifiedLinkColors: z.boolean(),
   linkColor: z.string(),
   linkHoverColor: z.string(),
   linkActiveColor: z.string(),
   linkVisitedColor: z.string(),
+  h1NumberingStyle: z.string(),
+  h2NumberingStyle: z.string(),
+  h3NumberingStyle: z.string(),
+  h4NumberingStyle: z.string(),
+  h5NumberingStyle: z.string(),
+  h6NumberingStyle: z.string(),
   h1Color: z.string(),
   h1HoverColor: z.string(),
   h1VisitedColor: z.string(),
@@ -82,7 +106,11 @@ export const tocThemeSchema = z.object({
   h6FontStyle: z.string(),
   h6TextTransform: z.string(),
   h6TextDecoration: z.string(),
+  showIcon: z.boolean(),
+  iconPosition: z.string(),
   iconSize: z.number(),
+  iconTypeClosed: z.string(),
+  iconTypeOpen: z.string(),
   iconRotation: z.number(),
   iconColor: z.string(),
   titleFontSize: z.number(),
@@ -98,9 +126,12 @@ export const tocThemeSchema = z.object({
   blockShadowHover: z.string(),
   wrapperPadding: z.number(),
   itemSpacing: z.number(),
+  enableHierarchicalIndent: z.boolean(),
   levelIndent: z.string(),
   positionTop: z.number(),
   zIndex: z.number(),
+  positionHorizontalSide: z.string(),
+  positionHorizontalOffset: z.string(),
 });
 
 /**

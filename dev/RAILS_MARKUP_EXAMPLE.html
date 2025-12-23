@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rails Block - HTML Markup Example</title>
+  <style>
+    /* Minimal styles just to visualize the structure */
+    .wp-block-guttembergplus-rails {
+      display: flex;
+      gap: 0;
+      border: 2px solid #ddd;
+      min-height: 400px;
+      padding: 1rem;
+    }
+
+    .rails-rail {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: #f5f5f5;
+      padding: 0.5rem;
+    }
+
+    .rails-rail-left { order: 1; }
+    .rails-rail-right { order: 3; }
+
+    .rails-stage {
+      order: 2;
+      flex: 1;
+      background: #fafafa;
+      position: relative;
+      margin: 0 1rem;
+    }
+
+    .rails-item {
+      writing-mode: vertical-rl;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+
+    .rails-item[aria-selected="true"] {
+      background: #0073aa;
+      color: white;
+      font-weight: bold;
+    }
+
+    .rails-item-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .rails-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 1.5rem;
+      background: white;
+      border: 1px solid #ddd;
+      max-width: 600px;
+    }
+
+    .rails-panel:not(.rails-panel-active) {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================
+     RAILS BLOCK - PARENT WRAPPER
+     ============================================ -->
+<div class="wp-block-guttembergplus-rails rails-theme-modern"
+     data-layout-mode="nextToButton"
+     data-height-mode="matchTallest"
+     data-compression-ratio="0.3"
+     data-compression-duration="300"
+     data-responsive-mode="tabs"
+     data-responsive-breakpoint="768">
+
+  <!-- ==========================================
+       LEFT RAIL - Container for left-side items
+       ========================================== -->
+  <div class="rails-rail rails-rail-left" data-rail-side="left">
+
+    <!-- Rail Item #1 - Active -->
+    <button class="rails-item"
+            data-rail-side="left"
+            data-expansion-direction="right"
+            data-tilt="-90"
+            data-item-index="0"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-0"
+            tabindex="0">
+
+      <span class="rails-item-content">
+        <!-- Numeral -->
+        <span class="rails-item-numeral">01</span>
+
+        <!-- Label -->
+        <span class="rails-item-label">Introduction</span>
+
+        <!-- Icon (bottom position) -->
+        <span class="rails-item-icon" aria-hidden="true">▾</span>
+      </span>
+    </button>
+
+    <!-- Rail Item #2 - Inactive -->
+    <button class="rails-item"
+            data-rail-side="left"
+            data-expansion-direction="right"
+            data-tilt="-90"
+            data-item-index="1"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-1"
+            tabindex="-1">
+
+      <span class="rails-item-content">
+        <span class="rails-item-numeral">02</span>
+        <span class="rails-item-label">Features</span>
+        <span class="rails-item-icon" aria-hidden="true">▾</span>
+      </span>
+    </button>
+
+  </div>
+
+  <!-- ==========================================
+       CONTENT STAGE - Panel display area
+       ========================================== -->
+  <div class="rails-stage">
+
+    <!-- Active Panel -->
+    <div class="rails-panel rails-panel-active"
+         id="panel-0"
+         role="tabpanel"
+         aria-labelledby="item-0"
+         data-direction="right"
+         data-transition="slide">
+
+      <!-- InnerBlocks Content Goes Here -->
+      <h3>Welcome to Rails</h3>
+      <p>This is the introduction panel. It contains content from WordPress InnerBlocks - could be text, images, buttons, or any Gutenberg blocks.</p>
+      <ul>
+        <li>Feature 1: Vertical rail buttons</li>
+        <li>Feature 2: Smooth compression animations</li>
+        <li>Feature 3: Flexible panel positioning</li>
+      </ul>
+    </div>
+
+    <!-- Inactive Panel (hidden, but in DOM) -->
+    <div class="rails-panel"
+         id="panel-1"
+         role="tabpanel"
+         aria-labelledby="item-1"
+         data-direction="right">
+
+      <h3>Amazing Features</h3>
+      <p>This panel is hidden until item #2 is clicked.</p>
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       RIGHT RAIL - Container for right-side items
+       ========================================== -->
+  <div class="rails-rail rails-rail-right" data-rail-side="right">
+
+    <!-- Rail Item #3 - Right side -->
+    <button class="rails-item"
+            data-rail-side="right"
+            data-expansion-direction="left"
+            data-tilt="-90"
+            data-item-index="2"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-2"
+            tabindex="-1">
+
+      <span class="rails-item-content">
+        <span class="rails-item-numeral">03</span>
+        <span class="rails-item-label">Pricing</span>
+        <span class="rails-item-icon" aria-hidden="true">▾</span>
+      </span>
+    </button>
+
+    <!-- Rail Item #4 - Right side -->
+    <button class="rails-item"
+            data-rail-side="right"
+            data-expansion-direction="left"
+            data-tilt="+90"
+            data-item-index="3"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-3"
+            tabindex="-1">
+
+      <span class="rails-item-content">
+        <!-- Icon at top when iconPosition="top" -->
+        <span class="rails-item-icon" aria-hidden="true">▴</span>
+
+        <span class="rails-item-numeral">04</span>
+        <span class="rails-item-label">Contact</span>
+
+        <!-- Note: Icon position="top" so no icon at bottom -->
+      </span>
+    </button>
+
+  </div>
+
+</div>
+
+<!-- ============================================
+     EXAMPLE WITH OVERFLOW SCROLL BUTTONS
+     ============================================ -->
+<hr style="margin: 3rem 0;">
+<h2>Example 2: With Overflow Scroll Buttons</h2>
+
+<div class="wp-block-guttembergplus-rails"
+     data-layout-mode="corner"
+     data-height-mode="maxHeight"
+     data-max-height="400px"
+     data-overflow-behavior="buttons">
+
+  <div class="rails-rail rails-rail-left">
+    <button class="rails-item" data-rail-side="left" role="tab" aria-selected="true" tabindex="0">
+      <span class="rails-item-content">
+        <span class="rails-item-label">Section A</span>
+      </span>
+    </button>
+  </div>
+
+  <div class="rails-stage">
+
+    <!-- Scroll Up Button -->
+    <button class="rails-scroll-button rails-scroll-up"
+            aria-label="Scroll up"
+            disabled>
+      ▲
+    </button>
+
+    <!-- Panel with overflow -->
+    <div class="rails-panel rails-panel-active"
+         data-overflow="buttons"
+         style="max-height: 300px; overflow: hidden;">
+
+      <h3>Long Content Panel</h3>
+      <p>When content exceeds maxHeight, scroll buttons appear.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+      <p>More content here...</p>
+      <p>Even more content...</p>
+      <p>This would normally require scrolling...</p>
+    </div>
+
+    <!-- Scroll Down Button -->
+    <button class="rails-scroll-button rails-scroll-down"
+            aria-label="Scroll down">
+      ▼
+    </button>
+
+  </div>
+
+  <div class="rails-rail rails-rail-right">
+    <!-- Right rail items... -->
+  </div>
+
+</div>
+
+<!-- ============================================
+     EXAMPLE WITH MOBILE TRANSFORMATION (TABS)
+     ============================================ -->
+<hr style="margin: 3rem 0;">
+<h2>Example 3: Mobile Transformation (Tabs Mode)</h2>
+<p><em>On mobile (< 768px), Rails transforms to horizontal tabs:</em></p>
+
+<div class="wp-block-guttembergplus-rails"
+     data-responsive-mode="mobile"
+     data-mobile-layout="tabs"
+     style="flex-direction: column;">
+
+  <!-- Merged Tab Row (was left + right rails) -->
+  <div class="rails-tabs-row" style="display: flex; gap: 0.5rem; width: 100%;">
+
+    <button class="rails-item"
+            aria-selected="true"
+            style="writing-mode: horizontal-tb; transform: none; flex: 1;">
+      <span class="rails-item-content" style="flex-direction: row;">
+        <span class="rails-item-label">Intro</span>
+      </span>
+    </button>
+
+    <button class="rails-item"
+            aria-selected="false"
+            style="writing-mode: horizontal-tb; transform: none; flex: 1;">
+      <span class="rails-item-content" style="flex-direction: row;">
+        <span class="rails-item-label">Features</span>
+      </span>
+    </button>
+
+    <button class="rails-item"
+            aria-selected="false"
+            style="writing-mode: horizontal-tb; transform: none; flex: 1;">
+      <span class="rails-item-content" style="flex-direction: row;">
+        <span class="rails-item-label">Pricing</span>
+      </span>
+    </button>
+
+  </div>
+
+  <!-- Content Below (was stage) -->
+  <div class="rails-stage" style="width: 100%; margin: 1rem 0 0 0;">
+    <div class="rails-panel rails-panel-active">
+      <p>Content panel appears below tabs on mobile.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================
+     CLASS NAME REFERENCE
+     ============================================ -->
+<hr style="margin: 3rem 0;">
+<h2>Class Name Convention Summary</h2>
+
+<table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Class Name</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Parent Block</td>
+      <td><code>wp-block-guttembergplus-rails</code></td>
+      <td>Main wrapper (WordPress naming convention)</td>
+    </tr>
+    <tr>
+      <td>Theme Class</td>
+      <td><code>rails-theme-{name}</code></td>
+      <td>Applied theme name (e.g., rails-theme-modern)</td>
+    </tr>
+    <tr>
+      <td>Rail Container</td>
+      <td><code>rails-rail</code></td>
+      <td>Container for items (left or right)</td>
+    </tr>
+    <tr>
+      <td>Left Rail</td>
+      <td><code>rails-rail-left</code></td>
+      <td>Left-side rail modifier</td>
+    </tr>
+    <tr>
+      <td>Right Rail</td>
+      <td><code>rails-rail-right</code></td>
+      <td>Right-side rail modifier</td>
+    </tr>
+    <tr>
+      <td>Content Stage</td>
+      <td><code>rails-stage</code></td>
+      <td>Panel display area (center)</td>
+    </tr>
+    <tr>
+      <td>Rail Item (Button)</td>
+      <td><code>rails-item</code></td>
+      <td>Individual button in rail</td>
+    </tr>
+    <tr>
+      <td>Item Content Wrapper</td>
+      <td><code>rails-item-content</code></td>
+      <td>Flex container for numeral/label/icon</td>
+    </tr>
+    <tr>
+      <td>Item Numeral</td>
+      <td><code>rails-item-numeral</code></td>
+      <td>Number/numeral text (01, 02, etc.)</td>
+    </tr>
+    <tr>
+      <td>Item Label</td>
+      <td><code>rails-item-label</code></td>
+      <td>Button label text</td>
+    </tr>
+    <tr>
+      <td>Item Icon</td>
+      <td><code>rails-item-icon</code></td>
+      <td>Icon element (▾, ▴, etc.)</td>
+    </tr>
+    <tr>
+      <td>Content Panel</td>
+      <td><code>rails-panel</code></td>
+      <td>Content area for active item</td>
+    </tr>
+    <tr>
+      <td>Active Panel</td>
+      <td><code>rails-panel-active</code></td>
+      <td>Currently visible panel modifier</td>
+    </tr>
+    <tr>
+      <td>Scroll Button</td>
+      <td><code>rails-scroll-button</code></td>
+      <td>Up/down scroll button (overflow mode)</td>
+    </tr>
+    <tr>
+      <td>Scroll Up</td>
+      <td><code>rails-scroll-up</code></td>
+      <td>Up button modifier</td>
+    </tr>
+    <tr>
+      <td>Scroll Down</td>
+      <td><code>rails-scroll-down</code></td>
+      <td>Down button modifier</td>
+    </tr>
+    <tr>
+      <td>Tabs Row (Mobile)</td>
+      <td><code>rails-tabs-row</code></td>
+      <td>Horizontal tab row on mobile</td>
+    </tr>
+    <tr>
+      <td>Accordion Container</td>
+      <td><code>rails-accordion-container</code></td>
+      <td>Accordion wrapper on mobile</td>
+    </tr>
+    <tr>
+      <td>Accordion Item</td>
+      <td><code>rails-accordion-item</code></td>
+      <td>Individual accordion item</td>
+    </tr>
+    <tr>
+      <td>Accordion Button</td>
+      <td><code>rails-accordion-button</code></td>
+      <td>Accordion toggle button</td>
+    </tr>
+    <tr>
+      <td>Accordion Panel</td>
+      <td><code>rails-accordion-panel</code></td>
+      <td>Accordion content area</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================================
+     DATA ATTRIBUTE REFERENCE
+     ============================================ -->
+<hr style="margin: 3rem 0;">
+<h2>Data Attribute Convention Summary</h2>
+
+<table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Element</th>
+      <th>Values</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>data-layout-mode</code></td>
+      <td>Parent block</td>
+      <td>nextToButton | corner</td>
+      <td>Panel positioning mode</td>
+    </tr>
+    <tr>
+      <td><code>data-height-mode</code></td>
+      <td>Parent block</td>
+      <td>matchTallest | maxHeight</td>
+      <td>Height calculation strategy</td>
+    </tr>
+    <tr>
+      <td><code>data-max-height</code></td>
+      <td>Parent block</td>
+      <td>CSS length (600px, 80vh)</td>
+      <td>Maximum panel height</td>
+    </tr>
+    <tr>
+      <td><code>data-overflow-behavior</code></td>
+      <td>Parent block</td>
+      <td>scrollbar | buttons</td>
+      <td>Overflow handling method</td>
+    </tr>
+    <tr>
+      <td><code>data-responsive-mode</code></td>
+      <td>Parent block</td>
+      <td>desktop | mobile</td>
+      <td>Current responsive state</td>
+    </tr>
+    <tr>
+      <td><code>data-mobile-layout</code></td>
+      <td>Parent block</td>
+      <td>tabs | accordion | none</td>
+      <td>Mobile transformation type</td>
+    </tr>
+    <tr>
+      <td><code>data-responsive-breakpoint</code></td>
+      <td>Parent block</td>
+      <td>Number (768)</td>
+      <td>Breakpoint in pixels</td>
+    </tr>
+    <tr>
+      <td><code>data-compression-ratio</code></td>
+      <td>Parent block</td>
+      <td>0-1 (0.3)</td>
+      <td>Button compression amount</td>
+    </tr>
+    <tr>
+      <td><code>data-compression-duration</code></td>
+      <td>Parent block</td>
+      <td>Milliseconds (300)</td>
+      <td>Animation duration</td>
+    </tr>
+    <tr>
+      <td><code>data-rail-side</code></td>
+      <td>Rail container, Item</td>
+      <td>left | right</td>
+      <td>Which rail this belongs to</td>
+    </tr>
+    <tr>
+      <td><code>data-expansion-direction</code></td>
+      <td>Item</td>
+      <td>left | right</td>
+      <td>Panel expansion direction</td>
+    </tr>
+    <tr>
+      <td><code>data-tilt</code></td>
+      <td>Item</td>
+      <td>-90 | +90</td>
+      <td>Vertical text rotation angle</td>
+    </tr>
+    <tr>
+      <td><code>data-item-index</code></td>
+      <td>Item</td>
+      <td>Number (0, 1, 2...)</td>
+      <td>Item position in sequence</td>
+    </tr>
+    <tr>
+      <td><code>data-direction</code></td>
+      <td>Panel</td>
+      <td>left | right</td>
+      <td>Panel slide animation direction</td>
+    </tr>
+    <tr>
+      <td><code>data-transition</code></td>
+      <td>Panel</td>
+      <td>slide | fade | none</td>
+      <td>Panel animation type</td>
+    </tr>
+    <tr>
+      <td><code>data-overflow</code></td>
+      <td>Panel</td>
+      <td>scrollbar | buttons</td>
+      <td>Active overflow mode</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================================
+     CSS VARIABLE NAMING CONVENTION
+     ============================================ -->
+<hr style="margin: 3rem 0;">
+<h2>CSS Variable Naming Convention</h2>
+
+<pre>
+<strong>Parent Block Variables:</strong>
+--rails-compression-ratio
+--rails-compression-duration
+--rails-compression-easing
+--rails-min-button-width
+--rails-panel-bg
+--rails-panel-border-color
+--rails-panel-border-width
+--rails-panel-border-radius
+--rails-panel-padding
+--rails-max-height
+--rails-scroll-button-size
+--rails-scroll-button-color
+--rails-border-color
+--rails-border-width
+--rails-border-style
+
+<strong>Item Variables:</strong>
+--rails-item-bg
+--rails-item-color
+--rails-item-active-bg
+--rails-item-active-color
+--rails-item-hover-bg
+--rails-item-hover-color
+--rails-item-border-width
+--rails-item-border-color
+--rails-item-padding
+--rails-item-font-size
+--rails-item-font-weight
+--rails-item-gap
+
+<strong>Element-Specific:</strong>
+--rails-numeral-offset-x
+--rails-numeral-offset-y
+--rails-numeral-font-size
+--rails-label-offset-x
+--rails-label-offset-y
+--rails-icon-offset-x
+--rails-icon-offset-y
+--rails-icon-size
+--rails-icon-color
+--rails-icon-rotation
+--rails-icon-rotation-active
+</pre>
+
+<p><strong>Pattern:</strong> <code>--rails-{element}-{property}</code> or <code>--rails-{property}</code></p>
+<p><strong>Example:</strong> <code>--rails-panel-bg</code>, <code>--rails-item-active-color</code>, <code>--rails-icon-rotation</code></p>
+
+</body>
+</html>

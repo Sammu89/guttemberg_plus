@@ -82,7 +82,7 @@
       "label": "TOC ID",
       "description": "Unique identifier for the table of contents",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 8
     },
     "showTitle": {
@@ -92,7 +92,7 @@
       "label": "Show Title",
       "description": "Display the TOC title header",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 3
     },
     "titleText": {
@@ -102,7 +102,7 @@
       "label": "Title Text",
       "description": "The title displayed above the table of contents",
       "themeable": false,
-      "reason": "content",
+      "outputsCSS": false,
       "order": 4
     },
     "currentTheme": {
@@ -112,7 +112,7 @@
       "label": "Theme",
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 9
     },
     "tocItems": {
@@ -122,7 +122,7 @@
       "label": "Curated TOC Items",
       "description": "Persisted TOC entries with anchors and levels",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 10
     },
     "deletedHeadingIds": {
@@ -132,7 +132,7 @@
       "label": "Deleted Heading IDs",
       "description": "Anchors removed from scans until reset",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "order": 11
     },
     "filterMode": {
@@ -156,7 +156,8 @@
       "group": "filtering",
       "label": "Include H1",
       "description": "Include H1 headings in TOC",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 1
     },
@@ -165,7 +166,8 @@
       "default": true,
       "group": "filtering",
       "label": "Include H2",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 2
     },
@@ -174,7 +176,8 @@
       "default": true,
       "group": "filtering",
       "label": "Include H3",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 3
     },
@@ -183,7 +186,8 @@
       "default": true,
       "group": "filtering",
       "label": "Include H4",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 4
     },
@@ -192,7 +196,8 @@
       "default": true,
       "group": "filtering",
       "label": "Include H5",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 5
     },
@@ -201,7 +206,8 @@
       "default": true,
       "group": "filtering",
       "label": "Include H6",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 6
     },
@@ -217,8 +223,8 @@
       "group": "filtering",
       "label": "Include Heading Levels",
       "description": "Which heading levels to include (H1-H6) - derived from includeH1-H6 toggles",
-      "themeable": false,
-      "reason": "structural",
+      "themeable": true,
+      "outputsCSS": false,
       "order": 8
     },
     "includeClasses": {
@@ -227,7 +233,8 @@
       "group": "filtering",
       "label": "Include Classes",
       "description": "CSS classes to include in TOC",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "TextControl",
       "order": 10
     },
@@ -237,8 +244,8 @@
       "group": "filtering",
       "label": "Exclude Heading Levels",
       "description": "Which heading levels to exclude",
-      "themeable": false,
-      "reason": "structural",
+      "themeable": true,
+      "outputsCSS": false,
       "order": 7
     },
     "excludeClasses": {
@@ -247,7 +254,8 @@
       "group": "filtering",
       "label": "Exclude Classes",
       "description": "CSS classes to exclude from TOC",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "TextControl",
       "order": 11
     },
@@ -257,8 +265,8 @@
       "group": "filtering",
       "label": "Include Accordion Headings",
       "description": "Include headings from accordion blocks when they have a heading level set",
-      "themeable": false,
-      "reason": "structural",
+      "themeable": true,
+      "outputsCSS": false,
       "order": 12
     },
     "includeTabs": {
@@ -267,8 +275,8 @@
       "group": "filtering",
       "label": "Include Tab Headings",
       "description": "Include headings from tabs blocks when they have a heading level set",
-      "themeable": false,
-      "reason": "structural",
+      "themeable": true,
+      "outputsCSS": false,
       "order": 13
     },
     "isCollapsible": {
@@ -297,7 +305,8 @@
       "group": "positionScroll",
       "label": "Position Type",
       "description": "CSS positioning type",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         "normal",
@@ -312,7 +321,8 @@
       "group": "positionScroll",
       "label": "Smooth Scroll",
       "description": "Enable smooth scrolling to headings",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 6
     },
@@ -322,7 +332,8 @@
       "group": "positionScroll",
       "label": "Scroll Offset",
       "description": "Offset in pixels when scrolling to heading",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "RangeControl",
       "min": 0,
       "max": 500,
@@ -335,7 +346,8 @@
       "group": "positionScroll",
       "label": "Auto Highlight",
       "description": "Highlight current section in TOC",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 8
     },
@@ -345,7 +357,8 @@
       "group": "blockOptions",
       "label": "Click Behavior",
       "description": "What happens when clicking a TOC item",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         "navigate",
@@ -481,7 +494,8 @@
       "group": "linkColors",
       "label": "Same Colors for All Levels",
       "description": "Use the same link colors for all heading levels",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 1
     },
@@ -566,7 +580,8 @@
       "group": "headingStyles",
       "label": "H1 Numbering Style",
       "description": "Numbering style for H1 headings",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -606,7 +621,8 @@
       "group": "headingStyles",
       "label": "H2 Numbering Style",
       "description": "Numbering style for H2 headings",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -646,7 +662,8 @@
       "group": "headingStyles",
       "label": "H3 Numbering Style",
       "description": "Numbering style for H3 headings",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -686,7 +703,8 @@
       "group": "headingStyles",
       "label": "H4 Numbering Style",
       "description": "Numbering style for H4 headings",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -726,7 +744,8 @@
       "group": "headingStyles",
       "label": "H5 Numbering Style",
       "description": "Numbering style for H5 headings",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -766,7 +785,8 @@
       "group": "headingStyles",
       "label": "H6 Numbering Style",
       "description": "Numbering style for H6 headings",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -2228,7 +2248,8 @@
       "group": "icon",
       "label": "Show Icon",
       "description": "Display expand/collapse icon",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 1
     },
@@ -2238,7 +2259,8 @@
       "group": "icon",
       "label": "Icon Position",
       "description": "Position of icon relative to title",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         "left",
@@ -2269,11 +2291,12 @@
     },
     "iconTypeClosed": {
       "type": "string",
-      "default": "▾",
+      "default": "\u25be",
       "group": "icon",
       "label": "Closed Icon",
       "description": "Icon when TOC is collapsed",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "IconPicker",
       "order": 4
     },
@@ -2283,7 +2306,8 @@
       "group": "icon",
       "label": "Open Icon",
       "description": "Icon when TOC is expanded (none = use iconTypeClosed with rotation)",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "IconPicker",
       "order": 5
     },
@@ -2675,7 +2699,8 @@
       "group": "headingStyles",
       "label": "Enable Hierarchical Indentation",
       "description": "Indent headings based on document hierarchy (e.g., H3 under H2 indents once)",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 1
     },
@@ -2756,8 +2781,8 @@
       "group": "positionScroll",
       "label": "Horizontal Side",
       "description": "Which side to anchor the TOC (sticky/fixed positioning)",
-      "themeable": false,
-      "reason": "Applied as inline style, not CSS variable",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         {
@@ -2783,8 +2808,8 @@
       "group": "positionScroll",
       "label": "Horizontal Offset",
       "description": "Distance from the selected side",
-      "themeable": false,
-      "reason": "Applied as inline style, not CSS variable",
+      "themeable": true,
+      "outputsCSS": false,
       "control": "UnitControl",
       "units": [
         "rem",

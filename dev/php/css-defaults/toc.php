@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-23T02:43:04.673Z
+ * Generated at: 2025-12-23T22:20:59.798Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -19,16 +19,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 return array(
+  'includeH1' => 'false',
+  'includeH2' => 'true',
+  'includeH3' => 'true',
+  'includeH4' => 'true',
+  'includeH5' => 'true',
+  'includeH6' => 'true',
+  'includeAccordions' => 'true',
+  'includeTabs' => 'true',
+  'positionType' => 'normal',
+  'smoothScroll' => 'true',
+  'scrollOffset' => '0',
+  'autoHighlight' => 'true',
+  'clickBehavior' => 'navigate',
   'wrapperBackgroundColor' => '#ffffff',
   'blockBorderColor' => '#dddddd',
   'titleColor' => '#333333',
   'titleBackgroundColor' => 'transparent',
   'hoverTitleColor' => '#000000',
   'hoverTitleBackgroundColor' => 'transparent',
+  'unifiedLinkColors' => 'true',
   'linkColor' => '#0073aa',
   'linkHoverColor' => '#005177',
   'linkActiveColor' => '#005177',
   'linkVisitedColor' => '#0073aa',
+  'h1NumberingStyle' => 'decimal',
+  'h2NumberingStyle' => 'decimal',
+  'h3NumberingStyle' => 'decimal',
+  'h4NumberingStyle' => 'decimal',
+  'h5NumberingStyle' => 'decimal',
+  'h6NumberingStyle' => 'decimal',
   'h1Color' => 'inherit',
   'h1HoverColor' => 'inherit',
   'h1VisitedColor' => 'inherit',
@@ -83,7 +103,11 @@ return array(
   'h6FontStyle' => 'normal',
   'h6TextTransform' => 'none',
   'h6TextDecoration' => 'none',
+  'showIcon' => 'true',
+  'iconPosition' => 'right',
   'iconSize' => '1.25',
+  'iconTypeClosed' => '▾',
+  'iconTypeOpen' => 'none',
   'iconRotation' => '180',
   'iconColor' => '#666666',
   'titleFontSize' => '1.25',
@@ -98,7 +122,10 @@ return array(
   'blockShadowHover' => 'none',
   'wrapperPadding' => '1.25',
   'itemSpacing' => '0.5',
+  'enableHierarchicalIndent' => 'true',
   'levelIndent' => '1.25rem',
   'positionTop' => '6.25',
   'zIndex' => '100',
+  'positionHorizontalSide' => 'right',
+  'positionHorizontalOffset' => '1.25rem',
 );

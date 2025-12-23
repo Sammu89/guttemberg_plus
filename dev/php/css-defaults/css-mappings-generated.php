@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-12-23T02:43:04.676Z
+ * Generated at: 2025-12-23T22:20:59.810Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -48,8 +48,12 @@ $mappings = array(
       'iconRotation' => array( 'cssVar' => 'accordion-icon-rotation', 'unit' => 'deg', 'type' => 'number' ),
     ),
     'tabs' => array(
+      'showIcon' => array( 'cssVar' => 'tabs-show-icon', 'unit' => null, 'type' => 'boolean' ),
+      'iconPosition' => array( 'cssVar' => 'tabs-icon-position', 'unit' => null, 'type' => 'string' ),
       'iconColor' => array( 'cssVar' => 'tabs-icon-color', 'unit' => null, 'type' => 'string' ),
       'iconSize' => array( 'cssVar' => 'tabs-icon-size', 'unit' => 'rem', 'type' => 'number' ),
+      'iconTypeClosed' => array( 'cssVar' => 'tabs-icon-type-closed', 'unit' => null, 'type' => 'string' ),
+      'iconTypeOpen' => array( 'cssVar' => 'tabs-icon-type-open', 'unit' => null, 'type' => 'string' ),
       'iconRotation' => array( 'cssVar' => 'tabs-icon-rotation-base', 'unit' => 'deg', 'type' => 'number' ),
       'iconRotationActive' => array( 'cssVar' => 'tabs-icon-rotation-active', 'unit' => 'deg', 'type' => 'number' ),
       'tabButtonColor' => array( 'cssVar' => 'tabs-button-color', 'unit' => null, 'type' => 'string' ),
@@ -58,6 +62,7 @@ $mappings = array(
       'tabButtonHoverBackgroundColor' => array( 'cssVar' => 'tabs-button-hover-bg', 'unit' => null, 'type' => 'string' ),
       'tabButtonActiveColor' => array( 'cssVar' => 'tabs-button-active-color', 'unit' => null, 'type' => 'string' ),
       'tabButtonActiveBackgroundColor' => array( 'cssVar' => 'tabs-button-active-bg', 'unit' => null, 'type' => 'string' ),
+      'enableFocusBorder' => array( 'cssVar' => 'tabs-enable-focus-border', 'unit' => null, 'type' => 'boolean' ),
       'tabButtonActiveContentBorderWidth' => array( 'cssVar' => 'tabs-button-active-content-border-width', 'unit' => 'px', 'type' => 'number' ),
       'tabButtonActiveContentBorderStyle' => array( 'cssVar' => 'tabs-button-active-content-border-style', 'unit' => null, 'type' => 'string' ),
       'tabButtonActiveFontWeight' => array( 'cssVar' => 'tabs-button-active-font-weight', 'unit' => null, 'type' => 'string' ),
@@ -94,6 +99,7 @@ $mappings = array(
       'borderRadius' => array( 'cssVar' => 'tabs-border-radius', 'unit' => 'px', 'type' => 'object' ),
       'shadow' => array( 'cssVar' => 'tabs-border-shadow', 'unit' => null, 'type' => 'string' ),
       'shadowHover' => array( 'cssVar' => 'tabs-border-shadow-hover', 'unit' => null, 'type' => 'string' ),
+      'enableTabsListContentBorder' => array( 'cssVar' => 'tabs-enable-list-divider-border', 'unit' => null, 'type' => 'boolean' ),
       'tabsListContentBorderColor' => array( 'cssVar' => 'tabs-list-divider-border-color', 'unit' => null, 'type' => 'string' ),
       'tabsListContentBorderWidth' => array( 'cssVar' => 'tabs-list-divider-border-width', 'unit' => 'px', 'type' => 'number' ),
       'tabsListContentBorderStyle' => array( 'cssVar' => 'tabs-list-divider-border-style', 'unit' => null, 'type' => 'string' ),

@@ -106,11 +106,33 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	/**
 	 * Recursively extract headings from blocks
 	 * Handles core/heading blocks, accordions, tabs, and nested blocks
-	 * Respects includeAccordions and includeTabs filter settings
+	 * Respects includeH1-H6, includeAccordions and includeTabs filter settings
 	 */
 	const extractHeadingsFromBlocks = useCallback( ( blocks, currentClientId, options = {} ) => {
-		const { includeAccordions = true, includeTabs = true } = options;
+		const {
+			includeAccordions = true,
+			includeTabs = true,
+			includeH1 = false,
+			includeH2 = true,
+			includeH3 = true,
+			includeH4 = true,
+			includeH5 = true,
+			includeH6 = true,
+		} = options;
 		const detectedHeadings = [];
+
+		// Helper to check if a heading level should be included
+		const shouldIncludeLevel = ( level ) => {
+			const levelMap = {
+				1: includeH1,
+				2: includeH2,
+				3: includeH3,
+				4: includeH4,
+				5: includeH5,
+				6: includeH6,
+			};
+			return levelMap[ level ] !== false;
+		};
 
 		const processBlock = ( block ) => {
 			// Skip this TOC block
@@ -129,7 +151,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				const content = block.attributes.content || '';
 				const text = stripHtml( content );
 
-				if ( text ) {
+				// Check if this heading level should be included
+				if ( text && shouldIncludeLevel( level ) ) {
 					detectedHeadings.push( {
 						level,
 						text,
@@ -150,7 +173,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					const title = block.attributes.title || '';
 					const text = stripHtml( title );
 
-					if ( text ) {
+					// Check if this heading level should be included
+					if ( text && shouldIncludeLevel( level ) ) {
 						detectedHeadings.push( {
 							level,
 							text,
@@ -178,7 +202,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						}
 
 						const text = stripHtml( tab.title );
-						if ( text ) {
+						// Check if this heading level should be included
+						if ( text && shouldIncludeLevel( level ) ) {
 							detectedHeadings.push( {
 								level,
 								text,
@@ -205,7 +230,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	/**
 	 * Scan for headings in post content
 	 * Called manually when user clicks the "Scan for headings" button
-	 * Respects includeAccordions and includeTabs attributes
+	 * Respects includeH1-H6, includeAccordions and includeTabs attributes
 	 */
 	const scanForHeadings = () => {
 		setIsScanning( true );
@@ -215,6 +240,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			const detectedHeadings = extractHeadingsFromBlocks( allBlocks, clientId, {
 				includeAccordions: attributes.includeAccordions !== false,
 				includeTabs: attributes.includeTabs !== false,
+				includeH1: attributes.includeH1 !== false,
+				includeH2: attributes.includeH2 !== false,
+				includeH3: attributes.includeH3 !== false,
+				includeH4: attributes.includeH4 !== false,
+				includeH5: attributes.includeH5 !== false,
+				includeH6: attributes.includeH6 !== false,
 			} );
 			const filtered = filterHeadings( detectedHeadings, attributes );
 			setHeadings( filtered );
@@ -498,11 +529,18 @@ const displayHeadings =
 	curatedHeadings.length > 0 ? curatedHeadings : filteredHeadings;
 
 	// Build inline styles - apply width from attributes
-	// Exclude position-related properties (top) in editor to prevent overlap issues
+	// IMPORTANT: Force static positioning in editor to prevent overflow issues
+	// Position type (sticky/fixed) should only apply on frontend
 	const { top: _top, ...containerStyles } = styles.container;
 	const rootStyles = {
 		width: effectiveValues.tocWidth,
 		...containerStyles,
+		// Force normal positioning in editor - override any CSS classes
+		position: 'static',
+		top: 'auto',
+		left: 'auto',
+		right: 'auto',
+		zIndex: 'auto',
 	};
 
 	// Block props
@@ -856,23 +894,20 @@ const displayHeadings =
 
 /**
  * Filter headings based on filter settings
+ * Note: Heading level filtering is handled by includeH1-H6 during detection,
+ * so this function only needs to check class-based filters.
  * @param headings
  * @param attributes
  */
 function filterHeadings( headings, attributes ) {
-	const { filterMode, includeLevels, includeClasses, excludeLevels, excludeClasses, depthLimit } =
+	const { filterMode, includeClasses, excludeClasses, depthLimit } =
 		attributes;
 
 	let filtered = headings;
 
-	// Apply filter mode
-	if ( filterMode === 'include-only' ) {
+	// Apply class-based filter mode
+	if ( filterMode === 'Include by class' ) {
 		filtered = filtered.filter( ( heading ) => {
-			// Include if level matches
-			if ( includeLevels.includes( heading.level ) ) {
-				return true;
-			}
-
 			// Include if any class matches
 			if ( includeClasses ) {
 				const classes = includeClasses.split( ',' ).map( ( c ) => c.trim() );
@@ -881,13 +916,8 @@ function filterHeadings( headings, attributes ) {
 
 			return false;
 		} );
-	} else if ( filterMode === 'exclude' ) {
+	} else if ( filterMode === 'Excluse by class' ) {
 		filtered = filtered.filter( ( heading ) => {
-			// Exclude if level matches
-			if ( excludeLevels.includes( heading.level ) ) {
-				return false;
-			}
-
 			// Exclude if any class matches
 			if ( excludeClasses ) {
 				const classes = excludeClasses.split( ',' ).map( ( c ) => c.trim() );
@@ -1006,6 +1036,7 @@ function mergeHeadingsWithExisting( headings, existingItems, deletedHeadingIds, 
 	const deletedSet = new Set( deletedHeadingIds );
 	const incoming = new Map();
 
+	// Build map of incoming headings (respects current filter settings)
 	headings.forEach( ( heading, index ) => {
 		const anchor = buildHeadingAnchor( heading, tocId, index );
 		if ( ! anchor || deletedSet.has( anchor ) ) {
@@ -1015,20 +1046,26 @@ function mergeHeadingsWithExisting( headings, existingItems, deletedHeadingIds, 
 	} );
 
 	const merged = [];
+
+	// Only preserve existing items that are still in the incoming headings
+	// This ensures that when users change filter settings (e.g., turn off H3),
+	// those headings are removed from tocItems on the next scan
 	existingItems.forEach( ( item ) => {
 		const anchor = getItemAnchor( item );
 		if ( ! anchor || deletedSet.has( anchor ) ) {
 			return;
 		}
 
+		// Only keep existing items if they're in the new incoming set
 		if ( incoming.has( anchor ) ) {
+			// Preserve custom edits (like manual text changes) while updating detected values
 			merged.push( { ...item, ...incoming.get( anchor ) } );
 			incoming.delete( anchor );
-		} else {
-			merged.push( { ...item, anchor, id: anchor } );
 		}
+		// Items not in incoming are dropped (they were filtered out or no longer exist)
 	} );
 
+	// Add any new headings that weren't in existingItems
 	incoming.forEach( ( item ) => {
 		merged.push( item );
 	} );

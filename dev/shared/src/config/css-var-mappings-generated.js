@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-23T02:43:04.677Z
+ * Generated at: 2025-12-23T22:20:59.815Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -57,8 +57,12 @@ export const CSS_VAR_MAPPINGS = {
     iconRotation: { cssVar: '--accordion-icon-rotation', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
   },
   tabs: {
+    showIcon: { cssVar: '--tabs-show-icon', unit: null, type: 'boolean', cssProperty: 'display', dependsOn: null, variants: null },
+    iconPosition: { cssVar: '--tabs-icon-position', unit: null, type: 'string', cssProperty: 'flex-direction', dependsOn: null, variants: null },
     iconColor: { cssVar: '--tabs-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     iconSize: { cssVar: '--tabs-icon-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconTypeClosed: { cssVar: '--tabs-icon-type-closed', unit: null, type: 'string', cssProperty: 'content', dependsOn: null, variants: null },
+    iconTypeOpen: { cssVar: '--tabs-icon-type-open', unit: null, type: 'string', cssProperty: 'content', dependsOn: null, variants: null },
     iconRotation: { cssVar: '--tabs-icon-rotation-base', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
     iconRotationActive: { cssVar: '--tabs-icon-rotation-active', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
     tabButtonColor: { cssVar: '--tabs-button-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
@@ -67,6 +71,7 @@ export const CSS_VAR_MAPPINGS = {
     tabButtonHoverBackgroundColor: { cssVar: '--tabs-button-hover-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
     tabButtonActiveColor: { cssVar: '--tabs-button-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     tabButtonActiveBackgroundColor: { cssVar: '--tabs-button-active-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    enableFocusBorder: { cssVar: '--tabs-enable-focus-border', unit: null, type: 'boolean', cssProperty: 'border', dependsOn: null, variants: null },
     tabButtonActiveContentBorderWidth: { cssVar: '--tabs-button-active-content-border-width', unit: 'px', type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-width"
@@ -155,6 +160,7 @@ export const CSS_VAR_MAPPINGS = {
     borderRadius: { cssVar: '--tabs-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     shadow: { cssVar: '--tabs-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     shadowHover: { cssVar: '--tabs-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    enableTabsListContentBorder: { cssVar: '--tabs-enable-list-divider-border', unit: null, type: 'boolean', cssProperty: 'border', dependsOn: null, variants: null },
     tabsListContentBorderColor: { cssVar: '--tabs-list-divider-border-color', unit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-color"

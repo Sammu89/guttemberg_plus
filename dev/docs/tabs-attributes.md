@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-23T02:43:04.668Z
+> Generated at: 2025-12-23T22:20:59.777Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -22,15 +22,15 @@ Block-level options
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `uniqueId` | string | `` | No (structural) | Auto-generated unique block identifier |
-| `blockId` | string | `` | No (structural) | Block-specific identification |
-| `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
-| `tabs` | array | _object_ | No (content) | Array of tab items with title, content, and state |
-| `tabsData` | array | _object_ | No (structural) | Synchronized tab button data for server-side rendering |
-| `orientation` | string | `horizontal` | No (structural) | Tab layout orientation |
+| `uniqueId` | string | `` | No (N/A) | Auto-generated unique block identifier |
+| `blockId` | string | `` | No (N/A) | Block-specific identification |
+| `currentTheme` | string | `` | No (N/A) | Currently active theme name (empty = Default) |
+| `tabs` | array | _object_ | No (N/A) | Array of tab items with title, content, and state |
+| `tabsData` | array | _object_ | No (N/A) | Synchronized tab button data for server-side rendering |
+| `orientation` | string | `horizontal` | No (N/A) | Tab layout orientation |
 | `activationMode` | string | `click` | No (generalal) | How tabs are activated (click or hover) |
-| `headingLevel` | string | `none` | No (structural) | Semantic HTML heading level (none, h1-h6) |
-| `title` | string | `Tabs` | No (content) | Block title (for accessibility) |
+| `headingLevel` | string | `none` | No (N/A) | Semantic HTML heading level (none, h1-h6) |
+| `title` | string | `Tabs` | No (N/A) | Block title (for accessibility) |
 | `tabsHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the tabs block |
 | `tabsWidth` | string | `100%` | No (N/A) | Tabs container width (e.g., 100%, 500px) |
 
@@ -40,7 +40,7 @@ Row background, spacing, alignment, dividers
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `stretchButtonsToRow` | boolean | `false` | No (structural) | Make tab buttons fill the full width of the row (horizontal orientation only) |
+| `stretchButtonsToRow` | boolean | `false` | Yes | Make tab buttons fill the full width of the row (horizontal orientation only) |
 | `tabListBackgroundColor` | string | `transparent` | Yes | Background color for the tab navigation bar |
 | `tabsRowBorderColor` | string | `#dddddd` | Yes | Border color for the tab row |
 | `tabsRowBorderWidth` | number | `0` | Yes | Border width for the tab row |
@@ -48,7 +48,7 @@ Row background, spacing, alignment, dividers
 | `tabListAlignment` | string | `flex-start` | Yes | Alignment of tabs along the main axis |
 | `tabsRowSpacing` | number | `0.5` | Yes | Padding/spacing for the tab row (rem) |
 | `tabsButtonGap` | number | `0.5` | Yes | Spacing between individual tab buttons (rem) |
-| `enableTabsListContentBorder` | boolean | `false` | No (behavioral) | Enable or disable border between tab row and content |
+| `enableTabsListContentBorder` | boolean | `false` | Yes | Enable or disable border between tab row and content |
 | `tabsListContentBorderColor` | string | `transparent` | Yes | Color of the tab row edge that touches the content |
 | `tabsListContentBorderWidth` | number | `1` | Yes | Width of the tab row edge that touches the content |
 | `tabsListContentBorderStyle` | string | `solid` | Yes | Style of the tab row edge that touches the content |
@@ -59,12 +59,12 @@ Icon appearance and behavior
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `showIcon` | boolean | `true` | No (behavioral) | Display icons in tab buttons |
-| `iconPosition` | string | `right` | No (behavioral) | Position of icon relative to text |
+| `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
+| `iconPosition` | string | `right` | Yes | Position of icon relative to text |
 | `iconColor` | string | `#666666` | Yes | Color of the tab icon |
 | `iconSize` | number | `1` | Yes | Size of the icon in rem |
-| `iconTypeClosed` | string | `▾` | No (behavioral) | Icon for the tab (char or image URL) |
-| `iconTypeOpen` | string | `none` | No (behavioral) | Icon when tab is active (none = use closed icon with final rotation) |
+| `iconTypeClosed` | string | `▾` | Yes | Icon for the tab (char or image URL) |
+| `iconTypeOpen` | string | `none` | Yes | Icon when tab is active (none = use closed icon with final rotation) |
 | `iconRotation` | number | `0` | Yes | Base rotation of the icon |
 | `iconRotationActive` | number | `180` | Yes | Rotation of the icon for the active tab |
 
@@ -87,7 +87,7 @@ Tab header borders and active edge
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `enableFocusBorder` | boolean | `true` | No (behavioral) | Border on the edge touching the content, giving it a merged look. |
+| `enableFocusBorder` | boolean | `true` | Yes | Border on the edge touching the content, giving it a merged look. |
 | `tabButtonActiveContentBorderWidth` | number | `1` | Yes | Width of the active button edge touching content |
 | `tabButtonActiveContentBorderStyle` | string | `solid` | Yes | Style of the active button edge touching content |
 | `tabButtonBorderColor` | string | `#dddddd` | Yes | Border color for inactive tab buttons |
@@ -145,8 +145,12 @@ The following CSS custom properties are available for theming:
 
 | Attribute | CSS Variable |
 |-----------|-------------|
+| `showIcon` | `--tabs-show-icon` |
+| `iconPosition` | `--tabs-icon-position` |
 | `iconColor` | `--tabs-icon-color` |
 | `iconSize` | `--tabs-icon-size` |
+| `iconTypeClosed` | `--tabs-icon-type-closed` |
+| `iconTypeOpen` | `--tabs-icon-type-open` |
 | `iconRotation` | `--tabs-icon-rotation-base` |
 | `iconRotationActive` | `--tabs-icon-rotation-active` |
 | `tabButtonColor` | `--tabs-button-color` |
@@ -155,6 +159,7 @@ The following CSS custom properties are available for theming:
 | `tabButtonHoverBackgroundColor` | `--tabs-button-hover-bg` |
 | `tabButtonActiveColor` | `--tabs-button-active-color` |
 | `tabButtonActiveBackgroundColor` | `--tabs-button-active-bg` |
+| `enableFocusBorder` | `--tabs-enable-focus-border` |
 | `tabButtonActiveContentBorderWidth` | `--tabs-button-active-content-border-width` |
 | `tabButtonActiveContentBorderStyle` | `--tabs-button-active-content-border-style` |
 | `tabButtonActiveFontWeight` | `--tabs-button-active-font-weight` |
@@ -191,6 +196,7 @@ The following CSS custom properties are available for theming:
 | `borderRadius` | `--tabs-border-radius` |
 | `shadow` | `--tabs-border-shadow` |
 | `shadowHover` | `--tabs-border-shadow-hover` |
+| `enableTabsListContentBorder` | `--tabs-enable-list-divider-border` |
 | `tabsListContentBorderColor` | `--tabs-list-divider-border-color` |
 | `tabsListContentBorderWidth` | `--tabs-list-divider-border-width` |
 | `tabsListContentBorderStyle` | `--tabs-list-divider-border-style` |

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-23T02:43:04.656Z
+ * Generated at: 2025-12-23T22:20:59.736Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -39,7 +39,11 @@ export const accordionThemeSchema = z.object({
   shadowHover: z.string(),
   dividerWidth: z.number(),
   dividerStyle: z.string(),
+  showIcon: z.boolean(),
+  iconPosition: z.string(),
   iconSize: z.number(),
+  iconTypeClosed: z.string(),
+  iconTypeOpen: z.string(),
   iconRotation: z.number(),
 });
 

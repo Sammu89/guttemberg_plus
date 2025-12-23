@@ -214,9 +214,10 @@ function detectHeadings( tocBlock, config ) {
 		const level = parseInt( heading.tagName.charAt( 1 ), 10 );
 
 		// Detect if this is an accordion or tab heading
-		const isAccordionHeading = heading.classList.contains( 'accordion-heading' ) ||
-			heading.querySelector( '.accordion-title-text' );
-		const isTabHeading = heading.querySelector( '.tab-button-text' );
+		// Accordion structure: <h2 class="accordion-heading"><button class="accordion-title">...</button></h2>
+		// Tabs structure: <h2 class="tab-heading"><button class="tab-button">...</button></h2>
+		const isAccordionHeading = heading.classList.contains( 'accordion-heading' );
+		const isTabHeading = heading.classList.contains( 'tab-heading' );
 
 		// Skip accordion headings if includeAccordions is false
 		if ( isAccordionHeading && ! config.includeAccordions ) {
@@ -229,8 +230,8 @@ function detectHeadings( tocBlock, config ) {
 		}
 
 		// Extract text, excluding icons from accordion/tabs blocks
-		// Accordion structure: <h2><button><span class="accordion-title-text">text</span>...</button></h2>
-		// Tabs structure: <h2><button><span class="tab-button-text">text</span>...</button></h2>
+		// Accordion structure: <h2 class="accordion-heading"><button><span class="accordion-title-text">text</span>...</button></h2>
+		// Tabs structure: <h2 class="tab-heading"><button><span class="tab-button-text">text</span>...</button></h2>
 		let text = '';
 		const titleTextEl = heading.querySelector( '.accordion-title-text, .tab-button-text' );
 		if ( titleTextEl ) {
@@ -360,28 +361,25 @@ function mapCuratedItemsToHeadings( curatedItems, detectedHeadings, config ) {
 
 /**
  * Check if heading matches filter criteria
+ * Note: Heading level filtering is now handled by includeH1-H6 attributes in the selector,
+ * so this function only needs to check class-based filters.
  * @param heading
  * @param config
  */
 function matchesFilter( heading, config ) {
-	const { filterMode, includeLevels, includeClasses, excludeLevels, excludeClasses } = config;
+	const { filterMode, includeClasses, excludeClasses } = config;
 
-	if ( filterMode === 'include-only' ) {
-		// Must match level OR class
-		const levelMatches = includeLevels.includes( heading.level );
+	// Class-based filtering only applies when filterMode is set
+	if ( filterMode === 'Include by class' ) {
+		// Must match class
 		const classMatches = includeClasses
 			? includeClasses.split( ',' ).some( ( cls ) => heading.classes.includes( cls.trim() ) )
 			: false;
 
-		return levelMatches || classMatches;
+		return classMatches;
 	}
 
-	if ( filterMode === 'exclude' ) {
-		// Exclude if level matches
-		if ( excludeLevels.includes( heading.level ) ) {
-			return false;
-		}
-
+	if ( filterMode === 'Excluse by class' ) {
 		// Exclude if class matches
 		if ( excludeClasses ) {
 			const classMatches = excludeClasses
@@ -395,7 +393,7 @@ function matchesFilter( heading, config ) {
 		return true;
 	}
 
-	// Include all
+	// Include all headings (default mode)
 	return true;
 }
 

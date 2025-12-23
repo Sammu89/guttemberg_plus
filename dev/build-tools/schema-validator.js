@@ -207,10 +207,13 @@ function validateAttribute(attrName, attr, blockType) {
     // Some controls don't need CSS variables (handled in JS/PHP)
     const isNonCSSControl = NON_CSS_CONTROLS.includes(attr.control);
 
-    // Check for required themeable fields (warning only for non-CSS controls)
+    // Attributes with outputsCSS: false don't need CSS fields
+    const outputsCSS = attr.outputsCSS !== false; // Default to true if not specified
+
+    // Check for required themeable fields (warning only for non-CSS controls or non-CSS output)
     if (!('cssVar' in attr)) {
-      if (isNonCSSControl) {
-        // Optional: no warning for non-CSS controls
+      if (isNonCSSControl || !outputsCSS) {
+        // Optional: no warning for non-CSS controls or non-CSS output
       } else {
         errors.push({
           type: 'missing_field',
@@ -221,8 +224,8 @@ function validateAttribute(attrName, attr, blockType) {
     }
 
     if (!('cssDefault' in attr)) {
-      if (isNonCSSControl) {
-        // Optional: no warning for non-CSS controls
+      if (isNonCSSControl || !outputsCSS) {
+        // Optional: no warning for non-CSS controls or non-CSS output
       } else {
         errors.push({
           type: 'missing_field',
@@ -232,54 +235,57 @@ function validateAttribute(attrName, attr, blockType) {
       }
     }
 
-    // Validate cssVar format (should be kebab-case without -- prefix)
-    if (attr.cssVar) {
-      if (attr.cssVar.startsWith('--')) {
-        errors.push({
-          type: 'invalid_format',
-          message: `Attribute "${attrName}" cssVar should not start with "--": "${attr.cssVar}"`,
-          location: `${location}.cssVar`,
-        });
+    // Only validate CSS-related fields if the attribute outputs CSS
+    if (outputsCSS) {
+      // Validate cssVar format (should be kebab-case without -- prefix)
+      if (attr.cssVar) {
+        if (attr.cssVar.startsWith('--')) {
+          errors.push({
+            type: 'invalid_format',
+            message: `Attribute "${attrName}" cssVar should not start with "--": "${attr.cssVar}"`,
+            location: `${location}.cssVar`,
+          });
+        }
+
+        if (!/^[a-z0-9-]+$/.test(attr.cssVar)) {
+          warnings.push({
+            type: 'invalid_format',
+            message: `Attribute "${attrName}" cssVar should be lowercase kebab-case: "${attr.cssVar}"`,
+            location: `${location}.cssVar`,
+          });
+        }
       }
 
-      if (!/^[a-z0-9-]+$/.test(attr.cssVar)) {
-        warnings.push({
-          type: 'invalid_format',
-          message: `Attribute "${attrName}" cssVar should be lowercase kebab-case: "${attr.cssVar}"`,
-          location: `${location}.cssVar`,
-        });
-      }
-    }
+      // Validate cssDefault format (should be complete CSS declaration)
+      if (attr.cssDefault && attr.cssDefault !== '') {
+        if (!attr.cssDefault.startsWith('--')) {
+          errors.push({
+            type: 'invalid_format',
+            message: `Attribute "${attrName}" cssDefault should start with "--": "${attr.cssDefault}"`,
+            location: `${location}.cssDefault`,
+          });
+        }
 
-    // Validate cssDefault format (should be complete CSS declaration)
-    if (attr.cssDefault && attr.cssDefault !== '') {
-      if (!attr.cssDefault.startsWith('--')) {
-        errors.push({
-          type: 'invalid_format',
-          message: `Attribute "${attrName}" cssDefault should start with "--": "${attr.cssDefault}"`,
-          location: `${location}.cssDefault`,
-        });
+        if (!attr.cssDefault.includes(':')) {
+          errors.push({
+            type: 'invalid_format',
+            message: `Attribute "${attrName}" cssDefault should contain ":": "${attr.cssDefault}"`,
+            location: `${location}.cssDefault`,
+          });
+        }
       }
 
-      if (!attr.cssDefault.includes(':')) {
-        errors.push({
-          type: 'invalid_format',
-          message: `Attribute "${attrName}" cssDefault should contain ":": "${attr.cssDefault}"`,
-          location: `${location}.cssDefault`,
-        });
-      }
-    }
-
-    // Validate cssProperty makes sense for attribute name
-    if (attr.cssProperty) {
-      const propertyValidation = validateCssPropertyMatch(attrName, attr.cssProperty);
-      if (!propertyValidation.valid) {
-        warnings.push({
-          type: 'suspicious_cssProperty',
-          message: `Attribute "${attrName}" has suspicious cssProperty: "${attr.cssProperty}". ${propertyValidation.reason}`,
-          location: `${location}.cssProperty`,
-          suggestion: propertyValidation.suggestion,
-        });
+      // Validate cssProperty makes sense for attribute name
+      if (attr.cssProperty) {
+        const propertyValidation = validateCssPropertyMatch(attrName, attr.cssProperty);
+        if (!propertyValidation.valid) {
+          warnings.push({
+            type: 'suspicious_cssProperty',
+            message: `Attribute "${attrName}" has suspicious cssProperty: "${attr.cssProperty}". ${propertyValidation.reason}`,
+            location: `${location}.cssProperty`,
+            suggestion: propertyValidation.suggestion,
+          });
+        }
       }
     }
 
@@ -309,11 +315,11 @@ function validateAttribute(attrName, attr, blockType) {
       });
     }
 
-    // Warn if cssVar is present on non-themeable attribute
-    if (attr.cssVar) {
+    // Warn if cssVar is present on non-themeable attribute (unless it has outputsCSS: false)
+    if (attr.cssVar && attr.outputsCSS !== false) {
       warnings.push({
         type: 'unnecessary_field',
-        message: `Non-themeable attribute "${attrName}" has cssVar but is not themeable`,
+        message: `Non-themeable attribute "${attrName}" has cssVar but is not themeable (add outputsCSS: false if this is intentional)`,
         location,
       });
     }

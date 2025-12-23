@@ -35,6 +35,7 @@
       "title": "Header Typography",
       "description": "Font settings for the accordion header",
       "order": 4,
+	  "subgroups": { "Header", "Content"],
       "initialOpen": false
     },
     "panelAppearance": {
@@ -64,7 +65,8 @@
       "label": "Accordion ID",
       "description": "Unique identifier for the accordion block",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
+	  "visibleOnSidebar": false,
       "order": 8
     },
     "uniqueId": {
@@ -74,7 +76,9 @@
       "label": "Unique ID",
       "description": "Auto-generated unique block identifier",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
+	  	  "visibleOnSidebar": false,
+
       "order": 9
     },
     "blockId": {
@@ -84,7 +88,9 @@
       "label": "Block ID",
       "description": "Block-specific identification",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
+	  	  "visibleOnSidebar": false,
+
       "order": 10
     },
     "title": {
@@ -94,7 +100,9 @@
       "label": "Title",
       "description": "The accordion title text",
       "themeable": false,
-      "reason": "content",
+      "outputsCSS": false,
+	  	  "visibleOnSidebar": false,
+
       "order": 5
     },
     "content": {
@@ -104,7 +112,9 @@
       "label": "Content",
       "description": "The accordion content (rich text)",
       "themeable": false,
-      "reason": "content",
+      "outputsCSS": false,
+	  	  "visibleOnSidebar": false,
+
       "order": 6
     },
     "currentTheme": {
@@ -114,7 +124,9 @@
       "label": "Theme",
       "description": "Currently active theme name (empty = Default)",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
+	  	  "visibleOnSidebar": false,
+
       "order": 7
     },
     "initiallyOpen": {
@@ -159,7 +171,7 @@
       "label": "Heading Level",
       "description": "Semantic HTML heading level (none, h1-h6)",
       "themeable": false,
-      "reason": "structural",
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         "none",
@@ -615,7 +627,8 @@
       "group": "icon",
       "label": "Show Icon",
       "description": "Display expand/collapse icon",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "ToggleControl",
       "order": 1
     },
@@ -625,7 +638,8 @@
       "group": "icon",
       "label": "Icon Position",
       "description": "Position of icon relative to title",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "SelectControl",
       "options": [
         "left",
@@ -654,11 +668,12 @@
     },
     "iconTypeClosed": {
       "type": "string",
-      "default": "▾",
+      "default": "\u25be",
       "group": "icon",
       "label": "Closed Icon",
       "description": "Icon when accordion is closed",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "IconPicker",
       "order": 5
     },
@@ -668,7 +683,8 @@
       "group": "icon",
       "label": "Open Icon",
       "description": "Icon when accordion is open (none = use just iconTypeClosed with rotation)",
-      "themeable": false,
+      "themeable": true,
+      "outputsCSS": false,
       "control": "IconPicker",
       "order": 6,
       "pago": "nao"

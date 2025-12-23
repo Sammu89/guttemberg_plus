@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-23T02:43:04.673Z
+> Generated at: 2025-12-23T22:20:59.802Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -22,15 +22,15 @@ Behavior and core options
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `tocId` | string | `` | No (structural) | Unique identifier for the table of contents |
-| `showTitle` | boolean | `true` | No (structural) | Display the TOC title header |
-| `titleText` | string | `Table of Contents` | No (content) | The title displayed above the table of contents |
-| `currentTheme` | string | `` | No (structural) | Currently active theme name (empty = Default) |
-| `tocItems` | array | _object_ | No (structural) | Persisted TOC entries with anchors and levels |
-| `deletedHeadingIds` | array | _object_ | No (structural) | Anchors removed from scans until reset |
+| `tocId` | string | `` | No (N/A) | Unique identifier for the table of contents |
+| `showTitle` | boolean | `true` | No (N/A) | Display the TOC title header |
+| `titleText` | string | `Table of Contents` | No (N/A) | The title displayed above the table of contents |
+| `currentTheme` | string | `` | No (N/A) | Currently active theme name (empty = Default) |
+| `tocItems` | array | _object_ | No (N/A) | Persisted TOC entries with anchors and levels |
+| `deletedHeadingIds` | array | _object_ | No (N/A) | Anchors removed from scans until reset |
 | `isCollapsible` | boolean | `true` | No (N/A) | Allow the TOC to be collapsed/expanded |
 | `initiallyCollapsed` | boolean | `false` | No (N/A) | Start with TOC collapsed |
-| `clickBehavior` | string | `navigate` | No (N/A) | What happens when clicking a TOC item |
+| `clickBehavior` | string | `navigate` | Yes | What happens when clicking a TOC item |
 | `tocWidth` | string | `100%` | No (N/A) | TOC container width (e.g., 100%, 500px) |
 | `tocHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the TOC block |
 
@@ -41,18 +41,18 @@ Heading inclusion and class filters
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `filterMode` | string | `Include all headings` | No (N/A) | Filter headings by CSS class |
-| `includeH1` | boolean | `false` | No (N/A) | Include H1 headings in TOC |
-| `includeH2` | boolean | `true` | No (N/A) |  |
-| `includeH3` | boolean | `true` | No (N/A) |  |
-| `includeH4` | boolean | `true` | No (N/A) |  |
-| `includeH5` | boolean | `true` | No (N/A) |  |
-| `includeH6` | boolean | `true` | No (N/A) |  |
-| `includeLevels` | array | _object_ | No (structural) | Which heading levels to include (H1-H6) - derived from includeH1-H6 toggles |
-| `includeClasses` | string | `` | No (N/A) | CSS classes to include in TOC |
-| `excludeLevels` | array | _object_ | No (structural) | Which heading levels to exclude |
-| `excludeClasses` | string | `` | No (N/A) | CSS classes to exclude from TOC |
-| `includeAccordions` | boolean | `true` | No (structural) | Include headings from accordion blocks when they have a heading level set |
-| `includeTabs` | boolean | `true` | No (structural) | Include headings from tabs blocks when they have a heading level set |
+| `includeH1` | boolean | `false` | Yes | Include H1 headings in TOC |
+| `includeH2` | boolean | `true` | Yes |  |
+| `includeH3` | boolean | `true` | Yes |  |
+| `includeH4` | boolean | `true` | Yes |  |
+| `includeH5` | boolean | `true` | Yes |  |
+| `includeH6` | boolean | `true` | Yes |  |
+| `includeLevels` | array | _object_ | Yes | Which heading levels to include (H1-H6) - derived from includeH1-H6 toggles |
+| `includeClasses` | string | `` | Yes | CSS classes to include in TOC |
+| `excludeLevels` | array | _object_ | Yes | Which heading levels to exclude |
+| `excludeClasses` | string | `` | Yes | CSS classes to exclude from TOC |
+| `includeAccordions` | boolean | `true` | Yes | Include headings from accordion blocks when they have a heading level set |
+| `includeTabs` | boolean | `true` | Yes | Include headings from tabs blocks when they have a heading level set |
 
 ## Position and Scroll
 
@@ -60,14 +60,14 @@ Positioning and scroll behavior
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `positionType` | string | `normal` | No (N/A) | CSS positioning type |
-| `smoothScroll` | boolean | `true` | No (N/A) | Enable smooth scrolling to headings |
-| `scrollOffset` | number | `0` | No (N/A) | Offset in pixels when scrolling to heading |
-| `autoHighlight` | boolean | `true` | No (N/A) | Highlight current section in TOC |
+| `positionType` | string | `normal` | Yes | CSS positioning type |
+| `smoothScroll` | boolean | `true` | Yes | Enable smooth scrolling to headings |
+| `scrollOffset` | number | `0` | Yes | Offset in pixels when scrolling to heading |
+| `autoHighlight` | boolean | `true` | Yes | Highlight current section in TOC |
 | `positionTop` | number | `6.25` | Yes | Top offset for sticky/fixed positioning (rem) |
 | `zIndex` | number | `100` | Yes | Stack order for positioned TOC |
-| `positionHorizontalSide` | string | `right` | No (Applied as inline style, not CSS variable) | Which side to anchor the TOC (sticky/fixed positioning) |
-| `positionHorizontalOffset` | string | `1.25rem` | No (Applied as inline style, not CSS variable) | Distance from the selected side |
+| `positionHorizontalSide` | string | `right` | Yes | Which side to anchor the TOC (sticky/fixed positioning) |
+| `positionHorizontalOffset` | string | `1.25rem` | Yes | Distance from the selected side |
 
 ## External Borders
 
@@ -100,7 +100,7 @@ Colors for TOC links (all text in TOC is a link)
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `unifiedLinkColors` | boolean | `true` | No (N/A) | Use the same link colors for all heading levels |
+| `unifiedLinkColors` | boolean | `true` | Yes | Use the same link colors for all heading levels |
 | `linkColor` | string | `#0073aa` | Yes | Default color for all TOC links |
 | `linkHoverColor` | string | `#005177` | Yes | Color when hovering over links |
 | `linkActiveColor` | string | `#005177` | Yes | Color for the currently active link |
@@ -112,12 +112,12 @@ Per-heading-level colors and typography (H1-H6)
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `h1NumberingStyle` | string | `decimal` | No (N/A) | Numbering style for H1 headings |
-| `h2NumberingStyle` | string | `decimal` | No (N/A) | Numbering style for H2 headings |
-| `h3NumberingStyle` | string | `decimal` | No (N/A) | Numbering style for H3 headings |
-| `h4NumberingStyle` | string | `decimal` | No (N/A) | Numbering style for H4 headings |
-| `h5NumberingStyle` | string | `decimal` | No (N/A) | Numbering style for H5 headings |
-| `h6NumberingStyle` | string | `decimal` | No (N/A) | Numbering style for H6 headings |
+| `h1NumberingStyle` | string | `decimal` | Yes | Numbering style for H1 headings |
+| `h2NumberingStyle` | string | `decimal` | Yes | Numbering style for H2 headings |
+| `h3NumberingStyle` | string | `decimal` | Yes | Numbering style for H3 headings |
+| `h4NumberingStyle` | string | `decimal` | Yes | Numbering style for H4 headings |
+| `h5NumberingStyle` | string | `decimal` | Yes | Numbering style for H5 headings |
+| `h6NumberingStyle` | string | `decimal` | Yes | Numbering style for H6 headings |
 | `h1Color` | string | `inherit` | Yes | Link color for H1 headings (inherits general color if not set) |
 | `h1HoverColor` | string | `inherit` | Yes |  |
 | `h1VisitedColor` | string | `inherit` | Yes |  |
@@ -172,7 +172,7 @@ Per-heading-level colors and typography (H1-H6)
 | `h6FontStyle` | string | `normal` | Yes | Font style for H6 headings |
 | `h6TextTransform` | string | `none` | Yes | Text transformation for H6 headings |
 | `h6TextDecoration` | string | `none` | Yes | Text decoration for H6 headings |
-| `enableHierarchicalIndent` | boolean | `true` | No (N/A) | Indent headings based on document hierarchy (e.g., H3 under H2 indents once) |
+| `enableHierarchicalIndent` | boolean | `true` | Yes | Indent headings based on document hierarchy (e.g., H3 under H2 indents once) |
 | `levelIndent` | string | `1.25rem` | Yes | Amount to indent each nested level |
 
 ## Icon
@@ -181,11 +181,11 @@ Expand/collapse icon settings
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `showIcon` | boolean | `true` | No (N/A) | Display expand/collapse icon |
-| `iconPosition` | string | `right` | No (N/A) | Position of icon relative to title |
+| `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
+| `iconPosition` | string | `right` | Yes | Position of icon relative to title |
 | `iconSize` | number | `1.25` | Yes | Size of the icon in rem |
-| `iconTypeClosed` | string | `▾` | No (N/A) | Icon when TOC is collapsed |
-| `iconTypeOpen` | string | `none` | No (N/A) | Icon when TOC is expanded (none = use iconTypeClosed with rotation) |
+| `iconTypeClosed` | string | `▾` | Yes | Icon when TOC is collapsed |
+| `iconTypeOpen` | string | `none` | Yes | Icon when TOC is expanded (none = use iconTypeClosed with rotation) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 | `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
 
