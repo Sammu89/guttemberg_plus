@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-22T19:13:33.430Z
+ * Generated at: 2025-12-23T02:43:04.674Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,17 +21,6 @@ export function formatBorderRadius(radius) {
   if (!radius || typeof radius !== 'object') return null;
   const { topLeft = 0, topRight = 0, bottomRight = 0, bottomLeft = 0 } = radius;
   return `${topLeft}px ${topRight}px ${bottomRight}px ${bottomLeft}px`;
-}
-
-/**
- * Format padding object to CSS string
- * @param {Object} padding - Padding object with top, right, bottom, left
- * @returns {string|null} Formatted padding or null
- */
-export function formatPadding(padding) {
-  if (!padding || typeof padding !== 'object') return null;
-  const { top = 0, right = 0, bottom = 0, left = 0 } = padding;
-  return `${top}px ${right}px ${bottom}px ${left}px`;
 }
 
 /**
@@ -56,6 +45,12 @@ export function buildEditorStyles(values) {
     if (values.titleBackgroundColor !== undefined && values.titleBackgroundColor !== null) {
       styles.default.backgroundColor = values.titleBackgroundColor;
     }
+    if (values.hoverTitleColor !== undefined && values.hoverTitleColor !== null) {
+      styles.default.color = values.hoverTitleColor;
+    }
+    if (values.hoverTitleBackgroundColor !== undefined && values.hoverTitleBackgroundColor !== null) {
+      styles.default.backgroundColor = values.hoverTitleBackgroundColor;
+    }
     if (values.linkColor !== undefined && values.linkColor !== null) {
       styles.default.color = values.linkColor;
     }
@@ -68,11 +63,17 @@ export function buildEditorStyles(values) {
     if (values.linkVisitedColor !== undefined && values.linkVisitedColor !== null) {
       styles.default.color = values.linkVisitedColor;
     }
-    if (values.numberingColor !== undefined && values.numberingColor !== null) {
-      styles.default.color = values.numberingColor;
-    }
     if (values.h1Color !== undefined && values.h1Color !== null) {
       styles.default.color = values.h1Color;
+    }
+    if (values.h1HoverColor !== undefined && values.h1HoverColor !== null) {
+      styles.default.color = values.h1HoverColor;
+    }
+    if (values.h1VisitedColor !== undefined && values.h1VisitedColor !== null) {
+      styles.default.color = values.h1VisitedColor;
+    }
+    if (values.h1ActiveColor !== undefined && values.h1ActiveColor !== null) {
+      styles.default.color = values.h1ActiveColor;
     }
     if (values.h1FontSize !== undefined && values.h1FontSize !== null) {
       styles.default.fontSize = `${values.h1FontSize}rem`;
@@ -92,6 +93,15 @@ export function buildEditorStyles(values) {
     if (values.h2Color !== undefined && values.h2Color !== null) {
       styles.default.color = values.h2Color;
     }
+    if (values.h2HoverColor !== undefined && values.h2HoverColor !== null) {
+      styles.default.color = values.h2HoverColor;
+    }
+    if (values.h2VisitedColor !== undefined && values.h2VisitedColor !== null) {
+      styles.default.color = values.h2VisitedColor;
+    }
+    if (values.h2ActiveColor !== undefined && values.h2ActiveColor !== null) {
+      styles.default.color = values.h2ActiveColor;
+    }
     if (values.h2FontSize !== undefined && values.h2FontSize !== null) {
       styles.default.fontSize = `${values.h2FontSize}rem`;
     }
@@ -109,6 +119,15 @@ export function buildEditorStyles(values) {
     }
     if (values.h3Color !== undefined && values.h3Color !== null) {
       styles.default.color = values.h3Color;
+    }
+    if (values.h3HoverColor !== undefined && values.h3HoverColor !== null) {
+      styles.default.color = values.h3HoverColor;
+    }
+    if (values.h3VisitedColor !== undefined && values.h3VisitedColor !== null) {
+      styles.default.color = values.h3VisitedColor;
+    }
+    if (values.h3ActiveColor !== undefined && values.h3ActiveColor !== null) {
+      styles.default.color = values.h3ActiveColor;
     }
     if (values.h3FontSize !== undefined && values.h3FontSize !== null) {
       styles.default.fontSize = `${values.h3FontSize}rem`;
@@ -128,6 +147,15 @@ export function buildEditorStyles(values) {
     if (values.h4Color !== undefined && values.h4Color !== null) {
       styles.default.color = values.h4Color;
     }
+    if (values.h4HoverColor !== undefined && values.h4HoverColor !== null) {
+      styles.default.color = values.h4HoverColor;
+    }
+    if (values.h4VisitedColor !== undefined && values.h4VisitedColor !== null) {
+      styles.default.color = values.h4VisitedColor;
+    }
+    if (values.h4ActiveColor !== undefined && values.h4ActiveColor !== null) {
+      styles.default.color = values.h4ActiveColor;
+    }
     if (values.h4FontSize !== undefined && values.h4FontSize !== null) {
       styles.default.fontSize = `${values.h4FontSize}rem`;
     }
@@ -145,6 +173,15 @@ export function buildEditorStyles(values) {
     }
     if (values.h5Color !== undefined && values.h5Color !== null) {
       styles.default.color = values.h5Color;
+    }
+    if (values.h5HoverColor !== undefined && values.h5HoverColor !== null) {
+      styles.default.color = values.h5HoverColor;
+    }
+    if (values.h5VisitedColor !== undefined && values.h5VisitedColor !== null) {
+      styles.default.color = values.h5VisitedColor;
+    }
+    if (values.h5ActiveColor !== undefined && values.h5ActiveColor !== null) {
+      styles.default.color = values.h5ActiveColor;
     }
     if (values.h5FontSize !== undefined && values.h5FontSize !== null) {
       styles.default.fontSize = `${values.h5FontSize}rem`;
@@ -164,6 +201,15 @@ export function buildEditorStyles(values) {
     if (values.h6Color !== undefined && values.h6Color !== null) {
       styles.default.color = values.h6Color;
     }
+    if (values.h6HoverColor !== undefined && values.h6HoverColor !== null) {
+      styles.default.color = values.h6HoverColor;
+    }
+    if (values.h6VisitedColor !== undefined && values.h6VisitedColor !== null) {
+      styles.default.color = values.h6VisitedColor;
+    }
+    if (values.h6ActiveColor !== undefined && values.h6ActiveColor !== null) {
+      styles.default.color = values.h6ActiveColor;
+    }
     if (values.h6FontSize !== undefined && values.h6FontSize !== null) {
       styles.default.fontSize = `${values.h6FontSize}rem`;
     }
@@ -179,8 +225,14 @@ export function buildEditorStyles(values) {
     if (values.h6TextDecoration !== undefined && values.h6TextDecoration !== null) {
       styles.default.textDecoration = values.h6TextDecoration;
     }
-    if (values.collapseIconColor !== undefined && values.collapseIconColor !== null) {
-      styles.default.color = values.collapseIconColor;
+    if (values.iconSize !== undefined && values.iconSize !== null) {
+      styles.default.fontSize = `${values.iconSize}rem`;
+    }
+    if (values.iconRotation !== undefined && values.iconRotation !== null) {
+      styles.default.transform = `${values.iconRotation}deg`;
+    }
+    if (values.iconColor !== undefined && values.iconColor !== null) {
+      styles.default.color = values.iconColor;
     }
     if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
       styles.default.fontSize = `${values.titleFontSize}rem`;
@@ -188,15 +240,17 @@ export function buildEditorStyles(values) {
     if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
       styles.default.fontWeight = values.titleFontWeight;
     }
+    if (values.titleFontStyle !== undefined && values.titleFontStyle !== null) {
+      styles.default.fontStyle = values.titleFontStyle;
+    }
     if (values.titleTextTransform !== undefined && values.titleTextTransform !== null) {
       styles.default.textTransform = values.titleTextTransform;
     }
+    if (values.titleTextDecoration !== undefined && values.titleTextDecoration !== null) {
+      styles.default.textDecoration = values.titleTextDecoration;
+    }
     if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
       styles.default.textAlign = values.titleAlignment;
-    }
-    if (values.titlePadding) {
-      const formatted = formatPadding(values.titlePadding);
-      if (formatted) styles.default.padding = formatted;
     }
     if (values.blockBorderWidth !== undefined && values.blockBorderWidth !== null) {
       styles.default.borderWidth = `${values.blockBorderWidth}px`;
@@ -217,11 +271,8 @@ export function buildEditorStyles(values) {
     if (values.wrapperPadding !== undefined && values.wrapperPadding !== null) {
       styles.default.padding = `${values.wrapperPadding}rem`;
     }
-    if (values.listPaddingLeft !== undefined && values.listPaddingLeft !== null) {
-      styles.default.paddingLeft = `${values.listPaddingLeft}rem`;
-    }
     if (values.itemSpacing !== undefined && values.itemSpacing !== null) {
-      styles.default.marginBottom = `${values.itemSpacing}rem`;
+      styles.default.gap = `${values.itemSpacing}rem`;
     }
     if (values.levelIndent !== undefined && values.levelIndent !== null) {
       styles.default.marginLeft = values.levelIndent;
@@ -231,9 +282,6 @@ export function buildEditorStyles(values) {
     }
     if (values.zIndex !== undefined && values.zIndex !== null) {
       styles.default.zIndex = `${values.zIndex}`;
-    }
-    if (values.collapseIconSize !== undefined && values.collapseIconSize !== null) {
-      styles.default.fontSize = `${values.collapseIconSize}rem`;
     }
 
   return styles;
@@ -268,6 +316,14 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-title-background-color'] = customizations.titleBackgroundColor;
   }
 
+  if (customizations.hoverTitleColor !== undefined && customizations.hoverTitleColor !== null) {
+    styles['--toc-title-hover-color'] = customizations.hoverTitleColor;
+  }
+
+  if (customizations.hoverTitleBackgroundColor !== undefined && customizations.hoverTitleBackgroundColor !== null) {
+    styles['--toc-title-hover-bg'] = customizations.hoverTitleBackgroundColor;
+  }
+
   if (customizations.linkColor !== undefined && customizations.linkColor !== null) {
     styles['--toc-link-color'] = customizations.linkColor;
   }
@@ -284,12 +340,20 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-link-visited-color'] = customizations.linkVisitedColor;
   }
 
-  if (customizations.numberingColor !== undefined && customizations.numberingColor !== null) {
-    styles['--toc-numbering-color'] = customizations.numberingColor;
-  }
-
   if (customizations.h1Color !== undefined && customizations.h1Color !== null) {
     styles['--toc-h1-color'] = customizations.h1Color;
+  }
+
+  if (customizations.h1HoverColor !== undefined && customizations.h1HoverColor !== null) {
+    styles['--toc-h1-hover-color'] = customizations.h1HoverColor;
+  }
+
+  if (customizations.h1VisitedColor !== undefined && customizations.h1VisitedColor !== null) {
+    styles['--toc-h1-visited-color'] = customizations.h1VisitedColor;
+  }
+
+  if (customizations.h1ActiveColor !== undefined && customizations.h1ActiveColor !== null) {
+    styles['--toc-h1-active-color'] = customizations.h1ActiveColor;
   }
 
   if (customizations.h1FontSize !== undefined && customizations.h1FontSize !== null) {
@@ -316,6 +380,18 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-h2-color'] = customizations.h2Color;
   }
 
+  if (customizations.h2HoverColor !== undefined && customizations.h2HoverColor !== null) {
+    styles['--toc-h2-hover-color'] = customizations.h2HoverColor;
+  }
+
+  if (customizations.h2VisitedColor !== undefined && customizations.h2VisitedColor !== null) {
+    styles['--toc-h2-visited-color'] = customizations.h2VisitedColor;
+  }
+
+  if (customizations.h2ActiveColor !== undefined && customizations.h2ActiveColor !== null) {
+    styles['--toc-h2-active-color'] = customizations.h2ActiveColor;
+  }
+
   if (customizations.h2FontSize !== undefined && customizations.h2FontSize !== null) {
     styles['--toc-h2-font-size'] = `${customizations.h2FontSize}rem`;
   }
@@ -338,6 +414,18 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.h3Color !== undefined && customizations.h3Color !== null) {
     styles['--toc-h3-color'] = customizations.h3Color;
+  }
+
+  if (customizations.h3HoverColor !== undefined && customizations.h3HoverColor !== null) {
+    styles['--toc-h3-hover-color'] = customizations.h3HoverColor;
+  }
+
+  if (customizations.h3VisitedColor !== undefined && customizations.h3VisitedColor !== null) {
+    styles['--toc-h3-visited-color'] = customizations.h3VisitedColor;
+  }
+
+  if (customizations.h3ActiveColor !== undefined && customizations.h3ActiveColor !== null) {
+    styles['--toc-h3-active-color'] = customizations.h3ActiveColor;
   }
 
   if (customizations.h3FontSize !== undefined && customizations.h3FontSize !== null) {
@@ -364,6 +452,18 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-h4-color'] = customizations.h4Color;
   }
 
+  if (customizations.h4HoverColor !== undefined && customizations.h4HoverColor !== null) {
+    styles['--toc-h4-hover-color'] = customizations.h4HoverColor;
+  }
+
+  if (customizations.h4VisitedColor !== undefined && customizations.h4VisitedColor !== null) {
+    styles['--toc-h4-visited-color'] = customizations.h4VisitedColor;
+  }
+
+  if (customizations.h4ActiveColor !== undefined && customizations.h4ActiveColor !== null) {
+    styles['--toc-h4-active-color'] = customizations.h4ActiveColor;
+  }
+
   if (customizations.h4FontSize !== undefined && customizations.h4FontSize !== null) {
     styles['--toc-h4-font-size'] = `${customizations.h4FontSize}rem`;
   }
@@ -386,6 +486,18 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.h5Color !== undefined && customizations.h5Color !== null) {
     styles['--toc-h5-color'] = customizations.h5Color;
+  }
+
+  if (customizations.h5HoverColor !== undefined && customizations.h5HoverColor !== null) {
+    styles['--toc-h5-hover-color'] = customizations.h5HoverColor;
+  }
+
+  if (customizations.h5VisitedColor !== undefined && customizations.h5VisitedColor !== null) {
+    styles['--toc-h5-visited-color'] = customizations.h5VisitedColor;
+  }
+
+  if (customizations.h5ActiveColor !== undefined && customizations.h5ActiveColor !== null) {
+    styles['--toc-h5-active-color'] = customizations.h5ActiveColor;
   }
 
   if (customizations.h5FontSize !== undefined && customizations.h5FontSize !== null) {
@@ -412,6 +524,18 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-h6-color'] = customizations.h6Color;
   }
 
+  if (customizations.h6HoverColor !== undefined && customizations.h6HoverColor !== null) {
+    styles['--toc-h6-hover-color'] = customizations.h6HoverColor;
+  }
+
+  if (customizations.h6VisitedColor !== undefined && customizations.h6VisitedColor !== null) {
+    styles['--toc-h6-visited-color'] = customizations.h6VisitedColor;
+  }
+
+  if (customizations.h6ActiveColor !== undefined && customizations.h6ActiveColor !== null) {
+    styles['--toc-h6-active-color'] = customizations.h6ActiveColor;
+  }
+
   if (customizations.h6FontSize !== undefined && customizations.h6FontSize !== null) {
     styles['--toc-h6-font-size'] = `${customizations.h6FontSize}rem`;
   }
@@ -432,8 +556,16 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-h6-text-decoration'] = customizations.h6TextDecoration;
   }
 
-  if (customizations.collapseIconColor !== undefined && customizations.collapseIconColor !== null) {
-    styles['--toc-collapse-icon-color'] = customizations.collapseIconColor;
+  if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
+    styles['--toc-icon-size'] = `${customizations.iconSize}rem`;
+  }
+
+  if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
+    styles['--toc-icon-rotation'] = `${customizations.iconRotation}deg`;
+  }
+
+  if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
+    styles['--toc-icon-color'] = customizations.iconColor;
   }
 
   if (customizations.titleFontSize !== undefined && customizations.titleFontSize !== null) {
@@ -444,17 +576,20 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-title-font-weight'] = customizations.titleFontWeight;
   }
 
+  if (customizations.titleFontStyle !== undefined && customizations.titleFontStyle !== null) {
+    styles['--toc-title-font-style'] = customizations.titleFontStyle;
+  }
+
   if (customizations.titleTextTransform !== undefined && customizations.titleTextTransform !== null) {
     styles['--toc-title-text-transform'] = customizations.titleTextTransform;
   }
 
-  if (customizations.titleAlignment !== undefined && customizations.titleAlignment !== null) {
-    styles['--toc-title-alignment'] = customizations.titleAlignment;
+  if (customizations.titleTextDecoration !== undefined && customizations.titleTextDecoration !== null) {
+    styles['--toc-title-text-decoration'] = customizations.titleTextDecoration;
   }
 
-  if (customizations.titlePadding) {
-    const formatted = formatPadding(customizations.titlePadding);
-    if (formatted) styles['--toc-title-padding'] = formatted;
+  if (customizations.titleAlignment !== undefined && customizations.titleAlignment !== null) {
+    styles['--toc-title-alignment'] = customizations.titleAlignment;
   }
 
   if (customizations.blockBorderWidth !== undefined && customizations.blockBorderWidth !== null) {
@@ -482,10 +617,6 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-wrapper-padding'] = `${customizations.wrapperPadding}rem`;
   }
 
-  if (customizations.listPaddingLeft !== undefined && customizations.listPaddingLeft !== null) {
-    styles['--toc-list-padding-left'] = `${customizations.listPaddingLeft}rem`;
-  }
-
   if (customizations.itemSpacing !== undefined && customizations.itemSpacing !== null) {
     styles['--toc-item-spacing'] = `${customizations.itemSpacing}rem`;
   }
@@ -500,10 +631,6 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.zIndex !== undefined && customizations.zIndex !== null) {
     styles['--toc-z-index'] = `${customizations.zIndex}`;
-  }
-
-  if (customizations.collapseIconSize !== undefined && customizations.collapseIconSize !== null) {
-    styles['--toc-collapse-icon-size'] = `${customizations.collapseIconSize}rem`;
   }
 
   return styles;

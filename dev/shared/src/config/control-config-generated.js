@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-22T19:13:33.433Z
+ * Generated at: 2025-12-23T02:43:04.678Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -1138,13 +1138,44 @@ const CONTROL_CONFIGS = {
     'filterMode': {
       control: 'SelectControl',
       options: [
-              "include-all",
-              "include-only",
-              "exclude-only"
+              "Include all headings",
+              "Include by class",
+              "Excluse by class"
       ],
-      label: 'Filter Mode',
-      description: 'How headings are filtered for inclusion',
-      default: 'include-all',
+      label: 'Class Filter Mode',
+      description: 'Filter headings by CSS class',
+      default: 'Include all headings',
+    },
+    'includeH1': {
+      control: 'ToggleControl',
+      label: 'Include H1',
+      description: 'Include H1 headings in TOC',
+      default: false,
+    },
+    'includeH2': {
+      control: 'ToggleControl',
+      label: 'Include H2',
+      default: true,
+    },
+    'includeH3': {
+      control: 'ToggleControl',
+      label: 'Include H3',
+      default: true,
+    },
+    'includeH4': {
+      control: 'ToggleControl',
+      label: 'Include H4',
+      default: true,
+    },
+    'includeH5': {
+      control: 'ToggleControl',
+      label: 'Include H5',
+      default: true,
+    },
+    'includeH6': {
+      control: 'ToggleControl',
+      label: 'Include H6',
+      default: true,
     },
     'includeClasses': {
       control: 'TextControl',
@@ -1158,30 +1189,11 @@ const CONTROL_CONFIGS = {
       description: 'CSS classes to exclude from TOC',
       default: '',
     },
-    'depthLimit': {
-      control: 'RangeControl',
-      min: 1,
-      max: 6,
-      label: 'Depth Limit',
-      description: 'Maximum nesting depth to display',
-    },
-    'numberingStyle': {
-      control: 'SelectControl',
-      options: [
-              "none",
-              "decimal",
-              "roman",
-              "alpha"
-      ],
-      label: 'Numbering Style',
-      description: 'Style of numbering for TOC items',
-      default: 'none',
-    },
     'isCollapsible': {
       control: 'ToggleControl',
       label: 'Collapsible',
       description: 'Allow the TOC to be collapsed/expanded',
-      default: false,
+      default: true,
     },
     'initiallyCollapsed': {
       control: 'ToggleControl',
@@ -1192,13 +1204,13 @@ const CONTROL_CONFIGS = {
     'positionType': {
       control: 'SelectControl',
       options: [
-              "default",
+              "normal",
               "sticky",
               "fixed"
       ],
       label: 'Position Type',
       description: 'CSS positioning type',
-      default: 'default',
+      default: 'normal',
     },
     'smoothScroll': {
       control: 'ToggleControl',
@@ -1224,7 +1236,7 @@ const CONTROL_CONFIGS = {
       control: 'SelectControl',
       options: [
               "navigate",
-              "scroll"
+              "navigate-and-collapse"
       ],
       label: 'Click Behavior',
       description: 'What happens when clicking a TOC item',
@@ -1261,20 +1273,38 @@ const CONTROL_CONFIGS = {
     },
     'titleColor': {
       control: 'ColorPicker',
-      label: 'Title Text Color',
-      description: 'Text color for the TOC title',
+      label: 'Header Text Color',
+      description: 'Text color for the TOC header',
       default: '#333333',
     },
     'titleBackgroundColor': {
       control: 'ColorPicker',
-      label: 'Title Background',
-      description: 'Background color for the TOC title',
+      label: 'Header Background',
+      description: 'Background color for the TOC header',
       default: 'transparent',
+    },
+    'hoverTitleColor': {
+      control: 'ColorPicker',
+      label: 'Header Hover Text Color',
+      description: 'Text color when hovering over title',
+      default: '#000000',
+    },
+    'hoverTitleBackgroundColor': {
+      control: 'ColorPicker',
+      label: 'Header Hover Background',
+      description: 'Background color when hovering over title',
+      default: 'transparent',
+    },
+    'unifiedLinkColors': {
+      control: 'ToggleControl',
+      label: 'Same Colors for All Levels',
+      description: 'Use the same link colors for all heading levels',
+      default: true,
     },
     'linkColor': {
       control: 'ColorPicker',
-      label: 'Link Color',
-      description: 'Default color for TOC links',
+      label: 'Link Color (General)',
+      description: 'Default color for all TOC links',
       default: '#0073aa',
     },
     'linkHoverColor': {
@@ -1295,17 +1325,242 @@ const CONTROL_CONFIGS = {
       description: 'Color for visited links',
       default: '#0073aa',
     },
-    'numberingColor': {
-      control: 'ColorPicker',
-      label: 'Numbering Color',
-      description: 'Color for list numbering',
-      default: '#0073aa',
+    'h1NumberingStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Decimal (1, 2, 3)",
+                      "value": "decimal"
+              },
+              {
+                      "label": "Decimal Leading Zero (01, 02, 03)",
+                      "value": "decimal-leading-zero"
+              },
+              {
+                      "label": "Upper Roman (I, II, III)",
+                      "value": "upper-roman"
+              },
+              {
+                      "label": "Lower Roman (i, ii, iii)",
+                      "value": "lower-roman"
+              },
+              {
+                      "label": "Upper Alpha (A, B, C)",
+                      "value": "upper-alpha"
+              },
+              {
+                      "label": "Lower Alpha (a, b, c)",
+                      "value": "lower-alpha"
+              }
+      ],
+      label: 'H1 Numbering Style',
+      description: 'Numbering style for H1 headings',
+      default: 'decimal',
+    },
+    'h2NumberingStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Decimal (1, 2, 3)",
+                      "value": "decimal"
+              },
+              {
+                      "label": "Decimal Leading Zero (01, 02, 03)",
+                      "value": "decimal-leading-zero"
+              },
+              {
+                      "label": "Upper Roman (I, II, III)",
+                      "value": "upper-roman"
+              },
+              {
+                      "label": "Lower Roman (i, ii, iii)",
+                      "value": "lower-roman"
+              },
+              {
+                      "label": "Upper Alpha (A, B, C)",
+                      "value": "upper-alpha"
+              },
+              {
+                      "label": "Lower Alpha (a, b, c)",
+                      "value": "lower-alpha"
+              }
+      ],
+      label: 'H2 Numbering Style',
+      description: 'Numbering style for H2 headings',
+      default: 'decimal',
+    },
+    'h3NumberingStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Decimal (1, 2, 3)",
+                      "value": "decimal"
+              },
+              {
+                      "label": "Decimal Leading Zero (01, 02, 03)",
+                      "value": "decimal-leading-zero"
+              },
+              {
+                      "label": "Upper Roman (I, II, III)",
+                      "value": "upper-roman"
+              },
+              {
+                      "label": "Lower Roman (i, ii, iii)",
+                      "value": "lower-roman"
+              },
+              {
+                      "label": "Upper Alpha (A, B, C)",
+                      "value": "upper-alpha"
+              },
+              {
+                      "label": "Lower Alpha (a, b, c)",
+                      "value": "lower-alpha"
+              }
+      ],
+      label: 'H3 Numbering Style',
+      description: 'Numbering style for H3 headings',
+      default: 'decimal',
+    },
+    'h4NumberingStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Decimal (1, 2, 3)",
+                      "value": "decimal"
+              },
+              {
+                      "label": "Decimal Leading Zero (01, 02, 03)",
+                      "value": "decimal-leading-zero"
+              },
+              {
+                      "label": "Upper Roman (I, II, III)",
+                      "value": "upper-roman"
+              },
+              {
+                      "label": "Lower Roman (i, ii, iii)",
+                      "value": "lower-roman"
+              },
+              {
+                      "label": "Upper Alpha (A, B, C)",
+                      "value": "upper-alpha"
+              },
+              {
+                      "label": "Lower Alpha (a, b, c)",
+                      "value": "lower-alpha"
+              }
+      ],
+      label: 'H4 Numbering Style',
+      description: 'Numbering style for H4 headings',
+      default: 'decimal',
+    },
+    'h5NumberingStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Decimal (1, 2, 3)",
+                      "value": "decimal"
+              },
+              {
+                      "label": "Decimal Leading Zero (01, 02, 03)",
+                      "value": "decimal-leading-zero"
+              },
+              {
+                      "label": "Upper Roman (I, II, III)",
+                      "value": "upper-roman"
+              },
+              {
+                      "label": "Lower Roman (i, ii, iii)",
+                      "value": "lower-roman"
+              },
+              {
+                      "label": "Upper Alpha (A, B, C)",
+                      "value": "upper-alpha"
+              },
+              {
+                      "label": "Lower Alpha (a, b, c)",
+                      "value": "lower-alpha"
+              }
+      ],
+      label: 'H5 Numbering Style',
+      description: 'Numbering style for H5 headings',
+      default: 'decimal',
+    },
+    'h6NumberingStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Decimal (1, 2, 3)",
+                      "value": "decimal"
+              },
+              {
+                      "label": "Decimal Leading Zero (01, 02, 03)",
+                      "value": "decimal-leading-zero"
+              },
+              {
+                      "label": "Upper Roman (I, II, III)",
+                      "value": "upper-roman"
+              },
+              {
+                      "label": "Lower Roman (i, ii, iii)",
+                      "value": "lower-roman"
+              },
+              {
+                      "label": "Upper Alpha (A, B, C)",
+                      "value": "upper-alpha"
+              },
+              {
+                      "label": "Lower Alpha (a, b, c)",
+                      "value": "lower-alpha"
+              }
+      ],
+      label: 'H6 Numbering Style',
+      description: 'Numbering style for H6 headings',
+      default: 'decimal',
     },
     'h1Color': {
       control: 'ColorPicker',
-      label: 'H1 Text Color',
-      description: 'Text color for H1 headings',
-      default: '#0073aa',
+      label: 'H1 Link Color',
+      description: 'Link color for H1 headings (inherits general color if not set)',
+      default: 'inherit',
+    },
+    'h1HoverColor': {
+      control: 'ColorPicker',
+      label: 'H1 Hover Color',
+      default: 'inherit',
+    },
+    'h1VisitedColor': {
+      control: 'ColorPicker',
+      label: 'H1 Visited Color',
+      default: 'inherit',
+    },
+    'h1ActiveColor': {
+      control: 'ColorPicker',
+      label: 'H1 Active Color',
+      default: 'inherit',
     },
     'h1FontSize': {
       control: 'RangeControl',
@@ -1438,9 +1693,24 @@ const CONTROL_CONFIGS = {
     },
     'h2Color': {
       control: 'ColorPicker',
-      label: 'H2 Text Color',
-      description: 'Text color for H2 headings',
-      default: '#0073aa',
+      label: 'H2 Link Color',
+      description: 'Link color for H2 headings (inherits general color if not set)',
+      default: 'inherit',
+    },
+    'h2HoverColor': {
+      control: 'ColorPicker',
+      label: 'H2 Hover Color',
+      default: 'inherit',
+    },
+    'h2VisitedColor': {
+      control: 'ColorPicker',
+      label: 'H2 Visited Color',
+      default: 'inherit',
+    },
+    'h2ActiveColor': {
+      control: 'ColorPicker',
+      label: 'H2 Active Color',
+      default: 'inherit',
     },
     'h2FontSize': {
       control: 'RangeControl',
@@ -1573,9 +1843,24 @@ const CONTROL_CONFIGS = {
     },
     'h3Color': {
       control: 'ColorPicker',
-      label: 'H3 Text Color',
-      description: 'Text color for H3 headings',
-      default: '#0073aa',
+      label: 'H3 Link Color',
+      description: 'Link color for H3 headings (inherits general color if not set)',
+      default: 'inherit',
+    },
+    'h3HoverColor': {
+      control: 'ColorPicker',
+      label: 'H3 Hover Color',
+      default: 'inherit',
+    },
+    'h3VisitedColor': {
+      control: 'ColorPicker',
+      label: 'H3 Visited Color',
+      default: 'inherit',
+    },
+    'h3ActiveColor': {
+      control: 'ColorPicker',
+      label: 'H3 Active Color',
+      default: 'inherit',
     },
     'h3FontSize': {
       control: 'RangeControl',
@@ -1708,9 +1993,24 @@ const CONTROL_CONFIGS = {
     },
     'h4Color': {
       control: 'ColorPicker',
-      label: 'H4 Text Color',
-      description: 'Text color for H4 headings',
-      default: '#0073aa',
+      label: 'H4 Link Color',
+      description: 'Link color for H4 headings (inherits general color if not set)',
+      default: 'inherit',
+    },
+    'h4HoverColor': {
+      control: 'ColorPicker',
+      label: 'H4 Hover Color',
+      default: 'inherit',
+    },
+    'h4VisitedColor': {
+      control: 'ColorPicker',
+      label: 'H4 Visited Color',
+      default: 'inherit',
+    },
+    'h4ActiveColor': {
+      control: 'ColorPicker',
+      label: 'H4 Active Color',
+      default: 'inherit',
     },
     'h4FontSize': {
       control: 'RangeControl',
@@ -1843,9 +2143,24 @@ const CONTROL_CONFIGS = {
     },
     'h5Color': {
       control: 'ColorPicker',
-      label: 'H5 Text Color',
-      description: 'Text color for H5 headings',
-      default: '#0073aa',
+      label: 'H5 Link Color',
+      description: 'Link color for H5 headings (inherits general color if not set)',
+      default: 'inherit',
+    },
+    'h5HoverColor': {
+      control: 'ColorPicker',
+      label: 'H5 Hover Color',
+      default: 'inherit',
+    },
+    'h5VisitedColor': {
+      control: 'ColorPicker',
+      label: 'H5 Visited Color',
+      default: 'inherit',
+    },
+    'h5ActiveColor': {
+      control: 'ColorPicker',
+      label: 'H5 Active Color',
+      default: 'inherit',
     },
     'h5FontSize': {
       control: 'RangeControl',
@@ -1978,9 +2293,24 @@ const CONTROL_CONFIGS = {
     },
     'h6Color': {
       control: 'ColorPicker',
-      label: 'H6 Text Color',
-      description: 'Text color for H6 headings',
-      default: '#0073aa',
+      label: 'H6 Link Color',
+      description: 'Link color for H6 headings (inherits general color if not set)',
+      default: 'inherit',
+    },
+    'h6HoverColor': {
+      control: 'ColorPicker',
+      label: 'H6 Hover Color',
+      default: 'inherit',
+    },
+    'h6VisitedColor': {
+      control: 'ColorPicker',
+      label: 'H6 Visited Color',
+      default: 'inherit',
+    },
+    'h6ActiveColor': {
+      control: 'ColorPicker',
+      label: 'H6 Active Color',
+      default: 'inherit',
     },
     'h6FontSize': {
       control: 'RangeControl',
@@ -2111,10 +2441,58 @@ const CONTROL_CONFIGS = {
       description: 'Text decoration for H6 headings',
       default: 'none',
     },
-    'collapseIconColor': {
+    'showIcon': {
+      control: 'ToggleControl',
+      label: 'Show Icon',
+      description: 'Display expand/collapse icon',
+      default: true,
+    },
+    'iconPosition': {
+      control: 'SelectControl',
+      options: [
+              "left",
+              "right",
+              "extreme-left",
+              "extreme-right"
+      ],
+      label: 'Icon Position',
+      description: 'Position of icon relative to title',
+      default: 'right',
+    },
+    'iconSize': {
+      control: 'RangeControl',
+      min: 0.6,
+      max: 3,
+      unit: 'rem',
+      label: 'Icon Size',
+      description: 'Size of the icon in rem',
+      default: 1.25,
+    },
+    'iconTypeClosed': {
+      control: 'IconPicker',
+      label: 'Closed Icon',
+      description: 'Icon when TOC is collapsed',
+      default: '▾',
+    },
+    'iconTypeOpen': {
+      control: 'IconPicker',
+      label: 'Open Icon',
+      description: 'Icon when TOC is expanded (none = use iconTypeClosed with rotation)',
+      default: 'none',
+    },
+    'iconRotation': {
+      control: 'RangeControl',
+      min: -360,
+      max: 360,
+      unit: 'deg',
+      label: 'Icon Rotation',
+      description: 'Rotation angle when open (degrees)',
+      default: 180,
+    },
+    'iconColor': {
       control: 'ColorPicker',
-      label: 'Collapse Icon Color',
-      description: 'Color of the collapse/expand icon',
+      label: 'Icon Color',
+      description: 'Color of the expand/collapse icon',
       default: '#666666',
     },
     'titleFontSize': {
@@ -2122,8 +2500,8 @@ const CONTROL_CONFIGS = {
       min: 0.7,
       max: 3,
       unit: 'rem',
-      label: 'Title Font Size',
-      description: 'Font size for the TOC title in rem',
+      label: 'Header Font Size',
+      description: 'Font size for the TOC header in rem',
       default: 1.25,
     },
     'titleFontWeight': {
@@ -2174,9 +2552,28 @@ const CONTROL_CONFIGS = {
                       "value": "bold"
               }
       ],
-      label: 'Title Font Weight',
-      description: 'Font weight for the TOC title',
+      label: 'Header Font Weight',
+      description: 'Font weight for the TOC header',
       default: '700',
+    },
+    'titleFontStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "Normal",
+                      "value": "normal"
+              },
+              {
+                      "label": "Italic",
+                      "value": "italic"
+              },
+              {
+                      "label": "Oblique",
+                      "value": "oblique"
+              }
+      ],
+      label: 'Header Font Style',
+      default: 'normal',
     },
     'titleTextTransform': {
       control: 'SelectControl',
@@ -2198,8 +2595,31 @@ const CONTROL_CONFIGS = {
                       "value": "capitalize"
               }
       ],
-      label: 'Title Text Transform',
-      description: 'Text transformation for the title',
+      label: 'Header Text Transform',
+      description: 'Text transformation for the header',
+      default: 'none',
+    },
+    'titleTextDecoration': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Underline",
+                      "value": "underline"
+              },
+              {
+                      "label": "Overline",
+                      "value": "overline"
+              },
+              {
+                      "label": "Line Through",
+                      "value": "line-through"
+              }
+      ],
+      label: 'Header Text Decoration',
       default: 'none',
     },
     'titleAlignment': {
@@ -2209,14 +2629,9 @@ const CONTROL_CONFIGS = {
               "center",
               "right"
       ],
-      label: 'Title Alignment',
-      description: 'Text alignment for the title',
+      label: 'Header Alignment',
+      description: 'Text alignment for the header',
       default: 'left',
-    },
-    'titlePadding': {
-      control: 'BoxControl',
-      label: 'Title Padding',
-      description: 'Padding around the title',
     },
     'blockBorderWidth': {
       control: 'RangeControl',
@@ -2298,15 +2713,6 @@ const CONTROL_CONFIGS = {
       description: 'Padding inside the TOC wrapper (rem)',
       default: 1.25,
     },
-    'listPaddingLeft': {
-      control: 'RangeControl',
-      min: 0,
-      max: 3.2,
-      unit: 'rem',
-      label: 'List Padding Left',
-      description: 'Left padding for the list (rem)',
-      default: 1.5,
-    },
     'itemSpacing': {
       control: 'RangeControl',
       min: 0,
@@ -2320,7 +2726,7 @@ const CONTROL_CONFIGS = {
       control: 'ToggleControl',
       label: 'Enable Hierarchical Indentation',
       description: 'Indent headings based on document hierarchy (e.g., H3 under H2 indents once)',
-      default: false,
+      default: true,
     },
     'levelIndent': {
       control: 'UnitControl',
@@ -2366,15 +2772,6 @@ const CONTROL_CONFIGS = {
       label: 'Horizontal Offset',
       description: 'Distance from the selected side',
       default: '1.25rem',
-    },
-    'collapseIconSize': {
-      control: 'RangeControl',
-      min: 0.7,
-      max: 2.3,
-      unit: 'rem',
-      label: 'Collapse Icon Size',
-      description: 'Size of the collapse/expand icon (rem)',
-      default: 1.25,
     },
   },
 };

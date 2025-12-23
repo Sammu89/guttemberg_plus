@@ -1,0 +1,18 @@
+This is a list of changes to the toc block, that need to be undersood, and transformed into a TOC_IMPROVE.md file, that will be the base of the implementation, that will use several agents to implement it step by step by phase.
+
+- Lets build the tock structure as an accordion, making it easier to program the icon and title logic.
+
+- Will have the same attributes as the accordion (same general structure, with same classes, its already programmed in accordion block)
+- We add the header options, icon options (open close, rotation, etc) that already exist on the accordion, with same header typography, alignement, icon positioning, left, right, extra left, extra right, the same external border attributes radius, style (that exist now as Block Borders, but we'll name it External borders, like accordion), etc, on schema
+- Unlike accordion, no divisor line attribute, and the default for the header background is transparent
+- You need to make an audit to the accordion and toc elements, and compare them to make this work. For consinstency, we'll reuse most of the logic of accordion.
+- It starts always as expanded (Initially colapsed defaults to false). Collapsible option defaults to true. If the toogle is of, you'll not render the icon, and clicking on the header button wont collapse or expand (accordion logic wont work!)
+- Somme atributes on toc need to be changed:
+-- Filter mode "Include-all, etc" will be changed. Options will be No class filter, Only include with class or Excluse with class. And, depending to the option chosen Include classes appear, Exclude classes appears.
+- Depth limit function, delete it, no need. Instead, we create a "Include on toc" with a grid os 2x3 buttons with h1 to h6. By default, h1 is not selected, but the others are. 
+- Click behavior is only applyable when Collapsible toogle is on, otherwise, as it can only be navigate, no need to have the option
+- Position type, sticky and fixed, shouldnw we have something like normal also?
+- Be sure smooth scrool, position fixed and sticky, auto highlight, scrool offset actually work on front end, as this is not visible on editor
+- In terms of colors. We need to distinguish two things. Link colors are treated as simply "colors", because all the text on the toc is a link, so link colors its what we want. We will have a dropbown that says, "Same colors for all levels", and user defines the color attributes that will be the same for every level ( general color, hover, visited, active) numbering color will not be controled as a different coloring, as it will have the same color as the rest of the link. The other option is "Different colors for each heading". This will show another dropdown with heach heading (similar to the heading typography) that will define colors for each level in particular. The defaults are inherit, as they at the beguinning inherint the general colors. 
+- List padding isnt working on editor, item spacing is not wotking on editor, enable hierarvhical identation is on by default, this is what controls identation, otherwise all headings are at the same level (check if there are not hardcoded values anywhere for this)
+

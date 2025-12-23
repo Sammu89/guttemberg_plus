@@ -7,6 +7,58 @@ This document outlines how to gate premium attributes (flagged via `pago` in sch
 
 ---
 
+## Low-Support Headlines (English)
+
+Brutal summary: there are 3 critical must-do items and 2 optional but highly recommended. Everything else is nice-to-have.
+
+### The 3 Criticals (mandatory; cover ~80% of support pain)
+
+1) **Eliminate false positives from the integrity check**
+- Typical issue: hosting rewrites files, deploy changes line endings, a security plugin “normalizes” code → “Pro stopped working” with no visible error.
+- Do this: integrity-check only two files — the capability resolver and the render sanitizer. Never block the whole plugin; only degrade premium silently.
+- Result: far fewer “no idea what happened, it just stopped” tickets.
+
+2) **Never fail because of obscure cache**
+- Typical issue: object cache holds a bad transient, site domain changes, license stays in the wrong state.
+- Mandatory fix: add a “Force Recheck” button in the admin. On click: delete transients, delete option state, revalidate immediately.
+- Result: one button saves hours of support.
+
+3) **Stop using regex directly on HTML**
+- Typical issue: broken layout, odd CSS, user blames the plugin and you can’t reproduce.
+- Safe approach: sanitize attrs before generating CSS; never post-process the final HTML. Mental flow: attrs → sanitize → CSS vars → render.
+- Result: fewer invisible bugs and “works on my site” dead-ends.
+
+### The 2 Highly Recommended (reduce panic and stress)
+
+4) **One clear admin message**
+- Show only: “Premium features are disabled because the license was not validated. Click ‘Revalidate license’ if you just activated.”
+- Nothing else. No technical or cryptic wording.
+- Result: fewer panic tickets.
+
+5) **Minimal, predictable grace**
+- Rule: valid cache → up to 24h; server down → max 24h; invalid signature → zero grace.
+- Result: legitimate users don’t suffer; crackers gain nothing.
+
+### What I’d Cut Without Regret (to lower support)
+
+- Aggressive JS obfuscation
+- Random probabilistic checks
+- Over-elaborate honeypots
+- Silent degradation with zero admin feedback
+
+These increase complexity, not supportability, and don’t stop experienced crackers.
+
+### TL;DR — Support-Friendly Checklist
+
+If you can only implement five things, do these:
+1. Focused integrity check (capability resolver + render sanitizer only).
+2. “Force Recheck” button.
+3. Sanitize before render; never regex the final HTML.
+4. Single clear admin message.
+5. Predictable 24h grace window.
+
+---
+
 ## Current Block Capabilities
 
 Complete reference of all customizable attributes across the three blocks.
@@ -330,6 +382,16 @@ Complete reference of all customizable attributes across the three blocks.
 5) Editor UI: lock badges/tooltips on premium controls; keep editable; avoid global exposure.
 6) Telemetry sender: opt-in, batched, signed; includes URL + block counts (+ premium attr stats if enabled).
 7) Tests: no-license renders defaults; valid license renders chosen values; signature failure → defaults; offline with stale cache → defaults.
+
+## Guttemberg+ Support-First Adjustments
+- **Settings location:** License entry lives in the plugin settings under the “Options” tab labeled “Guttemberg+ Licence.” Place the “Force Recheck” button there; on click, purge transients and option state, then revalidate immediately.
+- **Single admin message:** Only show “Premium features are disabled because the license was not validated. Click ‘Revalidate license’ if you just activated.”
+- **Central render hook:** One sanitizer hooked to `render_block`/`pre_render_block` so all blocks inherit premium gating automatically. Never kill the plugin; only disable premium rendering when needed.
+- **Minimal integrity check:** Hash/sign only the capability resolver and render sanitizer. Tampering disables premium but the plugin keeps running.
+- **Grace and cache:** Valid cache up to 24h; if the server is down, reuse valid cache for ≤24h; invalid signatures get zero grace. Degrade to defaults (binary on/off), not plan-based.
+- **Render safety:** attrs → sanitize → CSS vars → render. No regex on final HTML output.
+- **Exclusions:** No soft watermark. No plan-based degradation; premium is simply on or off based on license state.
+- **Build artifact:** Build should auto-emit an obfuscation map (e.g., `build/obfuscation-map.json`) listing obfuscation points to speed debugging/correction; keep it for internal use.
 
 ## License Server / REST API (Build or Buy)
 
@@ -687,7 +749,7 @@ class GP_Output_Processor {
             $default = $defaults[$attr] ?? 'initial';
             // Replace premium values with defaults
             $html = preg_replace(
-                "/({$css_var})\s*:\s*[^;]+;/",
+                "/({$css_var})\\s*:\\s*[^;]+;/",
                 "$1: {$default};",
                 $html
             );
@@ -926,6 +988,8 @@ const glob = require('glob');
 
 const files = glob.sync('build/**/*.js');
 
+const obfuscationMap = [];
+
 files.forEach(file => {
     const code = fs.readFileSync(file, 'utf8');
 
@@ -937,11 +1001,24 @@ files.forEach(file => {
         stringArrayEncoding: ['base64'],
         identifierNamesGenerator: 'hexadecimal',
         // Don't obfuscate WordPress globals
-        reservedNames: ['^wp', '^React', '^jQuery']
+        reservedNames: ['^wp', '^React', '^jQuery'],
+        sourceMap: true,
+        sourceMapMode: 'separate'
     });
 
     fs.writeFileSync(file, obfuscated.getObfuscatedCode());
+    const map = obfuscated.getSourceMap();
+    if (map) {
+        const mapPath = `${file}.map`;
+        fs.writeFileSync(mapPath, map);
+        obfuscationMap.push({ file, map: mapPath });
+    }
 });
+
+fs.writeFileSync(
+    'build/obfuscation-map.json',
+    JSON.stringify(obfuscationMap, null, 2)
+);
 ```
 
 #### Integrity Manifest Generator (build-tools/generate-integrity-manifest.js)
@@ -949,7 +1026,6 @@ files.forEach(file => {
 ```javascript
 const fs = require('fs');
 const crypto = require('crypto');
-const glob = require('glob');
 
 const criticalFiles = [
     'php/core/class-gp-config-resolver.php',

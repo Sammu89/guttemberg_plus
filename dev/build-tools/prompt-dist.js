@@ -13,12 +13,8 @@ const ROOT = path.resolve(__dirname, '..');
 // Place packaged output one level above the development root (no dist/ subfolder)
 const TARGET_ROOT = path.resolve(ROOT, '..');
 
-const args = process.argv.slice( 2 );
-const autoYes =
-	args.includes( '--yes' ) ||
-	args.includes( '-y' ) ||
-	process.env.DIST_YES === '1' ||
-	process.env.CI === 'true';
+// Always auto-confirm distribution copy after build (no prompt)
+const autoYes = true;
 
 const copyTargets = [ 'guttemberg-plus.php', 'uninstall.php', 'LICENSE', 'php', 'includes', 'build', 'blocks' ];
 
@@ -129,7 +125,7 @@ async function buildDist() {
 
 	try {
 		if (autoYes) {
-			console.log('Auto-confirmed distribution packaging (CI/DIST_YES/--yes).');
+			console.log('Auto-confirmed distribution packaging.');
 		}
 		await buildDist();
 	} catch (err) {

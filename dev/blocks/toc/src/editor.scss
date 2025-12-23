@@ -19,6 +19,55 @@
 	margin-bottom: 1em !important;
 	overflow: hidden !important;
 
+	/* Fix list padding visualization in editor */
+	.toc-list {
+		padding-left: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--toc-item-spacing, 0.5rem);
+
+		/* Fix nested level padding */
+		ul {
+			padding-left: var(--toc-level-indent, 1.25rem);
+			margin-top: 0;
+			display: flex;
+			flex-direction: column;
+			gap: var(--toc-item-spacing, 0.5rem);
+		}
+	}
+
+	/* Icon preview in editor */
+	.toc-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--toc-icon-color, #666666);
+		font-size: var(--toc-icon-size, 1.25rem);
+	}
+
+	/* Header wrapper styles for editor */
+	.toc-header-wrapper {
+		margin: 0 0 1rem 0;
+	}
+
+	/* Title alignment preview in editor */
+	.toc-title {
+		&.title-align-left {
+			text-align: left;
+			justify-content: flex-start;
+		}
+
+		&.title-align-center {
+			text-align: center;
+			justify-content: center;
+		}
+
+		&.title-align-right {
+			text-align: right;
+			justify-content: flex-end;
+		}
+	}
+
 	/* EDITOR ONLY: Override sticky/fixed positioning to keep block in normal flow */
 	/* Prevents TOC from overlapping other blocks while editing */
 	&.toc-position-sticky,
@@ -135,9 +184,13 @@
 
 /* TOC items editor view */
 .toc-items-editor {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
+	list-style-position: inside;
+	padding-left: 0; // Counters don't need padding
+	margin: 0;
+
+	&.toc-hierarchical-numbering {
+		counter-reset: toc-h1 toc-h2 toc-h3 toc-h4 toc-h5 toc-h6;
+	}
 }
 
 /* TOC item row with link and actions */
@@ -146,7 +199,8 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 0.5rem;
-	padding: 0.5rem 0.75rem;
+	padding: 0;
+	margin: 0;
 	border: 1px dashed #d0d0d0;
 	border-radius: 4px;
 	transition: border-color 0.15s ease, background-color 0.15s ease;

@@ -11,7 +11,7 @@
       "tag": "div",
       "className": "gutplus-toc",
       "description": "Outermost container for the TOC block with theme class and position type",
-      "children": ["titleStatic", "titleCollapsible", "titleIconOnly", "content"],
+      "children": ["headerWrapper", "content"],
       "attributes": {
         "data-toc-id": "{tocId}",
         "data-filter-mode": "{filterMode}",
@@ -20,18 +20,32 @@
         "data-exclude-levels": "{excludeLevels.join(',')}",
         "data-exclude-classes": "{excludeClasses}",
         "data-depth-limit": "{depthLimit || 0}",
-        "data-numbering-style": "{numberingStyle}",
+        "data-include-accordions": "{includeAccordions !== false}",
+        "data-include-tabs": "{includeTabs !== false}",
+        "data-h1-numbering": "{h1NumberingStyle || 'decimal'}",
+        "data-h2-numbering": "{h2NumberingStyle || 'decimal'}",
+        "data-h3-numbering": "{h3NumberingStyle || 'decimal'}",
+        "data-h4-numbering": "{h4NumberingStyle || 'decimal'}",
+        "data-h5-numbering": "{h5NumberingStyle || 'decimal'}",
+        "data-h6-numbering": "{h6NumberingStyle || 'decimal'}",
         "data-smooth-scroll": "{smoothScroll}",
         "data-scroll-offset": "{scrollOffset}",
         "data-auto-highlight": "{autoHighlight}",
         "data-collapsible": "{isCollapsible}",
         "data-initially-collapsed": "{initiallyCollapsed}",
         "data-position-type": "{positionType}",
-        "data-click-behavior": "{clickBehavior || 'navigate'}"
+        "data-position-horizontal-side": "{positionHorizontalSide}",
+        "data-click-behavior": "{clickBehavior || 'navigate'}",
+        "data-enable-hierarchical-indent": "{enableHierarchicalIndent || false}",
+        "data-level-indent": "{levelIndent || '1.25rem'}",
+        "data-toc-items": "{encodeURIComponent(JSON.stringify(tocItems || []))}",
+        "data-deleted-heading-ids": "{(deletedHeadingIds || []).join(',')}"
       },
       "conditionalClass": {
+        "is-open": "{!initiallyCollapsed}",
         "gutplus-toc-theme-{currentTheme}": "{currentTheme}",
-        "toc-position-{positionType}": "{positionType}"
+        "toc-position-{positionType}": "{positionType}",
+        "icon-{iconPosition}": "{iconPosition}"
       },
       "appliesStyles": [
         "wrapperBackgroundColor",
@@ -41,37 +55,27 @@
         "blockBorderRadius",
         "blockShadow",
         "blockShadowHover",
-        "wrapperPadding",
         "positionTop",
         "zIndex"
       ]
     },
 
-    "titleStatic": {
-      "id": "titleStatic",
+    "headerWrapper": {
+      "id": "headerWrapper",
       "tag": "div",
-      "className": "toc-title",
-      "description": "Static title header when TOC is not collapsible",
-      "conditionalRender": "{showTitle && !isCollapsible}",
-      "contentType": "static",
-      "source": "{titleText}",
-      "appliesStyles": [
-        "titleColor",
-        "titleBackgroundColor",
-        "titleFontSize",
-        "titleFontWeight",
-        "titleTextTransform",
-        "titleAlignment"
-      ]
+      "className": "toc-header-wrapper",
+      "description": "Container for header/title section (accordion-like)",
+      "children": ["titleButton", "titleStatic"],
+      "appliesStyles": []
     },
 
-    "titleCollapsible": {
-      "id": "titleCollapsible",
+    "titleButton": {
+      "id": "titleButton",
       "tag": "button",
       "className": "toc-title toc-toggle-button",
-      "description": "Collapsible title button when TOC has title and is collapsible",
-      "children": ["titleTextSpan", "collapseIcon"],
-      "conditionalRender": "{showTitle && isCollapsible}",
+      "description": "Title button when collapsible (contains icon and text)",
+      "children": ["iconSlotLeft", "titleTextWrapper", "iconSlotRight", "titleInline"],
+      "conditionalRender": "{isCollapsible}",
       "attributes": {
         "id": "toc-toggle-{tocId}",
         "type": "button"
@@ -80,62 +84,116 @@
         "expanded": "{!initiallyCollapsed}",
         "controls": "toc-content-{tocId}"
       },
+      "conditionalClass": {
+        "icon-{iconPosition}": "{iconPosition}",
+        "title-align-{titleAlignment}": "{titleAlignment}"
+      },
       "appliesStyles": [
         "titleColor",
         "titleBackgroundColor",
+        "hoverTitleColor",
+        "hoverTitleBackgroundColor",
         "titleFontSize",
         "titleFontWeight",
+        "titleFontStyle",
         "titleTextTransform",
+        "titleTextDecoration",
         "titleAlignment"
       ]
+    },
+
+    "titleStatic": {
+      "id": "titleStatic",
+      "tag": "div",
+      "className": "toc-title",
+      "description": "Static title when not collapsible",
+      "children": ["titleTextSpan"],
+      "conditionalRender": "{showTitle && !isCollapsible}",
+      "conditionalClass": {
+        "title-align-{titleAlignment}": "{titleAlignment}"
+      },
+      "appliesStyles": [
+        "titleColor",
+        "titleBackgroundColor",
+        "hoverTitleColor",
+        "hoverTitleBackgroundColor",
+        "titleFontSize",
+        "titleFontWeight",
+        "titleFontStyle",
+        "titleTextTransform",
+        "titleTextDecoration",
+        "titleAlignment"
+      ]
+    },
+
+    "iconSlotLeft": {
+      "id": "iconSlotLeft",
+      "tag": "span",
+      "className": "toc-icon-slot",
+      "description": "Icon slot for extreme-left position",
+      "children": ["icon"],
+      "conditionalRender": "{iconPosition === 'extreme-left' && showIcon}",
+      "appliesStyles": []
+    },
+
+    "iconSlotRight": {
+      "id": "iconSlotRight",
+      "tag": "span",
+      "className": "toc-icon-slot",
+      "description": "Icon slot for extreme-right position",
+      "children": ["icon"],
+      "conditionalRender": "{iconPosition === 'extreme-right' && showIcon}",
+      "appliesStyles": []
+    },
+
+    "titleTextWrapper": {
+      "id": "titleTextWrapper",
+      "tag": "div",
+      "className": "toc-title-text-wrapper",
+      "description": "Text wrapper for extreme icon positions",
+      "children": ["titleTextSpan"],
+      "conditionalRender": "{iconPosition === 'extreme-left' || iconPosition === 'extreme-right'}",
+      "appliesStyles": []
+    },
+
+    "titleInline": {
+      "id": "titleInline",
+      "tag": "div",
+      "className": "toc-title-inline",
+      "description": "Inline wrapper for left/right icon positions",
+      "children": ["icon", "titleTextSpan"],
+      "conditionalRender": "{iconPosition === 'left' || iconPosition === 'right'}",
+      "appliesStyles": []
     },
 
     "titleTextSpan": {
       "id": "titleTextSpan",
       "tag": "span",
-      "className": "",
-      "description": "Text content wrapper inside collapsible title button",
+      "className": "toc-title-text",
+      "description": "Text content of title",
       "contentType": "static",
       "source": "{titleText}",
       "appliesStyles": []
     },
 
-    "collapseIcon": {
-      "id": "collapseIcon",
+    "icon": {
+      "id": "icon",
       "tag": "span",
-      "className": "toc-collapse-icon",
-      "description": "Collapse/expand icon in title button",
+      "className": "toc-icon",
+      "description": "Collapse/expand icon (accordion-like)",
+      "conditionalRender": "{showIcon}",
       "attributes": {
-        "aria-hidden": "true"
+        "aria-hidden": "true",
+        "data-icon-closed": "{iconTypeClosed}",
+        "data-icon-open": "{iconTypeOpen}",
+        "data-icon-rotation": "{iconRotation}"
       },
       "contentType": "static",
-      "source": "▾",
+      "source": "{iconTypeClosed}",
       "appliesStyles": [
-        "collapseIconSize",
-        "collapseIconColor"
-      ]
-    },
-
-    "titleIconOnly": {
-      "id": "titleIconOnly",
-      "tag": "button",
-      "className": "toc-toggle-button toc-icon-only",
-      "description": "Icon-only toggle button when title is hidden but TOC is collapsible",
-      "conditionalRender": "{!showTitle && isCollapsible}",
-      "attributes": {
-        "id": "toc-toggle-{tocId}",
-        "type": "button",
-        "aria-label": "Toggle Table of Contents"
-      },
-      "aria": {
-        "expanded": "{!initiallyCollapsed}",
-        "controls": "toc-content-{tocId}"
-      },
-      "contentType": "static",
-      "source": "▾",
-      "appliesStyles": [
-        "collapseIconSize",
-        "collapseIconColor"
+        "iconSize",
+        "iconColor",
+        "iconRotation"
       ]
     },
 
@@ -152,25 +210,30 @@
         "label": "{titleText || 'Table of Contents'}"
       },
       "conditionalAttribute": {
-        "style": "{display: isCollapsible && initiallyCollapsed ? 'none' : 'block'}"
+        "hidden": "{isCollapsible && initiallyCollapsed}"
       },
-      "appliesStyles": []
+      "appliesStyles": [
+        "wrapperPadding"
+      ]
     },
 
     "list": {
       "id": "list",
       "tag": "ul",
-      "className": "toc-list",
+      "className": "toc-list toc-hierarchical-numbering",
       "description": "Main list element containing TOC entries",
       "children": ["listItem"],
-      "conditionalClass": {
-        "numbering-{numberingStyle}": "{numberingStyle}"
+      "attributes": {
+        "data-h1-numbering": "{h1NumberingStyle || 'decimal'}",
+        "data-h2-numbering": "{h2NumberingStyle || 'decimal'}",
+        "data-h3-numbering": "{h3NumberingStyle || 'decimal'}",
+        "data-h4-numbering": "{h4NumberingStyle || 'decimal'}",
+        "data-h5-numbering": "{h5NumberingStyle || 'decimal'}",
+        "data-h6-numbering": "{h6NumberingStyle || 'decimal'}"
       },
       "appliesStyles": [
-        "listPaddingLeft",
         "itemSpacing",
-        "levelIndent",
-        "numberingColor"
+        "levelIndent"
       ]
     },
 
@@ -181,7 +244,7 @@
       "description": "Individual TOC list item (generated dynamically by frontend JS)",
       "children": ["link", "nestedList"],
       "conditionalClass": {
-        "toc-level-{level}": "{level}",
+        "toc-h{level}": "{level}",
         "active": "{isActive}"
       },
       "appliesStyles": []
@@ -217,6 +280,9 @@
       "cssSelector": ".toc-h1 .toc-link",
       "appliesStyles": [
         "h1Color",
+        "h1HoverColor",
+        "h1VisitedColor",
+        "h1ActiveColor",
         "h1FontSize",
         "h1FontWeight",
         "h1FontStyle",
@@ -234,6 +300,9 @@
       "cssSelector": ".toc-h2 .toc-link",
       "appliesStyles": [
         "h2Color",
+        "h2HoverColor",
+        "h2VisitedColor",
+        "h2ActiveColor",
         "h2FontSize",
         "h2FontWeight",
         "h2FontStyle",
@@ -251,6 +320,9 @@
       "cssSelector": ".toc-h3 .toc-link",
       "appliesStyles": [
         "h3Color",
+        "h3HoverColor",
+        "h3VisitedColor",
+        "h3ActiveColor",
         "h3FontSize",
         "h3FontWeight",
         "h3FontStyle",
@@ -268,6 +340,9 @@
       "cssSelector": ".toc-h4 .toc-link",
       "appliesStyles": [
         "h4Color",
+        "h4HoverColor",
+        "h4VisitedColor",
+        "h4ActiveColor",
         "h4FontSize",
         "h4FontWeight",
         "h4FontStyle",
@@ -285,6 +360,9 @@
       "cssSelector": ".toc-h5 .toc-link",
       "appliesStyles": [
         "h5Color",
+        "h5HoverColor",
+        "h5VisitedColor",
+        "h5ActiveColor",
         "h5FontSize",
         "h5FontWeight",
         "h5FontStyle",
@@ -302,6 +380,9 @@
       "cssSelector": ".toc-h6 .toc-link",
       "appliesStyles": [
         "h6Color",
+        "h6HoverColor",
+        "h6VisitedColor",
+        "h6ActiveColor",
         "h6FontSize",
         "h6FontWeight",
         "h6FontStyle",
@@ -313,18 +394,21 @@
     "nestedList": {
       "id": "nestedList",
       "tag": "ul",
-      "className": "toc-list",
+      "className": "toc-list toc-hierarchical-numbering",
       "description": "Nested list for sub-headings (recursive structure)",
       "children": [],
       "conditionalRender": "{hasChildren}",
-      "conditionalClass": {
-        "numbering-{numberingStyle}": "{numberingStyle}"
+      "attributes": {
+        "data-h1-numbering": "{h1NumberingStyle || 'decimal'}",
+        "data-h2-numbering": "{h2NumberingStyle || 'decimal'}",
+        "data-h3-numbering": "{h3NumberingStyle || 'decimal'}",
+        "data-h4-numbering": "{h4NumberingStyle || 'decimal'}",
+        "data-h5-numbering": "{h5NumberingStyle || 'decimal'}",
+        "data-h6-numbering": "{h6NumberingStyle || 'decimal'}"
       },
       "appliesStyles": [
-        "listPaddingLeft",
         "itemSpacing",
-        "levelIndent",
-        "numberingColor"
+        "levelIndent"
       ]
     },
 
@@ -343,9 +427,15 @@
     "root": "wrapper",
     "tree": {
       "wrapper": {
-        "titleStatic": [],
-        "titleCollapsible": ["titleTextSpan", "collapseIcon"],
-        "titleIconOnly": [],
+        "headerWrapper": {
+          "titleButton": {
+            "iconSlotLeft": ["icon"],
+            "titleTextWrapper": ["titleTextSpan"],
+            "iconSlotRight": ["icon"],
+            "titleInline": ["icon", "titleTextSpan"]
+          },
+          "titleStatic": ["titleTextSpan"]
+        },
         "content": {
           "list": {
             "listItem": ["link", "nestedList"],

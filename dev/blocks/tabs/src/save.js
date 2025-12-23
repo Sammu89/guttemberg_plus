@@ -272,17 +272,47 @@ const getCustomizationStyles = () => {
 		style: rootStyles,
 	} );
 
+	// Only add scroll wrapper for horizontal orientation
+	const isHorizontal = ! attributes.orientation || attributes.orientation === 'horizontal';
+
 	return (
 		<div { ...blockProps }>
 			{ /* Tab List - Tab Buttons (server-rendered for SEO) */ }
-			<div
-				className="tabs-list"
-				role="tablist"
-				aria-orientation={ getAriaOrientation( attributes.orientation ) }
-				data-current-tab={ attributes.currentTab || 0 }
-			>
-				{ renderTabButtons() }
-			</div>
+			{ isHorizontal ? (
+				<div className="tabs-list-wrapper">
+					<button
+						className="tabs-scroll-button scroll-left"
+						aria-label="Scroll left"
+						type="button"
+					>
+						◀
+					</button>
+					<div
+						className="tabs-list"
+						role="tablist"
+						aria-orientation={ getAriaOrientation( attributes.orientation ) }
+						data-current-tab={ attributes.currentTab || 0 }
+					>
+						{ renderTabButtons() }
+					</div>
+					<button
+						className="tabs-scroll-button scroll-right"
+						aria-label="Scroll right"
+						type="button"
+					>
+						▶
+					</button>
+				</div>
+			) : (
+				<div
+					className="tabs-list"
+					role="tablist"
+					aria-orientation={ getAriaOrientation( attributes.orientation ) }
+					data-current-tab={ attributes.currentTab || 0 }
+				>
+					{ renderTabButtons() }
+				</div>
+			) }
 
 			{ /* Tab Panels */ }
 			<div className="tabs-panels">

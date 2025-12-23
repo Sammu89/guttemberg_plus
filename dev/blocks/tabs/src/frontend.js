@@ -175,7 +175,7 @@ function initializeSingleTabsBlock( block ) {
 						return;
 					}
 					try {
-						activateTab( block, index );
+						activateTab( block, index, { isHover: true } );
 					} catch ( error ) {
 						console.error( 'Failed to activate tab on hover:', error );
 					}
@@ -194,6 +194,118 @@ function initializeSingleTabsBlock( block ) {
 			console.error( 'Failed to initialize responsive accordion:', error );
 		}
 	}
+
+	// Initialize horizontal scroll functionality
+	if ( orientation === 'horizontal' ) {
+		try {
+			initializeTabScroll( block );
+		} catch ( error ) {
+			console.error( 'Failed to initialize tab scroll:', error );
+		}
+	}
+}
+
+/**
+ * Initialize horizontal tab scrolling with navigation buttons
+ *
+ * @param {HTMLElement} block Parent block element
+ */
+function initializeTabScroll( block ) {
+	if ( ! block ) {
+		return;
+	}
+
+	const wrapper = block.querySelector( '.tabs-list-wrapper' );
+	const tabList = block.querySelector( '.tabs-list' );
+	const scrollLeft = block.querySelector( '.tabs-scroll-button.scroll-left' );
+	const scrollRight = block.querySelector( '.tabs-scroll-button.scroll-right' );
+
+	if ( ! wrapper || ! tabList || ! scrollLeft || ! scrollRight ) {
+		return;
+	}
+
+	// Function to check if tabs overflow
+	const checkOverflow = () => {
+		const hasOverflow = tabList.scrollWidth > tabList.clientWidth;
+
+		if ( hasOverflow ) {
+			wrapper.classList.add( 'has-overflow' );
+		} else {
+			wrapper.classList.remove( 'has-overflow' );
+		}
+
+		updateScrollButtons();
+	};
+
+	// Function to update scroll button states
+	const updateScrollButtons = () => {
+		const tabButtons = tabList.querySelectorAll( '.tab-button, .tab-heading' );
+		if ( ! tabButtons || tabButtons.length === 0 ) {
+			return;
+		}
+
+		const containerRect = tabList.getBoundingClientRect();
+		const firstTab = tabButtons[ 0 ];
+		const lastTab = tabButtons[ tabButtons.length - 1 ];
+
+		if ( ! firstTab || ! lastTab ) {
+			return;
+		}
+
+		const firstTabRect = firstTab.getBoundingClientRect();
+		const lastTabRect = lastTab.getBoundingClientRect();
+
+		// Disable left button only if the ENTIRE first tab is fully visible
+		// (its left edge is at or after the container's left edge)
+		scrollLeft.disabled = firstTabRect.left >= containerRect.left - 1;
+
+		// Disable right button only if the ENTIRE last tab is fully visible
+		// (its right edge is at or before the container's right edge)
+		scrollRight.disabled = lastTabRect.right <= containerRect.right + 1;
+	};
+
+	// Scroll amount (200px or 1/3 of visible width, whichever is larger)
+	const getScrollAmount = () => {
+		return Math.max( 200, tabList.clientWidth / 3 );
+	};
+
+	// Scroll left button handler
+	scrollLeft.addEventListener( 'click', () => {
+		tabList.scrollBy( {
+			left: -getScrollAmount(),
+			behavior: 'smooth',
+		} );
+	} );
+
+	// Scroll right button handler
+	scrollRight.addEventListener( 'click', () => {
+		tabList.scrollBy( {
+			left: getScrollAmount(),
+			behavior: 'smooth',
+		} );
+	} );
+
+	// Update on scroll
+	tabList.addEventListener( 'scroll', updateScrollButtons );
+
+	// Initial check
+	checkOverflow();
+
+	// Check on window resize
+	const resizeObserver = new ResizeObserver( checkOverflow );
+	resizeObserver.observe( tabList );
+
+	// Auto-scroll active tab into view
+	const activeButton = tabList.querySelector( '.tab-button[aria-selected="true"]' );
+	if ( activeButton ) {
+		setTimeout( () => {
+			activeButton.scrollIntoView( {
+				behavior: 'smooth',
+				block: 'nearest',
+				inline: 'center',
+			} );
+		}, 100 );
+	}
 }
 
 /**
@@ -201,8 +313,9 @@ function initializeSingleTabsBlock( block ) {
  *
  * @param {HTMLElement} block Parent block element
  * @param {number}      index Tab index to activate
+ * @param {Object}      options Optional settings for activation
  */
-function activateTab( block, index ) {
+function activateTab( block, index, options = {} ) {
 	if ( ! block ) {
 		console.warn( 'Block is null in activateTab' );
 		return;
@@ -254,6 +367,34 @@ function activateTab( block, index ) {
 		tabPanels[ index ].style.display = '';
 		tabPanels[ index ].classList.add( 'active' );
 		// CSS animation handles the fade-in via .active class (no JS animation needed)
+	}
+
+	// Scroll active tab into view for horizontal tabs
+	const orientation = block.getAttribute( 'data-orientation' );
+	const isHover = options.isHover || false;
+
+	if ( ! orientation || orientation === 'horizontal' ) {
+		// For hover activations, use a longer delay and debounce to prevent rapid scrolling
+		// For click activations, scroll immediately with short delay
+		const scrollDelay = isHover ? 400 : 50;
+
+		// Clear any pending scroll timeout for this block
+		if ( ! block._scrollTimeout ) {
+			block._scrollTimeouts = {};
+		}
+
+		if ( block._scrollTimeouts[ index ] ) {
+			clearTimeout( block._scrollTimeouts[ index ] );
+		}
+
+		block._scrollTimeouts[ index ] = setTimeout( () => {
+			tabButtons[ index ].scrollIntoView( {
+				behavior: 'smooth',
+				block: 'nearest',
+				inline: 'center',
+			} );
+			delete block._scrollTimeouts[ index ];
+		}, scrollDelay );
 	}
 }
 

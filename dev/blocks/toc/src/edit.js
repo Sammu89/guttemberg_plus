@@ -27,16 +27,8 @@ import {
 	RichText,
 } from '@wordpress/block-editor';
 import {
-	PanelBody,
-	ToggleControl,
-	TextControl,
 	SelectControl,
-	CheckboxControl,
-	RangeControl,
 	Button,
-	DropdownMenu,
-	MenuGroup,
-	MenuItem,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
@@ -46,7 +38,6 @@ import {
 	ThemeSelector,
 	SchemaPanels,
 	CustomizationWarning,
-	CompactColorControl,
 	debug,
 	useThemeManager,
 	useBlockAlignment,
@@ -69,7 +60,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const [ headings, setHeadings ] = useState( [] );
 	const [ isScanning, setIsScanning ] = useState( false );
 	const [ hasScanned, setHasScanned ] = useState( false );
-	const [ selectedHeadingLevel, setSelectedHeadingLevel ] = useState( 'h2' );
 	const safeTocId = tocId || clientId || 'toc';
 
 	// Use centralized alignment hook
@@ -182,6 +172,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					const tabsData = block.attributes.tabsData || [];
 
 					tabsData.forEach( ( tab ) => {
+						// Skip disabled tabs
+						if ( tab.isDisabled ) {
+							return;
+						}
+
 						const text = stripHtml( tab.title );
 						if ( text ) {
 							detectedHeadings.push( {
@@ -450,12 +445,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 const getInlineStyles = () => {
   // Extract object-type attributes with fallbacks
-	const titlePadding = effectiveValues.titlePadding || {
-		    "top": 0,
-		    "right": 0,
-		    "bottom": 12,
-		    "left": 0
-		};
 	const blockBorderRadius = effectiveValues.blockBorderRadius || {
 		    "topLeft": 4,
 		    "topRight": 4,
@@ -471,7 +460,6 @@ const getInlineStyles = () => {
 			borderStyle: effectiveValues.blockBorderStyle || 'solid',
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.blockShadow || 'none',
-			padding: `${effectiveValues.wrapperPadding ?? 1.25}rem`,
 			top: `${effectiveValues.positionTop ?? 6.25}rem`,
 		},
 		title: {
@@ -479,9 +467,18 @@ const getInlineStyles = () => {
 			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
 			fontSize: `${effectiveValues.titleFontSize ?? 1.25}rem`,
 			fontWeight: effectiveValues.titleFontWeight || '700',
+			fontStyle: effectiveValues.titleFontStyle || 'normal',
 			textTransform: effectiveValues.titleTextTransform || 'none',
+			textDecoration: effectiveValues.titleTextDecoration || 'none',
 			textAlign: effectiveValues.titleAlignment || 'left',
-			padding: `${titlePadding.top}px ${titlePadding.right}px ${titlePadding.bottom}px ${titlePadding.left}px`,
+		},
+		content: {
+			padding: `${effectiveValues.wrapperPadding ?? 1.25}rem`,
+		},
+		icon: {
+			fontSize: `${effectiveValues.iconSize ?? 1.25}rem`,
+			transform: `${effectiveValues.iconRotation ?? 180}deg`,
+			color: effectiveValues.iconColor || '#666666',
 		},
 	};
 };
@@ -500,24 +497,6 @@ const getInlineStyles = () => {
 const displayHeadings =
 	curatedHeadings.length > 0 ? curatedHeadings : filteredHeadings;
 
-	// Exclude headingStyles group from auto-generated panels (handled manually above)
-	const schemaWithoutHeadingStyles = useMemo( () => {
-		const filteredGroups = { ...tocSchema.groups };
-		delete filteredGroups.headingStyles;
-
-		const filteredAttributes = Object.fromEntries(
-			Object.entries( tocSchema.attributes || {} ).filter(
-				( [ , config ] ) => config.group !== 'headingStyles'
-			)
-		);
-
-		return {
-			...tocSchema,
-			groups: filteredGroups,
-			attributes: filteredAttributes,
-		};
-	}, [] );
-
 	// Build inline styles - apply width from attributes
 	// Exclude position-related properties (top) in editor to prevent overlap issues
 	const { top: _top, ...containerStyles } = styles.container;
@@ -532,10 +511,168 @@ const displayHeadings =
 		style: rootStyles,
 		ref: blockRef,
 	} );
+	const titleTextStyle = {
+		color: styles.title.color,
+		fontSize: styles.title.fontSize,
+		fontWeight: styles.title.fontWeight,
+		fontStyle: styles.title.fontStyle,
+		textTransform: styles.title.textTransform,
+		textDecoration: styles.title.textDecoration,
+	};
 	const buttonId = `toc-toggle-${ safeTocId }`;
 	const contentId = `toc-content-${ safeTocId }`;
-	const collapseIconSize = effectiveValues.collapseIconSize ?? 1.25;
-	const collapseIconColor = effectiveValues.collapseIconColor || '#666666';
+
+	/**
+	 * Render icon based on settings (accordion-like pattern)
+	 */
+	const renderIcon = () => {
+		if ( ! effectiveValues.showIcon ) {
+			return null;
+		}
+
+		const iconContent = effectiveValues.iconTypeClosed || '▾';
+		const isImage = iconContent.startsWith( 'http' );
+		const iconSize = effectiveValues.iconSize ?? 1.25;
+		const iconColor = effectiveValues.iconColor || '#666666';
+
+		const iconStyle = {
+			color: iconColor,
+			fontSize: `${ iconSize }rem`,
+		};
+
+		if ( isImage ) {
+			return (
+				<img
+					src={ iconContent }
+					alt=""
+					aria-hidden="true"
+					className="toc-icon toc-icon-image"
+					style={ iconStyle }
+				/>
+			);
+		}
+
+		return (
+			<span className="toc-icon" aria-hidden="true" style={ iconStyle }>
+				{ iconContent }
+			</span>
+		);
+	};
+
+	/**
+	 * Render header with accordion-like structure
+	 */
+	const renderHeader = () => {
+		if ( ! showTitle && ! attributes.isCollapsible ) {
+			return null;
+		}
+
+		const iconElement = renderIcon();
+		const hasIcon = !! iconElement;
+		const iconPosition = effectiveValues.iconPosition || 'right';
+		const titleAlignment = effectiveValues.titleAlignment || 'left';
+		const titleAlignClass = titleAlignment ? `title-align-${ titleAlignment }` : 'title-align-left';
+
+		// Build header content based on icon position
+		let buttonChildren;
+
+		if ( iconPosition === 'extreme-left' ) {
+			buttonChildren = (
+				<>
+					{ hasIcon && (
+						<span className="toc-icon-slot">
+							{ iconElement }
+						</span>
+					) }
+					<div className="toc-title-text-wrapper">
+						<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+					</div>
+				</>
+			);
+		} else if ( iconPosition === 'extreme-right' ) {
+			buttonChildren = (
+				<>
+					<div className="toc-title-text-wrapper">
+						<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+					</div>
+					{ hasIcon && (
+						<span className="toc-icon-slot">
+							{ iconElement }
+						</span>
+					) }
+				</>
+			);
+		} else if ( iconPosition === 'left' ) {
+			buttonChildren = (
+				<div className="toc-title-inline">
+					{ hasIcon && iconElement }
+					<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+				</div>
+			);
+		} else {
+			// Right (default)
+			buttonChildren = (
+				<div className="toc-title-inline">
+					<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+					{ hasIcon && iconElement }
+				</div>
+			);
+		}
+
+		// If collapsible, render as button
+		if ( attributes.isCollapsible ) {
+			return (
+				<button
+					id={ buttonId }
+					className={ `toc-title toc-toggle-button ${ iconPosition ? `icon-${ iconPosition }` : '' } ${ titleAlignClass }` }
+					aria-expanded={ ! attributes.initiallyCollapsed }
+					aria-controls={ contentId }
+					type="button"
+					style={ {
+						...styles.title,
+						border: 'none',
+						width: '100%',
+						cursor: 'pointer',
+					} }
+				>
+					{ buttonChildren }
+				</button>
+			);
+		}
+
+		// If not collapsible but showTitle is true, render as static title
+		if ( showTitle ) {
+			return (
+				<div
+					className={ `toc-title ${ titleAlignClass }` }
+					style={ styles.title }
+				>
+					<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+				</div>
+			);
+		}
+
+		return null;
+	};
+
+	const numberingStyles = {};
+	const numberingDataAttributes = {};
+	[ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ].forEach( ( level ) => {
+		const style = attributes[ `${ level }NumberingStyle` ] || 'decimal';
+		numberingStyles[ `--toc-${ level }-numbering` ] = style;
+		numberingDataAttributes[ `data-${ level }-numbering` ] = style;
+	} );
+	const baseLevel = (() => {
+		const levels = ( tocItems || [] )
+			.filter( ( item ) => item && item.level )
+			.map( ( item ) => item.level );
+		let minLevel = levels.length ? Math.min( ...levels ) : 1;
+		if ( ( attributes.h1NumberingStyle || 'decimal' ) === 'none' && minLevel <= 1 ) {
+			minLevel = 2;
+		}
+		return minLevel;
+	} )();
+	numberingDataAttributes[ 'data-base-level' ] = baseLevel;
 
 	return (
 		<>
@@ -560,367 +697,9 @@ const displayHeadings =
 					/>
 				</div>
 
-				{ /* TOC Settings Panel */ }
-				<PanelBody title="TOC Settings" initialOpen={ true }>
-					<ToggleControl
-						label="Show Title"
-						checked={ showTitle }
-						onChange={ ( value ) => setAttributes( { showTitle: value } ) }
-					/>
-
-					{ showTitle && (
-						<TextControl
-							label="Title Text"
-							value={ titleText }
-							onChange={ ( value ) => setAttributes( { titleText: value } ) }
-							__nextHasNoMarginBottom
-						/>
-					) }
-
-					<ToggleControl
-						label="Collapsible"
-						checked={ attributes.isCollapsible }
-						onChange={ ( value ) => setAttributes( { isCollapsible: value } ) }
-					/>
-
-					{ attributes.isCollapsible && (
-						<>
-							<ToggleControl
-								label="Initially Collapsed"
-								checked={ attributes.initiallyCollapsed }
-								onChange={ ( value ) =>
-									setAttributes( {
-										initiallyCollapsed: value,
-									} )
-								}
-							/>
-
-							<SelectControl
-								label="Click Behavior"
-								value={ attributes.clickBehavior || 'navigate' }
-								options={ [
-									{
-										label: 'Navigate to section',
-										value: 'navigate',
-									},
-									{
-										label: 'Navigate and collapse TOC',
-										value: 'navigate-and-collapse',
-									},
-								] }
-								onChange={ ( value ) => setAttributes( { clickBehavior: value } ) }
-								__next40pxDefaultSize
-							/>
-						</>
-					) }
-				</PanelBody>
-
-				{ /* Heading Filter Panel */ }
-				<PanelBody title="Heading Filter" initialOpen={ false }>
-					<p className="toc-filter-description">
-						<strong>Block Headings:</strong> Include headings from accordion and tab blocks when they have a heading level set.
-					</p>
-
-					<ToggleControl
-						label="Include Accordion Headings"
-						help="Include headings from accordion blocks"
-						checked={ attributes.includeAccordions !== false }
-						onChange={ ( value ) => setAttributes( { includeAccordions: value } ) }
-					/>
-
-					<ToggleControl
-						label="Include Tab Headings"
-						help="Include headings from tab blocks"
-						checked={ attributes.includeTabs !== false }
-						onChange={ ( value ) => setAttributes( { includeTabs: value } ) }
-					/>
-
-					<hr className="toc-settings-divider" />
-
-					<SelectControl
-						label="Filter Mode"
-						value={ attributes.filterMode }
-						options={ [
-							{
-								label: 'Include All Headings',
-								value: 'include-all',
-							},
-							{
-								label: 'Include Only Selected',
-								value: 'include-only',
-							},
-							{ label: 'Exclude Selected', value: 'exclude' },
-						] }
-						onChange={ ( value ) => setAttributes( { filterMode: value } ) }
-						__next40pxDefaultSize
-					/>
-
-					{ attributes.filterMode === 'include-only' && (
-						<>
-							<p>
-								<strong>Include Levels:</strong>
-							</p>
-							{ [ 2, 3, 4, 5, 6 ].map( ( level ) => (
-								<CheckboxControl
-									key={ level }
-									label={ `H${ level }` }
-									checked={ attributes.includeLevels.includes( level ) }
-									onChange={ ( checked ) => {
-										const levels = checked
-											? [ ...attributes.includeLevels, level ]
-											: attributes.includeLevels.filter(
-													( l ) => l !== level
-											  );
-										setAttributes( {
-											includeLevels: levels,
-										} );
-									} }
-									__nextHasNoMarginBottom
-								/>
-							) ) }
-
-							<TextControl
-								label="Include Classes (comma-separated)"
-								value={ attributes.includeClasses }
-								onChange={ ( value ) => setAttributes( { includeClasses: value } ) }
-								__nextHasNoMarginBottom
-							/>
-						</>
-					) }
-
-					{ attributes.filterMode === 'exclude' && (
-						<>
-							<p>
-								<strong>Exclude Levels:</strong>
-							</p>
-							{ [ 2, 3, 4, 5, 6 ].map( ( level ) => (
-								<CheckboxControl
-									key={ level }
-									label={ `H${ level }` }
-									checked={ attributes.excludeLevels.includes( level ) }
-									onChange={ ( checked ) => {
-										const levels = checked
-											? [ ...attributes.excludeLevels, level ]
-											: attributes.excludeLevels.filter(
-													( l ) => l !== level
-											  );
-										setAttributes( {
-											excludeLevels: levels,
-										} );
-									} }
-									__nextHasNoMarginBottom
-								/>
-							) ) }
-
-							<TextControl
-								label="Exclude Classes (comma-separated)"
-								value={ attributes.excludeClasses }
-								onChange={ ( value ) => setAttributes( { excludeClasses: value } ) }
-								__nextHasNoMarginBottom
-							/>
-						</>
-					) }
-
-					<RangeControl
-						label="Depth Limit (0 = no limit)"
-						value={ attributes.depthLimit || 0 }
-						onChange={ ( value ) =>
-							setAttributes( {
-								depthLimit: value === 0 ? null : value,
-							} )
-						}
-						min={ 0 }
-						max={ 6 }
-					/>
-				</PanelBody>
-
-				{ /* Numbering Panel */ }
-				<PanelBody title="Numbering" initialOpen={ false }>
-					<SelectControl
-						label="Numbering Style"
-						value={ attributes.numberingStyle }
-						options={ [
-							{ label: 'None', value: 'none' },
-							{
-								label: 'Decimal (1, 1.1, 1.1.1)',
-								value: 'decimal',
-							},
-							{
-								label: 'Decimal Leading Zero',
-								value: 'decimal-leading-zero',
-							},
-							{ label: 'Roman Numerals', value: 'roman' },
-							{ label: 'Letters (A, B, C)', value: 'alpha' },
-						] }
-						onChange={ ( value ) => setAttributes( { numberingStyle: value } ) }
-						__next40pxDefaultSize
-					/>
-				</PanelBody>
-
-				{ /* Heading Styles Panel */ }
-				<PanelBody title="Heading Styles" initialOpen={ false }>
-					<p style={ { marginBottom: '16px', fontSize: '13px', color: '#757575' } }>
-						Customize the appearance of each heading level (H1-H6) in your table of contents.
-					</p>
-
-					<SelectControl
-						label="Edit heading level"
-						value={ selectedHeadingLevel }
-						options={ [
-							{ label: 'H1 - Page Title', value: 'h1' },
-							{ label: 'H2 - Main Sections', value: 'h2' },
-							{ label: 'H3 - Subsections', value: 'h3' },
-							{ label: 'H4 - Minor Headings', value: 'h4' },
-							{ label: 'H5 - Sub-minor Headings', value: 'h5' },
-							{ label: 'H6 - Smallest Headings', value: 'h6' },
-						] }
-						onChange={ setSelectedHeadingLevel }
-						help="Select a heading level to customize its appearance"
-						__nextHasNoMarginBottom
-					/>
-
-					<div
-						style={ {
-							marginTop: '20px',
-							padding: '12px',
-							background: '#f5f5f5',
-							borderRadius: '4px',
-							marginBottom: '16px',
-						} }
-					>
-						<div style={ { fontSize: '11px', color: '#666', marginBottom: '8px' } }>
-							Preview:
-						</div>
-						<span
-							style={ {
-								color: attributes[ `${ selectedHeadingLevel }Color` ],
-								fontSize: `${ attributes[ `${ selectedHeadingLevel }FontSize` ] }rem`,
-								fontWeight: attributes[ `${ selectedHeadingLevel }FontWeight` ],
-								fontStyle: attributes[ `${ selectedHeadingLevel }FontStyle` ],
-								textTransform: attributes[ `${ selectedHeadingLevel }TextTransform` ],
-								textDecoration: attributes[ `${ selectedHeadingLevel }TextDecoration` ],
-							} }
-						>
-							Sample { selectedHeadingLevel.toUpperCase() } Heading
-						</span>
-					</div>
-
-					{ /* Color Control */ }
-					<CompactColorControl
-						label="Text Color"
-						value={ attributes[ `${ selectedHeadingLevel }Color` ] }
-						onChange={ ( value ) => setAttributes( { [ `${ selectedHeadingLevel }Color` ]: value } ) }
-					/>
-
-					{ /* Font Size */ }
-					<RangeControl
-						label="Font Size"
-						value={ attributes[ `${ selectedHeadingLevel }FontSize` ] }
-						onChange={ ( value ) => setAttributes( { [ `${ selectedHeadingLevel }FontSize` ]: value } ) }
-						min={ 0.5 }
-						max={ 3 }
-						step={ 0.0625 }
-						help="Font size in rem units"
-						__nextHasNoMarginBottom
-					/>
-
-					{ /* Font Weight */ }
-					<SelectControl
-						label="Font Weight"
-						value={ attributes[ `${ selectedHeadingLevel }FontWeight` ] }
-						options={ [
-							{ label: '100 - Thin', value: '100' },
-							{ label: '200 - Extra Light', value: '200' },
-							{ label: '300 - Light', value: '300' },
-							{ label: '400 - Normal', value: '400' },
-							{ label: '500 - Medium', value: '500' },
-							{ label: '600 - Semi Bold', value: '600' },
-							{ label: '700 - Bold', value: '700' },
-							{ label: '800 - Extra Bold', value: '800' },
-							{ label: '900 - Black', value: '900' },
-						] }
-						onChange={ ( value ) => setAttributes( { [ `${ selectedHeadingLevel }FontWeight` ]: value } ) }
-						__nextHasNoMarginBottom
-					/>
-
-					{ /* Font Style */ }
-					<SelectControl
-						label="Font Style"
-						value={ attributes[ `${ selectedHeadingLevel }FontStyle` ] }
-						options={ [
-							{ label: 'Normal', value: 'normal' },
-							{ label: 'Italic', value: 'italic' },
-							{ label: 'Oblique', value: 'oblique' },
-						] }
-						onChange={ ( value ) => setAttributes( { [ `${ selectedHeadingLevel }FontStyle` ]: value } ) }
-						__nextHasNoMarginBottom
-					/>
-
-					{ /* Text Transform */ }
-					<SelectControl
-						label="Text Transform"
-						value={ attributes[ `${ selectedHeadingLevel }TextTransform` ] }
-						options={ [
-							{ label: 'None', value: 'none' },
-							{ label: 'Uppercase', value: 'uppercase' },
-							{ label: 'Lowercase', value: 'lowercase' },
-							{ label: 'Capitalize', value: 'capitalize' },
-						] }
-						onChange={ ( value ) => setAttributes( { [ `${ selectedHeadingLevel }TextTransform` ]: value } ) }
-						__nextHasNoMarginBottom
-					/>
-
-					{ /* Text Decoration */ }
-					<SelectControl
-						label="Text Decoration"
-						value={ attributes[ `${ selectedHeadingLevel }TextDecoration` ] }
-						options={ [
-							{ label: 'None', value: 'none' },
-							{ label: 'Underline', value: 'underline' },
-							{ label: 'Overline', value: 'overline' },
-							{ label: 'Line Through', value: 'line-through' },
-						] }
-						onChange={ ( value ) => setAttributes( { [ `${ selectedHeadingLevel }TextDecoration` ]: value } ) }
-						__nextHasNoMarginBottom
-					/>
-
-					{ /* Utility Actions */ }
-					<div style={ { marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #ddd' } }>
-						<DropdownMenu
-							icon="admin-tools"
-							label="Actions"
-							className="toc-heading-actions"
-						>
-							{ ( { onClose } ) => (
-								<>
-									<MenuGroup label="Reset">
-										<MenuItem
-											onClick={ () => {
-												// Reset to theme defaults
-												const resetAttrs = {
-													[ `${ selectedHeadingLevel }Color` ]: undefined,
-													[ `${ selectedHeadingLevel }FontSize` ]: undefined,
-													[ `${ selectedHeadingLevel }FontWeight` ]: undefined,
-													[ `${ selectedHeadingLevel }FontStyle` ]: undefined,
-													[ `${ selectedHeadingLevel }TextTransform` ]: undefined,
-													[ `${ selectedHeadingLevel }TextDecoration` ]: undefined,
-												};
-												setAttributes( resetAttrs );
-												onClose();
-											} }
-										>
-											Reset to theme defaults
-										</MenuItem>
-									</MenuGroup>
-								</>
-							) }
-						</DropdownMenu>
-					</div>
-				</PanelBody>
-
 				{/* Auto-generated panels from schema */}
 				<SchemaPanels
-					schema={ schemaWithoutHeadingStyles }
+					schema={ tocSchema }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					effectiveValues={ effectiveValues }
@@ -937,68 +716,10 @@ const displayHeadings =
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				{ showTitle && ! attributes.isCollapsible && (
-					<div
-						className="toc-title"
-						style={ styles.title }
-					>
-						{ titleText }
-					</div>
-				) }
-
-				{ showTitle && attributes.isCollapsible && (
-					<button
-						id={ buttonId }
-						className="toc-title toc-toggle-button"
-						aria-expanded={ ! attributes.initiallyCollapsed }
-						aria-controls={ contentId }
-						type="button"
-						style={ {
-							...styles.title,
-							border: 'none',
-							width: '100%',
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							cursor: 'pointer',
-						} }
-					>
-						<span>{ titleText }</span>
-						<span
-							className="toc-collapse-icon"
-							aria-hidden="true"
-							style={ {
-								fontSize: `${ collapseIconSize }rem`,
-								color: collapseIconColor,
-							} }
-						>
-							▾
-						</span>
-					</button>
-				) }
-
-				{ ! showTitle && attributes.isCollapsible && (
-					<button
-						id={ buttonId }
-						className="toc-toggle-button toc-icon-only"
-						aria-expanded={ ! attributes.initiallyCollapsed }
-						aria-controls={ contentId }
-						aria-label={ __( 'Toggle Table of Contents', 'guttemberg-plus' ) }
-						type="button"
-						style={ {
-							background: 'none',
-							border: 'none',
-							cursor: 'pointer',
-							fontSize: `${ collapseIconSize }rem`,
-							color: collapseIconColor,
-							display: 'inline-flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-						} }
-					>
-						▾
-					</button>
-				) }
+				{/* Header Section (accordion-like) */}
+				<div className="toc-header-wrapper">
+					{ renderHeader() }
+				</div>
 
 				{ /* Scan for headings button */ }
 				<div className="toc-scan-container">
@@ -1028,6 +749,7 @@ const displayHeadings =
 					id={ contentId }
 					className="toc-content"
 					aria-label={ titleText || __( 'Table of Contents', 'guttemberg-plus' ) }
+					style={ styles.content }
 				>
 					{ /* Results: show headings list or empty message */ }
 					{ ! hasScanned && displayHeadings.length === 0 ? (
@@ -1041,7 +763,14 @@ const displayHeadings =
 					) : (
 						<div className="toc-curated-wrapper">
 							{ /* Custom render with action buttons and editable text */ }
-							<div className="toc-items-editor">
+							<ul
+								className="toc-list toc-items-editor toc-hierarchical-numbering"
+								style={ {
+									...numberingStyles,
+									'--toc-item-spacing': `${ effectiveValues.itemSpacing ?? allDefaults.itemSpacing }rem`,
+								} }
+								{ ...numberingDataAttributes }
+							>
 								{ tocItems.map( ( item, index ) => {
 									const anchor = getItemAnchor( item );
 									const isHidden = item.hidden === true;
@@ -1063,9 +792,9 @@ const displayHeadings =
 									};
 
 									return (
-										<div
+										<li
 											key={ anchor || index }
-											className={ `toc-item-row${ headingLevelClass }${ isHidden ? ' toc-item-hidden' : '' }` }
+											className={ `toc-item toc-item-row${ headingLevelClass }${ isHidden ? ' toc-item-hidden' : '' }` }
 											style={ editorIndentStyle }
 										>
 											<RichText
@@ -1113,10 +842,10 @@ const displayHeadings =
 													×
 												</button>
 											</div>
-										</div>
+										</li>
 									);
 								} ) }
-							</div>
+							</ul>
 						</div>
 					) }
 				</nav>
@@ -1191,13 +920,32 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 		return null;
 	}
 
-	const listStyle = attributes.numberingStyle === 'none' ? {} : { listStyleType: 'none' };
+	const numberingStyles = {};
+	const numberingDataAttributes = {};
+	[ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ].forEach( ( level ) => {
+		const style = attributes[ `${ level }NumberingStyle` ] || 'decimal';
+		numberingStyles[ `--toc-${ level }-numbering` ] = style;
+		numberingDataAttributes[ `data-${ level }-numbering` ] = style;
+	} );
 
 	return (
-		<ul className={ `toc-list numbering-${ attributes.numberingStyle }` } style={ listStyle }>
+		<ul
+			className="toc-list toc-hierarchical-numbering"
+			style={ numberingStyles }
+			{ ...numberingDataAttributes }
+			data-base-level={ (() => {
+				const levels = headings
+					.filter( ( h ) => h && h.level )
+					.map( ( h ) => h.level );
+				let minLevel = levels.length ? Math.min( ...levels ) : 1;
+				if ( ( attributes.h1NumberingStyle || 'decimal' ) === 'none' && minLevel <= 1 ) {
+					minLevel = 2;
+				}
+				return minLevel;
+			} )() }
+		>
 			{ headings.map( ( heading, index ) => {
-				const normalizedLevel = heading.level - 1;
-				const levelClass = `toc-level-${ normalizedLevel }`;
+				const levelClass = heading.level ? `toc-h${ heading.level }` : '';
 
 				return (
 					<li key={ index } className={ `toc-item ${ levelClass }` }>

@@ -22,7 +22,6 @@
 	background-color: var(--toc-wrapper-background-color, #ffffff);
 	border: var(--toc-border-width, 1px) var(--toc-border-style, solid) var(--toc-border-color, #dddddd);
 	border-radius: var(--toc-border-radius, 0.25rem 0.25rem 0.25rem 0.25rem);
-	padding: var(--toc-wrapper-padding, 1.25rem);
 	box-shadow: var(--toc-border-shadow, none);
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
@@ -49,110 +48,382 @@
 	}
 }
 
-/* Title */
+/* Header wrapper - similar to accordion structure */
+
+/* Title/button - accordion-like structure */
 .toc-title {
-	color: var(--toc-title-color, #333333);
 	background-color: var(--toc-title-background-color, transparent);
-	font-size: var(--toc-title-font-size, 1.25rem);
-	font-weight: var(--toc-title-font-weight, 700);
 	text-align: var(--toc-title-alignment, left);
-	padding: 0.75rem;
-	margin: 0 0 1rem 0;
-}
-
-/* Toggle button (collapsible) */
-.toc-toggle-button {
-	width: 100%;
-	background: none;
+	padding: 8px;
 	border: none;
-	cursor: pointer;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	transition: background-color 0.2s ease;
+	justify-content: flex-start;
+	width: 100%;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	box-sizing: border-box;
+	gap: 0.5rem;
 
-	&.toc-icon-only {
-		font-size: var(--toc-collapse-icon-size, 1.25rem);
-		color: var(--toc-collapse-icon-color, #666666);
+	&.title-align-center {
+		justify-content: center;
+		text-align: center;
+	}
+
+	&.title-align-right {
+		justify-content: flex-end;
+		text-align: right;
 	}
 
 	&:hover {
-		background-color: rgba(0, 0, 0, 0.05);
+		color: var(--toc-title-hover-color, inherit);
+		background-color: var(--toc-title-hover-bg, transparent);
 	}
 
 	&:focus {
-		outline: 2px solid #007cba;
-		outline-offset: -2px;
+		// Inset box-shadow with blur for darker gradient entering from edges (top, left, right only)
+		box-shadow:
+			inset 10px 0 10px -10px rgba(0, 0, 0, 0.05),  /* left shadow */
+			inset -10px 0 10px -10px rgba(0, 0, 0, 0.05), /* right shadow */
+			inset 0 10px 10px -10px rgba(0, 0, 0, 0.05);  /* top shadow */
+		outline: none;
+	}
+
+	// Extreme positions: keep icon anchored to edges while text aligns independently
+	&.icon-extreme-left,
+	&.icon-extreme-right {
+		justify-content: space-between;
+		gap: 0.75rem;
 	}
 }
 
-/* Collapse icon */
-.toc-collapse-icon {
-	font-size: var(--toc-collapse-icon-size, 1.25rem);
-	color: var(--toc-collapse-icon-color, #666666);
-	transition: transform 0.3s ease;
+/* Title inline container for inline icon positions */
+.toc-title-inline {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
 }
 
-.toc-toggle-button[aria-expanded="false"] .toc-collapse-icon {
-	transform: rotate(-90deg);
+/* Icon slot for extreme positions */
+.toc-icon-slot {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+}
+
+/* Title text */
+.toc-title-text {
+	/* Use flex: 1 1 auto to allow text to grow while respecting other flex items */
+	flex: 1 1 auto;
+	/* Ensure min-width allows text to take available space */
+	/* Use !important to override WordPress RichText's inline min-width: 1px */
+	min-width: 0 !important;
+	text-align: inherit;
+	color: var(--toc-title-color, #333333);
+	font-size: var(--toc-title-font-size, 1.25rem);
+	font-weight: var(--toc-title-font-weight, 700);
+	font-style: var(--toc-title-font-style, normal);
+	text-transform: var(--toc-title-text-transform, none);
+	text-decoration: var(--toc-title-text-decoration, none);
+}
+
+/* Title text wrapper for extreme positions */
+.toc-title-text-wrapper {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+}
+
+.toc-title.title-align-left .toc-title-text-wrapper {
+	justify-content: flex-start;
+	text-align: left;
+}
+
+.toc-title.title-align-center .toc-title-text-wrapper {
+	justify-content: center;
+	text-align: center;
+}
+
+.toc-title.title-align-right .toc-title-text-wrapper {
+	justify-content: flex-end;
+	text-align: right;
+}
+
+/* Icon */
+.toc-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--toc-icon-color, #666666);
+	font-size: var(--toc-icon-size, 1.25rem);
+	width: var(--toc-icon-size, 1.25rem);
+	height: var(--toc-icon-size, 1.25rem);
+	transition: transform 300ms ease;
+	flex-shrink: 0;
+	/* Reset inherited typography properties from parent */
+	font-weight: normal;
+	font-style: normal;
+	text-transform: none;
+	text-decoration: none;
+}
+
+/* Icon rotation when TOC is open */
+.gutplus-toc.is-open .toc-icon {
+	transform: rotate(var(--toc-icon-rotation, 180deg));
 }
 
 /* TOC content container */
 .toc-content {
-	padding: 0;
+	padding: var(--toc-wrapper-padding);
+    padding-top: 0;
+	overflow: hidden;
+
+	&[hidden] {
+		display: none;
+	}
 }
 
 /* TOC list */
 .toc-list {
 	list-style-type: disc;
 	margin: 0;
-	padding: 0 0 0 var(--toc-list-padding-left, 1.5rem);
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--toc-item-spacing, 0.5rem);
 }
 
 /* TOC list items */
 .toc-item {
-	margin-bottom: var(--toc-item-spacing, 0.5rem);
+	margin-bottom: 0;
 	line-height: 1.6;
 }
 
 /* Nested levels within TOC list */
 .toc-list ul {
-	padding-left: var(--toc-level-indent, 1.25rem);
-	margin-top: 0.5rem;
+	margin: 0 !important;
+    padding: 0 !important;
+	display: flex;
+	flex-direction: column;
+	gap: var(--toc-item-spacing, 0.5rem);
 }
 
-/* Numbering styles */
-.toc-list.numbering-decimal {
-	list-style-type: decimal;
 
-	ul {
-		list-style-type: decimal;
-	}
-}
-
-.toc-list.numbering-roman {
-	list-style-type: upper-roman;
-
-	ul {
-		list-style-type: lower-roman;
-	}
-}
-
-.toc-list.numbering-alpha {
-	list-style-type: upper-alpha;
-
-	ul {
-		list-style-type: lower-alpha;
-	}
-}
-
-.toc-list.numbering-none {
+/* Hierarchical numbering using CSS counters */
+.toc-list.toc-hierarchical-numbering {
+	counter-reset: toc-h1 toc-h2 toc-h3 toc-h4 toc-h5 toc-h6;
 	list-style-type: none;
 	padding-left: 0;
 
+	/* Reset nested lists to inherit parent's counter state */
 	ul {
+		counter-reset: inherit;
 		list-style-type: none;
 		padding-left: var(--toc-level-indent, 1.25rem);
+	}
+}
+
+/* Counter increment and reset for each heading level */
+.toc-list.toc-hierarchical-numbering .toc-item {
+	&.toc-h1 {
+		counter-increment: toc-h1;
+		counter-reset: toc-h2 toc-h3 toc-h4 toc-h5 toc-h6;
+	}
+	&.toc-h2 {
+		counter-increment: toc-h2;
+		counter-reset: toc-h3 toc-h4 toc-h5 toc-h6;
+	}
+	&.toc-h3 {
+		counter-increment: toc-h3;
+		counter-reset: toc-h4 toc-h5 toc-h6;
+	}
+	&.toc-h4 {
+		counter-increment: toc-h4;
+		counter-reset: toc-h5 toc-h6;
+	}
+	&.toc-h5 {
+		counter-increment: toc-h5;
+		counter-reset: toc-h6;
+	}
+	&.toc-h6 {
+		counter-increment: toc-h6;
+	}
+}
+
+/* Display hierarchical numbering for each level */
+.toc-list.toc-hierarchical-numbering {
+	.toc-h1::before {
+		content: counter(toc-h1, var(--toc-h1-numbering, decimal)) ". ";
+		color: inherit; /* Inherits from parent link color */
+		margin-right: 0.5em;
+	}
+
+	.toc-h2::before {
+		content: counter(toc-h1, var(--toc-h1-numbering, decimal)) "."
+			counter(toc-h2, var(--toc-h2-numbering, decimal)) ". ";
+		color: inherit; /* Inherits from parent link color */
+		margin-right: 0.5em;
+	}
+
+	.toc-h3::before {
+		content: counter(toc-h1, var(--toc-h1-numbering, decimal)) "."
+			counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+			counter(toc-h3, var(--toc-h3-numbering, decimal)) ". ";
+		color: inherit; /* Inherits from parent link color */
+		margin-right: 0.5em;
+	}
+
+	.toc-h4::before {
+		content: counter(toc-h1, var(--toc-h1-numbering, decimal)) "."
+			counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+			counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+			counter(toc-h4, var(--toc-h4-numbering, decimal)) ". ";
+		color: inherit; /* Inherits from parent link color */
+		margin-right: 0.5em;
+	}
+
+	.toc-h5::before {
+		content: counter(toc-h1, var(--toc-h1-numbering, decimal)) "."
+			counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+			counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+			counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+			counter(toc-h5, var(--toc-h5-numbering, decimal)) ". ";
+		color: inherit; /* Inherits from parent link color */
+		margin-right: 0.5em;
+	}
+
+	.toc-h6::before {
+		content: counter(toc-h1, var(--toc-h1-numbering, decimal)) "."
+			counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+			counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+			counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+			counter(toc-h5, var(--toc-h5-numbering, decimal)) "."
+			counter(toc-h6, var(--toc-h6-numbering, decimal)) ". ";
+		color: inherit; /* Inherits from parent link color */
+		margin-right: 0.5em;
+	}
+
+	/* Base level overrides to avoid leading zeroes when higher levels are absent */
+	&[data-base-level="2"] {
+		.toc-h2::before {
+			content: counter(toc-h2, var(--toc-h2-numbering, decimal)) ". ";
+		}
+		.toc-h3::before {
+			content: counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+				counter(toc-h3, var(--toc-h3-numbering, decimal)) ". ";
+		}
+		.toc-h4::before {
+			content: counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+				counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+				counter(toc-h4, var(--toc-h4-numbering, decimal)) ". ";
+		}
+		.toc-h5::before {
+			content: counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+				counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+				counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+				counter(toc-h5, var(--toc-h5-numbering, decimal)) ". ";
+		}
+		.toc-h6::before {
+			content: counter(toc-h2, var(--toc-h2-numbering, decimal)) "."
+				counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+				counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+				counter(toc-h5, var(--toc-h5-numbering, decimal)) "."
+				counter(toc-h6, var(--toc-h6-numbering, decimal)) ". ";
+		}
+	}
+
+	&[data-base-level="3"] {
+		.toc-h3::before {
+			content: counter(toc-h3, var(--toc-h3-numbering, decimal)) ". ";
+		}
+		.toc-h4::before {
+			content: counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+				counter(toc-h4, var(--toc-h4-numbering, decimal)) ". ";
+		}
+		.toc-h5::before {
+			content: counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+				counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+				counter(toc-h5, var(--toc-h5-numbering, decimal)) ". ";
+		}
+		.toc-h6::before {
+			content: counter(toc-h3, var(--toc-h3-numbering, decimal)) "."
+				counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+				counter(toc-h5, var(--toc-h5-numbering, decimal)) "."
+				counter(toc-h6, var(--toc-h6-numbering, decimal)) ". ";
+		}
+	}
+
+	&[data-base-level="4"] {
+		.toc-h4::before {
+			content: counter(toc-h4, var(--toc-h4-numbering, decimal)) ". ";
+		}
+		.toc-h5::before {
+			content: counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+				counter(toc-h5, var(--toc-h5-numbering, decimal)) ". ";
+		}
+		.toc-h6::before {
+			content: counter(toc-h4, var(--toc-h4-numbering, decimal)) "."
+				counter(toc-h5, var(--toc-h5-numbering, decimal)) "."
+				counter(toc-h6, var(--toc-h6-numbering, decimal)) ". ";
+		}
+	}
+
+	&[data-base-level="5"] {
+		.toc-h5::before {
+			content: counter(toc-h5, var(--toc-h5-numbering, decimal)) ". ";
+		}
+		.toc-h6::before {
+			content: counter(toc-h5, var(--toc-h5-numbering, decimal)) "."
+				counter(toc-h6, var(--toc-h6-numbering, decimal)) ". ";
+		}
+	}
+
+	&[data-base-level="6"] {
+		.toc-h6::before {
+			content: counter(toc-h6, var(--toc-h6-numbering, decimal)) ". ";
+		}
+	}
+
+	/* Hide numbering when set to 'none' - cascade effect */
+	&[data-h1-numbering="none"] .toc-h1::before {
+		content: '';
+		margin-right: 0;
+	}
+
+	&[data-h2-numbering="none"] .toc-h2::before,
+	&[data-h2-numbering="none"] .toc-h3::before,
+	&[data-h2-numbering="none"] .toc-h4::before,
+	&[data-h2-numbering="none"] .toc-h5::before,
+	&[data-h2-numbering="none"] .toc-h6::before {
+		content: '';
+		margin-right: 0;
+	}
+
+	&[data-h3-numbering="none"] .toc-h3::before,
+	&[data-h3-numbering="none"] .toc-h4::before,
+	&[data-h3-numbering="none"] .toc-h5::before,
+	&[data-h3-numbering="none"] .toc-h6::before {
+		content: '';
+		margin-right: 0;
+	}
+
+	&[data-h4-numbering="none"] .toc-h4::before,
+	&[data-h4-numbering="none"] .toc-h5::before,
+	&[data-h4-numbering="none"] .toc-h6::before {
+		content: '';
+		margin-right: 0;
+	}
+
+	&[data-h5-numbering="none"] .toc-h5::before,
+	&[data-h5-numbering="none"] .toc-h6::before {
+		content: '';
+		margin-right: 0;
+	}
+
+	&[data-h6-numbering="none"] .toc-h6::before {
+		content: '';
+		margin-right: 0;
 	}
 }
 
@@ -171,17 +442,17 @@
 		color: var(--toc-link-visited-color, #0073aa);
 	}
 
-	&:active {
+	&:active,
+	&.active {
 		color: var(--toc-link-active-color, #005177);
 	}
 
 	&.active {
 		font-weight: bold;
-		color: var(--toc-link-active-color, #005177);
 	}
 }
 
-/* Heading-level-specific styling (H1-H6) */
+/* Heading-level-specific styling (H1-H6) with link states */
 .toc-h1 {
 	font-size: var(--toc-h1-font-size, 1.5rem);
 	font-weight: var(--toc-h1-font-weight, 700);
@@ -190,7 +461,20 @@
 	text-decoration: var(--toc-h1-text-decoration, none);
 
 	.toc-link {
-		color: var(--toc-h1-color, #0073aa);
+		color: var(--toc-h1-color, inherit);
+
+		&:hover {
+			color: var(--toc-h1-hover-color, var(--toc-link-hover-color, inherit));
+		}
+
+		&:visited {
+			color: var(--toc-h1-visited-color, var(--toc-link-visited-color, inherit));
+		}
+
+		&:active,
+		&.active {
+			color: var(--toc-h1-active-color, var(--toc-link-active-color, inherit));
+		}
 	}
 }
 
@@ -202,7 +486,20 @@
 	text-decoration: var(--toc-h2-text-decoration, none);
 
 	.toc-link {
-		color: var(--toc-h2-color, #0073aa);
+		color: var(--toc-h2-color, inherit);
+
+		&:hover {
+			color: var(--toc-h2-hover-color, var(--toc-link-hover-color, inherit));
+		}
+
+		&:visited {
+			color: var(--toc-h2-visited-color, var(--toc-link-visited-color, inherit));
+		}
+
+		&:active,
+		&.active {
+			color: var(--toc-h2-active-color, var(--toc-link-active-color, inherit));
+		}
 	}
 }
 
@@ -214,7 +511,20 @@
 	text-decoration: var(--toc-h3-text-decoration, none);
 
 	.toc-link {
-		color: var(--toc-h3-color, #0073aa);
+		color: var(--toc-h3-color, inherit);
+
+		&:hover {
+			color: var(--toc-h3-hover-color, var(--toc-link-hover-color, inherit));
+		}
+
+		&:visited {
+			color: var(--toc-h3-visited-color, var(--toc-link-visited-color, inherit));
+		}
+
+		&:active,
+		&.active {
+			color: var(--toc-h3-active-color, var(--toc-link-active-color, inherit));
+		}
 	}
 }
 
@@ -226,7 +536,20 @@
 	text-decoration: var(--toc-h4-text-decoration, none);
 
 	.toc-link {
-		color: var(--toc-h4-color, #0073aa);
+		color: var(--toc-h4-color, inherit);
+
+		&:hover {
+			color: var(--toc-h4-hover-color, var(--toc-link-hover-color, inherit));
+		}
+
+		&:visited {
+			color: var(--toc-h4-visited-color, var(--toc-link-visited-color, inherit));
+		}
+
+		&:active,
+		&.active {
+			color: var(--toc-h4-active-color, var(--toc-link-active-color, inherit));
+		}
 	}
 }
 
@@ -238,7 +561,20 @@
 	text-decoration: var(--toc-h5-text-decoration, none);
 
 	.toc-link {
-		color: var(--toc-h5-color, #0073aa);
+		color: var(--toc-h5-color, inherit);
+
+		&:hover {
+			color: var(--toc-h5-hover-color, var(--toc-link-hover-color, inherit));
+		}
+
+		&:visited {
+			color: var(--toc-h5-visited-color, var(--toc-link-visited-color, inherit));
+		}
+
+		&:active,
+		&.active {
+			color: var(--toc-h5-active-color, var(--toc-link-active-color, inherit));
+		}
 	}
 }
 
@@ -250,19 +586,26 @@
 	text-decoration: var(--toc-h6-text-decoration, none);
 
 	.toc-link {
-		color: var(--toc-h6-color, #0073aa);
+		color: var(--toc-h6-color, inherit);
+
+		&:hover {
+			color: var(--toc-h6-hover-color, var(--toc-link-hover-color, inherit));
+		}
+
+		&:visited {
+			color: var(--toc-h6-visited-color, var(--toc-link-visited-color, inherit));
+		}
+
+		&:active,
+		&.active {
+			color: var(--toc-h6-active-color, var(--toc-link-active-color, inherit));
+		}
 	}
 }
 
-/* Numbering prefix color */
-.toc-list.numbering-decimal li::marker,
-.toc-list.numbering-roman li::marker,
-.toc-list.numbering-alpha li::marker {
-	color: var(--toc-numbering-color, #0073aa);
-}
-
 /* Position types */
-.toc-position-default {
+.toc-position-default,
+.toc-position-normal {
 	position: static;
 }
 
