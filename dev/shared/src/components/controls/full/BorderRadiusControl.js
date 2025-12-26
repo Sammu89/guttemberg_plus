@@ -10,11 +10,11 @@
  * @package guttemberg-plus
  */
 
-import { useState } from '@wordpress/element';
 import { BaseControl } from '@wordpress/components';
 import { CompactBoxRow } from '../organisms/CompactBoxRow';
 import { SideIcon } from '../atoms/SideIcon';
 import { DeviceSwitcher } from '../atoms/DeviceSwitcher';
+import { useResponsiveDevice } from '../../../hooks/useResponsiveDevice';
 
 const CORNERS = [ 'topLeft', 'topRight', 'bottomRight', 'bottomLeft' ];
 
@@ -41,7 +41,8 @@ export function BorderRadiusControl( {
 	responsive = false,
 	disabled = false,
 } ) {
-	const [ device, setDevice ] = useState( 'desktop' );
+	// Use global device state - all responsive controls stay in sync
+	const device = useResponsiveDevice();
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
@@ -101,7 +102,6 @@ export function BorderRadiusControl( {
 					{ responsive && (
 						<DeviceSwitcher
 							value={ device }
-							onChange={ setDevice }
 							disabled={ disabled }
 						/>
 					) }

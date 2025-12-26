@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-26T00:11:13.647Z
+> Generated at: 2025-12-26T22:38:19.385Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -42,9 +42,9 @@ Row background, spacing, alignment, dividers
 |-----------|------|---------|-----------|-------------|
 | `stretchButtonsToRow` | boolean | `false` | Yes | Make tab buttons fill the full width of the row (horizontal orientation only) |
 | `tabListBackgroundColor` | string | `transparent` | Yes | Background color for the tab navigation bar |
-| `tabsRowBorderColor` | string | `#dddddd` | Yes | Border color for the tab row |
+| `tabsRowBorderColor` | object | _object_ | Yes | Border color for the tab row |
 | `tabsRowBorderWidth` | number | `0` | Yes | Border width for the tab row |
-| `tabsRowBorderStyle` | string | `solid` | Yes | Border style for the tab row |
+| `tabsRowBorderStyle` | object | _object_ | Yes | Border style for the tab row |
 | `tabListAlignment` | string | `flex-start` | Yes | Alignment of tabs along the main axis |
 | `tabsRowSpacing` | number | `0.5` | Yes | Padding/spacing for the tab row (rem) |
 | `tabsButtonGap` | number | `0.5` | Yes | Spacing between individual tab buttons (rem) |
@@ -90,11 +90,11 @@ Tab header borders and active edge
 | `enableFocusBorder` | boolean | `true` | Yes | Border on the edge touching the content, giving it a merged look. |
 | `tabButtonActiveContentBorderWidth` | number | `1` | Yes | Width of the active button edge touching content |
 | `tabButtonActiveContentBorderStyle` | string | `solid` | Yes | Style of the active button edge touching content |
-| `tabButtonBorderColor` | string | `#dddddd` | Yes | Border color for inactive tab buttons |
-| `tabButtonActiveBorderColor` | string | `#dddddd` | Yes | Border color for the active tab |
+| `tabButtonBorderColor` | object | _object_ | Yes | Border color for inactive tab buttons |
+| `tabButtonActiveBorderColor` | object | _object_ | Yes | Border color for the active tab |
 | `tabButtonActiveContentBorderColor` | string | `#ffffff` | Yes | Color of the border. Keep it the same color as panel background for a merged look. |
 | `tabButtonBorderWidth` | number | `1` | Yes | Border width for tab buttons |
-| `tabButtonBorderStyle` | string | `solid` | Yes | Border style for tab buttons |
+| `tabButtonBorderStyle` | object | _object_ | Yes | Border style for tab buttons |
 | `tabButtonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
 | `tabButtonShadow` | string | `none` | Yes | Box shadow for tab buttons |
 | `tabButtonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
@@ -121,9 +121,9 @@ Panel background and borders
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `panelBackgroundColor` | string | `#ffffff` | Yes | Background color for tab panels |
-| `panelBorderColor` | string | `#dddddd` | Yes | Border color for tab content panel |
+| `panelBorderColor` | object | _object_ | Yes | Border color for tab content panel |
 | `panelBorderWidth` | number | `1` | Yes | Border width for tab content panel (0-10px) |
-| `panelBorderStyle` | string | `solid` | Yes | Border style for tab content panel |
+| `panelBorderStyle` | object | _object_ | Yes | Border style for tab content panel |
 | `panelBorderRadius` | object | _object_ | Yes | Corner radius for tab content panel |
 
 ## Block Borders
@@ -132,9 +132,9 @@ Wrapper borders and shadows
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `borderColor` | string | `#dddddd` | Yes | Border color for main tabs wrapper |
+| `borderColor` | object | _object_ | Yes | Border color for main tabs wrapper |
 | `borderWidth` | number | `0` | Yes | Border width for main wrapper |
-| `borderStyle` | string | `solid` | Yes | Border style for wrapper |
+| `borderStyle` | object | _object_ | Yes | Border style for wrapper |
 | `borderRadius` | object | _object_ | Yes | Corner radius for main wrapper |
 | `shadow` | string | `none` | Yes | Box shadow for main wrapper |
 | `shadowHover` | string | `none` | Yes | Box shadow for wrapper on hover |

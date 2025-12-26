@@ -2,16 +2,15 @@
  * CompactBoxRow Organism
  *
  * The core reusable row component for box-type controls.
- * Layout: [ICON_SLOT] [value] [unit] ────●──── [🔗]
+ * Layout: [ICON_SLOT] [value+unit] ────●──── [🔗]
  *
+ * Uses native Gutenberg UnitControl for consistent UI with WordPress core.
  * Icon slot can contain: StyleIconButton, ColorSwatch, SideIcon (radius/margin/padding)
  *
  * @package guttemberg-plus
  */
 
-import { Flex, FlexItem, FlexBlock } from '@wordpress/components';
-import { NumberInput } from '../atoms/NumberInput';
-import { UnitDropdown } from '../atoms/UnitDropdown';
+import { Flex, FlexItem, FlexBlock, __experimentalUnitControl as UnitControl } from '@wordpress/components';
 import { MiniSlider } from '../atoms/MiniSlider';
 import { LinkToggle } from '../atoms/LinkToggle';
 
@@ -66,25 +65,24 @@ export function CompactBoxRow( {
 				</FlexItem>
 			) }
 
-			{ /* Number input */ }
-			<FlexItem className="gutplus-compact-box-row__value">
-				<NumberInput
-					value={ value }
-					onChange={ onValueChange }
+			{ /* Combined value + unit using native Gutenberg UnitControl */ }
+			<FlexItem className="gutplus-compact-box-row__value-unit">
+				<UnitControl
+					value={ `${ value }${ unit }` }
+					onChange={ ( newValue ) => {
+						const numericValue = parseFloat( newValue ) || 0;
+						const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || unit;
+						onValueChange( numericValue );
+						if ( newUnit !== unit && onUnitChange ) {
+							onUnitChange( newUnit );
+						}
+					} }
+					units={ units.map( ( u ) => ( { value: u, label: u } ) ) }
 					min={ min }
 					max={ max }
 					step={ step }
 					disabled={ disabled }
-				/>
-			</FlexItem>
-
-			{ /* Unit dropdown */ }
-			<FlexItem className="gutplus-compact-box-row__unit">
-				<UnitDropdown
-					value={ unit }
-					onChange={ onUnitChange }
-					units={ units }
-					disabled={ disabled }
+					__next40pxDefaultSize
 				/>
 			</FlexItem>
 

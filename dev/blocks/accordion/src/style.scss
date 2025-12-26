@@ -20,30 +20,59 @@
 /* Accordion item - now the root element
  * .gutplus-accordion is the block root
  * Border styles come from _theme-generated.scss via CSS variables
+ *
+ * IMPORTANT: Block margin uses separate margin-top/margin-bottom properties
+ * to avoid conflicting with horizontal alignment (margin-left/margin-right).
+ * See: schemas/SIDEBAR via Schema.md → "Margin vs Horizontal Alignment Conflict"
  */
 .gutplus-accordion {
 	min-width: 18.75rem;
-	margin: var(--accordion-block-margin, 1em 0);
+	// Vertical margins from block margin control (separate to avoid alignment conflicts)
+	// Defaults match schema: blockMargin.default.desktop = { top: 1, bottom: 1, unit: 'em' }
+	margin-top: var(--accordion-block-margin-top, 1em);
+	margin-bottom: var(--accordion-block-margin-bottom, 1em);
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
 	outline: none;
 	border-width: var(--accordion-border-width, 1px);
 
-	// Alignment classes
+	// Alignment classes - horizontal margins for block positioning
 	&.gutplus-align-left {
-		margin-left: 0 !important;
-		margin-right: auto !important;
+		margin-left: 0;
+		margin-right: auto;
 	}
 
 	&.gutplus-align-center {
-		margin-left: auto !important;
-		margin-right: auto !important;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	&.gutplus-align-right {
-		margin-left: auto !important;
-		margin-right: 0 !important;
+		margin-left: auto;
+		margin-right: 0;
 	}
+}
+
+[data-gutplus-device="tablet"].gutplus-accordion {
+	margin-top: var(
+		--accordion-block-margin-top-tablet,
+		var(--accordion-block-margin-top, 1em)
+	);
+	margin-bottom: var(
+		--accordion-block-margin-bottom-tablet,
+		var(--accordion-block-margin-bottom, 1em)
+	);
+}
+
+[data-gutplus-device="mobile"].gutplus-accordion {
+	margin-top: var(
+		--accordion-block-margin-top-mobile,
+		var(--accordion-block-margin-top-tablet, var(--accordion-block-margin-top, 1em))
+	);
+	margin-bottom: var(
+		--accordion-block-margin-bottom-mobile,
+		var(--accordion-block-margin-bottom-tablet, var(--accordion-block-margin-bottom, 1em))
+	);
 }
 
 /* Accordion title/button */

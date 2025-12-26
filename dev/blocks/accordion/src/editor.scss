@@ -16,10 +16,13 @@
 
 /* Editor-specific overrides and additions */
 
-/* Accordion alignment for editor */
+/* Accordion alignment for editor
+ * NOTE: margin-top/margin-bottom are controlled by inline styles from blockMargin attribute
+ * Only horizontal margins are set here for alignment (matching style.scss)
+ */
 .gutplus-accordion {
-	margin-top: 1em !important;
-	margin-bottom: 1em !important;
+	// Vertical margins come from inline styles (marginTop/marginBottom)
+	// Do NOT set margin-top/margin-bottom here - it conflicts with the control
 
 	&.gutplus-align-left {
 		margin-left: 0 !important;
@@ -54,9 +57,7 @@
 	align-items: center;
 }
 
-.static-padding-default {
-	padding: 1rem 1.5rem;
-}
+/* Removed: .static-padding-default - now using inline styles from schema */
 
 .heading-reset {
 	margin: 0;

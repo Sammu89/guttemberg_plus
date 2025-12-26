@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-26T00:11:13.633Z
+ * Generated at: 2025-12-26T22:38:19.335Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -19,10 +19,10 @@
 export interface AccordionTheme {
   /** Border width, color, and style for all sides */
   borderWidth?: Record<string, any>;
-  /** Border color - part of BorderPanel */
-  borderColor?: string;
-  /** Border style - part of BorderPanel */
-  borderStyle?: string;
+  /** Border color for all sides */
+  borderColor?: Record<string, any>;
+  /** Border style for all sides */
+  borderStyle?: Record<string, any>;
   /** Corner radius of the accordion wrapper */
   borderRadius?: Record<string, any>;
   /** Inner spacing of the header */
@@ -58,25 +58,25 @@ export interface AccordionTheme {
   /** Font family for the header */
   titleFontFamily?: string;
   /** Font size for the header */
-  titleFontSize?: Record<string, any>;
+  titleFontSize?: number;
   /** Font weight and style for the header */
   titleAppearance?: Record<string, any>;
   /** Space between letters */
-  titleLetterSpacing?: Record<string, any>;
+  titleLetterSpacing?: number;
   /** Text decoration for the header */
   titleTextDecoration?: string;
   /** Text transformation for the header */
   titleTextTransform?: string;
   /** Line height for the header */
-  titleLineHeight?: Record<string, any>;
+  titleLineHeight?: number;
   /** Text alignment for the header */
   titleAlignment?: string;
   /** Font family for the content */
   contentFontFamily?: string;
   /** Font size for the content */
-  contentFontSize?: Record<string, any>;
+  contentFontSize?: number;
   /** Line height for the content */
-  contentLineHeight?: Record<string, any>;
+  contentLineHeight?: number;
   /** Display expand/collapse icon */
   showIcon?: boolean;
   /** Position of icon relative to title */
@@ -84,7 +84,7 @@ export interface AccordionTheme {
   /** Color of the expand/collapse icon */
   iconColor?: string;
   /** Size of the icon */
-  iconSize?: Record<string, any>;
+  iconSize?: number;
   /** Icon when accordion is closed (character, unicode, or image URL) */
   iconTypeClosed?: string;
   /** Icon when accordion is open (none = rotate closed icon) */
@@ -110,8 +110,20 @@ export const accordionDefaultTheme: AccordionTheme = {
     "left": 1,
     "unit": "px"
   },
-  borderColor: '#dddddd',
-  borderStyle: 'solid',
+  borderColor: {
+    "top": "#dddddd",
+    "right": "#dddddd",
+    "bottom": "#dddddd",
+    "left": "#dddddd",
+    "linked": true
+  },
+  borderStyle: {
+    "top": "solid",
+    "right": "solid",
+    "bottom": "solid",
+    "left": "solid",
+    "linked": true
+  },
   borderRadius: {
     "topLeft": 4,
     "topRight": 4,
@@ -120,31 +132,25 @@ export const accordionDefaultTheme: AccordionTheme = {
     "unit": "px"
   },
   headerPadding: {
-    "desktop": {
-      "top": 12,
-      "right": 16,
-      "bottom": 12,
-      "left": 16,
-      "unit": "px"
-    }
+    "top": 12,
+    "right": 16,
+    "bottom": 12,
+    "left": 16,
+    "unit": "px"
   },
   contentPadding: {
-    "desktop": {
-      "top": 16,
-      "right": 16,
-      "bottom": 16,
-      "left": 16,
-      "unit": "px"
-    }
+    "top": 16,
+    "right": 16,
+    "bottom": 16,
+    "left": 16,
+    "unit": "px"
   },
   blockMargin: {
-    "desktop": {
-      "top": 0,
-      "right": 0,
-      "bottom": 16,
-      "left": 0,
-      "unit": "px"
-    }
+    "top": 1,
+    "right": 0,
+    "bottom": 1,
+    "left": 0,
+    "unit": "em"
   },
   shadow: 'none',
   dividerColor: '#dddddd',
@@ -159,35 +165,23 @@ export const accordionDefaultTheme: AccordionTheme = {
   contentTextColor: '#333333',
   contentBackgroundColor: '#ffffff',
   titleFontFamily: 'inherit',
-  titleFontSize: {
-    "desktop": 1.125
-  },
+  titleFontSize: 1.125,
   titleAppearance: {
     "weight": "600",
     "style": "normal"
   },
-  titleLetterSpacing: {
-    "desktop": 0
-  },
+  titleLetterSpacing: 0,
   titleTextDecoration: 'none',
   titleTextTransform: 'none',
-  titleLineHeight: {
-    "desktop": 1.4
-  },
+  titleLineHeight: 1.4,
   titleAlignment: 'left',
   contentFontFamily: 'inherit',
-  contentFontSize: {
-    "desktop": 1
-  },
-  contentLineHeight: {
-    "desktop": 1.6
-  },
+  contentFontSize: 1,
+  contentLineHeight: 1.6,
   showIcon: true,
   iconPosition: 'right',
   iconColor: '#666666',
-  iconSize: {
-    "desktop": 1.25
-  },
+  iconSize: 1.25,
   iconTypeClosed: '▾',
   iconTypeOpen: 'none',
   iconRotation: 180,
@@ -212,8 +206,8 @@ export interface AccordionThemeAttributes {
   accordionHorizontalAlign?: string;
   initiallyOpen?: boolean;
   borderWidth?: Record<string, any>;
-  borderColor?: string;
-  borderStyle?: string;
+  borderColor?: Record<string, any>;
+  borderStyle?: Record<string, any>;
   borderRadius?: Record<string, any>;
   headerPadding?: Record<string, any>;
   contentPadding?: Record<string, any>;
@@ -231,20 +225,20 @@ export interface AccordionThemeAttributes {
   contentTextColor?: string;
   contentBackgroundColor?: string;
   titleFontFamily?: string;
-  titleFontSize?: Record<string, any>;
+  titleFontSize?: number;
   titleAppearance?: Record<string, any>;
-  titleLetterSpacing?: Record<string, any>;
+  titleLetterSpacing?: number;
   titleTextDecoration?: string;
   titleTextTransform?: string;
-  titleLineHeight?: Record<string, any>;
+  titleLineHeight?: number;
   titleAlignment?: string;
   contentFontFamily?: string;
-  contentFontSize?: Record<string, any>;
-  contentLineHeight?: Record<string, any>;
+  contentFontSize?: number;
+  contentLineHeight?: number;
   showIcon?: boolean;
   iconPosition?: string;
   iconColor?: string;
-  iconSize?: Record<string, any>;
+  iconSize?: number;
   iconTypeClosed?: string;
   iconTypeOpen?: string;
   iconRotation?: number;

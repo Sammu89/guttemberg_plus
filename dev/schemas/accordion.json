@@ -204,13 +204,19 @@
       "outputsCSS": true
     },
     "borderColor": {
-      "type": "string",
-      "default": "#dddddd",
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
       "cssVar": "accordion-border-color",
       "group": "borders",
       "subgroup": "External",
       "label": "Border Color",
-      "description": "Border color - part of BorderPanel",
+      "description": "Border color for all sides",
       "themeable": true,
       "control": "BorderPanel",
       "renderControl": false,
@@ -220,13 +226,19 @@
       "outputsCSS": true
     },
     "borderStyle": {
-      "type": "string",
-      "default": "solid",
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
       "cssVar": "accordion-border-style",
       "group": "borders",
       "subgroup": "External",
       "label": "Border Style",
-      "description": "Border style - part of BorderPanel",
+      "description": "Border style for all sides",
       "themeable": true,
       "control": "BorderPanel",
       "renderControl": false,
@@ -260,9 +272,7 @@
     },
     "headerPadding": {
       "type": "object",
-      "default": {
-        "desktop": { "top": 12, "right": 16, "bottom": 12, "left": 16, "unit": "px" }
-      },
+      "default": { "top": 12, "right": 16, "bottom": 12, "left": 16, "unit": "px" },
       "cssVar": "accordion-header-padding",
       "group": "borders",
       "subgroup": "External",
@@ -280,9 +290,7 @@
     },
     "contentPadding": {
       "type": "object",
-      "default": {
-        "desktop": { "top": 16, "right": 16, "bottom": 16, "left": 16, "unit": "px" }
-      },
+      "default": { "top": 16, "right": 16, "bottom": 16, "left": 16, "unit": "px" },
       "cssVar": "accordion-content-padding",
       "group": "borders",
       "subgroup": "External",
@@ -300,9 +308,7 @@
     },
     "blockMargin": {
       "type": "object",
-      "default": {
-        "desktop": { "top": 0, "right": 0, "bottom": 16, "left": 0, "unit": "px" }
-      },
+      "default": { "top": 1, "right": 0, "bottom": 1, "left": 0, "unit": "em" },
       "cssVar": "accordion-block-margin",
       "group": "borders",
       "subgroup": "External",
@@ -513,10 +519,8 @@
       "cssProperty": "font-family"
     },
     "titleFontSize": {
-      "type": "object",
-      "default": {
-        "desktop": 1.125
-      },
+      "type": "number",
+      "default": 1.125,
       "cssVar": "accordion-title-font-size",
       "group": "typography",
       "subgroup": "Header",
@@ -550,10 +554,8 @@
       "appliesTo": "title"
     },
     "titleLetterSpacing": {
-      "type": "object",
-      "default": {
-        "desktop": 0
-      },
+      "type": "number",
+      "default": 0,
       "cssVar": "accordion-title-letter-spacing",
       "group": "typography",
       "subgroup": "Header",
@@ -599,10 +601,8 @@
       "cssProperty": "text-transform"
     },
     "titleLineHeight": {
-      "type": "object",
-      "default": {
-        "desktop": 1.4
-      },
+      "type": "number",
+      "default": 1.4,
       "cssVar": "accordion-title-line-height",
       "group": "typography",
       "subgroup": "Header",
@@ -650,10 +650,8 @@
       "cssProperty": "font-family"
     },
     "contentFontSize": {
-      "type": "object",
-      "default": {
-        "desktop": 1
-      },
+      "type": "number",
+      "default": 1,
       "cssVar": "accordion-content-font-size",
       "group": "typography",
       "subgroup": "Content",
@@ -671,10 +669,8 @@
       "cssProperty": "font-size"
     },
     "contentLineHeight": {
-      "type": "object",
-      "default": {
-        "desktop": 1.6
-      },
+      "type": "number",
+      "default": 1.6,
       "cssVar": "accordion-content-line-height",
       "group": "typography",
       "subgroup": "Content",
@@ -734,10 +730,8 @@
       "cssProperty": "color"
     },
     "iconSize": {
-      "type": "object",
-      "default": {
-        "desktop": 1.25
-      },
+      "type": "number",
+      "default": 1.25,
       "cssVar": "accordion-icon-size",
       "group": "icon",
       "label": "Icon Size",

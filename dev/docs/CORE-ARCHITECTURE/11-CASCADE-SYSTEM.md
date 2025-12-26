@@ -260,7 +260,24 @@ The `customizations` attribute plays a critical role in the simplified architect
 **Usage**:
 1. **Clean Detection**: Empty object (`{}`) means block uses clean theme
 2. **Batch Updates**: System uses this to determine which blocks to auto-update
-3. **Frontend Rendering**: Used by `save.js` to generate inline CSS for customized values
+3. **Frontend Rendering**: Used by `save.js` to generate element-inline CSS variables on the block root (not a `<style>` tag)
+
+### CSS Output Tiers (Explicit)
+
+**Tier 1: Defaults**
+- Source: base CSS variables in `:root` (assets CSS)
+
+**Tier 2: Saved Themes**
+- Source: theme deltas stored in the database
+- Output: CSS variables injected in the page `<head>` under a theme class
+- Purpose: shared, cached values for saved themes only
+
+**Tier 3: Block Customizations**
+- Source: `customizations` (per-block deltas from expected values)
+- Output: inline CSS variables on the block root element via the `style` attribute
+- Purpose: highest-priority overrides for a specific block instance
+
+**Rule**: Tier 3 must be element-inline only. No `<style>` tags for block customizations. `<head>` is reserved for Tier 2 saved theme classes.
 
 **Auto-Update Behavior**:
 

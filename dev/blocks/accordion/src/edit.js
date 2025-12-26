@@ -31,6 +31,7 @@ import {
 	CustomizationWarning,
 	useThemeManager,
 	useBlockAlignment,
+	useResponsiveDevice,
 	debug,
 } from '@shared';
 import accordionSchema from '../../../schemas/accordion.json';
@@ -51,6 +52,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.accordionHorizontalAlign );
+	const responsiveDevice = useResponsiveDevice();
 
 	// Generate unique ID on mount if not set
 	useEffect( () => {
@@ -152,7 +154,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 // AUTO-GENERATED from schemas/accordion.json
 // To modify styles, update the schema and run: npm run schema:build
 
-const getInlineStyles = () => {
+const getInlineStyles = (responsiveDevice = 'desktop') => {
   // Extract object-type attributes with fallbacks
 	const borderWidth = effectiveValues.borderWidth || {
 		    "top": 1,
@@ -160,6 +162,20 @@ const getInlineStyles = () => {
 		    "bottom": 1,
 		    "left": 1,
 		    "unit": "px"
+		};
+	const borderColor = effectiveValues.borderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const borderStyle = effectiveValues.borderStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
 		};
 	const borderRadius = effectiveValues.borderRadius || {
 		    "topLeft": 4,
@@ -169,66 +185,42 @@ const getInlineStyles = () => {
 		    "unit": "px"
 		};
 	const headerPadding = effectiveValues.headerPadding || {
-		    "desktop": {
-		        "top": 12,
-		        "right": 16,
-		        "bottom": 12,
-		        "left": 16,
-		        "unit": "px"
-		    }
+		    "top": 12,
+		    "right": 16,
+		    "bottom": 12,
+		    "left": 16,
+		    "unit": "px"
 		};
 	const contentPadding = effectiveValues.contentPadding || {
-		    "desktop": {
-		        "top": 16,
-		        "right": 16,
-		        "bottom": 16,
-		        "left": 16,
-		        "unit": "px"
-		    }
+		    "top": 16,
+		    "right": 16,
+		    "bottom": 16,
+		    "left": 16,
+		    "unit": "px"
 		};
 	const blockMargin = effectiveValues.blockMargin || {
-		    "desktop": {
-		        "top": 0,
-		        "right": 0,
-		        "bottom": 16,
-		        "left": 0,
-		        "unit": "px"
-		    }
-		};
-	const titleFontSize = effectiveValues.titleFontSize || {
-		    "desktop": 1.125
+		    "top": 1,
+		    "right": 0,
+		    "bottom": 1,
+		    "left": 0,
+		    "unit": "em"
 		};
 	const titleAppearance = effectiveValues.titleAppearance || {
 		    "weight": "600",
 		    "style": "normal"
 		};
-	const titleLetterSpacing = effectiveValues.titleLetterSpacing || {
-		    "desktop": 0
-		};
-	const titleLineHeight = effectiveValues.titleLineHeight || {
-		    "desktop": 1.4
-		};
-	const contentFontSize = effectiveValues.contentFontSize || {
-		    "desktop": 1
-		};
-	const contentLineHeight = effectiveValues.contentLineHeight || {
-		    "desktop": 1.6
-		};
-	const iconSize = effectiveValues.iconSize || {
-		    "desktop": 1.25
-		};
 
 	return {
 		container: {
-			borderColor: effectiveValues.borderColor || '#dddddd',
-			borderStyle: effectiveValues.borderStyle || 'solid',
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
+			marginTop: (() => { const blockMarginVal = blockMargin[responsiveDevice] || blockMargin; return `${blockMarginVal.top || 0}${blockMarginVal.unit || 'px'}`; })(),
+			marginBottom: (() => { const blockMarginVal = blockMargin[responsiveDevice] || blockMargin; return `${blockMarginVal.bottom || 0}${blockMarginVal.unit || 'px'}`; })(),
 			boxShadow: effectiveValues.shadow || 'none',
 			transitionDuration: `${effectiveValues.animationDuration ?? 300}ms`,
 			transitionTimingFunction: effectiveValues.animationEasing || 'ease',
 		},
 		title: {
-			padding: `${headerPadding.top}px ${headerPadding.right}px ${headerPadding.bottom}px ${headerPadding.left}px`,
+			padding: (() => { const headerPaddingVal = headerPadding[responsiveDevice] || headerPadding; const unit = headerPaddingVal.unit || 'px'; return `${headerPaddingVal.top || 0}${unit} ${headerPaddingVal.right || 0}${unit} ${headerPaddingVal.bottom || 0}${unit} ${headerPaddingVal.left || 0}${unit}`; })(),
 			color: effectiveValues.titleColor || '#333333',
 			background: effectiveValues.titleBackgroundColor || '#f5f5f5',
 			fontFamily: effectiveValues.titleFontFamily || 'inherit',
@@ -237,7 +229,7 @@ const getInlineStyles = () => {
 			textAlign: effectiveValues.titleAlignment || 'left',
 		},
 		content: {
-			padding: `${contentPadding.top}px ${contentPadding.right}px ${contentPadding.bottom}px ${contentPadding.left}px`,
+			padding: (() => { const contentPaddingVal = contentPadding[responsiveDevice] || contentPadding; const unit = contentPaddingVal.unit || 'px'; return `${contentPaddingVal.top || 0}${unit} ${contentPaddingVal.right || 0}${unit} ${contentPaddingVal.bottom || 0}${unit} ${contentPaddingVal.left || 0}${unit}`; })(),
 			borderTopColor: effectiveValues.dividerColor || '#dddddd',
 			borderTopStyle: effectiveValues.dividerStyle || 'solid',
 			borderTopWidth: `${effectiveValues.dividerWidth ?? 0}px`,
@@ -253,7 +245,7 @@ const getInlineStyles = () => {
 };
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
-	const styles = getInlineStyles();
+	const styles = getInlineStyles( responsiveDevice );
 
 	/**
 	 * Render icon based on settings
@@ -378,7 +370,7 @@ const getInlineStyles = () => {
 		// The accordion-title div mimics the button structure from save.js
 		const titleElement = (
 			<div
-				className={ `accordion-title static-padding-default ${ iconPositionClass } ${ titleAlignClass }` }
+				className={ `accordion-title ${ iconPositionClass } ${ titleAlignClass }` }
 				style={ {
 					...styles.title,
 				} }
@@ -445,6 +437,7 @@ const getInlineStyles = () => {
 		width: effectiveValues.accordionWidth,
 		overflow: 'hidden', // Clip border-radius in editor
 		...editorCSSVars, // Apply all CSS variables (including decomposed ones!)
+		...styles.container, // Apply container styles (margin, radius, box effects)
 	};
 
 	// Build class names - match frontend structure
@@ -460,6 +453,7 @@ const getInlineStyles = () => {
 		className: classNames.join( ' ' ),
 		style: rootStyles,
 		ref: blockRef,
+		'data-gutplus-device': responsiveDevice,
 	} );
 
 	return (

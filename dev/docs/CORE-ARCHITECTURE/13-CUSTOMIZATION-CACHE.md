@@ -17,7 +17,7 @@ The system uses TWO different attributes for customization tracking:
 **Usage**:
 - **Clean Detection**: Empty object (`{}`) = clean block
 - **Batch Updates**: Determines which blocks get auto-updated
-- **Frontend Rendering**: Generates inline CSS for customized values
+- **Frontend Rendering**: Generates element-inline CSS variables for customized values (Tier 3)
 - **Always Auto-Updates**: Recalculates on every attribute change
 
 **Example**:
@@ -112,7 +112,7 @@ The `customizations` attribute serves these purposes:
 
 1. **Clean Detection**: Empty object = block uses clean theme
 2. **Batch Updates**: System checks this to determine auto-update eligibility
-3. **Frontend CSS**: Generates inline styles for customized attributes only
+3. **Frontend CSS**: Generates element-inline CSS variables for customized attributes only
 4. **Customization Display**: Shows "(customized)" suffix in theme dropdown
 
 ### customizationCache (Legacy)
@@ -142,7 +142,7 @@ The `customizationCache` attribute was designed for:
 
 **Status**: customizationCache is serialized to post_content in database
 
-**Data**: Saved as part of block attributes (inline block customization)
+**Data**: Saved as part of block attributes (element-inline customization)
 
 **Persistence**: Permanent (saved in WordPress database)
 
@@ -301,7 +301,7 @@ export function getThemeableSnapshot(attributes, exclude = []) {
 3. customizationCache auto-updates with complete values
 4. User clicks "Save" or "Publish"
 5. WordPress saves post_content with all block attributes
-6. customizationCache persists in database as inline block customization
+6. customizationCache persists in database as element-inline customization
 7. User reloads page → customizationCache restored from database
 ```
 
@@ -318,7 +318,7 @@ export function getThemeableSnapshot(attributes, exclude = []) {
 7. When user saves post:
    - Block attributes saved with currentTheme = "New Theme"
    - customizationCache = {} (empty, since using clean theme)
-   - No inline customizations (all values come from theme)
+   - No element-inline customizations (all values come from theme)
 ```
 
 **Important**: After "Save as New Theme", the customizations are now PART OF THE THEME (in wp_options), not part of the block. The block just has `currentTheme` pointing to the new theme.

@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-26T00:11:13.646Z
+ * Generated at: 2025-12-26T22:38:19.380Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -38,11 +38,8 @@ return array(
   'tabButtonActiveContentBorderWidth' => '1',
   'tabButtonActiveContentBorderStyle' => 'solid',
   'tabButtonActiveFontWeight' => 'bold',
-  'tabButtonBorderColor' => '#dddddd',
-  'tabButtonActiveBorderColor' => '#dddddd',
   'tabButtonActiveContentBorderColor' => '#ffffff',
   'tabButtonBorderWidth' => '1',
-  'tabButtonBorderStyle' => 'solid',
   'tabButtonShadow' => 'none',
   'tabButtonShadowHover' => 'none',
   'tabButtonFontSize' => '1',
@@ -53,19 +50,13 @@ return array(
   'tabButtonTextAlign' => 'center',
   'tabButtonPadding' => '0.75rem 1.5rem',
   'tabListBackgroundColor' => 'transparent',
-  'tabsRowBorderColor' => '#dddddd',
   'tabsRowBorderWidth' => '0',
-  'tabsRowBorderStyle' => 'solid',
   'tabListAlignment' => 'flex-start',
   'tabsRowSpacing' => '0.5',
   'tabsButtonGap' => '0.5',
   'panelBackgroundColor' => '#ffffff',
-  'panelBorderColor' => '#dddddd',
   'panelBorderWidth' => '1',
-  'panelBorderStyle' => 'solid',
-  'borderColor' => '#dddddd',
   'borderWidth' => '0',
-  'borderStyle' => 'solid',
   'shadow' => 'none',
   'shadowHover' => 'none',
   'enableTabsListContentBorder' => 'false',

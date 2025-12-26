@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-26T00:11:13.653Z
+ * Generated at: 2025-12-26T22:38:19.414Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -36,9 +36,7 @@ export function buildEditorStyles(values) {
     if (values.wrapperBackgroundColor !== undefined && values.wrapperBackgroundColor !== null) {
       styles.default.backgroundColor = values.wrapperBackgroundColor;
     }
-    if (values.blockBorderColor !== undefined && values.blockBorderColor !== null) {
-      styles.default.borderColor = values.blockBorderColor;
-    }
+    // Complex object: blockBorderColor - handle manually if needed
     if (values.titleColor !== undefined && values.titleColor !== null) {
       styles.default.color = values.titleColor;
     }
@@ -255,9 +253,7 @@ export function buildEditorStyles(values) {
     if (values.blockBorderWidth !== undefined && values.blockBorderWidth !== null) {
       styles.default.borderWidth = `${values.blockBorderWidth}px`;
     }
-    if (values.blockBorderStyle !== undefined && values.blockBorderStyle !== null) {
-      styles.default.borderStyle = values.blockBorderStyle;
-    }
+    // Complex object: blockBorderStyle - handle manually if needed
     if (values.blockBorderRadius) {
       const formatted = formatBorderRadius(values.blockBorderRadius);
       if (formatted) styles.default.borderRadius = formatted;
@@ -304,9 +300,7 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-wrapper-background-color'] = customizations.wrapperBackgroundColor;
   }
 
-  if (customizations.blockBorderColor !== undefined && customizations.blockBorderColor !== null) {
-    styles['--toc-border-color'] = customizations.blockBorderColor;
-  }
+  // Complex object: blockBorderColor - handle manually if needed
 
   if (customizations.titleColor !== undefined && customizations.titleColor !== null) {
     styles['--toc-title-color'] = customizations.titleColor;
@@ -596,9 +590,7 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-border-width'] = `${customizations.blockBorderWidth}px`;
   }
 
-  if (customizations.blockBorderStyle !== undefined && customizations.blockBorderStyle !== null) {
-    styles['--toc-border-style'] = customizations.blockBorderStyle;
-  }
+  // Complex object: blockBorderStyle - handle manually if needed
 
   if (customizations.blockBorderRadius) {
     const formatted = formatBorderRadius(customizations.blockBorderRadius);

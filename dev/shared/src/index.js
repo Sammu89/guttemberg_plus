@@ -128,4 +128,5 @@ export {
 	useBlockThemes,
 	useCSSDefaults,
 	useThemeManager,
+	useResponsiveDevice,
 } from './hooks';

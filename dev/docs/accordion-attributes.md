@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-26T00:11:13.639Z
+> Generated at: 2025-12-26T22:38:19.357Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -41,8 +41,8 @@ Block borders, radius, shadows, and divider settings
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `borderWidth` | object | _object_ | Yes | Border width, color, and style for all sides |
-| `borderColor` | string | `#dddddd` | Yes | Border color - part of BorderPanel |
-| `borderStyle` | string | `solid` | Yes | Border style - part of BorderPanel |
+| `borderColor` | object | _object_ | Yes | Border color for all sides |
+| `borderStyle` | object | _object_ | Yes | Border style for all sides |
 | `borderRadius` | object | _object_ | Yes | Corner radius of the accordion wrapper |
 | `headerPadding` | object | _object_ | Yes | Inner spacing of the header |
 | `contentPadding` | object | _object_ | Yes | Inner spacing of the content panel |
@@ -74,16 +74,16 @@ Font settings for header and content
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `titleFontFamily` | string | `inherit` | Yes | Font family for the header |
-| `titleFontSize` | object | _object_ | Yes | Font size for the header |
+| `titleFontSize` | number | `1.125` | Yes | Font size for the header |
 | `titleAppearance` | object | _object_ | Yes | Font weight and style for the header |
-| `titleLetterSpacing` | object | _object_ | Yes | Space between letters |
+| `titleLetterSpacing` | number | `0` | Yes | Space between letters |
 | `titleTextDecoration` | string | `none` | Yes | Text decoration for the header |
 | `titleTextTransform` | string | `none` | Yes | Text transformation for the header |
-| `titleLineHeight` | object | _object_ | Yes | Line height for the header |
+| `titleLineHeight` | number | `1.4` | Yes | Line height for the header |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the header |
 | `contentFontFamily` | string | `inherit` | Yes | Font family for the content |
-| `contentFontSize` | object | _object_ | Yes | Font size for the content |
-| `contentLineHeight` | object | _object_ | Yes | Line height for the content |
+| `contentFontSize` | number | `1` | Yes | Font size for the content |
+| `contentLineHeight` | number | `1.6` | Yes | Line height for the content |
 
 ## Icon
 
@@ -94,7 +94,7 @@ Icon appearance and behavior
 | `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
 | `iconPosition` | string | `right` | Yes | Position of icon relative to title |
 | `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
-| `iconSize` | object | _object_ | Yes | Size of the icon |
+| `iconSize` | number | `1.25` | Yes | Size of the icon |
 | `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed (character, unicode, or image URL) |
 | `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = rotate closed icon) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |

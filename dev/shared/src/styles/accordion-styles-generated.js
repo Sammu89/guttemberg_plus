@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-26T00:11:13.641Z
+ * Generated at: 2025-12-26T22:38:19.360Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -45,12 +45,8 @@ export function buildEditorStyles(values) {
   // Styles for default
   styles.default = {};
     // Complex object: borderWidth - handle manually if needed
-    if (values.borderColor !== undefined && values.borderColor !== null) {
-      styles.default.borderColor = values.borderColor;
-    }
-    if (values.borderStyle !== undefined && values.borderStyle !== null) {
-      styles.default.borderStyle = values.borderStyle;
-    }
+    // Complex object: borderColor - handle manually if needed
+    // Complex object: borderStyle - handle manually if needed
     if (values.borderRadius) {
       const formatted = formatBorderRadius(values.borderRadius);
       if (formatted) styles.default.borderRadius = formatted;
@@ -103,27 +99,39 @@ export function buildEditorStyles(values) {
     if (values.titleFontFamily !== undefined && values.titleFontFamily !== null) {
       styles.default.fontFamily = values.titleFontFamily;
     }
-    // Complex object: titleFontSize - handle manually if needed
-    // Complex object: titleLetterSpacing - handle manually if needed
+    if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
+      styles.default.fontSize = `${values.titleFontSize}`;
+    }
+    if (values.titleLetterSpacing !== undefined && values.titleLetterSpacing !== null) {
+      styles.default.letterSpacing = `${values.titleLetterSpacing}`;
+    }
     if (values.titleTextDecoration !== undefined && values.titleTextDecoration !== null) {
       styles.default.textDecoration = values.titleTextDecoration;
     }
     if (values.titleTextTransform !== undefined && values.titleTextTransform !== null) {
       styles.default.textTransform = values.titleTextTransform;
     }
-    // Complex object: titleLineHeight - handle manually if needed
+    if (values.titleLineHeight !== undefined && values.titleLineHeight !== null) {
+      styles.default.lineHeight = `${values.titleLineHeight}`;
+    }
     if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
       styles.default.textAlign = values.titleAlignment;
     }
     if (values.contentFontFamily !== undefined && values.contentFontFamily !== null) {
       styles.default.fontFamily = values.contentFontFamily;
     }
-    // Complex object: contentFontSize - handle manually if needed
-    // Complex object: contentLineHeight - handle manually if needed
+    if (values.contentFontSize !== undefined && values.contentFontSize !== null) {
+      styles.default.fontSize = `${values.contentFontSize}`;
+    }
+    if (values.contentLineHeight !== undefined && values.contentLineHeight !== null) {
+      styles.default.lineHeight = `${values.contentLineHeight}`;
+    }
     if (values.iconColor !== undefined && values.iconColor !== null) {
       styles.default.color = values.iconColor;
     }
-    // Complex object: iconSize - handle manually if needed
+    if (values.iconSize !== undefined && values.iconSize !== null) {
+      styles.default.fontSize = `${values.iconSize}`;
+    }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
       styles.default.transform = `${values.iconRotation}deg`;
     }
@@ -152,13 +160,9 @@ export function buildFrontendStyles(customizations) {
 
   // Complex object: borderWidth - handle manually if needed
 
-  if (customizations.borderColor !== undefined && customizations.borderColor !== null) {
-    styles['--accordion-border-color'] = customizations.borderColor;
-  }
+  // Complex object: borderColor - handle manually if needed
 
-  if (customizations.borderStyle !== undefined && customizations.borderStyle !== null) {
-    styles['--accordion-border-style'] = customizations.borderStyle;
-  }
+  // Complex object: borderStyle - handle manually if needed
 
   if (customizations.borderRadius) {
     const formatted = formatBorderRadius(customizations.borderRadius);
@@ -229,9 +233,13 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-title-font-family'] = customizations.titleFontFamily;
   }
 
-  // Complex object: titleFontSize - handle manually if needed
+  if (customizations.titleFontSize !== undefined && customizations.titleFontSize !== null) {
+    styles['--accordion-title-font-size'] = `${customizations.titleFontSize}`;
+  }
 
-  // Complex object: titleLetterSpacing - handle manually if needed
+  if (customizations.titleLetterSpacing !== undefined && customizations.titleLetterSpacing !== null) {
+    styles['--accordion-title-letter-spacing'] = `${customizations.titleLetterSpacing}`;
+  }
 
   if (customizations.titleTextDecoration !== undefined && customizations.titleTextDecoration !== null) {
     styles['--accordion-title-text-decoration'] = customizations.titleTextDecoration;
@@ -241,7 +249,9 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-title-text-transform'] = customizations.titleTextTransform;
   }
 
-  // Complex object: titleLineHeight - handle manually if needed
+  if (customizations.titleLineHeight !== undefined && customizations.titleLineHeight !== null) {
+    styles['--accordion-title-line-height'] = `${customizations.titleLineHeight}`;
+  }
 
   if (customizations.titleAlignment !== undefined && customizations.titleAlignment !== null) {
     styles['--accordion-title-alignment'] = customizations.titleAlignment;
@@ -251,15 +261,21 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-content-font-family'] = customizations.contentFontFamily;
   }
 
-  // Complex object: contentFontSize - handle manually if needed
+  if (customizations.contentFontSize !== undefined && customizations.contentFontSize !== null) {
+    styles['--accordion-content-font-size'] = `${customizations.contentFontSize}`;
+  }
 
-  // Complex object: contentLineHeight - handle manually if needed
+  if (customizations.contentLineHeight !== undefined && customizations.contentLineHeight !== null) {
+    styles['--accordion-content-line-height'] = `${customizations.contentLineHeight}`;
+  }
 
   if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
     styles['--accordion-icon-color'] = customizations.iconColor;
   }
 
-  // Complex object: iconSize - handle manually if needed
+  if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
+    styles['--accordion-icon-size'] = `${customizations.iconSize}`;
+  }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
     styles['--accordion-icon-rotation'] = `${customizations.iconRotation}deg`;

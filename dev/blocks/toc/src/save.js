@@ -209,6 +209,33 @@ const getCustomizationStyles = () => {
       return; // Attribute not mapped to a CSS variable
     }
 
+    const isResponsiveValue = value && typeof value === 'object' &&
+      (value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined);
+
+    if (isResponsiveValue) {
+      if (value.desktop !== undefined && value.desktop !== null) {
+        const formattedDesktop = formatCssValue(attrName, value.desktop, 'toc');
+        if (formattedDesktop !== null) {
+          styles[cssVar] = formattedDesktop;
+        }
+      }
+
+      if (value.tablet !== undefined && value.tablet !== null) {
+        const formattedTablet = formatCssValue(attrName, value.tablet, 'toc');
+        if (formattedTablet !== null) {
+          styles[`${cssVar}-tablet`] = formattedTablet;
+        }
+      }
+
+      if (value.mobile !== undefined && value.mobile !== null) {
+        const formattedMobile = formatCssValue(attrName, value.mobile, 'toc');
+        if (formattedMobile !== null) {
+          styles[`${cssVar}-mobile`] = formattedMobile;
+        }
+      }
+      return;
+    }
+
     // Format value with proper unit from generated mappings
     const formattedValue = formatCssValue(attrName, value, 'toc');
     if (formattedValue !== null) {
@@ -269,6 +296,7 @@ const getCustomizationStyles = () => {
 	// Block props
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
+		'data-gutplus-device': 'desktop',
 		// Only add inline styles if there are customizations or fixed positioning
 		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
 		...dataAttributes,

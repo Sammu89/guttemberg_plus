@@ -38,6 +38,7 @@ import {
 	debug,
 	useThemeManager,
 	useBlockAlignment,
+	useResponsiveDevice,
 } from '@shared';
 import { getCssVarName, formatCssValue, resolveCssProperty } from '@shared/config/css-var-mappings-generated';
 import tabsSchema from '../../../schemas/tabs.json';
@@ -219,6 +220,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.tabsHorizontalAlign );
+	const responsiveDevice = useResponsiveDevice();
 
 	// Extract schema defaults from tabsAttributes (SINGLE SOURCE OF TRUTH!)
 	const schemaDefaults = useMemo( () => {
@@ -303,19 +305,82 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 // AUTO-GENERATED from schemas/tabs.json
 // To modify styles, update the schema and run: npm run schema:build
 
-const getInlineStyles = () => {
+const getInlineStyles = (responsiveDevice = 'desktop') => {
   // Extract object-type attributes with fallbacks
+	const tabButtonBorderColor = effectiveValues.tabButtonBorderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const tabButtonActiveBorderColor = effectiveValues.tabButtonActiveBorderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const tabButtonBorderStyle = effectiveValues.tabButtonBorderStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
+		};
 	const tabButtonBorderRadius = effectiveValues.tabButtonBorderRadius || {
 		    "topLeft": 4,
 		    "topRight": 4,
 		    "bottomRight": 0,
 		    "bottomLeft": 0
 		};
+	const tabsRowBorderColor = effectiveValues.tabsRowBorderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const tabsRowBorderStyle = effectiveValues.tabsRowBorderStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
+		};
+	const panelBorderColor = effectiveValues.panelBorderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const panelBorderStyle = effectiveValues.panelBorderStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
+		};
 	const panelBorderRadius = effectiveValues.panelBorderRadius || {
 		    "topLeft": 4,
 		    "topRight": 4,
 		    "bottomRight": 4,
 		    "bottomLeft": 4
+		};
+	const borderColor = effectiveValues.borderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const borderStyle = effectiveValues.borderStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
 		};
 	const borderRadius = effectiveValues.borderRadius || {
 		    "topLeft": 0,
@@ -326,9 +391,7 @@ const getInlineStyles = () => {
 
 	return {
 		container: {
-			borderColor: effectiveValues.borderColor || '#dddddd',
 			borderWidth: `${effectiveValues.borderWidth ?? 0}px`,
-			borderStyle: effectiveValues.borderStyle || 'solid',
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.shadow || 'none',
 		},
@@ -340,25 +403,21 @@ const getInlineStyles = () => {
 		},
 		tabList: {
 			backgroundColor: effectiveValues.tabListBackgroundColor || 'transparent',
-			borderColor: effectiveValues.tabsRowBorderColor || '#dddddd',
 			borderWidth: `${effectiveValues.tabsRowBorderWidth ?? 0}px`,
-			borderStyle: effectiveValues.tabsRowBorderStyle || 'solid',
 			justifyContent: effectiveValues.tabListAlignment || 'flex-start',
 			gap: `${effectiveValues.tabsButtonGap ?? 0.5}rem`,
 			border: effectiveValues.enableTabsListContentBorder ? 'flex' : 'none',
 		},
 		panel: {
 			backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',
-			borderColor: effectiveValues.panelBorderColor || '#dddddd',
 			borderWidth: `${effectiveValues.panelBorderWidth ?? 1}px`,
-			borderStyle: effectiveValues.panelBorderStyle || 'solid',
 			borderRadius: `${panelBorderRadius.topLeft}px ${panelBorderRadius.topRight}px ${panelBorderRadius.bottomRight}px ${panelBorderRadius.bottomLeft}px`,
 		},
 	};
 };
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
-		const styles = getInlineStyles();
+		const styles = getInlineStyles( responsiveDevice );
 			const orientation = attributes.orientation || 'horizontal';
 			const navContext = { orientation };
 			const isDividerEnabled = attributes.enableTabsListContentBorder !== false;
@@ -743,6 +802,7 @@ const getInlineStyles = () => {
 				'data-stretch-buttons': attributes.stretchButtonsToRow || false,
 				'data-button-text-align': effectiveValues.tabButtonTextAlign || 'center',
 				'data-hide-inactive-edge': 'true',
+				'data-gutplus-device': responsiveDevice,
 			} );
 
 	return (

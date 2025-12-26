@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-26T00:11:13.649Z
+ * Generated at: 2025-12-26T22:38:19.387Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -109,12 +109,8 @@ export function buildEditorStyles(values) {
     if (values.tabButtonActiveFontWeight !== undefined && values.tabButtonActiveFontWeight !== null) {
       styles.default.fontWeight = values.tabButtonActiveFontWeight;
     }
-    if (values.tabButtonBorderColor !== undefined && values.tabButtonBorderColor !== null) {
-      styles.default.borderColor = values.tabButtonBorderColor;
-    }
-    if (values.tabButtonActiveBorderColor !== undefined && values.tabButtonActiveBorderColor !== null) {
-      styles.default.borderColor = values.tabButtonActiveBorderColor;
-    }
+    // Complex object: tabButtonBorderColor - handle manually if needed
+    // Complex object: tabButtonActiveBorderColor - handle manually if needed
     if (values.tabButtonActiveContentBorderColor !== undefined && values.tabButtonActiveContentBorderColor !== null) {
       const resolvedProp = resolveCssProperty('tabButtonActiveContentBorderColor', 'tabs', values);
       if (resolvedProp) {
@@ -124,9 +120,7 @@ export function buildEditorStyles(values) {
     if (values.tabButtonBorderWidth !== undefined && values.tabButtonBorderWidth !== null) {
       styles.default.borderWidth = `${values.tabButtonBorderWidth}px`;
     }
-    if (values.tabButtonBorderStyle !== undefined && values.tabButtonBorderStyle !== null) {
-      styles.default.borderStyle = values.tabButtonBorderStyle;
-    }
+    // Complex object: tabButtonBorderStyle - handle manually if needed
     if (values.tabButtonBorderRadius) {
       const formatted = formatBorderRadius(values.tabButtonBorderRadius);
       if (formatted) styles.default.borderRadius = formatted;
@@ -162,15 +156,11 @@ export function buildEditorStyles(values) {
     if (values.tabListBackgroundColor !== undefined && values.tabListBackgroundColor !== null) {
       styles.default.backgroundColor = values.tabListBackgroundColor;
     }
-    if (values.tabsRowBorderColor !== undefined && values.tabsRowBorderColor !== null) {
-      styles.default.borderColor = values.tabsRowBorderColor;
-    }
+    // Complex object: tabsRowBorderColor - handle manually if needed
     if (values.tabsRowBorderWidth !== undefined && values.tabsRowBorderWidth !== null) {
       styles.default.borderWidth = `${values.tabsRowBorderWidth}px`;
     }
-    if (values.tabsRowBorderStyle !== undefined && values.tabsRowBorderStyle !== null) {
-      styles.default.borderStyle = values.tabsRowBorderStyle;
-    }
+    // Complex object: tabsRowBorderStyle - handle manually if needed
     if (values.tabListAlignment !== undefined && values.tabListAlignment !== null) {
       styles.default.justifyContent = values.tabListAlignment;
     }
@@ -186,28 +176,20 @@ export function buildEditorStyles(values) {
     if (values.panelBackgroundColor !== undefined && values.panelBackgroundColor !== null) {
       styles.default.backgroundColor = values.panelBackgroundColor;
     }
-    if (values.panelBorderColor !== undefined && values.panelBorderColor !== null) {
-      styles.default.borderColor = values.panelBorderColor;
-    }
+    // Complex object: panelBorderColor - handle manually if needed
     if (values.panelBorderWidth !== undefined && values.panelBorderWidth !== null) {
       styles.default.borderWidth = `${values.panelBorderWidth}px`;
     }
-    if (values.panelBorderStyle !== undefined && values.panelBorderStyle !== null) {
-      styles.default.borderStyle = values.panelBorderStyle;
-    }
+    // Complex object: panelBorderStyle - handle manually if needed
     if (values.panelBorderRadius) {
       const formatted = formatBorderRadius(values.panelBorderRadius);
       if (formatted) styles.default.borderRadius = formatted;
     }
-    if (values.borderColor !== undefined && values.borderColor !== null) {
-      styles.default.borderColor = values.borderColor;
-    }
+    // Complex object: borderColor - handle manually if needed
     if (values.borderWidth !== undefined && values.borderWidth !== null) {
       styles.default.borderWidth = `${values.borderWidth}px`;
     }
-    if (values.borderStyle !== undefined && values.borderStyle !== null) {
-      styles.default.borderStyle = values.borderStyle;
-    }
+    // Complex object: borderStyle - handle manually if needed
     if (values.borderRadius) {
       const formatted = formatBorderRadius(values.borderRadius);
       if (formatted) styles.default.borderRadius = formatted;
@@ -328,13 +310,9 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-button-active-font-weight'] = customizations.tabButtonActiveFontWeight;
   }
 
-  if (customizations.tabButtonBorderColor !== undefined && customizations.tabButtonBorderColor !== null) {
-    styles['--tabs-button-border-color'] = customizations.tabButtonBorderColor;
-  }
+  // Complex object: tabButtonBorderColor - handle manually if needed
 
-  if (customizations.tabButtonActiveBorderColor !== undefined && customizations.tabButtonActiveBorderColor !== null) {
-    styles['--tabs-button-active-border-color'] = customizations.tabButtonActiveBorderColor;
-  }
+  // Complex object: tabButtonActiveBorderColor - handle manually if needed
 
   if (customizations.tabButtonActiveContentBorderColor !== undefined && customizations.tabButtonActiveContentBorderColor !== null) {
     styles['--tabs-button-active-content-border-color'] = customizations.tabButtonActiveContentBorderColor;
@@ -344,9 +322,7 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-button-border-width'] = `${customizations.tabButtonBorderWidth}px`;
   }
 
-  if (customizations.tabButtonBorderStyle !== undefined && customizations.tabButtonBorderStyle !== null) {
-    styles['--tabs-button-border-style'] = customizations.tabButtonBorderStyle;
-  }
+  // Complex object: tabButtonBorderStyle - handle manually if needed
 
   if (customizations.tabButtonBorderRadius) {
     const formatted = formatBorderRadius(customizations.tabButtonBorderRadius);
@@ -394,17 +370,13 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-list-bg'] = customizations.tabListBackgroundColor;
   }
 
-  if (customizations.tabsRowBorderColor !== undefined && customizations.tabsRowBorderColor !== null) {
-    styles['--tabs-row-border-color'] = customizations.tabsRowBorderColor;
-  }
+  // Complex object: tabsRowBorderColor - handle manually if needed
 
   if (customizations.tabsRowBorderWidth !== undefined && customizations.tabsRowBorderWidth !== null) {
     styles['--tabs-row-border-width'] = `${customizations.tabsRowBorderWidth}px`;
   }
 
-  if (customizations.tabsRowBorderStyle !== undefined && customizations.tabsRowBorderStyle !== null) {
-    styles['--tabs-row-border-style'] = customizations.tabsRowBorderStyle;
-  }
+  // Complex object: tabsRowBorderStyle - handle manually if needed
 
   if (customizations.tabListAlignment !== undefined && customizations.tabListAlignment !== null) {
     styles['--tabs-list-align'] = customizations.tabListAlignment;
@@ -422,34 +394,26 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-panel-bg'] = customizations.panelBackgroundColor;
   }
 
-  if (customizations.panelBorderColor !== undefined && customizations.panelBorderColor !== null) {
-    styles['--tabs-panel-border-color'] = customizations.panelBorderColor;
-  }
+  // Complex object: panelBorderColor - handle manually if needed
 
   if (customizations.panelBorderWidth !== undefined && customizations.panelBorderWidth !== null) {
     styles['--tabs-panel-border-width'] = `${customizations.panelBorderWidth}px`;
   }
 
-  if (customizations.panelBorderStyle !== undefined && customizations.panelBorderStyle !== null) {
-    styles['--tabs-panel-border-style'] = customizations.panelBorderStyle;
-  }
+  // Complex object: panelBorderStyle - handle manually if needed
 
   if (customizations.panelBorderRadius) {
     const formatted = formatBorderRadius(customizations.panelBorderRadius);
     if (formatted) styles['--tabs-panel-border-radius'] = formatted;
   }
 
-  if (customizations.borderColor !== undefined && customizations.borderColor !== null) {
-    styles['--tabs-border-color'] = customizations.borderColor;
-  }
+  // Complex object: borderColor - handle manually if needed
 
   if (customizations.borderWidth !== undefined && customizations.borderWidth !== null) {
     styles['--tabs-border-width'] = `${customizations.borderWidth}px`;
   }
 
-  if (customizations.borderStyle !== undefined && customizations.borderStyle !== null) {
-    styles['--tabs-border-style'] = customizations.borderStyle;
-  }
+  // Complex object: borderStyle - handle manually if needed
 
   if (customizations.borderRadius) {
     const formatted = formatBorderRadius(customizations.borderRadius);

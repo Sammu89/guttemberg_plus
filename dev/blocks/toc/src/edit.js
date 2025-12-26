@@ -41,6 +41,7 @@ import {
 	debug,
 	useThemeManager,
 	useBlockAlignment,
+	useResponsiveDevice,
 } from '@shared';
 import tocSchema from '../../../schemas/toc.json';
 import { tocAttributes } from './toc-attributes';
@@ -65,6 +66,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.tocHorizontalAlign );
+	const responsiveDevice = useResponsiveDevice();
 
 	// Get all blocks from the editor using Gutenberg's data API
 	const allBlocks = useSelect(
@@ -501,8 +503,22 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 // AUTO-GENERATED from schemas/toc.json
 // To modify styles, update the schema and run: npm run schema:build
 
-const getInlineStyles = () => {
+const getInlineStyles = (responsiveDevice = 'desktop') => {
   // Extract object-type attributes with fallbacks
+	const blockBorderColor = effectiveValues.blockBorderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const blockBorderStyle = effectiveValues.blockBorderStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
+		};
 	const blockBorderRadius = effectiveValues.blockBorderRadius || {
 		    "topLeft": 4,
 		    "topRight": 4,
@@ -513,9 +529,7 @@ const getInlineStyles = () => {
 	return {
 		container: {
 			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
-			borderColor: effectiveValues.blockBorderColor || '#dddddd',
 			borderWidth: `${effectiveValues.blockBorderWidth ?? 1}px`,
-			borderStyle: effectiveValues.blockBorderStyle || 'solid',
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.blockShadow || 'none',
 			top: `${effectiveValues.positionTop ?? 6.25}rem`,
@@ -542,7 +556,7 @@ const getInlineStyles = () => {
 };
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
-	const styles = getInlineStyles();
+	const styles = getInlineStyles( responsiveDevice );
 
 	// Filter headings based on settings
 	const filteredHeadings = filterHeadings( headings, attributes );
@@ -575,6 +589,7 @@ const displayHeadings =
 		className: 'gutplus-toc',
 		style: rootStyles,
 		ref: blockRef,
+		'data-gutplus-device': responsiveDevice,
 	} );
 	const titleTextStyle = {
 		color: styles.title.color,

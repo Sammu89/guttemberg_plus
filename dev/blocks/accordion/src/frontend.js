@@ -14,10 +14,56 @@
  */
 document.addEventListener( 'DOMContentLoaded', () => {
 	try {
+		updateDeviceAttributes();
 		initializeAccordions();
 	} catch ( error ) {
 		// console.error( 'Accordion block initialization failed:', error );
 	}
+} );
+
+const DEFAULT_BREAKPOINTS = {
+	tablet: 1024,
+	mobile: 600,
+};
+
+let currentDevice = null;
+
+function getBreakpoints() {
+	return window.guttembergPlusSettings?.breakpoints || DEFAULT_BREAKPOINTS;
+}
+
+function getDevice( width, breakpoints ) {
+	if ( width <= breakpoints.mobile ) {
+		return 'mobile';
+	}
+	if ( width <= breakpoints.tablet ) {
+		return 'tablet';
+	}
+	return 'desktop';
+}
+
+function updateDeviceAttributes() {
+	const blocks = document.querySelectorAll( '.gutplus-accordion' );
+	if ( ! blocks || blocks.length === 0 ) {
+		return;
+	}
+
+	const breakpoints = getBreakpoints();
+	const device = getDevice( window.innerWidth, breakpoints );
+	if ( device === currentDevice ) {
+		return;
+	}
+
+	currentDevice = device;
+	blocks.forEach( ( block ) => {
+		block.setAttribute( 'data-gutplus-device', device );
+	} );
+}
+
+let resizeTimer;
+window.addEventListener( 'resize', () => {
+	clearTimeout( resizeTimer );
+	resizeTimer = setTimeout( updateDeviceAttributes, 100 );
 } );
 
 /**

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-26T00:11:13.646Z
+ * Generated at: 2025-12-26T22:38:19.383Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -54,11 +54,11 @@
   --tabs-panel-border-color: #dddddd;
   --tabs-panel-border-width: 1px;
   --tabs-panel-border-style: solid;
-  --tabs-panel-border-radius: 4px 4px 4px 4px;
+  --tabs-panel-border-radius: 4px;
   --tabs-border-color: #dddddd;
   --tabs-border-width: 0px;
   --tabs-border-style: solid;
-  --tabs-border-radius: 0px 0px 0px 0px;
+  --tabs-border-radius: 0px;
   --tabs-border-shadow: none;
   --tabs-border-shadow-hover: none;
   --tabs-enable-list-divider-border: false;

@@ -10,13 +10,13 @@
  * @package guttemberg-plus
  */
 
-import { useState } from '@wordpress/element';
 import { BaseControl } from '@wordpress/components';
 import { CompactBoxRow } from '../organisms/CompactBoxRow';
 import { SideIcon } from '../atoms/SideIcon';
 import { DeviceSwitcher } from '../atoms/DeviceSwitcher';
+import { useResponsiveDevice } from '../../../hooks/useResponsiveDevice';
 
-const SIDES = [ 'top', 'right', 'bottom', 'left' ];
+const ALL_SIDES = [ 'top', 'right', 'bottom', 'left' ];
 
 /**
  * SpacingControl Component
@@ -31,6 +31,7 @@ const SIDES = [ 'top', 'right', 'bottom', 'left' ];
  * @param {number}   props.max         - Maximum value
  * @param {boolean}  props.responsive  - Whether to show device switcher
  * @param {boolean}  props.disabled    - Disabled state
+ * @param {Array}    props.sides       - Limit which sides to show (e.g., ['top', 'bottom'] for margins)
  */
 export function SpacingControl( {
 	label,
@@ -42,15 +43,48 @@ export function SpacingControl( {
 	max = 100,
 	responsive = false,
 	disabled = false,
+	sides = ALL_SIDES,
 } ) {
-	const [ device, setDevice ] = useState( 'desktop' );
+	// Use the provided sides or default to all sides
+	const SIDES = sides && sides.length > 0 ? sides : ALL_SIDES;
+
+	// Use global device state - all responsive controls stay in sync
+	const device = useResponsiveDevice();
 
 	// Default label based on type
 	const controlLabel = label || ( type === 'margin' ? 'Margin' : 'Padding' );
 
+	// Check if value has base (flat) properties - these are desktop values
+	// Base structure: { top, right, bottom, left, unit, linked } (no device wrappers)
+	// Mixed structure: { top, right, ..., tablet: {...}, mobile: {...} } (base + overrides)
+	const hasBaseProperties = value && typeof value === 'object' &&
+		( value.top !== undefined || value.bottom !== undefined ||
+		  value.left !== undefined || value.right !== undefined ||
+		  value.unit !== undefined );
+
+	// Extract base values (desktop) from the flat structure
+	const getBaseValue = () => {
+		if ( ! value || typeof value !== 'object' ) {
+			return {};
+		}
+		// Extract only the spacing properties, not device keys
+		const { top, right, bottom, left, unit, linked } = value;
+		const base = {};
+		if ( top !== undefined ) base.top = top;
+		if ( right !== undefined ) base.right = right;
+		if ( bottom !== undefined ) base.bottom = bottom;
+		if ( left !== undefined ) base.left = left;
+		if ( unit !== undefined ) base.unit = unit;
+		if ( linked !== undefined ) base.linked = linked;
+		return base;
+	};
+
 	// Get current device value for responsive, or direct value
+	// Desktop uses base (flat) properties; tablet/mobile use device-specific overrides or inherit from base
 	const currentValue = responsive
-		? ( value[ device ] || value.desktop || {} )
+		? ( device === 'desktop'
+			? ( hasBaseProperties ? getBaseValue() : ( value?.desktop || {} ) )
+			: ( value?.[ device ] || getBaseValue() ) ) // Tablet/mobile inherit from base if no override
 		: value;
 
 	// Destructure with defaults
@@ -61,13 +95,37 @@ export function SpacingControl( {
 		left = 0,
 		unit = 'px',
 		linked = true,
-	} = currentValue;
+	} = currentValue || {};
 
 	// Helper to update value
+	// Desktop: updates the base (flat) properties
+	// Tablet/Mobile: creates/updates device-specific overrides
 	const updateValue = ( updates ) => {
 		const newValue = { ...currentValue, ...updates };
+
 		if ( responsive ) {
-			onChange( { ...value, [ device ]: newValue } );
+			if ( device === 'desktop' ) {
+				// Desktop edits update the base (flat) structure
+				// Preserve any existing tablet/mobile overrides
+				const existingOverrides = {};
+				if ( value?.tablet ) existingOverrides.tablet = value.tablet;
+				if ( value?.mobile ) existingOverrides.mobile = value.mobile;
+
+				onChange( { ...newValue, ...existingOverrides } );
+			} else {
+				// Tablet/Mobile create device-specific overrides
+				// Preserve base properties and other device overrides
+				const baseProps = hasBaseProperties ? getBaseValue() : {};
+				const existingOverrides = {};
+				if ( value?.tablet && device !== 'tablet' ) existingOverrides.tablet = value.tablet;
+				if ( value?.mobile && device !== 'mobile' ) existingOverrides.mobile = value.mobile;
+
+				onChange( {
+					...baseProps,
+					...existingOverrides,
+					[ device ]: newValue,
+				} );
+			}
 		} else {
 			onChange( newValue );
 		}
@@ -76,8 +134,12 @@ export function SpacingControl( {
 	// Handle value change for a specific side or all sides
 	const handleValueChange = ( side, newVal ) => {
 		if ( linked ) {
-			// All sides get same value
-			updateValue( { top: newVal, right: newVal, bottom: newVal, left: newVal } );
+			// Only update the sides that are allowed by the `sides` prop
+			const updates = {};
+			SIDES.forEach( ( s ) => {
+				updates[ s ] = newVal;
+			} );
+			updateValue( updates );
 		} else {
 			updateValue( { [ side ]: newVal } );
 		}
@@ -91,8 +153,13 @@ export function SpacingControl( {
 	// Handle link toggle
 	const handleLinkChange = ( newLinked ) => {
 		if ( newLinked ) {
-			// When linking, use the top value for all sides
-			updateValue( { linked: true, right: top, bottom: top, left: top } );
+			// When linking, use the first side's value for all allowed sides
+			const firstSideValue = currentValue[ SIDES[ 0 ] ] || 0;
+			const updates = { linked: true };
+			SIDES.forEach( ( s ) => {
+				updates[ s ] = firstSideValue;
+			} );
+			updateValue( updates );
 		} else {
 			updateValue( { linked: false } );
 		}
@@ -106,7 +173,6 @@ export function SpacingControl( {
 					{ responsive && (
 						<DeviceSwitcher
 							value={ device }
-							onChange={ setDevice }
 							disabled={ disabled }
 						/>
 					) }
@@ -133,27 +199,30 @@ export function SpacingControl( {
 					disabled={ disabled }
 				/>
 			) : (
-				// Four rows when unlinked
+				// Multiple rows when unlinked (one per allowed side)
 				<div className="gutplus-spacing-control__sides">
-					{ SIDES.map( ( side ) => (
-						<CompactBoxRow
-							key={ side }
-							iconSlot={ <SideIcon side={ side } /> }
-							value={ currentValue[ side ] || 0 }
-							unit={ unit }
-							onValueChange={ ( val ) => handleValueChange( side, val ) }
-							onUnitChange={ handleUnitChange }
-							units={ units }
-							min={ min }
-							max={ max }
-							showSlider={ true }
-							showLink={ side === 'left' } // Only show link on last row
-							linked={ linked }
-							onLinkChange={ side === 'left' ? handleLinkChange : undefined }
-							disabled={ disabled }
-							className={ `gutplus-spacing-control__side gutplus-spacing-control__side--${ side }` }
-						/>
-					) ) }
+					{ SIDES.map( ( side, index ) => {
+						const isLastSide = index === SIDES.length - 1;
+						return (
+							<CompactBoxRow
+								key={ side }
+								iconSlot={ <SideIcon side={ side } /> }
+								value={ currentValue[ side ] || 0 }
+								unit={ unit }
+								onValueChange={ ( val ) => handleValueChange( side, val ) }
+								onUnitChange={ handleUnitChange }
+								units={ units }
+								min={ min }
+								max={ max }
+								showSlider={ true }
+								showLink={ isLastSide } // Only show link on last row
+								linked={ linked }
+								onLinkChange={ isLastSide ? handleLinkChange : undefined }
+								disabled={ disabled }
+								className={ `gutplus-spacing-control__side gutplus-spacing-control__side--${ side }` }
+							/>
+						);
+					} ) }
 				</div>
 			) }
 		</BaseControl>

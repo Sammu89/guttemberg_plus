@@ -410,8 +410,14 @@
       "cssProperty": "background-color"
     },
     "blockBorderColor": {
-      "type": "string",
-      "default": "#dddddd",
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
       "cssVar": "toc-border-color",
       "group": "externalBorders",
       "label": "Block Border Color",
@@ -2560,8 +2566,14 @@
       "cssProperty": "border-width"
     },
     "blockBorderStyle": {
-      "type": "string",
-      "default": "solid",
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
       "cssVar": "toc-border-style",
       "group": "externalBorders",
       "label": "Block Border Style",
