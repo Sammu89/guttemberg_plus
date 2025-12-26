@@ -8,18 +8,18 @@
  * @since 1.0.0
  */
 
-import { useState, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import {
 	BaseControl,
 	RangeControl,
 	Flex,
 	FlexItem,
 	FlexBlock,
-	__experimentalNumberControl as NumberControl,
+	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 import { DeviceSwitcher } from './DeviceSwitcher';
-import { UnitSelector } from './UnitSelector';
 import { ResetButton } from './ResetButton';
+import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
 
 /**
  * Inherited Badge Component
@@ -60,15 +60,63 @@ function InheritedBadge( { from } ) {
 }
 
 /**
- * Get inherited value for responsive slider values
+ * Check if value is a flat base (scalar or {value, unit} without device keys)
  *
- * @param {Object} values - Object with desktop, tablet, mobile values
+ * @param {*} values - Value to check
+ * @returns {boolean} True if flat base value
+ */
+function isFlat( values ) {
+	if ( values === null || values === undefined ) {
+		return true;
+	}
+	// Scalar (number or string)
+	if ( typeof values !== 'object' ) {
+		return true;
+	}
+	// Object with value/unit properties but no device keys
+	const hasValueProp = 'value' in values || 'unit' in values;
+	const hasDeviceKeys = 'desktop' in values || 'tablet' in values || 'mobile' in values;
+	return hasValueProp && ! hasDeviceKeys;
+}
+
+/**
+ * Get base value from responsive values
+ * Base is either the flat value or extracted from device-keyed structure
+ *
+ * @param {*} values - Values (flat or object with device keys)
+ * @returns {*} The base value
+ */
+function getBaseValue( values ) {
+	if ( isFlat( values ) ) {
+		return values;
+	}
+	// If object has device keys, extract base properties (excluding device keys)
+	if ( typeof values === 'object' && values !== null ) {
+		const { tablet, mobile, ...base } = values;
+		// If base has properties (value, unit), return it; otherwise return null
+		if ( Object.keys( base ).length > 0 ) {
+			// Check if base is just an empty object or has actual values
+			if ( base.value !== undefined || base.unit !== undefined ) {
+				return base;
+			}
+			// Check for numeric value at root (legacy format)
+			if ( base.desktop !== undefined ) {
+				return base.desktop;
+			}
+		}
+	}
+	return null;
+}
+
+/**
+ * Get inherited value for responsive slider values
+ * Supports both flat base values and object with device keys
+ *
+ * @param {*} values - Flat value or object with device keys { tablet, mobile, ...base }
  * @param {string} device - Current device
  * @returns {Object} Object with value and inheritedFrom
  */
 function getInheritedSliderValue( values, device ) {
-	const { desktop, tablet, mobile } = values || {};
-
 	// Normalize value - can be number or { value, unit } object
 	const normalize = ( val ) => {
 		if ( val === undefined || val === null ) {
@@ -77,14 +125,25 @@ function getInheritedSliderValue( values, device ) {
 		return val;
 	};
 
-	const desktopVal = normalize( desktop );
-	const tabletVal = normalize( tablet );
-	const mobileVal = normalize( mobile );
+	// Get base value (desktop)
+	const baseVal = normalize( getBaseValue( values ) );
+
+	// If flat, base applies to all devices
+	if ( isFlat( values ) ) {
+		return {
+			value: baseVal,
+			inheritedFrom: device !== 'desktop' && baseVal !== null ? 'desktop' : null,
+		};
+	}
+
+	// Object with device overrides
+	const tabletVal = normalize( values?.tablet );
+	const mobileVal = normalize( values?.mobile );
 
 	switch ( device ) {
 		case 'desktop':
 			return {
-				value: desktopVal,
+				value: baseVal,
 				inheritedFrom: null,
 			};
 
@@ -93,8 +152,8 @@ function getInheritedSliderValue( values, device ) {
 				return { value: tabletVal, inheritedFrom: null };
 			}
 			return {
-				value: desktopVal,
-				inheritedFrom: desktopVal !== null ? 'desktop' : null,
+				value: baseVal,
+				inheritedFrom: baseVal !== null ? 'desktop' : null,
 			};
 
 		case 'mobile':
@@ -105,8 +164,8 @@ function getInheritedSliderValue( values, device ) {
 				return { value: tabletVal, inheritedFrom: 'tablet' };
 			}
 			return {
-				value: desktopVal,
-				inheritedFrom: desktopVal !== null ? 'desktop' : null,
+				value: baseVal,
+				inheritedFrom: baseVal !== null ? 'desktop' : null,
 			};
 
 		default:
@@ -192,7 +251,8 @@ export function SliderWithInput( {
 	withInputField = true,
 	initialDevice = 'desktop',
 } ) {
-	const [ device, setDevice ] = useState( initialDevice );
+	// Use global device state - all responsive controls stay in sync
+	const device = useResponsiveDevice();
 
 	// Determine if we're in responsive mode
 	const isResponsive = responsive && values !== undefined;
@@ -224,14 +284,19 @@ export function SliderWithInput( {
 		}
 	};
 
-	// Handler for unit changes
-	const handleUnitChange = ( newUnit ) => {
-		const newValue = { value: numericValue ?? 0, unit: newUnit };
+	// Handler for native UnitControl changes (combines value and unit)
+	const handleUnitControlChange = ( newValue ) => {
+		const numericValue = parseFloat( newValue ) || 0;
+		const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || currentUnit;
+
+		const finalValue = hasUnits
+			? { value: numericValue, unit: newUnit }
+			: numericValue;
 
 		if ( isResponsive ) {
-			onChange( device, newValue );
+			onChange( device, finalValue );
 		} else {
-			onChange( newValue );
+			onChange( finalValue );
 		}
 	};
 
@@ -270,7 +335,7 @@ export function SliderWithInput( {
 				<Flex gap={ 2 }>
 					{ isResponsive && (
 						<FlexItem>
-							<DeviceSwitcher value={ device } onChange={ setDevice } />
+							<DeviceSwitcher value={ device } />
 						</FlexItem>
 					) }
 					<FlexItem>
@@ -291,18 +356,7 @@ export function SliderWithInput( {
 			help={ help }
 		>
 			<div className="gutplus-slider-with-input__content">
-				{ /* Unit selector if units provided */ }
-				{ hasUnits && (
-					<div style={ { marginBottom: '12px' } }>
-						<UnitSelector
-							value={ currentUnit }
-							onChange={ handleUnitChange }
-							units={ units }
-						/>
-					</div>
-				) }
-
-				{ /* Slider and number input row */ }
+				{ /* Slider and native UnitControl row */ }
 				<Flex align="center" gap={ 4 }>
 					<FlexBlock>
 						<RangeControl
@@ -316,16 +370,14 @@ export function SliderWithInput( {
 						/>
 					</FlexBlock>
 					{ withInputField && (
-						<FlexItem>
-							<NumberControl
-								value={ displayValue }
-								onChange={ ( val ) => handleValueChange( parseFloat( val ) || 0 ) }
+						<FlexItem className="gutplus-slider-with-input__unit-control">
+							<UnitControl
+								value={ `${ displayValue }${ hasUnits ? currentUnit : '' }` }
+								onChange={ handleUnitControlChange }
+								units={ hasUnits ? units.map( ( u ) => ( { value: u, label: u } ) ) : [] }
 								min={ min }
 								max={ max }
 								step={ step }
-								hideHTMLArrows
-								spinControls="none"
-								style={ { width: '70px' } }
 								__next40pxDefaultSize
 							/>
 						</FlexItem>

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-26T00:11:13.646Z
+ * Generated at: 2025-12-26T22:38:19.375Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -140,12 +140,12 @@ export const tabsAttributes = {
     default: 'bold',
   },
   tabButtonBorderColor: {
-    type: 'string',
-    default: '#dddddd',
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
   },
   tabButtonActiveBorderColor: {
-    type: 'string',
-    default: '#dddddd',
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
   },
   tabButtonActiveContentBorderColor: {
     type: 'string',
@@ -156,8 +156,8 @@ export const tabsAttributes = {
     default: 1,
   },
   tabButtonBorderStyle: {
-    type: 'string',
-    default: 'solid',
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
   tabButtonBorderRadius: {
     type: 'object',
@@ -204,16 +204,16 @@ export const tabsAttributes = {
     default: 'transparent',
   },
   tabsRowBorderColor: {
-    type: 'string',
-    default: '#dddddd',
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
   },
   tabsRowBorderWidth: {
     type: 'number',
     default: 0,
   },
   tabsRowBorderStyle: {
-    type: 'string',
-    default: 'solid',
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
   tabListAlignment: {
     type: 'string',
@@ -232,32 +232,32 @@ export const tabsAttributes = {
     default: '#ffffff',
   },
   panelBorderColor: {
-    type: 'string',
-    default: '#dddddd',
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
   },
   panelBorderWidth: {
     type: 'number',
     default: 1,
   },
   panelBorderStyle: {
-    type: 'string',
-    default: 'solid',
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
   panelBorderRadius: {
     type: 'object',
     default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
   },
   borderColor: {
-    type: 'string',
-    default: '#dddddd',
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
   },
   borderWidth: {
     type: 'number',
     default: 0,
   },
   borderStyle: {
-    type: 'string',
-    default: 'solid',
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
   borderRadius: {
     type: 'object',

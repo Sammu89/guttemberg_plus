@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-26T00:11:13.657Z
+ * Generated at: 2025-12-26T22:38:19.424Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -33,8 +33,8 @@
 export const CSS_VAR_MAPPINGS = {
   accordion: {
     borderWidth: { cssVar: '--accordion-border-width', unit: null, type: 'object', cssProperty: 'border-width', dependsOn: null, variants: null },
-    borderColor: { cssVar: '--accordion-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
-    borderStyle: { cssVar: '--accordion-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
+    borderColor: { cssVar: '--accordion-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    borderStyle: { cssVar: '--accordion-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
     borderRadius: { cssVar: '--accordion-border-radius', unit: null, type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     headerPadding: { cssVar: '--accordion-header-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
     contentPadding: { cssVar: '--accordion-content-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
@@ -52,17 +52,17 @@ export const CSS_VAR_MAPPINGS = {
     contentTextColor: { cssVar: '--accordion-content-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     contentBackgroundColor: { cssVar: '--accordion-content-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
     titleFontFamily: { cssVar: '--accordion-title-font-family', unit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
-    titleFontSize: { cssVar: '--accordion-title-font-size', unit: null, type: 'object', cssProperty: 'font-size', dependsOn: null, variants: null },
-    titleLetterSpacing: { cssVar: '--accordion-title-letter-spacing', unit: null, type: 'object', cssProperty: 'letter-spacing', dependsOn: null, variants: null },
+    titleFontSize: { cssVar: '--accordion-title-font-size', unit: null, type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    titleLetterSpacing: { cssVar: '--accordion-title-letter-spacing', unit: null, type: 'number', cssProperty: 'letter-spacing', dependsOn: null, variants: null },
     titleTextDecoration: { cssVar: '--accordion-title-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
     titleTextTransform: { cssVar: '--accordion-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    titleLineHeight: { cssVar: '--accordion-title-line-height', unit: null, type: 'object', cssProperty: 'line-height', dependsOn: null, variants: null },
+    titleLineHeight: { cssVar: '--accordion-title-line-height', unit: null, type: 'number', cssProperty: 'line-height', dependsOn: null, variants: null },
     titleAlignment: { cssVar: '--accordion-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
     contentFontFamily: { cssVar: '--accordion-content-font-family', unit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
-    contentFontSize: { cssVar: '--accordion-content-font-size', unit: null, type: 'object', cssProperty: 'font-size', dependsOn: null, variants: null },
-    contentLineHeight: { cssVar: '--accordion-content-line-height', unit: null, type: 'object', cssProperty: 'line-height', dependsOn: null, variants: null },
+    contentFontSize: { cssVar: '--accordion-content-font-size', unit: null, type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    contentLineHeight: { cssVar: '--accordion-content-line-height', unit: null, type: 'number', cssProperty: 'line-height', dependsOn: null, variants: null },
     iconColor: { cssVar: '--accordion-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--accordion-icon-size', unit: null, type: 'object', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconSize: { cssVar: '--accordion-icon-size', unit: null, type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
     iconRotation: { cssVar: '--accordion-icon-rotation', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
     animationDuration: { cssVar: '--accordion-animation-duration', unit: 'ms', type: 'number', cssProperty: 'transition-duration', dependsOn: null, variants: null },
     animationEasing: { cssVar: '--accordion-animation-easing', unit: null, type: 'string', cssProperty: 'transition-timing-function', dependsOn: null, variants: null },
@@ -112,8 +112,8 @@ export const CSS_VAR_MAPPINGS = {
             }
       } },
     tabButtonActiveFontWeight: { cssVar: '--tabs-button-active-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    tabButtonBorderColor: { cssVar: '--tabs-button-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
-    tabButtonActiveBorderColor: { cssVar: '--tabs-button-active-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
+    tabButtonBorderColor: { cssVar: '--tabs-button-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    tabButtonActiveBorderColor: { cssVar: '--tabs-button-active-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
     tabButtonActiveContentBorderColor: { cssVar: '--tabs-button-active-content-border-color', unit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-color"
@@ -129,7 +129,7 @@ export const CSS_VAR_MAPPINGS = {
             }
       } },
     tabButtonBorderWidth: { cssVar: '--tabs-button-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    tabButtonBorderStyle: { cssVar: '--tabs-button-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
+    tabButtonBorderStyle: { cssVar: '--tabs-button-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
     tabButtonBorderRadius: { cssVar: '--tabs-button-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     tabButtonShadow: { cssVar: '--tabs-button-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     tabButtonShadowHover: { cssVar: '--tabs-button-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
@@ -141,9 +141,9 @@ export const CSS_VAR_MAPPINGS = {
     tabButtonTextAlign: { cssVar: '--tabs-button-text-align', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
     tabButtonPadding: { cssVar: '--tabs-button-padding', unit: 'rem', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
     tabListBackgroundColor: { cssVar: '--tabs-list-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    tabsRowBorderColor: { cssVar: '--tabs-row-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
+    tabsRowBorderColor: { cssVar: '--tabs-row-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
     tabsRowBorderWidth: { cssVar: '--tabs-row-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    tabsRowBorderStyle: { cssVar: '--tabs-row-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
+    tabsRowBorderStyle: { cssVar: '--tabs-row-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
     tabListAlignment: { cssVar: '--tabs-list-align', unit: null, type: 'string', cssProperty: 'justify-content', dependsOn: null, variants: null },
     tabsRowSpacing: { cssVar: '--tabs-row-spacing', unit: 'rem', type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
@@ -161,13 +161,13 @@ export const CSS_VAR_MAPPINGS = {
       } },
     tabsButtonGap: { cssVar: '--tabs-button-gap', unit: 'rem', type: 'number', cssProperty: 'gap', dependsOn: null, variants: null },
     panelBackgroundColor: { cssVar: '--tabs-panel-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    panelBorderColor: { cssVar: '--tabs-panel-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
+    panelBorderColor: { cssVar: '--tabs-panel-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
     panelBorderWidth: { cssVar: '--tabs-panel-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    panelBorderStyle: { cssVar: '--tabs-panel-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
+    panelBorderStyle: { cssVar: '--tabs-panel-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
     panelBorderRadius: { cssVar: '--tabs-panel-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    borderColor: { cssVar: '--tabs-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
+    borderColor: { cssVar: '--tabs-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
     borderWidth: { cssVar: '--tabs-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    borderStyle: { cssVar: '--tabs-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
+    borderStyle: { cssVar: '--tabs-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
     borderRadius: { cssVar: '--tabs-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     shadow: { cssVar: '--tabs-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     shadowHover: { cssVar: '--tabs-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
@@ -217,7 +217,7 @@ export const CSS_VAR_MAPPINGS = {
   },
   toc: {
     wrapperBackgroundColor: { cssVar: '--toc-wrapper-background-color', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    blockBorderColor: { cssVar: '--toc-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
+    blockBorderColor: { cssVar: '--toc-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
     titleColor: { cssVar: '--toc-title-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
     titleBackgroundColor: { cssVar: '--toc-title-background-color', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
     hoverTitleColor: { cssVar: '--toc-title-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
@@ -290,7 +290,7 @@ export const CSS_VAR_MAPPINGS = {
     titleTextDecoration: { cssVar: '--toc-title-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
     titleAlignment: { cssVar: '--toc-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
     blockBorderWidth: { cssVar: '--toc-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    blockBorderStyle: { cssVar: '--toc-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
+    blockBorderStyle: { cssVar: '--toc-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
     blockBorderRadius: { cssVar: '--toc-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
     blockShadow: { cssVar: '--toc-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
     blockShadowHover: { cssVar: '--toc-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
@@ -301,6 +301,33 @@ export const CSS_VAR_MAPPINGS = {
     zIndex: { cssVar: '--toc-z-index', unit: null, type: 'number', cssProperty: 'z-index', dependsOn: null, variants: null },
   },
 };
+
+/**
+ * Compress CSS box values using shorthand notation
+ * Handles: border-width, border-color, border-style, padding, margin
+ * @param {Array} values - Array of [top, right, bottom, left] values
+ * @param {string} unit - CSS unit to append (empty string for non-numeric values like colors/styles)
+ * @returns {string} Compressed CSS shorthand value
+ */
+function compressBoxValue(values, unit = '') {
+  const [top, right, bottom, left] = values;
+  const addUnit = (v) => unit ? `${v}${unit}` : String(v);
+
+  // All same: "solid" or "10px"
+  if (top === right && right === bottom && bottom === left) {
+    return addUnit(top);
+  }
+  // top/bottom same AND left/right same: "solid dashed" or "10px 20px"
+  if (top === bottom && left === right) {
+    return `${addUnit(top)} ${addUnit(left)}`;
+  }
+  // left equals right: "solid dashed dotted" or "10px 20px 30px"
+  if (left === right) {
+    return `${addUnit(top)} ${addUnit(right)} ${addUnit(bottom)}`;
+  }
+  // All different: "solid dashed dotted none" or "10px 20px 30px 40px"
+  return `${addUnit(top)} ${addUnit(right)} ${addUnit(bottom)} ${addUnit(left)}`;
+}
 
 /**
  * Format a value with its unit for CSS output
@@ -316,7 +343,7 @@ export function formatCssValue(attrName, value, blockType) {
   // Handle null/undefined
   if (value === null || value === undefined) return null;
 
-  // Handle object types (border radius, padding)
+  // Handle object types (border radius, padding, colors, styles)
   if (mapping.type === 'object' && typeof value === 'object') {
     // Handle responsive objects (desktop, tablet, mobile) - use desktop value
     if (value.desktop !== undefined && typeof value.desktop === 'object') {
@@ -326,13 +353,14 @@ export function formatCssValue(attrName, value, blockType) {
     // Border radius format: topLeft topRight bottomRight bottomLeft
     if (value.topLeft !== undefined) {
       const unit = value.unit || 'px';
-      return `${value.topLeft}${unit} ${value.topRight}${unit} ${value.bottomRight}${unit} ${value.bottomLeft}${unit}`;
+      const values = [value.topLeft, value.topRight, value.bottomRight, value.bottomLeft];
+      return compressBoxValue(values, unit);
     }
 
-    // Directional properties: top right bottom left
+    // Directional properties (border-width, border-color, border-style, padding, margin)
     if (value.top !== undefined || value.right !== undefined ||
         value.bottom !== undefined || value.left !== undefined) {
-      const unit = value.unit || 'px';
+      const unit = value.unit || '';
 
       // Handle unlinked mode where each side is an object { value: X }
       const getVal = (side) => {
@@ -340,15 +368,11 @@ export function formatCssValue(attrName, value, blockType) {
         if (sideValue && typeof sideValue === 'object' && sideValue.value !== undefined) {
           return sideValue.value;
         }
-        return sideValue || 0;
+        return sideValue ?? '';
       };
 
-      const top = getVal('top');
-      const right = getVal('right');
-      const bottom = getVal('bottom');
-      const left = getVal('left');
-
-      return `${top}${unit} ${right}${unit} ${bottom}${unit} ${left}${unit}`;
+      const values = [getVal('top'), getVal('right'), getVal('bottom'), getVal('left')];
+      return compressBoxValue(values, unit);
     }
 
     // Default object handling

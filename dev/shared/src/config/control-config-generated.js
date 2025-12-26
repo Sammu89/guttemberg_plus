@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-26T00:11:13.658Z
+ * Generated at: 2025-12-26T22:38:19.428Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -57,14 +57,12 @@ const CONTROL_CONFIGS = {
     'borderColor': {
       control: 'BorderPanel',
       label: 'Border Color',
-      description: 'Border color - part of BorderPanel',
-      default: '#dddddd',
+      description: 'Border color for all sides',
     },
     'borderStyle': {
       control: 'BorderPanel',
       label: 'Border Style',
-      description: 'Border style - part of BorderPanel',
-      default: 'solid',
+      description: 'Border style for all sides',
     },
     'borderRadius': {
       control: 'CompactBorderRadius',
@@ -169,6 +167,7 @@ const CONTROL_CONFIGS = {
       control: 'SliderWithInput',
       label: 'Font Size',
       description: 'Font size for the header',
+      default: 1.125,
     },
     'titleAppearance': {
       control: 'AppearanceControl',
@@ -179,6 +178,7 @@ const CONTROL_CONFIGS = {
       control: 'SliderWithInput',
       label: 'Letter Spacing',
       description: 'Space between letters',
+      default: 0,
     },
     'titleTextDecoration': {
       control: 'DecorationControl',
@@ -196,6 +196,7 @@ const CONTROL_CONFIGS = {
       control: 'SliderWithInput',
       label: 'Line Height',
       description: 'Line height for the header',
+      default: 1.4,
     },
     'titleAlignment': {
       control: 'AlignmentControl',
@@ -213,11 +214,13 @@ const CONTROL_CONFIGS = {
       control: 'SliderWithInput',
       label: 'Font Size',
       description: 'Font size for the content',
+      default: 1,
     },
     'contentLineHeight': {
       control: 'SliderWithInput',
       label: 'Line Height',
       description: 'Line height for the content',
+      default: 1.6,
     },
     'showIcon': {
       control: 'ToggleControl',
@@ -241,6 +244,7 @@ const CONTROL_CONFIGS = {
       control: 'SliderWithInput',
       label: 'Icon Size',
       description: 'Size of the icon',
+      default: 1.25,
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -596,13 +600,11 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Header Border Color',
       description: 'Border color for inactive tab buttons',
-      default: '#dddddd',
     },
     'tabButtonActiveBorderColor': {
       control: 'ColorPicker',
       label: 'Header Active Border Color',
       description: 'Border color for the active tab',
-      default: '#dddddd',
     },
     'tabButtonActiveContentBorderColor': {
       control: 'ColorPicker',
@@ -645,7 +647,6 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Header Border Style',
       description: 'Border style for tab buttons',
-      default: 'solid',
     },
     'tabButtonBorderRadius': {
       control: 'BorderRadiusControl',
@@ -824,7 +825,6 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Row Border Color',
       description: 'Border color for the tab row',
-      default: '#dddddd',
     },
     'tabsRowBorderWidth': {
       control: 'RangeControl',
@@ -861,7 +861,6 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Row Border Style',
       description: 'Border style for the tab row',
-      default: 'solid',
     },
     'tabListAlignment': {
       control: 'SelectControl',
@@ -911,7 +910,6 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Panel Border Color',
       description: 'Border color for tab content panel',
-      default: '#dddddd',
     },
     'panelBorderWidth': {
       control: 'RangeControl',
@@ -948,7 +946,6 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Panel Border Style',
       description: 'Border style for tab content panel',
-      default: 'solid',
     },
     'panelBorderRadius': {
       control: 'BorderRadiusControl',
@@ -960,7 +957,6 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Block Border Color',
       description: 'Border color for main tabs wrapper',
-      default: '#dddddd',
     },
     'borderWidth': {
       control: 'RangeControl',
@@ -997,7 +993,6 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Block Border Style',
       description: 'Border style for wrapper',
-      default: 'solid',
     },
     'borderRadius': {
       control: 'BorderRadiusControl',
@@ -1202,7 +1197,6 @@ const CONTROL_CONFIGS = {
       control: 'ColorPicker',
       label: 'Block Border Color',
       description: 'Border color of the TOC wrapper',
-      default: '#dddddd',
     },
     'titleColor': {
       control: 'ColorPicker',
@@ -2617,7 +2611,6 @@ const CONTROL_CONFIGS = {
       ],
       label: 'Block Border Style',
       description: 'Style of the wrapper border',
-      default: 'solid',
     },
     'blockBorderRadius': {
       control: 'BorderRadiusControl',

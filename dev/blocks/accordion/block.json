@@ -24,7 +24,7 @@
 		"className": false,
 		"customClassName": true,
 		"spacing": {
-			"margin": true,
+			"margin": false,
 			"padding": false
 		}
 	},

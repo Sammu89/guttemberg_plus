@@ -604,8 +604,14 @@
       "cssProperty": "font-weight"
     },
     "tabButtonBorderColor": {
-      "type": "string",
-      "default": "#dddddd",
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
       "cssVar": "tabs-button-border-color",
       "group": "headerBorders",
       "label": "Header Border Color",
@@ -617,8 +623,14 @@
       "cssProperty": "border-color"
     },
     "tabButtonActiveBorderColor": {
-      "type": "string",
-      "default": "#dddddd",
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
       "cssVar": "tabs-button-active-border-color",
       "group": "headerBorders",
       "label": "Header Active Border Color",
@@ -675,8 +687,14 @@
       "cssProperty": "border-width"
     },
     "tabButtonBorderStyle": {
-      "type": "string",
-      "default": "solid",
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
       "cssVar": "tabs-button-border-style",
       "group": "headerBorders",
       "label": "Header Border Style",
@@ -970,8 +988,14 @@
       "cssProperty": "background-color"
     },
     "tabsRowBorderColor": {
-      "type": "string",
-      "default": "#dddddd",
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
       "cssVar": "tabs-row-border-color",
       "group": "headerRowOptions",
       "label": "Row Border Color",
@@ -999,8 +1023,14 @@
       "cssProperty": "border-width"
     },
     "tabsRowBorderStyle": {
-      "type": "string",
-      "default": "solid",
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
       "cssVar": "tabs-row-border-style",
       "group": "headerRowOptions",
       "label": "Row Border Style",
@@ -1127,8 +1157,14 @@
       "cssProperty": "background-color"
     },
     "panelBorderColor": {
-      "type": "string",
-      "default": "#dddddd",
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
       "cssVar": "tabs-panel-border-color",
       "group": "panelAppearance",
       "label": "Panel Border Color",
@@ -1156,8 +1192,14 @@
       "cssProperty": "border-width"
     },
     "panelBorderStyle": {
-      "type": "string",
-      "default": "solid",
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
       "cssVar": "tabs-panel-border-style",
       "group": "panelAppearance",
       "label": "Panel Border Style",
@@ -1210,8 +1252,14 @@
       "cssProperty": "border-radius"
     },
     "borderColor": {
-      "type": "string",
-      "default": "#dddddd",
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
       "cssVar": "tabs-border-color",
       "group": "blockBorders",
       "label": "Block Border Color",
@@ -1239,8 +1287,14 @@
       "cssProperty": "border-width"
     },
     "borderStyle": {
-      "type": "string",
-      "default": "solid",
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
       "cssVar": "tabs-border-style",
       "group": "blockBorders",
       "label": "Block Border Style",

@@ -27,6 +27,7 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 const SCHEMAS_DIR = path.join(ROOT_DIR, 'schemas');
 const BLOCKS = ['accordion', 'tabs', 'toc'];
 
+
 // ============================================================================
 // Utility Functions
 // ============================================================================
@@ -112,10 +113,12 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
       const { topLeft, topRight, bottomRight, bottomLeft } = defaultValue;
       return compressShorthand(topLeft, topRight, bottomRight, bottomLeft, u);
     }
-    // Handle directional values (top, right, bottom, left) - used for border-width, padding, margin
+    // Handle directional values (top, right, bottom, left) - used for border-width, padding, margin, border-color, border-style
     if (defaultValue.top !== undefined && defaultValue.right !== undefined &&
         defaultValue.bottom !== undefined && defaultValue.left !== undefined) {
-      const u = defaultValue.unit || 'px';
+      // Use unit for numeric values, empty string for strings (colors, styles)
+      const isStringValue = typeof defaultValue.top === 'string';
+      const u = isStringValue ? '' : (defaultValue.unit || 'px');
       const { top, right, bottom, left } = defaultValue;
       return compressShorthand(top, right, bottom, left, u);
     }
@@ -124,7 +127,9 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
       const desktop = defaultValue.desktop;
       if (desktop.top !== undefined && desktop.right !== undefined &&
           desktop.bottom !== undefined && desktop.left !== undefined) {
-        const u = desktop.unit || 'px';
+        // Use unit for numeric values, empty string for strings (colors, styles)
+        const isStringValue = typeof desktop.top === 'string';
+        const u = isStringValue ? '' : (desktop.unit || 'px');
         const { top, right, bottom, left } = desktop;
         return compressShorthand(top, right, bottom, left, u);
       }
@@ -150,31 +155,41 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
  * - 3 values: left equals right
  * - 4 values: all different
  *
- * @param {number} top - Top value
- * @param {number} right - Right value
- * @param {number} bottom - Bottom value
- * @param {number} left - Left value
- * @param {string} unit - CSS unit (e.g., 'px', 'em')
+ * Supports both numeric values with units and string values (colors, styles)
+ *
+ * @param {number|string} top - Top value
+ * @param {number|string} right - Right value
+ * @param {number|string} bottom - Bottom value
+ * @param {number|string} left - Left value
+ * @param {string} unit - CSS unit (e.g., 'px', 'em') - only used for numeric values
  * @returns {string} Compressed CSS shorthand value
  */
 function compressShorthand(top, right, bottom, left, unit) {
+  // Helper to format value with unit (only for numbers)
+  const formatVal = (val) => {
+    if (typeof val === 'string') {
+      return val; // Colors, styles, etc. - no unit
+    }
+    return unit ? `${val}${unit}` : `${val}`;
+  };
+
   // All 4 values are the same
   if (top === right && right === bottom && bottom === left) {
-    return `${top}${unit}`;
+    return formatVal(top);
   }
 
   // Top/bottom same AND left/right same
   if (top === bottom && left === right) {
-    return `${top}${unit} ${right}${unit}`;
+    return `${formatVal(top)} ${formatVal(right)}`;
   }
 
   // Left equals right (3-value shorthand)
   if (left === right) {
-    return `${top}${unit} ${right}${unit} ${bottom}${unit}`;
+    return `${formatVal(top)} ${formatVal(right)} ${formatVal(bottom)}`;
   }
 
   // All values different (4-value shorthand)
-  return `${top}${unit} ${right}${unit} ${bottom}${unit} ${left}${unit}`;
+  return `${formatVal(top)} ${formatVal(right)} ${formatVal(bottom)} ${formatVal(left)}`;
 }
 
 /**
@@ -557,6 +572,113 @@ function generateScssPartial(blockType, schema, structure) {
 
     content += `}\n\n`;
   }
+
+  // Generate responsive overrides using tablet/mobile CSS variables
+  const buildResponsiveVar = (attr, device) => {
+    const baseVar = `--${attr.cssVar}`;
+    const deviceVar = `--${attr.cssVar}-${device}`;
+
+    if (device === 'tablet') {
+      return `var(${deviceVar}, var(${baseVar}, ${attr.default}))`;
+    }
+
+    return `var(${deviceVar}, var(--${attr.cssVar}-tablet, var(${baseVar}, ${attr.default})))`;
+  };
+
+  const buildResponsiveSelector = (selector, device) => {
+    const rootSelector = getRootSelector(structure);
+    if (rootSelector && selector.includes(rootSelector)) {
+      return selector.replace(
+        rootSelector,
+        `${rootSelector}[data-gutplus-device="${device}"]`
+      );
+    }
+    return `[data-gutplus-device="${device}"] ${selector}`;
+  };
+
+  const addResponsiveBlock = (device) => {
+
+    for (const [selector, states] of Object.entries(grouped)) {
+      const { base, hover, active, focus, disabled, visited } = states;
+
+      if (base.length === 0 && hover.length === 0 && active.length === 0 &&
+          focus.length === 0 && disabled.length === 0 && visited.length === 0) {
+        continue;
+      }
+
+      const responsiveSelector = buildResponsiveSelector(selector, device);
+      content += `${responsiveSelector} {\n`;
+
+      for (const attr of base) {
+        if (attr.description) {
+          content += `  /* ${attr.description} */\n`;
+        }
+        content += `  ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+      }
+
+      if (hover.length > 0) {
+        content += `\n  &:hover {\n`;
+        for (const attr of hover) {
+          if (attr.description) {
+            content += `    /* ${attr.description} */\n`;
+          }
+          content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+        }
+        content += `  }\n`;
+      }
+
+      if (active.length > 0) {
+        content += `\n  &.active,\n  &[aria-selected="true"] {\n`;
+        for (const attr of active) {
+          if (attr.description) {
+            content += `    /* ${attr.description} */\n`;
+          }
+          content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+        }
+        content += `  }\n`;
+      }
+
+      if (focus.length > 0) {
+        content += `\n  &:focus,\n  &:focus-visible {\n`;
+        for (const attr of focus) {
+          if (attr.description) {
+            content += `    /* ${attr.description} */\n`;
+          }
+          content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+        }
+        content += `  }\n`;
+      }
+
+      if (disabled.length > 0) {
+        content += `\n  &:disabled,\n  &[disabled] {\n`;
+        for (const attr of disabled) {
+          if (attr.description) {
+            content += `    /* ${attr.description} */\n`;
+          }
+          content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+        }
+        content += `  }\n`;
+      }
+
+      if (visited.length > 0) {
+        content += `\n  &:visited {\n`;
+        for (const attr of visited) {
+          if (attr.description) {
+            content += `    /* ${attr.description} */\n`;
+          }
+          content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+        }
+        content += `  }\n`;
+      }
+
+      content += `}\n\n`;
+    }
+
+    content += `\n`;
+  };
+
+  addResponsiveBlock('tablet');
+  addResponsiveBlock('mobile');
 
   return { fileName, content, count: cssAttrs.length };
 }

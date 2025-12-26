@@ -74,14 +74,14 @@ Themes store **ALL attributes** with explicit values:
 │  Tier 3: Block Customizations       │
 │  Priority: HIGHEST                  │
 │  Storage: Inline attributes         │
-│  Output: Inline CSS variables       │
+│  Output: Inline CSS vars on element │
 └─────────────────────────────────────┘
               ↑ overrides
 ┌─────────────────────────────────────┐
 │  Tier 2: Theme Values               │
 │  Priority: MEDIUM                   │
 │  Storage: Database (wp_options)     │
-│  Output: CSS classes in <head>      │
+│  Output: Theme CSS in <head>        │
 └─────────────────────────────────────┘
               ↑ overrides
 ┌─────────────────────────────────────┐
@@ -93,6 +93,7 @@ Themes store **ALL attributes** with explicit values:
 ```
 
 **Rule**: First defined value wins. No merging.
+**Rule**: Tier 3 is element-inline only; no `<style>` tags for block customizations. `<head>` is reserved for Tier 2 saved theme CSS.
 
 **Example**:
 ```javascript
@@ -208,11 +209,11 @@ theme.titleColor = '#00ff00'; // Ignored
    ↓
 3. Generate theme CSS (from cache or fresh)
    ↓
-4. Output <style> in <head> with theme classes
+4. Output theme CSS in <head> (saved themes only)
    ↓
-5. Render blocks with theme classes
+5. Render blocks with theme classes (Tier 2)
    ↓
-6. Inline CSS variables override theme
+6. Inline CSS variables on the block element override theme
    ↓
 7. CSS cascade handles final styling
    ↓

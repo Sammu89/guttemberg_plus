@@ -8,12 +8,13 @@
  * @since 1.0.0
  */
 
-import { useState, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import { BaseControl, Flex, FlexItem, FlexBlock, __experimentalNumberControl as NumberControl } from '@wordpress/components';
 import { DeviceSwitcher } from './DeviceSwitcher';
 import { UnitSelector } from './UnitSelector';
 import { LinkToggle } from './LinkToggle';
 import { ResetButton } from './ResetButton';
+import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
 
 /**
  * Default box value structure
@@ -202,7 +203,8 @@ export function BoxControl( {
 	allowNegative = false,
 	initialDevice = 'desktop',
 } ) {
-	const [ device, setDevice ] = useState( initialDevice );
+	// Use global device state - all responsive controls stay in sync
+	const device = useResponsiveDevice();
 
 	// Get effective value with inheritance
 	const { value: effectiveValue, inheritedFrom } = useMemo(
@@ -284,7 +286,7 @@ export function BoxControl( {
 						<Flex gap={ 2 }>
 							{ responsive && (
 								<FlexItem>
-									<DeviceSwitcher value={ device } onChange={ setDevice } />
+									<DeviceSwitcher value={ device } />
 								</FlexItem>
 							) }
 							<FlexItem>

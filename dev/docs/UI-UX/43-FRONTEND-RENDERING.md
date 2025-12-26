@@ -70,8 +70,10 @@ Designer wants to change default title padding: 12px → 16px
 
 **Layer 3: Per-Accordion Customizations**
 - Stored in block attributes
-- Output as inline CSS variables on element
+- Output as inline CSS variables on the block element (style attribute only)
 - Overrides theme fallbacks
+
+**Rule**: Tier 3 never generates `<style>` tags. `<head>` output is reserved for Tier 2 saved themes.
 
 ---
 

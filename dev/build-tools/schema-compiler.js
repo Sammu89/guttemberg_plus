@@ -58,6 +58,51 @@ function getTimestamp() {
 }
 
 /**
+ * Compress CSS shorthand values (top, right, bottom, left) to minimal representation
+ * Following CSS shorthand rules:
+ * - 1 value: all sides same
+ * - 2 values: top/bottom same, left/right same
+ * - 3 values: left equals right
+ * - 4 values: all different
+ *
+ * Supports both numeric values with units and string values (colors, styles)
+ *
+ * @param {number|string} top - Top value
+ * @param {number|string} right - Right value
+ * @param {number|string} bottom - Bottom value
+ * @param {number|string} left - Left value
+ * @param {string} unit - CSS unit (e.g., 'px', 'em') - only used for numeric values
+ * @returns {string} Compressed CSS shorthand value
+ */
+function compressShorthand(top, right, bottom, left, unit) {
+  // Helper to format value with unit (only for numbers)
+  const formatVal = (val) => {
+    if (typeof val === 'string') {
+      return val; // Colors, styles, etc. - no unit
+    }
+    return unit ? `${val}${unit}` : `${val}`;
+  };
+
+  // All 4 values are the same
+  if (top === right && right === bottom && bottom === left) {
+    return formatVal(top);
+  }
+
+  // Top/bottom same AND left/right same
+  if (top === bottom && left === right) {
+    return `${formatVal(top)} ${formatVal(right)}`;
+  }
+
+  // Left equals right (3-value shorthand)
+  if (left === right) {
+    return `${formatVal(top)} ${formatVal(right)} ${formatVal(bottom)}`;
+  }
+
+  // All values different (4-value shorthand)
+  return `${formatVal(top)} ${formatVal(right)} ${formatVal(bottom)} ${formatVal(left)}`;
+}
+
+/**
  * Get auto-generated file header
  */
 function getGeneratedHeader(schemaFile, fileType) {
@@ -594,8 +639,35 @@ export const CSS_VAR_MAPPINGS = {\n`;
 
   content += `};\n\n`;
 
-  // Add helper function to format value with unit
+  // Add helper function to compress CSS box values (top, right, bottom, left)
   content += `/**
+ * Compress CSS box values using shorthand notation
+ * Handles: border-width, border-color, border-style, padding, margin
+ * @param {Array} values - Array of [top, right, bottom, left] values
+ * @param {string} unit - CSS unit to append (empty string for non-numeric values like colors/styles)
+ * @returns {string} Compressed CSS shorthand value
+ */
+function compressBoxValue(values, unit = '') {
+  const [top, right, bottom, left] = values;
+  const addUnit = (v) => unit ? \`\${v}\${unit}\` : String(v);
+
+  // All same: "solid" or "10px"
+  if (top === right && right === bottom && bottom === left) {
+    return addUnit(top);
+  }
+  // top/bottom same AND left/right same: "solid dashed" or "10px 20px"
+  if (top === bottom && left === right) {
+    return \`\${addUnit(top)} \${addUnit(left)}\`;
+  }
+  // left equals right: "solid dashed dotted" or "10px 20px 30px"
+  if (left === right) {
+    return \`\${addUnit(top)} \${addUnit(right)} \${addUnit(bottom)}\`;
+  }
+  // All different: "solid dashed dotted none" or "10px 20px 30px 40px"
+  return \`\${addUnit(top)} \${addUnit(right)} \${addUnit(bottom)} \${addUnit(left)}\`;
+}
+
+/**
  * Format a value with its unit for CSS output
  * @param {string} attrName - Attribute name
  * @param {*} value - The value to format
@@ -609,7 +681,7 @@ export function formatCssValue(attrName, value, blockType) {
   // Handle null/undefined
   if (value === null || value === undefined) return null;
 
-  // Handle object types (border radius, padding)
+  // Handle object types (border radius, padding, colors, styles)
   if (mapping.type === 'object' && typeof value === 'object') {
     // Handle responsive objects (desktop, tablet, mobile) - use desktop value
     if (value.desktop !== undefined && typeof value.desktop === 'object') {
@@ -619,13 +691,14 @@ export function formatCssValue(attrName, value, blockType) {
     // Border radius format: topLeft topRight bottomRight bottomLeft
     if (value.topLeft !== undefined) {
       const unit = value.unit || 'px';
-      return \`\${value.topLeft}\${unit} \${value.topRight}\${unit} \${value.bottomRight}\${unit} \${value.bottomLeft}\${unit}\`;
+      const values = [value.topLeft, value.topRight, value.bottomRight, value.bottomLeft];
+      return compressBoxValue(values, unit);
     }
 
-    // Directional properties: top right bottom left
+    // Directional properties (border-width, border-color, border-style, padding, margin)
     if (value.top !== undefined || value.right !== undefined ||
         value.bottom !== undefined || value.left !== undefined) {
-      const unit = value.unit || 'px';
+      const unit = value.unit || '';
 
       // Handle unlinked mode where each side is an object { value: X }
       const getVal = (side) => {
@@ -633,15 +706,11 @@ export function formatCssValue(attrName, value, blockType) {
         if (sideValue && typeof sideValue === 'object' && sideValue.value !== undefined) {
           return sideValue.value;
         }
-        return sideValue || 0;
+        return sideValue ?? '';
       };
 
-      const top = getVal('top');
-      const right = getVal('right');
-      const bottom = getVal('bottom');
-      const left = getVal('left');
-
-      return \`\${top}\${unit} \${right}\${unit} \${bottom}\${unit} \${left}\${unit}\`;
+      const values = [getVal('top'), getVal('right'), getVal('bottom'), getVal('left')];
+      return compressBoxValue(values, unit);
     }
 
     // Default object handling
@@ -736,13 +805,35 @@ function generateCSSVariables(blockType, schema) {
         const unit = attr.unit || 'px';
         cssValue = `${vertical}${unit} ${horizontal}${unit}`;
       }
-      // Handle object types (border radius, padding, etc.)
+      // Handle object types (border radius, padding, colors, styles, etc.)
       else if (typeof attr.default === 'object') {
         // Border radius format: topLeft topRight bottomRight bottomLeft
         if (attr.default.topLeft !== undefined) {
-          const unit = attr.unit || 'px';
-          cssValue = `${attr.default.topLeft}${unit} ${attr.default.topRight}${unit} ${attr.default.bottomRight}${unit} ${attr.default.bottomLeft}${unit}`;
-        } else {
+          const unit = attr.default.unit || attr.unit || 'px';
+          cssValue = compressShorthand(attr.default.topLeft, attr.default.topRight, attr.default.bottomRight, attr.default.bottomLeft, unit);
+        }
+        // Directional format: top right bottom left (border-width, border-color, border-style, padding, margin)
+        else if (attr.default.top !== undefined && attr.default.right !== undefined &&
+                 attr.default.bottom !== undefined && attr.default.left !== undefined) {
+          // Use unit for numeric values, empty string for strings (colors, styles)
+          const isStringValue = typeof attr.default.top === 'string';
+          const unit = isStringValue ? '' : (attr.default.unit || attr.unit || 'px');
+          cssValue = compressShorthand(attr.default.top, attr.default.right, attr.default.bottom, attr.default.left, unit);
+        }
+        // Responsive format: desktop, tablet, mobile - use desktop value
+        else if (attr.default.desktop !== undefined && typeof attr.default.desktop === 'object') {
+          const desktop = attr.default.desktop;
+          if (desktop.top !== undefined && desktop.right !== undefined &&
+              desktop.bottom !== undefined && desktop.left !== undefined) {
+            const isStringValue = typeof desktop.top === 'string';
+            const unit = isStringValue ? '' : (desktop.unit || attr.unit || 'px');
+            cssValue = compressShorthand(desktop.top, desktop.right, desktop.bottom, desktop.left, unit);
+          } else {
+            // Skip other complex desktop objects we don't know how to handle
+            continue;
+          }
+        }
+        else {
           // Skip other complex objects we don't know how to handle
           continue;
         }
@@ -1135,7 +1226,7 @@ function generateInlineStylesFunction(schema, blockType) {
   code.push(`// AUTO-GENERATED from schemas/${blockType}.json`);
   code.push(`// To modify styles, update the schema and run: npm run schema:build`);
   code.push(``);
-  code.push(`const getInlineStyles = () => {`);
+  code.push(`const getInlineStyles = (responsiveDevice = 'desktop') => {`);
   code.push(`  // Extract object-type attributes with fallbacks`);
 
   // Find all object-type attributes (padding, border radius, etc.)
@@ -1271,7 +1362,26 @@ function generateInlineStylesFunction(schema, blockType) {
       if (attr.type === 'object') {
         // Handle objects like padding/border-radius
         if (attrName.includes('Padding')) {
-          styleValue = `\`\${${attrName}.top}px \${${attrName}.right}px \${${attrName}.bottom}px \${${attrName}.left}px\``;
+          // Padding uses full shorthand (all 4 sides)
+          if (attr.responsive) {
+            const valVar = `${attrName}Val`;
+            styleValue = `(() => { const ${valVar} = ${attrName}[responsiveDevice] || ${attrName}; const unit = ${valVar}.unit || 'px'; return \`\${${valVar}.top || 0}\${unit} \${${valVar}.right || 0}\${unit} \${${valVar}.bottom || 0}\${unit} \${${valVar}.left || 0}\${unit}\`; })()`;
+          } else {
+            styleValue = `\`\${${attrName}.top || 0}px \${${attrName}.right || 0}px \${${attrName}.bottom || 0}px \${${attrName}.left || 0}px\``;
+          }
+        } else if (attrName.includes('Margin') && attr.control === 'CompactMargin') {
+          // CompactMargin only controls top/bottom - generate separate properties
+          // to avoid overriding horizontal alignment margins (left/right)
+          // This is handled specially below - skip the shorthand generation
+          styleValue = null; // Will be handled as separate properties
+        } else if (attrName.includes('Margin')) {
+          // Full margin shorthand (all 4 sides)
+          if (attr.responsive) {
+            const valVar = `${attrName}Val`;
+            styleValue = `(() => { const ${valVar} = ${attrName}[responsiveDevice] || ${attrName}; const unit = ${valVar}.unit || 'px'; return \`\${${valVar}.top || 0}\${unit} \${${valVar}.right || 0}\${unit} \${${valVar}.bottom || 0}\${unit} \${${valVar}.left || 0}\${unit}\`; })()`;
+          } else {
+            styleValue = `\`\${${attrName}.top || 0}px \${${attrName}.right || 0}px \${${attrName}.bottom || 0}px \${${attrName}.left || 0}px\``;
+          }
         } else if (attrName.includes('Radius')) {
           styleValue = `\`\${${attrName}.topLeft}px \${${attrName}.topRight}px \${${attrName}.bottomRight}px \${${attrName}.bottomLeft}px\``;
         }
@@ -1291,6 +1401,17 @@ function generateInlineStylesFunction(schema, blockType) {
         // Convert CSS property to camelCase for valid JavaScript
         const jsProperty = toCamelCase(cssProperty);
         code.push(`\t\t\t${jsProperty}: ${styleValue},`);
+      } else if (attrName.includes('Margin') && attr.control === 'CompactMargin') {
+        // CompactMargin: Generate separate marginTop and marginBottom
+        // This avoids overriding horizontal alignment margins (left/right set by useBlockAlignment)
+        if (attr.responsive) {
+          const valVar = `${attrName}Val`;
+          code.push(`\t\t\tmarginTop: (() => { const ${valVar} = ${attrName}[responsiveDevice] || ${attrName}; return \`\${${valVar}.top || 0}\${${valVar}.unit || 'px'}\`; })(),`);
+          code.push(`\t\t\tmarginBottom: (() => { const ${valVar} = ${attrName}[responsiveDevice] || ${attrName}; return \`\${${valVar}.bottom || 0}\${${valVar}.unit || 'px'}\`; })(),`);
+        } else {
+          code.push(`\t\t\tmarginTop: \`\${${attrName}.top || 0}\${${attrName}.unit || 'px'}\`,`);
+          code.push(`\t\t\tmarginBottom: \`\${${attrName}.bottom || 0}\${${attrName}.unit || 'px'}\`,`);
+        }
       }
     }
 
@@ -1329,6 +1450,33 @@ function generateCustomizationStylesFunction(blockType) {
   code.push(`    const cssVar = getCssVarName(attrName, '${blockType}');`);
   code.push(`    if (!cssVar) {`);
   code.push(`      return; // Attribute not mapped to a CSS variable`);
+  code.push(`    }`);
+  code.push(``);
+  code.push(`    const isResponsiveValue = value && typeof value === 'object' &&`);
+  code.push(`      (value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined);`);
+  code.push(``);
+  code.push(`    if (isResponsiveValue) {`);
+  code.push(`      if (value.desktop !== undefined && value.desktop !== null) {`);
+  code.push(`        const formattedDesktop = formatCssValue(attrName, value.desktop, '${blockType}');`);
+  code.push(`        if (formattedDesktop !== null) {`);
+  code.push(`          styles[cssVar] = formattedDesktop;`);
+  code.push(`        }`);
+  code.push(`      }`);
+  code.push(``);
+  code.push(`      if (value.tablet !== undefined && value.tablet !== null) {`);
+  code.push(`        const formattedTablet = formatCssValue(attrName, value.tablet, '${blockType}');`);
+  code.push(`        if (formattedTablet !== null) {`);
+  code.push(`          styles[\`\${cssVar}-tablet\`] = formattedTablet;`);
+  code.push(`        }`);
+  code.push(`      }`);
+  code.push(``);
+  code.push(`      if (value.mobile !== undefined && value.mobile !== null) {`);
+  code.push(`        const formattedMobile = formatCssValue(attrName, value.mobile, '${blockType}');`);
+  code.push(`        if (formattedMobile !== null) {`);
+  code.push(`          styles[\`\${cssVar}-mobile\`] = formattedMobile;`);
+  code.push(`        }`);
+  code.push(`      }`);
+  code.push(`      return;`);
   code.push(`    }`);
   code.push(``);
   code.push(`    // Format value with proper unit from generated mappings`);

@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/accordion.json + schemas/accordion-structure.json
- * Generated at: 2025-12-26T00:11:13.680Z
+ * Generated at: 2025-12-26T22:38:19.451Z
  *
  * This file contains:
  * 1. :root CSS variable declarations with default values
@@ -17,7 +17,7 @@
   --accordion-border-radius: 4px;
   --accordion-header-padding: 12px 16px;
   --accordion-content-padding: 16px;
-  --accordion-block-margin: 0px 0px 16px;
+  --accordion-block-margin: 1em 0em;
   --accordion-shadow: none;
   --accordion-divider-color: #dddddd;
   --accordion-divider-style: solid;
@@ -31,11 +31,17 @@
   --accordion-content-color: #333333;
   --accordion-content-bg: #ffffff;
   --accordion-title-font-family: inherit;
+  --accordion-title-font-size: 1.125;
+  --accordion-title-letter-spacing: 0;
   --accordion-title-text-decoration: none;
   --accordion-title-text-transform: none;
+  --accordion-title-line-height: 1.4;
   --accordion-title-alignment: left;
   --accordion-content-font-family: inherit;
+  --accordion-content-font-size: 1;
+  --accordion-content-line-height: 1.6;
   --accordion-icon-color: #666666;
+  --accordion-icon-size: 1.25;
   --accordion-icon-rotation: 180deg;
   --accordion-animation-duration: 300ms;
   --accordion-animation-easing: ease;
@@ -44,14 +50,14 @@
 .gutplus-accordion {
   /* Border width, color, and style for all sides */
   border-width: var(--accordion-border-width, 1px);
-  /* Border color - part of BorderPanel */
+  /* Border color for all sides */
   border-color: var(--accordion-border-color, #dddddd);
-  /* Border style - part of BorderPanel */
+  /* Border style for all sides */
   border-style: var(--accordion-border-style, solid);
   /* Corner radius of the accordion wrapper */
   border-radius: var(--accordion-border-radius, 4px);
   /* Outer spacing around the accordion */
-  margin: var(--accordion-block-margin, 0px 0px 16px);
+  margin: var(--accordion-block-margin, 1em 0em);
   /* Shadow effect for the accordion */
   box-shadow: var(--accordion-shadow, none);
   /* Animation duration in milliseconds */
@@ -69,10 +75,16 @@
   background: var(--accordion-title-bg, #f5f5f5);
   /* Font family for the header */
   font-family: var(--accordion-title-font-family, inherit);
+  /* Font size for the header */
+  font-size: var(--accordion-title-font-size, 1.125);
+  /* Space between letters */
+  letter-spacing: var(--accordion-title-letter-spacing, 0);
   /* Text decoration for the header */
   text-decoration: var(--accordion-title-text-decoration, none);
   /* Text transformation for the header */
   text-transform: var(--accordion-title-text-transform, none);
+  /* Line height for the header */
+  line-height: var(--accordion-title-line-height, 1.4);
   /* Text alignment for the header */
   text-align: var(--accordion-title-alignment, left);
 
@@ -107,12 +119,194 @@
   background: var(--accordion-content-bg, #ffffff);
   /* Font family for the content */
   font-family: var(--accordion-content-font-family, inherit);
+  /* Font size for the content */
+  font-size: var(--accordion-content-font-size, 1);
+  /* Line height for the content */
+  line-height: var(--accordion-content-line-height, 1.6);
 }
 
 .accordion-icon {
   /* Color of the expand/collapse icon */
   color: var(--accordion-icon-color, #666666);
+  /* Size of the icon */
+  font-size: var(--accordion-icon-size, 1.25);
   /* Rotation angle when open (degrees) */
   transform: var(--accordion-icon-rotation, 180deg);
 }
+
+.gutplus-accordion[data-gutplus-device="tablet"] {
+  /* Border width, color, and style for all sides */
+  border-width: var(--accordion-border-width-tablet, var(--accordion-border-width, 1px));
+  /* Border color for all sides */
+  border-color: var(--accordion-border-color-tablet, var(--accordion-border-color, #dddddd));
+  /* Border style for all sides */
+  border-style: var(--accordion-border-style-tablet, var(--accordion-border-style, solid));
+  /* Corner radius of the accordion wrapper */
+  border-radius: var(--accordion-border-radius-tablet, var(--accordion-border-radius, 4px));
+  /* Outer spacing around the accordion */
+  margin: var(--accordion-block-margin-tablet, var(--accordion-block-margin, 1em 0em));
+  /* Shadow effect for the accordion */
+  box-shadow: var(--accordion-shadow-tablet, var(--accordion-shadow, none));
+  /* Animation duration in milliseconds */
+  transition-duration: var(--accordion-animation-duration-tablet, var(--accordion-animation-duration, 300ms));
+  /* Animation easing function */
+  transition-timing-function: var(--accordion-animation-easing-tablet, var(--accordion-animation-easing, ease));
+}
+
+[data-gutplus-device="tablet"] .accordion-title {
+  /* Inner spacing of the header */
+  padding: var(--accordion-header-padding-tablet, var(--accordion-header-padding, 12px 16px));
+  /* Text color for the accordion header */
+  color: var(--accordion-title-color-tablet, var(--accordion-title-color, #333333));
+  /* Background color for the accordion header */
+  background: var(--accordion-title-bg-tablet, var(--accordion-title-bg, #f5f5f5));
+  /* Font family for the header */
+  font-family: var(--accordion-title-font-family-tablet, var(--accordion-title-font-family, inherit));
+  /* Font size for the header */
+  font-size: var(--accordion-title-font-size-tablet, var(--accordion-title-font-size, 1.125));
+  /* Space between letters */
+  letter-spacing: var(--accordion-title-letter-spacing-tablet, var(--accordion-title-letter-spacing, 0));
+  /* Text decoration for the header */
+  text-decoration: var(--accordion-title-text-decoration-tablet, var(--accordion-title-text-decoration, none));
+  /* Text transformation for the header */
+  text-transform: var(--accordion-title-text-transform-tablet, var(--accordion-title-text-transform, none));
+  /* Line height for the header */
+  line-height: var(--accordion-title-line-height-tablet, var(--accordion-title-line-height, 1.4));
+  /* Text alignment for the header */
+  text-align: var(--accordion-title-alignment-tablet, var(--accordion-title-alignment, left));
+
+  &:hover {
+    /* Text color when hovering over header */
+    color: var(--accordion-title-hover-color-tablet, var(--accordion-title-hover-color, #000000));
+    /* Background color when hovering over header */
+    background: var(--accordion-title-hover-bg-tablet, var(--accordion-title-hover-bg, #e8e8e8));
+  }
+
+  &.active,
+  &[aria-selected="true"] {
+    /* Text color when accordion is open */
+    color: var(--accordion-title-active-color-tablet, var(--accordion-title-active-color, #000000));
+    /* Background color when accordion is open */
+    background: var(--accordion-title-active-bg-tablet, var(--accordion-title-active-bg, #e8e8e8));
+  }
+}
+
+[data-gutplus-device="tablet"] .accordion-content {
+  /* Inner spacing of the content panel */
+  padding: var(--accordion-content-padding-tablet, var(--accordion-content-padding, 16px));
+  /* Color of divider between header and content */
+  border-top-color: var(--accordion-divider-color-tablet, var(--accordion-divider-color, #dddddd));
+  /* Style of divider between header and content */
+  border-top-style: var(--accordion-divider-style-tablet, var(--accordion-divider-style, solid));
+  /* Thickness of divider between header and content */
+  border-top-width: var(--accordion-divider-width-tablet, var(--accordion-divider-width, 0px));
+  /* Text color for accordion content */
+  color: var(--accordion-content-color-tablet, var(--accordion-content-color, #333333));
+  /* Background color for accordion content */
+  background: var(--accordion-content-bg-tablet, var(--accordion-content-bg, #ffffff));
+  /* Font family for the content */
+  font-family: var(--accordion-content-font-family-tablet, var(--accordion-content-font-family, inherit));
+  /* Font size for the content */
+  font-size: var(--accordion-content-font-size-tablet, var(--accordion-content-font-size, 1));
+  /* Line height for the content */
+  line-height: var(--accordion-content-line-height-tablet, var(--accordion-content-line-height, 1.6));
+}
+
+[data-gutplus-device="tablet"] .accordion-icon {
+  /* Color of the expand/collapse icon */
+  color: var(--accordion-icon-color-tablet, var(--accordion-icon-color, #666666));
+  /* Size of the icon */
+  font-size: var(--accordion-icon-size-tablet, var(--accordion-icon-size, 1.25));
+  /* Rotation angle when open (degrees) */
+  transform: var(--accordion-icon-rotation-tablet, var(--accordion-icon-rotation, 180deg));
+}
+
+
+.gutplus-accordion[data-gutplus-device="mobile"] {
+  /* Border width, color, and style for all sides */
+  border-width: var(--accordion-border-width-mobile, var(--accordion-border-width-tablet, var(--accordion-border-width, 1px)));
+  /* Border color for all sides */
+  border-color: var(--accordion-border-color-mobile, var(--accordion-border-color-tablet, var(--accordion-border-color, #dddddd)));
+  /* Border style for all sides */
+  border-style: var(--accordion-border-style-mobile, var(--accordion-border-style-tablet, var(--accordion-border-style, solid)));
+  /* Corner radius of the accordion wrapper */
+  border-radius: var(--accordion-border-radius-mobile, var(--accordion-border-radius-tablet, var(--accordion-border-radius, 4px)));
+  /* Outer spacing around the accordion */
+  margin: var(--accordion-block-margin-mobile, var(--accordion-block-margin-tablet, var(--accordion-block-margin, 1em 0em)));
+  /* Shadow effect for the accordion */
+  box-shadow: var(--accordion-shadow-mobile, var(--accordion-shadow-tablet, var(--accordion-shadow, none)));
+  /* Animation duration in milliseconds */
+  transition-duration: var(--accordion-animation-duration-mobile, var(--accordion-animation-duration-tablet, var(--accordion-animation-duration, 300ms)));
+  /* Animation easing function */
+  transition-timing-function: var(--accordion-animation-easing-mobile, var(--accordion-animation-easing-tablet, var(--accordion-animation-easing, ease)));
+}
+
+[data-gutplus-device="mobile"] .accordion-title {
+  /* Inner spacing of the header */
+  padding: var(--accordion-header-padding-mobile, var(--accordion-header-padding-tablet, var(--accordion-header-padding, 12px 16px)));
+  /* Text color for the accordion header */
+  color: var(--accordion-title-color-mobile, var(--accordion-title-color-tablet, var(--accordion-title-color, #333333)));
+  /* Background color for the accordion header */
+  background: var(--accordion-title-bg-mobile, var(--accordion-title-bg-tablet, var(--accordion-title-bg, #f5f5f5)));
+  /* Font family for the header */
+  font-family: var(--accordion-title-font-family-mobile, var(--accordion-title-font-family-tablet, var(--accordion-title-font-family, inherit)));
+  /* Font size for the header */
+  font-size: var(--accordion-title-font-size-mobile, var(--accordion-title-font-size-tablet, var(--accordion-title-font-size, 1.125)));
+  /* Space between letters */
+  letter-spacing: var(--accordion-title-letter-spacing-mobile, var(--accordion-title-letter-spacing-tablet, var(--accordion-title-letter-spacing, 0)));
+  /* Text decoration for the header */
+  text-decoration: var(--accordion-title-text-decoration-mobile, var(--accordion-title-text-decoration-tablet, var(--accordion-title-text-decoration, none)));
+  /* Text transformation for the header */
+  text-transform: var(--accordion-title-text-transform-mobile, var(--accordion-title-text-transform-tablet, var(--accordion-title-text-transform, none)));
+  /* Line height for the header */
+  line-height: var(--accordion-title-line-height-mobile, var(--accordion-title-line-height-tablet, var(--accordion-title-line-height, 1.4)));
+  /* Text alignment for the header */
+  text-align: var(--accordion-title-alignment-mobile, var(--accordion-title-alignment-tablet, var(--accordion-title-alignment, left)));
+
+  &:hover {
+    /* Text color when hovering over header */
+    color: var(--accordion-title-hover-color-mobile, var(--accordion-title-hover-color-tablet, var(--accordion-title-hover-color, #000000)));
+    /* Background color when hovering over header */
+    background: var(--accordion-title-hover-bg-mobile, var(--accordion-title-hover-bg-tablet, var(--accordion-title-hover-bg, #e8e8e8)));
+  }
+
+  &.active,
+  &[aria-selected="true"] {
+    /* Text color when accordion is open */
+    color: var(--accordion-title-active-color-mobile, var(--accordion-title-active-color-tablet, var(--accordion-title-active-color, #000000)));
+    /* Background color when accordion is open */
+    background: var(--accordion-title-active-bg-mobile, var(--accordion-title-active-bg-tablet, var(--accordion-title-active-bg, #e8e8e8)));
+  }
+}
+
+[data-gutplus-device="mobile"] .accordion-content {
+  /* Inner spacing of the content panel */
+  padding: var(--accordion-content-padding-mobile, var(--accordion-content-padding-tablet, var(--accordion-content-padding, 16px)));
+  /* Color of divider between header and content */
+  border-top-color: var(--accordion-divider-color-mobile, var(--accordion-divider-color-tablet, var(--accordion-divider-color, #dddddd)));
+  /* Style of divider between header and content */
+  border-top-style: var(--accordion-divider-style-mobile, var(--accordion-divider-style-tablet, var(--accordion-divider-style, solid)));
+  /* Thickness of divider between header and content */
+  border-top-width: var(--accordion-divider-width-mobile, var(--accordion-divider-width-tablet, var(--accordion-divider-width, 0px)));
+  /* Text color for accordion content */
+  color: var(--accordion-content-color-mobile, var(--accordion-content-color-tablet, var(--accordion-content-color, #333333)));
+  /* Background color for accordion content */
+  background: var(--accordion-content-bg-mobile, var(--accordion-content-bg-tablet, var(--accordion-content-bg, #ffffff)));
+  /* Font family for the content */
+  font-family: var(--accordion-content-font-family-mobile, var(--accordion-content-font-family-tablet, var(--accordion-content-font-family, inherit)));
+  /* Font size for the content */
+  font-size: var(--accordion-content-font-size-mobile, var(--accordion-content-font-size-tablet, var(--accordion-content-font-size, 1)));
+  /* Line height for the content */
+  line-height: var(--accordion-content-line-height-mobile, var(--accordion-content-line-height-tablet, var(--accordion-content-line-height, 1.6)));
+}
+
+[data-gutplus-device="mobile"] .accordion-icon {
+  /* Color of the expand/collapse icon */
+  color: var(--accordion-icon-color-mobile, var(--accordion-icon-color-tablet, var(--accordion-icon-color, #666666)));
+  /* Size of the icon */
+  font-size: var(--accordion-icon-size-mobile, var(--accordion-icon-size-tablet, var(--accordion-icon-size, 1.25)));
+  /* Rotation angle when open (degrees) */
+  transform: var(--accordion-icon-rotation-mobile, var(--accordion-icon-rotation-tablet, var(--accordion-icon-rotation, 180deg)));
+}
+
 

@@ -11,6 +11,11 @@
  * Layout (linked):   [ColorSwatch] [StyleIcon] [Value] [Unit] ────●──── [🔗] [↻Reset]
  * Layout (unlinked): 4 rows (top/right/bottom/left) with SideIcon, ColorSwatch, StyleIcon
  *
+ * Props:
+ * - lockLinked: When true, always show linked mode and hide the LinkToggle button
+ * - colorValue: Can be string OR object { top, right, bottom, left, linked }
+ * - styleValue: Can be string OR object { top, right, bottom, left, linked }
+ *
  * @package guttemberg-plus
  */
 
@@ -44,15 +49,16 @@ const DEFAULT_VALUE = {
  * @param {string}   props.label               - Control label
  * @param {Object}   props.value               - Value object (width structure)
  * @param {Function} props.onChange            - Change handler for width attribute
- * @param {string}   props.colorValue          - Current border color (separate attribute)
+ * @param {string|Object} props.colorValue     - Current border color (string or object with sides)
  * @param {Function} props.onColorChange       - Handler for color attribute changes
- * @param {string}   props.styleValue          - Current border style (separate attribute)
+ * @param {string|Object} props.styleValue     - Current border style (string or object with sides)
  * @param {Function} props.onStyleChange       - Handler for style attribute changes
  * @param {number}   props.min                 - Minimum value
  * @param {number}   props.max                 - Maximum value
  * @param {number}   props.step                - Slider step
  * @param {boolean}  props.responsive          - Whether to show device switcher
  * @param {boolean}  props.disabled            - Disabled state
+ * @param {boolean}  props.lockLinked          - When true, always show linked mode and hide LinkToggle
  */
 export function BorderPanel( {
 	label = 'Border',
@@ -67,6 +73,7 @@ export function BorderPanel( {
 	step = 1,
 	responsive = false,
 	disabled = false,
+	lockLinked = false,
 } ) {
 	// BorderPanel hardcodes its allowed units
 	const units = [ 'px', 'em', 'rem' ];
@@ -84,8 +91,11 @@ export function BorderPanel( {
 		bottom = 1,
 		left = 1,
 		unit = 'px',
-		linked = true,
+		linked: widthLinked = true,
 	} = currentValue;
+
+	// If lockLinked is true, force linked mode
+	const linked = lockLinked ? true : widthLinked;
 
 	// Helper to update width value only
 	const updateValue = ( updates ) => {
@@ -111,17 +121,75 @@ export function BorderPanel( {
 		}
 	};
 
-	// Handle color change - updates separate borderColor attribute
-	const handleColorChange = ( newColor ) => {
-		if ( onColorChange ) {
-			onColorChange( newColor );
+	// Helper to get color for a specific side from colorValue (string or object)
+	const getSideColor = ( side ) => {
+		if ( typeof colorValue === 'string' ) {
+			return colorValue;
+		}
+		if ( colorValue && typeof colorValue === 'object' ) {
+			return colorValue[ side ] ?? colorValue.top ?? '#dddddd';
+		}
+		return '#dddddd';
+	};
+
+	// Helper to get style for a specific side from styleValue (string or object)
+	const getSideStyle = ( side ) => {
+		if ( typeof styleValue === 'string' ) {
+			return styleValue;
+		}
+		if ( styleValue && typeof styleValue === 'object' ) {
+			return styleValue[ side ] ?? styleValue.top ?? 'solid';
+		}
+		return 'solid';
+	};
+
+	// Handle color change - supports per-side when unlinked
+	const handleColorChange = ( side, newColor ) => {
+		if ( ! onColorChange ) return;
+
+		// If lockLinked or in linked mode, set all sides same
+		if ( lockLinked || linked ) {
+			onColorChange( {
+				top: newColor,
+				right: newColor,
+				bottom: newColor,
+				left: newColor,
+				linked: true,
+			} );
+		} else {
+			// Unlinked mode - update specific side
+			const current = typeof colorValue === 'object' ? colorValue : {
+				top: colorValue,
+				right: colorValue,
+				bottom: colorValue,
+				left: colorValue,
+			};
+			onColorChange( { ...current, [ side ]: newColor, linked: false } );
 		}
 	};
 
-	// Handle style change - updates separate borderStyle attribute
-	const handleStyleChange = ( newStyle ) => {
-		if ( onStyleChange ) {
-			onStyleChange( newStyle );
+	// Handle style change - supports per-side when unlinked
+	const handleStyleChange = ( side, newStyle ) => {
+		if ( ! onStyleChange ) return;
+
+		// If lockLinked or in linked mode, set all sides same
+		if ( lockLinked || linked ) {
+			onStyleChange( {
+				top: newStyle,
+				right: newStyle,
+				bottom: newStyle,
+				left: newStyle,
+				linked: true,
+			} );
+		} else {
+			// Unlinked mode - update specific side
+			const current = typeof styleValue === 'object' ? styleValue : {
+				top: styleValue,
+				right: styleValue,
+				bottom: styleValue,
+				left: styleValue,
+			};
+			onStyleChange( { ...current, [ side ]: newStyle, linked: false } );
 		}
 	};
 
@@ -198,11 +266,13 @@ export function BorderPanel( {
 								disabled={ disabled }
 							/>
 						) }
-						<LinkToggle
-							linked={ linked }
-							onChange={ handleLinkChange }
-							disabled={ disabled }
-						/>
+						{ ! lockLinked && (
+							<LinkToggle
+								linked={ linked }
+								onChange={ handleLinkChange }
+								disabled={ disabled }
+							/>
+						) }
 						<Button
 							variant="tertiary"
 							size="small"
@@ -226,20 +296,20 @@ export function BorderPanel( {
 					align="center"
 					wrap={ false }
 				>
-					{ /* Color Swatch */ }
+					{ /* Color Swatch - in linked mode, uses top side color or string value */ }
 					<FlexItem className="gutplus-border-panel__color-swatch">
 						<ColorSwatch
-							value={ colorValue }
-							onChange={ handleColorChange }
+							value={ getSideColor( 'top' ) }
+							onChange={ ( newColor ) => handleColorChange( 'top', newColor ) }
 							disabled={ disabled }
 						/>
 					</FlexItem>
 
-					{ /* Style Icon Button */ }
+					{ /* Style Icon Button - in linked mode, uses top side style or string value */ }
 					<FlexItem className="gutplus-border-panel__style-icon">
 						<StyleIconButton
-							value={ styleValue }
-							onChange={ handleStyleChange }
+							value={ getSideStyle( 'top' ) }
+							onChange={ ( newStyle ) => handleStyleChange( 'top', newStyle ) }
 							disabled={ disabled }
 						/>
 					</FlexItem>
@@ -261,7 +331,6 @@ export function BorderPanel( {
 							max={ max }
 							step={ step }
 							disabled={ disabled }
-							size="small"
 						/>
 					</FlexItem>
 
@@ -293,20 +362,20 @@ export function BorderPanel( {
 								<SideIcon side={ side } />
 							</FlexItem>
 
-							{ /* Color Swatch */ }
+							{ /* Color Swatch - per-side color in unlinked mode */ }
 							<FlexItem className="gutplus-border-panel__color-swatch">
 								<ColorSwatch
-									value={ colorValue }
-									onChange={ handleColorChange }
+									value={ getSideColor( side ) }
+									onChange={ ( newColor ) => handleColorChange( side, newColor ) }
 									disabled={ disabled }
 								/>
 							</FlexItem>
 
-							{ /* Style Icon Button */ }
+							{ /* Style Icon Button - per-side style in unlinked mode */ }
 							<FlexItem className="gutplus-border-panel__style-icon">
 								<StyleIconButton
-									value={ styleValue }
-									onChange={ handleStyleChange }
+									value={ getSideStyle( side ) }
+									onChange={ ( newStyle ) => handleStyleChange( side, newStyle ) }
 									disabled={ disabled }
 								/>
 							</FlexItem>
@@ -328,7 +397,7 @@ export function BorderPanel( {
 									max={ max }
 									step={ step }
 									disabled={ disabled }
-									size="small"
+									__next40pxDefaultSize
 								/>
 							</FlexItem>
 

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-26T00:11:13.651Z
+ * Generated at: 2025-12-26T22:38:19.397Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -36,7 +36,7 @@ export const tocThemeSchema = z.object({
   autoHighlight: z.boolean(),
   clickBehavior: z.string(),
   wrapperBackgroundColor: z.string(),
-  blockBorderColor: z.string(),
+  blockBorderColor: z.record(z.any()),
   titleColor: z.string(),
   titleBackgroundColor: z.string(),
   hoverTitleColor: z.string(),
@@ -120,7 +120,7 @@ export const tocThemeSchema = z.object({
   titleTextDecoration: z.string(),
   titleAlignment: z.string(),
   blockBorderWidth: z.number(),
-  blockBorderStyle: z.string(),
+  blockBorderStyle: z.record(z.any()),
   blockBorderRadius: z.record(z.any()),
   blockShadow: z.string(),
   blockShadowHover: z.string(),
@@ -167,7 +167,7 @@ export const tocAttributesSchema = z.object({
   tocWidth: z.string(),
   tocHorizontalAlign: z.string(),
   wrapperBackgroundColor: z.string(),
-  blockBorderColor: z.string(),
+  blockBorderColor: z.record(z.any()),
   titleColor: z.string(),
   titleBackgroundColor: z.string(),
   hoverTitleColor: z.string(),
@@ -251,7 +251,7 @@ export const tocAttributesSchema = z.object({
   titleTextDecoration: z.string(),
   titleAlignment: z.string(),
   blockBorderWidth: z.number(),
-  blockBorderStyle: z.string(),
+  blockBorderStyle: z.record(z.any()),
   blockBorderRadius: z.record(z.any()),
   blockShadow: z.string(),
   blockShadowHover: z.string(),

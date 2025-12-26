@@ -208,14 +208,76 @@ export function ControlRenderer( {
 	};
 
 	// Handle responsive attribute change
+	// Desktop edits update the base (flat), tablet/mobile add device overrides
 	const handleResponsiveChange = ( device, value ) => {
-		const currentValue = attributes[ attrName ] || {};
-		setAttributes( {
-			[ attrName ]: {
-				...currentValue,
-				[ device ]: value,
-			},
-		} );
+		const currentValue = attributes[ attrName ];
+
+		// Check if current value is flat (scalar or {value, unit} without device keys)
+		const isFlat = ( val ) => {
+			if ( val === null || val === undefined ) {
+				return true;
+			}
+			if ( typeof val !== 'object' ) {
+				return true; // Scalar
+			}
+			// Object with value/unit but no device keys
+			const hasDeviceKeys = 'desktop' in val || 'tablet' in val || 'mobile' in val;
+			return ! hasDeviceKeys;
+		};
+
+		// Extract base value (excluding device keys)
+		const getBase = ( val ) => {
+			if ( isFlat( val ) ) {
+				return val;
+			}
+			if ( typeof val === 'object' && val !== null ) {
+				const { tablet, mobile, ...base } = val;
+				return Object.keys( base ).length > 0 ? base : null;
+			}
+			return null;
+		};
+
+		if ( device === 'desktop' ) {
+			// Desktop edits update the base (flat structure)
+			// Preserve any existing tablet/mobile overrides
+			if ( isFlat( currentValue ) ) {
+				// Value was flat, stays flat with new value
+				setAttributes( { [ attrName ]: value } );
+			} else {
+				// Value has device keys, update base while preserving overrides
+				const existingOverrides = {};
+				if ( currentValue?.tablet ) existingOverrides.tablet = currentValue.tablet;
+				if ( currentValue?.mobile ) existingOverrides.mobile = currentValue.mobile;
+
+				// For scalar values, just use the new value; for objects, spread
+				const newValue = typeof value === 'object' && value !== null
+					? { ...value, ...existingOverrides }
+					: { ...( typeof value === 'object' ? value : { value } ), ...existingOverrides };
+
+				setAttributes( { [ attrName ]: Object.keys( existingOverrides ).length > 0 ? newValue : value } );
+			}
+		} else {
+			// Tablet/Mobile create device-specific overrides
+			const baseValue = getBase( currentValue );
+			const existingOverrides = {};
+			if ( currentValue?.tablet && device !== 'tablet' ) existingOverrides.tablet = currentValue.tablet;
+			if ( currentValue?.mobile && device !== 'mobile' ) existingOverrides.mobile = currentValue.mobile;
+
+			// Build new value structure: base + existing overrides + new device override
+			let newAttrValue;
+			if ( baseValue === null || baseValue === undefined ) {
+				// No base value, just create device override
+				newAttrValue = { ...existingOverrides, [ device ]: value };
+			} else if ( typeof baseValue === 'object' ) {
+				// Base is object (e.g., { value, unit })
+				newAttrValue = { ...baseValue, ...existingOverrides, [ device ]: value };
+			} else {
+				// Base is scalar, wrap in object structure
+				newAttrValue = { value: baseValue, ...existingOverrides, [ device ]: value };
+			}
+
+			setAttributes( { [ attrName ]: newAttrValue } );
+		}
 	};
 
 	/**
@@ -577,6 +639,14 @@ export function ControlRenderer( {
 			const colorValue = colorAttrName ? effectiveValues?.[ colorAttrName ] : '#dddddd';
 			const styleValue = styleAttrName ? effectiveValues?.[ styleAttrName ] : 'solid';
 
+			// Check if this is a single-side border (divider)
+			// Single-side borders have cssProperty like border-top-*, border-right-*, etc.
+			const isSingleSideBorder =
+				attrConfig.cssProperty?.startsWith( 'border-top-' ) ||
+				attrConfig.cssProperty?.startsWith( 'border-right-' ) ||
+				attrConfig.cssProperty?.startsWith( 'border-bottom-' ) ||
+				attrConfig.cssProperty?.startsWith( 'border-left-' );
+
 			return (
 				<BorderPanel
 					key={ attrName }
@@ -599,6 +669,7 @@ export function ControlRenderer( {
 					step={ widthAttrConfig.step ?? 1 }
 					responsive={ widthAttrConfig.responsive }
 					disabled={ isDisabled }
+					lockLinked={ isSingleSideBorder }
 				/>
 			);
 		}
@@ -754,6 +825,7 @@ export function ControlRenderer( {
 					max={ max ?? 100 }
 					responsive={ responsive }
 					disabled={ isDisabled }
+					sides={ [ 'top', 'bottom' ] }
 				/>
 			);
 		}

@@ -12,3 +12,4 @@ export { useCSSDefaults } from './useCSSDefaults';
 export { useThemeManager } from './useThemeManager';
 export { useBlockAlignment } from './useBlockAlignment';
 export { useBreakpoints } from './useBreakpoints';
+export { useResponsiveDevice } from './useResponsiveDevice';

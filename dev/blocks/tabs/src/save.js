@@ -91,6 +91,33 @@ const getCustomizationStyles = () => {
       return; // Attribute not mapped to a CSS variable
     }
 
+    const isResponsiveValue = value && typeof value === 'object' &&
+      (value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined);
+
+    if (isResponsiveValue) {
+      if (value.desktop !== undefined && value.desktop !== null) {
+        const formattedDesktop = formatCssValue(attrName, value.desktop, 'tabs');
+        if (formattedDesktop !== null) {
+          styles[cssVar] = formattedDesktop;
+        }
+      }
+
+      if (value.tablet !== undefined && value.tablet !== null) {
+        const formattedTablet = formatCssValue(attrName, value.tablet, 'tabs');
+        if (formattedTablet !== null) {
+          styles[`${cssVar}-tablet`] = formattedTablet;
+        }
+      }
+
+      if (value.mobile !== undefined && value.mobile !== null) {
+        const formattedMobile = formatCssValue(attrName, value.mobile, 'tabs');
+        if (formattedMobile !== null) {
+          styles[`${cssVar}-mobile`] = formattedMobile;
+        }
+      }
+      return;
+    }
+
     // Format value with proper unit from generated mappings
     const formattedValue = formatCssValue(attrName, value, 'tabs');
     if (formattedValue !== null) {
@@ -268,6 +295,7 @@ const getCustomizationStyles = () => {
 		'data-heading-level': attributes.headingLevel || 'none',
 		'data-stretch-buttons': attributes.stretchButtonsToRow || false,
 		'data-hide-inactive-edge': 'true',
+		'data-gutplus-device': 'desktop',
 		// Apply width and customizations
 		style: rootStyles,
 	} );

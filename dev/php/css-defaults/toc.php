@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-26T00:11:13.652Z
+ * Generated at: 2025-12-26T22:38:19.406Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -33,7 +33,6 @@ return array(
   'autoHighlight' => 'true',
   'clickBehavior' => 'navigate',
   'wrapperBackgroundColor' => '#ffffff',
-  'blockBorderColor' => '#dddddd',
   'titleColor' => '#333333',
   'titleBackgroundColor' => 'transparent',
   'hoverTitleColor' => '#000000',
@@ -117,7 +116,6 @@ return array(
   'titleTextDecoration' => 'none',
   'titleAlignment' => 'left',
   'blockBorderWidth' => '1',
-  'blockBorderStyle' => 'solid',
   'blockShadow' => 'none',
   'blockShadowHover' => 'none',
   'wrapperPadding' => '1.25',

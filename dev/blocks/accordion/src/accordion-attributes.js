@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-26T00:11:13.636Z
+ * Generated at: 2025-12-26T22:38:19.346Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -68,12 +68,12 @@ export const accordionAttributes = {
     default: {"top":1,"right":1,"bottom":1,"left":1,"unit":"px"},
   },
   borderColor: {
-    type: 'string',
-    default: '#dddddd',
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
   },
   borderStyle: {
-    type: 'string',
-    default: 'solid',
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
   borderRadius: {
     type: 'object',
@@ -81,15 +81,15 @@ export const accordionAttributes = {
   },
   headerPadding: {
     type: 'object',
-    default: {"desktop":{"top":12,"right":16,"bottom":12,"left":16,"unit":"px"}},
+    default: {"top":12,"right":16,"bottom":12,"left":16,"unit":"px"},
   },
   contentPadding: {
     type: 'object',
-    default: {"desktop":{"top":16,"right":16,"bottom":16,"left":16,"unit":"px"}},
+    default: {"top":16,"right":16,"bottom":16,"left":16,"unit":"px"},
   },
   blockMargin: {
     type: 'object',
-    default: {"desktop":{"top":0,"right":0,"bottom":16,"left":0,"unit":"px"}},
+    default: {"top":1,"right":0,"bottom":1,"left":0,"unit":"em"},
   },
   shadow: {
     type: 'string',
@@ -144,16 +144,16 @@ export const accordionAttributes = {
     default: 'inherit',
   },
   titleFontSize: {
-    type: 'object',
-    default: {"desktop":1.125},
+    type: 'number',
+    default: 1.125,
   },
   titleAppearance: {
     type: 'object',
     default: {"weight":"600","style":"normal"},
   },
   titleLetterSpacing: {
-    type: 'object',
-    default: {"desktop":0},
+    type: 'number',
+    default: 0,
   },
   titleTextDecoration: {
     type: 'string',
@@ -164,8 +164,8 @@ export const accordionAttributes = {
     default: 'none',
   },
   titleLineHeight: {
-    type: 'object',
-    default: {"desktop":1.4},
+    type: 'number',
+    default: 1.4,
   },
   titleAlignment: {
     type: 'string',
@@ -176,12 +176,12 @@ export const accordionAttributes = {
     default: 'inherit',
   },
   contentFontSize: {
-    type: 'object',
-    default: {"desktop":1},
+    type: 'number',
+    default: 1,
   },
   contentLineHeight: {
-    type: 'object',
-    default: {"desktop":1.6},
+    type: 'number',
+    default: 1.6,
   },
   showIcon: {
     type: 'boolean',
@@ -196,8 +196,8 @@ export const accordionAttributes = {
     default: '#666666',
   },
   iconSize: {
-    type: 'object',
-    default: {"desktop":1.25},
+    type: 'number',
+    default: 1.25,
   },
   iconTypeClosed: {
     type: 'string',

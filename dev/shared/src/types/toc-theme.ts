@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-26T00:11:13.650Z
+ * Generated at: 2025-12-26T22:38:19.392Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -49,7 +49,7 @@ export interface TocTheme {
   /** Background color of the TOC wrapper */
   wrapperBackgroundColor?: string;
   /** Border color of the TOC wrapper */
-  blockBorderColor?: string;
+  blockBorderColor?: Record<string, any>;
   /** Text color for the TOC header */
   titleColor?: string;
   /** Background color for the TOC header */
@@ -197,7 +197,7 @@ export interface TocTheme {
   /** Width of the wrapper border in pixels */
   blockBorderWidth?: number;
   /** Style of the wrapper border */
-  blockBorderStyle?: string;
+  blockBorderStyle?: Record<string, any>;
   /** Corner radius of the wrapper */
   blockBorderRadius?: Record<string, any>;
   /** CSS box-shadow for the wrapper */
@@ -250,7 +250,13 @@ export const tocDefaultTheme: TocTheme = {
   autoHighlight: true,
   clickBehavior: 'navigate',
   wrapperBackgroundColor: '#ffffff',
-  blockBorderColor: '#dddddd',
+  blockBorderColor: {
+    "top": "#dddddd",
+    "right": "#dddddd",
+    "bottom": "#dddddd",
+    "left": "#dddddd",
+    "linked": true
+  },
   titleColor: '#333333',
   titleBackgroundColor: 'transparent',
   hoverTitleColor: '#000000',
@@ -334,7 +340,13 @@ export const tocDefaultTheme: TocTheme = {
   titleTextDecoration: 'none',
   titleAlignment: 'left',
   blockBorderWidth: 1,
-  blockBorderStyle: 'solid',
+  blockBorderStyle: {
+    "top": "solid",
+    "right": "solid",
+    "bottom": "solid",
+    "left": "solid",
+    "linked": true
+  },
   blockBorderRadius: {
     "topLeft": 4,
     "topRight": 4,
@@ -386,7 +398,7 @@ export interface TocThemeAttributes {
   tocWidth?: string;
   tocHorizontalAlign?: string;
   wrapperBackgroundColor?: string;
-  blockBorderColor?: string;
+  blockBorderColor?: Record<string, any>;
   titleColor?: string;
   titleBackgroundColor?: string;
   hoverTitleColor?: string;
@@ -470,7 +482,7 @@ export interface TocThemeAttributes {
   titleTextDecoration?: string;
   titleAlignment?: string;
   blockBorderWidth?: number;
-  blockBorderStyle?: string;
+  blockBorderStyle?: Record<string, any>;
   blockBorderRadius?: Record<string, any>;
   blockShadow?: string;
   blockShadowHover?: string;

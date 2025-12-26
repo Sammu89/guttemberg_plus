@@ -1,15 +1,13 @@
 /**
  * ValueWithUnit Molecule
  *
- * Combines NumberInput + UnitDropdown into a single component.
- * Layout: [11] [px ▼]
+ * Uses native Gutenberg UnitControl for consistent UI.
+ * Layout: [11px ▼]
  *
  * @package guttemberg-plus
  */
 
-import { Flex, FlexItem } from '@wordpress/components';
-import { NumberInput } from '../atoms/NumberInput';
-import { UnitDropdown } from '../atoms/UnitDropdown';
+import { __experimentalUnitControl as UnitControl } from '@wordpress/components';
 
 /**
  * ValueWithUnit Component
@@ -37,26 +35,25 @@ export function ValueWithUnit( {
 	disabled = false,
 } ) {
 	return (
-		<Flex className="gutplus-value-with-unit" gap={ 1 } align="center">
-			<FlexItem>
-				<NumberInput
-					value={ value }
-					onChange={ onValueChange }
-					min={ min }
-					max={ max }
-					step={ step }
-					disabled={ disabled }
-				/>
-			</FlexItem>
-			<FlexItem>
-				<UnitDropdown
-					value={ unit }
-					onChange={ onUnitChange }
-					units={ units }
-					disabled={ disabled }
-				/>
-			</FlexItem>
-		</Flex>
+		<div className="gutplus-value-with-unit">
+			<UnitControl
+				value={ `${ value }${ unit }` }
+				onChange={ ( newValue ) => {
+					const numericValue = parseFloat( newValue ) || 0;
+					const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || unit;
+					onValueChange( numericValue );
+					if ( newUnit !== unit && onUnitChange ) {
+						onUnitChange( newUnit );
+					}
+				} }
+				units={ units.map( ( u ) => ( { value: u, label: u } ) ) }
+				min={ min }
+				max={ max }
+				step={ step }
+				disabled={ disabled }
+				__next40pxDefaultSize
+			/>
+		</div>
 	);
 }
 

@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from '@wordpress/components';
 import { desktop, tablet, mobile } from '@wordpress/icons';
+import { setGlobalResponsiveDevice } from '../../utils/responsive-device';
 
 export function DeviceSwitcher({ value, onChange }) {
   const devices = [
@@ -16,7 +17,10 @@ export function DeviceSwitcher({ value, onChange }) {
           icon={device.icon}
           label={device.label}
           isPressed={value === device.name}
-          onClick={() => onChange(device.name)}
+          onClick={() => {
+            onChange(device.name);
+            setGlobalResponsiveDevice(device.name);
+          }}
           isSmall
         />
       ))}

@@ -157,19 +157,29 @@
    MOLECULES
    ============================================ */
 
-/* ValueWithUnit */
+/* ValueWithUnit - Now uses native UnitControl */
 .gutplus-value-with-unit {
-	display: flex;
-	align-items: center;
-	gap: 4px;
+	.components-unit-control-wrapper {
+		width: 100px;
+		min-width: 100px;
+	}
 }
 
-/* SliderWithValue */
+/* SliderWithValue - Now uses native UnitControl */
 .gutplus-slider-with-value {
 	display: flex;
 	align-items: center;
 	gap: 8px;
 	width: 100%;
+
+	.gutplus-slider-with-value__unit-control {
+		flex-shrink: 0;
+
+		.components-unit-control-wrapper {
+			width: 100px;
+			min-width: 100px;
+		}
+	}
 }
 
 /* ============================================
@@ -187,12 +197,28 @@
 		flex-shrink: 0;
 	}
 
-	.gutplus-compact-box-row__value {
+	/* Native Gutenberg UnitControl - combined value + unit */
+	.gutplus-compact-box-row__value-unit {
 		flex-shrink: 0;
-	}
 
-	.gutplus-compact-box-row__unit {
-		flex-shrink: 0;
+		.components-unit-control-wrapper {
+			width: 100px;
+			min-width: 100px;
+		}
+
+		/* Ensure input has enough space for double digits */
+		.components-input-control__input {
+			min-width: 40px;
+			padding-right: 4px;
+		}
+
+		/* Make unit text more readable */
+		.components-unit-control__select {
+			font-size: 12px;
+			font-weight: 500;
+			min-width: 32px;
+			padding: 0 4px;
+		}
 	}
 
 	.gutplus-compact-box-row__slider {
@@ -270,6 +296,94 @@
 	}
 }
 
+/* BorderPanel */
+.gutplus-border-panel {
+	/* Row layout */
+	.gutplus-border-panel__linked-row,
+	.gutplus-border-panel__row {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	/* Color swatch - slightly larger */
+	.gutplus-border-panel__color-swatch {
+		.gutplus-color-swatch__button {
+			width: 32px !important;
+			height: 32px !important;
+		}
+	}
+
+	/* Style icon - match color swatch */
+	.gutplus-border-panel__style-icon {
+		.gutplus-style-icon-button__trigger {
+			width: 32px;
+			height: 32px;
+			min-width: 32px;
+		}
+	}
+
+	/* UnitControl - proper sizing for value + unit */
+	.gutplus-border-panel__value-unit {
+		flex-shrink: 0;
+
+		.components-unit-control-wrapper {
+			width: 100px;
+			min-width: 100px;
+		}
+
+		/* Ensure input has enough space for double digits */
+		.components-input-control__input {
+			min-width: 40px;
+			padding-right: 4px;
+		}
+
+		/* Make unit text more readable */
+		.components-unit-control__select {
+			font-size: 12px;
+			font-weight: 500;
+			min-width: 32px;
+			padding: 0 4px;
+		}
+	}
+
+	/* Side icon in unlinked mode */
+	.gutplus-border-panel__side-icon {
+		width: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 16px;
+			height: 16px;
+			opacity: 0.5;
+		}
+	}
+
+	/* Slider */
+	.gutplus-border-panel__slider {
+		flex: 1;
+		min-width: 50px;
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+	}
+
+	/* Unlinked rows */
+	.gutplus-border-panel__unlinked-rows {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	/* Link toggle */
+	.gutplus-border-panel__link-toggle {
+		flex-shrink: 0;
+	}
+}
+
 /* ============================================
    UTILITY CLASSES
    ============================================ */
@@ -293,4 +407,53 @@
 	font-weight: 500;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
+}
+
+/* SliderWithInput - Typography controls (Font Size, Letter Spacing, etc.) */
+.gutplus-slider-with-input {
+	.gutplus-slider-with-input__unit-control {
+		flex-shrink: 0;
+
+		.components-unit-control-wrapper {
+			width: 100px;
+			min-width: 100px;
+		}
+
+		/* Ensure input has enough space */
+		.components-input-control__input {
+			min-width: 40px;
+			padding-right: 4px;
+		}
+
+		/* Make unit text more readable */
+		.components-unit-control__select {
+			font-size: 12px;
+			font-weight: 500;
+			min-width: 32px;
+			padding: 0 4px;
+		}
+	}
+}
+
+/* ============================================
+   GLOBAL OVERRIDES (for popovers/portals)
+   ============================================ */
+
+/* WordPress UnitControl dropdown (renders in portal) */
+.components-unit-control__select {
+	font-size: 13px !important;
+	min-width: 60px;
+
+	option {
+		font-size: 13px;
+		padding: 6px 10px;
+	}
+}
+
+/* Unit control select items in popover */
+.components-custom-select-control__menu {
+	.components-custom-select-control__item {
+		font-size: 13px;
+		padding: 8px 12px;
+	}
 }
