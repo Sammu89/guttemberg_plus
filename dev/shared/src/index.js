@@ -113,8 +113,14 @@ export { debug, debugError, debugWarn, debugTable } from './utils/debug';
 export { ThemeSelector } from './components/ThemeSelector';
 export { CompactColorControl } from './components/CompactColorControl';
 export { GenericPanel } from './components/GenericPanel';
-export { SchemaPanels } from './components/SchemaPanels';
+export { SchemaPanels, SettingsPanels, AppearancePanels } from './components/SchemaPanels';
+export { TabbedInspector, TAB_NAMES } from './components/TabbedInspector';
+export { SubgroupPanel } from './components/SubgroupPanel';
+export { ControlRenderer } from './components/ControlRenderer';
 export { CustomizationWarning } from './components/CustomizationWarning';
+
+// Re-export all controls for convenience
+export * from './components/controls';
 
 // Shared Hooks (Phase 4)
 export {

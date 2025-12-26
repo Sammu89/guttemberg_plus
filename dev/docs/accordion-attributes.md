@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-23T22:20:59.750Z
+> Generated at: 2025-12-26T00:11:13.639Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -14,7 +14,7 @@
 Complete theme and appearance configuration for Accordion blocks
 
 - **Block Type:** `accordion`
-- **Version:** 1.0.0
+- **Version:** 2.0.0
 
 ## Block Options
 
@@ -28,52 +28,62 @@ Structural and layout options for the accordion block
 | `title` | string | `Accordion Title` | No (N/A) | The accordion title text |
 | `content` | string | `` | No (N/A) | The accordion content (rich text) |
 | `currentTheme` | string | `` | No (N/A) | Currently active theme name (empty = Default) |
-| `initiallyOpen` | boolean | `false` | No (N/A) | Whether accordion is open on page load |
+| `customizations` | object | _object_ | No (N/A) | Block-specific customizations (Tier 3 CSS) |
 | `accordionWidth` | string | `100%` | No (N/A) | Accordion container width (e.g., 100%, 500px) |
+| `headingLevel` | string | `none` | No (N/A) | Semantic HTML heading level for accessibility |
 | `accordionHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the accordion |
-| `headingLevel` | string | `none` | No (N/A) | Semantic HTML heading level (none, h1-h6) |
+| `initiallyOpen` | boolean | `false` | No (N/A) | Whether accordion is open on page load |
 
-## Header Colors
+## Borders
 
-Title/header text and background colors including hover and active states
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `titleColor` | string | `#333333` | Yes | Text color for the accordion title |
-| `titleBackgroundColor` | string | `#f5f5f5` | Yes | Background color for the accordion title |
-| `hoverTitleColor` | string | `#000000` | Yes | Text color when hovering over title |
-| `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over title |
-
-## Panel Appearance
-
-Content panel appearance settings
+Block borders, radius, shadows, and divider settings
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
+| `borderWidth` | object | _object_ | Yes | Border width, color, and style for all sides |
+| `borderColor` | string | `#dddddd` | Yes | Border color - part of BorderPanel |
+| `borderStyle` | string | `solid` | Yes | Border style - part of BorderPanel |
+| `borderRadius` | object | _object_ | Yes | Corner radius of the accordion wrapper |
+| `headerPadding` | object | _object_ | Yes | Inner spacing of the header |
+| `contentPadding` | object | _object_ | Yes | Inner spacing of the content panel |
+| `blockMargin` | object | _object_ | Yes | Outer spacing around the accordion |
+| `shadow` | string | `none` | Yes | Shadow effect for the accordion |
+| `dividerColor` | string | `#dddddd` | Yes | Color of divider between header and content |
+| `dividerStyle` | string | `solid` | Yes | Style of divider between header and content |
+| `dividerWidth` | number | `0` | Yes | Thickness of divider between header and content |
+
+## Colors
+
+Header and panel color settings
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
+| `titleColor` | string | `#333333` | Yes | Text color for the accordion header |
+| `titleBackgroundColor` | string | `#f5f5f5` | Yes | Background color for the accordion header |
+| `hoverTitleColor` | string | `#000000` | Yes | Text color when hovering over header |
+| `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over header |
+| `activeTitleColor` | string | `#000000` | Yes | Text color when accordion is open |
+| `activeTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when accordion is open |
+| `contentTextColor` | string | `#333333` | Yes | Text color for accordion content |
 | `contentBackgroundColor` | string | `#ffffff` | Yes | Background color for accordion content |
 
-## Block Borders
+## Typography
 
-Main accordion wrapper borders, radius, and shadows
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `borderColor` | string | `#dddddd` | Yes | Color of the accordion wrapper border |
-| `borderWidth` | number | `1` | Yes | Thickness of the accordion wrapper border in pixels |
-| `borderStyle` | string | `solid` | Yes | Style of the accordion wrapper border |
-| `borderRadius` | object | _object_ | Yes | Corner radius of the accordion wrapper |
-| `shadow` | string | `none` | Yes | CSS box-shadow for the accordion wrapper |
-| `shadowHover` | string | `none` | Yes | CSS box-shadow for the accordion wrapper on hover |
-
-## Divider Line
-
-Divider line between header and content
+Font settings for header and content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `dividerColor` | string | `#dddddd` | Yes | Color of divider between title and content |
-| `dividerWidth` | number | `0` | Yes | Thickness of divider between title and content |
-| `dividerStyle` | string | `solid` | Yes | Style of divider between title and content |
+| `titleFontFamily` | string | `inherit` | Yes | Font family for the header |
+| `titleFontSize` | object | _object_ | Yes | Font size for the header |
+| `titleAppearance` | object | _object_ | Yes | Font weight and style for the header |
+| `titleLetterSpacing` | object | _object_ | Yes | Space between letters |
+| `titleTextDecoration` | string | `none` | Yes | Text decoration for the header |
+| `titleTextTransform` | string | `none` | Yes | Text transformation for the header |
+| `titleLineHeight` | object | _object_ | Yes | Line height for the header |
+| `titleAlignment` | string | `left` | Yes | Text alignment for the header |
+| `contentFontFamily` | string | `inherit` | Yes | Font family for the content |
+| `contentFontSize` | object | _object_ | Yes | Font size for the content |
+| `contentLineHeight` | object | _object_ | Yes | Line height for the content |
 
 ## Icon
 
@@ -81,26 +91,23 @@ Icon appearance and behavior
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
 | `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
 | `iconPosition` | string | `right` | Yes | Position of icon relative to title |
-| `iconSize` | number | `1.25` | Yes | Size of the icon in rem |
-| `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed |
-| `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = use just iconTypeClosed with rotation) |
+| `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
+| `iconSize` | object | _object_ | Yes | Size of the icon |
+| `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed (character, unicode, or image URL) |
+| `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = rotate closed icon) |
 | `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
 
-## Header Typography
+## Animation
 
-Font settings for the accordion header
+Open/close animation settings
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `titleFontSize` | number | `1.125` | Yes | Font size for the title in rem |
-| `titleFontWeight` | string | `600` | Yes | Font weight for the title |
-| `titleFontStyle` | string | `normal` | Yes | Font style for the title |
-| `titleTextTransform` | string | `none` | Yes | Text transformation for the title |
-| `titleTextDecoration` | string | `none` | Yes | Text decoration for the title |
-| `titleAlignment` | string | `left` | Yes | Text alignment for the title |
+| `animationType` | string | `slide` | Yes | How the accordion opens and closes |
+| `animationDuration` | number | `300` | Yes | Animation duration in milliseconds |
+| `animationEasing` | string | `ease` | Yes | Animation easing function |
 
 ## CSS Variables
 
@@ -108,27 +115,38 @@ The following CSS custom properties are available for theming:
 
 | Attribute | CSS Variable |
 |-----------|-------------|
+| `borderWidth` | `--accordion-border-width` |
+| `borderColor` | `--accordion-border-color` |
+| `borderStyle` | `--accordion-border-style` |
+| `borderRadius` | `--accordion-border-radius` |
+| `headerPadding` | `--accordion-header-padding` |
+| `contentPadding` | `--accordion-content-padding` |
+| `blockMargin` | `--accordion-block-margin` |
+| `shadow` | `--accordion-shadow` |
+| `dividerColor` | `--accordion-divider-color` |
+| `dividerStyle` | `--accordion-divider-style` |
+| `dividerWidth` | `--accordion-divider-width` |
 | `titleColor` | `--accordion-title-color` |
 | `titleBackgroundColor` | `--accordion-title-bg` |
 | `hoverTitleColor` | `--accordion-title-hover-color` |
 | `hoverTitleBackgroundColor` | `--accordion-title-hover-bg` |
+| `activeTitleColor` | `--accordion-title-active-color` |
+| `activeTitleBackgroundColor` | `--accordion-title-active-bg` |
+| `contentTextColor` | `--accordion-content-color` |
 | `contentBackgroundColor` | `--accordion-content-bg` |
-| `borderColor` | `--accordion-border-color` |
-| `dividerColor` | `--accordion-divider-color` |
-| `iconColor` | `--accordion-icon-color` |
+| `titleFontFamily` | `--accordion-title-font-family` |
 | `titleFontSize` | `--accordion-title-font-size` |
-| `titleFontWeight` | `--accordion-title-font-weight` |
-| `titleFontStyle` | `--accordion-title-font-style` |
-| `titleTextTransform` | `--accordion-title-text-transform` |
+| `titleLetterSpacing` | `--accordion-title-letter-spacing` |
 | `titleTextDecoration` | `--accordion-title-text-decoration` |
+| `titleTextTransform` | `--accordion-title-text-transform` |
+| `titleLineHeight` | `--accordion-title-line-height` |
 | `titleAlignment` | `--accordion-title-alignment` |
-| `borderWidth` | `--accordion-border-width` |
-| `borderStyle` | `--accordion-border-style` |
-| `borderRadius` | `--accordion-border-radius` |
-| `shadow` | `--accordion-border-shadow` |
-| `shadowHover` | `--accordion-border-shadow-hover` |
-| `dividerWidth` | `--accordion-divider-width` |
-| `dividerStyle` | `--accordion-divider-style` |
+| `contentFontFamily` | `--accordion-content-font-family` |
+| `contentFontSize` | `--accordion-content-font-size` |
+| `contentLineHeight` | `--accordion-content-line-height` |
+| `iconColor` | `--accordion-icon-color` |
 | `iconSize` | `--accordion-icon-size` |
 | `iconRotation` | `--accordion-icon-rotation` |
+| `animationDuration` | `--accordion-animation-duration` |
+| `animationEasing` | `--accordion-animation-easing` |
 

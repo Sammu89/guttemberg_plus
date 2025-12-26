@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/accordion.json + schemas/accordion-structure.json
- * Generated at: 2025-12-23T22:20:59.845Z
+ * Generated at: 2025-12-26T00:11:13.680Z
  *
  * This file contains:
  * 1. :root CSS variable declarations with default values
@@ -11,91 +11,107 @@
  */
 
 :root {
+  --accordion-border-width: 1px;
+  --accordion-border-color: #dddddd;
+  --accordion-border-style: solid;
+  --accordion-border-radius: 4px;
+  --accordion-header-padding: 12px 16px;
+  --accordion-content-padding: 16px;
+  --accordion-block-margin: 0px 0px 16px;
+  --accordion-shadow: none;
+  --accordion-divider-color: #dddddd;
+  --accordion-divider-style: solid;
+  --accordion-divider-width: 0px;
   --accordion-title-color: #333333;
   --accordion-title-bg: #f5f5f5;
   --accordion-title-hover-color: #000000;
   --accordion-title-hover-bg: #e8e8e8;
+  --accordion-title-active-color: #000000;
+  --accordion-title-active-bg: #e8e8e8;
+  --accordion-content-color: #333333;
   --accordion-content-bg: #ffffff;
-  --accordion-border-color: #dddddd;
-  --accordion-divider-color: #dddddd;
-  --accordion-icon-color: #666666;
-  --accordion-title-font-size: 1.125rem;
-  --accordion-title-font-weight: 600;
-  --accordion-title-font-style: normal;
-  --accordion-title-text-transform: none;
+  --accordion-title-font-family: inherit;
   --accordion-title-text-decoration: none;
+  --accordion-title-text-transform: none;
   --accordion-title-alignment: left;
-  --accordion-border-width: 1px;
-  --accordion-border-style: solid;
-  --accordion-border-radius: 4px 4px 4px 4px;
-  --accordion-border-shadow: none;
-  --accordion-border-shadow-hover: none;
-  --accordion-divider-width: 0px;
-  --accordion-divider-style: solid;
-  --accordion-icon-size: 1.25rem;
+  --accordion-content-font-family: inherit;
+  --accordion-icon-color: #666666;
   --accordion-icon-rotation: 180deg;
+  --accordion-animation-duration: 300ms;
+  --accordion-animation-easing: ease;
+}
+
+.gutplus-accordion {
+  /* Border width, color, and style for all sides */
+  border-width: var(--accordion-border-width, 1px);
+  /* Border color - part of BorderPanel */
+  border-color: var(--accordion-border-color, #dddddd);
+  /* Border style - part of BorderPanel */
+  border-style: var(--accordion-border-style, solid);
+  /* Corner radius of the accordion wrapper */
+  border-radius: var(--accordion-border-radius, 4px);
+  /* Outer spacing around the accordion */
+  margin: var(--accordion-block-margin, 0px 0px 16px);
+  /* Shadow effect for the accordion */
+  box-shadow: var(--accordion-shadow, none);
+  /* Animation duration in milliseconds */
+  transition-duration: var(--accordion-animation-duration, 300ms);
+  /* Animation easing function */
+  transition-timing-function: var(--accordion-animation-easing, ease);
 }
 
 .accordion-title {
-  /* Text color for the accordion title */
+  /* Inner spacing of the header */
+  padding: var(--accordion-header-padding, 12px 16px);
+  /* Text color for the accordion header */
   color: var(--accordion-title-color, #333333);
-  /* Background color for the accordion title */
-  background-color: var(--accordion-title-bg, #f5f5f5);
-  /* Font size for the title in rem */
-  font-size: var(--accordion-title-font-size, 1.125rem);
-  /* Font weight for the title */
-  font-weight: var(--accordion-title-font-weight, 600);
-  /* Font style for the title */
-  font-style: var(--accordion-title-font-style, normal);
-  /* Text transformation for the title */
-  text-transform: var(--accordion-title-text-transform, none);
-  /* Text decoration for the title */
+  /* Background color for the accordion header */
+  background: var(--accordion-title-bg, #f5f5f5);
+  /* Font family for the header */
+  font-family: var(--accordion-title-font-family, inherit);
+  /* Text decoration for the header */
   text-decoration: var(--accordion-title-text-decoration, none);
-  /* Text alignment for the title */
+  /* Text transformation for the header */
+  text-transform: var(--accordion-title-text-transform, none);
+  /* Text alignment for the header */
   text-align: var(--accordion-title-alignment, left);
 
   &:hover {
-    /* Text color when hovering over title */
+    /* Text color when hovering over header */
     color: var(--accordion-title-hover-color, #000000);
-    /* Background color when hovering over title */
-    background-color: var(--accordion-title-hover-bg, #e8e8e8);
+    /* Background color when hovering over header */
+    background: var(--accordion-title-hover-bg, #e8e8e8);
+  }
+
+  &.active,
+  &[aria-selected="true"] {
+    /* Text color when accordion is open */
+    color: var(--accordion-title-active-color, #000000);
+    /* Background color when accordion is open */
+    background: var(--accordion-title-active-bg, #e8e8e8);
   }
 }
 
 .accordion-content {
-  /* Background color for accordion content */
-  background-color: var(--accordion-content-bg, #ffffff);
-  /* Color of divider between title and content */
+  /* Inner spacing of the content panel */
+  padding: var(--accordion-content-padding, 16px);
+  /* Color of divider between header and content */
   border-top-color: var(--accordion-divider-color, #dddddd);
-  /* Thickness of divider between title and content */
-  border-top-width: var(--accordion-divider-width, 0px);
-  /* Style of divider between title and content */
+  /* Style of divider between header and content */
   border-top-style: var(--accordion-divider-style, solid);
-}
-
-.gutplus-accordion {
-  /* Color of the accordion wrapper border */
-  border-color: var(--accordion-border-color, #dddddd);
-  /* Thickness of the accordion wrapper border in pixels */
-  border-width: var(--accordion-border-width, 1px);
-  /* Style of the accordion wrapper border */
-  border-style: var(--accordion-border-style, solid);
-  /* Corner radius of the accordion wrapper */
-  border-radius: var(--accordion-border-radius, 4px 4px 4px 4px);
-  /* CSS box-shadow for the accordion wrapper */
-  box-shadow: var(--accordion-border-shadow, none);
-
-  &:hover {
-    /* CSS box-shadow for the accordion wrapper on hover */
-    box-shadow: var(--accordion-border-shadow-hover, none);
-  }
+  /* Thickness of divider between header and content */
+  border-top-width: var(--accordion-divider-width, 0px);
+  /* Text color for accordion content */
+  color: var(--accordion-content-color, #333333);
+  /* Background color for accordion content */
+  background: var(--accordion-content-bg, #ffffff);
+  /* Font family for the content */
+  font-family: var(--accordion-content-font-family, inherit);
 }
 
 .accordion-icon {
   /* Color of the expand/collapse icon */
   color: var(--accordion-icon-color, #666666);
-  /* Size of the icon in rem */
-  font-size: var(--accordion-icon-size, 1.25rem);
   /* Rotation angle when open (degrees) */
   transform: var(--accordion-icon-rotation, 180deg);
 }

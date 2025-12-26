@@ -269,6 +269,33 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] Is customized:', isCustomized );
 
 	/**
+	 * Generate CSS variables from effective values for editor preview
+	 * Uses formatCssValue which handles compound values intelligently
+	 */
+	const getEditorCSSVariables = () => {
+		const cssVars = {};
+
+		Object.entries(effectiveValues).forEach(([attrName, value]) => {
+			if (value === null || value === undefined) {
+				return;
+			}
+
+			const cssVar = getCssVarName(attrName, 'tabs');
+			if (!cssVar) {
+				return;
+			}
+
+			// Format the value (formatCssValue now handles compound values intelligently)
+			const formattedValue = formatCssValue(attrName, value, 'tabs');
+			if (formattedValue !== null) {
+				cssVars[cssVar] = formattedValue;
+			}
+		});
+
+		return cssVars;
+	};
+
+	/**
 	 * Apply inline styles from effective values
 	 */
 	/* ========== AUTO-GENERATED-STYLES-START ========== */
@@ -699,11 +726,13 @@ const getInlineStyles = () => {
 	};
 
 		const customizationStyles = getCustomizationStyles();
+		const editorCSSVars = getEditorCSSVariables();
 
 		// Build root styles including width
 		const rootStyles = {
 			width: effectiveValues.tabsWidth,
-			...customizationStyles,
+			...editorCSSVars, // All CSS variables including decomposed
+			...customizationStyles, // Tier 3 customizations
 		};
 
 			const blockProps = useBlockProps( {

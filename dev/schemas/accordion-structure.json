@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "blockType": "accordion",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "HTML structure definition for Accordion block - defines element hierarchy, class names, and ARIA attributes",
   "root": "item",
   "elements": {
@@ -23,12 +23,12 @@
         "gutplus-align-{accordionHorizontalAlign}": "{accordionHorizontalAlign || 'left'}"
       },
       "appliesStyles": [
-        "borderColor",
         "borderWidth",
-        "borderStyle",
         "borderRadius",
         "shadow",
-        "shadowHover"
+        "blockMargin",
+        "animationDuration",
+        "animationEasing"
       ]
     },
     "titleWrapper": {
@@ -79,14 +79,19 @@
       "appliesStyles": [
         "titleColor",
         "titleBackgroundColor",
+        "titleFontFamily",
         "titleFontSize",
-        "titleFontWeight",
-        "titleFontStyle",
+        "titleAppearance",
+        "titleLetterSpacing",
         "titleTextTransform",
         "titleTextDecoration",
+        "titleLineHeight",
         "titleAlignment",
+        "headerPadding",
         "hoverTitleColor",
-        "hoverTitleBackgroundColor"
+        "hoverTitleBackgroundColor",
+        "activeTitleColor",
+        "activeTitleBackgroundColor"
       ]
     },
     "titleContentWrapper": {
@@ -156,6 +161,11 @@
       },
       "appliesStyles": [
         "contentBackgroundColor",
+        "contentTextColor",
+        "contentFontFamily",
+        "contentFontSize",
+        "contentLineHeight",
+        "contentPadding",
         "dividerColor",
         "dividerWidth",
         "dividerStyle"

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-23T22:20:59.740Z
+ * Generated at: 2025-12-26T00:11:13.636Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -43,21 +43,69 @@ export const accordionAttributes = {
     type: 'string',
     default: '',
   },
-  initiallyOpen: {
-    type: 'boolean',
-    default: false,
+  customizations: {
+    type: 'object',
+    default: {},
   },
   accordionWidth: {
     type: 'string',
     default: '100%',
   },
+  headingLevel: {
+    type: 'string',
+    default: 'none',
+  },
   accordionHorizontalAlign: {
     type: 'string',
     default: 'center',
   },
-  headingLevel: {
+  initiallyOpen: {
+    type: 'boolean',
+    default: false,
+  },
+  borderWidth: {
+    type: 'object',
+    default: {"top":1,"right":1,"bottom":1,"left":1,"unit":"px"},
+  },
+  borderColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  borderStyle: {
+    type: 'string',
+    default: 'solid',
+  },
+  borderRadius: {
+    type: 'object',
+    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4,"unit":"px"},
+  },
+  headerPadding: {
+    type: 'object',
+    default: {"desktop":{"top":12,"right":16,"bottom":12,"left":16,"unit":"px"}},
+  },
+  contentPadding: {
+    type: 'object',
+    default: {"desktop":{"top":16,"right":16,"bottom":16,"left":16,"unit":"px"}},
+  },
+  blockMargin: {
+    type: 'object',
+    default: {"desktop":{"top":0,"right":0,"bottom":16,"left":0,"unit":"px"}},
+  },
+  shadow: {
     type: 'string',
     default: 'none',
+  },
+  dividerColor: {
+    type: 'string',
+    default: '#dddddd',
+  },
+  dividerStyle: {
+    type: 'string',
+    default: 'solid',
+  },
+  dividerWidth: {
+    type: 'number',
+    default: 0,
   },
   titleColor: {
     type: 'string',
@@ -75,73 +123,65 @@ export const accordionAttributes = {
     type: 'string',
     default: '#e8e8e8',
   },
+  activeTitleColor: {
+    type: 'string',
+    default: '#000000',
+  },
+  activeTitleBackgroundColor: {
+    type: 'string',
+    default: '#e8e8e8',
+  },
+  contentTextColor: {
+    type: 'string',
+    default: '#333333',
+  },
   contentBackgroundColor: {
     type: 'string',
     default: '#ffffff',
   },
-  borderColor: {
+  titleFontFamily: {
     type: 'string',
-    default: '#dddddd',
-  },
-  dividerColor: {
-    type: 'string',
-    default: '#dddddd',
-  },
-  iconColor: {
-    type: 'string',
-    default: '#666666',
+    default: 'inherit',
   },
   titleFontSize: {
-    type: 'number',
-    default: 1.125,
+    type: 'object',
+    default: {"desktop":1.125},
   },
-  titleFontWeight: {
-    type: 'string',
-    default: '600',
+  titleAppearance: {
+    type: 'object',
+    default: {"weight":"600","style":"normal"},
   },
-  titleFontStyle: {
-    type: 'string',
-    default: 'normal',
-  },
-  titleTextTransform: {
-    type: 'string',
-    default: 'none',
+  titleLetterSpacing: {
+    type: 'object',
+    default: {"desktop":0},
   },
   titleTextDecoration: {
     type: 'string',
     default: 'none',
   },
+  titleTextTransform: {
+    type: 'string',
+    default: 'none',
+  },
+  titleLineHeight: {
+    type: 'object',
+    default: {"desktop":1.4},
+  },
   titleAlignment: {
     type: 'string',
     default: 'left',
   },
-  borderWidth: {
-    type: 'number',
-    default: 1,
-  },
-  borderStyle: {
+  contentFontFamily: {
     type: 'string',
-    default: 'solid',
+    default: 'inherit',
   },
-  borderRadius: {
+  contentFontSize: {
     type: 'object',
-    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
+    default: {"desktop":1},
   },
-  shadow: {
-    type: 'string',
-    default: 'none',
-  },
-  shadowHover: {
-    type: 'string',
-    default: 'none',
-  },
-  dividerWidth: {
-    type: 'number',
-    default: 0,
-  },
-  dividerStyle: {
-    type: 'string',
-    default: 'solid',
+  contentLineHeight: {
+    type: 'object',
+    default: {"desktop":1.6},
   },
   showIcon: {
     type: 'boolean',
@@ -151,9 +191,13 @@ export const accordionAttributes = {
     type: 'string',
     default: 'right',
   },
+  iconColor: {
+    type: 'string',
+    default: '#666666',
+  },
   iconSize: {
-    type: 'number',
-    default: 1.25,
+    type: 'object',
+    default: {"desktop":1.25},
   },
   iconTypeClosed: {
     type: 'string',
@@ -166,6 +210,18 @@ export const accordionAttributes = {
   iconRotation: {
     type: 'number',
     default: 180,
+  },
+  animationType: {
+    type: 'string',
+    default: 'slide',
+  },
+  animationDuration: {
+    type: 'number',
+    default: 300,
+  },
+  animationEasing: {
+    type: 'string',
+    default: 'ease',
   },
 };
 

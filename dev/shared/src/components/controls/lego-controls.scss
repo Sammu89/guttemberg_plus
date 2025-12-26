@@ -1,0 +1,296 @@
+/**
+ * Lego Controls - CSS Styles
+ *
+ * Styles for the modular Lego control system.
+ *
+ * @package guttemberg-plus
+ */
+
+/* ============================================
+   ATOMS
+   ============================================ */
+
+/* NumberInput */
+.gutplus-number-input {
+	.components-input-control__container {
+		width: 50px;
+	}
+
+	input {
+		text-align: center;
+		padding: 4px 8px;
+	}
+}
+
+/* UnitDropdown */
+.gutplus-unit-dropdown {
+	.components-select-control__input {
+		min-width: 55px;
+		padding-right: 20px;
+	}
+}
+
+/* MiniSlider */
+.gutplus-mini-slider {
+	flex: 1;
+	margin: 0 !important;
+
+	.components-range-control__wrapper {
+		margin: 0;
+	}
+
+	.components-base-control__field {
+		margin-bottom: 0;
+	}
+}
+
+/* LinkToggle */
+.gutplus-link-toggle {
+	&.is-linked {
+		color: var(--wp-admin-theme-color, #007cba);
+	}
+
+	&.is-unlinked {
+		opacity: 0.6;
+	}
+}
+
+/* DeviceSwitcher */
+.gutplus-device-switcher {
+	display: flex;
+	gap: 2px;
+
+	.gutplus-device-switcher__button {
+		padding: 4px 6px;
+
+		&.is-active {
+			background: var(--wp-admin-theme-color, #007cba);
+			color: #fff;
+		}
+	}
+}
+
+/* StyleIconButton */
+.gutplus-style-icon-button {
+	position: relative;
+
+	.gutplus-style-icon-button__trigger {
+		padding: 4px;
+		min-width: 32px;
+		height: 32px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		background: #fff;
+
+		&:hover {
+			border-color: #007cba;
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+}
+
+.gutplus-style-icon-button__popover {
+	.gutplus-style-options {
+		display: flex;
+		gap: 4px;
+		padding: 8px;
+	}
+
+	.gutplus-style-option {
+		padding: 6px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		background: #fff;
+
+		&:hover {
+			border-color: #007cba;
+		}
+
+		&.is-selected {
+			border-color: var(--wp-admin-theme-color, #007cba);
+			background: rgba(0, 124, 186, 0.1);
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+}
+
+/* ColorSwatch */
+.gutplus-color-swatch {
+	position: relative;
+
+	.gutplus-color-swatch__button {
+		display: block;
+		width: 28px;
+		height: 28px;
+	}
+}
+
+.gutplus-color-swatch__popover {
+	.components-popover__content {
+		padding: 0;
+	}
+}
+
+/* SideIcon */
+.gutplus-side-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+
+	svg {
+		width: 18px;
+		height: 18px;
+	}
+}
+
+/* ============================================
+   MOLECULES
+   ============================================ */
+
+/* ValueWithUnit */
+.gutplus-value-with-unit {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+/* SliderWithValue */
+.gutplus-slider-with-value {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+}
+
+/* ============================================
+   ORGANISMS
+   ============================================ */
+
+/* CompactBoxRow */
+.gutplus-compact-box-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 0;
+
+	.gutplus-compact-box-row__icon {
+		flex-shrink: 0;
+	}
+
+	.gutplus-compact-box-row__value {
+		flex-shrink: 0;
+	}
+
+	.gutplus-compact-box-row__unit {
+		flex-shrink: 0;
+	}
+
+	.gutplus-compact-box-row__slider {
+		flex: 1;
+		min-width: 60px;
+	}
+
+	.gutplus-compact-box-row__link {
+		flex-shrink: 0;
+	}
+}
+
+/* ============================================
+   FULL CONTROLS
+   ============================================ */
+
+/* BorderWidthControl */
+.gutplus-border-width-control {
+	.gutplus-border-width-control__sides {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+}
+
+/* BorderRadiusControl */
+.gutplus-border-radius-control {
+	.gutplus-border-radius-control__corners {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+}
+
+/* SpacingControl */
+.gutplus-spacing-control {
+	.gutplus-spacing-control__sides {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+}
+
+/* HeadingLevelControl */
+.gutplus-heading-level-control {
+	.gutplus-heading-level-control__buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+	}
+
+	.gutplus-heading-level-control__button {
+		padding: 4px 8px;
+		min-width: 36px;
+		height: 32px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		background: #fff;
+
+		&:hover {
+			border-color: #007cba;
+		}
+
+		&.is-selected,
+		&.is-pressed {
+			border-color: var(--wp-admin-theme-color, #007cba);
+			background: var(--wp-admin-theme-color, #007cba);
+			color: #fff;
+		}
+
+		svg {
+			width: auto;
+			height: 16px;
+		}
+	}
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Control header with label and device switcher */
+.gutplus-control-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+/* Inherited badge */
+.gutplus-inherited-badge {
+	font-size: 10px;
+	background-color: #e0e0e0;
+	color: #666;
+	padding: 2px 6px;
+	border-radius: 3px;
+	margin-left: 8px;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}

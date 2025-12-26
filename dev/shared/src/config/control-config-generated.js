@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-23T22:20:59.818Z
+ * Generated at: 2025-12-26T00:11:13.658Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -25,323 +25,199 @@
 // Control configuration for all blocks
 const CONTROL_CONFIGS = {
   'accordion': {
-    'initiallyOpen': {
-      control: 'ToggleControl',
-      label: 'Open by Default',
-      description: 'Whether accordion is open on page load',
-      default: false,
-    },
     'accordionWidth': {
       control: 'TextControl',
       label: 'Block Width',
       description: 'Accordion container width (e.g., 100%, 500px)',
       default: '100%',
     },
+    'headingLevel': {
+      control: 'HeadingLevel',
+      label: 'Heading Level',
+      description: 'Semantic HTML heading level for accessibility',
+      default: 'none',
+    },
     'accordionHorizontalAlign': {
-      control: 'SelectControl',
-      options: [
-              "left",
-              "center",
-              "right"
-      ],
-      label: 'Block Horizontal Alignment',
+      control: 'AlignmentControl',
+      label: 'Block Alignment',
       description: 'Horizontal alignment of the accordion',
       default: 'center',
     },
-    'headingLevel': {
-      control: 'SelectControl',
-      options: [
-              "none",
-              "h1",
-              "h2",
-              "h3",
-              "h4",
-              "h5",
-              "h6"
-      ],
-      label: 'Heading Level',
-      description: 'Semantic HTML heading level (none, h1-h6)',
-      default: 'none',
-    },
-    'titleColor': {
-      control: 'ColorPicker',
-      label: 'Header Text Color',
-      description: 'Text color for the accordion title',
-      default: '#333333',
-    },
-    'titleBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Header Background',
-      description: 'Background color for the accordion title',
-      default: '#f5f5f5',
-    },
-    'hoverTitleColor': {
-      control: 'ColorPicker',
-      label: 'Header Hover Text Color',
-      description: 'Text color when hovering over title',
-      default: '#000000',
-    },
-    'hoverTitleBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Header Hover Background',
-      description: 'Background color when hovering over title',
-      default: '#e8e8e8',
-    },
-    'contentBackgroundColor': {
-      control: 'ColorPicker',
-      label: 'Panel Background',
-      description: 'Background color for accordion content',
-      default: '#ffffff',
-    },
-    'borderColor': {
-      control: 'ColorPicker',
-      label: 'Block Border Color',
-      description: 'Color of the accordion wrapper border',
-      default: '#dddddd',
-    },
-    'dividerColor': {
-      control: 'ColorPicker',
-      label: 'Divider Color',
-      description: 'Color of divider between title and content',
-      default: '#dddddd',
-    },
-    'iconColor': {
-      control: 'ColorPicker',
-      label: 'Icon Color',
-      description: 'Color of the expand/collapse icon',
-      default: '#666666',
-    },
-    'titleFontSize': {
-      control: 'RangeControl',
-      min: 0.6,
-      max: 3,
-      unit: 'rem',
-      label: 'Header Font Size',
-      description: 'Font size for the title in rem',
-      default: 1.125,
-    },
-    'titleFontWeight': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "100",
-                      "value": "100"
-              },
-              {
-                      "label": "200",
-                      "value": "200"
-              },
-              {
-                      "label": "300",
-                      "value": "300"
-              },
-              {
-                      "label": "400",
-                      "value": "400"
-              },
-              {
-                      "label": "500",
-                      "value": "500"
-              },
-              {
-                      "label": "600",
-                      "value": "600"
-              },
-              {
-                      "label": "700",
-                      "value": "700"
-              },
-              {
-                      "label": "800",
-                      "value": "800"
-              },
-              {
-                      "label": "900",
-                      "value": "900"
-              },
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Bold",
-                      "value": "bold"
-              }
-      ],
-      label: 'Header Font Weight',
-      description: 'Font weight for the title',
-      default: '600',
-    },
-    'titleFontStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Italic",
-                      "value": "italic"
-              },
-              {
-                      "label": "Oblique",
-                      "value": "oblique"
-              }
-      ],
-      label: 'Header Font Style',
-      description: 'Font style for the title',
-      default: 'normal',
-    },
-    'titleTextTransform': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Uppercase",
-                      "value": "uppercase"
-              },
-              {
-                      "label": "Lowercase",
-                      "value": "lowercase"
-              },
-              {
-                      "label": "Capitalize",
-                      "value": "capitalize"
-              }
-      ],
-      label: 'Header Text Transform',
-      description: 'Text transformation for the title',
-      default: 'none',
-    },
-    'titleTextDecoration': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Underline",
-                      "value": "underline"
-              },
-              {
-                      "label": "Overline",
-                      "value": "overline"
-              },
-              {
-                      "label": "Line Through",
-                      "value": "line-through"
-              }
-      ],
-      label: 'Header Text Decoration',
-      description: 'Text decoration for the title',
-      default: 'none',
-    },
-    'titleAlignment': {
-      control: 'SelectControl',
-      options: [
-              "left",
-              "center",
-              "right"
-      ],
-      label: 'Header Text Alignment',
-      description: 'Text alignment for the title',
-      default: 'left',
+    'initiallyOpen': {
+      control: 'ToggleControl',
+      label: 'Open by Default',
+      description: 'Whether accordion is open on page load',
+      default: false,
     },
     'borderWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Block Border Width',
-      description: 'Thickness of the accordion wrapper border in pixels',
-      default: 1,
+      control: 'BorderPanel',
+      label: 'Border',
+      description: 'Border width, color, and style for all sides',
+    },
+    'borderColor': {
+      control: 'BorderPanel',
+      label: 'Border Color',
+      description: 'Border color - part of BorderPanel',
+      default: '#dddddd',
     },
     'borderStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Block Border Style',
-      description: 'Style of the accordion wrapper border',
+      control: 'BorderPanel',
+      label: 'Border Style',
+      description: 'Border style - part of BorderPanel',
       default: 'solid',
     },
     'borderRadius': {
-      control: 'BorderRadiusControl',
-      unit: 'px',
-      label: 'Block Border Radius',
+      control: 'CompactBorderRadius',
+      label: 'Border Radius',
       description: 'Corner radius of the accordion wrapper',
     },
+    'headerPadding': {
+      control: 'CompactPadding',
+      label: 'Header Padding',
+      description: 'Inner spacing of the header',
+    },
+    'contentPadding': {
+      control: 'CompactPadding',
+      label: 'Content Padding',
+      description: 'Inner spacing of the content panel',
+    },
+    'blockMargin': {
+      control: 'CompactMargin',
+      label: 'Block Margin',
+      description: 'Outer spacing around the accordion',
+    },
     'shadow': {
-      control: 'TextControl',
+      control: 'ShadowControl',
       label: 'Block Shadow',
-      description: 'CSS box-shadow for the accordion wrapper',
+      description: 'Shadow effect for the accordion',
       default: 'none',
     },
-    'shadowHover': {
-      control: 'TextControl',
-      label: 'Block Hover Shadow',
-      description: 'CSS box-shadow for the accordion wrapper on hover',
-      default: 'none',
-    },
-    'dividerWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Divider Width',
-      description: 'Thickness of divider between title and content',
-      default: 0,
+    'dividerColor': {
+      control: 'ColorControl',
+      label: 'Divider Color',
+      description: 'Color of divider between header and content',
+      default: '#dddddd',
     },
     'dividerStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
+      control: 'BorderStyleControl',
       label: 'Divider Style',
-      description: 'Style of divider between title and content',
+      description: 'Style of divider between header and content',
       default: 'solid',
+    },
+    'dividerWidth': {
+      control: 'SliderWithInput',
+      unit: 'px',
+      label: 'Divider Width',
+      description: 'Thickness of divider between header and content',
+      default: 0,
+    },
+    'titleColor': {
+      control: 'ColorControl',
+      label: 'Text Color',
+      description: 'Text color for the accordion header',
+      default: '#333333',
+    },
+    'titleBackgroundColor': {
+      control: 'GradientControl',
+      label: 'Background',
+      description: 'Background color for the accordion header',
+      default: '#f5f5f5',
+    },
+    'hoverTitleColor': {
+      control: 'ColorControl',
+      label: 'Hover Text Color',
+      description: 'Text color when hovering over header',
+      default: '#000000',
+    },
+    'hoverTitleBackgroundColor': {
+      control: 'GradientControl',
+      label: 'Hover Background',
+      description: 'Background color when hovering over header',
+      default: '#e8e8e8',
+    },
+    'activeTitleColor': {
+      control: 'ColorControl',
+      label: 'Active Text Color',
+      description: 'Text color when accordion is open',
+      default: '#000000',
+    },
+    'activeTitleBackgroundColor': {
+      control: 'GradientControl',
+      label: 'Active Background',
+      description: 'Background color when accordion is open',
+      default: '#e8e8e8',
+    },
+    'contentTextColor': {
+      control: 'ColorControl',
+      label: 'Text Color',
+      description: 'Text color for accordion content',
+      default: '#333333',
+    },
+    'contentBackgroundColor': {
+      control: 'GradientControl',
+      label: 'Background',
+      description: 'Background color for accordion content',
+      default: '#ffffff',
+    },
+    'titleFontFamily': {
+      control: 'FontFamilyControl',
+      label: 'Font Family',
+      description: 'Font family for the header',
+      default: 'inherit',
+    },
+    'titleFontSize': {
+      control: 'SliderWithInput',
+      label: 'Font Size',
+      description: 'Font size for the header',
+    },
+    'titleAppearance': {
+      control: 'AppearanceControl',
+      label: 'Appearance',
+      description: 'Font weight and style for the header',
+    },
+    'titleLetterSpacing': {
+      control: 'SliderWithInput',
+      label: 'Letter Spacing',
+      description: 'Space between letters',
+    },
+    'titleTextDecoration': {
+      control: 'DecorationControl',
+      label: 'Decoration',
+      description: 'Text decoration for the header',
+      default: 'none',
+    },
+    'titleTextTransform': {
+      control: 'LetterCaseControl',
+      label: 'Letter Case',
+      description: 'Text transformation for the header',
+      default: 'none',
+    },
+    'titleLineHeight': {
+      control: 'SliderWithInput',
+      label: 'Line Height',
+      description: 'Line height for the header',
+    },
+    'titleAlignment': {
+      control: 'AlignmentControl',
+      label: 'Text Alignment',
+      description: 'Text alignment for the header',
+      default: 'left',
+    },
+    'contentFontFamily': {
+      control: 'FontFamilyControl',
+      label: 'Font Family',
+      description: 'Font family for the content',
+      default: 'inherit',
+    },
+    'contentFontSize': {
+      control: 'SliderWithInput',
+      label: 'Font Size',
+      description: 'Font size for the content',
+    },
+    'contentLineHeight': {
+      control: 'SliderWithInput',
+      label: 'Line Height',
+      description: 'Line height for the content',
     },
     'showIcon': {
       control: 'ToggleControl',
@@ -350,46 +226,103 @@ const CONTROL_CONFIGS = {
       default: true,
     },
     'iconPosition': {
-      control: 'SelectControl',
-      options: [
-              "left",
-              "right",
-              "extreme-left",
-              "extreme-right"
-      ],
+      control: 'IconPositionControl',
       label: 'Icon Position',
       description: 'Position of icon relative to title',
       default: 'right',
     },
+    'iconColor': {
+      control: 'ColorControl',
+      label: 'Icon Color',
+      description: 'Color of the expand/collapse icon',
+      default: '#666666',
+    },
     'iconSize': {
-      control: 'RangeControl',
-      min: 0.6,
-      max: 3,
-      unit: 'rem',
+      control: 'SliderWithInput',
       label: 'Icon Size',
-      description: 'Size of the icon in rem',
-      default: 1.25,
+      description: 'Size of the icon',
     },
     'iconTypeClosed': {
       control: 'IconPicker',
       label: 'Closed Icon',
-      description: 'Icon when accordion is closed',
+      description: 'Icon when accordion is closed (character, unicode, or image URL)',
       default: '▾',
     },
     'iconTypeOpen': {
       control: 'IconPicker',
       label: 'Open Icon',
-      description: 'Icon when accordion is open (none = use just iconTypeClosed with rotation)',
+      description: 'Icon when accordion is open (none = rotate closed icon)',
       default: 'none',
     },
     'iconRotation': {
-      control: 'RangeControl',
-      min: -360,
-      max: 360,
+      control: 'SliderWithInput',
       unit: 'deg',
       label: 'Icon Rotation',
       description: 'Rotation angle when open (degrees)',
       default: 180,
+    },
+    'animationType': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Slide",
+                      "value": "slide"
+              },
+              {
+                      "label": "Fade",
+                      "value": "fade"
+              },
+              {
+                      "label": "Slide + Fade",
+                      "value": "slideFade"
+              }
+      ],
+      label: 'Animation Type',
+      description: 'How the accordion opens and closes',
+      default: 'slide',
+    },
+    'animationDuration': {
+      control: 'SliderWithInput',
+      unit: 'ms',
+      label: 'Duration',
+      description: 'Animation duration in milliseconds',
+      default: 300,
+    },
+    'animationEasing': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "Ease",
+                      "value": "ease"
+              },
+              {
+                      "label": "Ease In",
+                      "value": "ease-in"
+              },
+              {
+                      "label": "Ease Out",
+                      "value": "ease-out"
+              },
+              {
+                      "label": "Ease In-Out",
+                      "value": "ease-in-out"
+              },
+              {
+                      "label": "Linear",
+                      "value": "linear"
+              },
+              {
+                      "label": "Bounce",
+                      "value": "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+              }
+      ],
+      label: 'Easing',
+      description: 'Animation easing function',
+      default: 'ease',
     },
   },
   'tabs': {

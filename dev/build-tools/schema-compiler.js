@@ -611,14 +611,39 @@ export function formatCssValue(attrName, value, blockType) {
 
   // Handle object types (border radius, padding)
   if (mapping.type === 'object' && typeof value === 'object') {
+    // Handle responsive objects (desktop, tablet, mobile) - use desktop value
+    if (value.desktop !== undefined && typeof value.desktop === 'object') {
+      return formatCssValue(attrName, value.desktop, blockType);
+    }
+
     // Border radius format: topLeft topRight bottomRight bottomLeft
-    if (attrName.toLowerCase().includes('radius')) {
-      return \`\${value.topLeft}px \${value.topRight}px \${value.bottomRight}px \${value.bottomLeft}px\`;
+    if (value.topLeft !== undefined) {
+      const unit = value.unit || 'px';
+      return \`\${value.topLeft}\${unit} \${value.topRight}\${unit} \${value.bottomRight}\${unit} \${value.bottomLeft}\${unit}\`;
     }
-    // Padding format: top right bottom left
-    if (attrName.toLowerCase().includes('padding')) {
-      return \`\${value.top}px \${value.right}px \${value.bottom}px \${value.left}px\`;
+
+    // Directional properties: top right bottom left
+    if (value.top !== undefined || value.right !== undefined ||
+        value.bottom !== undefined || value.left !== undefined) {
+      const unit = value.unit || 'px';
+
+      // Handle unlinked mode where each side is an object { value: X }
+      const getVal = (side) => {
+        const sideValue = value[side];
+        if (sideValue && typeof sideValue === 'object' && sideValue.value !== undefined) {
+          return sideValue.value;
+        }
+        return sideValue || 0;
+      };
+
+      const top = getVal('top');
+      const right = getVal('right');
+      const bottom = getVal('bottom');
+      const left = getVal('left');
+
+      return \`\${top}\${unit} \${right}\${unit} \${bottom}\${unit} \${left}\${unit}\`;
     }
+
     // Default object handling
     return JSON.stringify(value);
   }

@@ -23,10 +23,11 @@
  */
 .gutplus-accordion {
 	min-width: 18.75rem;
-	margin: 1em 0;
+	margin: var(--accordion-block-margin, 1em 0);
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
 	outline: none;
+	border-width: var(--accordion-border-width, 1px);
 
 	// Alignment classes
 	&.gutplus-align-left {
@@ -52,12 +53,15 @@
 	align-items: center;
 	justify-content: flex-start;
 	width: 100%;
-	padding: 1rem 1.5rem;
+	padding: var(--accordion-header-padding, 1rem 1.5rem);
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
 	box-sizing: border-box;
 	gap: 0.5rem;
 	text-align: left;
+	font-size: var(--accordion-title-font-size, 1.125rem);
+	letter-spacing: var(--accordion-title-letter-spacing, 0);
+	line-height: var(--accordion-title-line-height, 1.4);
 
 	&.title-align-center {
 		justify-content: center;
@@ -156,7 +160,8 @@
 
 /* Content panel - handles height animation with padding */
 .accordion-content {
-	line-height: 1.6;
+	font-size: var(--accordion-content-font-size, 1rem);
+	line-height: var(--accordion-content-line-height, 1.6);
 	padding: 0;
 	overflow: hidden;
 
@@ -171,7 +176,7 @@
 }
 
 .accordion-content-inner {
-	padding: 1.25rem;
+	padding: var(--accordion-content-padding, 1.25rem);
 }
 
 /* Responsive adjustments */

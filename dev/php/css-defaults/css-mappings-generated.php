@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2025-12-23T22:20:59.810Z
+ * Generated at: 2025-12-26T00:11:13.655Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -23,29 +23,40 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 $mappings = array(
     'accordion' => array(
+      'borderWidth' => array( 'cssVar' => 'accordion-border-width', 'unit' => null, 'type' => 'object' ),
+      'borderColor' => array( 'cssVar' => 'accordion-border-color', 'unit' => null, 'type' => 'string' ),
+      'borderStyle' => array( 'cssVar' => 'accordion-border-style', 'unit' => null, 'type' => 'string' ),
+      'borderRadius' => array( 'cssVar' => 'accordion-border-radius', 'unit' => null, 'type' => 'object' ),
+      'headerPadding' => array( 'cssVar' => 'accordion-header-padding', 'unit' => null, 'type' => 'object' ),
+      'contentPadding' => array( 'cssVar' => 'accordion-content-padding', 'unit' => null, 'type' => 'object' ),
+      'blockMargin' => array( 'cssVar' => 'accordion-block-margin', 'unit' => null, 'type' => 'object' ),
+      'shadow' => array( 'cssVar' => 'accordion-shadow', 'unit' => null, 'type' => 'string' ),
+      'dividerColor' => array( 'cssVar' => 'accordion-divider-color', 'unit' => null, 'type' => 'string' ),
+      'dividerStyle' => array( 'cssVar' => 'accordion-divider-style', 'unit' => null, 'type' => 'string' ),
+      'dividerWidth' => array( 'cssVar' => 'accordion-divider-width', 'unit' => 'px', 'type' => 'number' ),
       'titleColor' => array( 'cssVar' => 'accordion-title-color', 'unit' => null, 'type' => 'string' ),
       'titleBackgroundColor' => array( 'cssVar' => 'accordion-title-bg', 'unit' => null, 'type' => 'string' ),
       'hoverTitleColor' => array( 'cssVar' => 'accordion-title-hover-color', 'unit' => null, 'type' => 'string' ),
       'hoverTitleBackgroundColor' => array( 'cssVar' => 'accordion-title-hover-bg', 'unit' => null, 'type' => 'string' ),
+      'activeTitleColor' => array( 'cssVar' => 'accordion-title-active-color', 'unit' => null, 'type' => 'string' ),
+      'activeTitleBackgroundColor' => array( 'cssVar' => 'accordion-title-active-bg', 'unit' => null, 'type' => 'string' ),
+      'contentTextColor' => array( 'cssVar' => 'accordion-content-color', 'unit' => null, 'type' => 'string' ),
       'contentBackgroundColor' => array( 'cssVar' => 'accordion-content-bg', 'unit' => null, 'type' => 'string' ),
-      'borderColor' => array( 'cssVar' => 'accordion-border-color', 'unit' => null, 'type' => 'string' ),
-      'dividerColor' => array( 'cssVar' => 'accordion-divider-color', 'unit' => null, 'type' => 'string' ),
-      'iconColor' => array( 'cssVar' => 'accordion-icon-color', 'unit' => null, 'type' => 'string' ),
-      'titleFontSize' => array( 'cssVar' => 'accordion-title-font-size', 'unit' => 'rem', 'type' => 'number' ),
-      'titleFontWeight' => array( 'cssVar' => 'accordion-title-font-weight', 'unit' => null, 'type' => 'string' ),
-      'titleFontStyle' => array( 'cssVar' => 'accordion-title-font-style', 'unit' => null, 'type' => 'string' ),
-      'titleTextTransform' => array( 'cssVar' => 'accordion-title-text-transform', 'unit' => null, 'type' => 'string' ),
+      'titleFontFamily' => array( 'cssVar' => 'accordion-title-font-family', 'unit' => null, 'type' => 'string' ),
+      'titleFontSize' => array( 'cssVar' => 'accordion-title-font-size', 'unit' => null, 'type' => 'object' ),
+      'titleLetterSpacing' => array( 'cssVar' => 'accordion-title-letter-spacing', 'unit' => null, 'type' => 'object' ),
       'titleTextDecoration' => array( 'cssVar' => 'accordion-title-text-decoration', 'unit' => null, 'type' => 'string' ),
+      'titleTextTransform' => array( 'cssVar' => 'accordion-title-text-transform', 'unit' => null, 'type' => 'string' ),
+      'titleLineHeight' => array( 'cssVar' => 'accordion-title-line-height', 'unit' => null, 'type' => 'object' ),
       'titleAlignment' => array( 'cssVar' => 'accordion-title-alignment', 'unit' => null, 'type' => 'string' ),
-      'borderWidth' => array( 'cssVar' => 'accordion-border-width', 'unit' => 'px', 'type' => 'number' ),
-      'borderStyle' => array( 'cssVar' => 'accordion-border-style', 'unit' => null, 'type' => 'string' ),
-      'borderRadius' => array( 'cssVar' => 'accordion-border-radius', 'unit' => 'px', 'type' => 'object' ),
-      'shadow' => array( 'cssVar' => 'accordion-border-shadow', 'unit' => null, 'type' => 'string' ),
-      'shadowHover' => array( 'cssVar' => 'accordion-border-shadow-hover', 'unit' => null, 'type' => 'string' ),
-      'dividerWidth' => array( 'cssVar' => 'accordion-divider-width', 'unit' => 'px', 'type' => 'number' ),
-      'dividerStyle' => array( 'cssVar' => 'accordion-divider-style', 'unit' => null, 'type' => 'string' ),
-      'iconSize' => array( 'cssVar' => 'accordion-icon-size', 'unit' => 'rem', 'type' => 'number' ),
+      'contentFontFamily' => array( 'cssVar' => 'accordion-content-font-family', 'unit' => null, 'type' => 'string' ),
+      'contentFontSize' => array( 'cssVar' => 'accordion-content-font-size', 'unit' => null, 'type' => 'object' ),
+      'contentLineHeight' => array( 'cssVar' => 'accordion-content-line-height', 'unit' => null, 'type' => 'object' ),
+      'iconColor' => array( 'cssVar' => 'accordion-icon-color', 'unit' => null, 'type' => 'string' ),
+      'iconSize' => array( 'cssVar' => 'accordion-icon-size', 'unit' => null, 'type' => 'object' ),
       'iconRotation' => array( 'cssVar' => 'accordion-icon-rotation', 'unit' => 'deg', 'type' => 'number' ),
+      'animationDuration' => array( 'cssVar' => 'accordion-animation-duration', 'unit' => 'ms', 'type' => 'number' ),
+      'animationEasing' => array( 'cssVar' => 'accordion-animation-easing', 'unit' => null, 'type' => 'string' ),
     ),
     'tabs' => array(
       'showIcon' => array( 'cssVar' => 'tabs-show-icon', 'unit' => null, 'type' => 'boolean' ),

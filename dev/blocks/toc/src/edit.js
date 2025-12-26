@@ -44,6 +44,7 @@ import {
 } from '@shared';
 import tocSchema from '../../../schemas/toc.json';
 import { tocAttributes } from './toc-attributes';
+import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
 import './editor.scss';
 
 /**
@@ -467,6 +468,32 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	debug( '[DEBUG] TOC isCustomized:', isCustomized );
 
 	/**
+	 * Generate CSS variables from effective values for editor preview
+	 */
+	const getEditorCSSVariables = () => {
+		const cssVars = {};
+
+		Object.entries(effectiveValues).forEach(([attrName, value]) => {
+			if (value === null || value === undefined) {
+				return;
+			}
+
+			const cssVar = getCssVarName(attrName, 'toc');
+			if (!cssVar) {
+				return;
+			}
+
+			// Format the value (formatCssValue now handles compound values intelligently)
+			const formattedValue = formatCssValue(attrName, value, 'toc');
+			if (formattedValue !== null) {
+				cssVars[cssVar] = formattedValue;
+			}
+		});
+
+		return cssVars;
+	};
+
+	/**
 	 * Apply inline styles from effective values
 	 */
 	/* ========== AUTO-GENERATED-STYLES-START ========== */
@@ -531,10 +558,10 @@ const displayHeadings =
 	// Build inline styles - apply width from attributes
 	// IMPORTANT: Force static positioning in editor to prevent overflow issues
 	// Position type (sticky/fixed) should only apply on frontend
-	const { top: _top, ...containerStyles } = styles.container;
+	const editorCSSVars = getEditorCSSVariables();
 	const rootStyles = {
 		width: effectiveValues.tocWidth,
-		...containerStyles,
+		...editorCSSVars, // All CSS variables including decomposed
 		// Force normal positioning in editor - override any CSS classes
 		position: 'static',
 		top: 'auto',

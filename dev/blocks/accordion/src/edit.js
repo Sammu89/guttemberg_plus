@@ -25,7 +25,9 @@ import {
 	generateUniqueId,
 	getAllDefaults,
 	ThemeSelector,
-	SchemaPanels,
+	TabbedInspector,
+	SettingsPanels,
+	AppearancePanels,
 	CustomizationWarning,
 	useThemeManager,
 	useBlockAlignment,
@@ -33,6 +35,7 @@ import {
 } from '@shared';
 import accordionSchema from '../../../schemas/accordion.json';
 import { accordionAttributes } from './accordion-attributes';
+import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
 
 /**
  * Accordion Edit Component
@@ -116,6 +119,32 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	}, [ attributes.accordionWidth ] );
 
 	/**
+	 * Generate CSS variables from effective values for editor preview
+	 */
+	const getEditorCSSVariables = () => {
+		const cssVars = {};
+
+		Object.entries(effectiveValues).forEach(([attrName, value]) => {
+			if (value === null || value === undefined) {
+				return;
+			}
+
+			const cssVar = getCssVarName(attrName, 'accordion');
+			if (!cssVar) {
+				return;
+			}
+
+			// Format the value (formatCssValue now handles compound values intelligently)
+			const formattedValue = formatCssValue(attrName, value, 'accordion');
+			if (formattedValue !== null) {
+				cssVars[cssVar] = formattedValue;
+			}
+		});
+
+		return cssVars;
+	};
+
+	/**
 	 * Apply inline styles from effective values
 	 */
 	/* ========== AUTO-GENERATED-STYLES-START ========== */
@@ -125,40 +154,99 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 const getInlineStyles = () => {
   // Extract object-type attributes with fallbacks
+	const borderWidth = effectiveValues.borderWidth || {
+		    "top": 1,
+		    "right": 1,
+		    "bottom": 1,
+		    "left": 1,
+		    "unit": "px"
+		};
 	const borderRadius = effectiveValues.borderRadius || {
 		    "topLeft": 4,
 		    "topRight": 4,
 		    "bottomRight": 4,
-		    "bottomLeft": 4
+		    "bottomLeft": 4,
+		    "unit": "px"
+		};
+	const headerPadding = effectiveValues.headerPadding || {
+		    "desktop": {
+		        "top": 12,
+		        "right": 16,
+		        "bottom": 12,
+		        "left": 16,
+		        "unit": "px"
+		    }
+		};
+	const contentPadding = effectiveValues.contentPadding || {
+		    "desktop": {
+		        "top": 16,
+		        "right": 16,
+		        "bottom": 16,
+		        "left": 16,
+		        "unit": "px"
+		    }
+		};
+	const blockMargin = effectiveValues.blockMargin || {
+		    "desktop": {
+		        "top": 0,
+		        "right": 0,
+		        "bottom": 16,
+		        "left": 0,
+		        "unit": "px"
+		    }
+		};
+	const titleFontSize = effectiveValues.titleFontSize || {
+		    "desktop": 1.125
+		};
+	const titleAppearance = effectiveValues.titleAppearance || {
+		    "weight": "600",
+		    "style": "normal"
+		};
+	const titleLetterSpacing = effectiveValues.titleLetterSpacing || {
+		    "desktop": 0
+		};
+	const titleLineHeight = effectiveValues.titleLineHeight || {
+		    "desktop": 1.4
+		};
+	const contentFontSize = effectiveValues.contentFontSize || {
+		    "desktop": 1
+		};
+	const contentLineHeight = effectiveValues.contentLineHeight || {
+		    "desktop": 1.6
+		};
+	const iconSize = effectiveValues.iconSize || {
+		    "desktop": 1.25
 		};
 
 	return {
 		container: {
 			borderColor: effectiveValues.borderColor || '#dddddd',
-			borderWidth: `${effectiveValues.borderWidth ?? 1}px`,
 			borderStyle: effectiveValues.borderStyle || 'solid',
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
 			boxShadow: effectiveValues.shadow || 'none',
+			transitionDuration: `${effectiveValues.animationDuration ?? 300}ms`,
+			transitionTimingFunction: effectiveValues.animationEasing || 'ease',
 		},
 		title: {
+			padding: `${headerPadding.top}px ${headerPadding.right}px ${headerPadding.bottom}px ${headerPadding.left}px`,
 			color: effectiveValues.titleColor || '#333333',
-			backgroundColor: effectiveValues.titleBackgroundColor || '#f5f5f5',
-			fontSize: `${effectiveValues.titleFontSize ?? 1.125}rem`,
-			fontWeight: effectiveValues.titleFontWeight || '600',
-			fontStyle: effectiveValues.titleFontStyle || 'normal',
-			textTransform: effectiveValues.titleTextTransform || 'none',
+			background: effectiveValues.titleBackgroundColor || '#f5f5f5',
+			fontFamily: effectiveValues.titleFontFamily || 'inherit',
 			textDecoration: effectiveValues.titleTextDecoration || 'none',
+			textTransform: effectiveValues.titleTextTransform || 'none',
 			textAlign: effectiveValues.titleAlignment || 'left',
 		},
 		content: {
-			backgroundColor: effectiveValues.contentBackgroundColor || '#ffffff',
+			padding: `${contentPadding.top}px ${contentPadding.right}px ${contentPadding.bottom}px ${contentPadding.left}px`,
 			borderTopColor: effectiveValues.dividerColor || '#dddddd',
-			borderTopWidth: `${effectiveValues.dividerWidth ?? 0}px`,
 			borderTopStyle: effectiveValues.dividerStyle || 'solid',
+			borderTopWidth: `${effectiveValues.dividerWidth ?? 0}px`,
+			color: effectiveValues.contentTextColor || '#333333',
+			background: effectiveValues.contentBackgroundColor || '#ffffff',
+			fontFamily: effectiveValues.contentFontFamily || 'inherit',
 		},
 		icon: {
 			color: effectiveValues.iconColor || '#666666',
-			fontSize: `${effectiveValues.iconSize ?? 1.25}rem`,
 			transform: `${effectiveValues.iconRotation ?? 180}deg`,
 		},
 	};
@@ -352,11 +440,11 @@ const getInlineStyles = () => {
 	// Build inline styles - accordion-item is now the root element
 	// Combines wrapper styles (width) with item styles (borders, shadows)
 	// Note: alignment margins are applied via ref with !important
+	const editorCSSVars = getEditorCSSVariables();
 	const rootStyles = {
 		width: effectiveValues.accordionWidth,
 		overflow: 'hidden', // Clip border-radius in editor
-		'--accordion-border-radius': styles.container.borderRadius, // CSS variable for outline
-		...styles.container,
+		...editorCSSVars, // Apply all CSS variables (including decomposed ones!)
 	};
 
 	// Build class names - match frontend structure
@@ -405,14 +493,28 @@ const getInlineStyles = () => {
 					/>
 				</div>
 
-				{/* Auto-generated panels from schema */}
-				<SchemaPanels
-					schema={ accordionSchema }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					theme={ themes[ attributes.currentTheme ]?.values }
-					cssDefaults={ allDefaults }
+				{/* Tabbed inspector with settings and appearance panels */}
+				<TabbedInspector
+					settingsContent={
+						<SettingsPanels
+							schema={ accordionSchema }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							effectiveValues={ effectiveValues }
+							theme={ themes[ attributes.currentTheme ]?.values }
+							cssDefaults={ allDefaults }
+						/>
+					}
+					appearanceContent={
+						<AppearancePanels
+							schema={ accordionSchema }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							effectiveValues={ effectiveValues }
+							theme={ themes[ attributes.currentTheme ]?.values }
+							cssDefaults={ allDefaults }
+						/>
+					}
 				/>
 
 				{ isCustomized && (

@@ -29,12 +29,13 @@
     "validate:mismatches": "node build-tools/validate-mismatches.js",
     "validate:destructuring": "node build-tools/validate-attribute-destructuring.js",
     "validate:css-vars": "node build-tools/validate-css-var-usage.js",
+    "validate:editor-css-vars": "node build-tools/validate-editor-css-vars.js",
     "validate:toggles": "node build-tools/validate-toggles.js",
     "validate:structure-markup": "node build-tools/validate-structure-markup.js",
-    "validate:all": "npm run validate:controls && npm run validate:schema-usage && npm run validate:mismatches && npm run validate:destructuring && npm run validate:structure-markup && npm run validate:css-vars && npm run validate:toggles",
+    "validate:all": "npm run validate:controls && npm run validate:schema-usage && npm run validate:mismatches && npm run validate:destructuring && npm run validate:structure-markup && npm run validate:css-vars && npm run validate:editor-css-vars && npm run validate:toggles",
     "prebuild": "npm run schema:build && npm run validate:controls && npm run validate:schema-usage && npm run validate:mismatches && npm run validate:destructuring && npm run validate:structure-markup",
     "build": "wp-scripts build",
-    "postbuild": "node build-tools/rename-css-files.js && npm run validate:css-vars && npm run validate:toggles && node build-tools/prompt-dist.js",
+    "postbuild": "node build-tools/rename-css-files.js && npm run validate:css-vars && npm run validate:editor-css-vars && npm run validate:toggles && node build-tools/prompt-dist.js",
     "dist": "DIST_YES=1 npm run build",
     "dist:win": "set DIST_YES=1&& npm run build",
     "prestart": "npm run schema:build",
@@ -46,6 +47,7 @@
     "plugin-zip": "wp-scripts plugin-zip"
   },
   "devDependencies": {
+    "@wordpress/icons": "^11.4.0",
     "@wordpress/scripts": "^27.0.0"
   },
   "engines": {
