@@ -80,6 +80,12 @@ function loadStructureSchema(blockType) {
 /**
  * Format CSS value from schema default
  * Handles objects (border-radius), numbers (with units), and strings
+ *
+ * Intelligently compresses shorthand values:
+ * - When all 4 values are the same: outputs single value (e.g., `4px`)
+ * - When top/bottom same and left/right same: outputs 2 values (e.g., `4px 8px`)
+ * - When left/right same but top/bottom differ: outputs 3 values (e.g., `4px 8px 2px`)
+ * - When all values differ: outputs compound value (e.g., `4px 8px 2px 0px`)
  */
 function formatCssValue(defaultValue, unit, type, transformValue = null) {
   if (defaultValue === null || defaultValue === undefined || defaultValue === '') {
@@ -91,6 +97,10 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
     const vertical = defaultValue;
     const horizontal = defaultValue * 2;
     const u = unit || 'px';
+    // Use shorthand compression
+    if (vertical === horizontal) {
+      return `${vertical}${u}`;
+    }
     return `${vertical}${u} ${horizontal}${u}`;
   }
 
@@ -98,7 +108,26 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
   if (type === 'object' && typeof defaultValue === 'object') {
     if (defaultValue.topLeft !== undefined) {
       // Border radius format: topLeft topRight bottomRight bottomLeft
-      return `${defaultValue.topLeft}px ${defaultValue.topRight}px ${defaultValue.bottomRight}px ${defaultValue.bottomLeft}px`;
+      const u = defaultValue.unit || 'px';
+      const { topLeft, topRight, bottomRight, bottomLeft } = defaultValue;
+      return compressShorthand(topLeft, topRight, bottomRight, bottomLeft, u);
+    }
+    // Handle directional values (top, right, bottom, left) - used for border-width, padding, margin
+    if (defaultValue.top !== undefined && defaultValue.right !== undefined &&
+        defaultValue.bottom !== undefined && defaultValue.left !== undefined) {
+      const u = defaultValue.unit || 'px';
+      const { top, right, bottom, left } = defaultValue;
+      return compressShorthand(top, right, bottom, left, u);
+    }
+    // Handle responsive objects (desktop, tablet, mobile) - process desktop breakpoint only
+    if (defaultValue.desktop !== undefined && typeof defaultValue.desktop === 'object') {
+      const desktop = defaultValue.desktop;
+      if (desktop.top !== undefined && desktop.right !== undefined &&
+          desktop.bottom !== undefined && desktop.left !== undefined) {
+        const u = desktop.unit || 'px';
+        const { top, right, bottom, left } = desktop;
+        return compressShorthand(top, right, bottom, left, u);
+      }
     }
     // Skip other object types
     return null;
@@ -111,6 +140,41 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
 
   // Return strings as-is
   return defaultValue;
+}
+
+/**
+ * Compress CSS shorthand values (top, right, bottom, left) to minimal representation
+ * Following CSS shorthand rules:
+ * - 1 value: all sides same
+ * - 2 values: top/bottom same, left/right same
+ * - 3 values: left equals right
+ * - 4 values: all different
+ *
+ * @param {number} top - Top value
+ * @param {number} right - Right value
+ * @param {number} bottom - Bottom value
+ * @param {number} left - Left value
+ * @param {string} unit - CSS unit (e.g., 'px', 'em')
+ * @returns {string} Compressed CSS shorthand value
+ */
+function compressShorthand(top, right, bottom, left, unit) {
+  // All 4 values are the same
+  if (top === right && right === bottom && bottom === left) {
+    return `${top}${unit}`;
+  }
+
+  // Top/bottom same AND left/right same
+  if (top === bottom && left === right) {
+    return `${top}${unit} ${right}${unit}`;
+  }
+
+  // Left equals right (3-value shorthand)
+  if (left === right) {
+    return `${top}${unit} ${right}${unit} ${bottom}${unit}`;
+  }
+
+  // All values different (4-value shorthand)
+  return `${top}${unit} ${right}${unit} ${bottom}${unit} ${left}${unit}`;
 }
 
 /**
@@ -403,6 +467,7 @@ function generateScssPartial(blockType, schema, structure) {
 `;
 
   // Generate :root CSS variables section
+  // Single CSS variable per property (no decomposed side variants)
   content += `:root {\n`;
   for (const attr of cssAttrs) {
     content += `  --${attr.cssVar}: ${attr.default};\n`;
@@ -422,6 +487,7 @@ function generateScssPartial(blockType, schema, structure) {
     content += `${selector} {\n`;
 
     // Base state (no pseudo-class)
+    // Uses shorthand CSS properties directly (e.g., border-width, padding, margin, border-radius)
     for (const attr of base) {
       if (attr.description) {
         content += `  /* ${attr.description} */\n`;

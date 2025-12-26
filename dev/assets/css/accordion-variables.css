@@ -3,34 +3,35 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-23T22:20:59.748Z
+ * Generated at: 2025-12-26T00:11:13.638Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
  */
 
 :root {
+  --accordion-border-color: #dddddd;
+  --accordion-border-style: solid;
+  --accordion-border-radius: 4px 4px 4px 4px;
+  --accordion-shadow: none;
+  --accordion-divider-color: #dddddd;
+  --accordion-divider-style: solid;
+  --accordion-divider-width: 0px;
   --accordion-title-color: #333333;
   --accordion-title-bg: #f5f5f5;
   --accordion-title-hover-color: #000000;
   --accordion-title-hover-bg: #e8e8e8;
+  --accordion-title-active-color: #000000;
+  --accordion-title-active-bg: #e8e8e8;
+  --accordion-content-color: #333333;
   --accordion-content-bg: #ffffff;
-  --accordion-border-color: #dddddd;
-  --accordion-divider-color: #dddddd;
-  --accordion-icon-color: #666666;
-  --accordion-title-font-size: 1.125rem;
-  --accordion-title-font-weight: 600;
-  --accordion-title-font-style: normal;
-  --accordion-title-text-transform: none;
+  --accordion-title-font-family: inherit;
   --accordion-title-text-decoration: none;
+  --accordion-title-text-transform: none;
   --accordion-title-alignment: left;
-  --accordion-border-width: 1px;
-  --accordion-border-style: solid;
-  --accordion-border-radius: 4px 4px 4px 4px;
-  --accordion-border-shadow: none;
-  --accordion-border-shadow-hover: none;
-  --accordion-divider-width: 0px;
-  --accordion-divider-style: solid;
-  --accordion-icon-size: 1.25rem;
+  --accordion-content-font-family: inherit;
+  --accordion-icon-color: #666666;
   --accordion-icon-rotation: 180deg;
+  --accordion-animation-duration: 300ms;
+  --accordion-animation-easing: ease;
 }

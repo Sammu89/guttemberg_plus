@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-23T22:20:59.815Z
+ * Generated at: 2025-12-26T00:11:13.657Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -32,29 +32,40 @@
  */
 export const CSS_VAR_MAPPINGS = {
   accordion: {
-    titleColor: { cssVar: '--accordion-title-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    titleBackgroundColor: { cssVar: '--accordion-title-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    hoverTitleColor: { cssVar: '--accordion-title-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    hoverTitleBackgroundColor: { cssVar: '--accordion-title-hover-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    contentBackgroundColor: { cssVar: '--accordion-content-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    borderWidth: { cssVar: '--accordion-border-width', unit: null, type: 'object', cssProperty: 'border-width', dependsOn: null, variants: null },
     borderColor: { cssVar: '--accordion-border-color', unit: null, type: 'string', cssProperty: 'border-color', dependsOn: null, variants: null },
-    dividerColor: { cssVar: '--accordion-divider-color', unit: null, type: 'string', cssProperty: 'border-top-color', dependsOn: null, variants: null },
-    iconColor: { cssVar: '--accordion-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    titleFontSize: { cssVar: '--accordion-title-font-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
-    titleFontWeight: { cssVar: '--accordion-title-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    titleFontStyle: { cssVar: '--accordion-title-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    titleTextTransform: { cssVar: '--accordion-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    titleTextDecoration: { cssVar: '--accordion-title-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    titleAlignment: { cssVar: '--accordion-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
-    borderWidth: { cssVar: '--accordion-border-width', unit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
     borderStyle: { cssVar: '--accordion-border-style', unit: null, type: 'string', cssProperty: 'border-style', dependsOn: null, variants: null },
-    borderRadius: { cssVar: '--accordion-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    shadow: { cssVar: '--accordion-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    shadowHover: { cssVar: '--accordion-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    dividerWidth: { cssVar: '--accordion-divider-width', unit: 'px', type: 'number', cssProperty: 'border-top-width', dependsOn: null, variants: null },
+    borderRadius: { cssVar: '--accordion-border-radius', unit: null, type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
+    headerPadding: { cssVar: '--accordion-header-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
+    contentPadding: { cssVar: '--accordion-content-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
+    blockMargin: { cssVar: '--accordion-block-margin', unit: null, type: 'object', cssProperty: 'margin', dependsOn: null, variants: null },
+    shadow: { cssVar: '--accordion-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    dividerColor: { cssVar: '--accordion-divider-color', unit: null, type: 'string', cssProperty: 'border-top-color', dependsOn: null, variants: null },
     dividerStyle: { cssVar: '--accordion-divider-style', unit: null, type: 'string', cssProperty: 'border-top-style', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--accordion-icon-size', unit: 'rem', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    dividerWidth: { cssVar: '--accordion-divider-width', unit: 'px', type: 'number', cssProperty: 'border-top-width', dependsOn: null, variants: null },
+    titleColor: { cssVar: '--accordion-title-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    titleBackgroundColor: { cssVar: '--accordion-title-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
+    hoverTitleColor: { cssVar: '--accordion-title-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    hoverTitleBackgroundColor: { cssVar: '--accordion-title-hover-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
+    activeTitleColor: { cssVar: '--accordion-title-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    activeTitleBackgroundColor: { cssVar: '--accordion-title-active-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
+    contentTextColor: { cssVar: '--accordion-content-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    contentBackgroundColor: { cssVar: '--accordion-content-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
+    titleFontFamily: { cssVar: '--accordion-title-font-family', unit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
+    titleFontSize: { cssVar: '--accordion-title-font-size', unit: null, type: 'object', cssProperty: 'font-size', dependsOn: null, variants: null },
+    titleLetterSpacing: { cssVar: '--accordion-title-letter-spacing', unit: null, type: 'object', cssProperty: 'letter-spacing', dependsOn: null, variants: null },
+    titleTextDecoration: { cssVar: '--accordion-title-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    titleTextTransform: { cssVar: '--accordion-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    titleLineHeight: { cssVar: '--accordion-title-line-height', unit: null, type: 'object', cssProperty: 'line-height', dependsOn: null, variants: null },
+    titleAlignment: { cssVar: '--accordion-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
+    contentFontFamily: { cssVar: '--accordion-content-font-family', unit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
+    contentFontSize: { cssVar: '--accordion-content-font-size', unit: null, type: 'object', cssProperty: 'font-size', dependsOn: null, variants: null },
+    contentLineHeight: { cssVar: '--accordion-content-line-height', unit: null, type: 'object', cssProperty: 'line-height', dependsOn: null, variants: null },
+    iconColor: { cssVar: '--accordion-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconSize: { cssVar: '--accordion-icon-size', unit: null, type: 'object', cssProperty: 'font-size', dependsOn: null, variants: null },
     iconRotation: { cssVar: '--accordion-icon-rotation', unit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
+    animationDuration: { cssVar: '--accordion-animation-duration', unit: 'ms', type: 'number', cssProperty: 'transition-duration', dependsOn: null, variants: null },
+    animationEasing: { cssVar: '--accordion-animation-easing', unit: null, type: 'string', cssProperty: 'transition-timing-function', dependsOn: null, variants: null },
   },
   tabs: {
     showIcon: { cssVar: '--tabs-show-icon', unit: null, type: 'boolean', cssProperty: 'display', dependsOn: null, variants: null },
@@ -307,14 +318,39 @@ export function formatCssValue(attrName, value, blockType) {
 
   // Handle object types (border radius, padding)
   if (mapping.type === 'object' && typeof value === 'object') {
+    // Handle responsive objects (desktop, tablet, mobile) - use desktop value
+    if (value.desktop !== undefined && typeof value.desktop === 'object') {
+      return formatCssValue(attrName, value.desktop, blockType);
+    }
+
     // Border radius format: topLeft topRight bottomRight bottomLeft
-    if (attrName.toLowerCase().includes('radius')) {
-      return `${value.topLeft}px ${value.topRight}px ${value.bottomRight}px ${value.bottomLeft}px`;
+    if (value.topLeft !== undefined) {
+      const unit = value.unit || 'px';
+      return `${value.topLeft}${unit} ${value.topRight}${unit} ${value.bottomRight}${unit} ${value.bottomLeft}${unit}`;
     }
-    // Padding format: top right bottom left
-    if (attrName.toLowerCase().includes('padding')) {
-      return `${value.top}px ${value.right}px ${value.bottom}px ${value.left}px`;
+
+    // Directional properties: top right bottom left
+    if (value.top !== undefined || value.right !== undefined ||
+        value.bottom !== undefined || value.left !== undefined) {
+      const unit = value.unit || 'px';
+
+      // Handle unlinked mode where each side is an object { value: X }
+      const getVal = (side) => {
+        const sideValue = value[side];
+        if (sideValue && typeof sideValue === 'object' && sideValue.value !== undefined) {
+          return sideValue.value;
+        }
+        return sideValue || 0;
+      };
+
+      const top = getVal('top');
+      const right = getVal('right');
+      const bottom = getVal('bottom');
+      const left = getVal('left');
+
+      return `${top}${unit} ${right}${unit} ${bottom}${unit} ${left}${unit}`;
     }
+
     // Default object handling
     return JSON.stringify(value);
   }

@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-23T22:20:59.848Z
+ * Generated at: 2025-12-26T00:11:13.683Z
  *
  * This file contains:
  * 1. :root CSS variable declarations with default values
@@ -67,11 +67,11 @@
   --tabs-panel-border-color: #dddddd;
   --tabs-panel-border-width: 1px;
   --tabs-panel-border-style: solid;
-  --tabs-panel-border-radius: 4px 4px 4px 4px;
+  --tabs-panel-border-radius: 4px;
   --tabs-border-color: #dddddd;
   --tabs-border-width: 0px;
   --tabs-border-style: solid;
-  --tabs-border-radius: 0px 0px 0px 0px;
+  --tabs-border-radius: 0px;
   --tabs-border-shadow: none;
   --tabs-border-shadow-hover: none;
   --tabs-enable-list-divider-border: false;
@@ -283,7 +283,7 @@
   /* Border style for tab content panel */
   border-style: var(--tabs-panel-border-style, solid);
   /* Corner radius for tab content panel */
-  border-radius: var(--tabs-panel-border-radius, 4px 4px 4px 4px);
+  border-radius: var(--tabs-panel-border-radius, 4px);
 }
 
 .gutplus-tabs {
@@ -294,7 +294,7 @@
   /* Border style for wrapper */
   border-style: var(--tabs-border-style, solid);
   /* Corner radius for main wrapper */
-  border-radius: var(--tabs-border-radius, 0px 0px 0px 0px);
+  border-radius: var(--tabs-border-radius, 0px);
   /* Box shadow for main wrapper */
   box-shadow: var(--tabs-border-shadow, none);
 

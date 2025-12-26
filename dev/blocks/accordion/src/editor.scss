@@ -11,6 +11,9 @@
 /* Import frontend styles (style.scss includes block_schema.scss) */
 @import 'style.scss';
 
+/* Import Lego control styles for sidebar */
+@import '../../../shared/src/components/controls/lego-controls.scss';
+
 /* Editor-specific overrides and additions */
 
 /* Accordion alignment for editor */
