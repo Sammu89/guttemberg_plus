@@ -942,6 +942,8 @@
       "group": "blockOptions",
       "order": 1,
       "control": "SliderWithInput",
+      "appliesTo": "item",
+      "cssVar": "accordion-width",
       "cssProperty": "width",
       "responsive": true,
       "themeable": false

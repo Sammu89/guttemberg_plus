@@ -451,6 +451,8 @@
       "description": "TOC container width",
       "themeable": false,
       "control": "SliderWithInput",
+      "appliesTo": "wrapper",
+      "cssVar": "toc-width",
       "cssProperty": "width",
       "responsive": true,
       "order": 1

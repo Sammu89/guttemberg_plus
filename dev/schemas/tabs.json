@@ -147,6 +147,8 @@
       "group": "blockOptions",
       "order": 1,
       "control": "SliderWithInput",
+      "appliesTo": "wrapper",
+      "cssVar": "tabs-width",
       "cssProperty": "width",
       "responsive": true,
       "themeable": false

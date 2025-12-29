@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-29T01:32:27.322Z
+ * Generated at: 2025-12-29T02:23:59.852Z
  *
  * This file contains CSS rules that apply variables to selectors.
  * Default values are provided via var() fallbacks - no :root declarations needed.
@@ -37,16 +37,6 @@
   color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
   background-color: var(--tabs-button-bg, #f5f5f5);
-  /* Font size for tab buttons (rem) */
-  font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons */
-  font-weight: var(--tabs-button-font-weight, 500);
-  /* Font style for tab buttons */
-  font-style: var(--tabs-button-font-style, normal);
-  /* Text transformation for tab buttons */
-  text-transform: var(--tabs-button-text-transform, none);
-  /* Text decoration for tab buttons */
-  text-decoration: var(--tabs-button-text-decoration, none);
   /* Text alignment for tab buttons */
   text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
@@ -98,6 +88,19 @@
     /* Border on the edge touching the content, giving it a merged look. */
     border: var(--tabs-enable-focus-border, true);
   }
+}
+
+.tab-button-text {
+  /* Font size for tab buttons (rem) */
+  font-size: var(--tabs-button-font-size, 1rem);
+  /* Font weight for tab buttons */
+  font-weight: var(--tabs-button-font-weight, 500);
+  /* Font style for tab buttons */
+  font-style: var(--tabs-button-font-style, normal);
+  /* Text transformation for tab buttons */
+  text-transform: var(--tabs-button-text-transform, none);
+  /* Text decoration for tab buttons */
+  text-decoration: var(--tabs-button-text-decoration, none);
 }
 
 .gutplus-tabs[data-orientation="horizontal"] .tab-button {
@@ -252,16 +255,6 @@
   color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
   background-color: var(--tabs-button-bg, #f5f5f5);
-  /* Font size for tab buttons (rem) */
-  font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons */
-  font-weight: var(--tabs-button-font-weight, 500);
-  /* Font style for tab buttons */
-  font-style: var(--tabs-button-font-style, normal);
-  /* Text transformation for tab buttons */
-  text-transform: var(--tabs-button-text-transform, none);
-  /* Text decoration for tab buttons */
-  text-decoration: var(--tabs-button-text-decoration, none);
   /* Text alignment for tab buttons */
   text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
@@ -313,6 +306,19 @@
     /* Border on the edge touching the content, giving it a merged look. */
     border: var(--tabs-enable-focus-border, true);
   }
+}
+
+[data-gutplus-device="tablet"] .tab-button-text {
+  /* Font size for tab buttons (rem) */
+  font-size: var(--tabs-button-font-size, 1rem);
+  /* Font weight for tab buttons */
+  font-weight: var(--tabs-button-font-weight, 500);
+  /* Font style for tab buttons */
+  font-style: var(--tabs-button-font-style, normal);
+  /* Text transformation for tab buttons */
+  text-transform: var(--tabs-button-text-transform, none);
+  /* Text decoration for tab buttons */
+  text-decoration: var(--tabs-button-text-decoration, none);
 }
 
 .gutplus-tabs[data-gutplus-device="tablet"][data-orientation="horizontal"] .tab-button {
@@ -468,16 +474,6 @@
   color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
   background-color: var(--tabs-button-bg, #f5f5f5);
-  /* Font size for tab buttons (rem) */
-  font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons */
-  font-weight: var(--tabs-button-font-weight, 500);
-  /* Font style for tab buttons */
-  font-style: var(--tabs-button-font-style, normal);
-  /* Text transformation for tab buttons */
-  text-transform: var(--tabs-button-text-transform, none);
-  /* Text decoration for tab buttons */
-  text-decoration: var(--tabs-button-text-decoration, none);
   /* Text alignment for tab buttons */
   text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
@@ -529,6 +525,19 @@
     /* Border on the edge touching the content, giving it a merged look. */
     border: var(--tabs-enable-focus-border, true);
   }
+}
+
+[data-gutplus-device="mobile"] .tab-button-text {
+  /* Font size for tab buttons (rem) */
+  font-size: var(--tabs-button-font-size, 1rem);
+  /* Font weight for tab buttons */
+  font-weight: var(--tabs-button-font-weight, 500);
+  /* Font style for tab buttons */
+  font-style: var(--tabs-button-font-style, normal);
+  /* Text transformation for tab buttons */
+  text-transform: var(--tabs-button-text-transform, none);
+  /* Text decoration for tab buttons */
+  text-decoration: var(--tabs-button-text-decoration, none);
 }
 
 .gutplus-tabs[data-gutplus-device="mobile"][data-orientation="horizontal"] .tab-button {
