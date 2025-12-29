@@ -395,6 +395,13 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 			content: (() => { const val = effectiveValues.iconTypeClosed; if (val === null || val === undefined) return '▾'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '▾'; })(),
 			transform: effectiveValues.iconRotation ?? '0deg',
 		},
+		tabButton: {
+			fontSize: effectiveValues.tabButtonFontSize ?? '1rem',
+			fontWeight: (() => { const val = effectiveValues.tabButtonFontWeight; if (val === null || val === undefined) return '500'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '500'; })(),
+			fontStyle: (() => { const val = effectiveValues.tabButtonFontStyle; if (val === null || val === undefined) return 'normal'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'normal'; })(),
+			textTransform: (() => { const val = effectiveValues.tabButtonTextTransform; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
+			textDecoration: (() => { const val = effectiveValues.tabButtonTextDecoration; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
+		},
 		tabList: {
 			backgroundColor: (() => { const val = effectiveValues.tabListBackgroundColor; if (val === null || val === undefined) return 'transparent'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'transparent'; })(),
 			borderWidth: effectiveValues.tabsRowBorderWidth ?? '0px',

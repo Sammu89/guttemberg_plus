@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-29T02:23:59.814Z
+ * Generated at: 2025-12-29T02:28:32.331Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build

@@ -1439,6 +1439,7 @@ function generateInlineStylesFunction(schema, blockType) {
     const styleKeyMap = {
       // Tabs
       'tabIcon': 'icon',
+      'tabButtonText': 'tabButton',
       'tabsList': 'tabList',
       'tabPanel': 'panel',
       'wrapper': 'container',
@@ -1450,6 +1451,7 @@ function generateInlineStylesFunction(schema, blockType) {
       'accordionItem': 'container',
       'accordionIcon': 'icon',
       'item': 'container',  // Accordion item wrapper
+      'titleText': 'title',
       // Generic fallbacks
       'title': 'title',
       'titleStatic': 'title',
