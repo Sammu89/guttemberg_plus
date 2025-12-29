@@ -1,2 +1,36 @@
-schemas/schema_ide/__pycache__/
+########################
+# Python
+########################
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+########################
+# Node / JS
+########################
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+########################
+# Build artifacts
+########################
+dist/
+build/
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+
+########################
+# OS / Editor junk
+########################
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
 
