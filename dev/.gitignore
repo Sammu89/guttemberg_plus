@@ -2,6 +2,7 @@
 # Python
 ########################
 .venv/
+schemas/.venv/
 venv/
 __pycache__/
 *.pyc
