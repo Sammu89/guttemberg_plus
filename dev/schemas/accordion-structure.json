@@ -77,21 +77,9 @@
         "icon-right": "{iconPosition === 'right' || !iconPosition}"
       },
       "appliesStyles": [
-        "titleColor",
         "titleBackgroundColor",
-        "titleFontFamily",
-        "titleFontSize",
-        "titleAppearance",
-        "titleLetterSpacing",
-        "titleTextTransform",
-        "titleTextDecoration",
-        "titleLineHeight",
-        "titleAlignment",
         "headerPadding",
-        "hoverTitleColor",
-        "hoverTitleBackgroundColor",
-        "activeTitleColor",
-        "activeTitleBackgroundColor"
+        "hoverTitleBackgroundColor"
       ]
     },
     "titleContentWrapper": {
@@ -113,7 +101,24 @@
       "description": "Title text content (editable with RichText)",
       "contentType": "RichText",
       "source": "{title}",
-      "appliesStyles": []
+      "appliesStyles": [
+        "titleColor",
+        "titleFontFamily",
+        "titleFontSize",
+        "titleFormatting",
+        "titleFontWeight",
+        "titleDecorationColor",
+        "titleDecorationStyle",
+        "titleDecorationWidth",
+        "titleLetterSpacing",
+        "titleTextTransform",
+        "titleLineHeight",
+        "titleAlignment",
+        "titleOffsetX",
+        "titleOffsetY",
+        "titleTextShadow",
+        "hoverTitleColor"
+      ]
     },
     "icon": {
       "id": "icon",

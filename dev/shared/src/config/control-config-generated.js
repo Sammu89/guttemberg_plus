@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-26T22:38:19.428Z
+ * Generated at: 2025-12-29T01:32:27.295Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -25,34 +25,35 @@
 // Control configuration for all blocks
 const CONTROL_CONFIGS = {
   'accordion': {
-    'accordionWidth': {
-      control: 'TextControl',
-      label: 'Block Width',
-      description: 'Accordion container width (e.g., 100%, 500px)',
-      default: '100%',
+    'dividerWidth': {
+      control: 'BorderPanel',
+      label: 'Divider Border',
+      description: 'Border between header and content',
     },
-    'headingLevel': {
-      control: 'HeadingLevel',
-      label: 'Heading Level',
-      description: 'Semantic HTML heading level for accessibility',
-      default: 'none',
+    'dividerColor': {
+      control: 'BorderPanel',
+      label: 'Divider Color',
+      description: 'Color of divider between header and content',
     },
-    'accordionHorizontalAlign': {
-      control: 'AlignmentControl',
-      label: 'Block Alignment',
-      description: 'Horizontal alignment of the accordion',
-      default: 'center',
-    },
-    'initiallyOpen': {
-      control: 'ToggleControl',
-      label: 'Open by Default',
-      description: 'Whether accordion is open on page load',
-      default: false,
+    'dividerStyle': {
+      control: 'BorderPanel',
+      label: 'Divider Style',
+      description: 'Style of divider between header and content',
     },
     'borderWidth': {
       control: 'BorderPanel',
       label: 'Border',
       description: 'Border width, color, and style for all sides',
+    },
+    'borderRadius': {
+      control: 'CompactBorderRadius',
+      label: 'Border Radius',
+      description: 'Corner radius of the accordion wrapper',
+    },
+    'shadow': {
+      control: 'ShadowPanel',
+      label: 'Block Shadow',
+      description: 'Shadow effect for the accordion (supports multiple layers)',
     },
     'borderColor': {
       control: 'BorderPanel',
@@ -63,11 +64,6 @@ const CONTROL_CONFIGS = {
       control: 'BorderPanel',
       label: 'Border Style',
       description: 'Border style for all sides',
-    },
-    'borderRadius': {
-      control: 'CompactBorderRadius',
-      label: 'Border Radius',
-      description: 'Corner radius of the accordion wrapper',
     },
     'headerPadding': {
       control: 'CompactPadding',
@@ -84,78 +80,59 @@ const CONTROL_CONFIGS = {
       label: 'Block Margin',
       description: 'Outer spacing around the accordion',
     },
-    'shadow': {
-      control: 'ShadowControl',
-      label: 'Block Shadow',
-      description: 'Shadow effect for the accordion',
-      default: 'none',
-    },
-    'dividerColor': {
-      control: 'ColorControl',
-      label: 'Divider Color',
-      description: 'Color of divider between header and content',
-      default: '#dddddd',
-    },
-    'dividerStyle': {
-      control: 'BorderStyleControl',
-      label: 'Divider Style',
-      description: 'Style of divider between header and content',
-      default: 'solid',
-    },
-    'dividerWidth': {
-      control: 'SliderWithInput',
-      unit: 'px',
-      label: 'Divider Width',
-      description: 'Thickness of divider between header and content',
-      default: 0,
-    },
     'titleColor': {
       control: 'ColorControl',
-      label: 'Text Color',
+      label: 'Text',
       description: 'Text color for the accordion header',
       default: '#333333',
     },
     'titleBackgroundColor': {
-      control: 'GradientControl',
+      control: 'ColorGradientControl',
       label: 'Background',
       description: 'Background color for the accordion header',
       default: '#f5f5f5',
     },
     'hoverTitleColor': {
       control: 'ColorControl',
-      label: 'Hover Text Color',
+      label: 'Text',
       description: 'Text color when hovering over header',
       default: '#000000',
     },
     'hoverTitleBackgroundColor': {
-      control: 'GradientControl',
-      label: 'Hover Background',
+      control: 'ColorGradientControl',
+      label: 'Background',
       description: 'Background color when hovering over header',
-      default: '#e8e8e8',
-    },
-    'activeTitleColor': {
-      control: 'ColorControl',
-      label: 'Active Text Color',
-      description: 'Text color when accordion is open',
-      default: '#000000',
-    },
-    'activeTitleBackgroundColor': {
-      control: 'GradientControl',
-      label: 'Active Background',
-      description: 'Background color when accordion is open',
       default: '#e8e8e8',
     },
     'contentTextColor': {
       control: 'ColorControl',
-      label: 'Text Color',
+      label: 'Text',
       description: 'Text color for accordion content',
       default: '#333333',
     },
     'contentBackgroundColor': {
-      control: 'GradientControl',
+      control: 'ColorGradientControl',
       label: 'Background',
       description: 'Background color for accordion content',
       default: '#ffffff',
+    },
+    'contentFontFamily': {
+      control: 'FontFamilyControl',
+      label: 'Font Family',
+      description: 'Font family for the content',
+      default: 'inherit',
+    },
+    'contentFontSize': {
+      control: 'SliderWithInput',
+      label: 'Font Size',
+      description: 'Font size for the content',
+      default: '1rem',
+    },
+    'contentLineHeight': {
+      control: 'SliderWithInput',
+      label: 'Line Height',
+      description: 'Line height for the content',
+      default: 1.6,
     },
     'titleFontFamily': {
       control: 'FontFamilyControl',
@@ -167,24 +144,42 @@ const CONTROL_CONFIGS = {
       control: 'SliderWithInput',
       label: 'Font Size',
       description: 'Font size for the header',
-      default: 1.125,
+      default: '1.125rem',
     },
-    'titleAppearance': {
-      control: 'AppearanceControl',
-      label: 'Appearance',
-      description: 'Font weight and style for the header',
+    'titleFormatting': {
+      control: 'FormattingControl',
+      label: 'Formatting',
+      description: 'Text formatting options (bold, italic, underline, overline, line-through)',
+    },
+    'titleFontWeight': {
+      control: 'FormattingControl',
+      label: 'Font Weight',
+      description: 'Font weight for title (100-900)',
+      default: 400,
+    },
+    'titleDecorationColor': {
+      control: 'FormattingControl',
+      label: 'Decoration Color',
+      description: 'Color for text decorations',
+      default: 'currentColor',
+    },
+    'titleDecorationStyle': {
+      control: 'FormattingControl',
+      label: 'Decoration Style',
+      description: 'Style for text decorations',
+      default: 'solid',
+    },
+    'titleDecorationWidth': {
+      control: 'FormattingControl',
+      label: 'Decoration Width',
+      description: 'Thickness of text decorations',
+      default: 'auto',
     },
     'titleLetterSpacing': {
       control: 'SliderWithInput',
       label: 'Letter Spacing',
       description: 'Space between letters',
-      default: 0,
-    },
-    'titleTextDecoration': {
-      control: 'DecorationControl',
-      label: 'Decoration',
-      description: 'Text decoration for the header',
-      default: 'none',
+      default: '0em',
     },
     'titleTextTransform': {
       control: 'LetterCaseControl',
@@ -204,23 +199,22 @@ const CONTROL_CONFIGS = {
       description: 'Text alignment for the header',
       default: 'left',
     },
-    'contentFontFamily': {
-      control: 'FontFamilyControl',
-      label: 'Font Family',
-      description: 'Font family for the content',
-      default: 'inherit',
-    },
-    'contentFontSize': {
+    'titleOffsetX': {
       control: 'SliderWithInput',
-      label: 'Font Size',
-      description: 'Font size for the content',
-      default: 1,
+      label: 'Horizontal Offset (X)',
+      description: 'Move title left/right (negative = left, positive = right)',
+      default: '0px',
     },
-    'contentLineHeight': {
+    'titleOffsetY': {
       control: 'SliderWithInput',
-      label: 'Line Height',
-      description: 'Line height for the content',
-      default: 1.6,
+      label: 'Vertical Offset (Y)',
+      description: 'Move title up/down (negative = up, positive = down)',
+      default: '0px',
+    },
+    'titleTextShadow': {
+      control: 'ShadowPanel',
+      label: 'Text Shadow',
+      description: 'Shadow effect for the header text (supports multiple layers)',
     },
     'showIcon': {
       control: 'ToggleControl',
@@ -244,7 +238,7 @@ const CONTROL_CONFIGS = {
       control: 'SliderWithInput',
       label: 'Icon Size',
       description: 'Size of the icon',
-      default: 1.25,
+      default: '1.25rem',
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -260,10 +254,9 @@ const CONTROL_CONFIGS = {
     },
     'iconRotation': {
       control: 'SliderWithInput',
-      unit: 'deg',
       label: 'Icon Rotation',
       description: 'Rotation angle when open (degrees)',
-      default: 180,
+      default: '180deg',
     },
     'animationType': {
       control: 'SelectControl',
@@ -291,10 +284,9 @@ const CONTROL_CONFIGS = {
     },
     'animationDuration': {
       control: 'SliderWithInput',
-      unit: 'ms',
       label: 'Duration',
       description: 'Animation duration in milliseconds',
-      default: 300,
+      default: '300ms',
     },
     'animationEasing': {
       control: 'SelectControl',
@@ -328,49 +320,37 @@ const CONTROL_CONFIGS = {
       description: 'Animation easing function',
       default: 'ease',
     },
-  },
-  'tabs': {
-    'orientation': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "Horizontal",
-                      "value": "horizontal"
-              },
-              {
-                      "label": "Vertical Left",
-                      "value": "vertical-left"
-              },
-              {
-                      "label": "Vertical Right",
-                      "value": "vertical-right"
-              }
-      ],
-      label: 'Tab Orientation',
-      description: 'Tab layout orientation',
-      default: 'horizontal',
+    'accordionWidth': {
+      control: 'SliderWithInput',
+      label: 'Block Width',
+      description: 'Accordion container width',
+      default: '100%',
     },
-    'stretchButtonsToRow': {
+    'headingLevel': {
+      control: 'HeadingLevel',
+      label: 'Heading Level',
+      description: 'Semantic HTML heading level for accessibility',
+      default: 'none',
+    },
+    'accordionHorizontalAlign': {
+      control: 'AlignmentControl',
+      label: 'Block Alignment',
+      description: 'Horizontal alignment of the accordion',
+      default: 'center',
+    },
+    'initiallyOpen': {
       control: 'ToggleControl',
-      label: 'Stretch Buttons to Row Width',
-      description: 'Make tab buttons fill the full width of the row (horizontal orientation only)',
+      label: 'Open by Default',
+      description: 'Whether accordion is open on page load',
       default: false,
     },
-    'activationMode': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "Click",
-                      "value": "click"
-              },
-              {
-                      "label": "Hover",
-                      "value": "hover"
-              }
-      ],
-      label: 'Activation Mode',
-      description: 'How tabs are activated (click or hover)',
-      default: 'click',
+  },
+  'tabs': {
+    'tabsWidth': {
+      control: 'SliderWithInput',
+      label: 'Block Width',
+      description: 'Tabs container width',
+      default: '100%',
     },
     'headingLevel': {
       control: 'SelectControl',
@@ -398,72 +378,97 @@ const CONTROL_CONFIGS = {
       description: 'Horizontal alignment of the tabs block',
       default: 'center',
     },
-    'tabsWidth': {
-      control: 'TextControl',
-      label: 'Block Width',
-      description: 'Tabs container width (e.g., 100%, 500px)',
-      default: '100%',
-    },
-    'showIcon': {
-      control: 'ToggleControl',
-      label: 'Show Icon',
-      description: 'Display icons in tab buttons',
-      default: true,
-    },
-    'iconPosition': {
+    'orientation': {
       control: 'SelectControl',
       options: [
-              "left",
-              "right"
+              {
+                      "label": "Horizontal",
+                      "value": "horizontal"
+              },
+              {
+                      "label": "Vertical Left",
+                      "value": "vertical-left"
+              },
+              {
+                      "label": "Vertical Right",
+                      "value": "vertical-right"
+              }
       ],
-      label: 'Icon Position',
-      description: 'Position of icon relative to text',
-      default: 'right',
+      label: 'Tab Orientation',
+      description: 'Tab layout orientation',
+      default: 'horizontal',
     },
-    'iconColor': {
+    'activationMode': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "Click",
+                      "value": "click"
+              },
+              {
+                      "label": "Hover",
+                      "value": "hover"
+              }
+      ],
+      label: 'Activation Mode',
+      description: 'How tabs are activated (click or hover)',
+      default: 'click',
+    },
+    'borderColor': {
       control: 'ColorPicker',
-      label: 'Icon Color',
-      description: 'Color of the tab icon',
-      default: '#666666',
+      label: 'Block Border Color',
+      description: 'Border color for main tabs wrapper',
     },
-    'iconSize': {
+    'borderWidth': {
       control: 'RangeControl',
-      min: 0.5,
-      max: 3,
-      unit: 'rem',
-      label: 'Icon Size',
-      description: 'Size of the icon in rem',
-      default: 1,
+      label: 'Block Border Width',
+      description: 'Border width for main wrapper',
+      default: '0px',
     },
-    'iconTypeClosed': {
-      control: 'IconPicker',
-      label: 'Icon Closed',
-      description: 'Icon for the tab (char or image URL)',
-      default: '▾',
+    'borderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Block Border Style',
+      description: 'Border style for wrapper',
     },
-    'iconTypeOpen': {
-      control: 'IconPicker',
-      label: 'Icon Open',
-      description: 'Icon when tab is active (none = use closed icon with final rotation)',
+    'borderRadius': {
+      control: 'BorderRadiusControl',
+      unit: 'px',
+      label: 'Block Border Radius',
+      description: 'Corner radius for main wrapper',
+    },
+    'shadow': {
+      control: 'TextControl',
+      label: 'Block Shadow',
+      description: 'Box shadow for main wrapper',
       default: 'none',
     },
-    'iconRotation': {
-      control: 'RangeControl',
-      min: -360,
-      max: 360,
-      unit: 'deg',
-      label: 'Icon Base Rotation',
-      description: 'Base rotation of the icon',
-      default: 0,
-    },
-    'iconRotationActive': {
-      control: 'RangeControl',
-      min: -360,
-      max: 360,
-      unit: 'deg',
-      label: 'Icon Active Rotation',
-      description: 'Rotation of the icon for the active tab',
-      default: 180,
+    'shadowHover': {
+      control: 'TextControl',
+      label: 'Block Hover Shadow',
+      description: 'Box shadow for wrapper on hover',
+      default: 'none',
     },
     'tabButtonColor': {
       control: 'ColorPicker',
@@ -501,179 +506,11 @@ const CONTROL_CONFIGS = {
       description: 'Background color for active/selected tab',
       default: '#ffffff',
     },
-    'enableFocusBorder': {
-      control: 'ToggleControl',
-      label: 'Enable Button / Content Border',
-      description: 'Border on the edge touching the content, giving it a merged look.',
-      default: true,
-    },
-    'tabButtonActiveContentBorderWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Active Content Edge Border Width',
-      description: 'Width of the active button edge touching content',
-      default: 1,
-    },
-    'tabButtonActiveContentBorderStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Active Content Edge Border Style',
-      description: 'Style of the active button edge touching content',
-      default: 'solid',
-    },
-    'tabButtonActiveFontWeight': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "100",
-                      "value": "100"
-              },
-              {
-                      "label": "200",
-                      "value": "200"
-              },
-              {
-                      "label": "300",
-                      "value": "300"
-              },
-              {
-                      "label": "400",
-                      "value": "400"
-              },
-              {
-                      "label": "500",
-                      "value": "500"
-              },
-              {
-                      "label": "600",
-                      "value": "600"
-              },
-              {
-                      "label": "700",
-                      "value": "700"
-              },
-              {
-                      "label": "800",
-                      "value": "800"
-              },
-              {
-                      "label": "900",
-                      "value": "900"
-              },
-              {
-                      "label": "Normal",
-                      "value": "normal"
-              },
-              {
-                      "label": "Bold",
-                      "value": "bold"
-              }
-      ],
-      label: 'Header Active Font Weight',
-      description: 'Font weight for active/selected tab button',
-      default: 'bold',
-    },
-    'tabButtonBorderColor': {
-      control: 'ColorPicker',
-      label: 'Header Border Color',
-      description: 'Border color for inactive tab buttons',
-    },
-    'tabButtonActiveBorderColor': {
-      control: 'ColorPicker',
-      label: 'Header Active Border Color',
-      description: 'Border color for the active tab',
-    },
-    'tabButtonActiveContentBorderColor': {
-      control: 'ColorPicker',
-      label: 'Active Content Edge Border Color',
-      description: 'Color of the border. Keep it the same color as panel background for a merged look.',
-      default: '#ffffff',
-    },
-    'tabButtonBorderWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Header Border Width',
-      description: 'Border width for tab buttons',
-      default: 1,
-    },
-    'tabButtonBorderStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Header Border Style',
-      description: 'Border style for tab buttons',
-    },
-    'tabButtonBorderRadius': {
-      control: 'BorderRadiusControl',
-      unit: 'px',
-      label: 'Header Border Radius',
-      description: 'Corner radius for tab buttons',
-    },
-    'tabButtonShadow': {
-      control: 'TextControl',
-      label: 'Header Shadow',
-      description: 'Box shadow for tab buttons',
-      default: 'none',
-    },
-    'tabButtonShadowHover': {
-      control: 'TextControl',
-      label: 'Header Hover Shadow',
-      description: 'Box shadow for tab buttons on hover',
-      default: 'none',
-    },
     'tabButtonFontSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 2.3,
-      unit: 'rem',
       label: 'Header Font Size',
       description: 'Font size for tab buttons (rem)',
-      default: 1,
+      default: '1rem',
     },
     'tabButtonFontWeight': {
       control: 'SelectControl',
@@ -808,12 +645,168 @@ const CONTROL_CONFIGS = {
     },
     'tabButtonPadding': {
       control: 'RangeControl',
-      min: 0,
-      max: 1.3,
-      unit: 'rem',
       label: 'Header Padding',
       description: 'Padding for tab buttons in rem (vertical/horizontal will be computed)',
-      default: 0.75,
+      default: '0.75rem',
+    },
+    'tabButtonActiveFontWeight': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "100",
+                      "value": "100"
+              },
+              {
+                      "label": "200",
+                      "value": "200"
+              },
+              {
+                      "label": "300",
+                      "value": "300"
+              },
+              {
+                      "label": "400",
+                      "value": "400"
+              },
+              {
+                      "label": "500",
+                      "value": "500"
+              },
+              {
+                      "label": "600",
+                      "value": "600"
+              },
+              {
+                      "label": "700",
+                      "value": "700"
+              },
+              {
+                      "label": "800",
+                      "value": "800"
+              },
+              {
+                      "label": "900",
+                      "value": "900"
+              },
+              {
+                      "label": "Normal",
+                      "value": "normal"
+              },
+              {
+                      "label": "Bold",
+                      "value": "bold"
+              }
+      ],
+      label: 'Header Active Font Weight',
+      description: 'Font weight for active/selected tab button',
+      default: 'bold',
+    },
+    'tabButtonBorderColor': {
+      control: 'ColorPicker',
+      label: 'Header Border Color',
+      description: 'Border color for inactive tab buttons',
+    },
+    'tabButtonActiveBorderColor': {
+      control: 'ColorPicker',
+      label: 'Header Active Border Color',
+      description: 'Border color for the active tab',
+    },
+    'tabButtonBorderWidth': {
+      control: 'RangeControl',
+      label: 'Header Border Width',
+      description: 'Border width for tab buttons',
+      default: '1px',
+    },
+    'tabButtonBorderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Header Border Style',
+      description: 'Border style for tab buttons',
+    },
+    'tabButtonBorderRadius': {
+      control: 'BorderRadiusControl',
+      unit: 'px',
+      label: 'Header Border Radius',
+      description: 'Corner radius for tab buttons',
+    },
+    'tabButtonShadow': {
+      control: 'TextControl',
+      label: 'Header Shadow',
+      description: 'Box shadow for tab buttons',
+      default: 'none',
+    },
+    'tabButtonShadowHover': {
+      control: 'TextControl',
+      label: 'Header Hover Shadow',
+      description: 'Box shadow for tab buttons on hover',
+      default: 'none',
+    },
+    'enableFocusBorder': {
+      control: 'ToggleControl',
+      label: 'Enable Button / Content Border',
+      description: 'Border on the edge touching the content, giving it a merged look.',
+      default: true,
+    },
+    'tabButtonActiveContentBorderColor': {
+      control: 'ColorPicker',
+      label: 'Active Content Edge Border Color',
+      description: 'Color of the border. Keep it the same color as panel background for a merged look.',
+      default: '#ffffff',
+    },
+    'tabButtonActiveContentBorderWidth': {
+      control: 'RangeControl',
+      label: 'Active Content Edge Border Width',
+      description: 'Width of the active button edge touching content',
+      default: '1px',
+    },
+    'tabButtonActiveContentBorderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Active Content Edge Border Style',
+      description: 'Style of the active button edge touching content',
+      default: 'solid',
     },
     'tabListBackgroundColor': {
       control: 'ColorPicker',
@@ -828,12 +821,9 @@ const CONTROL_CONFIGS = {
     },
     'tabsRowBorderWidth': {
       control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
       label: 'Row Border Width',
       description: 'Border width for the tab row',
-      default: 0,
+      default: '0px',
     },
     'tabsRowBorderStyle': {
       control: 'SelectControl',
@@ -862,6 +852,24 @@ const CONTROL_CONFIGS = {
       label: 'Row Border Style',
       description: 'Border style for the tab row',
     },
+    'tabsRowSpacing': {
+      control: 'RangeControl',
+      label: 'Row Spacing',
+      description: 'Padding/spacing for the tab row (rem)',
+      default: '0.5rem',
+    },
+    'tabsButtonGap': {
+      control: 'RangeControl',
+      label: 'Button Gap',
+      description: 'Spacing between individual tab buttons (rem)',
+      default: '0.5rem',
+    },
+    'stretchButtonsToRow': {
+      control: 'ToggleControl',
+      label: 'Stretch Buttons to Row Width',
+      description: 'Make tab buttons fill the full width of the row (horizontal orientation only)',
+      default: false,
+    },
     'tabListAlignment': {
       control: 'SelectControl',
       options: [
@@ -882,23 +890,51 @@ const CONTROL_CONFIGS = {
       description: 'Alignment of tabs along the main axis',
       default: 'flex-start',
     },
-    'tabsRowSpacing': {
-      control: 'RangeControl',
-      min: 0,
-      max: 1.9,
-      unit: 'rem',
-      label: 'Row Spacing',
-      description: 'Padding/spacing for the tab row (rem)',
-      default: 0.5,
+    'enableTabsListContentBorder': {
+      control: 'ToggleControl',
+      label: 'Enable Row Divider Border',
+      description: 'Enable or disable border between tab row and content',
+      default: false,
     },
-    'tabsButtonGap': {
+    'tabsListContentBorderColor': {
+      control: 'ColorPicker',
+      label: 'Row Divider Border Color',
+      description: 'Color of the tab row edge that touches the content',
+      default: 'transparent',
+    },
+    'tabsListContentBorderWidth': {
       control: 'RangeControl',
-      min: 0,
-      max: 1.9,
-      unit: 'rem',
-      label: 'Button Gap',
-      description: 'Spacing between individual tab buttons (rem)',
-      default: 0.5,
+      label: 'Row Divider Border Width',
+      description: 'Width of the tab row edge that touches the content',
+      default: '1px',
+    },
+    'tabsListContentBorderStyle': {
+      control: 'SelectControl',
+      options: [
+              {
+                      "label": "None",
+                      "value": "none"
+              },
+              {
+                      "label": "Solid",
+                      "value": "solid"
+              },
+              {
+                      "label": "Dashed",
+                      "value": "dashed"
+              },
+              {
+                      "label": "Dotted",
+                      "value": "dotted"
+              },
+              {
+                      "label": "Double",
+                      "value": "double"
+              }
+      ],
+      label: 'Row Divider Border Style',
+      description: 'Style of the tab row edge that touches the content',
+      default: 'solid',
     },
     'panelBackgroundColor': {
       control: 'ColorPicker',
@@ -913,12 +949,9 @@ const CONTROL_CONFIGS = {
     },
     'panelBorderWidth': {
       control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
       label: 'Panel Border Width',
       description: 'Border width for tab content panel (0-10px)',
-      default: 1,
+      default: '1px',
     },
     'panelBorderStyle': {
       control: 'SelectControl',
@@ -953,113 +986,57 @@ const CONTROL_CONFIGS = {
       label: 'Panel Border Radius',
       description: 'Corner radius for tab content panel',
     },
-    'borderColor': {
-      control: 'ColorPicker',
-      label: 'Block Border Color',
-      description: 'Border color for main tabs wrapper',
-    },
-    'borderWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Block Border Width',
-      description: 'Border width for main wrapper',
-      default: 0,
-    },
-    'borderStyle': {
-      control: 'SelectControl',
-      options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
-      ],
-      label: 'Block Border Style',
-      description: 'Border style for wrapper',
-    },
-    'borderRadius': {
-      control: 'BorderRadiusControl',
-      unit: 'px',
-      label: 'Block Border Radius',
-      description: 'Corner radius for main wrapper',
-    },
-    'shadow': {
-      control: 'TextControl',
-      label: 'Block Shadow',
-      description: 'Box shadow for main wrapper',
-      default: 'none',
-    },
-    'shadowHover': {
-      control: 'TextControl',
-      label: 'Block Hover Shadow',
-      description: 'Box shadow for wrapper on hover',
-      default: 'none',
-    },
-    'enableTabsListContentBorder': {
+    'showIcon': {
       control: 'ToggleControl',
-      label: 'Enable Row Divider Border',
-      description: 'Enable or disable border between tab row and content',
-      default: false,
+      label: 'Show Icon',
+      description: 'Display icons in tab buttons',
+      default: true,
     },
-    'tabsListContentBorderColor': {
-      control: 'ColorPicker',
-      label: 'Row Divider Border Color',
-      description: 'Color of the tab row edge that touches the content',
-      default: 'transparent',
-    },
-    'tabsListContentBorderWidth': {
-      control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
-      label: 'Row Divider Border Width',
-      description: 'Width of the tab row edge that touches the content',
-      default: 1,
-    },
-    'tabsListContentBorderStyle': {
+    'iconPosition': {
       control: 'SelectControl',
       options: [
-              {
-                      "label": "None",
-                      "value": "none"
-              },
-              {
-                      "label": "Solid",
-                      "value": "solid"
-              },
-              {
-                      "label": "Dashed",
-                      "value": "dashed"
-              },
-              {
-                      "label": "Dotted",
-                      "value": "dotted"
-              },
-              {
-                      "label": "Double",
-                      "value": "double"
-              }
+              "left",
+              "right"
       ],
-      label: 'Row Divider Border Style',
-      description: 'Style of the tab row edge that touches the content',
-      default: 'solid',
+      label: 'Icon Position',
+      description: 'Position of icon relative to text',
+      default: 'right',
+    },
+    'iconColor': {
+      control: 'ColorPicker',
+      label: 'Icon Color',
+      description: 'Color of the tab icon',
+      default: '#666666',
+    },
+    'iconSize': {
+      control: 'RangeControl',
+      label: 'Icon Size',
+      description: 'Size of the icon in rem',
+      default: '1rem',
+    },
+    'iconTypeClosed': {
+      control: 'IconPicker',
+      label: 'Icon Closed',
+      description: 'Icon for the tab (char or image URL)',
+      default: '▾',
+    },
+    'iconTypeOpen': {
+      control: 'IconPicker',
+      label: 'Icon Open',
+      description: 'Icon when tab is active (none = use closed icon with final rotation)',
+      default: 'none',
+    },
+    'iconRotation': {
+      control: 'RangeControl',
+      label: 'Icon Base Rotation',
+      description: 'Base rotation of the icon',
+      default: '0deg',
+    },
+    'iconRotationActive': {
+      control: 'RangeControl',
+      label: 'Icon Active Rotation',
+      description: 'Rotation of the icon for the active tab',
+      default: '180deg',
     },
   },
   'toc': {
@@ -1171,9 +1148,9 @@ const CONTROL_CONFIGS = {
       default: 'navigate',
     },
     'tocWidth': {
-      control: 'TextControl',
+      control: 'SliderWithInput',
       label: 'Block Width',
-      description: 'TOC container width (e.g., 100%, 500px)',
+      description: 'TOC container width',
       default: '100%',
     },
     'tocHorizontalAlign': {
@@ -1491,12 +1468,9 @@ const CONTROL_CONFIGS = {
     },
     'h1FontSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 3,
-      unit: 'rem',
       label: 'H1 Font Size',
       description: 'Font size for H1 headings in rem',
-      default: 1.5,
+      default: '1.5rem',
     },
     'h1FontWeight': {
       control: 'SelectControl',
@@ -1641,12 +1615,9 @@ const CONTROL_CONFIGS = {
     },
     'h2FontSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 2.5,
-      unit: 'rem',
       label: 'H2 Font Size',
       description: 'Font size for H2 headings in rem',
-      default: 1.25,
+      default: '1.25rem',
     },
     'h2FontWeight': {
       control: 'SelectControl',
@@ -1791,12 +1762,9 @@ const CONTROL_CONFIGS = {
     },
     'h3FontSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 2,
-      unit: 'rem',
       label: 'H3 Font Size',
       description: 'Font size for H3 headings in rem',
-      default: 1.125,
+      default: '1.125rem',
     },
     'h3FontWeight': {
       control: 'SelectControl',
@@ -1941,12 +1909,9 @@ const CONTROL_CONFIGS = {
     },
     'h4FontSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 1.8,
-      unit: 'rem',
       label: 'H4 Font Size',
       description: 'Font size for H4 headings in rem',
-      default: 1,
+      default: '1rem',
     },
     'h4FontWeight': {
       control: 'SelectControl',
@@ -2091,12 +2056,9 @@ const CONTROL_CONFIGS = {
     },
     'h5FontSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 1.6,
-      unit: 'rem',
       label: 'H5 Font Size',
       description: 'Font size for H5 headings in rem',
-      default: 0.9375,
+      default: '0.9375rem',
     },
     'h5FontWeight': {
       control: 'SelectControl',
@@ -2241,12 +2203,9 @@ const CONTROL_CONFIGS = {
     },
     'h6FontSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 1.5,
-      unit: 'rem',
       label: 'H6 Font Size',
       description: 'Font size for H6 headings in rem',
-      default: 0.875,
+      default: '0.875rem',
     },
     'h6FontWeight': {
       control: 'SelectControl',
@@ -2388,12 +2347,9 @@ const CONTROL_CONFIGS = {
     },
     'iconSize': {
       control: 'RangeControl',
-      min: 0.6,
-      max: 3,
-      unit: 'rem',
       label: 'Icon Size',
       description: 'Size of the icon in rem',
-      default: 1.25,
+      default: '1.25rem',
     },
     'iconTypeClosed': {
       control: 'IconPicker',
@@ -2409,12 +2365,9 @@ const CONTROL_CONFIGS = {
     },
     'iconRotation': {
       control: 'RangeControl',
-      min: -360,
-      max: 360,
-      unit: 'deg',
       label: 'Icon Rotation',
       description: 'Rotation angle when open (degrees)',
-      default: 180,
+      default: '180deg',
     },
     'iconColor': {
       control: 'ColorPicker',
@@ -2424,12 +2377,9 @@ const CONTROL_CONFIGS = {
     },
     'titleFontSize': {
       control: 'RangeControl',
-      min: 0.7,
-      max: 3,
-      unit: 'rem',
       label: 'Header Font Size',
       description: 'Font size for the TOC header in rem',
-      default: 1.25,
+      default: '1.25rem',
     },
     'titleFontWeight': {
       control: 'SelectControl',
@@ -2562,12 +2512,9 @@ const CONTROL_CONFIGS = {
     },
     'blockBorderWidth': {
       control: 'RangeControl',
-      min: 0,
-      max: 10,
-      unit: 'px',
       label: 'Block Border Width',
       description: 'Width of the wrapper border in pixels',
-      default: 1,
+      default: '1px',
     },
     'blockBorderStyle': {
       control: 'SelectControl',
@@ -2614,7 +2561,6 @@ const CONTROL_CONFIGS = {
     },
     'blockBorderRadius': {
       control: 'BorderRadiusControl',
-      unit: 'px',
       label: 'Block Border Radius',
       description: 'Corner radius of the wrapper',
     },
@@ -2632,21 +2578,15 @@ const CONTROL_CONFIGS = {
     },
     'wrapperPadding': {
       control: 'RangeControl',
-      min: 0,
-      max: 3.2,
-      unit: 'rem',
       label: 'Wrapper Padding',
       description: 'Padding inside the TOC wrapper (rem)',
-      default: 1.25,
+      default: '1.25rem',
     },
     'itemSpacing': {
       control: 'RangeControl',
-      min: 0,
-      max: 1.9,
-      unit: 'rem',
       label: 'Item Spacing',
       description: 'Vertical space between TOC items (rem)',
-      default: 0.5,
+      default: '0.5rem',
     },
     'enableHierarchicalIndent': {
       control: 'ToggleControl',
@@ -2662,17 +2602,12 @@ const CONTROL_CONFIGS = {
     },
     'positionTop': {
       control: 'RangeControl',
-      min: 0,
-      max: 18.8,
-      unit: 'rem',
       label: 'Position Top',
       description: 'Top offset for sticky/fixed positioning (rem)',
-      default: 6.25,
+      default: '6.25rem',
     },
     'zIndex': {
       control: 'RangeControl',
-      min: 1,
-      max: 9999,
       label: 'Z-Index',
       description: 'Stack order for positioned TOC',
       default: 100,

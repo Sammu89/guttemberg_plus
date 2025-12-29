@@ -1,0 +1,85 @@
+/**
+ * BreakpointSettings Styles
+ *
+ * Styles for the global breakpoint settings panel
+ *
+ * @package GuttembergPlus
+ * @since 1.0.0
+ */
+
+.gutplus-breakpoint-settings {
+	&__description {
+		margin: 0 0 16px;
+		font-size: 13px;
+		color: #757575;
+		line-height: 1.4;
+	}
+
+	&__notice {
+		margin-bottom: 16px;
+	}
+
+	&__actions {
+		margin-top: 16px;
+		padding-top: 16px;
+		border-top: 1px solid #e0e0e0;
+
+		.components-button-group {
+			display: flex;
+			gap: 8px;
+			flex-wrap: wrap;
+		}
+
+		.components-button {
+			flex: 1;
+			min-width: 120px;
+			justify-content: center;
+		}
+	}
+
+	&__note {
+		margin: 16px 0 0;
+		font-size: 12px;
+		color: #949494;
+		font-style: italic;
+		line-height: 1.4;
+	}
+}
+
+.gutplus-breakpoint-setting {
+	margin-bottom: 16px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 8px;
+	}
+
+	&__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #1e1e1e;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	&__label {
+		font-size: 13px;
+		font-weight: 500;
+		color: #1e1e1e;
+		margin: 0;
+	}
+
+	&__input {
+		width: 100%;
+	}
+}

@@ -11,6 +11,7 @@
 
 import { select, dispatch } from '@wordpress/data';
 import { flushSync } from 'react-dom';
+import { debug } from './debug';
 
 /**
  * Find all blocks of a specific type on the current page
@@ -90,12 +91,10 @@ export function findBlocksUsingTheme( blockType, themeName, cleanOnly = false ) 
  * @return {number} Number of blocks updated
  */
 export function batchUpdateCleanBlocks( blockType, themeName, newThemeValues, excludeKeys = [] ) {
-	console.log( `\n[BATCH UPDATE] Starting for theme "${ themeName }"` );
 
 	// Find all clean blocks using this theme
 	const blocksToUpdate = findBlocksUsingTheme( blockType, themeName, true );
 
-	console.log( `[BATCH UPDATE] Found ${ blocksToUpdate.length } clean block(s) using "${ themeName }"` );
 
 	if ( blocksToUpdate.length === 0 ) {
 		return 0;
@@ -123,12 +122,10 @@ export function batchUpdateCleanBlocks( blockType, themeName, newThemeValues, ex
 
 		// Update the block
 		if ( Object.keys( updateAttrs ).length > 0 ) {
-			console.log( `[BATCH UPDATE] Updating block ${ clientId }:`, Object.keys( updateAttrs ) );
 			dispatch( 'core/block-editor' ).updateBlockAttributes( clientId, updateAttrs );
 		}
 	} );
 
-	console.log( `[BATCH UPDATE] Complete - updated ${ blocksToUpdate.length } block(s)` );
 
 	return blocksToUpdate.length;
 }
@@ -146,12 +143,10 @@ export function batchUpdateCleanBlocks( blockType, themeName, newThemeValues, ex
  * @return {number} Number of blocks reset
  */
 export function batchResetBlocksUsingTheme( blockType, themeName, defaults, excludeKeys = [] ) {
-	console.log( `\n[BATCH RESET] Starting for deleted theme "${ themeName }"` );
 
 	// Find ALL blocks using this theme (clean or customized)
 	const blocksToReset = findBlocksUsingTheme( blockType, themeName, false );
 
-	console.log( `[BATCH RESET] Found ${ blocksToReset.length } block(s) using "${ themeName }"` );
 
 	if ( blocksToReset.length === 0 ) {
 		return 0;
@@ -172,11 +167,9 @@ export function batchResetBlocksUsingTheme( blockType, themeName, defaults, excl
 		resetAttrs.currentTheme = '';
 		resetAttrs.customizations = {};
 
-		console.log( `[BATCH RESET] Resetting block ${ clientId } to defaults` );
 		dispatch( 'core/block-editor' ).updateBlockAttributes( clientId, resetAttrs );
 	} );
 
-	console.log( `[BATCH RESET] Complete - reset ${ blocksToReset.length } block(s)` );
 
 	return blocksToReset.length;
 }

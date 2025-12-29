@@ -11,8 +11,10 @@
 /**
  * Get value for specific device with inheritance
  *
+ * Data structure: Base (global) is at value.value, tablet/mobile are device keys
+ *
  * @param {*} value - The responsive value object or simple value
- * @param {string} device - The device type: 'desktop', 'tablet', or 'mobile'
+ * @param {string} device - The device type: 'global', 'tablet', or 'mobile'
  * @returns {*} The value for the specified device
  */
 export function getResponsiveValue(value, device) {
@@ -20,11 +22,12 @@ export function getResponsiveValue(value, device) {
 
   if (value[device] !== undefined) return value[device];
 
-  // Inheritance chain: mobile → tablet → desktop
-  if (device === 'tablet') return value.desktop;
-  if (device === 'mobile') return value.tablet ?? value.desktop;
+  // Inheritance chain: mobile → tablet → base (value.value, not a device key)
+  const baseValue = value.value ?? value;
+  if (device === 'tablet') return baseValue;
+  if (device === 'mobile') return value.tablet ?? baseValue;
 
-  return value.desktop;
+  return baseValue; // global uses base value
 }
 
 /**
@@ -36,7 +39,7 @@ export function getResponsiveValue(value, device) {
  */
 export function isInheritedValue(value, device) {
   if (!value || typeof value !== 'object') return false;
-  return value[device] === undefined && device !== 'desktop';
+  return value[device] === undefined && device !== 'global';
 }
 
 /**
@@ -49,7 +52,12 @@ export function isInheritedValue(value, device) {
  */
 export function setResponsiveValue(currentValue, device, newValue) {
   if (!currentValue || typeof currentValue !== 'object') {
-    return { desktop: newValue };
+    // Global sets base value, not under a device key
+    return device === 'global' ? { value: newValue } : { value: currentValue, [device]: newValue };
+  }
+  // Global updates value.value, tablet/mobile add device keys
+  if (device === 'global') {
+    return { ...currentValue, value: newValue };
   }
   return { ...currentValue, [device]: newValue };
 }
@@ -69,8 +77,10 @@ export function generateResponsiveCSS(cssVar, value, breakpoints) {
 
   let css = '';
 
-  if (value.desktop !== undefined) {
-    css += `--${cssVar}: ${value.desktop};\n`;
+  // Base (global) value is at value.value, not a device key
+  const baseValue = value.value ?? value;
+  if (baseValue !== undefined && baseValue !== null) {
+    css += `--${cssVar}: ${baseValue};\n`;
   }
 
   // Note: Tablet and mobile media queries are generated separately
@@ -127,13 +137,15 @@ export function hasResponsiveOverrides(value) {
  * Convert simple value to responsive object
  *
  * @param {*} value - Simple value or responsive object
- * @returns {Object} Responsive value object
+ * @returns {Object} Responsive value object with base value at root
  */
 export function ensureResponsiveValue(value) {
-  if (value && typeof value === 'object' && 'desktop' in value) {
+  // Check if already responsive (has tablet or mobile keys)
+  if (value && typeof value === 'object' && (value.tablet !== undefined || value.mobile !== undefined)) {
     return value;
   }
-  return { desktop: value };
+  // Wrap simple value - base is at value.value, not a device key
+  return { value: value };
 }
 
 /**

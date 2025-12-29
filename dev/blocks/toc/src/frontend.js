@@ -12,11 +12,12 @@
  * @since 1.0.0
  */
 
+
 /* global history */
 
 const DEFAULT_BREAKPOINTS = {
-	tablet: 1024,
-	mobile: 600,
+	tablet: 768,
+	mobile: 481,
 };
 
 let currentDevice = null;
@@ -32,7 +33,7 @@ function getDevice( width, breakpoints ) {
 	if ( width <= breakpoints.tablet ) {
 		return 'tablet';
 	}
-	return 'desktop';
+	return 'global';
 }
 
 function updateDeviceAttributes() {
@@ -77,7 +78,6 @@ function initializeTOCBlocks() {
 
 			const tocId = block.getAttribute( 'data-toc-id' );
 			if ( ! tocId ) {
-				console.warn( 'TOC block missing data-toc-id attribute, skipping' );
 				return;
 			}
 
@@ -126,7 +126,6 @@ function initializeTOCBlocks() {
 			// Initialize this TOC
 			initTOC( block, config );
 		} catch ( error ) {
-			console.error( 'Failed to initialize TOC block:', error );
 			// Continue with next block
 		}
 	} );
@@ -139,7 +138,6 @@ function initializeTOCBlocks() {
  */
 function initTOC( block, config ) {
 	if ( ! block || ! config ) {
-		console.warn( 'Invalid block or config in initTOC' );
 		return;
 	}
 
@@ -154,7 +152,6 @@ function initTOC( block, config ) {
 				: detectedHeadings;
 
 		if ( ! headings ) {
-			console.warn( 'Failed to detect headings' );
 			return;
 		}
 
@@ -166,7 +163,6 @@ function initTOC( block, config ) {
 					heading.id = heading.element.id;
 				}
 			} catch ( error ) {
-				console.error( 'Failed to add ID to heading:', error );
 			}
 		} );
 
@@ -176,7 +172,6 @@ function initTOC( block, config ) {
 			try {
 				renderTOCList( listContainer, headings, config );
 			} catch ( error ) {
-				console.error( 'Failed to render TOC list:', error );
 			}
 		}
 
@@ -185,7 +180,6 @@ function initTOC( block, config ) {
 			try {
 				setupSmoothScroll( block, config );
 			} catch ( error ) {
-				console.error( 'Failed to setup smooth scroll:', error );
 			}
 		}
 
@@ -194,7 +188,6 @@ function initTOC( block, config ) {
 			try {
 				setupScrollSpy( block, headings );
 			} catch ( error ) {
-				console.error( 'Failed to setup scroll spy:', error );
 			}
 		}
 
@@ -203,11 +196,9 @@ function initTOC( block, config ) {
 			try {
 				setupCollapsible( block, config );
 			} catch ( error ) {
-				console.error( 'Failed to setup collapsible:', error );
 			}
 		}
 	} catch ( error ) {
-		console.error( 'Failed to initialize TOC:', error );
 	}
 }
 
@@ -224,7 +215,6 @@ function detectHeadings( tocBlock, config ) {
 	);
 
 	if ( ! contentArea ) {
-		console.warn( 'TOC: Could not find content area. Headings will not be detected.' );
 		return [];
 	}
 
@@ -341,7 +331,6 @@ function parseCuratedItems( block ) {
 				.filter( ( item ) => item.id );
 		}
 	} catch ( error ) {
-		console.warn( 'Failed to parse curated TOC items', error );
 	}
 
 	return [];
@@ -635,7 +624,6 @@ function setupSmoothScroll( block, config ) {
 
 				const href = link.getAttribute( 'href' );
 				if ( ! href || href.length <= 1 ) {
-					console.warn( 'Invalid TOC link href' );
 					return;
 				}
 
@@ -643,7 +631,6 @@ function setupSmoothScroll( block, config ) {
 				const targetElement = document.getElementById( targetId );
 
 				if ( ! targetElement ) {
-					console.warn( 'TOC target element not found:', targetId );
 					return;
 				}
 
@@ -732,12 +719,10 @@ function setupSmoothScroll( block, config ) {
 								}
 							}
 						} catch ( error ) {
-							console.error( 'Failed to collapse TOC:', error );
 						}
 					}, 600 ); // Match scroll duration
 				}
 			} catch ( error ) {
-				console.error( 'Failed to handle smooth scroll:', error );
 			}
 		} );
 	} );
@@ -817,7 +802,6 @@ function setupScrollSpy( block, headings ) {
 						clearActive();
 					}
 				} catch ( error ) {
-					console.error( 'Scroll spy error:', error );
 				}
 
 				ticking = false;
@@ -831,7 +815,6 @@ function setupScrollSpy( block, headings ) {
 	try {
 		onScroll();
 	} catch ( error ) {
-		console.error( 'Initial scroll spy check failed:', error );
 	}
 
 	// Listen to scroll
@@ -853,7 +836,6 @@ function setupCollapsible( block, config ) {
 	const icon = block.querySelector( '.toc-icon' );
 
 	if ( ! toggleButton || ! content ) {
-		console.warn( 'TOC collapsible elements not found' );
 		return;
 	}
 
@@ -921,7 +903,6 @@ function setupCollapsible( block, config ) {
 				}
 			}
 		} catch ( error ) {
-			console.error( 'Failed to toggle TOC:', error );
 		}
 	};
 
@@ -950,14 +931,12 @@ if ( document.readyState === 'loading' ) {
 			updateDeviceAttributes();
 			initializeTOCBlocks();
 		} catch ( error ) {
-			console.error( 'TOC block initialization failed:', error );
 		}
 	} );
 } else {
 	try {
 		initializeTOCBlocks();
 	} catch ( error ) {
-		console.error( 'TOC block initialization failed:', error );
 	}
 }
 

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-26T22:38:19.392Z
+ * Generated at: 2025-12-29T01:32:27.287Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -86,7 +86,7 @@ export interface TocTheme {
   h1VisitedColor?: string;
   h1ActiveColor?: string;
   /** Font size for H1 headings in rem */
-  h1FontSize?: number;
+  h1FontSize?: string;
   /** Font weight for H1 headings */
   h1FontWeight?: string;
   /** Font style for H1 headings */
@@ -101,7 +101,7 @@ export interface TocTheme {
   h2VisitedColor?: string;
   h2ActiveColor?: string;
   /** Font size for H2 headings in rem */
-  h2FontSize?: number;
+  h2FontSize?: string;
   /** Font weight for H2 headings */
   h2FontWeight?: string;
   /** Font style for H2 headings */
@@ -116,7 +116,7 @@ export interface TocTheme {
   h3VisitedColor?: string;
   h3ActiveColor?: string;
   /** Font size for H3 headings in rem */
-  h3FontSize?: number;
+  h3FontSize?: string;
   /** Font weight for H3 headings */
   h3FontWeight?: string;
   /** Font style for H3 headings */
@@ -131,7 +131,7 @@ export interface TocTheme {
   h4VisitedColor?: string;
   h4ActiveColor?: string;
   /** Font size for H4 headings in rem */
-  h4FontSize?: number;
+  h4FontSize?: string;
   /** Font weight for H4 headings */
   h4FontWeight?: string;
   /** Font style for H4 headings */
@@ -146,7 +146,7 @@ export interface TocTheme {
   h5VisitedColor?: string;
   h5ActiveColor?: string;
   /** Font size for H5 headings in rem */
-  h5FontSize?: number;
+  h5FontSize?: string;
   /** Font weight for H5 headings */
   h5FontWeight?: string;
   /** Font style for H5 headings */
@@ -161,7 +161,7 @@ export interface TocTheme {
   h6VisitedColor?: string;
   h6ActiveColor?: string;
   /** Font size for H6 headings in rem */
-  h6FontSize?: number;
+  h6FontSize?: string;
   /** Font weight for H6 headings */
   h6FontWeight?: string;
   /** Font style for H6 headings */
@@ -175,17 +175,17 @@ export interface TocTheme {
   /** Position of icon relative to title */
   iconPosition?: string;
   /** Size of the icon in rem */
-  iconSize?: number;
+  iconSize?: string;
   /** Icon when TOC is collapsed */
   iconTypeClosed?: string;
   /** Icon when TOC is expanded (none = use iconTypeClosed with rotation) */
   iconTypeOpen?: string;
   /** Rotation angle when open (degrees) */
-  iconRotation?: number;
+  iconRotation?: string;
   /** Color of the expand/collapse icon */
   iconColor?: string;
   /** Font size for the TOC header in rem */
-  titleFontSize?: number;
+  titleFontSize?: string;
   /** Font weight for the TOC header */
   titleFontWeight?: string;
   titleFontStyle?: string;
@@ -195,7 +195,7 @@ export interface TocTheme {
   /** Text alignment for the header */
   titleAlignment?: string;
   /** Width of the wrapper border in pixels */
-  blockBorderWidth?: number;
+  blockBorderWidth?: string;
   /** Style of the wrapper border */
   blockBorderStyle?: Record<string, any>;
   /** Corner radius of the wrapper */
@@ -205,15 +205,15 @@ export interface TocTheme {
   /** CSS box-shadow for the wrapper on hover */
   blockShadowHover?: string;
   /** Padding inside the TOC wrapper (rem) */
-  wrapperPadding?: number;
+  wrapperPadding?: string;
   /** Vertical space between TOC items (rem) */
-  itemSpacing?: number;
+  itemSpacing?: string;
   /** Indent headings based on document hierarchy (e.g., H3 under H2 indents once) */
   enableHierarchicalIndent?: boolean;
   /** Amount to indent each nested level */
   levelIndent?: string;
   /** Top offset for sticky/fixed positioning (rem) */
-  positionTop?: number;
+  positionTop?: string;
   /** Stack order for positioned TOC */
   zIndex?: number;
   /** Which side to anchor the TOC (sticky/fixed positioning) */
@@ -276,7 +276,7 @@ export const tocDefaultTheme: TocTheme = {
   h1HoverColor: 'inherit',
   h1VisitedColor: 'inherit',
   h1ActiveColor: 'inherit',
-  h1FontSize: 1.5,
+  h1FontSize: '1.5rem',
   h1FontWeight: '700',
   h1FontStyle: 'normal',
   h1TextTransform: 'none',
@@ -285,7 +285,7 @@ export const tocDefaultTheme: TocTheme = {
   h2HoverColor: 'inherit',
   h2VisitedColor: 'inherit',
   h2ActiveColor: 'inherit',
-  h2FontSize: 1.25,
+  h2FontSize: '1.25rem',
   h2FontWeight: '600',
   h2FontStyle: 'normal',
   h2TextTransform: 'none',
@@ -294,7 +294,7 @@ export const tocDefaultTheme: TocTheme = {
   h3HoverColor: 'inherit',
   h3VisitedColor: 'inherit',
   h3ActiveColor: 'inherit',
-  h3FontSize: 1.125,
+  h3FontSize: '1.125rem',
   h3FontWeight: '500',
   h3FontStyle: 'normal',
   h3TextTransform: 'none',
@@ -303,7 +303,7 @@ export const tocDefaultTheme: TocTheme = {
   h4HoverColor: 'inherit',
   h4VisitedColor: 'inherit',
   h4ActiveColor: 'inherit',
-  h4FontSize: 1,
+  h4FontSize: '1rem',
   h4FontWeight: 'normal',
   h4FontStyle: 'normal',
   h4TextTransform: 'none',
@@ -312,7 +312,7 @@ export const tocDefaultTheme: TocTheme = {
   h5HoverColor: 'inherit',
   h5VisitedColor: 'inherit',
   h5ActiveColor: 'inherit',
-  h5FontSize: 0.9375,
+  h5FontSize: '0.9375rem',
   h5FontWeight: 'normal',
   h5FontStyle: 'normal',
   h5TextTransform: 'none',
@@ -321,25 +321,25 @@ export const tocDefaultTheme: TocTheme = {
   h6HoverColor: 'inherit',
   h6VisitedColor: 'inherit',
   h6ActiveColor: 'inherit',
-  h6FontSize: 0.875,
+  h6FontSize: '0.875rem',
   h6FontWeight: 'normal',
   h6FontStyle: 'normal',
   h6TextTransform: 'none',
   h6TextDecoration: 'none',
   showIcon: true,
   iconPosition: 'right',
-  iconSize: 1.25,
+  iconSize: '1.25rem',
   iconTypeClosed: '▾',
   iconTypeOpen: 'none',
-  iconRotation: 180,
+  iconRotation: '180deg',
   iconColor: '#666666',
-  titleFontSize: 1.25,
+  titleFontSize: '1.25rem',
   titleFontWeight: '700',
   titleFontStyle: 'normal',
   titleTextTransform: 'none',
   titleTextDecoration: 'none',
   titleAlignment: 'left',
-  blockBorderWidth: 1,
+  blockBorderWidth: '1px',
   blockBorderStyle: {
     "top": "solid",
     "right": "solid",
@@ -348,18 +348,18 @@ export const tocDefaultTheme: TocTheme = {
     "linked": true
   },
   blockBorderRadius: {
-    "topLeft": 4,
-    "topRight": 4,
-    "bottomRight": 4,
-    "bottomLeft": 4
+    "topLeft": "4px",
+    "topRight": "4px",
+    "bottomRight": "4px",
+    "bottomLeft": "4px"
   },
   blockShadow: 'none',
   blockShadowHover: 'none',
-  wrapperPadding: 1.25,
-  itemSpacing: 0.5,
+  wrapperPadding: '1.25rem',
+  itemSpacing: '0.5rem',
   enableHierarchicalIndent: true,
   levelIndent: '1.25rem',
-  positionTop: 6.25,
+  positionTop: '6.25rem',
   zIndex: 100,
   positionHorizontalSide: 'right',
   positionHorizontalOffset: '1.25rem',
@@ -418,7 +418,7 @@ export interface TocThemeAttributes {
   h1HoverColor?: string;
   h1VisitedColor?: string;
   h1ActiveColor?: string;
-  h1FontSize?: number;
+  h1FontSize?: string;
   h1FontWeight?: string;
   h1FontStyle?: string;
   h1TextTransform?: string;
@@ -427,7 +427,7 @@ export interface TocThemeAttributes {
   h2HoverColor?: string;
   h2VisitedColor?: string;
   h2ActiveColor?: string;
-  h2FontSize?: number;
+  h2FontSize?: string;
   h2FontWeight?: string;
   h2FontStyle?: string;
   h2TextTransform?: string;
@@ -436,7 +436,7 @@ export interface TocThemeAttributes {
   h3HoverColor?: string;
   h3VisitedColor?: string;
   h3ActiveColor?: string;
-  h3FontSize?: number;
+  h3FontSize?: string;
   h3FontWeight?: string;
   h3FontStyle?: string;
   h3TextTransform?: string;
@@ -445,7 +445,7 @@ export interface TocThemeAttributes {
   h4HoverColor?: string;
   h4VisitedColor?: string;
   h4ActiveColor?: string;
-  h4FontSize?: number;
+  h4FontSize?: string;
   h4FontWeight?: string;
   h4FontStyle?: string;
   h4TextTransform?: string;
@@ -454,7 +454,7 @@ export interface TocThemeAttributes {
   h5HoverColor?: string;
   h5VisitedColor?: string;
   h5ActiveColor?: string;
-  h5FontSize?: number;
+  h5FontSize?: string;
   h5FontWeight?: string;
   h5FontStyle?: string;
   h5TextTransform?: string;
@@ -463,34 +463,34 @@ export interface TocThemeAttributes {
   h6HoverColor?: string;
   h6VisitedColor?: string;
   h6ActiveColor?: string;
-  h6FontSize?: number;
+  h6FontSize?: string;
   h6FontWeight?: string;
   h6FontStyle?: string;
   h6TextTransform?: string;
   h6TextDecoration?: string;
   showIcon?: boolean;
   iconPosition?: string;
-  iconSize?: number;
+  iconSize?: string;
   iconTypeClosed?: string;
   iconTypeOpen?: string;
-  iconRotation?: number;
+  iconRotation?: string;
   iconColor?: string;
-  titleFontSize?: number;
+  titleFontSize?: string;
   titleFontWeight?: string;
   titleFontStyle?: string;
   titleTextTransform?: string;
   titleTextDecoration?: string;
   titleAlignment?: string;
-  blockBorderWidth?: number;
+  blockBorderWidth?: string;
   blockBorderStyle?: Record<string, any>;
   blockBorderRadius?: Record<string, any>;
   blockShadow?: string;
   blockShadowHover?: string;
-  wrapperPadding?: number;
-  itemSpacing?: number;
+  wrapperPadding?: string;
+  itemSpacing?: string;
   enableHierarchicalIndent?: boolean;
   levelIndent?: string;
-  positionTop?: number;
+  positionTop?: string;
   zIndex?: number;
   positionHorizontalSide?: string;
   positionHorizontalOffset?: string;

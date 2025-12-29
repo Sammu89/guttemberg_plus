@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-26T22:38:19.414Z
+ * Generated at: 2025-12-29T01:32:27.290Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -74,7 +74,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.h1ActiveColor;
     }
     if (values.h1FontSize !== undefined && values.h1FontSize !== null) {
-      styles.default.fontSize = `${values.h1FontSize}rem`;
+      styles.default.fontSize = values.h1FontSize;
     }
     if (values.h1FontWeight !== undefined && values.h1FontWeight !== null) {
       styles.default.fontWeight = values.h1FontWeight;
@@ -101,7 +101,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.h2ActiveColor;
     }
     if (values.h2FontSize !== undefined && values.h2FontSize !== null) {
-      styles.default.fontSize = `${values.h2FontSize}rem`;
+      styles.default.fontSize = values.h2FontSize;
     }
     if (values.h2FontWeight !== undefined && values.h2FontWeight !== null) {
       styles.default.fontWeight = values.h2FontWeight;
@@ -128,7 +128,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.h3ActiveColor;
     }
     if (values.h3FontSize !== undefined && values.h3FontSize !== null) {
-      styles.default.fontSize = `${values.h3FontSize}rem`;
+      styles.default.fontSize = values.h3FontSize;
     }
     if (values.h3FontWeight !== undefined && values.h3FontWeight !== null) {
       styles.default.fontWeight = values.h3FontWeight;
@@ -155,7 +155,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.h4ActiveColor;
     }
     if (values.h4FontSize !== undefined && values.h4FontSize !== null) {
-      styles.default.fontSize = `${values.h4FontSize}rem`;
+      styles.default.fontSize = values.h4FontSize;
     }
     if (values.h4FontWeight !== undefined && values.h4FontWeight !== null) {
       styles.default.fontWeight = values.h4FontWeight;
@@ -182,7 +182,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.h5ActiveColor;
     }
     if (values.h5FontSize !== undefined && values.h5FontSize !== null) {
-      styles.default.fontSize = `${values.h5FontSize}rem`;
+      styles.default.fontSize = values.h5FontSize;
     }
     if (values.h5FontWeight !== undefined && values.h5FontWeight !== null) {
       styles.default.fontWeight = values.h5FontWeight;
@@ -209,7 +209,7 @@ export function buildEditorStyles(values) {
       styles.default.color = values.h6ActiveColor;
     }
     if (values.h6FontSize !== undefined && values.h6FontSize !== null) {
-      styles.default.fontSize = `${values.h6FontSize}rem`;
+      styles.default.fontSize = values.h6FontSize;
     }
     if (values.h6FontWeight !== undefined && values.h6FontWeight !== null) {
       styles.default.fontWeight = values.h6FontWeight;
@@ -224,16 +224,16 @@ export function buildEditorStyles(values) {
       styles.default.textDecoration = values.h6TextDecoration;
     }
     if (values.iconSize !== undefined && values.iconSize !== null) {
-      styles.default.fontSize = `${values.iconSize}rem`;
+      styles.default.fontSize = values.iconSize;
     }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
-      styles.default.transform = `${values.iconRotation}deg`;
+      styles.default.transform = values.iconRotation;
     }
     if (values.iconColor !== undefined && values.iconColor !== null) {
       styles.default.color = values.iconColor;
     }
     if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
-      styles.default.fontSize = `${values.titleFontSize}rem`;
+      styles.default.fontSize = values.titleFontSize;
     }
     if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
       styles.default.fontWeight = values.titleFontWeight;
@@ -251,7 +251,7 @@ export function buildEditorStyles(values) {
       styles.default.textAlign = values.titleAlignment;
     }
     if (values.blockBorderWidth !== undefined && values.blockBorderWidth !== null) {
-      styles.default.borderWidth = `${values.blockBorderWidth}px`;
+      styles.default.borderWidth = values.blockBorderWidth;
     }
     // Complex object: blockBorderStyle - handle manually if needed
     if (values.blockBorderRadius) {
@@ -265,16 +265,16 @@ export function buildEditorStyles(values) {
       styles.default.boxShadow = values.blockShadowHover;
     }
     if (values.wrapperPadding !== undefined && values.wrapperPadding !== null) {
-      styles.default.padding = `${values.wrapperPadding}rem`;
+      styles.default.padding = values.wrapperPadding;
     }
     if (values.itemSpacing !== undefined && values.itemSpacing !== null) {
-      styles.default.gap = `${values.itemSpacing}rem`;
+      styles.default.gap = values.itemSpacing;
     }
     if (values.levelIndent !== undefined && values.levelIndent !== null) {
       styles.default.marginLeft = values.levelIndent;
     }
     if (values.positionTop !== undefined && values.positionTop !== null) {
-      styles.default.top = `${values.positionTop}rem`;
+      styles.default.top = values.positionTop;
     }
     if (values.zIndex !== undefined && values.zIndex !== null) {
       styles.default.zIndex = `${values.zIndex}`;
@@ -351,7 +351,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.h1FontSize !== undefined && customizations.h1FontSize !== null) {
-    styles['--toc-h1-font-size'] = `${customizations.h1FontSize}rem`;
+    styles['--toc-h1-font-size'] = customizations.h1FontSize;
   }
 
   if (customizations.h1FontWeight !== undefined && customizations.h1FontWeight !== null) {
@@ -387,7 +387,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.h2FontSize !== undefined && customizations.h2FontSize !== null) {
-    styles['--toc-h2-font-size'] = `${customizations.h2FontSize}rem`;
+    styles['--toc-h2-font-size'] = customizations.h2FontSize;
   }
 
   if (customizations.h2FontWeight !== undefined && customizations.h2FontWeight !== null) {
@@ -423,7 +423,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.h3FontSize !== undefined && customizations.h3FontSize !== null) {
-    styles['--toc-h3-font-size'] = `${customizations.h3FontSize}rem`;
+    styles['--toc-h3-font-size'] = customizations.h3FontSize;
   }
 
   if (customizations.h3FontWeight !== undefined && customizations.h3FontWeight !== null) {
@@ -459,7 +459,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.h4FontSize !== undefined && customizations.h4FontSize !== null) {
-    styles['--toc-h4-font-size'] = `${customizations.h4FontSize}rem`;
+    styles['--toc-h4-font-size'] = customizations.h4FontSize;
   }
 
   if (customizations.h4FontWeight !== undefined && customizations.h4FontWeight !== null) {
@@ -495,7 +495,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.h5FontSize !== undefined && customizations.h5FontSize !== null) {
-    styles['--toc-h5-font-size'] = `${customizations.h5FontSize}rem`;
+    styles['--toc-h5-font-size'] = customizations.h5FontSize;
   }
 
   if (customizations.h5FontWeight !== undefined && customizations.h5FontWeight !== null) {
@@ -531,7 +531,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.h6FontSize !== undefined && customizations.h6FontSize !== null) {
-    styles['--toc-h6-font-size'] = `${customizations.h6FontSize}rem`;
+    styles['--toc-h6-font-size'] = customizations.h6FontSize;
   }
 
   if (customizations.h6FontWeight !== undefined && customizations.h6FontWeight !== null) {
@@ -551,11 +551,11 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
-    styles['--toc-icon-size'] = `${customizations.iconSize}rem`;
+    styles['--toc-icon-size'] = customizations.iconSize;
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
-    styles['--toc-icon-rotation'] = `${customizations.iconRotation}deg`;
+    styles['--toc-icon-rotation'] = customizations.iconRotation;
   }
 
   if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
@@ -563,7 +563,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.titleFontSize !== undefined && customizations.titleFontSize !== null) {
-    styles['--toc-title-font-size'] = `${customizations.titleFontSize}rem`;
+    styles['--toc-title-font-size'] = customizations.titleFontSize;
   }
 
   if (customizations.titleFontWeight !== undefined && customizations.titleFontWeight !== null) {
@@ -587,7 +587,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.blockBorderWidth !== undefined && customizations.blockBorderWidth !== null) {
-    styles['--toc-border-width'] = `${customizations.blockBorderWidth}px`;
+    styles['--toc-border-width'] = customizations.blockBorderWidth;
   }
 
   // Complex object: blockBorderStyle - handle manually if needed
@@ -606,11 +606,11 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.wrapperPadding !== undefined && customizations.wrapperPadding !== null) {
-    styles['--toc-wrapper-padding'] = `${customizations.wrapperPadding}rem`;
+    styles['--toc-wrapper-padding'] = customizations.wrapperPadding;
   }
 
   if (customizations.itemSpacing !== undefined && customizations.itemSpacing !== null) {
-    styles['--toc-item-spacing'] = `${customizations.itemSpacing}rem`;
+    styles['--toc-item-spacing'] = customizations.itemSpacing;
   }
 
   if (customizations.levelIndent !== undefined && customizations.levelIndent !== null) {
@@ -618,7 +618,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.positionTop !== undefined && customizations.positionTop !== null) {
-    styles['--toc-position-top'] = `${customizations.positionTop}rem`;
+    styles['--toc-position-top'] = customizations.positionTop;
   }
 
   if (customizations.zIndex !== undefined && customizations.zIndex !== null) {

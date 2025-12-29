@@ -46,7 +46,7 @@ export function BorderRadiusControl( {
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
-		? ( value[ device ] || value.desktop || {} )
+		? ( value[ device ] || value.value || {} )
 		: value;
 
 	// Destructure with defaults

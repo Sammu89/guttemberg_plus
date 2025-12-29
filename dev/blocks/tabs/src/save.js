@@ -92,13 +92,15 @@ const getCustomizationStyles = () => {
     }
 
     const isResponsiveValue = value && typeof value === 'object' &&
-      (value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined);
+      (value.tablet !== undefined || value.mobile !== undefined);
 
     if (isResponsiveValue) {
-      if (value.desktop !== undefined && value.desktop !== null) {
-        const formattedDesktop = formatCssValue(attrName, value.desktop, 'tabs');
-        if (formattedDesktop !== null) {
-          styles[cssVar] = formattedDesktop;
+      // Base (global) is at root level as value.value, not a device key
+      const baseValue = value.value !== undefined ? value.value : value;
+      if (baseValue !== null && baseValue !== undefined) {
+        const formattedGlobal = formatCssValue(attrName, baseValue, 'tabs');
+        if (formattedGlobal !== null) {
+          styles[cssVar] = formattedGlobal;
         }
       }
 
@@ -295,7 +297,7 @@ const getCustomizationStyles = () => {
 		'data-heading-level': attributes.headingLevel || 'none',
 		'data-stretch-buttons': attributes.stretchButtonsToRow || false,
 		'data-hide-inactive-edge': 'true',
-		'data-gutplus-device': 'desktop',
+		'data-gutplus-device': 'global',
 		// Apply width and customizations
 		style: rootStyles,
 	} );

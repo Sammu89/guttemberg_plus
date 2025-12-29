@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-26T22:38:19.402Z
+ * Generated at: 2025-12-29T01:32:27.288Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -216,8 +216,8 @@ export const tocAttributes = {
     default: 'inherit',
   },
   h1FontSize: {
-    type: 'number',
-    default: 1.5,
+    type: 'string',
+    default: '1.5rem',
   },
   h1FontWeight: {
     type: 'string',
@@ -252,8 +252,8 @@ export const tocAttributes = {
     default: 'inherit',
   },
   h2FontSize: {
-    type: 'number',
-    default: 1.25,
+    type: 'string',
+    default: '1.25rem',
   },
   h2FontWeight: {
     type: 'string',
@@ -288,8 +288,8 @@ export const tocAttributes = {
     default: 'inherit',
   },
   h3FontSize: {
-    type: 'number',
-    default: 1.125,
+    type: 'string',
+    default: '1.125rem',
   },
   h3FontWeight: {
     type: 'string',
@@ -324,8 +324,8 @@ export const tocAttributes = {
     default: 'inherit',
   },
   h4FontSize: {
-    type: 'number',
-    default: 1,
+    type: 'string',
+    default: '1rem',
   },
   h4FontWeight: {
     type: 'string',
@@ -360,8 +360,8 @@ export const tocAttributes = {
     default: 'inherit',
   },
   h5FontSize: {
-    type: 'number',
-    default: 0.9375,
+    type: 'string',
+    default: '0.9375rem',
   },
   h5FontWeight: {
     type: 'string',
@@ -396,8 +396,8 @@ export const tocAttributes = {
     default: 'inherit',
   },
   h6FontSize: {
-    type: 'number',
-    default: 0.875,
+    type: 'string',
+    default: '0.875rem',
   },
   h6FontWeight: {
     type: 'string',
@@ -424,8 +424,8 @@ export const tocAttributes = {
     default: 'right',
   },
   iconSize: {
-    type: 'number',
-    default: 1.25,
+    type: 'string',
+    default: '1.25rem',
   },
   iconTypeClosed: {
     type: 'string',
@@ -436,16 +436,16 @@ export const tocAttributes = {
     default: 'none',
   },
   iconRotation: {
-    type: 'number',
-    default: 180,
+    type: 'string',
+    default: '180deg',
   },
   iconColor: {
     type: 'string',
     default: '#666666',
   },
   titleFontSize: {
-    type: 'number',
-    default: 1.25,
+    type: 'string',
+    default: '1.25rem',
   },
   titleFontWeight: {
     type: 'string',
@@ -468,8 +468,8 @@ export const tocAttributes = {
     default: 'left',
   },
   blockBorderWidth: {
-    type: 'number',
-    default: 1,
+    type: 'string',
+    default: '1px',
   },
   blockBorderStyle: {
     type: 'object',
@@ -477,7 +477,7 @@ export const tocAttributes = {
   },
   blockBorderRadius: {
     type: 'object',
-    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
+    default: {"topLeft":"4px","topRight":"4px","bottomRight":"4px","bottomLeft":"4px"},
   },
   blockShadow: {
     type: 'string',
@@ -488,12 +488,12 @@ export const tocAttributes = {
     default: 'none',
   },
   wrapperPadding: {
-    type: 'number',
-    default: 1.25,
+    type: 'string',
+    default: '1.25rem',
   },
   itemSpacing: {
-    type: 'number',
-    default: 0.5,
+    type: 'string',
+    default: '0.5rem',
   },
   enableHierarchicalIndent: {
     type: 'boolean',
@@ -504,8 +504,8 @@ export const tocAttributes = {
     default: '1.25rem',
   },
   positionTop: {
-    type: 'number',
-    default: 6.25,
+    type: 'string',
+    default: '6.25rem',
   },
   zIndex: {
     type: 'number',
@@ -518,6 +518,11 @@ export const tocAttributes = {
   positionHorizontalOffset: {
     type: 'string',
     default: '1.25rem',
+  },
+  // Auto-generated: tracks which responsive attributes have responsive mode enabled
+  responsiveEnabled: {
+    type: 'object',
+    default: {"tocWidth":false},
   },
 };
 

@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-26T22:38:19.412Z
+> Generated at: 2025-12-29T01:32:27.289Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -16,9 +16,7 @@ Complete theme and appearance configuration for Table of Contents blocks
 - **Block Type:** `toc`
 - **Version:** 2.0.0
 
-## Block Options
-
-Behavior and core options
+## BlockOptions
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -31,12 +29,10 @@ Behavior and core options
 | `isCollapsible` | boolean | `true` | No (N/A) | Allow the TOC to be collapsed/expanded |
 | `initiallyCollapsed` | boolean | `false` | No (N/A) | Start with TOC collapsed |
 | `clickBehavior` | string | `navigate` | Yes | What happens when clicking a TOC item |
-| `tocWidth` | string | `100%` | No (N/A) | TOC container width (e.g., 100%, 500px) |
+| `tocWidth` | string | `100%` | No (N/A) | TOC container width |
 | `tocHorizontalAlign` | string | `center` | No (N/A) | Horizontal alignment of the TOC block |
 
 ## Filtering
-
-Heading inclusion and class filters
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -54,9 +50,7 @@ Heading inclusion and class filters
 | `includeAccordions` | boolean | `true` | Yes | Include headings from accordion blocks when they have a heading level set |
 | `includeTabs` | boolean | `true` | Yes | Include headings from tabs blocks when they have a heading level set |
 
-## Position and Scroll
-
-Positioning and scroll behavior
+## PositionScroll
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -64,28 +58,24 @@ Positioning and scroll behavior
 | `smoothScroll` | boolean | `true` | Yes | Enable smooth scrolling to headings |
 | `scrollOffset` | number | `0` | Yes | Offset in pixels when scrolling to heading |
 | `autoHighlight` | boolean | `true` | Yes | Highlight current section in TOC |
-| `positionTop` | number | `6.25` | Yes | Top offset for sticky/fixed positioning (rem) |
+| `positionTop` | string | `6.25rem` | Yes | Top offset for sticky/fixed positioning (rem) |
 | `zIndex` | number | `100` | Yes | Stack order for positioned TOC |
 | `positionHorizontalSide` | string | `right` | Yes | Which side to anchor the TOC (sticky/fixed positioning) |
 | `positionHorizontalOffset` | string | `1.25rem` | Yes | Distance from the selected side |
 
-## External Borders
-
-TOC wrapper borders, radius, and shadows
+## ExternalBorders
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `wrapperBackgroundColor` | string | `#ffffff` | Yes | Background color of the TOC wrapper |
 | `blockBorderColor` | object | _object_ | Yes | Border color of the TOC wrapper |
-| `blockBorderWidth` | number | `1` | Yes | Width of the wrapper border in pixels |
+| `blockBorderWidth` | string | `1px` | Yes | Width of the wrapper border in pixels |
 | `blockBorderStyle` | object | _object_ | Yes | Style of the wrapper border |
 | `blockBorderRadius` | object | _object_ | Yes | Corner radius of the wrapper |
 | `blockShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |
 | `blockShadowHover` | string | `none` | Yes | CSS box-shadow for the wrapper on hover |
 
-## Header Colors
-
-Header colors and hover states
+## HeaderColors
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -94,9 +84,7 @@ Header colors and hover states
 | `hoverTitleColor` | string | `#000000` | Yes | Text color when hovering over title |
 | `hoverTitleBackgroundColor` | string | `transparent` | Yes | Background color when hovering over title |
 
-## Link Colors
-
-Colors for TOC links (all text in TOC is a link)
+## LinkColors
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -106,9 +94,7 @@ Colors for TOC links (all text in TOC is a link)
 | `linkActiveColor` | string | `#005177` | Yes | Color for the currently active link |
 | `linkVisitedColor` | string | `#0073aa` | Yes | Color for visited links |
 
-## Heading Styles
-
-Per-heading-level colors and typography (H1-H6)
+## HeadingStyles
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
@@ -122,7 +108,7 @@ Per-heading-level colors and typography (H1-H6)
 | `h1HoverColor` | string | `inherit` | Yes |  |
 | `h1VisitedColor` | string | `inherit` | Yes |  |
 | `h1ActiveColor` | string | `inherit` | Yes |  |
-| `h1FontSize` | number | `1.5` | Yes | Font size for H1 headings in rem |
+| `h1FontSize` | string | `1.5rem` | Yes | Font size for H1 headings in rem |
 | `h1FontWeight` | string | `700` | Yes | Font weight for H1 headings |
 | `h1FontStyle` | string | `normal` | Yes | Font style for H1 headings |
 | `h1TextTransform` | string | `none` | Yes | Text transformation for H1 headings |
@@ -131,7 +117,7 @@ Per-heading-level colors and typography (H1-H6)
 | `h2HoverColor` | string | `inherit` | Yes |  |
 | `h2VisitedColor` | string | `inherit` | Yes |  |
 | `h2ActiveColor` | string | `inherit` | Yes |  |
-| `h2FontSize` | number | `1.25` | Yes | Font size for H2 headings in rem |
+| `h2FontSize` | string | `1.25rem` | Yes | Font size for H2 headings in rem |
 | `h2FontWeight` | string | `600` | Yes | Font weight for H2 headings |
 | `h2FontStyle` | string | `normal` | Yes | Font style for H2 headings |
 | `h2TextTransform` | string | `none` | Yes | Text transformation for H2 headings |
@@ -140,7 +126,7 @@ Per-heading-level colors and typography (H1-H6)
 | `h3HoverColor` | string | `inherit` | Yes |  |
 | `h3VisitedColor` | string | `inherit` | Yes |  |
 | `h3ActiveColor` | string | `inherit` | Yes |  |
-| `h3FontSize` | number | `1.125` | Yes | Font size for H3 headings in rem |
+| `h3FontSize` | string | `1.125rem` | Yes | Font size for H3 headings in rem |
 | `h3FontWeight` | string | `500` | Yes | Font weight for H3 headings |
 | `h3FontStyle` | string | `normal` | Yes | Font style for H3 headings |
 | `h3TextTransform` | string | `none` | Yes | Text transformation for H3 headings |
@@ -149,7 +135,7 @@ Per-heading-level colors and typography (H1-H6)
 | `h4HoverColor` | string | `inherit` | Yes |  |
 | `h4VisitedColor` | string | `inherit` | Yes |  |
 | `h4ActiveColor` | string | `inherit` | Yes |  |
-| `h4FontSize` | number | `1` | Yes | Font size for H4 headings in rem |
+| `h4FontSize` | string | `1rem` | Yes | Font size for H4 headings in rem |
 | `h4FontWeight` | string | `normal` | Yes | Font weight for H4 headings |
 | `h4FontStyle` | string | `normal` | Yes | Font style for H4 headings |
 | `h4TextTransform` | string | `none` | Yes | Text transformation for H4 headings |
@@ -158,7 +144,7 @@ Per-heading-level colors and typography (H1-H6)
 | `h5HoverColor` | string | `inherit` | Yes |  |
 | `h5VisitedColor` | string | `inherit` | Yes |  |
 | `h5ActiveColor` | string | `inherit` | Yes |  |
-| `h5FontSize` | number | `0.9375` | Yes | Font size for H5 headings in rem |
+| `h5FontSize` | string | `0.9375rem` | Yes | Font size for H5 headings in rem |
 | `h5FontWeight` | string | `normal` | Yes | Font weight for H5 headings |
 | `h5FontStyle` | string | `normal` | Yes | Font style for H5 headings |
 | `h5TextTransform` | string | `none` | Yes | Text transformation for H5 headings |
@@ -167,7 +153,7 @@ Per-heading-level colors and typography (H1-H6)
 | `h6HoverColor` | string | `inherit` | Yes |  |
 | `h6VisitedColor` | string | `inherit` | Yes |  |
 | `h6ActiveColor` | string | `inherit` | Yes |  |
-| `h6FontSize` | number | `0.875` | Yes | Font size for H6 headings in rem |
+| `h6FontSize` | string | `0.875rem` | Yes | Font size for H6 headings in rem |
 | `h6FontWeight` | string | `normal` | Yes | Font weight for H6 headings |
 | `h6FontStyle` | string | `normal` | Yes | Font style for H6 headings |
 | `h6TextTransform` | string | `none` | Yes | Text transformation for H6 headings |
@@ -177,39 +163,33 @@ Per-heading-level colors and typography (H1-H6)
 
 ## Icon
 
-Expand/collapse icon settings
-
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
 | `iconPosition` | string | `right` | Yes | Position of icon relative to title |
-| `iconSize` | number | `1.25` | Yes | Size of the icon in rem |
+| `iconSize` | string | `1.25rem` | Yes | Size of the icon in rem |
 | `iconTypeClosed` | string | `▾` | Yes | Icon when TOC is collapsed |
 | `iconTypeOpen` | string | `none` | Yes | Icon when TOC is expanded (none = use iconTypeClosed with rotation) |
-| `iconRotation` | number | `180` | Yes | Rotation angle when open (degrees) |
+| `iconRotation` | string | `180deg` | Yes | Rotation angle when open (degrees) |
 | `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
 
-## Header Typography
-
-Header typography and padding
+## HeaderTypography
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `titleFontSize` | number | `1.25` | Yes | Font size for the TOC header in rem |
+| `titleFontSize` | string | `1.25rem` | Yes | Font size for the TOC header in rem |
 | `titleFontWeight` | string | `700` | Yes | Font weight for the TOC header |
 | `titleFontStyle` | string | `normal` | Yes |  |
 | `titleTextTransform` | string | `none` | Yes | Text transformation for the header |
 | `titleTextDecoration` | string | `none` | Yes |  |
 | `titleAlignment` | string | `left` | Yes | Text alignment for the header |
 
-## Spacing & Layout
-
-Padding and item spacing
+## SpacingLayout
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `wrapperPadding` | number | `1.25` | Yes | Padding inside the TOC wrapper (rem) |
-| `itemSpacing` | number | `0.5` | Yes | Vertical space between TOC items (rem) |
+| `wrapperPadding` | string | `1.25rem` | Yes | Padding inside the TOC wrapper (rem) |
+| `itemSpacing` | string | `0.5rem` | Yes | Vertical space between TOC items (rem) |
 
 ## CSS Variables
 

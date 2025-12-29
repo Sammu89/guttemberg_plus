@@ -35,7 +35,7 @@ import {
 	ThemeSelector,
 	SchemaPanels,
 	CustomizationWarning,
-	debug,
+	BreakpointSettings,
 	useThemeManager,
 	useBlockAlignment,
 	useResponsiveDevice,
@@ -72,8 +72,6 @@ const toCamelCase = ( prop ) =>
  * @return {JSX.Element} Edit component
  */
 export default function Edit( { attributes, setAttributes, clientId } ) {
-	debug( '[DEBUG] Tabs Edit mounted with attributes:', attributes );
-
 	// Local state for active tab in editor
 	const [ activeTab, setActiveTab ] = useState( attributes.currentTab || 0 );
 
@@ -266,10 +264,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
 
-	debug( '[DEBUG] Tabs attributes (source of truth):', attributes );
-	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
-	debug( '[DEBUG] Is customized:', isCustomized );
-
 	/**
 	 * Generate CSS variables from effective values for editor preview
 	 * Uses formatCssValue which handles compound values intelligently
@@ -305,8 +299,28 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 // AUTO-GENERATED from schemas/tabs.json
 // To modify styles, update the schema and run: npm run schema:build
 
-const getInlineStyles = (responsiveDevice = 'desktop') => {
+const getInlineStyles = (responsiveDevice = 'global') => {
   // Extract object-type attributes with fallbacks
+	const borderColor = effectiveValues.borderColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const borderStyle = effectiveValues.borderStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
+		};
+	const borderRadius = effectiveValues.borderRadius || {
+		    "topLeft": 0,
+		    "topRight": 0,
+		    "bottomRight": 0,
+		    "bottomLeft": 0
+		};
 	const tabButtonBorderColor = effectiveValues.tabButtonBorderColor || {
 		    "top": "#dddddd",
 		    "right": "#dddddd",
@@ -368,49 +382,29 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 		    "bottomRight": 4,
 		    "bottomLeft": 4
 		};
-	const borderColor = effectiveValues.borderColor || {
-		    "top": "#dddddd",
-		    "right": "#dddddd",
-		    "bottom": "#dddddd",
-		    "left": "#dddddd",
-		    "linked": true
-		};
-	const borderStyle = effectiveValues.borderStyle || {
-		    "top": "solid",
-		    "right": "solid",
-		    "bottom": "solid",
-		    "left": "solid",
-		    "linked": true
-		};
-	const borderRadius = effectiveValues.borderRadius || {
-		    "topLeft": 0,
-		    "topRight": 0,
-		    "bottomRight": 0,
-		    "bottomLeft": 0
-		};
 
 	return {
 		container: {
-			borderWidth: `${effectiveValues.borderWidth ?? 0}px`,
+			borderWidth: effectiveValues.borderWidth ?? '0px',
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
-			boxShadow: effectiveValues.shadow || 'none',
+			boxShadow: (() => { const val = effectiveValues.shadow; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
 		},
 		icon: {
-			color: effectiveValues.iconColor || '#666666',
-			fontSize: `${effectiveValues.iconSize ?? 1}rem`,
-			content: effectiveValues.iconTypeClosed || '▾',
-			transform: `${effectiveValues.iconRotation ?? 0}deg`,
+			color: (() => { const val = effectiveValues.iconColor; if (val === null || val === undefined) return '#666666'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#666666'; })(),
+			fontSize: effectiveValues.iconSize ?? '1rem',
+			content: (() => { const val = effectiveValues.iconTypeClosed; if (val === null || val === undefined) return '▾'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '▾'; })(),
+			transform: effectiveValues.iconRotation ?? '0deg',
 		},
 		tabList: {
-			backgroundColor: effectiveValues.tabListBackgroundColor || 'transparent',
-			borderWidth: `${effectiveValues.tabsRowBorderWidth ?? 0}px`,
-			justifyContent: effectiveValues.tabListAlignment || 'flex-start',
-			gap: `${effectiveValues.tabsButtonGap ?? 0.5}rem`,
+			backgroundColor: (() => { const val = effectiveValues.tabListBackgroundColor; if (val === null || val === undefined) return 'transparent'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'transparent'; })(),
+			borderWidth: effectiveValues.tabsRowBorderWidth ?? '0px',
+			gap: effectiveValues.tabsButtonGap ?? '0.5rem',
+			justifyContent: (() => { const val = effectiveValues.tabListAlignment; if (val === null || val === undefined) return 'flex-start'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'flex-start'; })(),
 			border: effectiveValues.enableTabsListContentBorder ? 'flex' : 'none',
 		},
 		panel: {
-			backgroundColor: effectiveValues.panelBackgroundColor || '#ffffff',
-			borderWidth: `${effectiveValues.panelBorderWidth ?? 1}px`,
+			backgroundColor: (() => { const val = effectiveValues.panelBackgroundColor; if (val === null || val === undefined) return '#ffffff'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#ffffff'; })(),
+			borderWidth: effectiveValues.panelBorderWidth ?? '1px',
 			borderRadius: `${panelBorderRadius.topLeft}px ${panelBorderRadius.topRight}px ${panelBorderRadius.bottomRight}px ${panelBorderRadius.bottomLeft}px`,
 		},
 	};
@@ -787,9 +781,41 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 		const customizationStyles = getCustomizationStyles();
 		const editorCSSVars = getEditorCSSVariables();
 
+		/**
+		 * Format dimension value (width/height) with proper unit
+		 * Uses responsiveDevice to extract device-specific values
+		 *
+		 * Data structure:
+		 * - Base (desktop): stored at root level as value.value or string
+		 * - Tablet/Mobile: stored under value.tablet / value.mobile keys
+		 */
+		const formatDimensionValue = ( value, defaultUnit = '%' ) => {
+			if ( value === null || value === undefined ) {
+				return `100${ defaultUnit }`;
+			}
+			// Handle responsive structure - extract value for current device
+			if ( typeof value === 'object' && ( value.tablet !== undefined || value.mobile !== undefined ) ) {
+				// Global uses base value (value.value), tablet/mobile check their key first
+				const deviceValue = responsiveDevice === 'global'
+					? value.value
+					: ( value[ responsiveDevice ] ?? value.value );
+				return formatDimensionValue( deviceValue, defaultUnit );
+			}
+			// Handle { value, unit } object format
+			if ( typeof value === 'object' && value.value !== undefined ) {
+				return `${ value.value }${ value.unit || defaultUnit }`;
+			}
+			// Handle plain number
+			if ( typeof value === 'number' ) {
+				return `${ value }${ defaultUnit }`;
+			}
+			// Handle string (already formatted)
+			return String( value );
+		};
+
 		// Build root styles including width
 		const rootStyles = {
-			width: effectiveValues.tabsWidth,
+			width: formatDimensionValue( effectiveValues.tabsWidth, '%' ),
 			...editorCSSVars, // All CSS variables including decomposed
 			...customizationStyles, // Tier 3 customizations
 		};
@@ -872,6 +898,9 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 				theme={ themes[ attributes.currentTheme ]?.values }
 				cssDefaults={ allDefaults }
 			/>
+
+			{/* Global breakpoint settings */}
+			<BreakpointSettings />
 
 			{ isCustomized && (
 				<div className="customization-warning-wrapper">

@@ -87,22 +87,36 @@ function loadStructureSchema(blockType) {
  * - When top/bottom same and left/right same: outputs 2 values (e.g., `4px 8px`)
  * - When left/right same but top/bottom differ: outputs 3 values (e.g., `4px 8px 2px`)
  * - When all values differ: outputs compound value (e.g., `4px 8px 2px 0px`)
+ *
+ * @param {*} defaultValue - Default value from schema
+ * @param {string|null} unit - Single unit string (e.g., 'px', 'rem')
+ * @param {string} type - Attribute type (number, object, string)
+ * @param {string|null} transformValue - Optional transform type
+ * @param {Array|null} units - Array of available units (uses first as default)
  */
-function formatCssValue(defaultValue, unit, type, transformValue = null) {
+function formatCssValue(defaultValue, unit, type, transformValue = null, units = null) {
   if (defaultValue === null || defaultValue === undefined || defaultValue === '') {
     return null;
   }
+
+  // Resolve effective unit: prefer explicit 'unit', fall back to first of 'units' array
+  const effectiveUnit = unit || (Array.isArray(units) && units.length > 0 ? units[0] : null);
 
   // Handle special transformValue for paddingRectangle
   if (transformValue === 'paddingRectangle' && type === 'number') {
     const vertical = defaultValue;
     const horizontal = defaultValue * 2;
-    const u = unit || 'px';
+    const u = effectiveUnit || 'px';
     // Use shorthand compression
     if (vertical === horizontal) {
       return `${vertical}${u}`;
     }
     return `${vertical}${u} ${horizontal}${u}`;
+  }
+
+  // Handle array types (e.g., box-shadow layers) - skip in static CSS, handled at runtime
+  if (type === 'array' || Array.isArray(defaultValue)) {
+    return null;
   }
 
   // Handle object types (e.g., borderRadius with topLeft, topRight, etc.)
@@ -122,15 +136,16 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
       const { top, right, bottom, left } = defaultValue;
       return compressShorthand(top, right, bottom, left, u);
     }
-    // Handle responsive objects (desktop, tablet, mobile) - process desktop breakpoint only
-    if (defaultValue.desktop !== undefined && typeof defaultValue.desktop === 'object') {
-      const desktop = defaultValue.desktop;
-      if (desktop.top !== undefined && desktop.right !== undefined &&
-          desktop.bottom !== undefined && desktop.left !== undefined) {
+    // Handle responsive objects (tablet/mobile keys) - process base breakpoint (desktop is at root, not .desktop)
+    if ((defaultValue.tablet !== undefined || defaultValue.mobile !== undefined) &&
+        typeof defaultValue.value === 'object') {
+      const baseValue = defaultValue.value;
+      if (baseValue.top !== undefined && baseValue.right !== undefined &&
+          baseValue.bottom !== undefined && baseValue.left !== undefined) {
         // Use unit for numeric values, empty string for strings (colors, styles)
-        const isStringValue = typeof desktop.top === 'string';
-        const u = isStringValue ? '' : (desktop.unit || 'px');
-        const { top, right, bottom, left } = desktop;
+        const isStringValue = typeof baseValue.top === 'string';
+        const u = isStringValue ? '' : (baseValue.unit || 'px');
+        const { top, right, bottom, left } = baseValue;
         return compressShorthand(top, right, bottom, left, u);
       }
     }
@@ -140,7 +155,7 @@ function formatCssValue(defaultValue, unit, type, transformValue = null) {
 
   // Handle numeric types with units
   if (type === 'number') {
-    return unit ? `${defaultValue}${unit}` : defaultValue;
+    return effectiveUnit ? `${defaultValue}${effectiveUnit}` : defaultValue;
   }
 
   // Return strings as-is
@@ -255,7 +270,7 @@ function extractCssAttributes(schema, structure, blockType) {
       continue;
     }
 
-    const formattedValue = formatCssValue(attr.default, attr.unit, attr.type, attr.transformValue);
+    const formattedValue = formatCssValue(attr.default, attr.unit, attr.type, attr.transformValue, attr.units);
 
     // Only include if we have a valid formatted value
     if (formattedValue === null) {
@@ -338,6 +353,7 @@ function extractCssAttributes(schema, structure, blockType) {
           description: attr.description,
           elementId: elementId,
           variantKey,
+          responsive: attr.responsive === true, // Only true if explicitly set
         });
       });
 
@@ -353,6 +369,7 @@ function extractCssAttributes(schema, structure, blockType) {
       default: formattedValue,
       description: attr.description,
       elementId: elementId, // For grouping in new system
+      responsive: attr.responsive === true, // Only true if explicitly set
     });
   }
 
@@ -472,22 +489,21 @@ function generateScssPartial(blockType, schema, structure) {
  * Generated from: ${schemaSource}
  * Generated at: ${getTimestamp()}
  *
- * This file contains:
- * 1. :root CSS variable declarations with default values
- * 2. CSS rules that apply variables to selectors
+ * This file contains CSS rules that apply variables to selectors.
+ * Default values are provided via var() fallbacks - no :root declarations needed.
+ *
+ * Architecture:
+ * - Tier 1: CSS defaults (fallback values in var() calls below)
+ * - Tier 2: Theme CSS (generated via PHP for custom themes)
+ * - Tier 3: Block customizations (inline styles in save.js)
  *
  * Import this file in style.scss: @use '${blockType}_variables';
  */
 
 `;
 
-  // Generate :root CSS variables section
-  // Single CSS variable per property (no decomposed side variants)
-  content += `:root {\n`;
-  for (const attr of cssAttrs) {
-    content += `  --${attr.cssVar}: ${attr.default};\n`;
-  }
-  content += `}\n\n`;
+  // NOTE: No :root CSS variables section - fallback values in var() calls serve as defaults
+  // This reduces CSS output and follows the tiered architecture
 
   // Generate CSS for each selector
   for (const [selector, states] of Object.entries(grouped)) {
@@ -574,8 +590,16 @@ function generateScssPartial(blockType, schema, structure) {
   }
 
   // Generate responsive overrides using tablet/mobile CSS variables
+  // Only use device-specific variables for attributes with responsive: true
   const buildResponsiveVar = (attr, device) => {
     const baseVar = `--${attr.cssVar}`;
+
+    // Non-responsive attributes use the same base variable for all devices
+    if (!attr.responsive) {
+      return `var(${baseVar}, ${attr.default})`;
+    }
+
+    // Responsive attributes use device-specific variable chains
     const deviceVar = `--${attr.cssVar}-${device}`;
 
     if (device === 'tablet') {

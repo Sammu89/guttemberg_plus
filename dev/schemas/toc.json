@@ -5,6 +5,52 @@
   "description": "Complete theme and appearance configuration for Table of Contents blocks",
   "blockType": "toc",
   "blockName": "Table of Contents",
+  "_IMPORTANT_README": {
+    "title": "⚠️ CENTRALIZED CONFIG SYSTEM - READ BEFORE EDITING",
+    "description": "Units, min, max, and step values are centralized. DO NOT hardcode them in this schema!",
+    "centralizer": "shared/src/config/css-property-scales.js",
+    "rules": [
+      "✅ DO: Specify 'cssProperty' - units/min/max/step come from centralizer automatically",
+      "❌ DON'T: Add 'units', 'min', 'max', 'step' to SliderWithInput attributes (unless overriding)",
+      "✅ DO: Only define 'default' value in schema",
+      "✅ DO: Add new CSS properties to centralizer if needed"
+    ],
+    "examples": {
+      "CORRECT": {
+        "linkFontSize": {
+          "type": "string",
+          "default": "1rem",
+          "control": "SliderWithInput",
+          "cssProperty": "font-size",
+          "comment": "Units/min/max/step inherited from 'font-size' in centralizer"
+        }
+      },
+      "INCORRECT": {
+        "linkFontSize": {
+          "type": "string",
+          "default": "1rem",
+          "control": "SliderWithInput",
+          "cssProperty": "font-size",
+          "units": ["rem", "px"],
+          "min": 0.5,
+          "max": 2,
+          "step": 0.1,
+          "comment": "❌ WRONG! These should come from centralizer, not hardcoded here"
+        }
+      }
+    },
+    "override_when_needed": "You CAN override centralizer values if this specific attribute needs different ranges, but document why in a comment",
+    "centralizer_lookup": {
+      "font-size": "Units: [rem, px, %, em] | Range varies per unit",
+      "letter-spacing": "Units: [em, px, rem] | Range varies per unit",
+      "padding": "Units: [rem, px, %, em, vw, vh] | Range varies per unit",
+      "margin": "Units: [rem, px, %, em, vw, vh] | Range: -20rem to 20rem (px: -128 to 128)",
+      "top/left/right/bottom": "Units: [px, %, rem, em, vh] | Range: -200px to 200px (or equivalent)",
+      "border-width": "Units: [px, rem, em] | Range: 0 to 20px",
+      "border-radius": "Units: [px, rem, em, %] | Range: 0 to 100px"
+    },
+    "see_also": "docs/CONTROL_DATA_STRUCTURES.md for control data format patterns"
+  },
   "manualSyncRequired": {
     "description": "CSS properties are auto-generated from cssVar/cssSelector/cssProperty fields",
     "files": [
@@ -12,68 +58,94 @@
     ],
     "instructions": "CSS variable declarations are automatically generated. Only edit style.scss for structural/layout CSS. To add CSS variables, add cssVar, cssSelector, and cssProperty to schema attributes."
   },
-  "groups": {
-    "blockOptions": {
-      "title": "Block Options",
-      "description": "Behavior and core options",
+  "tabs": [
+    {
+      "name": "settings",
       "order": 1,
-      "initialOpen": true
-    },
-    "filtering": {
-      "title": "Filtering",
-      "description": "Heading inclusion and class filters",
-      "order": 2,
-      "initialOpen": true
-    },
-    "positionScroll": {
-      "title": "Position and Scroll",
-      "description": "Positioning and scroll behavior",
-      "order": 3,
-      "initialOpen": false
-    },
-    "headingStyles": {
-      "title": "Heading Styles",
-      "description": "Per-heading-level colors and typography (H1-H6)",
-      "order": 4,
-      "initialOpen": false
-    },
-    "externalBorders": {
-      "title": "External Borders",
-      "description": "TOC wrapper borders, radius, and shadows",
-      "order": 5,
-      "initialOpen": false
-    },
-    "icon": {
-      "title": "Icon",
-      "description": "Expand/collapse icon settings",
-      "order": 6,
-      "initialOpen": false
-    },
-    "linkColors": {
-      "title": "Link Colors",
-      "description": "Colors for TOC links (all text in TOC is a link)",
-      "order": 7,
-      "initialOpen": false
-    },
-    "headerColors": {
-      "title": "Header Colors",
-      "description": "Header colors and hover states",
-      "order": 8,
-      "initialOpen": false
-    },
-    "headerTypography": {
-      "title": "Header Typography",
-      "description": "Header typography and padding",
-      "order": 9,
-      "initialOpen": false
-    },
-    "spacingLayout": {
-      "title": "Spacing & Layout",
-      "description": "Padding and item spacing",
-      "order": 10,
-      "initialOpen": false
+      "groups": [
+        {
+          "title": "Block Options",
+          "description": "Behavior and core options",
+          "order": 1,
+          "initialOpen": true,
+          "id": "blockOptions",
+          "subgroups": []
+        },
+        {
+          "title": "Filtering",
+          "description": "Heading inclusion and class filters",
+          "order": 2,
+          "initialOpen": true,
+          "id": "filtering",
+          "subgroups": []
+        },
+        {
+          "title": "Position and Scroll",
+          "description": "Positioning and scroll behavior",
+          "order": 3,
+          "initialOpen": false,
+          "id": "positionScroll",
+          "subgroups": []
+        },
+        {
+          "title": "Heading Styles",
+          "description": "Per-heading-level colors and typography (H1-H6)",
+          "order": 4,
+          "initialOpen": false,
+          "id": "headingStyles",
+          "subgroups": []
+        },
+        {
+          "title": "External Borders",
+          "description": "TOC wrapper borders, radius, and shadows",
+          "order": 5,
+          "initialOpen": false,
+          "id": "externalBorders",
+          "subgroups": []
+        },
+        {
+          "title": "Icon",
+          "description": "Expand/collapse icon settings",
+          "order": 6,
+          "initialOpen": false,
+          "id": "icon",
+          "subgroups": []
+        },
+        {
+          "title": "Link Colors",
+          "description": "Colors for TOC links (all text in TOC is a link)",
+          "order": 7,
+          "initialOpen": false,
+          "id": "linkColors",
+          "subgroups": []
+        },
+        {
+          "title": "Header Colors",
+          "description": "Header colors and hover states",
+          "order": 8,
+          "initialOpen": false,
+          "id": "headerColors",
+          "subgroups": []
+        },
+        {
+          "title": "Header Typography",
+          "description": "Header typography and padding",
+          "order": 9,
+          "initialOpen": false,
+          "id": "headerTypography",
+          "subgroups": []
+        },
+        {
+          "title": "Spacing & Layout",
+          "description": "Padding and item spacing",
+          "order": 10,
+          "initialOpen": false,
+          "id": "spacingLayout",
+          "subgroups": []
+        }
+      ]
     }
-  },
+  ],
   "attributes": {
     "tocId": {
       "type": "string",
@@ -376,9 +448,11 @@
       "default": "100%",
       "group": "blockOptions",
       "label": "Block Width",
-      "description": "TOC container width (e.g., 100%, 500px)",
+      "description": "TOC container width",
       "themeable": false,
-      "control": "TextControl",
+      "control": "SliderWithInput",
+      "cssProperty": "width",
+      "responsive": true,
       "order": 1
     },
     "tocHorizontalAlign": {
@@ -899,18 +973,14 @@
       "cssProperty": "color"
     },
     "h1FontSize": {
-      "type": "number",
-      "default": 1.5,
+      "type": "string",
+      "default": "1.5rem",
       "cssVar": "toc-h1-font-size",
       "group": "headingStyles",
       "label": "H1 Font Size",
       "description": "Font size for H1 headings in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.6,
-      "max": 3,
-      "step": 0.01,
-      "unit": "rem",
       "order": 8,
       "appliesTo": "h1Link",
       "cssProperty": "font-size"
@@ -1136,18 +1206,14 @@
       "cssProperty": "color"
     },
     "h2FontSize": {
-      "type": "number",
-      "default": 1.25,
+      "type": "string",
+      "default": "1.25rem",
       "cssVar": "toc-h2-font-size",
       "group": "headingStyles",
       "label": "H2 Font Size",
       "description": "Font size for H2 headings in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.6,
-      "max": 2.5,
-      "step": 0.01,
-      "unit": "rem",
       "order": 18,
       "appliesTo": "h2Link",
       "cssProperty": "font-size"
@@ -1373,18 +1439,14 @@
       "cssProperty": "color"
     },
     "h3FontSize": {
-      "type": "number",
-      "default": 1.125,
+      "type": "string",
+      "default": "1.125rem",
       "cssVar": "toc-h3-font-size",
       "group": "headingStyles",
       "label": "H3 Font Size",
       "description": "Font size for H3 headings in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.6,
-      "max": 2,
-      "step": 0.01,
-      "unit": "rem",
       "order": 28,
       "appliesTo": "h3Link",
       "cssProperty": "font-size"
@@ -1610,18 +1672,14 @@
       "cssProperty": "color"
     },
     "h4FontSize": {
-      "type": "number",
-      "default": 1,
+      "type": "string",
+      "default": "1rem",
       "cssVar": "toc-h4-font-size",
       "group": "headingStyles",
       "label": "H4 Font Size",
       "description": "Font size for H4 headings in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.6,
-      "max": 1.8,
-      "step": 0.01,
-      "unit": "rem",
       "order": 38,
       "appliesTo": "h4Link",
       "cssProperty": "font-size"
@@ -1847,18 +1905,14 @@
       "cssProperty": "color"
     },
     "h5FontSize": {
-      "type": "number",
-      "default": 0.9375,
+      "type": "string",
+      "default": "0.9375rem",
       "cssVar": "toc-h5-font-size",
       "group": "headingStyles",
       "label": "H5 Font Size",
       "description": "Font size for H5 headings in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.6,
-      "max": 1.6,
-      "step": 0.01,
-      "unit": "rem",
       "order": 48,
       "appliesTo": "h5Link",
       "cssProperty": "font-size"
@@ -2084,18 +2138,14 @@
       "cssProperty": "color"
     },
     "h6FontSize": {
-      "type": "number",
-      "default": 0.875,
+      "type": "string",
+      "default": "0.875rem",
       "cssVar": "toc-h6-font-size",
       "group": "headingStyles",
       "label": "H6 Font Size",
       "description": "Font size for H6 headings in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.6,
-      "max": 1.5,
-      "step": 0.01,
-      "unit": "rem",
       "order": 58,
       "appliesTo": "h6Link",
       "cssProperty": "font-size"
@@ -2277,18 +2327,14 @@
       "order": 2
     },
     "iconSize": {
-      "type": "number",
-      "default": 1.25,
+      "type": "string",
+      "default": "1.25rem",
       "cssVar": "toc-icon-size",
       "group": "icon",
       "label": "Icon Size",
       "description": "Size of the icon in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.6,
-      "max": 3,
-      "step": 0.01,
-      "unit": "rem",
       "order": 3,
       "appliesTo": [
         "icon"
@@ -2297,7 +2343,7 @@
     },
     "iconTypeClosed": {
       "type": "string",
-      "default": "\u25be",
+      "default": "▾",
       "group": "icon",
       "label": "Closed Icon",
       "description": "Icon when TOC is collapsed",
@@ -2318,17 +2364,14 @@
       "order": 5
     },
     "iconRotation": {
-      "type": "number",
-      "default": 180,
+      "type": "string",
+      "default": "180deg",
       "cssVar": "toc-icon-rotation",
       "group": "icon",
       "label": "Icon Rotation",
       "description": "Rotation angle when open (degrees)",
       "themeable": true,
       "control": "RangeControl",
-      "min": -360,
-      "max": 360,
-      "unit": "deg",
       "order": 6,
       "appliesTo": [
         "icon"
@@ -2351,18 +2394,14 @@
       "cssProperty": "color"
     },
     "titleFontSize": {
-      "type": "number",
-      "default": 1.25,
+      "type": "string",
+      "default": "1.25rem",
       "cssVar": "toc-title-font-size",
       "group": "headerTypography",
       "label": "Header Font Size",
       "description": "Font size for the TOC header in rem",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0.7,
-      "max": 3,
-      "step": 0.01,
-      "unit": "rem",
       "order": 1,
       "appliesTo": [
         "titleStatic",
@@ -2550,17 +2589,14 @@
       "cssProperty": "text-align"
     },
     "blockBorderWidth": {
-      "type": "number",
-      "default": 1,
+      "type": "string",
+      "default": "1px",
       "cssVar": "toc-border-width",
       "group": "externalBorders",
       "label": "Block Border Width",
       "description": "Width of the wrapper border in pixels",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0,
-      "max": 10,
-      "unit": "px",
       "order": 3,
       "appliesTo": "wrapper",
       "cssProperty": "border-width"
@@ -2625,10 +2661,10 @@
     "blockBorderRadius": {
       "type": "object",
       "default": {
-        "topLeft": 4,
-        "topRight": 4,
-        "bottomRight": 4,
-        "bottomLeft": 4
+        "topLeft": "4px",
+        "topRight": "4px",
+        "bottomRight": "4px",
+        "bottomLeft": "4px"
       },
       "cssVar": "toc-border-radius",
       "group": "externalBorders",
@@ -2636,7 +2672,6 @@
       "description": "Corner radius of the wrapper",
       "themeable": true,
       "control": "BorderRadiusControl",
-      "unit": "px",
       "order": 5,
       "appliesTo": "wrapper",
       "cssProperty": "border-radius"
@@ -2669,35 +2704,27 @@
       "cssProperty": "box-shadow"
     },
     "wrapperPadding": {
-      "type": "number",
-      "default": 1.25,
+      "type": "string",
+      "default": "1.25rem",
       "cssVar": "toc-wrapper-padding",
       "group": "spacingLayout",
       "label": "Wrapper Padding",
       "description": "Padding inside the TOC wrapper (rem)",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0,
-      "max": 3.2,
-      "step": 0.01,
-      "unit": "rem",
       "order": 1,
       "appliesTo": "content",
       "cssProperty": "padding"
     },
     "itemSpacing": {
-      "type": "number",
-      "default": 0.5,
+      "type": "string",
+      "default": "0.5rem",
       "cssVar": "toc-item-spacing",
       "group": "spacingLayout",
       "label": "Item Spacing",
       "description": "Vertical space between TOC items (rem)",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0,
-      "max": 1.9,
-      "step": 0.01,
-      "unit": "rem",
       "order": 3,
       "appliesTo": [
         "list",
@@ -2725,12 +2752,6 @@
       "description": "Amount to indent each nested level",
       "themeable": true,
       "control": "UnitControl",
-      "units": [
-        "px",
-        "rem",
-        "em",
-        "%"
-      ],
       "order": 2,
       "disabledWhen": {
         "enableHierarchicalIndent": [
@@ -2744,18 +2765,14 @@
       "cssProperty": "margin-left"
     },
     "positionTop": {
-      "type": "number",
-      "default": 6.25,
+      "type": "string",
+      "default": "6.25rem",
       "cssVar": "toc-position-top",
       "group": "positionScroll",
       "label": "Position Top",
       "description": "Top offset for sticky/fixed positioning (rem)",
       "themeable": true,
       "control": "RangeControl",
-      "min": 0,
-      "max": 18.8,
-      "step": 0.01,
-      "unit": "rem",
       "order": 2,
       "showWhen": {
         "positionType": [
@@ -2775,8 +2792,6 @@
       "description": "Stack order for positioned TOC",
       "themeable": true,
       "control": "RangeControl",
-      "min": 1,
-      "max": 9999,
       "order": 3,
       "showWhen": {
         "positionType": [

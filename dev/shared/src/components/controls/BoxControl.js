@@ -4,6 +4,10 @@
  * 4-side input control for padding, margin, border-width, border-radius.
  * Supports responsive editing, unit selection, and linked sides.
  *
+ * Uses FLAT BASE structure:
+ * - Base/global values at ROOT level: { top: 10, unit: 'px', tablet: {...}, mobile: {...} }
+ * - NOT under a 'global' or 'desktop' key
+ *
  * @package guttemberg-plus
  * @since 1.0.0
  */
@@ -51,7 +55,7 @@ function InheritedBadge( { from } ) {
 	}
 
 	const labels = {
-		desktop: 'Desktop',
+		global: 'Global',
 		tablet: 'Tablet',
 		mobile: 'Mobile',
 	};
@@ -77,41 +81,60 @@ function InheritedBadge( { from } ) {
 }
 
 /**
+ * Extract the base/global value from a flat responsive structure
+ * Base value is at root level, not under a key
+ *
+ * @param {Object} vals - Responsive values object
+ * @returns {Object|null} Base value object or null
+ */
+function getBaseValue( vals ) {
+	if ( ! vals || typeof vals !== 'object' ) {
+		return null;
+	}
+	const { tablet, mobile, ...base } = vals;
+	return Object.keys( base ).length > 0 ? base : null;
+}
+
+/**
  * Get inherited value for responsive box values
  *
- * @param {Object} values - Object with desktop, tablet, mobile box values
- * @param {string} device - Current device
+ * Uses FLAT BASE structure where base values are at root level
+ *
+ * @param {Object} values - Object with base values at root, tablet/mobile as keys
+ * @param {string} device - Current device (global, tablet, mobile)
  * @returns {Object} Object with value and inheritedFrom
  */
 function getInheritedBoxValue( values, device ) {
-	const { desktop, tablet, mobile } = values || {};
+	const baseValue = getBaseValue( values );
+	const tabletValue = values?.tablet;
+	const mobileValue = values?.mobile;
 
 	switch ( device ) {
-		case 'desktop':
+		case 'global':
 			return {
-				value: desktop || DEFAULT_BOX_VALUE,
+				value: baseValue ? { ...DEFAULT_BOX_VALUE, ...baseValue } : DEFAULT_BOX_VALUE,
 				inheritedFrom: null,
 			};
 
 		case 'tablet':
-			if ( tablet && Object.keys( tablet ).length > 0 ) {
-				return { value: { ...DEFAULT_BOX_VALUE, ...tablet }, inheritedFrom: null };
+			if ( tabletValue && Object.keys( tabletValue ).length > 0 ) {
+				return { value: { ...DEFAULT_BOX_VALUE, ...tabletValue }, inheritedFrom: null };
 			}
 			return {
-				value: desktop ? { ...DEFAULT_BOX_VALUE, ...desktop } : DEFAULT_BOX_VALUE,
-				inheritedFrom: desktop ? 'desktop' : null,
+				value: baseValue ? { ...DEFAULT_BOX_VALUE, ...baseValue } : DEFAULT_BOX_VALUE,
+				inheritedFrom: baseValue ? 'global' : null,
 			};
 
 		case 'mobile':
-			if ( mobile && Object.keys( mobile ).length > 0 ) {
-				return { value: { ...DEFAULT_BOX_VALUE, ...mobile }, inheritedFrom: null };
+			if ( mobileValue && Object.keys( mobileValue ).length > 0 ) {
+				return { value: { ...DEFAULT_BOX_VALUE, ...mobileValue }, inheritedFrom: null };
 			}
-			if ( tablet && Object.keys( tablet ).length > 0 ) {
-				return { value: { ...DEFAULT_BOX_VALUE, ...tablet }, inheritedFrom: 'tablet' };
+			if ( tabletValue && Object.keys( tabletValue ).length > 0 ) {
+				return { value: { ...DEFAULT_BOX_VALUE, ...tabletValue }, inheritedFrom: 'tablet' };
 			}
 			return {
-				value: desktop ? { ...DEFAULT_BOX_VALUE, ...desktop } : DEFAULT_BOX_VALUE,
-				inheritedFrom: desktop ? 'desktop' : null,
+				value: baseValue ? { ...DEFAULT_BOX_VALUE, ...baseValue } : DEFAULT_BOX_VALUE,
+				inheritedFrom: baseValue ? 'global' : null,
 			};
 
 		default:
@@ -174,9 +197,13 @@ function SideInput( { side, value, onChange, disabled = false, min = 0, max = 99
  * A 4-side input control with responsive support, unit selection,
  * and the ability to link all sides together.
  *
+ * Uses FLAT BASE structure:
+ * - Base/global values at ROOT level: { top: 10, unit: 'px', tablet: {...}, mobile: {...} }
+ * - NOT under a 'global' key
+ *
  * @param {Object}   props                Component props
  * @param {string}   props.label          Label for the control
- * @param {Object}   props.values         Responsive values { desktop, tablet, mobile }
+ * @param {Object}   props.values         Responsive values with base at root, tablet/mobile as keys
  * @param {Function} props.onChange       Callback receiving (device, boxValue)
  * @param {Function} props.onReset        Optional reset callback
  * @param {boolean}  props.responsive     Whether to show device switcher (default: true)
@@ -186,7 +213,7 @@ function SideInput( { side, value, onChange, disabled = false, min = 0, max = 99
  * @param {number}   props.max            Maximum value (default: 999)
  * @param {number}   props.step           Step increment (default: 1)
  * @param {boolean}  props.allowNegative  Whether to allow negative values (default: false)
- * @param {string}   props.initialDevice  Initial device (default: 'desktop')
+ * @param {string}   props.initialDevice  Initial device (default: 'global')
  * @returns {JSX.Element} Box control component
  */
 export function BoxControl( {
@@ -201,7 +228,7 @@ export function BoxControl( {
 	max = 999,
 	step = 1,
 	allowNegative = false,
-	initialDevice = 'desktop',
+	initialDevice = 'global',
 } ) {
 	// Use global device state - all responsive controls stay in sync
 	const device = useResponsiveDevice();
@@ -268,7 +295,8 @@ export function BoxControl( {
 	};
 
 	// Check if reset should be disabled
-	const currentDeviceValue = values?.[ device ];
+	// For 'global' device, check base value; for tablet/mobile, check the key directly
+	const currentDeviceValue = device === 'global' ? getBaseValue( values ) : values?.[ device ];
 	const isResetDisabled = ! currentDeviceValue || Object.keys( currentDeviceValue ).length === 0;
 
 	return (

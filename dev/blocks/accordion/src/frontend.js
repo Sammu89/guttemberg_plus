@@ -22,8 +22,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 } );
 
 const DEFAULT_BREAKPOINTS = {
-	tablet: 1024,
-	mobile: 600,
+	tablet: 768,
+	mobile: 481,
 };
 
 let currentDevice = null;
@@ -39,7 +39,7 @@ function getDevice( width, breakpoints ) {
 	if ( width <= breakpoints.tablet ) {
 		return 'tablet';
 	}
-	return 'desktop';
+	return 'global';
 }
 
 function updateDeviceAttributes() {

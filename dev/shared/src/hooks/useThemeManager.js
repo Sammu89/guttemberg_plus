@@ -59,7 +59,6 @@ import {
 	applyDeltas,
 	getThemeableSnapshot,
 } from '../utils/delta-calculator';
-import { debug } from '../utils/debug';
 import {
 	batchUpdateCleanBlocks,
 	batchResetBlocksUsingTheme,
@@ -213,9 +212,7 @@ export function useThemeManager( {
 
 		// Debug logging
 		if ( differences.length > 0 ) {
-			console.log( '\n[IS_CUSTOMIZED] Found differences:' );
 			differences.forEach( ( { key, attrValue, expectedValue } ) => {
-				console.log( `  - ${ key }:`, attrValue, '!==', expectedValue );
 			} );
 		}
 
@@ -271,7 +268,6 @@ export function useThemeManager( {
 				const existingStr = JSON.stringify( existingCache );
 
 				if ( snapshotStr !== existingStr ) {
-					debug( `[SESSION CACHE] [${ blockType.toUpperCase() }] Updating cache for theme:`, currentThemeKey );
 					return {
 						...prev,
 						[ currentThemeKey ]: snapshot,
@@ -290,12 +286,10 @@ export function useThemeManager( {
 	useEffect( () => {
 		// CRITICAL: Skip if we just performed a theme operation
 		if ( skipNextCustomizationsUpdate.current ) {
-			console.log( '\n[AUTO-UPDATE CUSTOMIZATIONS] SKIPPED - Theme operation just completed' );
 			skipNextCustomizationsUpdate.current = false;
 			return;
 		}
 
-		console.log( '\n[AUTO-UPDATE CUSTOMIZATIONS] Running...' );
 
 		const newCustomizations = {};
 
@@ -327,7 +321,6 @@ export function useThemeManager( {
 
 			if ( isDifferent ) {
 				newCustomizations[ key ] = attrValue;
-				console.log( `  - Found difference in "${ key }":`, attrValue, '!==', expectedValue );
 			}
 		} );
 
@@ -337,11 +330,8 @@ export function useThemeManager( {
 		const currentStr = JSON.stringify( currentCustomizations );
 
 		if ( newStr !== currentStr ) {
-			console.log( '  - Updating customizations attribute:', newCustomizations );
-			console.log( '  - This will set isCustomized =', Object.keys( newCustomizations ).length > 0 );
 			setAttributes( { customizations: newCustomizations } );
 		} else {
-			console.log( '  - No changes to customizations' );
 		}
 	}, [ attributes, expectedValues, excludeFromCustomizationCheck, blockType ] );
 
@@ -354,30 +344,21 @@ export function useThemeManager( {
 	 */
 	const handleSaveNewTheme = useCallback(
 		async ( themeName ) => {
-			console.log( '\n[SAVE NEW THEME] Starting for:', themeName );
 
 			const currentThemeKey = attributes.currentTheme || '';
 			const cachedSnapshot = sessionCache[ currentThemeKey ];
 
-			console.log( '[SAVE NEW THEME] Current theme:', currentThemeKey || '(Default)' );
-			console.log( '[SAVE NEW THEME] Cached snapshot exists?', !!cachedSnapshot );
-			console.log( '[SAVE NEW THEME] Cached snapshot keys:', Object.keys( cachedSnapshot || {} ) );
 
 			const currentSnapshot =
 				cachedSnapshot && Object.keys( cachedSnapshot ).length > 0
 					? cachedSnapshot
 					: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 
-			console.log( '[SAVE NEW THEME] Current snapshot keys:', Object.keys( currentSnapshot ) );
-			console.log( '[SAVE NEW THEME] Current snapshot values:', currentSnapshot );
 
 			const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
 
-			console.log( '[SAVE NEW THEME] Calculated deltas keys:', Object.keys( deltas ) );
-			console.log( '[SAVE NEW THEME] Calculated deltas values:', deltas );
 
 			if ( Object.keys( deltas ).length === 0 ) {
-				console.error( '[SAVE NEW THEME] ERROR: Deltas are empty! Cannot save theme.' );
 				return;
 			}
 
@@ -399,7 +380,6 @@ export function useThemeManager( {
 			resetAttrs.currentTheme = themeName;
 			resetAttrs.customizations = {};
 
-			console.log( '[SAVE NEW THEME] Setting skip flag to prevent auto-update customizations' );
 			skipNextCustomizationsUpdate.current = true;
 
 			flushSync( () => {
@@ -413,7 +393,6 @@ export function useThemeManager( {
 				return updated;
 			} );
 
-			console.log( '[SAVE NEW THEME] Complete - block should show:', themeName );
 		},
 		[
 			attributes,
@@ -432,7 +411,6 @@ export function useThemeManager( {
 	 */
 	const handleUpdateTheme = useCallback(
 		async () => {
-			console.log( '\n[UPDATE THEME] Starting for:', attributes.currentTheme );
 
 			const currentThemeKey = attributes.currentTheme || '';
 			const cachedSnapshot = sessionCache[ currentThemeKey ];
@@ -480,7 +458,6 @@ export function useThemeManager( {
 
 			resetAttrs.customizations = {};
 
-			console.log( '[UPDATE THEME] Setting skip flag to prevent auto-update customizations' );
 			skipNextCustomizationsUpdate.current = true;
 
 			flushSync( () => {
@@ -494,7 +471,6 @@ export function useThemeManager( {
 			} );
 
 			// BATCH UPDATE: Update all other clean blocks on this page using the same theme
-			console.log( '[UPDATE THEME] Batch updating other clean blocks on this page...' );
 			const updatedCount = batchUpdateCleanBlocks(
 				blockType,
 				attributes.currentTheme,
@@ -507,7 +483,6 @@ export function useThemeManager( {
 				showBatchUpdateNotification( 'update', attributes.currentTheme, updatedCount );
 			}
 
-			console.log( '[UPDATE THEME] Complete' );
 		},
 		[
 			attributes,
@@ -525,7 +500,6 @@ export function useThemeManager( {
 	 */
 	const handleDeleteTheme = useCallback(
 		async () => {
-			console.log( '\n[DELETE THEME] Starting for:', attributes.currentTheme );
 
 			const themeToDelete = attributes.currentTheme;
 
@@ -542,7 +516,6 @@ export function useThemeManager( {
 
 			resetAttrs.customizations = {};
 
-			console.log( '[DELETE THEME] Setting skip flag to prevent auto-update customizations' );
 			skipNextCustomizationsUpdate.current = true;
 
 			flushSync( () => {
@@ -552,7 +525,6 @@ export function useThemeManager( {
 			setSessionCache( {} );
 
 			// BATCH RESET: Reset all other blocks on this page using the deleted theme
-			console.log( '[DELETE THEME] Batch resetting other blocks on this page using deleted theme...' );
 			const resetCount = batchResetBlocksUsingTheme(
 				blockType,
 				themeToDelete,
@@ -565,7 +537,6 @@ export function useThemeManager( {
 				showBatchUpdateNotification( 'delete', themeToDelete, resetCount );
 			}
 
-			console.log( '[DELETE THEME] Complete - reset to Default' );
 		},
 		[ attributes.currentTheme, deleteTheme, blockType, allDefaults, excludeFromCustomizationCheck, setAttributes ]
 	);
@@ -586,7 +557,6 @@ export function useThemeManager( {
 	 */
 	const handleResetCustomizations = useCallback(
 		() => {
-			console.log( '\n[RESET CUSTOMIZATIONS] Starting' );
 
 			const resetAttrs = {};
 
@@ -611,7 +581,6 @@ export function useThemeManager( {
 			resetAttrs.currentTheme = attributes.currentTheme;
 			resetAttrs.customizations = {};
 
-			console.log( '[RESET CUSTOMIZATIONS] Setting skip flag to prevent auto-update customizations' );
 			skipNextCustomizationsUpdate.current = true;
 
 			flushSync( () => {
@@ -625,7 +594,6 @@ export function useThemeManager( {
 				return updated;
 			} );
 
-			console.log( '[RESET CUSTOMIZATIONS] Complete' );
 		},
 		[ attributes, expectedValues, excludeFromCustomizationCheck, setAttributes ]
 	);

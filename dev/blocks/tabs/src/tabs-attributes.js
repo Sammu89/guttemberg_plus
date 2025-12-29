@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-26T22:38:19.375Z
+ * Generated at: 2025-12-29T01:32:27.283Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -19,17 +19,29 @@
  * Auto-generated from schema - DO NOT edit manually.
  */
 export const tabsAttributes = {
-  uniqueId: {
+  tabsWidth: {
     type: 'string',
-    default: '',
+    default: '100%',
   },
-  blockId: {
+  headingLevel: {
     type: 'string',
-    default: '',
+    default: 'none',
   },
-  currentTheme: {
+  tabsHorizontalAlign: {
     type: 'string',
-    default: '',
+    default: 'center',
+  },
+  orientation: {
+    type: 'string',
+    default: 'horizontal',
+  },
+  activationMode: {
+    type: 'string',
+    default: 'click',
+  },
+  title: {
+    type: 'string',
+    default: 'Tabs',
   },
   tabs: {
     type: 'array',
@@ -39,65 +51,41 @@ export const tabsAttributes = {
     type: 'array',
     default: [],
   },
-  orientation: {
+  currentTheme: {
     type: 'string',
-    default: 'horizontal',
+    default: '',
   },
-  stretchButtonsToRow: {
-    type: 'boolean',
-    default: false,
-  },
-  activationMode: {
+  uniqueId: {
     type: 'string',
-    default: 'click',
+    default: '',
   },
-  headingLevel: {
+  blockId: {
+    type: 'string',
+    default: '',
+  },
+  borderColor: {
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+  },
+  borderWidth: {
+    type: 'number',
+    default: '0px',
+  },
+  borderStyle: {
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+  },
+  borderRadius: {
+    type: 'object',
+    default: {"topLeft":0,"topRight":0,"bottomRight":0,"bottomLeft":0},
+  },
+  shadow: {
     type: 'string',
     default: 'none',
   },
-  title: {
-    type: 'string',
-    default: 'Tabs',
-  },
-  tabsHorizontalAlign: {
-    type: 'string',
-    default: 'center',
-  },
-  tabsWidth: {
-    type: 'string',
-    default: '100%',
-  },
-  showIcon: {
-    type: 'boolean',
-    default: true,
-  },
-  iconPosition: {
-    type: 'string',
-    default: 'right',
-  },
-  iconColor: {
-    type: 'string',
-    default: '#666666',
-  },
-  iconSize: {
-    type: 'number',
-    default: 1,
-  },
-  iconTypeClosed: {
-    type: 'string',
-    default: '▾',
-  },
-  iconTypeOpen: {
+  shadowHover: {
     type: 'string',
     default: 'none',
-  },
-  iconRotation: {
-    type: 'number',
-    default: 0,
-  },
-  iconRotationActive: {
-    type: 'number',
-    default: 180,
   },
   tabButtonColor: {
     type: 'string',
@@ -123,57 +111,9 @@ export const tabsAttributes = {
     type: 'string',
     default: '#ffffff',
   },
-  enableFocusBorder: {
-    type: 'boolean',
-    default: true,
-  },
-  tabButtonActiveContentBorderWidth: {
-    type: 'number',
-    default: 1,
-  },
-  tabButtonActiveContentBorderStyle: {
-    type: 'string',
-    default: 'solid',
-  },
-  tabButtonActiveFontWeight: {
-    type: 'string',
-    default: 'bold',
-  },
-  tabButtonBorderColor: {
-    type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
-  },
-  tabButtonActiveBorderColor: {
-    type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
-  },
-  tabButtonActiveContentBorderColor: {
-    type: 'string',
-    default: '#ffffff',
-  },
-  tabButtonBorderWidth: {
-    type: 'number',
-    default: 1,
-  },
-  tabButtonBorderStyle: {
-    type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
-  },
-  tabButtonBorderRadius: {
-    type: 'object',
-    default: {"topLeft":4,"topRight":4,"bottomRight":0,"bottomLeft":0},
-  },
-  tabButtonShadow: {
-    type: 'string',
-    default: 'none',
-  },
-  tabButtonShadowHover: {
-    type: 'string',
-    default: 'none',
-  },
   tabButtonFontSize: {
     type: 'number',
-    default: 1,
+    default: '1rem',
   },
   tabButtonFontWeight: {
     type: 'string',
@@ -197,7 +137,55 @@ export const tabsAttributes = {
   },
   tabButtonPadding: {
     type: 'number',
-    default: 0.75,
+    default: '0.75rem',
+  },
+  tabButtonActiveFontWeight: {
+    type: 'string',
+    default: 'bold',
+  },
+  tabButtonBorderColor: {
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+  },
+  tabButtonActiveBorderColor: {
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+  },
+  tabButtonBorderWidth: {
+    type: 'number',
+    default: '1px',
+  },
+  tabButtonBorderStyle: {
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+  },
+  tabButtonBorderRadius: {
+    type: 'object',
+    default: {"topLeft":4,"topRight":4,"bottomRight":0,"bottomLeft":0},
+  },
+  tabButtonShadow: {
+    type: 'string',
+    default: 'none',
+  },
+  tabButtonShadowHover: {
+    type: 'string',
+    default: 'none',
+  },
+  enableFocusBorder: {
+    type: 'boolean',
+    default: true,
+  },
+  tabButtonActiveContentBorderColor: {
+    type: 'string',
+    default: '#ffffff',
+  },
+  tabButtonActiveContentBorderWidth: {
+    type: 'number',
+    default: '1px',
+  },
+  tabButtonActiveContentBorderStyle: {
+    type: 'string',
+    default: 'solid',
   },
   tabListBackgroundColor: {
     type: 'string',
@@ -209,67 +197,27 @@ export const tabsAttributes = {
   },
   tabsRowBorderWidth: {
     type: 'number',
-    default: 0,
+    default: '0px',
   },
   tabsRowBorderStyle: {
     type: 'object',
     default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
-  tabListAlignment: {
-    type: 'string',
-    default: 'flex-start',
-  },
   tabsRowSpacing: {
     type: 'number',
-    default: 0.5,
+    default: '0.5rem',
   },
   tabsButtonGap: {
     type: 'number',
-    default: 0.5,
+    default: '0.5rem',
   },
-  panelBackgroundColor: {
+  stretchButtonsToRow: {
+    type: 'boolean',
+    default: false,
+  },
+  tabListAlignment: {
     type: 'string',
-    default: '#ffffff',
-  },
-  panelBorderColor: {
-    type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
-  },
-  panelBorderWidth: {
-    type: 'number',
-    default: 1,
-  },
-  panelBorderStyle: {
-    type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
-  },
-  panelBorderRadius: {
-    type: 'object',
-    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
-  },
-  borderColor: {
-    type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
-  },
-  borderWidth: {
-    type: 'number',
-    default: 0,
-  },
-  borderStyle: {
-    type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
-  },
-  borderRadius: {
-    type: 'object',
-    default: {"topLeft":0,"topRight":0,"bottomRight":0,"bottomLeft":0},
-  },
-  shadow: {
-    type: 'string',
-    default: 'none',
-  },
-  shadowHover: {
-    type: 'string',
-    default: 'none',
+    default: 'flex-start',
   },
   enableTabsListContentBorder: {
     type: 'boolean',
@@ -281,11 +229,68 @@ export const tabsAttributes = {
   },
   tabsListContentBorderWidth: {
     type: 'number',
-    default: 1,
+    default: '1px',
   },
   tabsListContentBorderStyle: {
     type: 'string',
     default: 'solid',
+  },
+  panelBackgroundColor: {
+    type: 'string',
+    default: '#ffffff',
+  },
+  panelBorderColor: {
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+  },
+  panelBorderWidth: {
+    type: 'number',
+    default: '1px',
+  },
+  panelBorderStyle: {
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+  },
+  panelBorderRadius: {
+    type: 'object',
+    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4},
+  },
+  showIcon: {
+    type: 'boolean',
+    default: true,
+  },
+  iconPosition: {
+    type: 'string',
+    default: 'right',
+  },
+  iconColor: {
+    type: 'string',
+    default: '#666666',
+  },
+  iconSize: {
+    type: 'number',
+    default: '1rem',
+  },
+  iconTypeClosed: {
+    type: 'string',
+    default: '▾',
+  },
+  iconTypeOpen: {
+    type: 'string',
+    default: 'none',
+  },
+  iconRotation: {
+    type: 'number',
+    default: '0deg',
+  },
+  iconRotationActive: {
+    type: 'number',
+    default: '180deg',
+  },
+  // Auto-generated: tracks which responsive attributes have responsive mode enabled
+  responsiveEnabled: {
+    type: 'object',
+    default: {"tabsWidth":false},
   },
 };
 

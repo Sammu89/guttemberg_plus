@@ -3,13 +3,60 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-26T22:38:19.383Z
+ * Generated at: 2025-12-29T01:32:27.285Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
  */
 
 :root {
+  --tabs-border-color: #dddddd;
+  --tabs-border-width: 0px;
+  --tabs-border-style: solid;
+  --tabs-border-radius: 0px;
+  --tabs-border-shadow: none;
+  --tabs-border-shadow-hover: none;
+  --tabs-button-color: #666666;
+  --tabs-button-bg: #f5f5f5;
+  --tabs-button-hover-color: #333333;
+  --tabs-button-hover-bg: #e8e8e8;
+  --tabs-button-active-color: #333333;
+  --tabs-button-active-bg: #ffffff;
+  --tabs-button-font-size: 1rem;
+  --tabs-button-font-weight: 500;
+  --tabs-button-font-style: normal;
+  --tabs-button-text-transform: none;
+  --tabs-button-text-decoration: none;
+  --tabs-button-text-align: center;
+  --tabs-button-padding: 0.75rem;
+  --tabs-button-active-font-weight: bold;
+  --tabs-button-border-color: #dddddd;
+  --tabs-button-active-border-color: #dddddd;
+  --tabs-button-border-width: 1px;
+  --tabs-button-border-style: solid;
+  --tabs-button-border-radius: 4px 4px 0px 0px;
+  --tabs-button-border-shadow: none;
+  --tabs-button-border-shadow-hover: none;
+  --tabs-enable-focus-border: true;
+  --tabs-button-active-content-border-color: #ffffff;
+  --tabs-button-active-content-border-width: 1px;
+  --tabs-button-active-content-border-style: solid;
+  --tabs-list-bg: transparent;
+  --tabs-row-border-color: #dddddd;
+  --tabs-row-border-width: 0px;
+  --tabs-row-border-style: solid;
+  --tabs-row-spacing: 0.5rem;
+  --tabs-button-gap: 0.5rem;
+  --tabs-list-align: flex-start;
+  --tabs-enable-list-divider-border: false;
+  --tabs-list-divider-border-color: transparent;
+  --tabs-list-divider-border-width: 1px;
+  --tabs-list-divider-border-style: solid;
+  --tabs-panel-bg: #ffffff;
+  --tabs-panel-border-color: #dddddd;
+  --tabs-panel-border-width: 1px;
+  --tabs-panel-border-style: solid;
+  --tabs-panel-border-radius: 4px;
   --tabs-show-icon: true;
   --tabs-icon-position: right;
   --tabs-icon-color: #666666;
@@ -18,51 +65,4 @@
   --tabs-icon-type-open: none;
   --tabs-icon-rotation-base: 0deg;
   --tabs-icon-rotation-active: 180deg;
-  --tabs-button-color: #666666;
-  --tabs-button-bg: #f5f5f5;
-  --tabs-button-hover-color: #333333;
-  --tabs-button-hover-bg: #e8e8e8;
-  --tabs-button-active-color: #333333;
-  --tabs-button-active-bg: #ffffff;
-  --tabs-enable-focus-border: true;
-  --tabs-button-active-content-border-width: 1px;
-  --tabs-button-active-content-border-style: solid;
-  --tabs-button-active-font-weight: bold;
-  --tabs-button-border-color: #dddddd;
-  --tabs-button-active-border-color: #dddddd;
-  --tabs-button-active-content-border-color: #ffffff;
-  --tabs-button-border-width: 1px;
-  --tabs-button-border-style: solid;
-  --tabs-button-border-radius: 4px 4px 0px 0px;
-  --tabs-button-border-shadow: none;
-  --tabs-button-border-shadow-hover: none;
-  --tabs-button-font-size: 1rem;
-  --tabs-button-font-weight: 500;
-  --tabs-button-font-style: normal;
-  --tabs-button-text-transform: none;
-  --tabs-button-text-decoration: none;
-  --tabs-button-text-align: center;
-  --tabs-button-padding: 0.75rem 1.5rem;
-  --tabs-list-bg: transparent;
-  --tabs-row-border-color: #dddddd;
-  --tabs-row-border-width: 0px;
-  --tabs-row-border-style: solid;
-  --tabs-list-align: flex-start;
-  --tabs-row-spacing: 0.5rem;
-  --tabs-button-gap: 0.5rem;
-  --tabs-panel-bg: #ffffff;
-  --tabs-panel-border-color: #dddddd;
-  --tabs-panel-border-width: 1px;
-  --tabs-panel-border-style: solid;
-  --tabs-panel-border-radius: 4px;
-  --tabs-border-color: #dddddd;
-  --tabs-border-width: 0px;
-  --tabs-border-style: solid;
-  --tabs-border-radius: 0px;
-  --tabs-border-shadow: none;
-  --tabs-border-shadow-hover: none;
-  --tabs-enable-list-divider-border: false;
-  --tabs-list-divider-border-color: transparent;
-  --tabs-list-divider-border-width: 1px;
-  --tabs-list-divider-border-style: solid;
 }

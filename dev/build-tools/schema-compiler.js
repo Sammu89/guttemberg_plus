@@ -24,6 +24,15 @@ const fs = require('fs');
 const path = require('path');
 const { generateStyleBuilder } = require('./generators/style-builder-generator');
 
+// Dynamic import for ES module (css-property-scales uses ES6 exports)
+let CSS_PROPERTY_SCALES, CSS_PROPERTY_ALIASES, getPropertyScale;
+async function loadCssPropertyScales() {
+  const module = await import('../shared/src/config/css-property-scales.js');
+  CSS_PROPERTY_SCALES = module.CSS_PROPERTY_SCALES;
+  CSS_PROPERTY_ALIASES = module.CSS_PROPERTY_ALIASES;
+  getPropertyScale = module.getPropertyScale;
+}
+
 // ============================================================================
 // Configuration
 // ============================================================================
@@ -601,7 +610,67 @@ function generateJSMappings(allSchemas) {
   // Generate JS file content
   let content = getGeneratedHeader('*.json', 'CSS Variable Mappings for All Blocks');
 
+  // Inline shadow utilities (for Node.js compatibility - can't use webpack aliases in require())
   content += `/**
+ * Format a shadow value to CSS string
+ * @param {Object|number|string|null} valueObj - Shadow value object or primitive
+ * @returns {string} CSS value with unit
+ */
+function formatShadowValue(valueObj) {
+  if (valueObj === null || valueObj === undefined) return '0px';
+  if (typeof valueObj === 'string') return valueObj;
+  if (typeof valueObj === 'number') return \`\${valueObj}px\`;
+  if (typeof valueObj === 'object' && valueObj !== null) {
+    const value = valueObj.value ?? 0;
+    const unit = valueObj.unit ?? 'px';
+    return \`\${value}\${unit}\`;
+  }
+  return '0px';
+}
+
+/**
+ * Build CSS box-shadow from array of shadow layers
+ * @param {Array|null} shadows - Array of shadow layer objects
+ * @returns {string} CSS box-shadow value or 'none'
+ */
+function buildBoxShadow(shadows) {
+  if (!shadows || !Array.isArray(shadows) || shadows.length === 0) return 'none';
+  const validLayers = shadows.filter(layer => layer && layer.color && layer.color.trim() !== '');
+  if (validLayers.length === 0) return 'none';
+  return validLayers.map(layer => {
+    const parts = [];
+    if (layer.inset === true) parts.push('inset');
+    parts.push(formatShadowValue(layer.x));
+    parts.push(formatShadowValue(layer.y));
+    parts.push(formatShadowValue(layer.blur));
+    parts.push(formatShadowValue(layer.spread));
+    parts.push(layer.color);
+    return parts.join(' ');
+  }).join(', ');
+}
+
+/**
+ * Build CSS text-shadow from array of shadow layers
+ * Similar to buildBoxShadow but omits spread and inset (not supported by text-shadow)
+ * @param {Array|null} shadows - Array of shadow layer objects
+ * @returns {string} CSS text-shadow value or 'none'
+ */
+function buildTextShadow(shadows) {
+  if (!shadows || !Array.isArray(shadows) || shadows.length === 0) return 'none';
+  const validLayers = shadows.filter(layer => layer && layer.color && layer.color.trim() !== '');
+  if (validLayers.length === 0) return 'none';
+  return validLayers.map(layer => {
+    const parts = [];
+    // text-shadow format: offset-x offset-y blur-radius color (NO spread or inset)
+    parts.push(formatShadowValue(layer.x));
+    parts.push(formatShadowValue(layer.y));
+    parts.push(formatShadowValue(layer.blur));
+    parts.push(layer.color);
+    return parts.join(' ');
+  }).join(', ');
+}
+
+/**
  * CSS Variable Mappings
  *
  * Maps attribute names to their CSS variable names with formatting info.
@@ -681,11 +750,22 @@ export function formatCssValue(attrName, value, blockType) {
   // Handle null/undefined
   if (value === null || value === undefined) return null;
 
+  // Handle numeric objects that carry their own unit (e.g., { value, unit })
+  if (
+    value &&
+    typeof value === 'object' &&
+    value.value !== undefined &&
+    value.value !== null
+  ) {
+    const unit = value.unit || mapping.unit || '';
+    return \`\${value.value}\${unit}\`;
+  }
+
   // Handle object types (border radius, padding, colors, styles)
   if (mapping.type === 'object' && typeof value === 'object') {
-    // Handle responsive objects (desktop, tablet, mobile) - use desktop value
-    if (value.desktop !== undefined && typeof value.desktop === 'object') {
-      return formatCssValue(attrName, value.desktop, blockType);
+    // Handle responsive objects (tablet/mobile keys) - use base value (global is at root, not a device key)
+    if ((value.tablet !== undefined || value.mobile !== undefined) && typeof value.value === 'object') {
+      return formatCssValue(attrName, value.value, blockType);
     }
 
     // Border radius format: topLeft topRight bottomRight bottomLeft
@@ -698,8 +778,6 @@ export function formatCssValue(attrName, value, blockType) {
     // Directional properties (border-width, border-color, border-style, padding, margin)
     if (value.top !== undefined || value.right !== undefined ||
         value.bottom !== undefined || value.left !== undefined) {
-      const unit = value.unit || '';
-
       // Handle unlinked mode where each side is an object { value: X }
       const getVal = (side) => {
         const sideValue = value[side];
@@ -710,11 +788,23 @@ export function formatCssValue(attrName, value, blockType) {
       };
 
       const values = [getVal('top'), getVal('right'), getVal('bottom'), getVal('left')];
+
+      // Only apply unit if values are numeric (border-style/color are strings, don't need units)
+      const firstValue = values.find(v => v !== '' && v !== undefined && v !== null);
+      const isNumeric = typeof firstValue === 'number';
+      const unit = isNumeric ? (value.unit || '') : '';
+
       return compressBoxValue(values, unit);
     }
 
     // Default object handling
     return JSON.stringify(value);
+  }
+
+  // Handle array types (e.g., box-shadow layers)
+  if (mapping.type === 'array' && Array.isArray(value)) {
+    // Use imported buildBoxShadow function for shadow arrays
+    return buildBoxShadow(value);
   }
 
   // Handle numeric values with units
@@ -802,14 +892,19 @@ function generateCSSVariables(blockType, schema) {
       if (attr.transformValue === 'paddingRectangle' && typeof attr.default === 'number') {
         const vertical = attr.default;
         const horizontal = attr.default * 2;
-        const unit = attr.unit || 'px';
+        const unit = attr.unit || (Array.isArray(attr.units) && attr.units.length > 0 ? attr.units[0] : null) || 'px';
         cssValue = `${vertical}${unit} ${horizontal}${unit}`;
       }
       // Handle object types (border radius, padding, colors, styles, etc.)
       else if (typeof attr.default === 'object') {
+        // Helper to get effective unit from attr.unit or attr.units[0]
+        const getEffectiveUnit = (fallback = 'px') => {
+          return attr.unit || (Array.isArray(attr.units) && attr.units.length > 0 ? attr.units[0] : null) || fallback;
+        };
+
         // Border radius format: topLeft topRight bottomRight bottomLeft
         if (attr.default.topLeft !== undefined) {
-          const unit = attr.default.unit || attr.unit || 'px';
+          const unit = attr.default.unit || getEffectiveUnit('px');
           cssValue = compressShorthand(attr.default.topLeft, attr.default.topRight, attr.default.bottomRight, attr.default.bottomLeft, unit);
         }
         // Directional format: top right bottom left (border-width, border-color, border-style, padding, margin)
@@ -817,19 +912,20 @@ function generateCSSVariables(blockType, schema) {
                  attr.default.bottom !== undefined && attr.default.left !== undefined) {
           // Use unit for numeric values, empty string for strings (colors, styles)
           const isStringValue = typeof attr.default.top === 'string';
-          const unit = isStringValue ? '' : (attr.default.unit || attr.unit || 'px');
+          const unit = isStringValue ? '' : (attr.default.unit || getEffectiveUnit('px'));
           cssValue = compressShorthand(attr.default.top, attr.default.right, attr.default.bottom, attr.default.left, unit);
         }
-        // Responsive format: desktop, tablet, mobile - use desktop value
-        else if (attr.default.desktop !== undefined && typeof attr.default.desktop === 'object') {
-          const desktop = attr.default.desktop;
-          if (desktop.top !== undefined && desktop.right !== undefined &&
-              desktop.bottom !== undefined && desktop.left !== undefined) {
-            const isStringValue = typeof desktop.top === 'string';
-            const unit = isStringValue ? '' : (desktop.unit || attr.unit || 'px');
-            cssValue = compressShorthand(desktop.top, desktop.right, desktop.bottom, desktop.left, unit);
+        // Responsive format: base value (global is at root as .value, not a device key)
+        else if ((attr.default.tablet !== undefined || attr.default.mobile !== undefined) &&
+                 typeof attr.default.value === 'object') {
+          const baseValue = attr.default.value;
+          if (baseValue.top !== undefined && baseValue.right !== undefined &&
+              baseValue.bottom !== undefined && baseValue.left !== undefined) {
+            const isStringValue = typeof baseValue.top === 'string';
+            const unit = isStringValue ? '' : (baseValue.unit || getEffectiveUnit('px'));
+            cssValue = compressShorthand(baseValue.top, baseValue.right, baseValue.bottom, baseValue.left, unit);
           } else {
-            // Skip other complex desktop objects we don't know how to handle
+            // Skip other complex base objects we don't know how to handle
             continue;
           }
         }
@@ -837,9 +933,11 @@ function generateCSSVariables(blockType, schema) {
           // Skip other complex objects we don't know how to handle
           continue;
         }
-      } else if (attr.type === 'number' && attr.unit) {
+      } else if (attr.type === 'number') {
         // Format value with unit if applicable
-        cssValue = `${attr.default}${attr.unit}`;
+        // Check for explicit 'unit' property, or use first element of 'units' array
+        const effectiveUnit = attr.unit || (Array.isArray(attr.units) && attr.units.length > 0 ? attr.units[0] : null);
+        cssValue = effectiveUnit ? `${attr.default}${effectiveUnit}` : attr.default;
       } else {
         cssValue = attr.default;
       }
@@ -937,7 +1035,15 @@ function generateBlockAttributes(blockType, schema) {
 
   content += `export const ${constName} = {\n`;
 
+  // Collect responsive attribute names for auto-generating responsiveEnabled
+  const responsiveAttrs = [];
+
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
+    // Track responsive attributes
+    if (attr.responsive === true) {
+      responsiveAttrs.push(attrName);
+    }
+
     // Map schema types to WordPress types
     let wpType = 'string';
     if (attr.type === 'number') wpType = 'number';
@@ -960,6 +1066,20 @@ function generateBlockAttributes(blockType, schema) {
     content += `  ${attrName}: {\n`;
     content += `    type: '${wpType}',\n`;
     content += `    default: ${defaultValue},\n`;
+    content += `  },\n`;
+  }
+
+  // Auto-generate responsiveEnabled attribute if there are responsive attributes
+  if (responsiveAttrs.length > 0) {
+    const responsiveEnabledDefaults = {};
+    responsiveAttrs.forEach(name => {
+      responsiveEnabledDefaults[name] = false;
+    });
+
+    content += `  // Auto-generated: tracks which responsive attributes have responsive mode enabled\n`;
+    content += `  responsiveEnabled: {\n`;
+    content += `    type: 'object',\n`;
+    content += `    default: ${JSON.stringify(responsiveEnabledDefaults)},\n`;
     content += `  },\n`;
   }
 
@@ -1223,10 +1343,29 @@ function injectCodeIntoFile(filePath, markerName, generatedCode, options = {}) {
 function generateInlineStylesFunction(schema, blockType) {
   const code = [];
 
+  // Check if schema uses ShadowPanel control (requires shadow utility imports)
+  const usesShadowPanel = Object.values(schema.attributes).some(
+    attr => attr.control === 'ShadowPanel' && attr.themeable
+  );
+
+  // Check which shadow functions are needed
+  const needsBoxShadow = Object.values(schema.attributes).some(
+    attr => attr.control === 'ShadowPanel' && attr.cssProperty === 'box-shadow' && attr.themeable
+  );
+  const needsTextShadow = Object.values(schema.attributes).some(
+    attr => attr.control === 'ShadowPanel' && attr.cssProperty === 'text-shadow' && attr.themeable
+  );
+
   code.push(`// AUTO-GENERATED from schemas/${blockType}.json`);
   code.push(`// To modify styles, update the schema and run: npm run schema:build`);
+  if (usesShadowPanel) {
+    const shadowImports = [];
+    if (needsBoxShadow) shadowImports.push('buildBoxShadow');
+    if (needsTextShadow) shadowImports.push('buildTextShadow');
+    code.push(`// REQUIRED IMPORT: Ensure ${shadowImports.join(', ')} imported from @shared/utils in edit.js`);
+  }
   code.push(``);
-  code.push(`const getInlineStyles = (responsiveDevice = 'desktop') => {`);
+  code.push(`const getInlineStyles = (responsiveDevice = 'global') => {`);
   code.push(`  // Extract object-type attributes with fallbacks`);
 
   // Find all object-type attributes (padding, border radius, etc.)
@@ -1350,14 +1489,35 @@ function generateInlineStylesFunction(schema, blockType) {
       const cssProperty = attr.cssProperty;
       const defaultValue = attr.default;
 
-      // Skip if we've already added this CSS property
-      if (addedProperties.has(cssProperty)) {
+      // Skip if we've already added this CSS property (unless it's an Appearance control)
+      if (cssProperty && addedProperties.has(cssProperty) && attr.control !== 'AppearanceControl') {
         continue;
       }
-      addedProperties.add(cssProperty);
+      if (cssProperty) {
+        addedProperties.add(cssProperty);
+      }
 
       // Format the style value based on type
       let styleValue;
+
+      // Special handling for AppearanceControl (font weight + style)
+      if (attr.control === 'AppearanceControl' && attr.type === 'object') {
+        const defaultWeight = defaultValue?.weight || '400';
+        const defaultStyle = defaultValue?.style || 'normal';
+        code.push(`\t\t\tfontWeight: effectiveValues.${attrName}?.weight || '${defaultWeight}',`);
+        code.push(`\t\t\tfontStyle: effectiveValues.${attrName}?.style || '${defaultStyle}',`);
+        continue; // Already handled, skip the rest
+      }
+
+      // Special handling for ShadowPanel (box-shadow or text-shadow array)
+      if (attr.control === 'ShadowPanel' && attr.type === 'array') {
+        // Convert CSS property to camelCase for valid JavaScript
+        const jsProperty = toCamelCase(cssProperty);
+        // Use buildTextShadow for text-shadow, buildBoxShadow for box-shadow
+        const shadowFunction = cssProperty === 'text-shadow' ? 'buildTextShadow' : 'buildBoxShadow';
+        code.push(`\t\t\t${jsProperty}: ${shadowFunction}(effectiveValues.${attrName}),`);
+        continue; // Already handled, skip the rest
+      }
 
       if (attr.type === 'object') {
         // Handle objects like padding/border-radius
@@ -1385,13 +1545,46 @@ function generateInlineStylesFunction(schema, blockType) {
         } else if (attrName.includes('Radius')) {
           styleValue = `\`\${${attrName}.topLeft}px \${${attrName}.topRight}px \${${attrName}.bottomRight}px \${${attrName}.bottomLeft}px\``;
         }
-      } else if (attr.type === 'number' && attr.unit) {
-        // Number with unit
-        styleValue = `\`\${effectiveValues.${attrName} ?? ${defaultValue}}${attr.unit}\``;
+      } else if (attr.type === 'number') {
+        // Number with unit - use attr.unit or first value from units array
+        const unit = attr.unit || (attr.units && attr.units[0]) || '';
+
+        // Quote string defaults (e.g., "0px", "1rem") for valid JS output
+        const quotedDefault = typeof defaultValue === 'string' ? `'${defaultValue}'` : defaultValue;
+
+        if (attr.responsive) {
+          // Responsive number - value can be:
+          // - flat number: 1.125
+          // - object with value/unit: { value: 1.5, unit: 'rem' }
+          // - object with device overrides: { value: 1.5, unit: 'rem', tablet: 1.0 }
+          if (unit) {
+            styleValue = `(() => { const rawVal = effectiveValues.${attrName}; if (rawVal === undefined || rawVal === null) return ${quotedDefault}; if (typeof rawVal === 'number') return \`\${rawVal}${unit}\`; const deviceVal = rawVal[responsiveDevice] ?? rawVal.value ?? ${quotedDefault}; const unitVal = rawVal.unit ?? '${unit}'; return \`\${typeof deviceVal === 'object' ? deviceVal.value : deviceVal}\${typeof deviceVal === 'object' && deviceVal.unit ? deviceVal.unit : unitVal}\`; })()`;
+          } else {
+            // Unitless responsive number (e.g., line-height)
+            styleValue = `(() => { const rawVal = effectiveValues.${attrName}; if (rawVal === undefined || rawVal === null) return ${quotedDefault}; if (typeof rawVal === 'number') return rawVal; return rawVal[responsiveDevice] ?? rawVal.value ?? ${quotedDefault}; })()`;
+          }
+        } else {
+          // Non-responsive number
+          if (unit) {
+            styleValue = `\`\${effectiveValues.${attrName} ?? ${quotedDefault}}${unit}\``;
+          } else {
+            // Unitless number (e.g., line-height) or string with unit
+            styleValue = `effectiveValues.${attrName} ?? ${quotedDefault}`;
+          }
+        }
       } else if (attr.type === 'string') {
         // String value with proper quoting
         const quotedDefault = String(defaultValue).replace(/'/g, "\\'");
-        styleValue = `effectiveValues.${attrName} || '${quotedDefault}'`;
+        if (attr.responsive) {
+          // Responsive string - value can be:
+          // - Flat string: "1.125rem"
+          // - Flat object: { value: 1.125, unit: "rem" }
+          // - With device overrides: { value: 1.125, unit: "rem", tablet: { value: 1, unit: "rem" } }
+          styleValue = `(() => { const val = effectiveValues.${attrName}; if (val === null || val === undefined) return '${quotedDefault}'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return \`\${deviceVal.value}\${deviceVal.unit || ''}\`; } return deviceVal; } if (val.value !== undefined) { return \`\${val.value}\${val.unit || ''}\`; } } return '${quotedDefault}'; })()`;
+        } else {
+          // Non-responsive string - value can be a plain string or { value, unit } object from SliderWithInput
+          styleValue = `(() => { const val = effectiveValues.${attrName}; if (val === null || val === undefined) return '${quotedDefault}'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return \`\${val.value}\${val.unit || ''}\`; } return '${quotedDefault}'; })()`;
+        }
       } else if (attr.type === 'boolean') {
         // Boolean (usually for display property)
         styleValue = `effectiveValues.${attrName} ? 'flex' : 'none'`;
@@ -1453,13 +1646,15 @@ function generateCustomizationStylesFunction(blockType) {
   code.push(`    }`);
   code.push(``);
   code.push(`    const isResponsiveValue = value && typeof value === 'object' &&`);
-  code.push(`      (value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined);`);
+  code.push(`      (value.tablet !== undefined || value.mobile !== undefined);`);
   code.push(``);
   code.push(`    if (isResponsiveValue) {`);
-  code.push(`      if (value.desktop !== undefined && value.desktop !== null) {`);
-  code.push(`        const formattedDesktop = formatCssValue(attrName, value.desktop, '${blockType}');`);
-  code.push(`        if (formattedDesktop !== null) {`);
-  code.push(`          styles[cssVar] = formattedDesktop;`);
+  code.push(`      // Base (global) is at root level as value.value, not a device key`);
+  code.push(`      const baseValue = value.value !== undefined ? value.value : value;`);
+  code.push(`      if (baseValue !== null && baseValue !== undefined) {`);
+  code.push(`        const formattedGlobal = formatCssValue(attrName, baseValue, '${blockType}');`);
+  code.push(`        if (formattedGlobal !== null) {`);
+  code.push(`          styles[cssVar] = formattedGlobal;`);
   code.push(`        }`);
   code.push(`      }`);
   code.push(``);
@@ -1618,6 +1813,164 @@ function injectCodeIntoBlocks(schemas) {
 }
 
 // ============================================================================
+// Validation Functions
+// ============================================================================
+
+/**
+ * Validate that all cssProperty values in a schema are mapped in CSS_PROPERTY_SCALES
+ * This ensures no cssProperty is used without proper scale/unit definitions
+ *
+ * @param {Object} schema - Block schema with attributes
+ * @param {string} blockType - Block type name (accordion, tabs, toc)
+ * @returns {Object} Validation result { valid: boolean, errors: string[] }
+ */
+function validateCssPropertyMappings(schema, blockType) {
+  const errors = [];
+
+  for (const [attrName, attr] of Object.entries(schema.attributes)) {
+    if (!attr.cssProperty) continue;
+
+    const resolved = CSS_PROPERTY_ALIASES[attr.cssProperty] || attr.cssProperty;
+    if (!CSS_PROPERTY_SCALES[resolved]) {
+      errors.push(
+        `[${blockType}] Attribute "${attrName}" has cssProperty "${attr.cssProperty}" ` +
+        `which is not mapped in CSS_PROPERTY_SCALES`
+      );
+    }
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
+/**
+ * Validate BorderPanel control groups in schema
+ * Ensures each controlId has exactly 3 attrs with correct cssProperty endings
+ *
+ * @param {Object} schema - Block schema
+ * @param {string} blockType - Block type name
+ * @returns {Object} Validation result { valid: boolean, errors: string[] }
+ */
+function validateBorderPanelGroups(schema, blockType) {
+	const errors = [];
+	const borderAttrs = Object.entries(schema.attributes)
+		.filter(([, attr]) => attr.control === 'BorderPanel');
+
+	if (borderAttrs.length === 0) {
+		return { valid: true, errors: [] };
+	}
+
+	// Group by controlId
+	const groups = {};
+	borderAttrs.forEach(([attrName, attr]) => {
+		const controlId = attr.controlId;
+		if (!controlId) {
+			errors.push(
+				`[${blockType}] BorderPanel attribute "${attrName}" missing controlId`
+			);
+			return;
+		}
+
+		if (!groups[controlId]) {
+			groups[controlId] = [];
+		}
+		groups[controlId].push([attrName, attr]);
+	});
+
+	// Validate each group
+	for (const [controlId, attrs] of Object.entries(groups)) {
+		// Check: exactly 3 attributes
+		if (attrs.length !== 3) {
+			errors.push(
+				`[${blockType}] BorderPanel controlId "${controlId}" has ${attrs.length} attrs, expected 3`
+			);
+			continue;
+		}
+
+		// Note: order field validation removed - controlId is what groups attributes together
+		// Each attribute can have its own order, or the group ordering is determined elsewhere
+
+		// Check: has width, color, style (by cssProperty endings)
+		const hasWidth = attrs.some(([, attr]) => attr.cssProperty?.endsWith('width'));
+		const hasColor = attrs.some(([, attr]) => attr.cssProperty?.endsWith('color'));
+		const hasStyle = attrs.some(([, attr]) => attr.cssProperty?.endsWith('style'));
+
+		if (!hasWidth || !hasColor || !hasStyle) {
+			errors.push(
+				`[${blockType}] BorderPanel controlId "${controlId}" missing required attrs. ` +
+				`Has: width=${hasWidth}, color=${hasColor}, style=${hasStyle}`
+			);
+		}
+	}
+
+	return {
+		valid: errors.length === 0,
+		errors,
+	};
+}
+
+/**
+ * Validate PanelColorSettings control groups in schema
+ * Ensures each controlId has at least 2 attrs with exactly 1 having order field
+ *
+ * @param {Object} schema - Block schema
+ * @param {string} blockType - Block type name
+ * @returns {Object} Validation result { valid: boolean, errors: string[] }
+ */
+function validatePanelColorSettingsGroups(schema, blockType) {
+	const errors = [];
+	const colorAttrs = Object.entries(schema.attributes)
+		.filter(([, attr]) => attr.control === 'PanelColorSettings');
+
+	if (colorAttrs.length === 0) {
+		return { valid: true, errors: [] };
+	}
+
+	// Group by controlId
+	const groups = {};
+	colorAttrs.forEach(([attrName, attr]) => {
+		const controlId = attr.controlId;
+		if (!controlId) {
+			errors.push(
+				`[${blockType}] PanelColorSettings attribute "${attrName}" missing controlId`
+			);
+			return;
+		}
+
+		if (!groups[controlId]) {
+			groups[controlId] = [];
+		}
+		groups[controlId].push([attrName, attr]);
+	});
+
+	// Validate each group
+	for (const [controlId, attrs] of Object.entries(groups)) {
+		// Check: at least 2 attributes (typically text + background)
+		if (attrs.length < 2) {
+			errors.push(
+				`[${blockType}] PanelColorSettings controlId "${controlId}" has ${attrs.length} attrs, expected at least 2`
+			);
+			continue;
+		}
+
+		// Note: order field validation removed - controlId is what groups attributes together
+
+		// Check: all have colorLabel
+		const missingColorLabel = attrs.filter(([, attr]) => !attr.colorLabel);
+		if (missingColorLabel.length > 0) {
+			const attrNames = missingColorLabel.map(([name]) => name).join(', ');
+			errors.push(
+				`[${blockType}] PanelColorSettings controlId "${controlId}" has attrs missing colorLabel: ${attrNames}`
+			);
+		}
+	}
+
+	return {
+		valid: errors.length === 0,
+		errors,
+	};
+}
+
+// ============================================================================
 // Main Compiler
 // ============================================================================
 
@@ -1656,6 +2009,33 @@ async function compile() {
 
     // Generate files for each block (silent unless errors)
     for (const [blockType, schema] of Object.entries(schemas)) {
+      // Validate BorderPanel groups
+      const borderValidation = validateBorderPanelGroups(schema, blockType);
+      if (!borderValidation.valid) {
+        for (const error of borderValidation.errors) {
+          console.error(`❌ ${error}`);
+          results.errors.push(error);
+        }
+      }
+
+      // Validate PanelColorSettings groups
+      const colorValidation = validatePanelColorSettingsGroups(schema, blockType);
+      if (!colorValidation.valid) {
+        for (const error of colorValidation.errors) {
+          console.error(`❌ ${error}`);
+          results.errors.push(error);
+        }
+      }
+
+      // Validate cssProperty mappings against CSS_PROPERTY_SCALES
+      const cssPropertyValidation = validateCssPropertyMappings(schema, blockType);
+      if (!cssPropertyValidation.valid) {
+        for (const error of cssPropertyValidation.errors) {
+          console.error(`❌ ${error}`);
+          results.errors.push(error);
+        }
+      }
+
       // TypeScript types
       try {
         const { fileName, content } = generateTypeScript(blockType, schema);
@@ -1817,6 +2197,9 @@ async function compile() {
 
 // Run compiler
 async function main() {
+  // Load CSS property scales (ES module) before compilation
+  await loadCssPropertyScales();
+
   // Run schema compilation first
   await compile();
 

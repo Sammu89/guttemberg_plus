@@ -18,6 +18,9 @@ export { ControlRenderer } from './ControlRenderer';
 // Subgroup Panel - Panel with subgroup selector for complex groups
 export { SubgroupPanel } from './SubgroupPanel';
 
+// ToolsPanel Wrapper - Modern panel using WordPress ToolsPanel
+export { ToolsPanelWrapper } from './ToolsPanelWrapper';
+
 // Generic Panel - Schema-driven panel for any attribute group
 export { default as GenericPanel } from './GenericPanel';
 

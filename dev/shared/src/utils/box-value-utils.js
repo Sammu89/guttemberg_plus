@@ -5,7 +5,7 @@
  * Supports:
  * - Numeric values with unit (e.g., { top: 1, right: 1, bottom: 1, left: 1, unit: "px" })
  * - String values (e.g., { top: "#fff", right: "#fff", bottom: "#fff", left: "#fff" })
- * - Responsive wrappers (e.g., { desktop: {...}, tablet: {...}, mobile: {...} })
+ * - Responsive wrappers (e.g., { value: {...}, tablet: {...}, mobile: {...} })
  * - Linked/unlinked states
  */
 
@@ -21,7 +21,7 @@
 
 /**
  * @typedef {Object} ResponsiveBoxValue
- * @property {BoxValue|string} [desktop] - Desktop breakpoint value
+ * @property {BoxValue|string} [value] - Base/global value (applies to all breakpoints unless overridden)
  * @property {BoxValue|string} [tablet] - Tablet breakpoint value
  * @property {BoxValue|string} [mobile] - Mobile breakpoint value
  */
@@ -35,7 +35,8 @@ export function isResponsiveValue(value) {
 	if (!value || typeof value !== 'object') {
 		return false;
 	}
-	return 'desktop' in value || 'tablet' in value || 'mobile' in value;
+	// Responsive values have tablet or mobile keys (global/base is at value.value, not a device key)
+	return 'tablet' in value || 'mobile' in value;
 }
 
 /**
@@ -84,9 +85,10 @@ export function normalizeBoxValue(value, defaultValue = '') {
 		};
 	}
 
-	// Handle responsive wrapper - normalize the desktop value
+	// Handle responsive wrapper - normalize the base value (global is at value.value, not a device key)
 	if (isResponsiveValue(value)) {
-		return normalizeBoxValue(value.desktop, defaultValue);
+		const baseValue = value.value ?? value;
+		return normalizeBoxValue(baseValue, defaultValue);
 	}
 
 	// Handle string or number - same value for all sides
@@ -182,7 +184,8 @@ export function formatBoxValueToCss(value, unit = '') {
 
 	// Handle responsive wrapper
 	if (isResponsiveValue(value)) {
-		return formatBoxValueToCss(value.desktop, unit);
+		const baseValue = value.value ?? value;
+		return formatBoxValueToCss(baseValue, unit);
 	}
 
 	// Handle box value object
@@ -259,7 +262,8 @@ export function isBoxValueLinked(value) {
 
 	// Handle responsive wrapper
 	if (isResponsiveValue(value)) {
-		return isBoxValueLinked(value.desktop);
+		const baseValue = value.value ?? value;
+		return isBoxValueLinked(baseValue);
 	}
 
 	// Handle box value object
@@ -310,7 +314,8 @@ export function getSideValue(value, side, defaultValue = '') {
 
 	// Handle responsive wrapper
 	if (isResponsiveValue(value)) {
-		return getSideValue(value.desktop, side, defaultValue);
+		const baseValue = value.value ?? value;
+		return getSideValue(baseValue, side, defaultValue);
 	}
 
 	// Handle box value object
@@ -500,16 +505,23 @@ export function parseBoxValueFromCss(cssValue, unit = '') {
  * Applies a responsive wrapper to a box value for a specific breakpoint.
  *
  * @param {ResponsiveBoxValue|BoxValue|null} currentValue - Current responsive or non-responsive value
- * @param {'desktop'|'tablet'|'mobile'} breakpoint - The breakpoint to update
+ * @param {'global'|'tablet'|'mobile'} breakpoint - The breakpoint to update
  * @param {BoxValue} newValue - The new box value for the breakpoint
  * @returns {ResponsiveBoxValue} Updated responsive value object
  *
  * @example
- * setResponsiveBoxValue(null, 'desktop', { top: 10, right: 10, bottom: 10, left: 10, linked: true })
- * // Returns: { desktop: { top: 10, right: 10, bottom: 10, left: 10, linked: true } }
+ * setResponsiveBoxValue(null, 'global', { top: 10, right: 10, bottom: 10, left: 10, linked: true })
+ * // Returns: { value: { top: 10, right: 10, bottom: 10, left: 10, linked: true } }
  */
 export function setResponsiveBoxValue(currentValue, breakpoint, newValue) {
 	if (isResponsiveValue(currentValue)) {
+		// Global updates value.value, tablet/mobile add device keys
+		if (breakpoint === 'global') {
+			return {
+				...currentValue,
+				value: newValue,
+			};
+		}
 		return {
 			...currentValue,
 			[breakpoint]: newValue,
@@ -517,32 +529,45 @@ export function setResponsiveBoxValue(currentValue, breakpoint, newValue) {
 	}
 
 	// Convert non-responsive to responsive
+	if (breakpoint === 'global') {
+		// Global sets base value
+		return {
+			value: newValue,
+		};
+	}
+	// Tablet/mobile creates responsive with base + device key
 	return {
-		desktop: breakpoint === 'desktop' ? newValue : normalizeBoxValue(currentValue),
+		value: normalizeBoxValue(currentValue),
 		[breakpoint]: newValue,
 	};
 }
 
 /**
  * Gets the box value for a specific breakpoint from a responsive value.
- * Falls back to desktop, then to default if breakpoint not found.
+ * Falls back to global/base, then to default if breakpoint not found.
  *
  * @param {ResponsiveBoxValue|BoxValue|string|number|null} value - The responsive or non-responsive value
- * @param {'desktop'|'tablet'|'mobile'} breakpoint - The breakpoint to get
+ * @param {'global'|'tablet'|'mobile'} breakpoint - The breakpoint to get
  * @param {string|number} [defaultValue=''] - Default value if not found
  * @returns {BoxValue} The box value for the breakpoint
  *
  * @example
- * getResponsiveBoxValue({ desktop: {...}, tablet: {...} }, 'tablet')
+ * getResponsiveBoxValue({ value: {...}, tablet: {...} }, 'tablet')
  * // Returns: tablet box value
  *
  * @example
- * getResponsiveBoxValue({ desktop: {...} }, 'mobile')
- * // Returns: desktop box value (fallback)
+ * getResponsiveBoxValue({ value: {...} }, 'mobile')
+ * // Returns: global/base box value (fallback)
  */
 export function getResponsiveBoxValue(value, breakpoint, defaultValue = '') {
 	if (!isResponsiveValue(value)) {
 		return normalizeBoxValue(value, defaultValue);
+	}
+
+	// Global uses base value (value.value), tablet/mobile use their keys
+	if (breakpoint === 'global') {
+		const baseValue = value.value ?? value;
+		return normalizeBoxValue(baseValue, defaultValue);
 	}
 
 	// Try the requested breakpoint first
@@ -550,9 +575,10 @@ export function getResponsiveBoxValue(value, breakpoint, defaultValue = '') {
 		return normalizeBoxValue(value[breakpoint], defaultValue);
 	}
 
-	// Fall back to desktop
-	if (value.desktop !== undefined) {
-		return normalizeBoxValue(value.desktop, defaultValue);
+	// Fall back to base value
+	const baseValue = value.value ?? value;
+	if (baseValue !== undefined) {
+		return normalizeBoxValue(baseValue, defaultValue);
 	}
 
 	return normalizeBoxValue(null, defaultValue);

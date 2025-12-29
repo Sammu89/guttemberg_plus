@@ -16,6 +16,7 @@
  */
 
 import { PanelBody } from '@wordpress/components';
+import { __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients } from '@wordpress/block-editor';
 import { ControlRenderer } from './ControlRenderer';
 
 /**
@@ -26,7 +27,7 @@ import { ControlRenderer } from './ControlRenderer';
  *
  * @param {Object}   props                 Component props
  * @param {Object}   props.schema          JSON schema with attribute definitions and groups
- * @param {string}   props.schemaGroup     Group name to filter attributes (e.g., 'headerColors')
+ * @param {string}   props.groupId         Group ID to filter attributes (e.g., 'borders', 'colors')
  * @param {Object}   props.attributes      Block attributes
  * @param {Function} props.setAttributes   Function to update block attributes
  * @param {Object}   props.effectiveValues All effective values from cascade resolution
@@ -39,7 +40,7 @@ import { ControlRenderer } from './ControlRenderer';
  */
 export function GenericPanel( {
 	schema = {},
-	schemaGroup = '',
+	groupId = '',
 	attributes = {},
 	setAttributes,
 	effectiveValues = {},
@@ -49,18 +50,34 @@ export function GenericPanel( {
 	title,
 	pago = 'nao',
 } ) {
+	// Get theme colors and gradients for color controls
+	const colorGradientSettings = useMultipleOriginColorsAndGradients();
+
 	// Validate required props
 	if ( ! setAttributes ) {
-		console.warn( '[GenericPanel] Missing required prop: setAttributes' );
 		return null;
 	}
 
-	if ( ! schema || ! schemaGroup ) {
+	if ( ! schema || ! groupId ) {
 		return null;
+	}
+
+	// Get group configuration from schema tabs
+	// Find the group by searching through all tabs
+	let groupConfig = null;
+	if ( schema.tabs && Array.isArray( schema.tabs ) ) {
+		for ( const tab of schema.tabs ) {
+			if ( tab.groups && Array.isArray( tab.groups ) ) {
+				groupConfig = tab.groups.find( ( g ) => g.id === groupId );
+				if ( groupConfig ) {
+					break;
+				}
+			}
+		}
 	}
 
 	// Get group title from schema or use provided title
-	const groupTitle = title || schema.groups?.[ schemaGroup ]?.title || schemaGroup;
+	const groupTitle = title || groupConfig?.title || groupId;
 
 	// Filter attributes: only those in this group (show ALL, not just themeable)
 	// Also filter out attributes with visibleOnSidebar: false
@@ -68,7 +85,7 @@ export function GenericPanel( {
 	const groupAttributes = Object.entries( schema.attributes || {} )
 		.filter( ( [ , attrConfig ] ) => {
 			// Must be in this group
-			if ( attrConfig.group !== schemaGroup ) {
+			if ( attrConfig.group !== groupId ) {
 				return false;
 			}
 			// Must be visible on sidebar (default: true)
@@ -96,21 +113,35 @@ export function GenericPanel( {
 	// Build panel title with paid indicator if needed
 	const panelTitle = pago === 'sim' ? `${ groupTitle } (Pro)` : groupTitle;
 
+	// Track rendered controlIds to avoid duplicate composite controls (e.g., BorderPanel)
+	const renderedControlIds = new Set();
+
 	return (
 		<PanelBody title={ panelTitle } initialOpen={ initialOpen }>
-			{ groupAttributes.map( ( attrConfig ) => (
-				<ControlRenderer
-					key={ attrConfig.name }
-					attrName={ attrConfig.name }
-					attrConfig={ attrConfig }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					schema={ schema }
-					theme={ theme }
-					cssDefaults={ cssDefaults }
-				/>
-			) ) }
+			{ groupAttributes.map( ( attrConfig ) => {
+				// Skip if this controlId was already rendered (for composite controls like BorderPanel)
+				if ( attrConfig.controlId ) {
+					if ( renderedControlIds.has( attrConfig.controlId ) ) {
+						return null;
+					}
+					renderedControlIds.add( attrConfig.controlId );
+				}
+
+				return (
+					<ControlRenderer
+						key={ attrConfig.name }
+						attrName={ attrConfig.name }
+						attrConfig={ attrConfig }
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						effectiveValues={ effectiveValues }
+						schema={ schema }
+						theme={ theme }
+						cssDefaults={ cssDefaults }
+						colorGradientSettings={ colorGradientSettings }
+					/>
+				);
+			} ) }
 		</PanelBody>
 	);
 }

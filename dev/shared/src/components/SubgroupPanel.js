@@ -18,6 +18,7 @@ import {
 	MenuGroup,
 	MenuItem,
 } from '@wordpress/components';
+import { __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients } from '@wordpress/block-editor';
 import { moreVertical, check } from '@wordpress/icons';
 import { Icon } from '@wordpress/components';
 import { ControlRenderer } from './ControlRenderer';
@@ -123,7 +124,7 @@ function SubgroupSelector( { subgroups, selected, onSelect, useDropdown = false 
  * A panel that organizes controls into subgroups with a selector.
  *
  * @param {Object}   props                 Component props
- * @param {string}   props.groupName       Name of the group
+ * @param {string}   props.groupId         ID of the group
  * @param {Object}   props.groupConfig     Group configuration with subgroups array
  * @param {Object}   props.schema          Full schema object
  * @param {Object}   props.attributes      Block attributes
@@ -136,7 +137,7 @@ function SubgroupSelector( { subgroups, selected, onSelect, useDropdown = false 
  * @returns {JSX.Element|null} Rendered panel or null
  */
 export function SubgroupPanel( {
-	groupName,
+	groupId,
 	groupConfig,
 	schema,
 	attributes,
@@ -147,9 +148,21 @@ export function SubgroupPanel( {
 	initialOpen = false,
 	useDropdown = false,
 } ) {
-	// Get subgroups from group config
-	const subgroups = groupConfig?.subgroups || [];
-	const groupTitle = groupConfig?.title || groupName;
+	// Get theme colors and gradients for color controls
+	const colorGradientSettings = useMultipleOriginColorsAndGradients();
+
+	// Get subgroups from group config and sort by order
+	// Subgroups are now objects with 'name' and 'order' properties
+	const subgroupObjects = groupConfig?.subgroups || [];
+	const subgroups = subgroupObjects
+		.sort( ( a, b ) => {
+			const orderA = a.order !== undefined ? a.order : 999;
+			const orderB = b.order !== undefined ? b.order : 999;
+			return orderA - orderB;
+		} )
+		.map( ( sg ) => sg.name ); // Extract just the names
+
+	const groupTitle = groupConfig?.title || groupId;
 
 	// Track selected subgroup (default to first)
 	const [ selectedSubgroup, setSelectedSubgroup ] = useState(
@@ -158,17 +171,16 @@ export function SubgroupPanel( {
 
 	// Validate required props
 	if ( ! setAttributes ) {
-		console.warn( '[SubgroupPanel] Missing required prop: setAttributes' );
 		return null;
 	}
 
-	if ( ! schema || ! groupName ) {
+	if ( ! schema || ! groupId ) {
 		return null;
 	}
 
 	// Filter attributes for this group
 	const groupAttributes = Object.entries( schema.attributes || {} )
-		.filter( ( [ , attrConfig ] ) => attrConfig.group === groupName )
+		.filter( ( [ , attrConfig ] ) => attrConfig.group === groupId )
 		.map( ( [ attrName, attrConfig ] ) => ( {
 			name: attrName,
 			...attrConfig,
@@ -198,49 +210,73 @@ export function SubgroupPanel( {
 		  } )
 		: groupAttributes;
 
-	// If no attributes for this subgroup, show empty message
-	if ( filteredAttributes.length === 0 && hasSubgroups ) {
+	// 2x2 Grid button selector for subgroups
+	const SubgroupGrid = () => {
+		if ( ! hasSubgroups ) {
+			return null;
+		}
+
 		return (
-			<PanelBody title={ groupTitle } initialOpen={ initialOpen }>
-				<SubgroupSelector
-					subgroups={ subgroups }
-					selected={ selectedSubgroup }
-					onSelect={ setSelectedSubgroup }
-					useDropdown={ useDropdown || subgroups.length > 4 }
-				/>
-				<p style={ { color: '#757575', fontSize: '12px' } }>
-					No controls available for this section.
-				</p>
-			</PanelBody>
+			<div
+				style={ {
+					display: 'grid',
+					gridTemplateColumns: 'repeat(2, 1fr)',
+					gap: '8px',
+					marginBottom: '16px',
+				} }
+			>
+				{ subgroups.map( ( subgroup ) => (
+					<Button
+						key={ subgroup }
+						variant={ subgroup === selectedSubgroup ? 'primary' : 'secondary' }
+						onClick={ () => setSelectedSubgroup( subgroup ) }
+						style={ {
+							justifyContent: 'center',
+							width: '100%',
+						} }
+					>
+						{ subgroup }
+					</Button>
+				) ) }
+			</div>
 		);
-	}
+	};
+
+	// Track rendered controlIds to avoid duplicate composite controls (e.g., BorderPanel)
+	const renderedControlIds = new Set();
 
 	return (
 		<PanelBody title={ groupTitle } initialOpen={ initialOpen }>
-			{ /* Subgroup selector */ }
-			{ hasSubgroups && (
-				<SubgroupSelector
-					subgroups={ subgroups }
-					selected={ selectedSubgroup }
-					onSelect={ setSelectedSubgroup }
-					useDropdown={ useDropdown || subgroups.length > 4 }
-				/>
-			) }
+			{ /* 2x2 Grid of subgroup buttons */ }
+			<SubgroupGrid />
 
-			{ /* Render controls for selected subgroup */ }
-			{ filteredAttributes.map( ( attrConfig ) => (
-				<ControlRenderer
-					key={ attrConfig.name }
-					attrName={ attrConfig.name }
-					attrConfig={ attrConfig }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					effectiveValues={ effectiveValues }
-					schema={ schema }
-					theme={ theme }
-					cssDefaults={ cssDefaults }
-				/>
-			) ) }
+			{ /* Render controls directly without ToolsPanel wrapper */ }
+			<div className="gutplus-subgroup-controls">
+				{ filteredAttributes.map( ( attrConfig ) => {
+					// Skip if this controlId was already rendered (for composite controls like BorderPanel)
+					if ( attrConfig.controlId ) {
+						if ( renderedControlIds.has( attrConfig.controlId ) ) {
+							return null;
+						}
+						renderedControlIds.add( attrConfig.controlId );
+					}
+
+					return (
+						<ControlRenderer
+							key={ attrConfig.name }
+							attrName={ attrConfig.name }
+							attrConfig={ attrConfig }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							effectiveValues={ effectiveValues }
+							schema={ schema }
+							theme={ theme }
+							cssDefaults={ cssDefaults }
+							colorGradientSettings={ colorGradientSettings }
+						/>
+					);
+				} ) }
+			</div>
 		</PanelBody>
 	);
 }

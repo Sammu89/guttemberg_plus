@@ -2,8 +2,12 @@
  * Responsive Wrapper Component
  *
  * Wraps any control with device switcher for responsive editing.
- * Provides value inheritance logic (mobile inherits tablet, tablet inherits desktop).
+ * Provides value inheritance logic (mobile inherits tablet, tablet inherits global/base).
  * Shows an inherited badge when value comes from a larger breakpoint.
+ *
+ * Uses FLAT BASE structure:
+ * - Base/global values at ROOT level: { value: 10, unit: 'px', tablet: {...}, mobile: {...} }
+ * - NOT under a 'global' or 'desktop' key
  *
  * @package guttemberg-plus
  * @since 1.0.0
@@ -13,44 +17,64 @@ import { useState, useMemo } from '@wordpress/element';
 import { BaseControl, Flex, FlexItem, FlexBlock } from '@wordpress/components';
 import { DeviceSwitcher } from './DeviceSwitcher';
 import { ResetButton } from './ResetButton';
+import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
+
+/**
+ * Extract the base/global value from a flat responsive structure
+ * Base value is at root level, not under a key
+ *
+ * @param {Object} vals - Responsive values object
+ * @returns {*} Base value object or null
+ */
+function getBaseValue( vals ) {
+	if ( ! vals || typeof vals !== 'object' ) {
+		return vals;
+	}
+	const { tablet, mobile, ...base } = vals;
+	return Object.keys( base ).length > 0 ? base : null;
+}
 
 /**
  * Get the inherited value for a device based on cascade logic
- * Mobile inherits from tablet, tablet inherits from desktop
+ * Mobile inherits from tablet, tablet inherits from global/base
  *
- * @param {Object} values - Object with desktop, tablet, mobile values
- * @param {string} device - Current device (desktop, tablet, mobile)
+ * Uses FLAT BASE structure where base values are at root level
+ *
+ * @param {Object} values - Object with base values at root, tablet, mobile as keys
+ * @param {string} device - Current device (global, tablet, mobile)
  * @returns {Object} Object with value and inheritedFrom (null if not inherited)
  */
 function getInheritedValue( values, device ) {
-	const { desktop, tablet, mobile } = values || {};
+	const baseValue = getBaseValue( values );
+	const tabletValue = values?.tablet;
+	const mobileValue = values?.mobile;
 
 	switch ( device ) {
-		case 'desktop':
+		case 'global':
 			return {
-				value: desktop ?? null,
+				value: baseValue ?? null,
 				inheritedFrom: null,
 			};
 
 		case 'tablet':
-			if ( tablet !== undefined && tablet !== null ) {
-				return { value: tablet, inheritedFrom: null };
+			if ( tabletValue !== undefined && tabletValue !== null ) {
+				return { value: tabletValue, inheritedFrom: null };
 			}
 			return {
-				value: desktop ?? null,
-				inheritedFrom: desktop !== undefined && desktop !== null ? 'desktop' : null,
+				value: baseValue ?? null,
+				inheritedFrom: baseValue !== undefined && baseValue !== null ? 'global' : null,
 			};
 
 		case 'mobile':
-			if ( mobile !== undefined && mobile !== null ) {
-				return { value: mobile, inheritedFrom: null };
+			if ( mobileValue !== undefined && mobileValue !== null ) {
+				return { value: mobileValue, inheritedFrom: null };
 			}
-			if ( tablet !== undefined && tablet !== null ) {
-				return { value: tablet, inheritedFrom: 'tablet' };
+			if ( tabletValue !== undefined && tabletValue !== null ) {
+				return { value: tabletValue, inheritedFrom: 'tablet' };
 			}
 			return {
-				value: desktop ?? null,
-				inheritedFrom: desktop !== undefined && desktop !== null ? 'desktop' : null,
+				value: baseValue ?? null,
+				inheritedFrom: baseValue !== undefined && baseValue !== null ? 'global' : null,
 			};
 
 		default:
@@ -68,51 +92,29 @@ function getInheritedValue( values, device ) {
  * @returns {JSX.Element|null} Badge element or null
  */
 function InheritedBadge( { from } ) {
-	if ( ! from ) {
-		return null;
-	}
-
-	const labels = {
-		desktop: 'Desktop',
-		tablet: 'Tablet',
-		mobile: 'Mobile',
-	};
-
-	return (
-		<span
-			className="gutplus-inherited-badge"
-			style={ {
-				fontSize: '10px',
-				backgroundColor: '#e0e0e0',
-				color: '#666',
-				padding: '2px 6px',
-				borderRadius: '3px',
-				marginLeft: '8px',
-				fontWeight: 500,
-				textTransform: 'uppercase',
-				letterSpacing: '0.5px',
-			} }
-		>
-			{ `From ${ labels[ from ] || from }` }
-		</span>
-	);
+	// Hidden - user doesn't want text showing
+	return null;
 }
 
 /**
  * Responsive Wrapper Component
  *
  * Wraps any control to add responsive (device-based) editing capabilities.
- * Manages device state and value inheritance automatically.
+ * Uses global device state for synchronization across all controls.
+ *
+ * Uses FLAT BASE structure:
+ * - Base/global values at ROOT level: { value: 10, unit: 'px', tablet: {...}, mobile: {...} }
+ * - NOT under a 'global' key
  *
  * @param {Object}      props                  Component props
  * @param {string}      props.label            Label for the control
- * @param {Object}      props.values           Object with { desktop, tablet, mobile } values
+ * @param {Object}      props.values           Object with base values at root, tablet/mobile as keys
  * @param {Function}    props.onChange         Callback receiving (device, value)
  * @param {Function}    props.onReset          Callback for reset button (optional)
  * @param {boolean}     props.showReset        Whether to show reset button (default: true)
  * @param {*}           props.defaultValue     Default value for comparison
  * @param {string}      props.help             Help text for the control
- * @param {string}      props.initialDevice    Initial device to show (default: 'desktop')
+ * @param {string}      props.initialDevice    (Deprecated - uses global device state)
  * @param {JSX.Element} props.children         Render prop function receiving (effectiveValue, device, isInherited)
  * @returns {JSX.Element} Responsive-wrapped control
  */
@@ -124,10 +126,11 @@ export function ResponsiveWrapper( {
 	showReset = true,
 	defaultValue,
 	help,
-	initialDevice = 'desktop',
+	initialDevice = 'global',
 	children,
 } ) {
-	const [ device, setDevice ] = useState( initialDevice );
+	// Use global device state instead of local state for synchronization across all controls
+	const device = useResponsiveDevice();
 
 	// Calculate inherited value for current device
 	const { value: effectiveValue, inheritedFrom } = useMemo(
@@ -138,7 +141,8 @@ export function ResponsiveWrapper( {
 	const isInherited = inheritedFrom !== null;
 
 	// Determine if reset should be disabled
-	const currentDeviceValue = values?.[ device ];
+	// For 'global' device, check base value; for tablet/mobile, check the key directly
+	const currentDeviceValue = device === 'global' ? getBaseValue( values ) : values?.[ device ];
 	const isResetDisabled = currentDeviceValue === undefined || currentDeviceValue === null;
 
 	// Handler for value changes
@@ -167,12 +171,12 @@ export function ResponsiveWrapper( {
 						</span>
 					</FlexItem>
 					<FlexItem>
-						<Flex gap={ 2 }>
-							<FlexItem>
-								<DeviceSwitcher value={ device } onChange={ setDevice } />
+						<Flex gap={ 1 } align="center" style={ { flexWrap: 'nowrap' } }>
+							<FlexItem style={ { flexShrink: 0 } }>
+								<DeviceSwitcher value={ device } />
 							</FlexItem>
 							{ showReset && (
-								<FlexItem>
+								<FlexItem style={ { flexShrink: 0, marginLeft: '4px' } }>
 									<ResetButton
 										onClick={ handleReset }
 										disabled={ isResetDisabled }
@@ -204,8 +208,10 @@ export function ResponsiveWrapper( {
  * Helper hook for responsive values
  * Use this when you need to manage responsive state outside of ResponsiveWrapper
  *
- * @param {Object} values - Object with { desktop, tablet, mobile } values
- * @param {string} device - Current device
+ * Uses FLAT BASE structure where base values are at root level
+ *
+ * @param {Object} values - Object with base values at root, tablet/mobile as keys
+ * @param {string} device - Current device (global, tablet, mobile)
  * @returns {Object} Object with effectiveValue, isInherited, inheritedFrom
  */
 export function useResponsiveValue( values, device ) {

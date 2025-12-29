@@ -38,7 +38,7 @@ import {
 	ThemeSelector,
 	SchemaPanels,
 	CustomizationWarning,
-	debug,
+	BreakpointSettings,
 	useThemeManager,
 	useBlockAlignment,
 	useResponsiveDevice,
@@ -56,7 +56,6 @@ import './editor.scss';
  * @param root0.clientId
  */
 export default function Edit( { attributes, setAttributes, clientId } ) {
-	debug( '[DEBUG] TOC Edit mounted with attributes:', attributes );
 
 	const { tocId, showTitle, titleText, tocItems = [], deletedHeadingIds = [], enableHierarchicalIndent, levelIndent } = attributes;
 	const [ headings, setHeadings ] = useState( [] );
@@ -465,13 +464,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
 
-	debug( '[DEBUG] TOC effective values:', effectiveValues );
-	debug( '[DEBUG] TOC expected values:', expectedValues );
-	debug( '[DEBUG] TOC isCustomized:', isCustomized );
-
-	/**
-	 * Generate CSS variables from effective values for editor preview
-	 */
+		/**
+		 * Generate CSS variables from effective values for editor preview
+		 */
 	const getEditorCSSVariables = () => {
 		const cssVars = {};
 
@@ -503,7 +498,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 // AUTO-GENERATED from schemas/toc.json
 // To modify styles, update the schema and run: npm run schema:build
 
-const getInlineStyles = (responsiveDevice = 'desktop') => {
+const getInlineStyles = (responsiveDevice = 'global') => {
   // Extract object-type attributes with fallbacks
 	const blockBorderColor = effectiveValues.blockBorderColor || {
 		    "top": "#dddddd",
@@ -520,37 +515,38 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 		    "linked": true
 		};
 	const blockBorderRadius = effectiveValues.blockBorderRadius || {
-		    "topLeft": 4,
-		    "topRight": 4,
-		    "bottomRight": 4,
-		    "bottomLeft": 4
+		    "topLeft": "4px",
+		    "topRight": "4px",
+		    "bottomRight": "4px",
+		    "bottomLeft": "4px"
 		};
 
 	return {
 		container: {
-			backgroundColor: effectiveValues.wrapperBackgroundColor || '#ffffff',
-			borderWidth: `${effectiveValues.blockBorderWidth ?? 1}px`,
+			backgroundColor: (() => { const val = effectiveValues.wrapperBackgroundColor; if (val === null || val === undefined) return '#ffffff'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#ffffff'; })(),
+			borderWidth: (() => { const val = effectiveValues.blockBorderWidth; if (val === null || val === undefined) return '1px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1px'; })(),
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
-			boxShadow: effectiveValues.blockShadow || 'none',
-			top: `${effectiveValues.positionTop ?? 6.25}rem`,
+			boxShadow: (() => { const val = effectiveValues.blockShadow; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
+			top: (() => { const val = effectiveValues.positionTop; if (val === null || val === undefined) return '6.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '6.25rem'; })(),
+			zIndex: effectiveValues.zIndex ?? 100,
 		},
 		title: {
-			color: effectiveValues.titleColor || '#333333',
-			backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-			fontSize: `${effectiveValues.titleFontSize ?? 1.25}rem`,
-			fontWeight: effectiveValues.titleFontWeight || '700',
-			fontStyle: effectiveValues.titleFontStyle || 'normal',
-			textTransform: effectiveValues.titleTextTransform || 'none',
-			textDecoration: effectiveValues.titleTextDecoration || 'none',
-			textAlign: effectiveValues.titleAlignment || 'left',
+			color: (() => { const val = effectiveValues.titleColor; if (val === null || val === undefined) return '#333333'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#333333'; })(),
+			backgroundColor: (() => { const val = effectiveValues.titleBackgroundColor; if (val === null || val === undefined) return 'transparent'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'transparent'; })(),
+			fontSize: (() => { const val = effectiveValues.titleFontSize; if (val === null || val === undefined) return '1.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1.25rem'; })(),
+			fontWeight: (() => { const val = effectiveValues.titleFontWeight; if (val === null || val === undefined) return '700'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '700'; })(),
+			fontStyle: (() => { const val = effectiveValues.titleFontStyle; if (val === null || val === undefined) return 'normal'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'normal'; })(),
+			textTransform: (() => { const val = effectiveValues.titleTextTransform; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
+			textDecoration: (() => { const val = effectiveValues.titleTextDecoration; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
+			textAlign: (() => { const val = effectiveValues.titleAlignment; if (val === null || val === undefined) return 'left'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'left'; })(),
 		},
 		content: {
-			padding: `${effectiveValues.wrapperPadding ?? 1.25}rem`,
+			padding: (() => { const val = effectiveValues.wrapperPadding; if (val === null || val === undefined) return '1.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1.25rem'; })(),
 		},
 		icon: {
-			fontSize: `${effectiveValues.iconSize ?? 1.25}rem`,
-			transform: `${effectiveValues.iconRotation ?? 180}deg`,
-			color: effectiveValues.iconColor || '#666666',
+			fontSize: (() => { const val = effectiveValues.iconSize; if (val === null || val === undefined) return '1.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1.25rem'; })(),
+			transform: (() => { const val = effectiveValues.iconRotation; if (val === null || val === undefined) return '180deg'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '180deg'; })(),
+			color: (() => { const val = effectiveValues.iconColor; if (val === null || val === undefined) return '#666666'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#666666'; })(),
 		},
 	};
 };
@@ -573,8 +569,41 @@ const displayHeadings =
 	// IMPORTANT: Force static positioning in editor to prevent overflow issues
 	// Position type (sticky/fixed) should only apply on frontend
 	const editorCSSVars = getEditorCSSVariables();
+
+	/**
+	 * Format dimension value (width/height) with proper unit
+	 * Uses responsiveDevice to extract device-specific values
+	 *
+	 * Data structure:
+	 * - Base (desktop): stored at root level as value.value or string
+	 * - Tablet/Mobile: stored under value.tablet / value.mobile keys
+	 */
+	const formatDimensionValue = ( value, defaultUnit = '%' ) => {
+		if ( value === null || value === undefined ) {
+			return `100${ defaultUnit }`;
+		}
+		// Handle responsive structure - extract value for current device
+		if ( typeof value === 'object' && ( value.tablet !== undefined || value.mobile !== undefined ) ) {
+			// Global uses base value (value.value), tablet/mobile check their key first
+			const deviceValue = responsiveDevice === 'global'
+				? value.value
+				: ( value[ responsiveDevice ] ?? value.value );
+			return formatDimensionValue( deviceValue, defaultUnit );
+		}
+		// Handle { value, unit } object format
+		if ( typeof value === 'object' && value.value !== undefined ) {
+			return `${ value.value }${ value.unit || defaultUnit }`;
+		}
+		// Handle plain number
+		if ( typeof value === 'number' ) {
+			return `${ value }${ defaultUnit }`;
+		}
+		// Handle string (already formatted)
+		return String( value );
+	};
+
 	const rootStyles = {
-		width: effectiveValues.tocWidth,
+		width: formatDimensionValue( effectiveValues.tocWidth, '%' ),
 		...editorCSSVars, // All CSS variables including decomposed
 		// Force normal positioning in editor - override any CSS classes
 		position: 'static',
@@ -786,6 +815,9 @@ const displayHeadings =
 					theme={ themes[ attributes.currentTheme ]?.values }
 					cssDefaults={ allDefaults }
 				/>
+
+				{/* Global breakpoint settings */}
+				<BreakpointSettings />
 
 				{ /* Customization Warning */ }
 				{ isCustomized && (

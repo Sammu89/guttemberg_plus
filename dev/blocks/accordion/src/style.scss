@@ -35,6 +35,7 @@
 	transition: box-shadow 0.2s ease;
 	outline: none;
 	border-width: var(--accordion-border-width, 1px);
+	box-shadow: var(--accordion-shadow, none);
 
 	// Alignment classes - horizontal margins for block positioning
 	&.gutplus-align-left {
@@ -75,6 +76,11 @@
 	);
 }
 
+/* Accordion title wrapper */
+.accordion-title-wrapper {
+	overflow: hidden;
+}
+
 /* Accordion title/button */
 .accordion-title {
 	border: none;
@@ -88,9 +94,6 @@
 	box-sizing: border-box;
 	gap: 0.5rem;
 	text-align: left;
-	font-size: var(--accordion-title-font-size, 1.125rem);
-	letter-spacing: var(--accordion-title-letter-spacing, 0);
-	line-height: var(--accordion-title-line-height, 1.4);
 
 	&.title-align-center {
 		justify-content: center;
@@ -137,7 +140,32 @@
 	/* Ensure min-width allows text to take available space */
 	/* Use !important to override WordPress RichText's inline min-width: 1px */
 	min-width: 0 !important;
-	text-align: inherit;
+
+	// Typography properties
+	color: var(--accordion-title-color);
+	font-family: var(--accordion-title-font-family);
+	font-size: var(--accordion-title-font-size, 1.125rem);
+	font-weight: var(--accordion-title-font-weight, 600);
+	font-style: var(--accordion-title-font-style, normal);
+	letter-spacing: var(--accordion-title-letter-spacing, 0);
+	line-height: var(--accordion-title-line-height, 1.4);
+	text-align: var(--accordion-title-alignment, left);
+	text-transform: var(--accordion-title-text-transform, none);
+	text-decoration-line: var(--accordion-title-text-decoration-line, none);
+	text-decoration-color: var(--accordion-title-decoration-color, currentColor);
+	text-decoration-style: var(--accordion-title-decoration-style, solid);
+	text-decoration-thickness: var(--accordion-title-decoration-width, auto);
+	text-shadow: var(--accordion-title-text-shadow, none);
+
+	// Offset positioning (for "cut" effects)
+	position: relative;
+	left: var(--accordion-title-offset-x, 0);
+	top: var(--accordion-title-offset-y, 0);
+
+	// Hover color (using parent :hover selector)
+	.accordion-title:hover & {
+		color: var(--accordion-title-hover-color, var(--accordion-title-color));
+	}
 }
 
 .accordion-title-text-wrapper {
@@ -170,6 +198,13 @@
 	height: var(--accordion-icon-size, 1.5rem);
 	transition: transform 300ms ease, opacity 300ms ease;
 	flex-shrink: 0;
+
+	// Explicit resets to prevent inheritance
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	text-transform: none;
+	text-shadow: none;
 
 	&.is-rotated {
 		transform: rotate(var(--accordion-icon-rotation, 180deg));

@@ -13,36 +13,63 @@ import GenericPanel from './GenericPanel';
 import SubgroupPanel from './SubgroupPanel';
 
 /**
- * Filter groups by tab assignment
+ * Get all groups from schema tabs
  *
- * Groups are assigned to tabs based on their 'tab' property:
- * - 'settings': Structural/behavioral controls
- * - 'appearance': Visual/styling controls
- * - undefined: Defaults to 'settings'
+ * Extracts and flattens all groups from the tabs array.
+ * Each tab contains an array of groups that need to be collected.
  *
- * @param {Object} groups   - Groups object from schema
- * @param {string} tabName  - Tab name to filter by ('settings' or 'appearance')
- * @returns {Array} Filtered and sorted array of groups
+ * @param {Array} tabs - Tabs array from schema
+ * @returns {Array} All groups with their configuration
  */
-function filterGroupsByTab( groups, tabName ) {
-	if ( ! groups ) {
+function getAllGroups( tabs ) {
+	if ( ! tabs || ! Array.isArray( tabs ) ) {
 		return [];
 	}
 
-	return Object.entries( groups )
-		.filter( ( [ , groupConfig ] ) => {
-			const groupTab = groupConfig.tab || 'settings';
-			return groupTab === tabName;
-		} )
-		.map( ( [ groupName, groupConfig ] ) => ( {
-			name: groupName,
-			...groupConfig,
-		} ) )
-		.sort( ( a, b ) => {
-			const orderA = a.order !== undefined ? a.order : 999;
-			const orderB = b.order !== undefined ? b.order : 999;
-			return orderA - orderB;
-		} );
+	const allGroups = [];
+	tabs.forEach( ( tab ) => {
+		if ( tab.groups && Array.isArray( tab.groups ) ) {
+			allGroups.push( ...tab.groups );
+		}
+	} );
+
+	// Sort by order
+	return allGroups.sort( ( a, b ) => {
+		const orderA = a.order !== undefined ? a.order : 999;
+		const orderB = b.order !== undefined ? b.order : 999;
+		return orderA - orderB;
+	} );
+}
+
+/**
+ * Filter groups by tab assignment
+ *
+ * Gets groups from the specified tab in the tabs array.
+ * - 'settings': Structural/behavioral controls
+ * - 'appearance': Visual/styling controls
+ *
+ * @param {Array} tabs     - Tabs array from schema
+ * @param {string} tabName - Tab name to filter by ('settings' or 'appearance')
+ * @returns {Array} Filtered and sorted array of groups
+ */
+function filterGroupsByTab( tabs, tabName ) {
+	if ( ! tabs || ! Array.isArray( tabs ) ) {
+		return [];
+	}
+
+	// Find the tab with the matching name
+	const tab = tabs.find( ( t ) => t.name === tabName );
+
+	if ( ! tab || ! tab.groups || ! Array.isArray( tab.groups ) ) {
+		return [];
+	}
+
+	// Return groups from this tab, sorted by order
+	return tab.groups.sort( ( a, b ) => {
+		const orderA = a.order !== undefined ? a.order : 999;
+		const orderB = b.order !== undefined ? b.order : 999;
+		return orderA - orderB;
+	} );
 }
 
 /**
@@ -84,12 +111,10 @@ export function SchemaPanels( {
 } ) {
 	// Validate required props
 	if ( ! setAttributes ) {
-		console.warn( '[SchemaPanels] Missing required prop: setAttributes' );
 		return null;
 	}
 
-	if ( ! schema || ! schema.groups ) {
-		console.warn( '[SchemaPanels] Missing schema or schema.groups' );
+	if ( ! schema || ! schema.tabs ) {
 		return null;
 	}
 
@@ -98,28 +123,19 @@ export function SchemaPanels( {
 
 	if ( tab ) {
 		// Filter groups by tab
-		sortedGroups = filterGroupsByTab( schema.groups, tab );
+		sortedGroups = filterGroupsByTab( schema.tabs, tab );
 	} else {
-		// Use all groups sorted by order
-		sortedGroups = Object.entries( schema.groups )
-			.map( ( [ groupName, groupConfig ] ) => ( {
-				name: groupName,
-				...groupConfig,
-			} ) )
-			.sort( ( a, b ) => {
-				const orderA = a.order !== undefined ? a.order : 999;
-				const orderB = b.order !== undefined ? b.order : 999;
-				return orderA - orderB;
-			} );
+		// Use all groups from all tabs, sorted by order
+		sortedGroups = getAllGroups( schema.tabs );
 	}
 
 	return (
 		<>
 			{ sortedGroups.map( ( groupConfig ) => {
-				const { name: groupName, initialOpen = false, pago = 'nao', subgroups } = groupConfig;
+				const { id: groupId, initialOpen = false, pago = 'nao', subgroups } = groupConfig;
 
 				// Skip groups with no visible attributes
-				if ( ! groupHasAttributes( groupName, schema ) ) {
+				if ( ! groupHasAttributes( groupId, schema ) ) {
 					return null;
 				}
 
@@ -129,8 +145,8 @@ export function SchemaPanels( {
 				if ( hasSubgroups && useSubgroupPanels ) {
 					return (
 						<SubgroupPanel
-							key={ groupName }
-							groupName={ groupName }
+							key={ groupId }
+							groupId={ groupId }
 							groupConfig={ groupConfig }
 							schema={ schema }
 							attributes={ attributes }
@@ -146,9 +162,9 @@ export function SchemaPanels( {
 				// Use GenericPanel for groups without subgroups
 				return (
 					<GenericPanel
-						key={ groupName }
+						key={ groupId }
 						schema={ schema }
-						schemaGroup={ groupName }
+						groupId={ groupId }
 						attributes={ attributes }
 						setAttributes={ setAttributes }
 						effectiveValues={ effectiveValues }

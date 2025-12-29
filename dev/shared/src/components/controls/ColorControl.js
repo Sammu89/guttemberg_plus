@@ -20,6 +20,7 @@ import {
 	FlexItem,
 	FlexBlock,
 } from '@wordpress/components';
+// Note: Button is still used for Cancel/Apply in the popover
 import { ResetButton } from './ResetButton';
 
 /**
@@ -28,10 +29,38 @@ import { ResetButton } from './ResetButton';
  * A color picker control with text input, color swatch preview,
  * popup picker, and reset button.
  *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses a SIMPLE STRING pattern (single color value).
+ * NOTE: This is for simple color pickers. BorderPanel uses a BOX pattern for per-side colors.
+ *
+ * VALUE PROP:
+ * -----------
+ * value prop accepts:
+ *   - Hex string: "#ff0000"
+ *   - Hex with alpha: "#ff0000cc"
+ *   - RGB string: "rgb(255, 0, 0)"
+ *   - RGBA string: "rgba(255, 0, 0, 0.8)"
+ *   - HSL string: "hsl(0, 100%, 50%)"
+ *   - Color name: "red"
+ *
+ * onChange callback signature:
+ *   onChange(newColorString)
+ *   - Always returns a string (format depends on user input)
+ *
+ * NOT RESPONSIVE:
+ * ---------------
+ * ColorControl itself does NOT support responsive mode.
+ * For responsive colors, the parent must handle device switching.
+ *
+ * ============================================================================
+ *
  * @param {Object}   props               Component props
  * @param {string}   props.label         Label for the control
- * @param {string}   props.value         Current color value (hex, rgb, rgba, etc.)
- * @param {Function} props.onChange      Callback when color changes
+ * @param {string}   props.value         Current color value (hex, rgb, rgba, etc.) - see DATA STRUCTURE above
+ * @param {Function} props.onChange      Callback when color changes - see DATA STRUCTURE above
  * @param {Function} props.onReset       Optional custom reset callback
  * @param {string}   props.defaultValue  Default color for reset
  * @param {boolean}  props.disableAlpha  Whether to disable alpha channel (default: false)
@@ -52,7 +81,7 @@ export function ColorControl( {
 	const [ isPickerOpen, setIsPickerOpen ] = useState( false );
 	const [ tempColor, setTempColor ] = useState( value || '' );
 	const [ savedColor, setSavedColor ] = useState( value || '' );
-	const buttonRef = useRef( null );
+	const swatchRef = useRef( null );
 
 	// Sync temp color when value prop changes (only when picker is closed)
 	useEffect( () => {
@@ -156,16 +185,23 @@ export function ColorControl( {
 			className="gutplus-color-control"
 		>
 			<Flex gap={ 2 } align="flex-start">
-				{ /* Color preview swatch */ }
+				{ /* Clickable color preview swatch */ }
 				<FlexItem>
-					<div
+					<button
+						ref={ swatchRef }
+						type="button"
 						className="gutplus-color-control__swatch"
+						onClick={ handleOpenPicker }
+						aria-expanded={ isPickerOpen }
+						aria-label={ `Color: ${ displayColor || 'none' }. Click to change.` }
 						style={ {
 							width: '32px',
 							height: '32px',
 							backgroundColor: displayColor || 'transparent',
-							border: '1px solid #ddd',
+							border: '1px solid #949494',
 							borderRadius: '4px',
+							cursor: 'pointer',
+							padding: 0,
 							backgroundImage: ! displayColor
 								? 'linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)'
 								: 'none',
@@ -185,25 +221,12 @@ export function ColorControl( {
 						__next40pxDefaultSize
 					/>
 				</FlexBlock>
-
-				{ /* Button to open color picker */ }
-				<FlexItem>
-					<Button
-						ref={ buttonRef }
-						variant="secondary"
-						onClick={ handleOpenPicker }
-						aria-expanded={ isPickerOpen }
-						__next40pxDefaultSize
-					>
-						Choose
-					</Button>
-				</FlexItem>
 			</Flex>
 
 			{ /* Popup color picker */ }
 			{ isPickerOpen && (
 				<Popover
-					anchor={ buttonRef.current }
+					anchor={ swatchRef.current }
 					position="bottom right"
 					onClose={ handleCancel }
 					focusOnMount={ false }

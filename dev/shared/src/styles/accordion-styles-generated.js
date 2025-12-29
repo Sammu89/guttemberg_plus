@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-26T22:38:19.360Z
+ * Generated at: 2025-12-29T01:32:27.279Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -44,13 +44,19 @@ export function buildEditorStyles(values) {
 
   // Styles for default
   styles.default = {};
+    // Complex object: dividerWidth - handle manually if needed
+    // Complex object: dividerColor - handle manually if needed
+    // Complex object: dividerStyle - handle manually if needed
     // Complex object: borderWidth - handle manually if needed
-    // Complex object: borderColor - handle manually if needed
-    // Complex object: borderStyle - handle manually if needed
     if (values.borderRadius) {
       const formatted = formatBorderRadius(values.borderRadius);
       if (formatted) styles.default.borderRadius = formatted;
     }
+    if (values.shadow !== undefined && values.shadow !== null) {
+      styles.default.boxShadow = values.shadow;
+    }
+    // Complex object: borderColor - handle manually if needed
+    // Complex object: borderStyle - handle manually if needed
     if (values.headerPadding) {
       const formatted = formatPadding(values.headerPadding);
       if (formatted) styles.default.padding = formatted;
@@ -60,18 +66,6 @@ export function buildEditorStyles(values) {
       if (formatted) styles.default.padding = formatted;
     }
     // Complex object: blockMargin - handle manually if needed
-    if (values.shadow !== undefined && values.shadow !== null) {
-      styles.default.boxShadow = values.shadow;
-    }
-    if (values.dividerColor !== undefined && values.dividerColor !== null) {
-      styles.default.borderTopColor = values.dividerColor;
-    }
-    if (values.dividerStyle !== undefined && values.dividerStyle !== null) {
-      styles.default.borderTopStyle = values.dividerStyle;
-    }
-    if (values.dividerWidth !== undefined && values.dividerWidth !== null) {
-      styles.default.borderTopWidth = `${values.dividerWidth}px`;
-    }
     if (values.titleColor !== undefined && values.titleColor !== null) {
       styles.default.color = values.titleColor;
     }
@@ -84,29 +78,41 @@ export function buildEditorStyles(values) {
     if (values.hoverTitleBackgroundColor !== undefined && values.hoverTitleBackgroundColor !== null) {
       styles.default.background = values.hoverTitleBackgroundColor;
     }
-    if (values.activeTitleColor !== undefined && values.activeTitleColor !== null) {
-      styles.default.color = values.activeTitleColor;
-    }
-    if (values.activeTitleBackgroundColor !== undefined && values.activeTitleBackgroundColor !== null) {
-      styles.default.background = values.activeTitleBackgroundColor;
-    }
     if (values.contentTextColor !== undefined && values.contentTextColor !== null) {
       styles.default.color = values.contentTextColor;
     }
     if (values.contentBackgroundColor !== undefined && values.contentBackgroundColor !== null) {
       styles.default.background = values.contentBackgroundColor;
     }
+    if (values.contentFontFamily !== undefined && values.contentFontFamily !== null) {
+      styles.default.fontFamily = values.contentFontFamily;
+    }
+    if (values.contentFontSize !== undefined && values.contentFontSize !== null) {
+      styles.default.fontSize = values.contentFontSize;
+    }
+    if (values.contentLineHeight !== undefined && values.contentLineHeight !== null) {
+      styles.default.lineHeight = `${values.contentLineHeight}`;
+    }
     if (values.titleFontFamily !== undefined && values.titleFontFamily !== null) {
       styles.default.fontFamily = values.titleFontFamily;
     }
     if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
-      styles.default.fontSize = `${values.titleFontSize}`;
+      styles.default.fontSize = values.titleFontSize;
+    }
+    if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
+      styles.default.fontWeight = `${values.titleFontWeight}`;
+    }
+    if (values.titleDecorationColor !== undefined && values.titleDecorationColor !== null) {
+      styles.default.textDecorationColor = values.titleDecorationColor;
+    }
+    if (values.titleDecorationStyle !== undefined && values.titleDecorationStyle !== null) {
+      styles.default.textDecorationStyle = values.titleDecorationStyle;
+    }
+    if (values.titleDecorationWidth !== undefined && values.titleDecorationWidth !== null) {
+      styles.default.textDecorationThickness = values.titleDecorationWidth;
     }
     if (values.titleLetterSpacing !== undefined && values.titleLetterSpacing !== null) {
-      styles.default.letterSpacing = `${values.titleLetterSpacing}`;
-    }
-    if (values.titleTextDecoration !== undefined && values.titleTextDecoration !== null) {
-      styles.default.textDecoration = values.titleTextDecoration;
+      styles.default.letterSpacing = values.titleLetterSpacing;
     }
     if (values.titleTextTransform !== undefined && values.titleTextTransform !== null) {
       styles.default.textTransform = values.titleTextTransform;
@@ -117,26 +123,26 @@ export function buildEditorStyles(values) {
     if (values.titleAlignment !== undefined && values.titleAlignment !== null) {
       styles.default.textAlign = values.titleAlignment;
     }
-    if (values.contentFontFamily !== undefined && values.contentFontFamily !== null) {
-      styles.default.fontFamily = values.contentFontFamily;
+    if (values.titleOffsetX !== undefined && values.titleOffsetX !== null) {
+      styles.default.left = values.titleOffsetX;
     }
-    if (values.contentFontSize !== undefined && values.contentFontSize !== null) {
-      styles.default.fontSize = `${values.contentFontSize}`;
+    if (values.titleOffsetY !== undefined && values.titleOffsetY !== null) {
+      styles.default.top = values.titleOffsetY;
     }
-    if (values.contentLineHeight !== undefined && values.contentLineHeight !== null) {
-      styles.default.lineHeight = `${values.contentLineHeight}`;
+    if (values.titleTextShadow !== undefined && values.titleTextShadow !== null) {
+      styles.default.textShadow = values.titleTextShadow;
     }
     if (values.iconColor !== undefined && values.iconColor !== null) {
       styles.default.color = values.iconColor;
     }
     if (values.iconSize !== undefined && values.iconSize !== null) {
-      styles.default.fontSize = `${values.iconSize}`;
+      styles.default.fontSize = values.iconSize;
     }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
-      styles.default.transform = `${values.iconRotation}deg`;
+      styles.default.transform = values.iconRotation;
     }
     if (values.animationDuration !== undefined && values.animationDuration !== null) {
-      styles.default.transitionDuration = `${values.animationDuration}ms`;
+      styles.default.transitionDuration = values.animationDuration;
     }
     if (values.animationEasing !== undefined && values.animationEasing !== null) {
       styles.default.transitionTimingFunction = values.animationEasing;
@@ -158,16 +164,26 @@ export function buildFrontendStyles(customizations) {
     return styles;
   }
 
+  // Complex object: dividerWidth - handle manually if needed
+
+  // Complex object: dividerColor - handle manually if needed
+
+  // Complex object: dividerStyle - handle manually if needed
+
   // Complex object: borderWidth - handle manually if needed
-
-  // Complex object: borderColor - handle manually if needed
-
-  // Complex object: borderStyle - handle manually if needed
 
   if (customizations.borderRadius) {
     const formatted = formatBorderRadius(customizations.borderRadius);
     if (formatted) styles['--accordion-border-radius'] = formatted;
   }
+
+  if (customizations.shadow !== undefined && customizations.shadow !== null) {
+    styles['--accordion-shadow'] = customizations.shadow;
+  }
+
+  // Complex object: borderColor - handle manually if needed
+
+  // Complex object: borderStyle - handle manually if needed
 
   if (customizations.headerPadding) {
     const formatted = formatPadding(customizations.headerPadding);
@@ -180,22 +196,6 @@ export function buildFrontendStyles(customizations) {
   }
 
   // Complex object: blockMargin - handle manually if needed
-
-  if (customizations.shadow !== undefined && customizations.shadow !== null) {
-    styles['--accordion-shadow'] = customizations.shadow;
-  }
-
-  if (customizations.dividerColor !== undefined && customizations.dividerColor !== null) {
-    styles['--accordion-divider-color'] = customizations.dividerColor;
-  }
-
-  if (customizations.dividerStyle !== undefined && customizations.dividerStyle !== null) {
-    styles['--accordion-divider-style'] = customizations.dividerStyle;
-  }
-
-  if (customizations.dividerWidth !== undefined && customizations.dividerWidth !== null) {
-    styles['--accordion-divider-width'] = `${customizations.dividerWidth}px`;
-  }
 
   if (customizations.titleColor !== undefined && customizations.titleColor !== null) {
     styles['--accordion-title-color'] = customizations.titleColor;
@@ -213,14 +213,6 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-title-hover-bg'] = customizations.hoverTitleBackgroundColor;
   }
 
-  if (customizations.activeTitleColor !== undefined && customizations.activeTitleColor !== null) {
-    styles['--accordion-title-active-color'] = customizations.activeTitleColor;
-  }
-
-  if (customizations.activeTitleBackgroundColor !== undefined && customizations.activeTitleBackgroundColor !== null) {
-    styles['--accordion-title-active-bg'] = customizations.activeTitleBackgroundColor;
-  }
-
   if (customizations.contentTextColor !== undefined && customizations.contentTextColor !== null) {
     styles['--accordion-content-color'] = customizations.contentTextColor;
   }
@@ -229,20 +221,44 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-content-bg'] = customizations.contentBackgroundColor;
   }
 
+  if (customizations.contentFontFamily !== undefined && customizations.contentFontFamily !== null) {
+    styles['--accordion-content-font-family'] = customizations.contentFontFamily;
+  }
+
+  if (customizations.contentFontSize !== undefined && customizations.contentFontSize !== null) {
+    styles['--accordion-content-font-size'] = customizations.contentFontSize;
+  }
+
+  if (customizations.contentLineHeight !== undefined && customizations.contentLineHeight !== null) {
+    styles['--accordion-content-line-height'] = `${customizations.contentLineHeight}`;
+  }
+
   if (customizations.titleFontFamily !== undefined && customizations.titleFontFamily !== null) {
     styles['--accordion-title-font-family'] = customizations.titleFontFamily;
   }
 
   if (customizations.titleFontSize !== undefined && customizations.titleFontSize !== null) {
-    styles['--accordion-title-font-size'] = `${customizations.titleFontSize}`;
+    styles['--accordion-title-font-size'] = customizations.titleFontSize;
+  }
+
+  if (customizations.titleFontWeight !== undefined && customizations.titleFontWeight !== null) {
+    styles['--accordion-title-font-weight'] = `${customizations.titleFontWeight}`;
+  }
+
+  if (customizations.titleDecorationColor !== undefined && customizations.titleDecorationColor !== null) {
+    styles['--accordion-title-decoration-color'] = customizations.titleDecorationColor;
+  }
+
+  if (customizations.titleDecorationStyle !== undefined && customizations.titleDecorationStyle !== null) {
+    styles['--accordion-title-decoration-style'] = customizations.titleDecorationStyle;
+  }
+
+  if (customizations.titleDecorationWidth !== undefined && customizations.titleDecorationWidth !== null) {
+    styles['--accordion-title-decoration-width'] = customizations.titleDecorationWidth;
   }
 
   if (customizations.titleLetterSpacing !== undefined && customizations.titleLetterSpacing !== null) {
-    styles['--accordion-title-letter-spacing'] = `${customizations.titleLetterSpacing}`;
-  }
-
-  if (customizations.titleTextDecoration !== undefined && customizations.titleTextDecoration !== null) {
-    styles['--accordion-title-text-decoration'] = customizations.titleTextDecoration;
+    styles['--accordion-title-letter-spacing'] = customizations.titleLetterSpacing;
   }
 
   if (customizations.titleTextTransform !== undefined && customizations.titleTextTransform !== null) {
@@ -257,16 +273,16 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-title-alignment'] = customizations.titleAlignment;
   }
 
-  if (customizations.contentFontFamily !== undefined && customizations.contentFontFamily !== null) {
-    styles['--accordion-content-font-family'] = customizations.contentFontFamily;
+  if (customizations.titleOffsetX !== undefined && customizations.titleOffsetX !== null) {
+    styles['--accordion-title-offset-x'] = customizations.titleOffsetX;
   }
 
-  if (customizations.contentFontSize !== undefined && customizations.contentFontSize !== null) {
-    styles['--accordion-content-font-size'] = `${customizations.contentFontSize}`;
+  if (customizations.titleOffsetY !== undefined && customizations.titleOffsetY !== null) {
+    styles['--accordion-title-offset-y'] = customizations.titleOffsetY;
   }
 
-  if (customizations.contentLineHeight !== undefined && customizations.contentLineHeight !== null) {
-    styles['--accordion-content-line-height'] = `${customizations.contentLineHeight}`;
+  if (customizations.titleTextShadow !== undefined && customizations.titleTextShadow !== null) {
+    styles['--accordion-title-text-shadow'] = customizations.titleTextShadow;
   }
 
   if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
@@ -274,15 +290,15 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
-    styles['--accordion-icon-size'] = `${customizations.iconSize}`;
+    styles['--accordion-icon-size'] = customizations.iconSize;
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
-    styles['--accordion-icon-rotation'] = `${customizations.iconRotation}deg`;
+    styles['--accordion-icon-rotation'] = customizations.iconRotation;
   }
 
   if (customizations.animationDuration !== undefined && customizations.animationDuration !== null) {
-    styles['--accordion-animation-duration'] = `${customizations.animationDuration}ms`;
+    styles['--accordion-animation-duration'] = customizations.animationDuration;
   }
 
   if (customizations.animationEasing !== undefined && customizations.animationEasing !== null) {

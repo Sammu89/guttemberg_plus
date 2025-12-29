@@ -67,6 +67,8 @@ export {
 
 export { getAlignmentClass } from './utils/getAlignmentClass';
 
+export { buildBoxShadow } from './utils/shadow-utils';
+
 export {
 	getAccordionButtonAria,
 	getAccordionPanelAria,
@@ -118,6 +120,7 @@ export { TabbedInspector, TAB_NAMES } from './components/TabbedInspector';
 export { SubgroupPanel } from './components/SubgroupPanel';
 export { ControlRenderer } from './components/ControlRenderer';
 export { CustomizationWarning } from './components/CustomizationWarning';
+export { BreakpointSettings } from './components/BreakpointSettings';
 
 // Re-export all controls for convenience
 export * from './components/controls';

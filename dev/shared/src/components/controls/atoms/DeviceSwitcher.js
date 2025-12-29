@@ -1,8 +1,8 @@
 /**
  * DeviceSwitcher Atom
  *
- * Compact device switcher (desktop/tablet/mobile) without text labels.
- * Just icons that are clickable.
+ * Compact device switcher (global/tablet/mobile) without text labels.
+ * Just icons that are clickable. "Global" represents the base state.
  *
  * @package guttemberg-plus
  */
@@ -12,7 +12,7 @@ import { desktop, tablet, mobile } from '@wordpress/icons';
 import { setGlobalResponsiveDevice } from '../../../utils/responsive-device';
 
 const devices = [
-	{ name: 'desktop', icon: desktop, label: 'Desktop' },
+	{ name: 'global', icon: desktop, label: 'Global' },
 	{ name: 'tablet', icon: tablet, label: 'Tablet' },
 	{ name: 'mobile', icon: mobile, label: 'Mobile' },
 ];
@@ -23,12 +23,12 @@ const devices = [
  * Uses global device state - clicking any DeviceSwitcher updates all responsive controls.
  *
  * @param {Object}   props
- * @param {string}   props.value     - Current device (desktop, tablet, mobile)
+ * @param {string}   props.value     - Current device (global, tablet, mobile)
  * @param {Function} props.onChange  - Optional legacy change handler (deprecated, use global state)
  * @param {boolean}  props.disabled  - Disabled state
  */
 export function DeviceSwitcher( {
-	value = 'desktop',
+	value = 'global',
 	onChange,
 	disabled = false,
 } ) {

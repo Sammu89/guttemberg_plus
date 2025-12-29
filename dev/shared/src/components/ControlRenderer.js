@@ -17,9 +17,14 @@ import {
 	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 
+import {
+	__experimentalPanelColorGradientSettings as PanelColorSettings,
+} from '@wordpress/block-editor';
+
 // Import all Phase 2-4 controls
 import {
 	ColorControl,
+	ColorGradientControl,
 	GradientControl,
 	SliderWithInput,
 	BoxControl,
@@ -37,11 +42,15 @@ import {
 	BorderRadiusControl,
 	SpacingControl,
 	HeadingLevelControl,
+	ShadowPanel,
 } from './controls';
+
+import { FormattingControl } from './controls/FormattingControl';
 
 import { CompactColorControl } from './CompactColorControl';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
 import { normalizeValueForControl } from '../theme-system/control-normalizer';
+import { getAvailableUnits, isUnitlessProperty } from '../config/css-property-scales';
 
 /**
  * Normalize SelectControl options to consistent format
@@ -153,15 +162,16 @@ function checkDisabledWhen( disabledWhen, attributes ) {
  *
  * Renders the appropriate control component based on schema configuration.
  *
- * @param {Object}   props                Component props
- * @param {string}   props.attrName       Attribute name
- * @param {Object}   props.attrConfig     Attribute configuration from schema
- * @param {Object}   props.attributes     Block attributes
- * @param {Function} props.setAttributes  Function to update block attributes
- * @param {Object}   props.effectiveValues All effective values from cascade resolution
- * @param {Object}   props.schema         Full schema object
- * @param {Object}   props.theme          Current theme object (optional)
- * @param {Object}   props.cssDefaults    CSS default values (optional)
+ * @param {Object}   props                       Component props
+ * @param {string}   props.attrName              Attribute name
+ * @param {Object}   props.attrConfig            Attribute configuration from schema
+ * @param {Object}   props.attributes            Block attributes
+ * @param {Function} props.setAttributes         Function to update block attributes
+ * @param {Object}   props.effectiveValues       All effective values from cascade resolution
+ * @param {Object}   props.schema                Full schema object
+ * @param {Object}   props.theme                 Current theme object (optional)
+ * @param {Object}   props.cssDefaults           CSS default values (optional)
+ * @param {Object}   props.colorGradientSettings Theme colors and gradients from useMultipleOriginColorsAndGradients (optional)
  * @returns {JSX.Element|null} Rendered control or null
  */
 export function ControlRenderer( {
@@ -173,7 +183,9 @@ export function ControlRenderer( {
 	schema,
 	theme,
 	cssDefaults = {},
+	colorGradientSettings = {},
 } ) {
+
 	const {
 		control,
 		label,
@@ -188,11 +200,17 @@ export function ControlRenderer( {
 		units,
 		unit,
 		responsive = false,
+		cssProperty,
 	} = attrConfig;
 
 	const effectiveValue = effectiveValues?.[ attrName ];
 	const finalLabel = label || attrName;
 	const helpText = description || '';
+
+	// Get responsive enabled state for this attribute
+	// Default: responsive mode is disabled for all attributes
+	const responsiveEnabledState = attributes.responsiveEnabled || {};
+	const isResponsiveEnabled = responsive && responsiveEnabledState[ attrName ] === true;
 
 	// Check if control should be hidden based on showWhen conditions
 	if ( ! checkShowWhen( showWhen, attributes ) ) {
@@ -208,7 +226,7 @@ export function ControlRenderer( {
 	};
 
 	// Handle responsive attribute change
-	// Desktop edits update the base (flat), tablet/mobile add device overrides
+	// Global edits update the base (flat), tablet/mobile add device overrides
 	const handleResponsiveChange = ( device, value ) => {
 		const currentValue = attributes[ attrName ];
 
@@ -221,7 +239,7 @@ export function ControlRenderer( {
 				return true; // Scalar
 			}
 			// Object with value/unit but no device keys
-			const hasDeviceKeys = 'desktop' in val || 'tablet' in val || 'mobile' in val;
+			const hasDeviceKeys = 'global' in val || 'tablet' in val || 'mobile' in val;
 			return ! hasDeviceKeys;
 		};
 
@@ -237,8 +255,8 @@ export function ControlRenderer( {
 			return null;
 		};
 
-		if ( device === 'desktop' ) {
-			// Desktop edits update the base (flat structure)
+		if ( device === 'global' ) {
+			// Global edits update the base (flat structure)
 			// Preserve any existing tablet/mobile overrides
 			if ( isFlat( currentValue ) ) {
 				// Value was flat, stays flat with new value
@@ -277,6 +295,72 @@ export function ControlRenderer( {
 			}
 
 			setAttributes( { [ attrName ]: newAttrValue } );
+		}
+	};
+
+	/**
+	 * Handle toggling responsive mode for an attribute
+	 * @param {boolean} enabled - New responsive enabled state
+	 */
+	const handleResponsiveToggle = ( enabled ) => {
+		const updates = {
+			responsiveEnabled: {
+				...responsiveEnabledState,
+				[ attrName ]: enabled,
+			},
+		};
+
+		// When ENABLING responsive mode, convert flat string values to object format
+		// so that device overrides can be added
+		if ( enabled ) {
+			const currentValue = attributes[ attrName ];
+
+			// Check if value is a flat string (e.g., "0px", "1.125rem")
+			if ( typeof currentValue === 'string' ) {
+				// Parse the string to extract value and unit
+				const match = currentValue.match( /^([0-9.]+)(.*)$/ );
+				if ( match ) {
+					const [ , value, unit ] = match;
+					// Convert to object format: { value: 0, unit: 'px' }
+					updates[ attrName ] = {
+						value: parseFloat( value ),
+						unit: unit || '',
+					};
+				}
+			}
+			// If it's already an object or number, no conversion needed
+		}
+
+		setAttributes( updates );
+	};
+
+	/**
+	 * Handle full reset - discards tablet/mobile overrides and disables responsive
+	 * Called when reset button is clicked
+	 */
+	const handleResponsiveReset = () => {
+		const currentValue = attributes[ attrName ];
+
+		// If value has tablet/mobile overrides, remove them
+		if ( currentValue && typeof currentValue === 'object' ) {
+			const { tablet, mobile, ...baseValue } = currentValue;
+
+			// Set base value (without device keys) and disable responsive
+			setAttributes( {
+				[ attrName ]: Object.keys( baseValue ).length > 0 ? baseValue : defaultValue,
+				responsiveEnabled: {
+					...responsiveEnabledState,
+					[ attrName ]: false,
+				},
+			} );
+		} else {
+			// No overrides to remove, just disable responsive
+			setAttributes( {
+				responsiveEnabled: {
+					...responsiveEnabledState,
+					[ attrName ]: false,
+				},
+			} );
 		}
 	};
 
@@ -331,38 +415,75 @@ export function ControlRenderer( {
 
 		case 'ColorPicker':
 		case 'ColorControl': {
-			const normalizedValue = normalizeValueForControl(
-				effectiveValue,
-				attrName,
-				'color'
-			);
-
+			// Use native WordPress PanelColorGradientSettings for text colors
 			return (
-				<div key={ attrName }>
-					<CompactColorControl
-						label={ renderLabel( finalLabel ) }
-						value={ normalizedValue }
-						onChange={ handleChange }
-						disableAlpha={ false }
-					/>
-					{ helpText && (
-						<p style={ { fontSize: '12px', color: '#757575', marginTop: '4px', marginBottom: '16px' } }>
-							{ helpText }
-						</p>
-					) }
-				</div>
+				<PanelColorSettings
+					key={ attrName }
+					__experimentalIsRenderedInSidebar
+					enableAlpha
+					settings={ [
+						{
+							colorValue: effectiveValue,
+							label: finalLabel,
+							onColorChange: handleChange,
+						},
+					] }
+				/>
 			);
 		}
 
 		case 'GradientControl': {
+			// Use native WordPress PanelColorGradientSettings for gradients only
 			return (
-				<GradientControl
+				<PanelColorSettings
 					key={ attrName }
-					label={ renderLabel( finalLabel ) }
-					value={ effectiveValue ?? defaultValue ?? '' }
-					onChange={ handleChange }
-					defaultValue={ defaultValue }
-					help={ helpText }
+					__experimentalIsRenderedInSidebar
+					enableAlpha
+					settings={ [
+						{
+							gradientValue: effectiveValue,
+							label: finalLabel,
+							onGradientChange: handleChange,
+						},
+					] }
+				/>
+			);
+		}
+
+		case 'ColorGradientControl': {
+			// Use native WordPress PanelColorGradientSettings for backgrounds (color + gradient)
+			const isGradientValue = typeof effectiveValue === 'string' && effectiveValue.includes( 'gradient' );
+
+			// Separate handlers to avoid clearing value when switching tabs
+			// WordPress calls the opposite handler with undefined when switching
+			const handleColorChange = ( color ) => {
+				// Only update if we have an actual color value
+				if ( color !== undefined ) {
+					setAttributes( { [ attrName ]: color } );
+				}
+			};
+
+			const handleGradientChange = ( gradient ) => {
+				// Only update if we have an actual gradient value
+				if ( gradient !== undefined ) {
+					setAttributes( { [ attrName ]: gradient } );
+				}
+			};
+
+			return (
+				<PanelColorSettings
+					key={ attrName }
+					__experimentalIsRenderedInSidebar
+					enableAlpha
+					settings={ [
+						{
+							colorValue: isGradientValue ? undefined : effectiveValue,
+							gradientValue: isGradientValue ? effectiveValue : undefined,
+							label: finalLabel,
+							onColorChange: handleColorChange,
+							onGradientChange: handleGradientChange,
+						},
+					] }
 				/>
 			);
 		}
@@ -389,6 +510,11 @@ export function ControlRenderer( {
 		}
 
 		case 'SliderWithInput': {
+			// Get units from centralizer if cssProperty is defined and units not explicitly set
+			const resolvedUnits = units ?? ( cssProperty ? getAvailableUnits( cssProperty ) : null );
+
+			// Check if this attribute supports responsive (from schema)
+			// and if responsive mode is currently enabled (user toggle)
 			if ( responsive ) {
 				return (
 					<SliderWithInput
@@ -396,11 +522,16 @@ export function ControlRenderer( {
 						label={ renderLabel( finalLabel ) }
 						values={ effectiveValue || {} }
 						onChange={ handleResponsiveChange }
-						responsive={ true }
-						units={ units }
-						min={ min ?? 0 }
-						max={ max ?? 100 }
-						step={ step ?? 1 }
+						responsive={ isResponsiveEnabled }
+						canBeResponsive={ true }
+						responsiveEnabled={ isResponsiveEnabled }
+						onResponsiveToggle={ handleResponsiveToggle }
+						onResponsiveReset={ handleResponsiveReset }
+						units={ resolvedUnits }
+						cssProperty={ cssProperty }
+						min={ min }
+						max={ max }
+						step={ step }
 						help={ helpText }
 						defaultValue={ defaultValue }
 					/>
@@ -414,10 +545,12 @@ export function ControlRenderer( {
 					value={ effectiveValue ?? defaultValue }
 					onChange={ handleChange }
 					responsive={ false }
-					units={ units }
-					min={ min ?? 0 }
-					max={ max ?? 100 }
-					step={ step ?? 1 }
+					canBeResponsive={ false }
+					units={ resolvedUnits }
+					cssProperty={ cssProperty }
+					min={ min }
+					max={ max }
+					step={ step }
 					help={ helpText }
 					defaultValue={ defaultValue }
 				/>
@@ -621,31 +754,52 @@ export function ControlRenderer( {
 		}
 
 		case 'BorderPanel': {
-			// BorderPanel hardcodes looking for border-width, border-color, border-style
-			// Find attributes by their cssProperty
+			// Only render if this attribute has the order field
+			if ( attrConfig.order === undefined ) {
+				return null;
+			}
+
+			// Find related attributes by controlId
+			const controlId = attrConfig.controlId;
+			if ( ! controlId ) {
+				return null;
+			}
+
 			const allAttrs = Object.entries( schema?.attributes || {} );
-			const widthAttr = allAttrs.find( ( [ , attr ] ) => attr.cssProperty === 'border-width' );
-			const colorAttr = allAttrs.find( ( [ , attr ] ) => attr.cssProperty === 'border-color' );
-			const styleAttr = allAttrs.find( ( [ , attr ] ) => attr.cssProperty === 'border-style' );
+			const relatedAttrs = allAttrs.filter( ( [ , attr ] ) =>
+				attr.control === 'BorderPanel' && attr.controlId === controlId
+			);
 
-			const widthAttrName = widthAttr ? widthAttr[ 0 ] : null;
-			const colorAttrName = colorAttr ? colorAttr[ 0 ] : null;
-			const styleAttrName = styleAttr ? styleAttr[ 0 ] : null;
+			// Find width, color, style by their cssProperty endings
+			const widthAttr = relatedAttrs.find( ( [ , attr ] ) =>
+				attr.cssProperty?.endsWith( 'width' )
+			);
+			const colorAttr = relatedAttrs.find( ( [ , attr ] ) =>
+				attr.cssProperty?.endsWith( 'color' )
+			);
+			const styleAttr = relatedAttrs.find( ( [ , attr ] ) =>
+				attr.cssProperty?.endsWith( 'style' )
+			);
 
-			// Get attribute config for width to extract units, min, max
-			const widthAttrConfig = widthAttr ? widthAttr[ 1 ] : {};
+			const widthAttrName = widthAttr?.[ 0 ];
+			const colorAttrName = colorAttr?.[ 0 ];
+			const styleAttrName = styleAttr?.[ 0 ];
 
-			const widthValue = widthAttrName ? effectiveValues?.[ widthAttrName ] : null;
-			const colorValue = colorAttrName ? effectiveValues?.[ colorAttrName ] : '#dddddd';
-			const styleValue = styleAttrName ? effectiveValues?.[ styleAttrName ] : 'solid';
+			// Validate we found all 3
+			if ( ! widthAttrName || ! colorAttrName || ! styleAttrName ) {
+				return null;
+			}
 
-			// Check if this is a single-side border (divider)
-			// Single-side borders have cssProperty like border-top-*, border-right-*, etc.
-			const isSingleSideBorder =
-				attrConfig.cssProperty?.startsWith( 'border-top-' ) ||
-				attrConfig.cssProperty?.startsWith( 'border-right-' ) ||
-				attrConfig.cssProperty?.startsWith( 'border-bottom-' ) ||
-				attrConfig.cssProperty?.startsWith( 'border-left-' );
+			// Get values and config
+			const widthAttrConfig = widthAttr[ 1 ];
+			const widthValue = effectiveValues?.[ widthAttrName ];
+			const colorValue = effectiveValues?.[ colorAttrName ] ?? '#dddddd';
+			const styleValue = effectiveValues?.[ styleAttrName ] ?? 'solid';
+
+			// Detect single-side vs all-sides from cssProperty
+			const isSingleSideBorder = widthAttrConfig.cssProperty?.match(
+				/^border-(top|right|bottom|left)-width$/
+			);
 
 			return (
 				<BorderPanel
@@ -674,6 +828,57 @@ export function ControlRenderer( {
 			);
 		}
 
+		case 'PanelColorSettings': {
+			// Only render if this attribute has the order field
+			if ( attrConfig.order === undefined ) {
+				return null;
+			}
+
+			// Find related attributes by controlId
+			const controlId = attrConfig.controlId;
+			if ( ! controlId ) {
+				return null;
+			}
+
+			const allAttrs = Object.entries( schema?.attributes || {} );
+			const relatedAttrs = allAttrs.filter( ( [ , attr ] ) =>
+				attr.control === 'PanelColorSettings' && attr.controlId === controlId
+			);
+
+			// Build settings array for PanelColorGradientSettings
+			const settings = relatedAttrs.map( ( [ colorAttrName, colorAttrConfig ] ) => {
+				const colorValue = effectiveValues?.[ colorAttrName ];
+
+				// Auto-detect if this is a background color
+				const isBackgroundColor =
+					colorAttrConfig.cssProperty?.includes('background') ||
+					colorAttrConfig.colorLabel === 'Background';
+
+				const setting = {
+					label: colorAttrConfig.colorLabel || colorAttrConfig.label || colorAttrName,
+					colorValue: colorValue,
+					onColorChange: ( color ) => setAttributes( { [ colorAttrName ]: color } ),
+				};
+
+				// Add gradient support for background colors
+				if ( isBackgroundColor ) {
+					setting.gradientValue = colorValue;
+					setting.onGradientChange = ( gradient ) => setAttributes( { [ colorAttrName ]: gradient } );
+				}
+
+				return setting;
+			} );
+
+			return (
+				<PanelColorSettings
+					key={ attrName }
+					title={ finalLabel }
+					settings={ settings }
+					{ ...colorGradientSettings }
+				/>
+			);
+		}
+
 		case 'ShadowControl': {
 			return (
 				<ShadowControl
@@ -683,6 +888,39 @@ export function ControlRenderer( {
 					onChange={ handleChange }
 					defaultValue={ defaultValue }
 					help={ helpText }
+				/>
+			);
+		}
+
+		case 'ShadowPanel': {
+			// Default shadow layer structure
+			const defaultShadowArray = [
+				{
+					x: { value: 0, unit: 'px' },
+					y: { value: 8, unit: 'px' },
+					blur: { value: 24, unit: 'px' },
+					spread: { value: 0, unit: 'px' },
+					color: 'rgba(0,0,0,0.15)',
+					inset: false
+				}
+			];
+
+			// Determine which controls to show based on CSS property
+			// text-shadow doesn't support spread or inset
+			// box-shadow on borders typically doesn't need inset
+			const isTextShadow = cssProperty === 'text-shadow';
+			const showSpread = !isTextShadow;
+			const showInset = !isTextShadow; // Hide inset for text-shadow
+
+			return (
+				<ShadowPanel
+					key={ attrName }
+					label={ renderLabel( finalLabel ) }
+					value={ effectiveValue ?? defaultValue ?? defaultShadowArray }
+					onChange={ handleChange }
+					disabled={ isDisabled }
+					showSpread={ showSpread }
+					showInset={ showInset }
 				/>
 			);
 		}
@@ -747,6 +985,33 @@ export function ControlRenderer( {
 			);
 		}
 
+		case 'FormattingControl': {
+			return (
+				<FormattingControl
+					key={ attrName }
+					value={ {
+						formatting: attributes[ attrName ] || [],
+						fontWeight: attributes.titleFontWeight || 400,
+						decorationColor: attributes.titleDecorationColor || 'currentColor',
+						decorationStyle: attributes.titleDecorationStyle || 'solid',
+						decorationWidth: attributes.titleDecorationWidth || 'auto',
+					} }
+					textColor={ effectiveValues?.titleColor }
+					onChange={ ( newValue ) => {
+						setAttributes( {
+							[ attrName ]: newValue.formatting,
+							titleFontWeight: newValue.fontWeight,
+							titleDecorationColor: newValue.decorationColor,
+							titleDecorationStyle: newValue.decorationStyle,
+							titleDecorationWidth: newValue.decorationWidth,
+						} );
+					} }
+					label={ attrConfig.label }
+					disabled={ isDisabled }
+				/>
+			);
+		}
+
 		// ==================== Position/Layout Controls ====================
 
 		case 'IconPositionControl': {
@@ -806,7 +1071,11 @@ export function ControlRenderer( {
 					units={ units || [ 'px', 'rem', 'em' ] }
 					min={ min ?? 0 }
 					max={ max ?? 100 }
-					responsive={ responsive }
+					responsive={ isResponsiveEnabled }
+					canBeResponsive={ responsive }
+					responsiveEnabled={ isResponsiveEnabled }
+					onResponsiveToggle={ handleResponsiveToggle }
+					onResponsiveReset={ handleResponsiveReset }
 					disabled={ isDisabled }
 				/>
 			);
@@ -823,7 +1092,11 @@ export function ControlRenderer( {
 					units={ units || [ 'px', 'rem', 'em' ] }
 					min={ min ?? 0 }
 					max={ max ?? 100 }
-					responsive={ responsive }
+					responsive={ isResponsiveEnabled }
+					canBeResponsive={ responsive }
+					responsiveEnabled={ isResponsiveEnabled }
+					onResponsiveToggle={ handleResponsiveToggle }
+					onResponsiveReset={ handleResponsiveReset }
 					disabled={ isDisabled }
 					sides={ [ 'top', 'bottom' ] }
 				/>
@@ -845,10 +1118,6 @@ export function ControlRenderer( {
 		// ==================== Default/Unknown ====================
 
 		default:
-			// Unknown control type - log warning and skip
-			console.warn(
-				`[ControlRenderer] Unknown control type "${ control }" for attribute "${ attrName }"`
-			);
 			return null;
 	}
 }

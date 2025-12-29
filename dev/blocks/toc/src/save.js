@@ -210,13 +210,15 @@ const getCustomizationStyles = () => {
     }
 
     const isResponsiveValue = value && typeof value === 'object' &&
-      (value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined);
+      (value.tablet !== undefined || value.mobile !== undefined);
 
     if (isResponsiveValue) {
-      if (value.desktop !== undefined && value.desktop !== null) {
-        const formattedDesktop = formatCssValue(attrName, value.desktop, 'toc');
-        if (formattedDesktop !== null) {
-          styles[cssVar] = formattedDesktop;
+      // Base (global) is at root level as value.value, not a device key
+      const baseValue = value.value !== undefined ? value.value : value;
+      if (baseValue !== null && baseValue !== undefined) {
+        const formattedGlobal = formatCssValue(attrName, baseValue, 'toc');
+        if (formattedGlobal !== null) {
+          styles[cssVar] = formattedGlobal;
         }
       }
 
@@ -296,7 +298,7 @@ const getCustomizationStyles = () => {
 	// Block props
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
-		'data-gutplus-device': 'desktop',
+		'data-gutplus-device': 'global',
 		// Only add inline styles if there are customizations or fixed positioning
 		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
 		...dataAttributes,

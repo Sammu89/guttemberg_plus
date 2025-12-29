@@ -10,7 +10,6 @@
 
 import { createReduxStore, register } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
-import { debug } from '../utils/debug';
 
 /**
  * Store name for theme management
@@ -92,16 +91,9 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 
 		case TYPES.THEME_CREATED: {
 			const stateKey = getStateKey( action.blockType );
-			console.log( '[REDUX STORE] ========== THEME_CREATED REDUCER ==========' );
-			console.log( '[REDUX STORE] Timestamp:', new Date().toISOString() );
-			console.log( '[REDUX STORE] Block type:', action.blockType );
-			console.log( '[REDUX STORE] State key:', stateKey );
-			console.log( '[REDUX STORE] Theme name:', action.theme?.name );
-			console.log( '[REDUX STORE] Previous themes:', Object.keys( state[ stateKey ] || {} ) );
 
 			// Guard against undefined theme object
 			if ( ! action.theme || ! action.theme.name ) {
-				console.error( '[REDUX STORE] ERROR: Invalid theme object', action );
 				return state;
 			}
 
@@ -113,9 +105,6 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 				},
 			};
 
-			console.log( '[REDUX STORE] New themes list:', Object.keys( newState[ stateKey ] ) );
-			console.log( '[REDUX STORE] Theme successfully added to store!' );
-			console.log( '[REDUX STORE] ================================================' );
 			return newState;
 		}
 
@@ -123,7 +112,6 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 			const stateKey = getStateKey( action.blockType );
 			// Guard against undefined theme object
 			if ( ! action.theme || ! action.theme.name ) {
-				console.error( '[Theme Store] THEME_UPDATED: Invalid theme object', action );
 				return state;
 			}
 			return {
@@ -208,17 +196,11 @@ const actions = {
 	 * @param {Object} values    - Complete snapshot of all attribute values
 	 */
 	*createTheme( blockType, name, values ) {
-		console.log( '[REDUX ACTION] ========== CREATE THEME STARTED ==========' );
-		console.log( '[REDUX ACTION] Timestamp:', new Date().toISOString() );
-		console.log( '[REDUX ACTION] Block type:', blockType );
-		console.log( '[REDUX ACTION] Theme name:', name );
-		console.log( '[REDUX ACTION] Values count:', Object.keys( values ).length );
 
 		yield actions.setLoading( true );
 		yield actions.setError( null );
 
 		try {
-			console.log( '[REDUX ACTION] Sending POST request to API...' );
 			const theme = yield {
 				type: 'API_FETCH',
 				request: {
@@ -232,8 +214,6 @@ const actions = {
 				},
 			};
 
-			console.log( '[REDUX ACTION] API response received!' );
-			console.log( '[REDUX ACTION] Theme returned:', theme );
 
 			const action = {
 				type: TYPES.THEME_CREATED,
@@ -241,12 +221,9 @@ const actions = {
 				theme,
 			};
 
-			console.log( '[REDUX ACTION] Dispatching THEME_CREATED to reducer...' );
-			console.log( '[REDUX ACTION] ============================================' );
 
 			return action;
 		} catch ( error ) {
-			console.error( '[REDUX ACTION] ERROR creating theme:', error );
 			yield actions.setError( error.message );
 			throw error;
 		} finally {
@@ -508,7 +485,6 @@ if ( ! wp.data.select( STORE_NAME ) ) {
 	try {
 		register( store );
 	} catch ( error ) {
-		console.error( '[Theme Store] Registration error:', error );
 		throw error;
 	}
 }

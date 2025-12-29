@@ -16,8 +16,8 @@ class GuttembergPlus_Breakpoints_Handler {
     const OPTION_NAME = 'gutemberg_plus_breakpoints';
 
     const DEFAULT_BREAKPOINTS = [
-        'mobile' => 600,
-        'tablet' => 1024
+        'mobile' => 481,
+        'tablet' => 768
     ];
 
     public function __construct() {
@@ -108,8 +108,8 @@ class GuttembergPlus_Breakpoints_Handler {
 
         if (is_array($value)) {
             // Responsive value object
-            if (isset($value['desktop'])) {
-                $css .= "--{$css_var}: {$value['desktop']};\n";
+            if (isset($value['global'])) {
+                $css .= "--{$css_var}: {$value['global']};\n";
             }
         } else {
             // Simple value
@@ -171,7 +171,7 @@ class GuttembergPlus_Breakpoints_Handler {
      * Get value for specific device with inheritance
      *
      * @param mixed $value The responsive value object
-     * @param string $device The device type: 'desktop', 'tablet', or 'mobile'
+     * @param string $device The device type: 'global', 'tablet', or 'mobile'
      * @return mixed The value for the specified device
      */
     public static function get_responsive_value($value, $device) {
@@ -183,19 +183,19 @@ class GuttembergPlus_Breakpoints_Handler {
             return $value[$device];
         }
 
-        // Inheritance chain: mobile → tablet → desktop
+        // Inheritance chain: mobile → tablet → global
         if ($device === 'tablet') {
-            return isset($value['desktop']) ? $value['desktop'] : null;
+            return isset($value['global']) ? $value['global'] : null;
         }
 
         if ($device === 'mobile') {
             if (isset($value['tablet'])) {
                 return $value['tablet'];
             }
-            return isset($value['desktop']) ? $value['desktop'] : null;
+            return isset($value['global']) ? $value['global'] : null;
         }
 
-        return isset($value['desktop']) ? $value['desktop'] : null;
+        return isset($value['global']) ? $value['global'] : null;
     }
 
     /**

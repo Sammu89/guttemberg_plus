@@ -118,3 +118,12 @@ export {
   ensureResponsiveValue,
   generateCompleteResponsiveCSS
 } from './responsive-utils';
+
+// Shadow utilities
+export {
+  buildBoxShadow,
+  buildTextShadow,
+  formatShadowValue,
+  createDefaultShadowLayer,
+  duplicateShadowLayer
+} from './shadow-utils';

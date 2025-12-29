@@ -381,6 +381,12 @@
 	transition: transform 300ms ease, opacity 300ms ease;
 	transform: rotate(var(--tabs-icon-rotation-base));
 
+	// Explicit resets to prevent inheritance
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	text-transform: none;
+
 	/* Icon rotation (for open/close states, controlled via JS) */
 	&.is-rotated {
 		transform: rotate(var(--tabs-icon-rotation-active));

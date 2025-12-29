@@ -23,11 +23,6 @@ export function getCSSDefault( blockType, attribute ) {
 	// Validate block type
 	const allowedTypes = [ 'accordion', 'tabs', 'toc' ];
 	if ( ! allowedTypes.includes( blockType ) ) {
-		console.warn(
-			`[CSS Parser] Invalid block type: ${ blockType }. Must be one of: ${ allowedTypes.join(
-				', '
-			) }`
-		);
 		return null;
 	}
 
@@ -37,9 +32,6 @@ export function getCSSDefault( blockType, attribute ) {
 
 	// Check if defaults are available
 	if ( ! defaults || typeof defaults !== 'object' ) {
-		console.warn(
-			`[CSS Parser] CSS defaults not found for ${ blockType }. Expected window.${ defaultsObjectName } to be defined.`
-		);
 		return null;
 	}
 
@@ -62,29 +54,21 @@ export function getCSSDefault( blockType, attribute ) {
  * const defaults = getAllCSSDefaults('accordion');
  * // Returns: { titleColor: '#333333', titleFontSize: '18', ... }
  */
-export function getAllCSSDefaults( blockType ) {
-	// Validate block type
-	const allowedTypes = [ 'accordion', 'tabs', 'toc' ];
-	if ( ! allowedTypes.includes( blockType ) ) {
-		console.warn(
-			`[CSS Parser] Invalid block type: ${ blockType }. Must be one of: ${ allowedTypes.join(
-				', '
-			) }`
-		);
-		return {};
-	}
+	export function getAllCSSDefaults( blockType ) {
+		// Validate block type
+		const allowedTypes = [ 'accordion', 'tabs', 'toc' ];
+		if ( ! allowedTypes.includes( blockType ) ) {
+			return {};
+		}
 
-	// Get defaults object from window
-	const defaultsObjectName = `${ blockType }Defaults`;
-	const defaults = window[ defaultsObjectName ];
+		// Get defaults object from window
+		const defaultsObjectName = `${ blockType }Defaults`;
+		const defaults = window[ defaultsObjectName ];
 
-	// Check if defaults are available
-	if ( ! defaults || typeof defaults !== 'object' ) {
-		console.warn(
-			`[CSS Parser] CSS defaults not found for ${ blockType }. Expected window.${ defaultsObjectName } to be defined.`
-		);
-		return {};
-	}
+		// Check if defaults are available
+		if ( ! defaults || typeof defaults !== 'object' ) {
+			return {};
+		}
 
 	// Return a copy to prevent external modifications
 	return { ...defaults };
@@ -145,7 +129,6 @@ export function getCSSDefaultWithFallback( blockType, attribute, fallback ) {
  */
 export function getMultipleCSSDefaults( blockType, attributes ) {
 	if ( ! Array.isArray( attributes ) ) {
-		console.warn( '[CSS Parser] attributes must be an array' );
 		return {};
 	}
 

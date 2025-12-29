@@ -9,6 +9,7 @@
  * @since 1.0.0
  */
 
+
 /**
  * Initialize tabs functionality
  * Runs when DOM is ready
@@ -19,7 +20,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		initializeTabs();
 		handleResponsiveMode();
 	} catch ( error ) {
-		console.error( 'Tabs block initialization failed:', error );
 	}
 } );
 
@@ -41,13 +41,12 @@ window.addEventListener( 'resize', () => {
 		updateDeviceAttributes();
 		handleResponsiveMode();
 	} catch ( error ) {
-		console.error( 'Failed to handle responsive mode:', error );
 	}
 } );
 
 const DEFAULT_BREAKPOINTS = {
-	tablet: 1024,
-	mobile: 600,
+	tablet: 768,
+	mobile: 481,
 };
 
 let currentDevice = null;
@@ -63,7 +62,7 @@ function getDevice( width, breakpoints ) {
 	if ( width <= breakpoints.tablet ) {
 		return 'tablet';
 	}
-	return 'desktop';
+	return 'global';
 }
 
 function updateDeviceAttributes() {
@@ -98,7 +97,6 @@ function initializeTabs() {
 		try {
 			initializeSingleTabsBlock( block );
 		} catch ( error ) {
-			console.error( 'Failed to initialize tabs block:', error );
 			// Continue with next block
 		}
 	} );
@@ -111,7 +109,6 @@ function initializeTabs() {
  */
 function initializeSingleTabsBlock( block ) {
 	if ( ! block ) {
-		console.warn( 'Tabs block is null, skipping' );
 		return;
 	}
 
@@ -127,7 +124,6 @@ function initializeSingleTabsBlock( block ) {
 
 	// Check for required structure
 	if ( ! tabList || tabPanels.length === 0 ) {
-		console.warn( 'Tabs block structure incomplete (missing tabList or panels), skipping' );
 		return;
 	}
 
@@ -136,7 +132,6 @@ function initializeSingleTabsBlock( block ) {
 
 	// Verify buttons exist
 	if ( ! tabButtons || tabButtons.length === 0 ) {
-		console.warn( 'No tab buttons found, skipping' );
 		return;
 	}
 
@@ -181,7 +176,6 @@ function initializeSingleTabsBlock( block ) {
 				try {
 					activateTab( block, index );
 				} catch ( error ) {
-					console.error( 'Failed to activate tab:', error );
 				}
 			} );
 
@@ -190,7 +184,6 @@ function initializeSingleTabsBlock( block ) {
 				try {
 					handleTabKeyboard( e, button, tabButtons, orientation, activationMode, block );
 				} catch ( error ) {
-					console.error( 'Keyboard navigation failed:', error );
 				}
 			} );
 
@@ -204,7 +197,6 @@ function initializeSingleTabsBlock( block ) {
 					try {
 						activateTab( block, index );
 					} catch ( error ) {
-						console.error( 'Failed to activate tab on focus:', error );
 					}
 				} );
 			}
@@ -218,12 +210,10 @@ function initializeSingleTabsBlock( block ) {
 					try {
 						activateTab( block, index, { isHover: true } );
 					} catch ( error ) {
-						console.error( 'Failed to activate tab on hover:', error );
 					}
 				} );
 			}
 		} catch ( error ) {
-			console.error( 'Failed to initialize tab button:', error );
 		}
 	} );
 
@@ -232,7 +222,6 @@ function initializeSingleTabsBlock( block ) {
 		try {
 			initializeResponsiveAccordion( block );
 		} catch ( error ) {
-			console.error( 'Failed to initialize responsive accordion:', error );
 		}
 	}
 
@@ -241,7 +230,6 @@ function initializeSingleTabsBlock( block ) {
 		try {
 			initializeTabScroll( block );
 		} catch ( error ) {
-			console.error( 'Failed to initialize tab scroll:', error );
 		}
 	}
 }
@@ -358,7 +346,6 @@ function initializeTabScroll( block ) {
  */
 function activateTab( block, index, options = {} ) {
 	if ( ! block ) {
-		console.warn( 'Block is null in activateTab' );
 		return;
 	}
 
@@ -366,7 +353,6 @@ function activateTab( block, index, options = {} ) {
 	const tabPanels = block.querySelectorAll( '.tab-panel' );
 
 	if ( ! tabButtons || ! tabPanels ) {
-		console.warn( 'Tab buttons or panels not found' );
 		return;
 	}
 
@@ -376,7 +362,6 @@ function activateTab( block, index, options = {} ) {
 		! tabButtons[ index ] ||
 		! tabPanels[ index ]
 	) {
-		console.warn( 'Invalid tab index or missing tab elements' );
 		return;
 	}
 
@@ -506,7 +491,6 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
 	const currentIndex = buttons.indexOf( currentButton );
 
 	if ( currentIndex === -1 ) {
-		console.warn( 'Current button not found in buttons array' );
 		return;
 	}
 
@@ -633,7 +617,6 @@ function initializeResponsiveAccordion( block ) {
 			const panel = button.nextElementSibling;
 
 			if ( ! panel ) {
-				console.warn( 'Accordion panel not found' );
 				return;
 			}
 
@@ -651,7 +634,6 @@ function initializeResponsiveAccordion( block ) {
 					animateAccordionOpen( panel );
 				}
 			} catch ( error ) {
-				console.error( 'Failed to toggle accordion:', error );
 			}
 		} );
 	} );
@@ -724,7 +706,6 @@ function handleResponsiveMode() {
 				accordionFallback.style.display = 'none';
 			}
 		} catch ( error ) {
-			console.error( 'Failed to handle responsive mode for block:', error );
 		}
 	} );
 }

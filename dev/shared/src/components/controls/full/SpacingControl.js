@@ -13,22 +13,90 @@
 import { BaseControl } from '@wordpress/components';
 import { CompactBoxRow } from '../organisms/CompactBoxRow';
 import { SideIcon } from '../atoms/SideIcon';
-import { DeviceSwitcher } from '../atoms/DeviceSwitcher';
+import { ResponsiveToggle } from '../atoms/ResponsiveToggle';
 import { useResponsiveDevice } from '../../../hooks/useResponsiveDevice';
+import { setGlobalResponsiveDevice } from '../../../utils/responsive-device';
+import { getAvailableUnits, getUnitConfig } from '../../../config/css-property-scales';
 
 const ALL_SIDES = [ 'top', 'right', 'bottom', 'left' ];
 
 /**
  * SpacingControl Component
  *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses a BOX pattern (4-sided values), NOT the scalar pattern.
+ *
+ * NON-RESPONSIVE MODE (responsive: false):
+ * ----------------------------------------
+ * value prop structure:
+ *   {
+ *     top: 16,        // number (in the current unit)
+ *     right: 16,
+ *     bottom: 16,
+ *     left: 16,
+ *     unit: "px",     // string
+ *     linked: true    // boolean (whether sides are linked)
+ *   }
+ *
+ * onChange callback signature:
+ *   onChange(newValue)
+ *   - Always calls with full box object { top, right, bottom, left, unit, linked }
+ *
+ * RESPONSIVE MODE (responsive: true):
+ * ------------------------------------
+ * value prop structure:
+ *
+ *   FLAT (base/global only):
+ *   { top: 16, right: 16, bottom: 16, left: 16, unit: "px", linked: true }
+ *
+ *   WITH DEVICE OVERRIDES:
+ *   {
+ *     top: 16,           // BASE (global)
+ *     right: 16,
+ *     bottom: 16,
+ *     left: 16,
+ *     unit: "px",
+ *     linked: true,
+ *     tablet: { top: 12, right: 12, bottom: 12, left: 12, unit: "px", linked: true },
+ *     mobile: { top: 8, right: 8, bottom: 8, left: 8, unit: "px", linked: true }
+ *   }
+ *
+ * IMPORTANT: Global value is the BASE (flat box properties), NOT under a "global" key!
+ * Tablet and mobile are OVERRIDES added to the base object.
+ *
+ * onChange callback signature:
+ *   onChange(device, newValue)
+ *   - device: "global" | "tablet" | "mobile"
+ *   - newValue: box object { top, right, bottom, left, unit, linked }
+ *
+ * The parent (ControlRenderer) handles merging device values into the final structure.
+ *
+ * SIDES PROP (for CompactMargin):
+ * --------------------------------
+ * The `sides` prop limits which sides are controllable:
+ *   sides: ['top', 'bottom']  // Only show top/bottom controls
+ *
+ * - Linked mode: Only updates the specified sides
+ * - Unlinked mode: Only shows rows for specified sides
+ * - Other sides: Preserved unchanged
+ *
+ * Example: CompactMargin uses sides: ['top', 'bottom'] to avoid conflicts
+ * with horizontal alignment (which sets margin-left/margin-right).
+ *
+ * ============================================================================
+ *
  * @param {Object}   props
  * @param {string}   props.label       - Control label
  * @param {string}   props.type        - Type of spacing ('margin' or 'padding')
- * @param {Object}   props.value       - Value object { top, right, bottom, left, unit, linked }
- * @param {Function} props.onChange    - Change handler
- * @param {Array}    props.units       - Available units
- * @param {number}   props.min         - Minimum value
- * @param {number}   props.max         - Maximum value
+ * @param {Object}   props.value       - Value object - see DATA STRUCTURE above
+ * @param {Function} props.onChange    - Change handler - see DATA STRUCTURE above
+ * @param {Array}    props.units       - Available units (defaults to centralizer config)
+ * @param {number}   props.min         - Minimum value (defaults to centralizer config based on unit)
+ * @param {number}   props.max         - Maximum value (defaults to centralizer config based on unit)
+ * @param {number}   props.step        - Step value (defaults to centralizer config based on unit)
  * @param {boolean}  props.responsive  - Whether to show device switcher
  * @param {boolean}  props.disabled    - Disabled state
  * @param {Array}    props.sides       - Limit which sides to show (e.g., ['top', 'bottom'] for margins)
@@ -38,15 +106,23 @@ export function SpacingControl( {
 	type = 'padding',
 	value = {},
 	onChange,
-	units = [ 'px', 'em', 'rem', '%' ],
-	min = 0,
-	max = 100,
+	units: unitsProp,
+	min: minProp,
+	max: maxProp,
+	step: stepProp,
 	responsive = false,
+	canBeResponsive = false,
+	responsiveEnabled = false,
+	onResponsiveToggle,
+	onResponsiveReset,
 	disabled = false,
 	sides = ALL_SIDES,
 } ) {
 	// Use the provided sides or default to all sides
 	const SIDES = sides && sides.length > 0 ? sides : ALL_SIDES;
+
+	// Get available units from centralizer, fallback to prop or default
+	const availableUnits = unitsProp || getAvailableUnits( type ) || [ 'px', 'em', 'rem', '%' ];
 
 	// Use global device state - all responsive controls stay in sync
 	const device = useResponsiveDevice();
@@ -54,7 +130,7 @@ export function SpacingControl( {
 	// Default label based on type
 	const controlLabel = label || ( type === 'margin' ? 'Margin' : 'Padding' );
 
-	// Check if value has base (flat) properties - these are desktop values
+	// Check if value has base (flat) properties - these are global/base values
 	// Base structure: { top, right, bottom, left, unit, linked } (no device wrappers)
 	// Mixed structure: { top, right, ..., tablet: {...}, mobile: {...} } (base + overrides)
 	const hasBaseProperties = value && typeof value === 'object' &&
@@ -62,7 +138,7 @@ export function SpacingControl( {
 		  value.left !== undefined || value.right !== undefined ||
 		  value.unit !== undefined );
 
-	// Extract base values (desktop) from the flat structure
+	// Extract base values (global) from the flat structure
 	const getBaseValue = () => {
 		if ( ! value || typeof value !== 'object' ) {
 			return {};
@@ -80,10 +156,10 @@ export function SpacingControl( {
 	};
 
 	// Get current device value for responsive, or direct value
-	// Desktop uses base (flat) properties; tablet/mobile use device-specific overrides or inherit from base
+	// Global uses base (flat) properties; tablet/mobile use device-specific overrides or inherit from base
 	const currentValue = responsive
-		? ( device === 'desktop'
-			? ( hasBaseProperties ? getBaseValue() : ( value?.desktop || {} ) )
+		? ( device === 'global'
+			? ( hasBaseProperties ? getBaseValue() : ( value?.value || {} ) )
 			: ( value?.[ device ] || getBaseValue() ) ) // Tablet/mobile inherit from base if no override
 		: value;
 
@@ -97,15 +173,21 @@ export function SpacingControl( {
 		linked = true,
 	} = currentValue || {};
 
+	// Get unit-specific configuration from centralizer
+	const unitConfig = getUnitConfig( type, unit );
+	const min = minProp ?? unitConfig?.min ?? 0;
+	const max = maxProp ?? unitConfig?.max ?? 100;
+	const step = stepProp ?? unitConfig?.step ?? 1;
+
 	// Helper to update value
-	// Desktop: updates the base (flat) properties
+	// Global: updates the base (flat) properties
 	// Tablet/Mobile: creates/updates device-specific overrides
 	const updateValue = ( updates ) => {
 		const newValue = { ...currentValue, ...updates };
 
 		if ( responsive ) {
-			if ( device === 'desktop' ) {
-				// Desktop edits update the base (flat) structure
+			if ( device === 'global' ) {
+				// Global edits update the base (flat) structure
 				// Preserve any existing tablet/mobile overrides
 				const existingOverrides = {};
 				if ( value?.tablet ) existingOverrides.tablet = value.tablet;
@@ -165,14 +247,30 @@ export function SpacingControl( {
 		}
 	};
 
+	// Handler for responsive reset (discard device overrides and disable responsive)
+	const handleResponsiveResetClick = () => {
+		if ( onResponsiveReset ) {
+			onResponsiveReset();
+		}
+	};
+
+	// Handler for device change
+	const handleDeviceChange = ( newDevice ) => {
+		setGlobalResponsiveDevice( newDevice );
+	};
+
 	return (
 		<BaseControl
 			label={
 				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
 					<span>{ controlLabel }</span>
-					{ responsive && (
-						<DeviceSwitcher
-							value={ device }
+					{ canBeResponsive && (
+						<ResponsiveToggle
+							isEnabled={ responsiveEnabled }
+							onToggle={ onResponsiveToggle }
+							currentDevice={ device }
+							onDeviceChange={ handleDeviceChange }
+							onReset={ handleResponsiveResetClick }
 							disabled={ disabled }
 						/>
 					) }
@@ -189,9 +287,10 @@ export function SpacingControl( {
 					unit={ unit }
 					onValueChange={ ( val ) => handleValueChange( 'top', val ) }
 					onUnitChange={ handleUnitChange }
-					units={ units }
+					units={ availableUnits }
 					min={ min }
 					max={ max }
+					step={ step }
 					showSlider={ true }
 					showLink={ true }
 					linked={ linked }
@@ -211,9 +310,10 @@ export function SpacingControl( {
 								unit={ unit }
 								onValueChange={ ( val ) => handleValueChange( side, val ) }
 								onUnitChange={ handleUnitChange }
-								units={ units }
+								units={ availableUnits }
 								min={ min }
 								max={ max }
+								step={ step }
 								showSlider={ true }
 								showLink={ isLastSide } // Only show link on last row
 								linked={ linked }

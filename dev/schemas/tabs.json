@@ -5,6 +5,52 @@
   "description": "Complete theme and appearance configuration for Tabs blocks",
   "blockType": "tabs",
   "blockName": "Tabs",
+  "_IMPORTANT_README": {
+    "title": "⚠️ CENTRALIZED CONFIG SYSTEM - READ BEFORE EDITING",
+    "description": "Units, min, max, and step values are centralized. DO NOT hardcode them in this schema!",
+    "centralizer": "shared/src/config/css-property-scales.js",
+    "rules": [
+      "✅ DO: Specify 'cssProperty' - units/min/max/step come from centralizer automatically",
+      "❌ DON'T: Add 'units', 'min', 'max', 'step' to SliderWithInput attributes (unless overriding)",
+      "✅ DO: Only define 'default' value in schema",
+      "✅ DO: Add new CSS properties to centralizer if needed"
+    ],
+    "examples": {
+      "CORRECT": {
+        "buttonFontSize": {
+          "type": "string",
+          "default": "1rem",
+          "control": "SliderWithInput",
+          "cssProperty": "font-size",
+          "comment": "Units/min/max/step inherited from 'font-size' in centralizer"
+        }
+      },
+      "INCORRECT": {
+        "buttonFontSize": {
+          "type": "string",
+          "default": "1rem",
+          "control": "SliderWithInput",
+          "cssProperty": "font-size",
+          "units": ["rem", "px", "em"],
+          "min": 0.5,
+          "max": 3,
+          "step": 0.1,
+          "comment": "❌ WRONG! These should come from centralizer, not hardcoded here"
+        }
+      }
+    },
+    "override_when_needed": "You CAN override centralizer values if this specific attribute needs different ranges, but document why in a comment",
+    "centralizer_lookup": {
+      "font-size": "Units: [rem, px, %, em] | Range varies per unit",
+      "letter-spacing": "Units: [em, px, rem] | Range varies per unit",
+      "padding": "Units: [rem, px, %, em, vw, vh] | Range varies per unit",
+      "margin": "Units: [rem, px, %, em, vw, vh] | Range: -20rem to 20rem (px: -128 to 128)",
+      "top/left/right/bottom": "Units: [px, %, rem, em, vh] | Range: -200px to 200px (or equivalent)",
+      "border-width": "Units: [px, rem, em] | Range: 0 to 20px",
+      "border-radius": "Units: [px, rem, em, %] | Range: 0 to 100px"
+    },
+    "see_also": "docs/CONTROL_DATA_STRUCTURES.md for control data format patterns"
+  },
   "manualSyncRequired": {
     "description": "CSS properties are auto-generated from cssVar/cssSelector/cssProperty fields",
     "files": [
@@ -12,86 +58,189 @@
     ],
     "instructions": "CSS variable declarations are automatically generated. Only edit style.scss for structural/layout CSS. To add CSS variables, add cssVar, cssSelector, and cssProperty to schema attributes."
   },
-  "groups": {
-    "blockOptions": {
-      "title": "Block Options",
-      "description": "Block-level options",
+  "tabs": [
+    {
+      "name": "settings",
       "order": 1,
-      "initialOpen": true
+      "groups": [
+        {
+          "title": "Block Options",
+          "description": "Block-level options",
+          "order": 1,
+          "initialOpen": true,
+          "id": "blockOptions",
+          "subgroups": []
+        },
+        {
+          "title": "Block Borders",
+          "description": "Wrapper borders and shadows",
+          "order": 2,
+          "initialOpen": false,
+          "id": "blockBorders",
+          "subgroups": [],
+          "tab": "appearance"
+        },
+        {
+          "title": "Header Colors",
+          "description": "Tab header text/background colors",
+          "order": 3,
+          "initialOpen": false,
+          "id": "headerColors",
+          "subgroups": [],
+          "tab": "appearance"
+        },
+        {
+          "title": "Header Typography",
+          "description": "Tab header typography",
+          "order": 4,
+          "initialOpen": false,
+          "id": "headerTypography",
+          "subgroups": [],
+          "tab": "appearance"
+        },
+        {
+          "title": "Header Borders",
+          "description": "Tab header borders and active edge",
+          "order": 5,
+          "initialOpen": false,
+          "id": "headerBorders",
+          "subgroups": []
+        },
+        {
+          "title": "Header Row Options",
+          "description": "Row background, spacing, alignment, dividers",
+          "order": 6,
+          "initialOpen": false,
+          "id": "headerRowOptions",
+          "subgroups": []
+        },
+        {
+          "title": "Panel Appearance",
+          "description": "Panel background and borders",
+          "order": 7,
+          "initialOpen": false,
+          "id": "panelAppearance",
+          "subgroups": []
+        },
+        {
+          "title": "Icon",
+          "description": "Icon appearance and behavior",
+          "order": 8,
+          "initialOpen": false,
+          "id": "icon",
+          "subgroups": []
+        }
+      ]
     },
-    "blockBorders": {
-      "title": "Block Borders",
-      "description": "Wrapper borders and shadows",
+    {
+      "name": "appearance",
       "order": 2,
-      "initialOpen": false
-    },
-    "headerColors": {
-      "title": "Header Colors",
-      "description": "Tab header text/background colors",
-      "order": 3,
-      "initialOpen": false
-    },
-    "headerTypography": {
-      "title": "Header Typography",
-      "description": "Tab header typography",
-      "order": 4,
-      "initialOpen": false
-    },
-    "headerBorders": {
-      "title": "Header Borders",
-      "description": "Tab header borders and active edge",
-      "order": 5,
-      "initialOpen": false
-    },
-    "headerRowOptions": {
-      "title": "Header Row Options",
-      "description": "Row background, spacing, alignment, dividers",
-      "order": 6,
-      "initialOpen": false
-    },
-    "panelAppearance": {
-      "title": "Panel Appearance",
-      "description": "Panel background and borders",
-      "order": 7,
-      "initialOpen": false
-    },
-    "icon": {
-      "title": "Icon",
-      "description": "Icon appearance and behavior",
-      "order": 8,
-      "initialOpen": false
+      "groups": []
     }
-  },
+  ],
   "attributes": {
-    "uniqueId": {
+    "tabsWidth": {
       "type": "string",
-      "default": "",
+      "default": "100%",
+      "label": "Block Width",
+      "description": "Tabs container width",
       "group": "blockOptions",
-      "label": "Unique ID",
-      "description": "Auto-generated unique block identifier",
-      "themeable": false,
-      "outputsCSS": false,
-      "order": 10
+      "order": 1,
+      "control": "SliderWithInput",
+      "cssProperty": "width",
+      "responsive": true,
+      "themeable": false
     },
-    "blockId": {
+    "headingLevel": {
       "type": "string",
-      "default": "",
+      "default": "none",
+      "label": "Heading Level",
+      "description": "Semantic HTML heading level (none, h1-h6)",
       "group": "blockOptions",
-      "label": "Block ID",
-      "description": "Block-specific identification",
+      "order": 2,
+      "control": "SelectControl",
+      "options": [
+        "none",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ],
       "themeable": false,
-      "outputsCSS": false,
-      "order": 11
+      "outputsCSS": false
     },
-    "currentTheme": {
+    "tabsHorizontalAlign": {
       "type": "string",
-      "default": "",
+      "default": "center",
+      "label": "Block Horizontal Alignment",
+      "description": "Horizontal alignment of the tabs block",
       "group": "blockOptions",
-      "label": "Theme",
-      "description": "Currently active theme name (empty = Default)",
+      "order": 3,
+      "control": "SelectControl",
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "themeable": false
+    },
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "label": "Tab Orientation",
+      "description": "Tab layout orientation",
+      "group": "blockOptions",
+      "order": 4,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "Horizontal",
+          "value": "horizontal"
+        },
+        {
+          "label": "Vertical Left",
+          "value": "vertical-left"
+        },
+        {
+          "label": "Vertical Right",
+          "value": "vertical-right"
+        }
+      ],
       "themeable": false,
-      "outputsCSS": false,
-      "order": 9
+      "outputsCSS": false
+    },
+    "activationMode": {
+      "type": "string",
+      "default": "click",
+      "label": "Activation Mode",
+      "description": "How tabs are activated (click or hover)",
+      "group": "blockOptions",
+      "order": 5,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "Click",
+          "value": "click"
+        },
+        {
+          "label": "Hover",
+          "value": "hover"
+        }
+      ],
+      "themeable": false,
+      "reason": "generalal"
+    },
+    "title": {
+      "type": "string",
+      "default": "Tabs",
+      "label": "Title",
+      "description": "Block title (for accessibility)",
+      "group": "blockOptions",
+      "order": 6,
+      "themeable": false,
+      "outputsCSS": false
     },
     "tabs": {
       "type": "array",
@@ -109,584 +258,86 @@
           "isDisabled": false
         }
       ],
-      "group": "blockOptions",
       "label": "Tabs",
       "description": "Array of tab items with title, content, and state",
+      "group": "blockOptions",
+      "order": 7,
       "themeable": false,
-      "outputsCSS": false,
-      "order": 7
+      "outputsCSS": false
     },
     "tabsData": {
       "type": "array",
       "default": [],
-      "group": "blockOptions",
       "label": "Tabs Data",
       "description": "Synchronized tab button data for server-side rendering",
-      "themeable": false,
-      "outputsCSS": false,
-      "order": 8
-    },
-    "orientation": {
-      "type": "string",
-      "default": "horizontal",
       "group": "blockOptions",
-      "label": "Tab Orientation",
-      "description": "Tab layout orientation",
-      "themeable": false,
-      "outputsCSS": false,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "Horizontal",
-          "value": "horizontal"
-        },
-        {
-          "label": "Vertical Left",
-          "value": "vertical-left"
-        },
-        {
-          "label": "Vertical Right",
-          "value": "vertical-right"
-        }
-      ],
-      "order": 4
-    },
-    "stretchButtonsToRow": {
-      "type": "boolean",
-      "default": false,
-      "group": "headerRowOptions",
-      "label": "Stretch Buttons to Row Width",
-      "description": "Make tab buttons fill the full width of the row (horizontal orientation only)",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "ToggleControl",
-      "disabledWhen": {
-        "orientation": [
-          "vertical-left",
-          "vertical-right"
-        ]
-      },
-      "order": 7
-    },
-    "activationMode": {
-      "type": "string",
-      "default": "click",
-      "group": "blockOptions",
-      "label": "Activation Mode",
-      "description": "How tabs are activated (click or hover)",
-      "themeable": false,
-      "reason": "generalal",
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "Click",
-          "value": "click"
-        },
-        {
-          "label": "Hover",
-          "value": "hover"
-        }
-      ],
-      "order": 5
-    },
-    "headingLevel": {
-      "type": "string",
-      "default": "none",
-      "group": "blockOptions",
-      "label": "Heading Level",
-      "description": "Semantic HTML heading level (none, h1-h6)",
-      "themeable": false,
-      "outputsCSS": false,
-      "control": "SelectControl",
-      "options": [
-        "none",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6"
-      ],
-      "order": 2
-    },
-    "title": {
-      "type": "string",
-      "default": "Tabs",
-      "group": "blockOptions",
-      "label": "Title",
-      "description": "Block title (for accessibility)",
-      "themeable": false,
-      "outputsCSS": false,
-      "order": 6
-    },
-    "tabsHorizontalAlign": {
-      "type": "string",
-      "default": "center",
-      "group": "blockOptions",
-      "label": "Block Horizontal Alignment",
-      "description": "Horizontal alignment of the tabs block",
-      "themeable": false,
-      "control": "SelectControl",
-      "options": [
-        "left",
-        "center",
-        "right"
-      ],
-      "order": 3
-    },
-    "tabsWidth": {
-      "type": "string",
-      "default": "100%",
-      "group": "blockOptions",
-      "label": "Block Width",
-      "description": "Tabs container width (e.g., 100%, 500px)",
-      "themeable": false,
-      "control": "TextControl",
-      "order": 1
-    },
-    "showIcon": {
-      "type": "boolean",
-      "default": true,
-      "cssVar": "tabs-show-icon",
-      "group": "icon",
-      "label": "Show Icon",
-      "description": "Display icons in tab buttons",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "ToggleControl",
-      "order": 1,
-      "appliesTo": "tabButton",
-      "cssProperty": "display"
-    },
-    "iconPosition": {
-      "type": "string",
-      "default": "right",
-      "cssVar": "tabs-icon-position",
-      "group": "icon",
-      "label": "Icon Position",
-      "description": "Position of icon relative to text",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "SelectControl",
-      "options": [
-        "left",
-        "right"
-      ],
-      "order": 2,
-      "appliesTo": "tabButton",
-      "cssProperty": "flex-direction"
-    },
-    "iconColor": {
-      "type": "string",
-      "default": "#666666",
-      "cssVar": "tabs-icon-color",
-      "group": "icon",
-      "label": "Icon Color",
-      "description": "Color of the tab icon",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 3,
-      "appliesTo": "tabIcon",
-      "cssProperty": "color"
-    },
-    "iconSize": {
-      "type": "number",
-      "default": 1,
-      "cssVar": "tabs-icon-size",
-      "group": "icon",
-      "label": "Icon Size",
-      "description": "Size of the icon in rem",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0.5,
-      "max": 3,
-      "step": 0.01,
-      "unit": "rem",
-      "order": 4,
-      "appliesTo": "tabIcon",
-      "cssProperty": "font-size"
-    },
-    "iconTypeClosed": {
-      "type": "string",
-      "default": "\u25be",
-      "cssVar": "tabs-icon-type-closed",
-      "group": "icon",
-      "label": "Icon Closed",
-      "description": "Icon for the tab (char or image URL)",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "IconPicker",
-      "order": 5,
-      "appliesTo": "tabIcon",
-      "cssProperty": "content"
-    },
-    "iconTypeOpen": {
-      "type": "string",
-      "default": "none",
-      "cssVar": "tabs-icon-type-open",
-      "group": "icon",
-      "label": "Icon Open",
-      "description": "Icon when tab is active (none = use closed icon with final rotation)",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "IconPicker",
-      "order": 6,
-      "appliesTo": "tabIcon",
-      "cssProperty": "content"
-    },
-    "iconRotation": {
-      "type": "number",
-      "default": 0,
-      "cssVar": "tabs-icon-rotation-base",
-      "group": "icon",
-      "label": "Icon Base Rotation",
-      "description": "Base rotation of the icon",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": -360,
-      "max": 360,
-      "unit": "deg",
-      "order": 7,
-      "appliesTo": "tabIcon",
-      "cssProperty": "transform"
-    },
-    "iconRotationActive": {
-      "type": "number",
-      "default": 180,
-      "cssVar": "tabs-icon-rotation-active",
-      "group": "icon",
-      "label": "Icon Active Rotation",
-      "description": "Rotation of the icon for the active tab",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": -360,
-      "max": 360,
-      "unit": "deg",
       "order": 8,
-      "appliesTo": "tabIcon",
-      "cssProperty": "transform"
+      "themeable": false,
+      "outputsCSS": false
     },
-    "tabButtonColor": {
+    "currentTheme": {
       "type": "string",
-      "default": "#666666",
-      "cssVar": "tabs-button-color",
-      "group": "headerColors",
-      "label": "Header Text Color",
-      "description": "Text color for inactive tab buttons",
-      "themeable": true,
-      "control": "ColorPicker",
-      "needsMapping": true,
-      "order": 1,
-      "appliesTo": "tabButton",
-      "cssProperty": "color"
-    },
-    "tabButtonBackgroundColor": {
-      "type": "string",
-      "default": "#f5f5f5",
-      "cssVar": "tabs-button-bg",
-      "group": "headerColors",
-      "label": "Header Background",
-      "description": "Background color for inactive tab buttons",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 2,
-      "appliesTo": "tabButton",
-      "cssProperty": "background-color"
-    },
-    "tabButtonHoverColor": {
-      "type": "string",
-      "default": "#333333",
-      "cssVar": "tabs-button-hover-color",
-      "group": "headerColors",
-      "label": "Header Hover Text Color",
-      "description": "Text color when hovering over tab",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 3,
-      "appliesTo": "tabButton",
-      "cssProperty": "color"
-    },
-    "tabButtonHoverBackgroundColor": {
-      "type": "string",
-      "default": "#e8e8e8",
-      "cssVar": "tabs-button-hover-bg",
-      "group": "headerColors",
-      "label": "Header Hover Background",
-      "description": "Background color when hovering over tab",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 4,
-      "appliesTo": "tabButton",
-      "cssProperty": "background-color"
-    },
-    "tabButtonActiveColor": {
-      "type": "string",
-      "default": "#333333",
-      "cssVar": "tabs-button-active-color",
-      "group": "headerColors",
-      "label": "Header Active Text Color",
-      "description": "Text color for active/selected tab",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 5,
-      "appliesTo": "tabButton",
-      "cssProperty": "color"
-    },
-    "tabButtonActiveBackgroundColor": {
-      "type": "string",
-      "default": "#ffffff",
-      "cssVar": "tabs-button-active-bg",
-      "group": "headerColors",
-      "label": "Header Active Background",
-      "description": "Background color for active/selected tab",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 6,
-      "appliesTo": "tabButton",
-      "cssProperty": "background-color"
-    },
-    "enableFocusBorder": {
-      "type": "boolean",
-      "default": true,
-      "cssVar": "tabs-enable-focus-border",
-      "group": "headerBorders",
-      "label": "Enable Button / Content Border",
-      "description": "Border on the edge touching the content, giving it a merged look.",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "ToggleControl",
-      "order": 8,
-      "appliesTo": "tabButton",
-      "cssProperty": "border"
-    },
-    "tabButtonActiveContentBorderWidth": {
-      "type": "number",
-      "default": 1,
-      "cssVar": "tabs-button-active-content-border-width",
-      "group": "headerBorders",
-      "label": "Active Content Edge Border Width",
-      "description": "Width of the active button edge touching content",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 10,
-      "unit": "px",
-      "order": 10,
-      "appliesTo": "tabButton",
-      "dependsOn": "orientation",
-      "variants": {
-        "horizontal": {
-          "cssProperty": "border-bottom-width"
-        },
-        "vertical-left": {
-          "cssProperty": "border-right-width"
-        },
-        "vertical-right": {
-          "cssProperty": "border-left-width"
-        },
-        "_default": {
-          "cssProperty": "border-bottom-width"
-        }
-      }
-    },
-    "tabButtonActiveContentBorderStyle": {
-      "type": "string",
-      "default": "solid",
-      "cssVar": "tabs-button-active-content-border-style",
-      "group": "headerBorders",
-      "label": "Active Content Edge Border Style",
-      "description": "Style of the active button edge touching content",
-      "themeable": true,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "None",
-          "value": "none"
-        },
-        {
-          "label": "Solid",
-          "value": "solid"
-        },
-        {
-          "label": "Dashed",
-          "value": "dashed"
-        },
-        {
-          "label": "Dotted",
-          "value": "dotted"
-        },
-        {
-          "label": "Double",
-          "value": "double"
-        }
-      ],
-      "order": 11,
-      "appliesTo": "tabButton",
-      "dependsOn": "orientation",
-      "variants": {
-        "horizontal": {
-          "cssProperty": "border-bottom-style"
-        },
-        "vertical-left": {
-          "cssProperty": "border-right-style"
-        },
-        "vertical-right": {
-          "cssProperty": "border-left-style"
-        },
-        "_default": {
-          "cssProperty": "border-bottom-style"
-        }
-      }
-    },
-    "tabButtonActiveFontWeight": {
-      "type": "string",
-      "default": "bold",
-      "cssVar": "tabs-button-active-font-weight",
-      "group": "headerTypography",
-      "label": "Header Active Font Weight",
-      "description": "Font weight for active/selected tab button",
-      "themeable": true,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "100",
-          "value": "100"
-        },
-        {
-          "label": "200",
-          "value": "200"
-        },
-        {
-          "label": "300",
-          "value": "300"
-        },
-        {
-          "label": "400",
-          "value": "400"
-        },
-        {
-          "label": "500",
-          "value": "500"
-        },
-        {
-          "label": "600",
-          "value": "600"
-        },
-        {
-          "label": "700",
-          "value": "700"
-        },
-        {
-          "label": "800",
-          "value": "800"
-        },
-        {
-          "label": "900",
-          "value": "900"
-        },
-        {
-          "label": "Normal",
-          "value": "normal"
-        },
-        {
-          "label": "Bold",
-          "value": "bold"
-        }
-      ],
-      "needsMapping": true,
-      "state": "active",
-      "order": 8,
-      "appliesTo": "tabButton",
-      "cssProperty": "font-weight"
-    },
-    "tabButtonBorderColor": {
-      "type": "object",
-      "default": {
-        "top": "#dddddd",
-        "right": "#dddddd",
-        "bottom": "#dddddd",
-        "left": "#dddddd",
-        "linked": true
-      },
-      "cssVar": "tabs-button-border-color",
-      "group": "headerBorders",
-      "label": "Header Border Color",
-      "description": "Border color for inactive tab buttons",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 1,
-      "appliesTo": "tabButton",
-      "cssProperty": "border-color"
-    },
-    "tabButtonActiveBorderColor": {
-      "type": "object",
-      "default": {
-        "top": "#dddddd",
-        "right": "#dddddd",
-        "bottom": "#dddddd",
-        "left": "#dddddd",
-        "linked": true
-      },
-      "cssVar": "tabs-button-active-border-color",
-      "group": "headerBorders",
-      "label": "Header Active Border Color",
-      "description": "Border color for the active tab",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 2,
-      "appliesTo": "tabButton",
-      "cssProperty": "border-color"
-    },
-    "tabButtonActiveContentBorderColor": {
-      "type": "string",
-      "default": "#ffffff",
-      "cssVar": "tabs-button-active-content-border-color",
-      "group": "headerBorders",
-      "label": "Active Content Edge Border Color",
-      "description": "Color of the border. Keep it the same color as panel background for a merged look.",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
+      "default": "",
+      "label": "Theme",
+      "description": "Currently active theme name (empty = Default)",
+      "group": "blockOptions",
       "order": 9,
-      "appliesTo": "tabButton",
-      "dependsOn": "orientation",
-      "variants": {
-        "horizontal": {
-          "cssProperty": "border-bottom-color"
-        },
-        "vertical-left": {
-          "cssProperty": "border-right-color"
-        },
-        "vertical-right": {
-          "cssProperty": "border-left-color"
-        },
-        "_default": {
-          "cssProperty": "border-bottom-color"
-        }
-      }
+      "themeable": false,
+      "outputsCSS": false
     },
-    "tabButtonBorderWidth": {
+    "uniqueId": {
+      "type": "string",
+      "default": "",
+      "label": "Unique ID",
+      "description": "Auto-generated unique block identifier",
+      "group": "blockOptions",
+      "order": 10,
+      "themeable": false,
+      "outputsCSS": false
+    },
+    "blockId": {
+      "type": "string",
+      "default": "",
+      "label": "Block ID",
+      "description": "Block-specific identification",
+      "group": "blockOptions",
+      "order": 11,
+      "themeable": false,
+      "outputsCSS": false
+    },
+    "borderColor": {
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
+      "label": "Block Border Color",
+      "description": "Border color for main tabs wrapper",
+      "group": "blockBorders",
+      "order": 1,
+      "control": "ColorPicker",
+      "appliesTo": "wrapper",
+      "cssVar": "tabs-border-color",
+      "cssProperty": "border-color",
+      "themeable": true
+    },
+    "borderWidth": {
       "type": "number",
-      "default": 1,
-      "cssVar": "tabs-button-border-width",
-      "group": "headerBorders",
-      "label": "Header Border Width",
-      "description": "Border width for tab buttons",
-      "themeable": true,
+      "default": "0px",
+      "label": "Block Border Width",
+      "description": "Border width for main wrapper",
+      "group": "blockBorders",
+      "order": 2,
       "control": "RangeControl",
-      "min": 0,
-      "max": 10,
-      "unit": "px",
-      "order": 3,
-      "appliesTo": "tabButton",
-      "cssProperty": "border-width"
+      "appliesTo": "wrapper",
+      "cssVar": "tabs-border-width",
+      "cssProperty": "border-width",
+      "themeable": true
     },
-    "tabButtonBorderStyle": {
+    "borderStyle": {
       "type": "object",
       "default": {
         "top": "solid",
@@ -695,11 +346,10 @@
         "left": "solid",
         "linked": true
       },
-      "cssVar": "tabs-button-border-style",
-      "group": "headerBorders",
-      "label": "Header Border Style",
-      "description": "Border style for tab buttons",
-      "themeable": true,
+      "label": "Block Border Style",
+      "description": "Border style for wrapper",
+      "group": "blockBorders",
+      "order": 3,
       "control": "SelectControl",
       "options": [
         {
@@ -723,81 +373,160 @@
           "value": "double"
         }
       ],
-      "order": 4,
-      "appliesTo": "tabButton",
-      "cssProperty": "border-style"
+      "appliesTo": "wrapper",
+      "cssVar": "tabs-border-style",
+      "cssProperty": "border-style",
+      "themeable": true
     },
-    "tabButtonBorderRadius": {
+    "borderRadius": {
       "type": "object",
       "default": {
-        "topLeft": 4,
-        "topRight": 4,
+        "topLeft": 0,
+        "topRight": 0,
         "bottomRight": 0,
         "bottomLeft": 0
       },
-      "cssVar": "tabs-button-border-radius",
-      "group": "headerBorders",
-      "label": "Header Border Radius",
-      "description": "Corner radius for tab buttons",
-      "themeable": true,
+      "label": "Block Border Radius",
+      "description": "Corner radius for main wrapper",
+      "group": "blockBorders",
+      "order": 4,
       "control": "BorderRadiusControl",
-      "unit": "px",
+      "appliesTo": "wrapper",
+      "cssVar": "tabs-border-radius",
+      "cssProperty": "border-radius",
+      "themeable": true,
+      "unit": "px"
+    },
+    "shadow": {
+      "type": "string",
+      "default": "none",
+      "label": "Block Shadow",
+      "description": "Box shadow for main wrapper",
+      "group": "blockBorders",
       "order": 5,
-      "appliesTo": "tabButton",
-      "cssProperty": "border-radius"
-    },
-    "tabButtonShadow": {
-      "type": "string",
-      "default": "none",
-      "cssVar": "tabs-button-border-shadow",
-      "group": "headerBorders",
-      "label": "Header Shadow",
-      "description": "Box shadow for tab buttons",
-      "themeable": true,
       "control": "TextControl",
-      "order": 6,
-      "appliesTo": "tabButton",
-      "cssProperty": "box-shadow"
+      "appliesTo": "wrapper",
+      "cssVar": "tabs-border-shadow",
+      "cssProperty": "box-shadow",
+      "themeable": true
     },
-    "tabButtonShadowHover": {
+    "shadowHover": {
       "type": "string",
       "default": "none",
-      "cssVar": "tabs-button-border-shadow-hover",
-      "group": "headerBorders",
-      "label": "Header Hover Shadow",
-      "description": "Box shadow for tab buttons on hover",
-      "themeable": true,
+      "label": "Block Hover Shadow",
+      "description": "Box shadow for wrapper on hover",
+      "group": "blockBorders",
+      "order": 6,
       "control": "TextControl",
       "state": "hover",
-      "order": 7,
+      "appliesTo": "wrapper",
+      "cssVar": "tabs-border-shadow-hover",
+      "cssProperty": "box-shadow",
+      "themeable": true
+    },
+    "tabButtonColor": {
+      "type": "string",
+      "default": "#666666",
+      "label": "Header Text Color",
+      "description": "Text color for inactive tab buttons",
+      "group": "headerColors",
+      "order": 1,
+      "control": "ColorPicker",
       "appliesTo": "tabButton",
-      "cssProperty": "box-shadow"
+      "cssVar": "tabs-button-color",
+      "cssProperty": "color",
+      "themeable": true,
+      "needsMapping": true
+    },
+    "tabButtonBackgroundColor": {
+      "type": "string",
+      "default": "#f5f5f5",
+      "label": "Header Background",
+      "description": "Background color for inactive tab buttons",
+      "group": "headerColors",
+      "order": 2,
+      "control": "ColorPicker",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-bg",
+      "cssProperty": "background-color",
+      "themeable": true
+    },
+    "tabButtonHoverColor": {
+      "type": "string",
+      "default": "#333333",
+      "label": "Header Hover Text Color",
+      "description": "Text color when hovering over tab",
+      "group": "headerColors",
+      "order": 3,
+      "control": "ColorPicker",
+      "state": "hover",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-hover-color",
+      "cssProperty": "color",
+      "themeable": true
+    },
+    "tabButtonHoverBackgroundColor": {
+      "type": "string",
+      "default": "#e8e8e8",
+      "label": "Header Hover Background",
+      "description": "Background color when hovering over tab",
+      "group": "headerColors",
+      "order": 4,
+      "control": "ColorPicker",
+      "state": "hover",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-hover-bg",
+      "cssProperty": "background-color",
+      "themeable": true
+    },
+    "tabButtonActiveColor": {
+      "type": "string",
+      "default": "#333333",
+      "label": "Header Active Text Color",
+      "description": "Text color for active/selected tab",
+      "group": "headerColors",
+      "order": 5,
+      "control": "ColorPicker",
+      "state": "active",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-active-color",
+      "cssProperty": "color",
+      "themeable": true
+    },
+    "tabButtonActiveBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff",
+      "label": "Header Active Background",
+      "description": "Background color for active/selected tab",
+      "group": "headerColors",
+      "order": 6,
+      "control": "ColorPicker",
+      "state": "active",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-active-bg",
+      "cssProperty": "background-color",
+      "themeable": true
     },
     "tabButtonFontSize": {
       "type": "number",
-      "default": 1,
-      "cssVar": "tabs-button-font-size",
-      "group": "headerTypography",
+      "default": "1rem",
       "label": "Header Font Size",
       "description": "Font size for tab buttons (rem)",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0.6,
-      "max": 2.3,
-      "step": 0.01,
-      "unit": "rem",
+      "group": "headerTypography",
       "order": 1,
+      "control": "RangeControl",
       "appliesTo": "tabButton",
-      "cssProperty": "font-size"
+      "cssVar": "tabs-button-font-size",
+      "cssProperty": "font-size",
+      "themeable": true
     },
     "tabButtonFontWeight": {
       "type": "string",
       "default": "500",
-      "cssVar": "tabs-button-font-weight",
-      "group": "headerTypography",
       "label": "Header Font Weight",
       "description": "Font weight for tab buttons",
-      "themeable": true,
+      "group": "headerTypography",
+      "order": 2,
       "control": "SelectControl",
       "options": [
         {
@@ -845,18 +574,18 @@
           "value": "bold"
         }
       ],
-      "order": 2,
       "appliesTo": "tabButton",
-      "cssProperty": "font-weight"
+      "cssVar": "tabs-button-font-weight",
+      "cssProperty": "font-weight",
+      "themeable": true
     },
     "tabButtonFontStyle": {
       "type": "string",
       "default": "normal",
-      "cssVar": "tabs-button-font-style",
-      "group": "headerTypography",
       "label": "Header Font Style",
       "description": "Font style for tab buttons",
-      "themeable": true,
+      "group": "headerTypography",
+      "order": 3,
       "control": "SelectControl",
       "options": [
         {
@@ -872,18 +601,18 @@
           "value": "oblique"
         }
       ],
-      "order": 3,
       "appliesTo": "tabButton",
-      "cssProperty": "font-style"
+      "cssVar": "tabs-button-font-style",
+      "cssProperty": "font-style",
+      "themeable": true
     },
     "tabButtonTextTransform": {
       "type": "string",
       "default": "none",
-      "cssVar": "tabs-button-text-transform",
-      "group": "headerTypography",
       "label": "Header Text Transform",
       "description": "Text transformation for tab buttons",
-      "themeable": true,
+      "group": "headerTypography",
+      "order": 4,
       "control": "SelectControl",
       "options": [
         {
@@ -903,18 +632,18 @@
           "value": "capitalize"
         }
       ],
-      "order": 4,
       "appliesTo": "tabButton",
-      "cssProperty": "text-transform"
+      "cssVar": "tabs-button-text-transform",
+      "cssProperty": "text-transform",
+      "themeable": true
     },
     "tabButtonTextDecoration": {
       "type": "string",
       "default": "none",
-      "cssVar": "tabs-button-text-decoration",
-      "group": "headerTypography",
       "label": "Header Text Decoration",
       "description": "Text decoration for tab buttons",
-      "themeable": true,
+      "group": "headerTypography",
+      "order": 5,
       "control": "SelectControl",
       "options": [
         {
@@ -934,60 +663,105 @@
           "value": "line-through"
         }
       ],
-      "order": 5,
       "appliesTo": "tabButton",
-      "cssProperty": "text-decoration"
+      "cssVar": "tabs-button-text-decoration",
+      "cssProperty": "text-decoration",
+      "themeable": true
     },
     "tabButtonTextAlign": {
       "type": "string",
       "default": "center",
-      "cssVar": "tabs-button-text-align",
-      "group": "headerTypography",
       "label": "Header Text Alignment",
       "description": "Text alignment for tab buttons",
-      "themeable": true,
+      "group": "headerTypography",
+      "order": 6,
       "control": "SelectControl",
       "options": [
         "left",
         "center",
         "right"
       ],
-      "order": 6,
       "appliesTo": "tabButton",
-      "cssProperty": "text-align"
+      "cssVar": "tabs-button-text-align",
+      "cssProperty": "text-align",
+      "themeable": true
     },
     "tabButtonPadding": {
       "type": "number",
-      "default": 0.75,
-      "cssVar": "tabs-button-padding",
-      "group": "headerTypography",
+      "default": "0.75rem",
       "label": "Header Padding",
       "description": "Padding for tab buttons in rem (vertical/horizontal will be computed)",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 1.3,
-      "step": 0.01,
-      "unit": "rem",
+      "group": "headerTypography",
       "order": 7,
+      "control": "RangeControl",
       "appliesTo": "tabButton",
+      "cssVar": "tabs-button-padding",
       "cssProperty": "padding",
+      "themeable": true,
       "transformValue": "paddingRectangle"
     },
-    "tabListBackgroundColor": {
+    "tabButtonActiveFontWeight": {
       "type": "string",
-      "default": "transparent",
-      "cssVar": "tabs-list-bg",
-      "group": "headerRowOptions",
-      "label": "Row Background",
-      "description": "Background color for the tab navigation bar",
+      "default": "bold",
+      "label": "Header Active Font Weight",
+      "description": "Font weight for active/selected tab button",
+      "group": "headerTypography",
+      "order": 8,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "100",
+          "value": "100"
+        },
+        {
+          "label": "200",
+          "value": "200"
+        },
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        },
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Bold",
+          "value": "bold"
+        }
+      ],
+      "state": "active",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-active-font-weight",
+      "cssProperty": "font-weight",
       "themeable": true,
-      "control": "ColorPicker",
-      "order": 1,
-      "appliesTo": "tabsList",
-      "cssProperty": "background-color"
+      "needsMapping": true
     },
-    "tabsRowBorderColor": {
+    "tabButtonBorderColor": {
       "type": "object",
       "default": {
         "top": "#dddddd",
@@ -996,33 +770,50 @@
         "left": "#dddddd",
         "linked": true
       },
-      "cssVar": "tabs-row-border-color",
-      "group": "headerRowOptions",
-      "label": "Row Border Color",
-      "description": "Border color for the tab row",
-      "themeable": true,
+      "label": "Header Border Color",
+      "description": "Border color for inactive tab buttons",
+      "group": "headerBorders",
+      "order": 1,
       "control": "ColorPicker",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-border-color",
+      "cssProperty": "border-color",
+      "themeable": true
+    },
+    "tabButtonActiveBorderColor": {
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
+      "label": "Header Active Border Color",
+      "description": "Border color for the active tab",
+      "group": "headerBorders",
       "order": 2,
-      "appliesTo": "tabsList",
-      "cssProperty": "border-color"
+      "control": "ColorPicker",
+      "state": "active",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-active-border-color",
+      "cssProperty": "border-color",
+      "themeable": true
     },
-    "tabsRowBorderWidth": {
+    "tabButtonBorderWidth": {
       "type": "number",
-      "default": 0,
-      "cssVar": "tabs-row-border-width",
-      "group": "headerRowOptions",
-      "label": "Row Border Width",
-      "description": "Border width for the tab row",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 10,
-      "unit": "px",
+      "default": "1px",
+      "label": "Header Border Width",
+      "description": "Border width for tab buttons",
+      "group": "headerBorders",
       "order": 3,
-      "appliesTo": "tabsList",
-      "cssProperty": "border-width"
+      "control": "RangeControl",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-border-width",
+      "cssProperty": "border-width",
+      "themeable": true
     },
-    "tabsRowBorderStyle": {
+    "tabButtonBorderStyle": {
       "type": "object",
       "default": {
         "top": "solid",
@@ -1031,11 +822,10 @@
         "left": "solid",
         "linked": true
       },
-      "cssVar": "tabs-row-border-style",
-      "group": "headerRowOptions",
-      "label": "Row Border Style",
-      "description": "Border style for the tab row",
-      "themeable": true,
+      "label": "Header Border Style",
+      "description": "Border style for tab buttons",
+      "group": "headerBorders",
+      "order": 4,
       "control": "SelectControl",
       "options": [
         {
@@ -1059,57 +849,272 @@
           "value": "double"
         }
       ],
-      "order": 4,
-      "appliesTo": "tabsList",
-      "cssProperty": "border-style"
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-border-style",
+      "cssProperty": "border-style",
+      "themeable": true
     },
-    "tabListAlignment": {
-      "type": "string",
-      "default": "flex-start",
-      "cssVar": "tabs-list-align",
-      "group": "headerRowOptions",
-      "label": "Header Row Alignment",
-      "description": "Alignment of tabs along the main axis",
+    "tabButtonBorderRadius": {
+      "type": "object",
+      "default": {
+        "topLeft": 4,
+        "topRight": 4,
+        "bottomRight": 0,
+        "bottomLeft": 0
+      },
+      "label": "Header Border Radius",
+      "description": "Corner radius for tab buttons",
+      "group": "headerBorders",
+      "order": 5,
+      "control": "BorderRadiusControl",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-border-radius",
+      "cssProperty": "border-radius",
       "themeable": true,
+      "unit": "px"
+    },
+    "tabButtonShadow": {
+      "type": "string",
+      "default": "none",
+      "label": "Header Shadow",
+      "description": "Box shadow for tab buttons",
+      "group": "headerBorders",
+      "order": 6,
+      "control": "TextControl",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-border-shadow",
+      "cssProperty": "box-shadow",
+      "themeable": true
+    },
+    "tabButtonShadowHover": {
+      "type": "string",
+      "default": "none",
+      "label": "Header Hover Shadow",
+      "description": "Box shadow for tab buttons on hover",
+      "group": "headerBorders",
+      "order": 7,
+      "control": "TextControl",
+      "state": "hover",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-border-shadow-hover",
+      "cssProperty": "box-shadow",
+      "themeable": true
+    },
+    "enableFocusBorder": {
+      "type": "boolean",
+      "default": true,
+      "label": "Enable Button / Content Border",
+      "description": "Border on the edge touching the content, giving it a merged look.",
+      "group": "headerBorders",
+      "order": 8,
+      "control": "ToggleControl",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-enable-focus-border",
+      "cssProperty": "border",
+      "themeable": true,
+      "outputsCSS": false
+    },
+    "tabButtonActiveContentBorderColor": {
+      "type": "string",
+      "default": "#ffffff",
+      "label": "Active Content Edge Border Color",
+      "description": "Color of the border. Keep it the same color as panel background for a merged look.",
+      "group": "headerBorders",
+      "order": 9,
+      "control": "ColorPicker",
+      "state": "active",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-active-content-border-color",
+      "themeable": true,
+      "dependsOn": "orientation",
+      "variants": {
+        "horizontal": {
+          "cssProperty": "border-bottom-color"
+        },
+        "vertical-left": {
+          "cssProperty": "border-right-color"
+        },
+        "vertical-right": {
+          "cssProperty": "border-left-color"
+        },
+        "_default": {
+          "cssProperty": "border-bottom-color"
+        }
+      }
+    },
+    "tabButtonActiveContentBorderWidth": {
+      "type": "number",
+      "default": "1px",
+      "label": "Active Content Edge Border Width",
+      "description": "Width of the active button edge touching content",
+      "group": "headerBorders",
+      "order": 10,
+      "control": "RangeControl",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-active-content-border-width",
+      "themeable": true,
+      "dependsOn": "orientation",
+      "variants": {
+        "horizontal": {
+          "cssProperty": "border-bottom-width"
+        },
+        "vertical-left": {
+          "cssProperty": "border-right-width"
+        },
+        "vertical-right": {
+          "cssProperty": "border-left-width"
+        },
+        "_default": {
+          "cssProperty": "border-bottom-width"
+        }
+      }
+    },
+    "tabButtonActiveContentBorderStyle": {
+      "type": "string",
+      "default": "solid",
+      "label": "Active Content Edge Border Style",
+      "description": "Style of the active button edge touching content",
+      "group": "headerBorders",
+      "order": 11,
       "control": "SelectControl",
       "options": [
         {
-          "label": "Start",
-          "value": "flex-start"
+          "label": "None",
+          "value": "none"
         },
         {
-          "label": "Center",
-          "value": "center"
+          "label": "Solid",
+          "value": "solid"
         },
         {
-          "label": "End",
-          "value": "flex-end"
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
         }
       ],
-      "disabledWhen": {
-        "stretchButtonsToRow": [
-          true
-        ]
-      },
-      "order": 8,
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-button-active-content-border-style",
+      "themeable": true,
+      "dependsOn": "orientation",
+      "variants": {
+        "horizontal": {
+          "cssProperty": "border-bottom-style"
+        },
+        "vertical-left": {
+          "cssProperty": "border-right-style"
+        },
+        "vertical-right": {
+          "cssProperty": "border-left-style"
+        },
+        "_default": {
+          "cssProperty": "border-bottom-style"
+        }
+      }
+    },
+    "tabListBackgroundColor": {
+      "type": "string",
+      "default": "transparent",
+      "label": "Row Background",
+      "description": "Background color for the tab navigation bar",
+      "group": "headerRowOptions",
+      "order": 1,
+      "control": "ColorPicker",
       "appliesTo": "tabsList",
-      "cssProperty": "justify-content"
+      "cssVar": "tabs-list-bg",
+      "cssProperty": "background-color",
+      "themeable": true
+    },
+    "tabsRowBorderColor": {
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
+      "label": "Row Border Color",
+      "description": "Border color for the tab row",
+      "group": "headerRowOptions",
+      "order": 2,
+      "control": "ColorPicker",
+      "appliesTo": "tabsList",
+      "cssVar": "tabs-row-border-color",
+      "cssProperty": "border-color",
+      "themeable": true
+    },
+    "tabsRowBorderWidth": {
+      "type": "number",
+      "default": "0px",
+      "label": "Row Border Width",
+      "description": "Border width for the tab row",
+      "group": "headerRowOptions",
+      "order": 3,
+      "control": "RangeControl",
+      "appliesTo": "tabsList",
+      "cssVar": "tabs-row-border-width",
+      "cssProperty": "border-width",
+      "themeable": true
+    },
+    "tabsRowBorderStyle": {
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
+      "label": "Row Border Style",
+      "description": "Border style for the tab row",
+      "group": "headerRowOptions",
+      "order": 4,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ],
+      "appliesTo": "tabsList",
+      "cssVar": "tabs-row-border-style",
+      "cssProperty": "border-style",
+      "themeable": true
     },
     "tabsRowSpacing": {
       "type": "number",
-      "default": 0.5,
-      "cssVar": "tabs-row-spacing",
-      "group": "headerRowOptions",
+      "default": "0.5rem",
       "label": "Row Spacing",
       "description": "Padding/spacing for the tab row (rem)",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 1.9,
-      "step": 0.01,
-      "unit": "rem",
+      "group": "headerRowOptions",
       "order": 5,
+      "control": "RangeControl",
       "appliesTo": "tabsList",
+      "cssVar": "tabs-row-spacing",
+      "themeable": true,
       "dependsOn": "orientation",
       "variants": {
         "horizontal": {
@@ -1128,276 +1133,91 @@
     },
     "tabsButtonGap": {
       "type": "number",
-      "default": 0.5,
-      "cssVar": "tabs-button-gap",
-      "group": "headerRowOptions",
+      "default": "0.5rem",
       "label": "Button Gap",
       "description": "Spacing between individual tab buttons (rem)",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 1.9,
-      "step": 0.01,
-      "unit": "rem",
+      "group": "headerRowOptions",
       "order": 6,
+      "control": "RangeControl",
       "appliesTo": "tabsList",
-      "cssProperty": "gap"
+      "cssVar": "tabs-button-gap",
+      "cssProperty": "gap",
+      "themeable": true
     },
-    "panelBackgroundColor": {
+    "stretchButtonsToRow": {
+      "type": "boolean",
+      "default": false,
+      "label": "Stretch Buttons to Row Width",
+      "description": "Make tab buttons fill the full width of the row (horizontal orientation only)",
+      "group": "headerRowOptions",
+      "order": 7,
+      "control": "ToggleControl",
+      "themeable": true,
+      "outputsCSS": false,
+      "disabledWhen": {
+        "orientation": [
+          "vertical-left",
+          "vertical-right"
+        ]
+      }
+    },
+    "tabListAlignment": {
       "type": "string",
-      "default": "#ffffff",
-      "cssVar": "tabs-panel-bg",
-      "group": "panelAppearance",
-      "label": "Panel Background",
-      "description": "Background color for tab panels",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 1,
-      "appliesTo": "tabPanel",
-      "cssProperty": "background-color"
-    },
-    "panelBorderColor": {
-      "type": "object",
-      "default": {
-        "top": "#dddddd",
-        "right": "#dddddd",
-        "bottom": "#dddddd",
-        "left": "#dddddd",
-        "linked": true
-      },
-      "cssVar": "tabs-panel-border-color",
-      "group": "panelAppearance",
-      "label": "Panel Border Color",
-      "description": "Border color for tab content panel",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 2,
-      "appliesTo": "tabPanel",
-      "cssProperty": "border-color"
-    },
-    "panelBorderWidth": {
-      "type": "number",
-      "default": 1,
-      "cssVar": "tabs-panel-border-width",
-      "group": "panelAppearance",
-      "label": "Panel Border Width",
-      "description": "Border width for tab content panel (0-10px)",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 10,
-      "unit": "px",
-      "order": 3,
-      "appliesTo": "tabPanel",
-      "cssProperty": "border-width"
-    },
-    "panelBorderStyle": {
-      "type": "object",
-      "default": {
-        "top": "solid",
-        "right": "solid",
-        "bottom": "solid",
-        "left": "solid",
-        "linked": true
-      },
-      "cssVar": "tabs-panel-border-style",
-      "group": "panelAppearance",
-      "label": "Panel Border Style",
-      "description": "Border style for tab content panel",
-      "themeable": true,
+      "default": "flex-start",
+      "label": "Header Row Alignment",
+      "description": "Alignment of tabs along the main axis",
+      "group": "headerRowOptions",
+      "order": 8,
       "control": "SelectControl",
       "options": [
         {
-          "label": "None",
-          "value": "none"
+          "label": "Start",
+          "value": "flex-start"
         },
         {
-          "label": "Solid",
-          "value": "solid"
+          "label": "Center",
+          "value": "center"
         },
         {
-          "label": "Dashed",
-          "value": "dashed"
-        },
-        {
-          "label": "Dotted",
-          "value": "dotted"
-        },
-        {
-          "label": "Double",
-          "value": "double"
+          "label": "End",
+          "value": "flex-end"
         }
       ],
-      "order": 4,
-      "appliesTo": "tabPanel",
-      "cssProperty": "border-style"
-    },
-    "panelBorderRadius": {
-      "type": "object",
-      "default": {
-        "topLeft": 4,
-        "topRight": 4,
-        "bottomRight": 4,
-        "bottomLeft": 4
-      },
-      "cssVar": "tabs-panel-border-radius",
-      "group": "panelAppearance",
-      "label": "Panel Border Radius",
-      "description": "Corner radius for tab content panel",
+      "appliesTo": "tabsList",
+      "cssVar": "tabs-list-align",
+      "cssProperty": "justify-content",
       "themeable": true,
-      "control": "BorderRadiusControl",
-      "unit": "px",
-      "order": 5,
-      "appliesTo": "tabPanel",
-      "cssProperty": "border-radius"
-    },
-    "borderColor": {
-      "type": "object",
-      "default": {
-        "top": "#dddddd",
-        "right": "#dddddd",
-        "bottom": "#dddddd",
-        "left": "#dddddd",
-        "linked": true
-      },
-      "cssVar": "tabs-border-color",
-      "group": "blockBorders",
-      "label": "Block Border Color",
-      "description": "Border color for main tabs wrapper",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 1,
-      "appliesTo": "wrapper",
-      "cssProperty": "border-color"
-    },
-    "borderWidth": {
-      "type": "number",
-      "default": 0,
-      "cssVar": "tabs-border-width",
-      "group": "blockBorders",
-      "label": "Block Border Width",
-      "description": "Border width for main wrapper",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 10,
-      "unit": "px",
-      "order": 2,
-      "appliesTo": "wrapper",
-      "cssProperty": "border-width"
-    },
-    "borderStyle": {
-      "type": "object",
-      "default": {
-        "top": "solid",
-        "right": "solid",
-        "bottom": "solid",
-        "left": "solid",
-        "linked": true
-      },
-      "cssVar": "tabs-border-style",
-      "group": "blockBorders",
-      "label": "Block Border Style",
-      "description": "Border style for wrapper",
-      "themeable": true,
-      "control": "SelectControl",
-      "options": [
-        {
-          "label": "None",
-          "value": "none"
-        },
-        {
-          "label": "Solid",
-          "value": "solid"
-        },
-        {
-          "label": "Dashed",
-          "value": "dashed"
-        },
-        {
-          "label": "Dotted",
-          "value": "dotted"
-        },
-        {
-          "label": "Double",
-          "value": "double"
-        }
-      ],
-      "order": 3,
-      "appliesTo": "wrapper",
-      "cssProperty": "border-style"
-    },
-    "borderRadius": {
-      "type": "object",
-      "default": {
-        "topLeft": 0,
-        "topRight": 0,
-        "bottomRight": 0,
-        "bottomLeft": 0
-      },
-      "cssVar": "tabs-border-radius",
-      "group": "blockBorders",
-      "label": "Block Border Radius",
-      "description": "Corner radius for main wrapper",
-      "themeable": true,
-      "control": "BorderRadiusControl",
-      "unit": "px",
-      "order": 4,
-      "appliesTo": "wrapper",
-      "cssProperty": "border-radius"
-    },
-    "shadow": {
-      "type": "string",
-      "default": "none",
-      "cssVar": "tabs-border-shadow",
-      "group": "blockBorders",
-      "label": "Block Shadow",
-      "description": "Box shadow for main wrapper",
-      "themeable": true,
-      "control": "TextControl",
-      "order": 5,
-      "appliesTo": "wrapper",
-      "cssProperty": "box-shadow"
-    },
-    "shadowHover": {
-      "type": "string",
-      "default": "none",
-      "cssVar": "tabs-border-shadow-hover",
-      "group": "blockBorders",
-      "label": "Block Hover Shadow",
-      "description": "Box shadow for wrapper on hover",
-      "themeable": true,
-      "control": "TextControl",
-      "state": "hover",
-      "order": 6,
-      "appliesTo": "wrapper",
-      "cssProperty": "box-shadow"
+      "disabledWhen": {
+        "stretchButtonsToRow": [
+          true
+        ]
+      }
     },
     "enableTabsListContentBorder": {
       "type": "boolean",
       "default": false,
-      "cssVar": "tabs-enable-list-divider-border",
-      "group": "headerRowOptions",
       "label": "Enable Row Divider Border",
       "description": "Enable or disable border between tab row and content",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "ToggleControl",
+      "group": "headerRowOptions",
       "order": 9,
+      "control": "ToggleControl",
       "appliesTo": "tabsList",
-      "cssProperty": "border"
+      "cssVar": "tabs-enable-list-divider-border",
+      "cssProperty": "border",
+      "themeable": true,
+      "outputsCSS": false
     },
     "tabsListContentBorderColor": {
       "type": "string",
       "default": "transparent",
-      "cssVar": "tabs-list-divider-border-color",
-      "group": "headerRowOptions",
       "label": "Row Divider Border Color",
       "description": "Color of the tab row edge that touches the content",
-      "themeable": true,
-      "control": "ColorPicker",
+      "group": "headerRowOptions",
       "order": 10,
+      "control": "ColorPicker",
       "appliesTo": "tabsList",
+      "cssVar": "tabs-list-divider-border-color",
+      "themeable": true,
       "dependsOn": "orientation",
       "variants": {
         "horizontal": {
@@ -1416,18 +1236,15 @@
     },
     "tabsListContentBorderWidth": {
       "type": "number",
-      "default": 1,
-      "cssVar": "tabs-list-divider-border-width",
-      "group": "headerRowOptions",
+      "default": "1px",
       "label": "Row Divider Border Width",
       "description": "Width of the tab row edge that touches the content",
-      "themeable": true,
-      "control": "RangeControl",
-      "min": 0,
-      "max": 10,
-      "unit": "px",
+      "group": "headerRowOptions",
       "order": 11,
+      "control": "RangeControl",
       "appliesTo": "tabsList",
+      "cssVar": "tabs-list-divider-border-width",
+      "themeable": true,
       "dependsOn": "orientation",
       "variants": {
         "horizontal": {
@@ -1447,11 +1264,10 @@
     "tabsListContentBorderStyle": {
       "type": "string",
       "default": "solid",
-      "cssVar": "tabs-list-divider-border-style",
-      "group": "headerRowOptions",
       "label": "Row Divider Border Style",
       "description": "Style of the tab row edge that touches the content",
-      "themeable": true,
+      "group": "headerRowOptions",
+      "order": 12,
       "control": "SelectControl",
       "options": [
         {
@@ -1475,8 +1291,9 @@
           "value": "double"
         }
       ],
-      "order": 12,
       "appliesTo": "tabsList",
+      "cssVar": "tabs-list-divider-border-style",
+      "themeable": true,
       "dependsOn": "orientation",
       "variants": {
         "horizontal": {
@@ -1492,6 +1309,289 @@
           "cssProperty": "border-bottom-style"
         }
       }
+    },
+    "panelBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff",
+      "label": "Panel Background",
+      "description": "Background color for tab panels",
+      "group": "panelAppearance",
+      "order": 1,
+      "control": "ColorPicker",
+      "appliesTo": "tabPanel",
+      "cssVar": "tabs-panel-bg",
+      "cssProperty": "background-color",
+      "themeable": true
+    },
+    "panelBorderColor": {
+      "type": "object",
+      "default": {
+        "top": "#dddddd",
+        "right": "#dddddd",
+        "bottom": "#dddddd",
+        "left": "#dddddd",
+        "linked": true
+      },
+      "label": "Panel Border Color",
+      "description": "Border color for tab content panel",
+      "group": "panelAppearance",
+      "order": 2,
+      "control": "ColorPicker",
+      "appliesTo": "tabPanel",
+      "cssVar": "tabs-panel-border-color",
+      "cssProperty": "border-color",
+      "themeable": true
+    },
+    "panelBorderWidth": {
+      "type": "number",
+      "default": "1px",
+      "label": "Panel Border Width",
+      "description": "Border width for tab content panel (0-10px)",
+      "group": "panelAppearance",
+      "order": 3,
+      "control": "RangeControl",
+      "appliesTo": "tabPanel",
+      "cssVar": "tabs-panel-border-width",
+      "cssProperty": "border-width",
+      "themeable": true
+    },
+    "panelBorderStyle": {
+      "type": "object",
+      "default": {
+        "top": "solid",
+        "right": "solid",
+        "bottom": "solid",
+        "left": "solid",
+        "linked": true
+      },
+      "label": "Panel Border Style",
+      "description": "Border style for tab content panel",
+      "group": "panelAppearance",
+      "order": 4,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Solid",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        }
+      ],
+      "appliesTo": "tabPanel",
+      "cssVar": "tabs-panel-border-style",
+      "cssProperty": "border-style",
+      "themeable": true
+    },
+    "panelBorderRadius": {
+      "type": "object",
+      "default": {
+        "topLeft": 4,
+        "topRight": 4,
+        "bottomRight": 4,
+        "bottomLeft": 4
+      },
+      "label": "Panel Border Radius",
+      "description": "Corner radius for tab content panel",
+      "group": "panelAppearance",
+      "order": 5,
+      "control": "BorderRadiusControl",
+      "appliesTo": "tabPanel",
+      "cssVar": "tabs-panel-border-radius",
+      "cssProperty": "border-radius",
+      "themeable": true,
+      "unit": "px"
+    },
+    "showIcon": {
+      "type": "boolean",
+      "default": true,
+      "label": "Show Icon",
+      "description": "Display icons in tab buttons",
+      "group": "icon",
+      "order": 1,
+      "control": "ToggleControl",
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-show-icon",
+      "cssProperty": "display",
+      "themeable": true,
+      "outputsCSS": false
+    },
+    "iconPosition": {
+      "type": "string",
+      "default": "right",
+      "label": "Icon Position",
+      "description": "Position of icon relative to text",
+      "group": "icon",
+      "order": 2,
+      "control": "SelectControl",
+      "options": [
+        "left",
+        "right"
+      ],
+      "appliesTo": "tabButton",
+      "cssVar": "tabs-icon-position",
+      "cssProperty": "flex-direction",
+      "themeable": true,
+      "outputsCSS": false
+    },
+    "iconColor": {
+      "type": "string",
+      "default": "#666666",
+      "label": "Icon Color",
+      "description": "Color of the tab icon",
+      "group": "icon",
+      "order": 3,
+      "control": "ColorPicker",
+      "appliesTo": "tabIcon",
+      "cssVar": "tabs-icon-color",
+      "cssProperty": "color",
+      "themeable": true
+    },
+    "iconSize": {
+      "type": "number",
+      "default": "1rem",
+      "label": "Icon Size",
+      "description": "Size of the icon in rem",
+      "group": "icon",
+      "order": 4,
+      "control": "RangeControl",
+      "appliesTo": "tabIcon",
+      "cssVar": "tabs-icon-size",
+      "cssProperty": "font-size",
+      "themeable": true
+    },
+    "iconTypeClosed": {
+      "type": "string",
+      "default": "▾",
+      "label": "Icon Closed",
+      "description": "Icon for the tab (char or image URL)",
+      "group": "icon",
+      "order": 5,
+      "control": "IconPicker",
+      "appliesTo": "tabIcon",
+      "cssVar": "tabs-icon-type-closed",
+      "cssProperty": "content",
+      "themeable": true,
+      "outputsCSS": false
+    },
+    "iconTypeOpen": {
+      "type": "string",
+      "default": "none",
+      "label": "Icon Open",
+      "description": "Icon when tab is active (none = use closed icon with final rotation)",
+      "group": "icon",
+      "order": 6,
+      "control": "IconPicker",
+      "appliesTo": "tabIcon",
+      "cssVar": "tabs-icon-type-open",
+      "cssProperty": "content",
+      "themeable": true,
+      "outputsCSS": false
+    },
+    "iconRotation": {
+      "type": "number",
+      "default": "0deg",
+      "label": "Icon Base Rotation",
+      "description": "Base rotation of the icon",
+      "group": "icon",
+      "order": 7,
+      "control": "RangeControl",
+      "appliesTo": "tabIcon",
+      "cssVar": "tabs-icon-rotation-base",
+      "cssProperty": "transform",
+      "themeable": true
+    },
+    "iconRotationActive": {
+      "type": "number",
+      "default": "180deg",
+      "label": "Icon Active Rotation",
+      "description": "Rotation of the icon for the active tab",
+      "group": "icon",
+      "order": 8,
+      "control": "RangeControl",
+      "appliesTo": "tabIcon",
+      "cssVar": "tabs-icon-rotation-active",
+      "cssProperty": "transform",
+      "themeable": true
+    }
+  },
+  "groups": {
+    "blockOptions": {
+      "title": "Block Options",
+      "description": "Block-level options",
+      "order": 1,
+      "initialOpen": true,
+      "tab": "settings",
+      "subgroups": []
+    },
+    "blockBorders": {
+      "title": "Block Borders",
+      "description": "Wrapper borders and shadows",
+      "order": 2,
+      "initialOpen": false,
+      "tab": "settings",
+      "subgroups": []
+    },
+    "headerColors": {
+      "title": "Header Colors",
+      "description": "Tab header text/background colors",
+      "order": 3,
+      "initialOpen": false,
+      "tab": "settings",
+      "subgroups": []
+    },
+    "headerTypography": {
+      "title": "Header Typography",
+      "description": "Tab header typography",
+      "order": 4,
+      "initialOpen": false,
+      "tab": "settings",
+      "subgroups": []
+    },
+    "headerBorders": {
+      "title": "Header Borders",
+      "description": "Tab header borders and active edge",
+      "order": 5,
+      "initialOpen": false,
+      "tab": "settings",
+      "subgroups": []
+    },
+    "headerRowOptions": {
+      "title": "Header Row Options",
+      "description": "Row background, spacing, alignment, dividers",
+      "order": 6,
+      "initialOpen": false,
+      "tab": "settings",
+      "subgroups": []
+    },
+    "panelAppearance": {
+      "title": "Panel Appearance",
+      "description": "Panel background and borders",
+      "order": 7,
+      "initialOpen": false,
+      "tab": "settings",
+      "subgroups": []
+    },
+    "icon": {
+      "title": "Icon",
+      "description": "Icon appearance and behavior",
+      "order": 8,
+      "initialOpen": false,
+      "tab": "settings",
+      "subgroups": []
     }
   }
 }

@@ -35,7 +35,8 @@ const BLOCKS = {
 			'build/blocks/accordion/style-index.css',
 		],
 		// Legacy/ignored attributes that intentionally have no CSS usage
-		skipAttrs: new Set(['contentFontWeight']),
+		// shadow is array type, handled at runtime not in static CSS
+		skipAttrs: new Set(['contentFontWeight', 'shadow']),
 	},
 	tabs: {
 		schema: path.join(ROOT, 'schemas/tabs.json'),

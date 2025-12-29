@@ -99,7 +99,7 @@ Actual UI Component (ColorControl, RangeControl, BorderPanel, etc.)
 |---------|-------------|-------|-------------|
 | `ColorPicker` / `ColorControl` | `string` | - | Color picker with alpha |
 | `RangeControl` | `number` | `min`, `max`, `step` | Slider |
-| `SliderWithInput` | `number` | `min`, `max`, `step`, `units`, `responsive` | Slider + input + unit |
+| `SliderWithInput` | `string` or `number` | `min`, `max`, `step`, `units`, `responsive` | Slider + input + unit. **CRITICAL:** See "SliderWithInput Data Structure" section for data format! |
 | `SelectControl` | `string` | `options[]` | Dropdown |
 | `ToggleControl` | `boolean` | - | On/off switch |
 | `TextControl` | `string` | - | Text input |
@@ -615,6 +615,185 @@ case 'MyControl': {
 
 ---
 
+## CENTRALIZED ICON SYSTEM
+
+### Overview
+
+All icons used across control components are centralized in a single location for consistency and easy maintenance.
+
+**Location:** `shared/src/components/controls/icons/index.js`
+
+**Benefits:**
+- Single source of truth for all icons
+- Easy to update icons globally
+- Prevents duplicate definitions
+- Consistent sizing and styling
+- No more inline SVG definitions scattered across components
+
+### Using Icons
+
+#### Option 1: Import Specific Icons
+```javascript
+import { BorderSolidIcon, ShadowMediumIcon, reset } from '@shared/components/controls/icons';
+
+// WordPress icons
+<Button icon={reset} />
+
+// Custom SVG icons
+<div>{BorderSolidIcon}</div>
+```
+
+#### Option 2: Import Icon Groups
+```javascript
+import { BorderStyleIcons, ShadowIcons } from '@shared/components/controls/icons';
+
+const icon = BorderStyleIcons.solid;
+const preset = ShadowIcons.medium;
+
+// Use in options array
+const options = [
+  { label: 'Solid', value: 'solid', icon: BorderStyleIcons.solid },
+  { label: 'Dashed', value: 'dashed', icon: BorderStyleIcons.dashed },
+];
+```
+
+#### Option 3: Use Helper Functions
+```javascript
+import { getIcon, getIconCategory } from '@shared/components/controls/icons';
+
+// Get single icon by category and name
+const solidBorder = getIcon('border', 'solid');
+
+// Get all icons in a category
+const allBorderIcons = getIconCategory('border');
+// Returns: { none, solid, dashed, dotted, double, groove, ridge }
+```
+
+### Available Icon Categories
+
+| Category | Group Name | Icons |
+|----------|------------|-------|
+| Border Styles | `BorderStyleIcons` | none, solid, dashed, dotted, double, groove, ridge |
+| Shadow Presets | `ShadowIcons` | none, subtle, medium, strong, heavy |
+| Box Sides | `SideIcons` | top, right, bottom, left, all, corners, margin, padding |
+| Heading Levels | `HeadingIcons` | none, h1, h2, h3, h4, h5, h6 |
+| Text Decoration | `DecorationIcons` | none, underline, line-through, overline |
+| Icon Position | `IconPositionIcons` | left, right, extreme-left, extreme-right |
+
+### WordPress Icons (Re-exported)
+
+All commonly used WordPress icons are re-exported for convenience:
+
+```javascript
+import {
+  // Device icons
+  desktop, tablet, mobile,
+  // Link icons
+  link, linkOff,
+  // Action icons
+  reset, plus, trash,
+  // Chevron icons
+  chevronDown, chevronRight, chevronUp, chevronLeft,
+  // Formatting icons
+  formatBold, formatItalic, formatUnderline, formatStrikethrough,
+  // Alignment icons
+  alignLeft, alignCenter, alignRight,
+} from '@shared/components/controls/icons';
+```
+
+### Adding New Icons
+
+#### Adding WordPress Icons
+1. Find icon name from `@wordpress/icons` package
+2. Add to the import/export block at the top of `icons/index.js`:
+
+```javascript
+export { iconName } from '@wordpress/icons';
+```
+
+#### Adding Custom SVG Icons
+1. Create the icon as a JSX constant in `icons/index.js`:
+
+```javascript
+export const MyCustomIcon = (
+  <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="..." fill="currentColor" />
+  </svg>
+);
+```
+
+2. (Optional) Add to a grouped export if it belongs to a category:
+
+```javascript
+export const MyCategoryIcons = {
+  option1: MyIcon1,
+  option2: MyIcon2,
+  custom: MyCustomIcon,
+};
+```
+
+3. (Optional) Add category to `getIcon()` helper function
+
+### Icon Best Practices
+
+When creating custom SVG icons:
+
+- **Use `currentColor`** for fill/stroke to respect theme colors
+- **Keep viewBox consistent** within a category (usually 24x24)
+- **Set explicit width/height** for consistent sizing
+- **Use `strokeLinecap="round"`** for smoother lines
+- **Keep paths simple** and optimized
+- **Use descriptive names** (e.g., `BorderSolidIcon` not `Icon1`)
+
+### Example: Using Icons in a Control
+
+```javascript
+import { BorderStyleIcons } from '@shared/components/controls/icons';
+
+export function BorderStyleControl({ value, onChange }) {
+  const options = [
+    { value: 'none', icon: BorderStyleIcons.none, label: 'None' },
+    { value: 'solid', icon: BorderStyleIcons.solid, label: 'Solid' },
+    { value: 'dashed', icon: BorderStyleIcons.dashed, label: 'Dashed' },
+  ];
+
+  return (
+    <div className="border-style-control">
+      {options.map(option => (
+        <button
+          key={option.value}
+          onClick={() => onChange(option.value)}
+          className={value === option.value ? 'active' : ''}
+        >
+          {option.icon}
+          <span>{option.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+### Migration Guide
+
+When updating existing controls to use centralized icons:
+
+**Before:**
+```javascript
+// Inline SVG in component file
+const MySvgIcon = (
+  <svg viewBox="0 0 24 24">...</svg>
+);
+```
+
+**After:**
+```javascript
+// Import from centralized location
+import { BorderSolidIcon } from '@shared/components/controls/icons';
+```
+
+---
+
 ## EFFECTIVE VALUES & THEME CASCADE
 
 ### 3-Tier CSS System
@@ -865,6 +1044,8 @@ const styleKeyMap = {
 | Build fails | Run `npm run schema:validate` for JSON errors |
 | Type errors | Run `npm run schema:build` to regenerate types |
 | **Values not updating in editor** | See "Editor Live Preview Debugging" below |
+| **SliderWithInput values stuck on default** | See "SliderWithInput Data Structure (CRITICAL!)" section |
+| **Font size/letter spacing not previewing** | See "SliderWithInput Data Structure (CRITICAL!)" section |
 | **Margin affects wrong sides** | Check `sides` prop in ControlRenderer (see "SpacingControl sides Prop") |
 
 ### Editor Live Preview Debugging
@@ -928,11 +1109,177 @@ const rootStyles = {
 
 ---
 
+## SLIDERINPUT DATA STRUCTURE (CRITICAL!)
+
+### The Problem Pattern
+
+**SYMPTOMS:** Font size, letter spacing, or other `SliderWithInput` values don't preview in editor despite changing in sidebar.
+
+**ROOT CAUSE:** The schema compiler generates incorrect assumptions about how `SliderWithInput` stores values.
+
+### SliderWithInput's Actual Data Structure
+
+**IMPORTANT:** `SliderWithInput` uses a DIFFERENT structure than you might assume!
+
+```javascript
+// ❌ WRONG ASSUMPTION (what schema compiler used to expect):
+{
+  desktop: "1.125rem",
+  tablet: "1rem",
+  mobile: "0.875rem"
+}
+
+// ✅ CORRECT STRUCTURE (what SliderWithInput actually creates):
+
+// Non-responsive (type: "string", responsive: false):
+"1.125rem"                              // Plain string
+{ value: 1.125, unit: "rem" }          // Object with value/unit
+
+// Responsive (type: "string", responsive: true):
+{ value: 1.125, unit: "rem" }                                  // Flat (desktop only)
+{ value: 1.125, unit: "rem", tablet: { value: 1, unit: "rem" } }  // With tablet override
+{ value: 1.125, unit: "rem", tablet: { value: 1, unit: "rem" }, mobile: { value: 0.875, unit: "rem" } }
+```
+
+**Key Insight:** Desktop value is stored as the BASE (flat), NOT under a `desktop` key. Tablet/mobile are device OVERRIDES added to the base.
+
+### Schema Compiler Fix (build-tools/schema-compiler.js)
+
+**Location:** `generateInlineStylesFunction()` around line 1518
+
+**BEFORE (Broken):**
+```javascript
+if (attr.responsive) {
+  // This only handled flat strings, not { value, unit } objects!
+  styleValue = `(() => { const val = effectiveValues.${attrName}; if (typeof val === 'object') { return val[responsiveDevice] || val.desktop || '${quotedDefault}'; } return val || '${quotedDefault}'; })()`;
+}
+```
+
+**AFTER (Fixed):**
+```javascript
+if (attr.responsive) {
+  // Now handles ALL formats: flat string, { value, unit }, and device overrides
+  styleValue = `(() => { const val = effectiveValues.${attrName}; if (val === null || val === undefined) return '${quotedDefault}'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return \`\${deviceVal.value}\${deviceVal.unit || ''}\`; } return deviceVal; } if (val.value !== undefined) { return \`\${val.value}\${val.unit || ''}\`; } } return '${quotedDefault}'; })()`;
+}
+```
+
+**Non-Responsive Fix:**
+```javascript
+else {
+  // Also needs to handle { value, unit } objects from SliderWithInput
+  styleValue = `(() => { const val = effectiveValues.${attrName}; if (val === null || val === undefined) return '${quotedDefault}'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return \`\${val.value}\${val.unit || ''}\`; } return '${quotedDefault}'; })()`;
+}
+```
+
+### How to Diagnose & Fix
+
+**Step 1: Check the schema attribute type**
+```json
+"titleFontSize": {
+  "type": "string",           // ← Uses string type, not number!
+  "default": "1.125rem",
+  "control": "SliderWithInput",
+  "responsive": true
+}
+```
+
+**Step 2: Console log the attribute value**
+```javascript
+// In edit.js:
+console.log('titleFontSize:', effectiveValues.titleFontSize);
+// Expected output: { value: 1.125, unit: "rem" }
+// Or with overrides: { value: 1.125, unit: "rem", tablet: { value: 1, unit: "rem" } }
+```
+
+**Step 3: Check the generated inline styles code**
+Look in `blocks/{block}/src/edit.js` at the `getInlineStyles()` function (auto-generated section):
+
+```javascript
+// BROKEN version returns default always:
+fontSize: (() => { const val = effectiveValues.titleFontSize;
+  if (typeof val === 'object') {
+    return val[responsiveDevice] || val.desktop || '1.125rem';  // ❌ val.desktop is undefined!
+  }
+  return val || '1.125rem';
+})()
+
+// FIXED version handles { value, unit }:
+fontSize: (() => { const val = effectiveValues.titleFontSize;
+  if (val === null || val === undefined) return '1.125rem';
+  if (typeof val === 'string') return val;
+  if (typeof val === 'object') {
+    const deviceVal = val[responsiveDevice];  // Check for device override first
+    if (deviceVal !== undefined) {
+      if (typeof deviceVal === 'object' && deviceVal.value !== undefined) {
+        return `${deviceVal.value}${deviceVal.unit || ''}`;  // ✓ Handles device override
+      }
+    }
+    if (val.value !== undefined) {
+      return `${val.value}${val.unit || ''}`;  // ✓ Handles base { value, unit }
+    }
+  }
+  return '1.125rem';
+})()
+```
+
+**Step 4: Fix and rebuild**
+1. Update the schema compiler (if not already fixed)
+2. Run `npm run schema:build` to regenerate edit.js
+3. Run `npm run build` to compile
+4. Hard refresh browser (Ctrl+Shift+R)
+
+### Affected Attributes
+
+Any schema attribute using:
+- `"control": "SliderWithInput"`
+- `"type": "string"` (NOT "number")
+- `"responsive": true` OR `"responsive": false`
+
+**Common Examples:**
+- Font sizes: `titleFontSize`, `contentFontSize`
+- Letter spacing: `titleLetterSpacing`
+- Line heights (when using strings): `titleLineHeight: "1.4em"`
+- Any dimension with units stored as strings
+
+### Why This Bug Happens
+
+The schema compiler's old code assumed responsive values always follow the "box value" pattern (used by SpacingControl):
+
+```javascript
+// SpacingControl/CompactPadding pattern:
+{ top: 12, right: 16, bottom: 12, left: 16, unit: "px" }           // Base
+{ top: 12, right: 16, bottom: 12, left: 16, unit: "px", tablet: { top: 8, ... } }
+```
+
+But `SliderWithInput` uses a SCALAR pattern:
+
+```javascript
+// SliderWithInput pattern:
+{ value: 1.125, unit: "rem" }                           // Base
+{ value: 1.125, unit: "rem", tablet: { value: 1, unit: "rem" } }
+```
+
+The key difference: SliderWithInput's base is `{ value, unit }`, not spread properties like SpacingControl.
+
+### Prevention Checklist
+
+When adding new string-type attributes with SliderWithInput:
+
+- [ ] Attribute uses `"type": "string"` (correct for values with units)
+- [ ] Default value format: `"1.125rem"` (string) NOT `1.125` (number)
+- [ ] After `npm run schema:build`, check generated code handles `{ value, unit }`
+- [ ] Test in editor: change value in sidebar → verify preview updates
+- [ ] Test responsive: switch devices → verify different values show correctly
+
+---
+
 ## RESPONSIVE BEHAVIOR SYSTEM
 
 ### Overview
 
 The responsive system allows controls to have different values for desktop, tablet, and mobile breakpoints. Desktop serves as the **base state**, while tablet and mobile create **device-specific overrides**.
+
+This section explains the **complete flow** from schema definition to sidebar generation, including how the link/unlink mechanism decomposes variables into multiple parts.
 
 ### Key Files
 
@@ -941,7 +1288,154 @@ The responsive system allows controls to have different values for desktop, tabl
 | `shared/src/utils/responsive-device.js` | Global device state management |
 | `shared/src/hooks/useResponsiveDevice.js` | Hook to subscribe to device changes |
 | `shared/src/components/controls/atoms/DeviceSwitcher.js` | UI component (desktop/tablet/mobile icons) |
-| `shared/src/components/controls/full/SpacingControl.js` | Example responsive control (CompactPadding, CompactMargin) |
+| `shared/src/components/controls/atoms/LinkToggle.js` | UI component (link/unlink button) |
+| `shared/src/components/controls/ResponsiveWrapper.js` | Wrapper for responsive controls with inheritance |
+| `shared/src/components/controls/full/SpacingControl.js` | Example responsive + linkable control (CompactPadding, CompactMargin) |
+| `shared/src/components/controls/full/BorderPanel.js` | Example responsive + linkable compound control (manages 3 attributes) |
+
+### Complete Flow: Schema → Sidebar → Data Structure
+
+This section explains the **complete journey** of a responsive attribute from schema definition to rendered sidebar control.
+
+#### Step 1: Schema Definition with `responsive: true`
+
+In `schemas/{block}.json`, define an attribute with responsive support:
+
+```json
+"headerPadding": {
+  "type": "object",
+  "default": { "top": 12, "right": 16, "bottom": 12, "left": 16, "unit": "px", "linked": true },
+  "cssVar": "accordion-header-padding",
+  "control": "CompactPadding",
+  "responsive": true,
+  "units": ["px", "rem", "em"],
+  "min": 0,
+  "max": 100,
+  "group": "spacing",
+  "label": "Header Padding",
+  "themeable": true,
+  "order": 1
+}
+```
+
+**Key properties for responsive:**
+- `"responsive": true` - Enables device switcher (desktop/tablet/mobile)
+- `"control": "CompactPadding"` - Uses SpacingControl which supports responsive + link/unlink
+- `"default"` - ALWAYS use flat structure (no device keys!) - this is the base value
+- `"type": "object"` - Required for box-based controls (padding, margin, border, radius)
+
+#### Step 2: Schema Compilation
+
+When you run `npm run schema:build`, the schema compiler:
+
+1. **Reads the schema** and finds attributes with `"responsive": true`
+2. **Generates TypeScript types** with device-aware structures
+3. **Generates control configuration** mapping controls to their props
+4. **Generates CSS variable mappings** for themeable attributes
+5. **Generates inline styles code** in `edit.js` that handles responsive values
+
+**Example generated code in `edit.js`:**
+
+```javascript
+// Auto-generated function that extracts responsive values
+const getInlineStyles = (responsiveDevice = 'desktop') => {
+  return {
+    title: {
+      // Handles both flat (default) and device-keyed (customization) structures
+      padding: (() => {
+        const headerPaddingVal = headerPadding[responsiveDevice] || headerPadding;
+        const unit = headerPaddingVal.unit || 'px';
+        return `${headerPaddingVal.top || 0}${unit} ${headerPaddingVal.right || 0}${unit} ...`;
+      })(),
+    },
+  };
+};
+```
+
+#### Step 3: Control Renderer Mapping
+
+In `shared/src/components/ControlRenderer.js`, the control type maps to a component:
+
+```javascript
+case 'CompactPadding': {
+  return (
+    <SpacingControl
+      key={attrName}
+      label={renderLabel(finalLabel)}
+      value={effectiveValue ?? defaultValue}
+      onChange={handleChange}
+      responsive={attrConfig.responsive}  // ← Passed from schema
+      units={attrConfig.units}
+      min={attrConfig.min}
+      max={attrConfig.max}
+      type="padding"
+      sides={['top', 'right', 'bottom', 'left']}
+    />
+  );
+}
+```
+
+**Critical props:**
+- `responsive={true}` - Enables DeviceSwitcher in the control
+- `value` - The current attribute value (can be flat OR device-keyed)
+- `onChange` - Callback to update the attribute
+
+#### Step 4: Sidebar Rendering
+
+The `SpacingControl` component renders the UI based on the `responsive` prop:
+
+**With `responsive: true`:**
+```
+┌─ Header Padding ─────────────────────────────────────────────┐
+│  Label                          [💻][📱][📱]  [↻Reset]       │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │ [⬒All] [16] [px] ────────●────────── [🔗]              │ │  ← Linked mode
+│  └─────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+
+When unlinking (clicking 🔗 button):
+
+┌─ Header Padding ─────────────────────────────────────────────┐
+│  Label                          [💻][📱][📱]  [↻Reset]       │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │ [↑Top]    [12] [px] ─────●─────                         │ │  ← Unlinked mode
+│  │ [→Right]  [16] [px] ─────●─────                         │ │  ← Individual sides
+│  │ [↓Bottom] [12] [px] ─────●─────                         │ │
+│  │ [←Left]   [16] [px] ─────●───── [🔗]                    │ │
+│  └─────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Components used:**
+- `DeviceSwitcher` - [💻][📱][📱] device icons (top right)
+- `SideIcon` - [⬒All], [↑Top], [→Right], etc.
+- Native `UnitControl` - Number input + unit dropdown
+- `MiniSlider` - Visual slider for quick adjustments
+- `LinkToggle` - [🔗] link/unlink button
+- `ResetButton` - [↻Reset] to clear customizations
+
+#### Step 5: Global Device State Synchronization
+
+**CRITICAL:** All responsive controls share the same device state via global state management.
+
+When you click the tablet icon in ANY control:
+
+```javascript
+// In DeviceSwitcher.js
+onClick={() => {
+  setGlobalResponsiveDevice('tablet');  // ← Updates window.gutplusDevice
+  window.dispatchEvent(new CustomEvent('gutplus:device-change', { detail: { device: 'tablet' } }));
+}}
+
+// In every responsive control (SpacingControl, SliderWithInput, etc.)
+const device = useResponsiveDevice();  // ← Subscribes to global state
+
+// All controls react to the event and update their UI to show tablet values
+```
+
+**Result:** Clicking device icons is synchronized across ALL responsive controls in the sidebar.
+
+**Fixed in recent update:** Previously, `ResponsiveWrapper` used local state, causing controls to be out of sync. Now all controls use `useResponsiveDevice()` hook to share global state.
 
 ### Enabling Responsive on an Attribute
 
@@ -956,6 +1450,215 @@ In the schema, add `"responsive": true`:
   ...
 }
 ```
+
+### Link/Unlink Mechanism: Variable Decomposition
+
+Box-based controls (padding, margin, border-width, border-radius) support a **link/unlink mechanism** that decomposes a single CSS property into individual side/corner variables.
+
+#### How Link/Unlink Works
+
+**Linked Mode (Default):**
+- All sides/corners share the same value
+- UI shows a single input controlling all sides
+- Data structure stores all sides with same value
+- `linked: true` flag indicates linked state
+
+**Unlinked Mode:**
+- Each side/corner has its own independent value
+- UI shows separate inputs for each side
+- Data structure stores individual values per side
+- `linked: false` flag indicates unlinked state
+
+#### Visual UI Transformation
+
+```
+LINKED MODE:
+┌─────────────────────────────────┐
+│ [⬒All] [16] [px] ──●── [🔗]   │  ← Single row, "All" icon, link button pressed
+└─────────────────────────────────┘
+
+User clicks [🔗] to unlink ↓
+
+UNLINKED MODE:
+┌─────────────────────────────────┐
+│ [↑Top]    [12] [px] ──●──       │  ← 4 rows, individual side icons
+│ [→Right]  [16] [px] ──●──       │
+│ [↓Bottom] [12] [px] ──●──       │
+│ [←Left]   [16] [px] ──●── [🔗] │  ← Link button unpressed (on last row)
+└─────────────────────────────────┘
+```
+
+#### Data Structure Transformation
+
+When you click the link/unlink button, the data structure changes:
+
+**Example: Padding Control**
+
+```javascript
+// LINKED (all sides same value)
+{
+  top: 16,
+  right: 16,
+  bottom: 16,
+  left: 16,
+  unit: "px",
+  linked: true  // ← Indicates linked state
+}
+
+// User clicks unlink button and changes right to 20
+{
+  top: 16,
+  right: 20,   // ← Changed independently
+  bottom: 16,
+  left: 16,
+  unit: "px",
+  linked: false  // ← Now unlinked
+}
+
+// User clicks link button again
+// Syncs all sides to the FIRST side's value (top = 16)
+{
+  top: 16,
+  right: 16,   // ← Reset to match top
+  bottom: 16,  // ← Reset to match top
+  left: 16,    // ← Reset to match top
+  unit: "px",
+  linked: true  // ← Back to linked
+}
+```
+
+#### CSS Variable Decomposition
+
+When `linked: false`, the control generates **individual CSS variables** for each side instead of using shorthand:
+
+```css
+/* LINKED - uses shorthand */
+.element {
+  padding: var(--accordion-header-padding);  /* Expands to: 16px 16px 16px 16px */
+}
+
+/* UNLINKED - uses individual properties */
+.element {
+  padding-top: var(--accordion-header-padding-top);       /* 12px */
+  padding-right: var(--accordion-header-padding-right);   /* 16px */
+  padding-bottom: var(--accordion-header-padding-bottom); /* 12px */
+  padding-left: var(--accordion-header-padding-left);     /* 16px */
+}
+```
+
+**How this works in the codebase:**
+
+1. **Schema compiler** generates code to output individual CSS properties
+2. **Inline styles** in `edit.js` use longhand syntax:
+   ```javascript
+   paddingTop: `${val.top}${unit}`,
+   paddingRight: `${val.right}${unit}`,
+   paddingBottom: `${val.bottom}${unit}`,
+   paddingLeft: `${val.left}${unit}`,
+   ```
+3. **Frontend CSS** uses individual CSS variables when needed
+
+#### Controls That Support Link/Unlink
+
+| Control | Variables Decomposed | Linked Property | Unlinked Properties |
+|---------|---------------------|-----------------|---------------------|
+| `CompactPadding` | 4 sides | `padding` | `padding-top`, `padding-right`, `padding-bottom`, `padding-left` |
+| `CompactMargin` | 2 sides (top/bottom only) | `margin-top` + `margin-bottom` | `margin-top`, `margin-bottom` |
+| `BorderPanel` (width) | 4 sides | `border-width` | `border-top-width`, `border-right-width`, etc. |
+| `BorderPanel` (color) | 4 sides | `border-color` | `border-top-color`, `border-right-color`, etc. |
+| `BorderPanel` (style) | 4 sides | `border-style` | `border-top-style`, `border-right-style`, etc. |
+| `CompactBorderRadius` | 4 corners | `border-radius` | `border-top-left-radius`, `border-top-right-radius`, etc. |
+| `BorderWidthControl` | 4 sides | `border-width` | `border-top-width`, `border-right-width`, etc. |
+
+**Note:** `BorderPanel` is unique because it manages **3 attributes simultaneously** (width, color, style), and each can be linked/unlinked independently.
+
+#### Link/Unlink Logic in Controls
+
+**Location:** `shared/src/components/controls/full/SpacingControl.js` (lines 236-248)
+
+```javascript
+// When user clicks link button
+const handleLinkChange = (newLinked) => {
+  if (newLinked) {
+    // LINKING: Use the first side's value for all sides
+    const firstSideValue = currentValue[SIDES[0]] || 0;  // e.g., top value
+    const updates = { linked: true };
+    SIDES.forEach((side) => {
+      updates[side] = firstSideValue;  // Copy top value to all sides
+    });
+    updateValue(updates);
+  } else {
+    // UNLINKING: Just set linked flag to false, preserve current values
+    updateValue({ linked: false });
+  }
+};
+
+// When user changes a value
+const handleValueChange = (side, newVal) => {
+  if (linked) {
+    // LINKED: Update ALL allowed sides to the same value
+    const updates = {};
+    SIDES.forEach((s) => {
+      updates[s] = newVal;
+    });
+    updateValue(updates);
+  } else {
+    // UNLINKED: Update only the specific side
+    updateValue({ [side]: newVal });
+  }
+};
+```
+
+**Key behaviors:**
+1. **Linking** syncs all sides to the first side's current value
+2. **Unlinking** preserves current values, just sets `linked: false`
+3. **While linked**, changing any side updates all sides simultaneously
+4. **While unlinked**, each side updates independently
+
+#### Responsive + Link/Unlink Combined
+
+When you combine `responsive: true` with link/unlink controls, you get **device-specific + side-specific** control:
+
+**Example: Different padding per device AND per side**
+
+```javascript
+// Schema default (linked, applies to all devices)
+"headerPadding": {
+  "default": { "top": 12, "right": 16, "bottom": 12, "left": 16, "unit": "px", "linked": true },
+  "responsive": true
+}
+
+// User switches to desktop, unlinks, and customizes
+{
+  "top": 16,      // ← Desktop values (base)
+  "right": 20,
+  "bottom": 16,
+  "left": 20,
+  "unit": "px",
+  "linked": false  // ← Unlinked on desktop
+}
+
+// User switches to tablet, keeps linked, reduces value
+{
+  "top": 16, "right": 20, "bottom": 16, "left": 20, "unit": "px", "linked": false,  // ← Desktop (base)
+  "tablet": { "top": 12, "right": 12, "bottom": 12, "left": 12, "unit": "px", "linked": true }  // ← Tablet linked
+}
+
+// User switches to mobile, unlinks, customizes
+{
+  "top": 16, "right": 20, "bottom": 16, "left": 20, "unit": "px", "linked": false,  // ← Desktop
+  "tablet": { "top": 12, "right": 12, "bottom": 12, "left": 12, "unit": "px", "linked": true },  // ← Tablet
+  "mobile": { "top": 8, "right": 12, "bottom": 8, "left": 12, "unit": "px", "linked": false }  // ← Mobile unlinked
+}
+```
+
+**Result:** Each device can have its own link/unlink state AND individual side values!
+
+**How the UI handles this:**
+1. `DeviceSwitcher` controls which device data to show/edit
+2. `LinkToggle` controls whether sides are linked for the CURRENT device
+3. Switching devices shows that device's link state and values
+4. Link/unlink state is stored per-device in responsive mode
 
 ### Data Structure: Unified Pattern
 
@@ -1168,6 +1871,202 @@ export function MyResponsiveControl({ label, value, onChange, responsive = false
 }
 ```
 
+### Complete Flow Summary: From Schema to Live Preview
+
+This summary ties together all the pieces of the responsive system to show the complete journey from schema definition to live editor preview.
+
+#### The Journey of a Responsive Padding Attribute
+
+**1. Schema Definition**
+```json
+// schemas/accordion.json
+"headerPadding": {
+  "type": "object",
+  "default": { "top": 12, "right": 16, "bottom": 12, "left": 16, "unit": "px", "linked": true },
+  "control": "CompactPadding",
+  "responsive": true,
+  ...
+}
+```
+
+**2. User Interactions (What the user does)**
+
+```
+User opens block sidebar
+  ↓
+Sees: [Header Padding]  [💻][📱][📱]  [↻]
+      [⬒All] [16] [px] ──●── [🔗]
+  ↓
+User clicks [📱 Tablet] icon
+  ↓
+Global device state changes: desktop → tablet
+  ↓
+ALL responsive controls switch to tablet view
+  ↓
+User changes value from 16 to 12
+  ↓
+Data structure updates:
+{
+  "top": 16, "right": 16, "bottom": 16, "left": 16, "unit": "px", "linked": true,  // ← Desktop (base)
+  "tablet": { "top": 12, "right": 12, "bottom": 12, "left": 12, "unit": "px", "linked": true }  // ← Added!
+}
+  ↓
+User clicks [🔗 Unlink] button
+  ↓
+UI transforms: Shows 4 rows (top/right/bottom/left)
+Data updates: { ...tablet: { ..., "linked": false } }
+  ↓
+User changes right from 12 to 16
+  ↓
+Data updates: { ...tablet: { top: 12, right: 16, bottom: 12, left: 12, unit: "px", linked: false } }
+```
+
+**3. Data Flow (What happens behind the scenes)**
+
+```
+Schema attribute change
+  ↓
+attributes.headerPadding updates in WordPress store
+  ↓
+React re-renders edit.js component
+  ↓
+useResponsiveDevice() hook returns current device ('tablet')
+  ↓
+getInlineStyles(responsiveDevice) extracts tablet-specific values:
+  const val = headerPadding['tablet'] || headerPadding  // Gets tablet override
+  paddingTop: `${val.top}px`      // 12px
+  paddingRight: `${val.right}px`  // 16px (unlinked!)
+  paddingBottom: `${val.bottom}px`// 12px
+  paddingLeft: `${val.left}px`    // 12px
+  ↓
+styles.title = { paddingTop: '12px', paddingRight: '16px', ... }
+  ↓
+Applied to element: <div style={{ ...styles.title }}>
+  ↓
+Editor preview updates INSTANTLY with new padding
+```
+
+**4. CSS Variable Output (What gets generated)**
+
+```css
+/* Desktop (base) - no media query */
+.accordion-title {
+  padding-top: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+}
+
+/* Tablet override */
+@media (max-width: 768px) {
+  .accordion-title {
+    padding-top: 12px;
+    padding-right: 16px;    /* ← Unlinked! Different from others */
+    padding-bottom: 12px;
+    padding-left: 12px;
+  }
+}
+```
+
+#### Key Mechanisms Working Together
+
+**Mechanism 1: Global Device Synchronization**
+```
+DeviceSwitcher click
+  → setGlobalResponsiveDevice('tablet')
+  → window.gutplusDevice = 'tablet'
+  → CustomEvent('gutplus:device-change') dispatched
+  → ALL controls with useResponsiveDevice() hook update
+  → Sidebar shows tablet values
+  → Editor preview shows tablet styles
+```
+
+**Mechanism 2: Link/Unlink Decomposition**
+```
+LINKED (linked: true):
+  User changes value → ALL sides update to same value
+  Data: { top: 16, right: 16, bottom: 16, left: 16 }
+  CSS: padding: 16px (shorthand)
+
+UNLINKED (linked: false):
+  User changes one side → ONLY that side updates
+  Data: { top: 12, right: 16, bottom: 12, left: 12 }
+  CSS: padding-top: 12px; padding-right: 16px; ... (longhand)
+```
+
+**Mechanism 3: Responsive Inheritance**
+```
+Desktop (base):     { top: 16, right: 20, bottom: 16, left: 20, unit: "px" }
+                          ↓ (inherits if no override)
+Tablet (override):  { top: 12, right: 12, bottom: 12, left: 12, unit: "px" }
+                          ↓ (inherits from base if no override)
+Mobile (none):      Uses base { top: 16, right: 20, ... }
+```
+
+**Mechanism 4: Value Resolution Priority**
+```
+For tablet device:
+1. Check: value.tablet     → { top: 12, right: 16, ... } ✓ FOUND
+2. Use this value
+
+For mobile device (no override):
+1. Check: value.mobile     → undefined
+2. Fallback: value (base)  → { top: 16, right: 20, ... } ✓ USE THIS
+```
+
+#### The Complete Picture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ SCHEMA (schemas/accordion.json)                             │
+│ "headerPadding": { "responsive": true, ... }                │
+└────────────────────────┬────────────────────────────────────┘
+                         ↓
+         npm run schema:build (generates code)
+                         ↓
+┌─────────────────────────────────────────────────────────────┐
+│ SIDEBAR (ControlRenderer → SpacingControl)                  │
+│                                                              │
+│  [Header Padding]  [💻 Tablet 📱]  [↻]                     │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ [↑ Top]    [12] [px] ──●──                            │  │
+│  │ [→ Right]  [16] [px] ──●──  ← Unlinked, different!    │  │
+│  │ [↓ Bottom] [12] [px] ──●──                            │  │
+│  │ [← Left]   [12] [px] ──●── [🔗]                       │  │
+│  └───────────────────────────────────────────────────────┘  │
+│                                                              │
+│  Global State: responsiveDevice = 'tablet'                  │
+│  Data Structure: { top:16, right:20, unit:"px", linked:false,│
+│                    tablet: {top:12, right:16, ...} }        │
+└────────────────────────┬────────────────────────────────────┘
+                         ↓
+        onChange(newValue) → WordPress store
+                         ↓
+┌─────────────────────────────────────────────────────────────┐
+│ EDITOR PREVIEW (edit.js)                                    │
+│                                                              │
+│  useResponsiveDevice() → 'tablet'                           │
+│  getInlineStyles('tablet') → extracts tablet values         │
+│  styles.title = { paddingTop: '12px', paddingRight: '16px'..}│
+│                                                              │
+│  <div className="accordion-title" style={{...styles.title}}>│
+│    ┌──────────────────────────────────────┐                 │
+│    │  Accordion Title                     │  ← Padding:     │
+│    │                                      │     12px 16px   │
+│    └──────────────────────────────────────┘     12px 12px  │
+│  </div>                                                      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**The Magic:** All these pieces work together seamlessly:
+- **Schema** defines the rules
+- **Schema compiler** generates the code
+- **ControlRenderer** instantiates the right controls
+- **Global device state** synchronizes all controls
+- **Link/unlink mechanism** decomposes properties per-side
+- **Responsive inheritance** provides device fallbacks
+- **Editor preview** updates instantly via inline styles
+
 ### Common Issues
 
 | Issue | Cause | Solution |
@@ -1177,3 +2076,323 @@ export function MyResponsiveControl({ label, value, onChange, responsive = false
 | Preview doesn't change on device switch | Not passing `responsiveDevice` | **FIXED** - Now uses `getInlineStyles(responsiveDevice)` |
 | Value resets when switching devices | Not preserving other device overrides | Spread `existingOverrides` when updating |
 | Schema defaults use device keys | Wrong schema structure | Schema defaults must be FLAT (no `{ "desktop": value }`) |
+| **Responsive controls don't preview when responsive mode is OFF** | SliderWithInput value extraction bug | **FIXED** - See "Responsive Controls Not Previewing" section below |
+
+---
+
+## RESPONSIVE CONTROLS NOT PREVIEWING (CRITICAL FIX)
+
+### The Problem Pattern
+
+**SYMPTOMS:**
+- Font-size, titleOffsetX, titleOffsetY, or other responsive-capable attributes don't preview in the editor
+- Values work fine when responsive mode is ENABLED (after clicking responsive toggle and desktop icon)
+- But values are stuck on defaults when responsive mode is OFF (global settings)
+- Controls appear to work in sidebar (you can type values), but preview doesn't update
+
+**AFFECTED ATTRIBUTES:**
+Any attribute with:
+- `"responsive": true` in schema
+- `"control": "SliderWithInput"`
+- Can also affect other responsive controls if they follow the same pattern
+
+### Root Cause Analysis
+
+The issue stems from a mismatch between **how ControlRenderer passes data** and **how SliderWithInput receives it**.
+
+#### The Data Flow Problem
+
+**When responsive mode is OFF (`responsiveEnabled[attrName] === false`):**
+
+```javascript
+// In ControlRenderer.js (line 496-515):
+if ( responsive ) {
+  return (
+    <SliderWithInput
+      values={ effectiveValue || {} }       // ← Passes "values" prop
+      onChange={ handleResponsiveChange }   // ← Callback expects (device, value)
+      responsive={ isResponsiveEnabled }    // ← FALSE when mode is off
+      ...
+    />
+  );
+}
+```
+
+**The Bug:** When `isResponsiveEnabled === false` but attribute schema has `responsive: true`:
+1. ControlRenderer still passes `values` prop (not `value`)
+2. ControlRenderer uses `handleResponsiveChange` callback (expects device arg)
+3. SliderWithInput receives `responsive={false}` and `values={...}`
+4. Component checks `isResponsive = responsive && values !== undefined` → **FALSE**
+5. Tries to use `singleValue` prop → **UNDEFINED** ❌
+6. Falls back to default value → **NO PREVIEW** ❌
+
+**Location of Bug:** `shared/src/components/controls/SliderWithInput.js` (lines 342-366)
+
+#### The Callback Signature Problem
+
+Even if value extraction worked, there's a second issue:
+
+```javascript
+// When responsive mode is OFF:
+onChange(newValue)  // ← Only passes value
+
+// But ControlRenderer expects:
+handleResponsiveChange(device, newValue)  // ← Expects device + value
+```
+
+This causes the callback to receive `newValue` as `device` argument and `undefined` as `value`, breaking the update.
+
+### The Fix (Applied 2025-12-29)
+
+**Location:** `shared/src/components/controls/SliderWithInput.js`
+
+#### Fix 1: Value Extraction (Lines 344-366)
+
+**BEFORE (Broken):**
+```javascript
+const { value: effectiveRawValue, inheritedFrom } = useMemo( () => {
+  if ( isResponsive ) {
+    return getInheritedSliderValue( values, device );
+  }
+  return { value: singleValue, inheritedFrom: null };  // ❌ singleValue is undefined!
+}, [ isResponsive, values, device, singleValue ] );
+```
+
+**AFTER (Fixed):**
+```javascript
+const { value: effectiveRawValue, inheritedFrom } = useMemo( () => {
+  if ( isResponsive ) {
+    return getInheritedSliderValue( values, device );
+  }
+  // Not in responsive mode - check both singleValue and values
+  // ControlRenderer passes `values` for responsive-capable attributes even when
+  // responsive mode is currently disabled (canBeResponsive=true, responsive=false)
+  if ( singleValue !== undefined ) {
+    return { value: singleValue, inheritedFrom: null };
+  }
+  // Fallback: extract base value from values if passed
+  // This handles the case where ControlRenderer always passes `values` prop
+  // for attributes that support responsive mode (even when disabled)
+  if ( values !== undefined ) {
+    const baseValue = getBaseValue( values );
+    return { value: baseValue, inheritedFrom: null };
+  }
+  return { value: undefined, inheritedFrom: null };
+}, [ isResponsive, values, device, singleValue ] );
+```
+
+**Key Changes:**
+- ✅ Checks `singleValue` first (for truly non-responsive controls)
+- ✅ Falls back to extracting base value from `values` (for responsive-capable but currently disabled)
+- ✅ Uses existing `getBaseValue()` helper to extract flat value
+
+#### Fix 2: Callback Pattern (Lines 384-403)
+
+**NEW:** Added `useResponsiveCallback` flag:
+
+```javascript
+// Check if we should use responsive callback pattern
+// This is true when:
+// 1. isResponsive is true (user enabled responsive mode)
+// 2. OR values is passed (responsive-capable attribute, even if responsive mode is off)
+// ControlRenderer always passes handleResponsiveChange for responsive-capable attributes
+const useResponsiveCallback = isResponsive || values !== undefined;
+
+// Handler for slider/number value changes
+const handleValueChange = ( newNumericValue ) => {
+  const newValue = hasUnits
+    ? { value: newNumericValue, unit: currentUnit }
+    : newNumericValue;
+
+  if ( useResponsiveCallback ) {
+    // Always pass device when responsive-capable (handleResponsiveChange expects it)
+    onChange( device, newValue );
+  } else {
+    onChange( newValue );
+  }
+};
+```
+
+**Applied to:**
+- `handleValueChange()` (lines 391-403)
+- `handleUnitControlChange()` (lines 405-420)
+- `handleReset()` (lines 422-438)
+
+**Key Logic:**
+- ✅ Uses responsive callback signature when `values` prop is passed
+- ✅ Passes `(device, value)` instead of just `(value)`
+- ✅ Works correctly whether responsive mode is ON or OFF
+
+#### Fix 3: Reset Button State (Lines 440-455)
+
+**BEFORE:**
+```javascript
+const isResetDisabled = isResponsive
+  ? values?.[ device ] === undefined || values?.[ device ] === null
+  : singleValue === undefined || singleValue === defaultValue;  // ❌ singleValue undefined!
+```
+
+**AFTER:**
+```javascript
+const isResetDisabled = useMemo( () => {
+  if ( isResponsive ) {
+    // In responsive mode, check if current device has an override
+    return values?.[ device ] === undefined || values?.[ device ] === null;
+  }
+  if ( values !== undefined ) {
+    // Responsive-capable but not in responsive mode: check base value
+    const baseValue = getBaseValue( values );
+    return baseValue === undefined || baseValue === null ||
+      JSON.stringify( baseValue ) === JSON.stringify( defaultValue );
+  }
+  // Non-responsive: check singleValue
+  return singleValue === undefined || singleValue === defaultValue;
+}, [ isResponsive, values, device, singleValue, defaultValue ] );
+```
+
+**Key Changes:**
+- ✅ Checks base value when `values` is passed but responsive mode is off
+- ✅ Properly determines if reset button should be enabled
+
+### How to Diagnose This Issue
+
+**Step 1: Identify the Symptoms**
+- Control updates in sidebar (shows new value)
+- Editor preview doesn't update (stays at default)
+- Problem only occurs when responsive mode is OFF
+- Enabling responsive + clicking desktop icon makes it work
+
+**Step 2: Check the Schema**
+```json
+"titleOffsetX": {
+  "type": "string",
+  "default": "0px",
+  "control": "SliderWithInput",
+  "responsive": true,  // ← Responsive-capable
+  ...
+}
+```
+
+**Step 3: Console Log the Value**
+```javascript
+// In edit.js:
+console.log('titleOffsetX value:', attributes.titleOffsetX);
+// Expected: "5px" or { value: 5, unit: "px" }
+// Bug symptom: undefined or default value
+```
+
+**Step 4: Check getInlineStyles() Output**
+```javascript
+// In edit.js:
+const styles = getInlineStyles(responsiveDevice);
+console.log('titleOffsetX in styles:', styles.title.left);
+// Expected: "5px"
+// Bug symptom: "0px" (default)
+```
+
+**Step 5: Verify the Fix**
+Check that `SliderWithInput.js` has the updated value extraction logic (lines 344-366).
+
+### How to Prevent This Issue
+
+When creating responsive-capable controls:
+
+**✅ DO:**
+1. Check both `singleValue` AND `values` props when extracting effective value
+2. Use responsive callback signature `(device, value)` when `values` prop is passed
+3. Handle flat values (base) separately from device-keyed values
+4. Test with responsive mode both ON and OFF
+
+**❌ DON'T:**
+1. Assume `singleValue` is always defined when `responsive={false}`
+2. Use non-responsive callback `(value)` when attribute supports responsive
+3. Only check `isResponsive` flag - also check if `values` prop is passed
+4. Forget to test the "global settings" state (responsive mode OFF)
+
+### Testing Checklist
+
+After fixing or creating responsive controls, verify:
+
+- [ ] **Responsive OFF (global):** Value changes in sidebar → preview updates ✓
+- [ ] **Responsive ON (desktop):** Value changes in sidebar → preview updates ✓
+- [ ] **Responsive ON (tablet):** Value changes → creates tablet override ✓
+- [ ] **Responsive ON (mobile):** Value changes → creates mobile override ✓
+- [ ] **Device switching:** Clicking device icons → shows correct values ✓
+- [ ] **Reset button:** Correctly enabled/disabled based on customization ✓
+- [ ] **Inheritance:** Tablet/mobile inherit from desktop when no override ✓
+
+### Files Modified (2025-12-29)
+
+| File | Lines | Change |
+|------|-------|--------|
+| `shared/src/components/controls/SliderWithInput.js` | 344-366 | Fixed value extraction to check both `singleValue` and `values` |
+| `shared/src/components/controls/SliderWithInput.js` | 384-403 | Added `useResponsiveCallback` flag and updated `handleValueChange` |
+| `shared/src/components/controls/SliderWithInput.js` | 391-395 | **CRITICAL:** Added `callbackDevice` to use 'desktop' when responsive OFF |
+| `shared/src/components/controls/SliderWithInput.js` | 405-420 | Updated `handleUnitControlChange` to use responsive callback |
+| `shared/src/components/controls/SliderWithInput.js` | 422-438 | Updated `handleReset` to use responsive callback |
+| `shared/src/components/controls/SliderWithInput.js` | 440-455 | Fixed `isResetDisabled` to handle base value check |
+
+
+### Additional Critical Fix: callbackDevice
+
+**Problem:** Even after the initial fix, values still didn't preview when responsive mode was OFF.
+
+**Root Cause:** The `useResponsiveDevice()` hook returns the **global** device state. If the user had previously clicked "tablet" or "mobile" on ANY other control (and left it there), all subsequent changes would use that device in the callback.
+
+**Example Scenario:**
+1. User is editing titleFontSize with responsive mode OFF
+2. Global device state is 'tablet' (from previous interaction)
+3. User changes font-size value
+4. `onChange('tablet', { value: 1.5, unit: 'rem' })` is called ❌
+5. Creates tablet override instead of base value
+6. Preview doesn't update because it's looking for base value
+
+**The Fix (Lines 391-395):**
+```javascript
+// Determine which device to use for callbacks:
+// - When responsive mode is ON: use the global device (user-selected)
+// - When responsive mode is OFF: ALWAYS use 'desktop' (base/global value)
+// This prevents creating device overrides when user just wants to change the base value
+const callbackDevice = isResponsive ? device : 'desktop';
+```
+
+**All handlers now use `callbackDevice` instead of `device`:**
+- `handleValueChange()` - line 405
+- `handleUnitControlChange()` - line 422
+- `handleReset()` - lines 432, 439
+
+**Result:**
+- ✅ Responsive OFF: Always stores as base value (desktop), preview works
+- ✅ Responsive ON + desktop: Stores as base value, preview works
+- ✅ Responsive ON + tablet/mobile: Stores as device override, preview works
+
+### Why This Matters
+
+Responsive-capable attributes are a **core feature** of the theming system. When they don't preview correctly:
+- User experience degrades (confusing why values don't update)
+- Users assume the plugin is broken
+- Testing becomes difficult (can't see what you're changing)
+- May lead to duplicate bug reports
+
+This fix ensures **all responsive-capable controls work correctly in BOTH modes**:
+1. **Global mode (responsive OFF):** Values preview immediately
+2. **Device mode (responsive ON):** Values preview per-device with inheritance
+
+### Related Issues
+
+This pattern may affect other controls that:
+- Accept both `value` and `values` props
+- Support responsive mode
+- Use callbacks with device parameter
+
+**Other controls to audit:**
+- Custom SliderWithInput variants
+- Any control wrapper that implements responsive logic
+- Controls that use `ControlRenderer.handleResponsiveChange`
+
+**How to check:**
+```bash
+# Search for similar patterns:
+grep -r "isResponsive.*values !== undefined" shared/src/components/controls/
+grep -r "responsive && values" shared/src/components/controls/
+```

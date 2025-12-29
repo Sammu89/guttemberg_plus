@@ -10,6 +10,35 @@
 
 import { useMemo } from '@wordpress/element';
 import {
+	getPropertyScale,
+	getUnitConfig,
+	isRotationTransform,
+	getAvailableUnits,
+	isUnitlessProperty,
+	parseValueWithUnit,
+} from '../../config/css-property-scales';
+
+/**
+ * Get scale values for a given CSS property and unit
+ *
+ * @param {string} cssProperty - CSS property name (e.g., 'font-size', 'padding')
+ * @param {string} unit - Current unit
+ * @param {string} attrName - Attribute name (for rotation detection)
+ * @param {*} defaultValue - Default value (for rotation detection)
+ * @returns {Object} Scale values { min, max, step }
+ */
+function getUnitScale( cssProperty, unit, attrName, defaultValue ) {
+	// Check for rotation transform
+	if ( cssProperty === 'transform' && isRotationTransform( attrName, defaultValue ) ) {
+		const config = getUnitConfig( 'transform', 'deg' );
+		return config || { min: -180, max: 180, step: 1 };
+	}
+
+	const config = getUnitConfig( cssProperty, unit );
+	return config || { min: 0, max: 100, step: 1 };
+}
+
+import {
 	BaseControl,
 	RangeControl,
 	Flex,
@@ -19,7 +48,9 @@ import {
 } from '@wordpress/components';
 import { DeviceSwitcher } from './DeviceSwitcher';
 import { ResetButton } from './ResetButton';
+import { ResponsiveToggle } from './atoms/ResponsiveToggle';
 import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
+import { setGlobalResponsiveDevice } from '../../utils/responsive-device';
 
 /**
  * Inherited Badge Component
@@ -34,7 +65,7 @@ function InheritedBadge( { from } ) {
 	}
 
 	const labels = {
-		desktop: 'Desktop',
+		global: 'Global',
 		tablet: 'Tablet',
 		mobile: 'Mobile',
 	};
@@ -75,7 +106,7 @@ function isFlat( values ) {
 	}
 	// Object with value/unit properties but no device keys
 	const hasValueProp = 'value' in values || 'unit' in values;
-	const hasDeviceKeys = 'desktop' in values || 'tablet' in values || 'mobile' in values;
+	const hasDeviceKeys = 'global' in values || 'tablet' in values || 'mobile' in values;
 	return hasValueProp && ! hasDeviceKeys;
 }
 
@@ -99,10 +130,6 @@ function getBaseValue( values ) {
 			if ( base.value !== undefined || base.unit !== undefined ) {
 				return base;
 			}
-			// Check for numeric value at root (legacy format)
-			if ( base.desktop !== undefined ) {
-				return base.desktop;
-			}
 		}
 	}
 	return null;
@@ -125,14 +152,14 @@ function getInheritedSliderValue( values, device ) {
 		return val;
 	};
 
-	// Get base value (desktop)
+	// Get base value (global)
 	const baseVal = normalize( getBaseValue( values ) );
 
 	// If flat, base applies to all devices
 	if ( isFlat( values ) ) {
 		return {
 			value: baseVal,
-			inheritedFrom: device !== 'desktop' && baseVal !== null ? 'desktop' : null,
+			inheritedFrom: device !== 'global' && baseVal !== null ? 'global' : null,
 		};
 	}
 
@@ -141,7 +168,7 @@ function getInheritedSliderValue( values, device ) {
 	const mobileVal = normalize( values?.mobile );
 
 	switch ( device ) {
-		case 'desktop':
+		case 'global':
 			return {
 				value: baseVal,
 				inheritedFrom: null,
@@ -153,7 +180,7 @@ function getInheritedSliderValue( values, device ) {
 			}
 			return {
 				value: baseVal,
-				inheritedFrom: baseVal !== null ? 'desktop' : null,
+				inheritedFrom: baseVal !== null ? 'global' : null,
 			};
 
 		case 'mobile':
@@ -165,7 +192,7 @@ function getInheritedSliderValue( values, device ) {
 			}
 			return {
 				value: baseVal,
-				inheritedFrom: baseVal !== null ? 'desktop' : null,
+				inheritedFrom: baseVal !== null ? 'global' : null,
 			};
 
 		default:
@@ -216,23 +243,74 @@ function parseValue( value, defaultUnit = 'px' ) {
  * Slider With Input Component
  *
  * A combined slider and number input with optional responsive support
- * and unit selection.
+ * and unit selection. Supports dynamic unit scales for automatic min/max/step.
+ *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses a SCALAR pattern, NOT the box pattern (like SpacingControl).
+ *
+ * NON-RESPONSIVE MODE (responsive: false):
+ * ----------------------------------------
+ * value prop accepts:
+ *   - Plain number: 16
+ *   - String with unit: "1.125rem"
+ *   - Object with value/unit: { value: 1.125, unit: "rem" }
+ *
+ * onChange callback signature:
+ *   onChange(newValue)
+ *   - If units provided: calls with { value: number, unit: string }
+ *   - If no units: calls with plain number or string
+ *
+ * RESPONSIVE MODE (responsive: true):
+ * ------------------------------------
+ * values prop structure:
+ *
+ *   FLAT (base/global only):
+ *   { value: 1.125, unit: "rem" }
+ *   OR
+ *   "1.125rem"  (plain string)
+ *   OR
+ *   1.125  (plain number)
+ *
+ *   WITH DEVICE OVERRIDES:
+ *   {
+ *     value: 1.125,           // BASE (global)
+ *     unit: "rem",            // BASE unit
+ *     tablet: { value: 1, unit: "rem" },    // Tablet override
+ *     mobile: { value: 0.875, unit: "rem" } // Mobile override
+ *   }
+ *
+ * IMPORTANT: Global value is the BASE (flat), NOT under a "global" key!
+ * Tablet and mobile are OVERRIDES added to the base object.
+ *
+ * onChange callback signature:
+ *   onChange(device, newValue)
+ *   - device: "global" | "tablet" | "mobile"
+ *   - newValue: same format as non-responsive (number, string, or { value, unit })
+ *
+ * The parent (ControlRenderer) handles merging device values into the final structure.
+ *
+ * ============================================================================
  *
  * @param {Object}   props                Component props
  * @param {string}   props.label          Label for the control
- * @param {*}        props.value          Single value (for non-responsive mode)
- * @param {Object}   props.values         Responsive values { desktop, tablet, mobile }
- * @param {Function} props.onChange       Callback for value changes
+ * @param {*}        props.value          Single value (for non-responsive mode) - see DATA STRUCTURE above
+ * @param {Object}   props.values         Responsive values - see DATA STRUCTURE above
+ * @param {Function} props.onChange       Callback for value changes - see DATA STRUCTURE above
  * @param {Function} props.onReset        Optional reset callback
  * @param {boolean}  props.responsive     Whether to enable responsive mode (default: false)
  * @param {Array}    props.units          Array of available units (enables unit selector)
+ * @param {string}   props.cssProperty    CSS property name for automatic scale lookup (e.g., 'font-size', 'padding')
+ * @param {string}   props.attrName       Attribute name (used for rotation transform detection)
  * @param {string}   props.help           Help text
- * @param {number}   props.min            Minimum value (default: 0)
- * @param {number}   props.max            Maximum value (default: 100)
- * @param {number}   props.step           Step increment (default: 1)
+ * @param {number}   props.min            Minimum value (overrides scale, default: from scale or 0)
+ * @param {number}   props.max            Maximum value (overrides scale, default: from scale or 100)
+ * @param {number}   props.step           Step increment (overrides scale, default: from scale or 1)
  * @param {*}        props.defaultValue   Default value for reset
  * @param {boolean}  props.withInputField Whether to show number input (default: true)
- * @param {string}   props.initialDevice  Initial device (default: 'desktop')
+ * @param {string}   props.initialDevice  Initial device (default: 'global')
  * @returns {JSX.Element} Slider with input component
  */
 export function SliderWithInput( {
@@ -242,14 +320,20 @@ export function SliderWithInput( {
 	onChange,
 	onReset,
 	responsive = false,
+	canBeResponsive = false,
+	responsiveEnabled = false,
+	onResponsiveToggle,
+	onResponsiveReset,
 	units,
+	cssProperty,
+	attrName,
 	help,
-	min = 0,
-	max = 100,
-	step = 1,
+	min: propMin,
+	max: propMax,
+	step: propStep,
 	defaultValue,
 	withInputField = true,
-	initialDevice = 'desktop',
+	initialDevice = 'global',
 } ) {
 	// Use global device state - all responsive controls stay in sync
 	const device = useResponsiveDevice();
@@ -258,11 +342,27 @@ export function SliderWithInput( {
 	const isResponsive = responsive && values !== undefined;
 
 	// Get the effective value
+	// When responsive mode is ON: use getInheritedSliderValue to handle device inheritance
+	// When responsive mode is OFF but values is passed: extract base value from values
+	// When non-responsive: use singleValue directly
 	const { value: effectiveRawValue, inheritedFrom } = useMemo( () => {
 		if ( isResponsive ) {
 			return getInheritedSliderValue( values, device );
 		}
-		return { value: singleValue, inheritedFrom: null };
+		// Not in responsive mode - check both singleValue and values
+		// ControlRenderer passes `values` for responsive-capable attributes even when
+		// responsive mode is currently disabled (canBeResponsive=true, responsive=false)
+		if ( singleValue !== undefined ) {
+			return { value: singleValue, inheritedFrom: null };
+		}
+		// Fallback: extract base value from values if passed
+		// This handles the case where ControlRenderer always passes `values` prop
+		// for attributes that support responsive mode (even when disabled)
+		if ( values !== undefined ) {
+			const baseValue = getBaseValue( values );
+			return { value: baseValue, inheritedFrom: null };
+		}
+		return { value: undefined, inheritedFrom: null };
 	}, [ isResponsive, values, device, singleValue ] );
 
 	// Parse the value to get numeric value and unit
@@ -271,14 +371,38 @@ export function SliderWithInput( {
 
 	const hasUnits = units && units.length > 0;
 
+	// Get dynamic scale based on CSS property and current unit
+	const unitScale = cssProperty
+		? getUnitScale( cssProperty, currentUnit, attrName, defaultValue )
+		: { min: 0, max: 100, step: 1 };
+
+	// Use prop overrides if provided, otherwise use scale values
+	const min = propMin ?? unitScale.min;
+	const max = propMax ?? unitScale.max;
+	const step = propStep ?? unitScale.step;
+
+	// Check if we should use responsive callback pattern
+	// This is true when:
+	// 1. isResponsive is true (user enabled responsive mode)
+	// 2. OR values is passed (responsive-capable attribute, even if responsive mode is off)
+	// ControlRenderer always passes handleResponsiveChange for responsive-capable attributes
+	const useResponsiveCallback = isResponsive || values !== undefined;
+
+	// Determine which device to use for callbacks:
+	// - When responsive mode is ON: use the global device (user-selected)
+	// - When responsive mode is OFF: ALWAYS use 'global' (base/global value)
+	// This prevents creating device overrides when user just wants to change the base value
+	const callbackDevice = isResponsive ? device : 'global';
+
 	// Handler for slider/number value changes
 	const handleValueChange = ( newNumericValue ) => {
 		const newValue = hasUnits
 			? { value: newNumericValue, unit: currentUnit }
 			: newNumericValue;
 
-		if ( isResponsive ) {
-			onChange( device, newValue );
+		if ( useResponsiveCallback ) {
+			// Use callbackDevice: 'global' when responsive OFF, actual device when ON
+			onChange( callbackDevice, newValue );
 		} else {
 			onChange( newValue );
 		}
@@ -293,8 +417,9 @@ export function SliderWithInput( {
 			? { value: numericValue, unit: newUnit }
 			: numericValue;
 
-		if ( isResponsive ) {
-			onChange( device, finalValue );
+		if ( useResponsiveCallback ) {
+			// Use callbackDevice: 'global' when responsive OFF, actual device when ON
+			onChange( callbackDevice, finalValue );
 		} else {
 			onChange( finalValue );
 		}
@@ -303,14 +428,15 @@ export function SliderWithInput( {
 	// Handler for reset
 	const handleReset = () => {
 		if ( onReset ) {
-			if ( isResponsive ) {
-				onReset( device );
+			if ( useResponsiveCallback ) {
+				onReset( callbackDevice );
 			} else {
 				onReset();
 			}
 		} else {
-			if ( isResponsive ) {
-				onChange( device, undefined );
+			if ( useResponsiveCallback ) {
+				// Use callbackDevice for consistency
+				onChange( callbackDevice, undefined );
 			} else {
 				onChange( defaultValue );
 			}
@@ -318,9 +444,35 @@ export function SliderWithInput( {
 	};
 
 	// Check if reset should be disabled
-	const isResetDisabled = isResponsive
-		? values?.[ device ] === undefined || values?.[ device ] === null
-		: singleValue === undefined || singleValue === defaultValue;
+	// Use the effective value we computed earlier for consistency
+	const isResetDisabled = useMemo( () => {
+		if ( isResponsive ) {
+			// In responsive mode, check if current device has an override
+			return values?.[ device ] === undefined || values?.[ device ] === null;
+		}
+		if ( values !== undefined ) {
+			// Responsive-capable but not in responsive mode: check base value
+			const baseValue = getBaseValue( values );
+			return baseValue === undefined || baseValue === null ||
+				JSON.stringify( baseValue ) === JSON.stringify( defaultValue );
+		}
+		// Non-responsive: check singleValue
+		return singleValue === undefined || singleValue === defaultValue;
+	}, [ isResponsive, values, device, singleValue, defaultValue ] );
+
+	// Handler for responsive reset (discard device overrides and disable responsive)
+	const handleResponsiveResetClick = () => {
+		if ( onResponsiveReset ) {
+			onResponsiveReset();
+		} else {
+			handleReset();
+		}
+	};
+
+	// Handler for device change from ResponsiveToggle
+	const handleDeviceChange = ( newDevice ) => {
+		setGlobalResponsiveDevice( newDevice );
+	};
 
 	// Build the label with header controls
 	const renderLabel = () => (
@@ -332,16 +484,18 @@ export function SliderWithInput( {
 				</span>
 			</FlexItem>
 			<FlexItem>
-				<Flex gap={ 2 }>
-					{ isResponsive && (
-						<FlexItem>
-							<DeviceSwitcher value={ device } />
-						</FlexItem>
-					) }
-					<FlexItem>
-						<ResetButton onClick={ handleReset } disabled={ isResetDisabled } />
-					</FlexItem>
-				</Flex>
+				{ canBeResponsive ? (
+					<ResponsiveToggle
+						isEnabled={ responsiveEnabled }
+						onToggle={ onResponsiveToggle }
+						currentDevice={ device }
+						onDeviceChange={ handleDeviceChange }
+						onReset={ handleResponsiveResetClick }
+						isResetDisabled={ isResetDisabled && ! responsiveEnabled }
+					/>
+				) : (
+					<ResetButton onClick={ handleReset } disabled={ isResetDisabled } />
+				) }
 			</FlexItem>
 		</Flex>
 	);

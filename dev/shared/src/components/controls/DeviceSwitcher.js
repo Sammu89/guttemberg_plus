@@ -4,7 +4,7 @@ import { setGlobalResponsiveDevice } from '../../utils/responsive-device';
 
 export function DeviceSwitcher({ value, onChange }) {
   const devices = [
-    { name: 'desktop', icon: desktop, label: 'Desktop' },
+    { name: 'global', icon: desktop, label: 'Global' },
     { name: 'tablet', icon: tablet, label: 'Tablet' },
     { name: 'mobile', icon: mobile, label: 'Mobile' },
   ];
@@ -18,8 +18,8 @@ export function DeviceSwitcher({ value, onChange }) {
           label={device.label}
           isPressed={value === device.name}
           onClick={() => {
-            onChange(device.name);
             setGlobalResponsiveDevice(device.name);
+            onChange?.(device.name);
           }}
           isSmall
         />

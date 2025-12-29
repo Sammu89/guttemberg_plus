@@ -3,44 +3,46 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-26T22:38:19.355Z
+ * Generated at: 2025-12-29T01:32:27.277Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
  */
 
 :root {
+  --accordion-divider-width: 0px;
+  --accordion-divider-color: #dddddd;
+  --accordion-divider-style: solid;
   --accordion-border-width: 1px;
+  --accordion-border-radius: 4px;
   --accordion-border-color: #dddddd;
   --accordion-border-style: solid;
-  --accordion-border-radius: 4px;
   --accordion-header-padding: 12px 16px;
   --accordion-content-padding: 16px;
   --accordion-block-margin: 1em 0em;
-  --accordion-shadow: none;
-  --accordion-divider-color: #dddddd;
-  --accordion-divider-style: solid;
-  --accordion-divider-width: 0px;
   --accordion-title-color: #333333;
   --accordion-title-bg: #f5f5f5;
   --accordion-title-hover-color: #000000;
   --accordion-title-hover-bg: #e8e8e8;
-  --accordion-title-active-color: #000000;
-  --accordion-title-active-bg: #e8e8e8;
   --accordion-content-color: #333333;
   --accordion-content-bg: #ffffff;
+  --accordion-content-font-family: inherit;
+  --accordion-content-font-size: 1rem;
+  --accordion-content-line-height: 1.6;
   --accordion-title-font-family: inherit;
-  --accordion-title-font-size: 1.125;
-  --accordion-title-letter-spacing: 0;
-  --accordion-title-text-decoration: none;
+  --accordion-title-font-size: 1.125rem;
+  --accordion-title-font-weight: 400;
+  --accordion-title-decoration-color: currentColor;
+  --accordion-title-decoration-style: solid;
+  --accordion-title-decoration-width: auto;
+  --accordion-title-letter-spacing: 0em;
   --accordion-title-text-transform: none;
   --accordion-title-line-height: 1.4;
   --accordion-title-alignment: left;
-  --accordion-content-font-family: inherit;
-  --accordion-content-font-size: 1;
-  --accordion-content-line-height: 1.6;
+  --accordion-title-offset-x: 0px;
+  --accordion-title-offset-y: 0px;
   --accordion-icon-color: #666666;
-  --accordion-icon-size: 1.25;
+  --accordion-icon-size: 1.25rem;
   --accordion-icon-rotation: 180deg;
   --accordion-animation-duration: 300ms;
   --accordion-animation-easing: ease;

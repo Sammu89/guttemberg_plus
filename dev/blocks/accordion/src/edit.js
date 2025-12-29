@@ -29,11 +29,12 @@ import {
 	SettingsPanels,
 	AppearancePanels,
 	CustomizationWarning,
+	BreakpointSettings,
 	useThemeManager,
 	useBlockAlignment,
 	useResponsiveDevice,
-	debug,
 } from '@shared';
+import { buildBoxShadow, buildTextShadow } from '@shared/utils';
 import accordionSchema from '../../../schemas/accordion.json';
 import { accordionAttributes } from './accordion-attributes';
 import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
@@ -48,8 +49,6 @@ import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-g
  * @return {JSX.Element} Edit component
  */
 export default function Edit( { attributes, setAttributes, clientId } ) {
-	debug( '[DEBUG] Accordion Edit mounted with attributes:', attributes );
-
 	// Use centralized alignment hook
 	const blockRef = useBlockAlignment( attributes.accordionHorizontalAlign );
 	const responsiveDevice = useResponsiveDevice();
@@ -107,10 +106,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
 
-	debug( '[DEBUG] Accordion attributes (source of truth):', attributes );
-	debug( '[DEBUG] Expected values (defaults + theme):', expectedValues );
-	debug( '[DEBUG] Is customized:', isCustomized );
-
 	// Local state for width input (allows typing without validation)
 	const [ widthInput, setWidthInput ] = useState( attributes.accordionWidth || '100%' );
 
@@ -136,7 +131,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				return;
 			}
 
-			// Format the value (formatCssValue now handles compound values intelligently)
+			// Format the value (formatCssValue handles compound values like border-style objects)
 			const formattedValue = formatCssValue(attrName, value, 'accordion');
 			if (formattedValue !== null) {
 				cssVars[cssVar] = formattedValue;
@@ -153,15 +148,41 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 // DO NOT EDIT - This code is auto-generated from schema
 // AUTO-GENERATED from schemas/accordion.json
 // To modify styles, update the schema and run: npm run schema:build
+// REQUIRED IMPORT: Ensure buildBoxShadow, buildTextShadow imported from @shared/utils in edit.js
 
-const getInlineStyles = (responsiveDevice = 'desktop') => {
+const getInlineStyles = (responsiveDevice = 'global') => {
   // Extract object-type attributes with fallbacks
+	const dividerWidth = effectiveValues.dividerWidth || {
+		    "top": "0px",
+		    "right": "0px",
+		    "bottom": "0px",
+		    "left": "0px"
+		};
+	const dividerColor = effectiveValues.dividerColor || {
+		    "top": "#dddddd",
+		    "right": "#dddddd",
+		    "bottom": "#dddddd",
+		    "left": "#dddddd",
+		    "linked": true
+		};
+	const dividerStyle = effectiveValues.dividerStyle || {
+		    "top": "solid",
+		    "right": "solid",
+		    "bottom": "solid",
+		    "left": "solid",
+		    "linked": true
+		};
 	const borderWidth = effectiveValues.borderWidth || {
-		    "top": 1,
-		    "right": 1,
-		    "bottom": 1,
-		    "left": 1,
-		    "unit": "px"
+		    "top": "1px",
+		    "right": "1px",
+		    "bottom": "1px",
+		    "left": "1px"
+		};
+	const borderRadius = effectiveValues.borderRadius || {
+		    "topLeft": "4px",
+		    "topRight": "4px",
+		    "bottomRight": "4px",
+		    "bottomLeft": "4px"
 		};
 	const borderColor = effectiveValues.borderColor || {
 		    "top": "#dddddd",
@@ -177,75 +198,107 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 		    "left": "solid",
 		    "linked": true
 		};
-	const borderRadius = effectiveValues.borderRadius || {
-		    "topLeft": 4,
-		    "topRight": 4,
-		    "bottomRight": 4,
-		    "bottomLeft": 4,
-		    "unit": "px"
-		};
 	const headerPadding = effectiveValues.headerPadding || {
-		    "top": 12,
-		    "right": 16,
-		    "bottom": 12,
-		    "left": 16,
-		    "unit": "px"
+		    "top": "12px",
+		    "right": "16px",
+		    "bottom": "12px",
+		    "left": "16px"
 		};
 	const contentPadding = effectiveValues.contentPadding || {
-		    "top": 16,
-		    "right": 16,
-		    "bottom": 16,
-		    "left": 16,
-		    "unit": "px"
+		    "top": "16px",
+		    "right": "16px",
+		    "bottom": "16px",
+		    "left": "16px"
 		};
 	const blockMargin = effectiveValues.blockMargin || {
-		    "top": 1,
-		    "right": 0,
-		    "bottom": 1,
-		    "left": 0,
-		    "unit": "em"
-		};
-	const titleAppearance = effectiveValues.titleAppearance || {
-		    "weight": "600",
-		    "style": "normal"
+		    "top": "1em",
+		    "right": "0em",
+		    "bottom": "1em",
+		    "left": "0em"
 		};
 
 	return {
 		container: {
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
+			boxShadow: buildBoxShadow(effectiveValues.shadow),
 			marginTop: (() => { const blockMarginVal = blockMargin[responsiveDevice] || blockMargin; return `${blockMarginVal.top || 0}${blockMarginVal.unit || 'px'}`; })(),
 			marginBottom: (() => { const blockMarginVal = blockMargin[responsiveDevice] || blockMargin; return `${blockMarginVal.bottom || 0}${blockMarginVal.unit || 'px'}`; })(),
-			boxShadow: effectiveValues.shadow || 'none',
-			transitionDuration: `${effectiveValues.animationDuration ?? 300}ms`,
-			transitionTimingFunction: effectiveValues.animationEasing || 'ease',
+			transitionDuration: (() => { const val = effectiveValues.animationDuration; if (val === null || val === undefined) return '300ms'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '300ms'; })(),
+			transitionTimingFunction: (() => { const val = effectiveValues.animationEasing; if (val === null || val === undefined) return 'ease'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'ease'; })(),
 		},
 		title: {
 			padding: (() => { const headerPaddingVal = headerPadding[responsiveDevice] || headerPadding; const unit = headerPaddingVal.unit || 'px'; return `${headerPaddingVal.top || 0}${unit} ${headerPaddingVal.right || 0}${unit} ${headerPaddingVal.bottom || 0}${unit} ${headerPaddingVal.left || 0}${unit}`; })(),
-			color: effectiveValues.titleColor || '#333333',
-			background: effectiveValues.titleBackgroundColor || '#f5f5f5',
-			fontFamily: effectiveValues.titleFontFamily || 'inherit',
-			textDecoration: effectiveValues.titleTextDecoration || 'none',
-			textTransform: effectiveValues.titleTextTransform || 'none',
-			textAlign: effectiveValues.titleAlignment || 'left',
+			color: (() => { const val = effectiveValues.titleColor; if (val === null || val === undefined) return '#333333'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#333333'; })(),
+			background: (() => { const val = effectiveValues.titleBackgroundColor; if (val === null || val === undefined) return '#f5f5f5'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#f5f5f5'; })(),
+			fontFamily: (() => { const val = effectiveValues.titleFontFamily; if (val === null || val === undefined) return 'inherit'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'inherit'; })(),
+			fontSize: (() => { const val = effectiveValues.titleFontSize; if (val === null || val === undefined) return '1.125rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '1.125rem'; })(),
+			fontWeight: effectiveValues.titleFontWeight ?? 400,
+			textDecorationColor: (() => { const val = effectiveValues.titleDecorationColor; if (val === null || val === undefined) return 'currentColor'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'currentColor'; })(),
+			textDecorationStyle: (() => { const val = effectiveValues.titleDecorationStyle; if (val === null || val === undefined) return 'solid'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'solid'; })(),
+			textDecorationThickness: (() => { const val = effectiveValues.titleDecorationWidth; if (val === null || val === undefined) return 'auto'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'auto'; })(),
+			letterSpacing: (() => { const val = effectiveValues.titleLetterSpacing; if (val === null || val === undefined) return '0em'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '0em'; })(),
+			textTransform: (() => { const val = effectiveValues.titleTextTransform; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
+			lineHeight: effectiveValues.titleLineHeight ?? 1.4,
+			textAlign: (() => { const val = effectiveValues.titleAlignment; if (val === null || val === undefined) return 'left'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'left'; })(),
+			left: (() => { const val = effectiveValues.titleOffsetX; if (val === null || val === undefined) return '0px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '0px'; })(),
+			top: (() => { const val = effectiveValues.titleOffsetY; if (val === null || val === undefined) return '0px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '0px'; })(),
+			textShadow: buildTextShadow(effectiveValues.titleTextShadow),
 		},
 		content: {
 			padding: (() => { const contentPaddingVal = contentPadding[responsiveDevice] || contentPadding; const unit = contentPaddingVal.unit || 'px'; return `${contentPaddingVal.top || 0}${unit} ${contentPaddingVal.right || 0}${unit} ${contentPaddingVal.bottom || 0}${unit} ${contentPaddingVal.left || 0}${unit}`; })(),
-			borderTopColor: effectiveValues.dividerColor || '#dddddd',
-			borderTopStyle: effectiveValues.dividerStyle || 'solid',
-			borderTopWidth: `${effectiveValues.dividerWidth ?? 0}px`,
-			color: effectiveValues.contentTextColor || '#333333',
-			background: effectiveValues.contentBackgroundColor || '#ffffff',
-			fontFamily: effectiveValues.contentFontFamily || 'inherit',
+			color: (() => { const val = effectiveValues.contentTextColor; if (val === null || val === undefined) return '#333333'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#333333'; })(),
+			background: (() => { const val = effectiveValues.contentBackgroundColor; if (val === null || val === undefined) return '#ffffff'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#ffffff'; })(),
+			fontFamily: (() => { const val = effectiveValues.contentFontFamily; if (val === null || val === undefined) return 'inherit'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'inherit'; })(),
+			fontSize: (() => { const val = effectiveValues.contentFontSize; if (val === null || val === undefined) return '1rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '1rem'; })(),
+			lineHeight: effectiveValues.contentLineHeight ?? 1.6,
 		},
 		icon: {
-			color: effectiveValues.iconColor || '#666666',
-			transform: `${effectiveValues.iconRotation ?? 180}deg`,
+			color: (() => { const val = effectiveValues.iconColor; if (val === null || val === undefined) return '#666666'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#666666'; })(),
+			fontSize: (() => { const val = effectiveValues.iconSize; if (val === null || val === undefined) return '1.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '1.25rem'; })(),
+			transform: (() => { const val = effectiveValues.iconRotation; if (val === null || val === undefined) return '180deg'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '180deg'; })(),
 		},
 	};
 };
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
 	const styles = getInlineStyles( responsiveDevice );
+	console.log('[ACCORDION] responsiveDevice:', responsiveDevice, 'styles.title.fontSize:', styles.title.fontSize, 'styles.title.left:', styles.title.left, 'styles.title.top:', styles.title.top);
+
+	// Build font-weight from formatting selection
+	const titleFormatting = effectiveValues.titleFormatting || [];
+	const fontWeight = titleFormatting.includes('bold')
+		? (effectiveValues.titleFontWeight || 400)
+		: 400;
+
+	// Build font-style from formatting selection
+	const fontStyle = titleFormatting.includes('italic')
+		? 'italic'
+		: 'normal';
+
+	// Build text-decoration from formatting selection
+	const decorationLines = titleFormatting.filter(f =>
+		['underline', 'overline', 'line-through'].includes(f)
+	);
+	const hasDecoration = decorationLines.length > 0;
+	const textDecorationLine = hasDecoration
+		? decorationLines.join(' ')
+		: 'none';
+
+	// Build formatting styles object to merge with title styles
+	const titleFormattingStyles = {
+		fontWeight,
+		fontStyle,
+		textDecorationLine,
+		textDecorationColor: hasDecoration
+			? (effectiveValues.titleDecorationColor || 'currentColor')
+			: undefined,
+		textDecorationStyle: hasDecoration
+			? (effectiveValues.titleDecorationStyle || 'solid')
+			: undefined,
+		textDecorationThickness: hasDecoration
+			? (effectiveValues.titleDecorationWidth || 'auto')
+			: undefined,
+	};
 
 	/**
 	 * Render icon based on settings
@@ -373,6 +426,7 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 				className={ `accordion-title ${ iconPositionClass } ${ titleAlignClass }` }
 				style={ {
 					...styles.title,
+					...titleFormattingStyles,
 				} }
 			>
 				{ innerContent }
@@ -429,12 +483,45 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 		return '100%';
 	};
 
+	/**
+	 * Format dimension value (width/height) with proper unit
+	 * Handles both number and { value, unit } object formats
+	 * Uses responsiveDevice to extract device-specific values
+	 *
+	 * Data structure:
+	 * - Base (desktop): stored at root level as value.value or string
+	 * - Tablet/Mobile: stored under value.tablet / value.mobile keys
+	 */
+	const formatDimensionValue = ( value, defaultUnit = '%' ) => {
+		if ( value === null || value === undefined ) {
+			return `100${ defaultUnit }`;
+		}
+		// Handle responsive structure - extract value for current device
+		if ( typeof value === 'object' && ( value.tablet !== undefined || value.mobile !== undefined ) ) {
+			// Global uses base value (value.value), tablet/mobile check their key first
+			const deviceValue = responsiveDevice === 'global'
+				? value.value
+				: ( value[ responsiveDevice ] ?? value.value );
+			return formatDimensionValue( deviceValue, defaultUnit );
+		}
+		// Handle { value, unit } object format
+		if ( typeof value === 'object' && value.value !== undefined ) {
+			return `${ value.value }${ value.unit || defaultUnit }`;
+		}
+		// Handle plain number
+		if ( typeof value === 'number' ) {
+			return `${ value }${ defaultUnit }`;
+		}
+		// Handle string (already formatted)
+		return String( value );
+	};
+
 	// Build inline styles - accordion-item is now the root element
 	// Combines wrapper styles (width) with item styles (borders, shadows)
 	// Note: alignment margins are applied via ref with !important
 	const editorCSSVars = getEditorCSSVariables();
 	const rootStyles = {
-		width: effectiveValues.accordionWidth,
+		width: formatDimensionValue( effectiveValues.accordionWidth, '%' ),
 		overflow: 'hidden', // Clip border-radius in editor
 		...editorCSSVars, // Apply all CSS variables (including decomposed ones!)
 		...styles.container, // Apply container styles (margin, radius, box effects)
@@ -490,14 +577,17 @@ const getInlineStyles = (responsiveDevice = 'desktop') => {
 				{/* Tabbed inspector with settings and appearance panels */}
 				<TabbedInspector
 					settingsContent={
-						<SettingsPanels
-							schema={ accordionSchema }
-							attributes={ attributes }
-							setAttributes={ setAttributes }
-							effectiveValues={ effectiveValues }
-							theme={ themes[ attributes.currentTheme ]?.values }
-							cssDefaults={ allDefaults }
-						/>
+						<>
+							<SettingsPanels
+								schema={ accordionSchema }
+								attributes={ attributes }
+								setAttributes={ setAttributes }
+								effectiveValues={ effectiveValues }
+								theme={ themes[ attributes.currentTheme ]?.values }
+								cssDefaults={ allDefaults }
+							/>
+							<BreakpointSettings />
+						</>
 					}
 					appearanceContent={
 						<AppearancePanels

@@ -27,6 +27,7 @@ import { SideIcon } from '../atoms/SideIcon';
 import { MiniSlider } from '../atoms/MiniSlider';
 import { LinkToggle } from '../atoms/LinkToggle';
 import { DeviceSwitcher } from '../atoms/DeviceSwitcher';
+import { getAvailableUnits, getUnitConfig } from '../../../config/css-property-scales';
 
 const SIDES = [ 'top', 'right', 'bottom', 'left' ];
 
@@ -43,16 +44,93 @@ const DEFAULT_VALUE = {
 /**
  * BorderPanel Component
  *
- * Hardcoded units: px, em, rem
+ * Units derived from css-property-scales centralizer for 'border-width'
+ *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses a COMPOUND BOX pattern (manages 3 separate attributes).
+ * It's unique because it controls THREE attributes at once: width, color, style.
+ *
+ * VALUE PROP (border width):
+ * --------------------------
+ * value prop structure (same as SpacingControl BOX pattern):
+ *   {
+ *     top: 1,
+ *     right: 1,
+ *     bottom: 1,
+ *     left: 1,
+ *     unit: "px",
+ *     linked: true
+ *   }
+ *
+ * onChange callback signature:
+ *   onChange(newWidthValue)
+ *   - Always calls with full box object
+ *
+ * COLOR VALUE PROP:
+ * -----------------
+ * colorValue can be:
+ *   STRING (all sides same): "#dddddd"
+ *   OR
+ *   OBJECT (per-side):
+ *   {
+ *     top: "#dddddd",
+ *     right: "#cccccc",
+ *     bottom: "#dddddd",
+ *     left: "#cccccc",
+ *     linked: false
+ *   }
+ *
+ * onColorChange callback signature:
+ *   onColorChange(newColorValue)
+ *   - Can return string (if all sides same) or object (if different per side)
+ *
+ * STYLE VALUE PROP:
+ * -----------------
+ * styleValue can be:
+ *   STRING (all sides same): "solid"
+ *   OR
+ *   OBJECT (per-side):
+ *   {
+ *     top: "solid",
+ *     right: "dashed",
+ *     bottom: "solid",
+ *     left: "dashed",
+ *     linked: false
+ *   }
+ *
+ * onStyleChange callback signature:
+ *   onStyleChange(newStyleValue)
+ *   - Can return string (if all sides same) or object (if different per side)
+ *
+ * RESPONSIVE MODE:
+ * ----------------
+ * BorderPanel itself does NOT handle responsive mode internally.
+ * The parent (ControlRenderer) manages device switching and passes
+ * the appropriate device-specific values.
+ *
+ * SCHEMA USAGE:
+ * -------------
+ * In schemas, BorderPanel requires 3 attributes with same controlId:
+ *
+ * "borderWidth": { "control": "BorderPanel", "controlId": "border" },
+ * "borderColor": { "control": "BorderPanel", "controlId": "border", "renderControl": false },
+ * "borderStyle": { "control": "BorderPanel", "controlId": "border", "renderControl": false }
+ *
+ * ControlRenderer finds related attributes by matching controlId.
+ *
+ * ============================================================================
  *
  * @param {Object}   props
  * @param {string}   props.label               - Control label
- * @param {Object}   props.value               - Value object (width structure)
- * @param {Function} props.onChange            - Change handler for width attribute
- * @param {string|Object} props.colorValue     - Current border color (string or object with sides)
- * @param {Function} props.onColorChange       - Handler for color attribute changes
- * @param {string|Object} props.styleValue     - Current border style (string or object with sides)
- * @param {Function} props.onStyleChange       - Handler for style attribute changes
+ * @param {Object}   props.value               - Value object (width structure) - see DATA STRUCTURE above
+ * @param {Function} props.onChange            - Change handler for width attribute - see DATA STRUCTURE above
+ * @param {string|Object} props.colorValue     - Current border color - see DATA STRUCTURE above
+ * @param {Function} props.onColorChange       - Handler for color attribute changes - see DATA STRUCTURE above
+ * @param {string|Object} props.styleValue     - Current border style - see DATA STRUCTURE above
+ * @param {Function} props.onStyleChange       - Handler for style attribute changes - see DATA STRUCTURE above
  * @param {number}   props.min                 - Minimum value
  * @param {number}   props.max                 - Maximum value
  * @param {number}   props.step                - Slider step
@@ -75,13 +153,13 @@ export function BorderPanel( {
 	disabled = false,
 	lockLinked = false,
 } ) {
-	// BorderPanel hardcodes its allowed units
-	const units = [ 'px', 'em', 'rem' ];
-	const [ device, setDevice ] = useState( 'desktop' );
+	// Get units from centralizer for border-width property
+	const borderWidthUnits = getAvailableUnits( 'border-width' ) || [ 'px', 'rem', 'em' ];
+	const [ device, setDevice ] = useState( 'global' );
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
-		? ( value[ device ] || value.desktop || DEFAULT_VALUE )
+		? ( value[ device ] || value.value || DEFAULT_VALUE )
 		: value;
 
 	// Destructure with defaults
@@ -326,10 +404,10 @@ export function BorderPanel( {
 									handleUnitChange( newUnit );
 								}
 							} }
-							units={ units.map( ( u ) => ( { value: u, label: u } ) ) }
+							units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
 							min={ min }
 							max={ max }
-							step={ step }
+							step={ getUnitConfig( 'border-width', unit )?.step ?? step }
 							disabled={ disabled }
 						/>
 					</FlexItem>
@@ -341,7 +419,7 @@ export function BorderPanel( {
 							onChange={ ( newVal ) => handleValueChange( 'top', newVal ) }
 							min={ min }
 							max={ max }
-							step={ step }
+							step={ getUnitConfig( 'border-width', unit )?.step ?? step }
 							disabled={ disabled }
 						/>
 					</FlexBlock>
@@ -392,10 +470,10 @@ export function BorderPanel( {
 											handleUnitChange( newUnit );
 										}
 									} }
-									units={ units.map( ( u ) => ( { value: u, label: u } ) ) }
+									units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
 									min={ min }
 									max={ max }
-									step={ step }
+									step={ getUnitConfig( 'border-width', unit )?.step ?? step }
 									disabled={ disabled }
 									__next40pxDefaultSize
 								/>
@@ -408,7 +486,7 @@ export function BorderPanel( {
 									onChange={ ( newVal ) => handleValueChange( side, newVal ) }
 									min={ min }
 									max={ max }
-									step={ step }
+									step={ getUnitConfig( 'border-width', unit )?.step ?? step }
 									disabled={ disabled }
 								/>
 							</FlexBlock>

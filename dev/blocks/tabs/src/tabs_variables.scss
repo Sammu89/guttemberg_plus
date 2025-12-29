@@ -1,113 +1,42 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-26T22:38:19.456Z
+ * Generated at: 2025-12-29T01:32:27.322Z
  *
- * This file contains:
- * 1. :root CSS variable declarations with default values
- * 2. CSS rules that apply variables to selectors
+ * This file contains CSS rules that apply variables to selectors.
+ * Default values are provided via var() fallbacks - no :root declarations needed.
+ *
+ * Architecture:
+ * - Tier 1: CSS defaults (fallback values in var() calls below)
+ * - Tier 2: Theme CSS (generated via PHP for custom themes)
+ * - Tier 3: Block customizations (inline styles in save.js)
  *
  * Import this file in style.scss: @use 'tabs_variables';
  */
 
-:root {
-  --tabs-show-icon: true;
-  --tabs-icon-position: right;
-  --tabs-icon-color: #666666;
-  --tabs-icon-size: 1rem;
-  --tabs-icon-type-closed: ▾;
-  --tabs-icon-type-open: none;
-  --tabs-icon-rotation-base: 0deg;
-  --tabs-icon-rotation-active: 180deg;
-  --tabs-button-color: #666666;
-  --tabs-button-bg: #f5f5f5;
-  --tabs-button-hover-color: #333333;
-  --tabs-button-hover-bg: #e8e8e8;
-  --tabs-button-active-color: #333333;
-  --tabs-button-active-bg: #ffffff;
-  --tabs-enable-focus-border: true;
-  --tabs-button-active-content-border-width: 1px;
-  --tabs-button-active-content-border-width: 1px;
-  --tabs-button-active-content-border-width: 1px;
-  --tabs-button-active-content-border-width: 1px;
-  --tabs-button-active-content-border-style: solid;
-  --tabs-button-active-content-border-style: solid;
-  --tabs-button-active-content-border-style: solid;
-  --tabs-button-active-content-border-style: solid;
-  --tabs-button-active-font-weight: bold;
-  --tabs-button-border-color: #dddddd;
-  --tabs-button-active-border-color: #dddddd;
-  --tabs-button-active-content-border-color: #ffffff;
-  --tabs-button-active-content-border-color: #ffffff;
-  --tabs-button-active-content-border-color: #ffffff;
-  --tabs-button-active-content-border-color: #ffffff;
-  --tabs-button-border-width: 1px;
-  --tabs-button-border-style: solid;
-  --tabs-button-border-radius: 4px 4px 0px 0px;
-  --tabs-button-border-shadow: none;
-  --tabs-button-border-shadow-hover: none;
-  --tabs-button-font-size: 1rem;
-  --tabs-button-font-weight: 500;
-  --tabs-button-font-style: normal;
-  --tabs-button-text-transform: none;
-  --tabs-button-text-decoration: none;
-  --tabs-button-text-align: center;
-  --tabs-button-padding: 0.75rem 1.5rem;
-  --tabs-list-bg: transparent;
-  --tabs-row-border-color: #dddddd;
-  --tabs-row-border-width: 0px;
-  --tabs-row-border-style: solid;
-  --tabs-list-align: flex-start;
-  --tabs-row-spacing: 0.5rem;
-  --tabs-row-spacing: 0.5rem;
-  --tabs-row-spacing: 0.5rem;
-  --tabs-row-spacing: 0.5rem;
-  --tabs-button-gap: 0.5rem;
-  --tabs-panel-bg: #ffffff;
-  --tabs-panel-border-color: #dddddd;
-  --tabs-panel-border-width: 1px;
-  --tabs-panel-border-style: solid;
-  --tabs-panel-border-radius: 4px;
-  --tabs-border-color: #dddddd;
-  --tabs-border-width: 0px;
-  --tabs-border-style: solid;
-  --tabs-border-radius: 0px;
-  --tabs-border-shadow: none;
-  --tabs-border-shadow-hover: none;
-  --tabs-enable-list-divider-border: false;
-  --tabs-list-divider-border-color: transparent;
-  --tabs-list-divider-border-color: transparent;
-  --tabs-list-divider-border-color: transparent;
-  --tabs-list-divider-border-color: transparent;
-  --tabs-list-divider-border-width: 1px;
-  --tabs-list-divider-border-width: 1px;
-  --tabs-list-divider-border-width: 1px;
-  --tabs-list-divider-border-width: 1px;
-  --tabs-list-divider-border-style: solid;
-  --tabs-list-divider-border-style: solid;
-  --tabs-list-divider-border-style: solid;
-  --tabs-list-divider-border-style: solid;
+.gutplus-tabs {
+  /* Border color for main tabs wrapper */
+  border-color: var(--tabs-border-color, #dddddd);
+  /* Border width for main wrapper */
+  border-width: var(--tabs-border-width, 0px);
+  /* Border style for wrapper */
+  border-style: var(--tabs-border-style, solid);
+  /* Corner radius for main wrapper */
+  border-radius: var(--tabs-border-radius, 0px);
+  /* Box shadow for main wrapper */
+  box-shadow: var(--tabs-border-shadow, none);
+
+  &:hover {
+    /* Box shadow for wrapper on hover */
+    box-shadow: var(--tabs-border-shadow-hover, none);
+  }
 }
 
 .tab-button {
-  /* Display icons in tab buttons */
-  display: var(--tabs-show-icon, true);
-  /* Position of icon relative to text */
-  flex-direction: var(--tabs-icon-position, right);
   /* Text color for inactive tab buttons */
   color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
   background-color: var(--tabs-button-bg, #f5f5f5);
-  /* Border color for inactive tab buttons */
-  border-color: var(--tabs-button-border-color, #dddddd);
-  /* Border width for tab buttons */
-  border-width: var(--tabs-button-border-width, 1px);
-  /* Border style for tab buttons */
-  border-style: var(--tabs-button-border-style, solid);
-  /* Corner radius for tab buttons */
-  border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
-  /* Box shadow for tab buttons */
-  box-shadow: var(--tabs-button-border-shadow, none);
   /* Font size for tab buttons (rem) */
   font-size: var(--tabs-button-font-size, 1rem);
   /* Font weight for tab buttons */
@@ -121,7 +50,21 @@
   /* Text alignment for tab buttons */
   text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
-  padding: var(--tabs-button-padding, 0.75rem 1.5rem);
+  padding: var(--tabs-button-padding, 0.75rempx NaNpx);
+  /* Border color for inactive tab buttons */
+  border-color: var(--tabs-button-border-color, #dddddd);
+  /* Border width for tab buttons */
+  border-width: var(--tabs-button-border-width, 1px);
+  /* Border style for tab buttons */
+  border-style: var(--tabs-button-border-style, solid);
+  /* Corner radius for tab buttons */
+  border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
+  /* Box shadow for tab buttons */
+  box-shadow: var(--tabs-button-border-shadow, none);
+  /* Display icons in tab buttons */
+  display: var(--tabs-show-icon, true);
+  /* Position of icon relative to text */
+  flex-direction: var(--tabs-icon-position, right);
 
   &:hover {
     /* Text color when hovering over tab */
@@ -138,16 +81,16 @@
     color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
-    /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
-    /* Style of the active button edge touching content */
-    border-bottom-style: var(--tabs-button-active-content-border-style, solid);
     /* Font weight for active/selected tab button */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
 
   &:focus,
@@ -157,35 +100,16 @@
   }
 }
 
-.tab-icon {
-  /* Color of the tab icon */
-  color: var(--tabs-icon-color, #666666);
-  /* Size of the icon in rem */
-  font-size: var(--tabs-icon-size, 1rem);
-  /* Icon for the tab (char or image URL) */
-  content: var(--tabs-icon-type-closed, ▾);
-  /* Icon when tab is active (none = use closed icon with final rotation) */
-  content: var(--tabs-icon-type-open, none);
-  /* Base rotation of the icon */
-  transform: var(--tabs-icon-rotation-base, 0deg);
-
-  &.active,
-  &[aria-selected="true"] {
-    /* Rotation of the icon for the active tab */
-    transform: var(--tabs-icon-rotation-active, 180deg);
-  }
-}
-
 .gutplus-tabs[data-orientation="horizontal"] .tab-button {
 
   &.active,
   &[aria-selected="true"] {
+    /* Color of the border. Keep it the same color as panel background for a merged look. */
+    border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
     border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
-    /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
   }
 }
 
@@ -193,12 +117,12 @@
 
   &.active,
   &[aria-selected="true"] {
+    /* Color of the border. Keep it the same color as panel background for a merged look. */
+    border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
     border-right-width: var(--tabs-button-active-content-border-width, 1px);
     /* Style of the active button edge touching content */
     border-right-style: var(--tabs-button-active-content-border-style, solid);
-    /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
   }
 }
 
@@ -206,12 +130,12 @@
 
   &.active,
   &[aria-selected="true"] {
+    /* Color of the border. Keep it the same color as panel background for a merged look. */
+    border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
     border-left-width: var(--tabs-button-active-content-border-width, 1px);
     /* Style of the active button edge touching content */
     border-left-style: var(--tabs-button-active-content-border-style, solid);
-    /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
   }
 }
 
@@ -224,12 +148,12 @@
   border-width: var(--tabs-row-border-width, 0px);
   /* Border style for the tab row */
   border-style: var(--tabs-row-border-style, solid);
-  /* Alignment of tabs along the main axis */
-  justify-content: var(--tabs-list-align, flex-start);
   /* Padding/spacing for the tab row (rem) */
   padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Spacing between individual tab buttons (rem) */
   gap: var(--tabs-button-gap, 0.5rem);
+  /* Alignment of tabs along the main axis */
+  justify-content: var(--tabs-list-align, flex-start);
   /* Enable or disable border between tab row and content */
   border: var(--tabs-enable-list-divider-border, false);
   /* Color of the tab row edge that touches the content */
@@ -286,7 +210,26 @@
   border-radius: var(--tabs-panel-border-radius, 4px);
 }
 
-.gutplus-tabs {
+.tab-icon {
+  /* Color of the tab icon */
+  color: var(--tabs-icon-color, #666666);
+  /* Size of the icon in rem */
+  font-size: var(--tabs-icon-size, 1rem);
+  /* Icon for the tab (char or image URL) */
+  content: var(--tabs-icon-type-closed, ▾);
+  /* Icon when tab is active (none = use closed icon with final rotation) */
+  content: var(--tabs-icon-type-open, none);
+  /* Base rotation of the icon */
+  transform: var(--tabs-icon-rotation-base, 0deg);
+
+  &.active,
+  &[aria-selected="true"] {
+    /* Rotation of the icon for the active tab */
+    transform: var(--tabs-icon-rotation-active, 180deg);
+  }
+}
+
+.gutplus-tabs[data-gutplus-device="tablet"] {
   /* Border color for main tabs wrapper */
   border-color: var(--tabs-border-color, #dddddd);
   /* Border width for main wrapper */
@@ -305,89 +248,70 @@
 }
 
 [data-gutplus-device="tablet"] .tab-button {
-  /* Display icons in tab buttons */
-  display: var(--tabs-show-icon-tablet, var(--tabs-show-icon, true));
-  /* Position of icon relative to text */
-  flex-direction: var(--tabs-icon-position-tablet, var(--tabs-icon-position, right));
   /* Text color for inactive tab buttons */
-  color: var(--tabs-button-color-tablet, var(--tabs-button-color, #666666));
+  color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
-  background-color: var(--tabs-button-bg-tablet, var(--tabs-button-bg, #f5f5f5));
-  /* Border color for inactive tab buttons */
-  border-color: var(--tabs-button-border-color-tablet, var(--tabs-button-border-color, #dddddd));
-  /* Border width for tab buttons */
-  border-width: var(--tabs-button-border-width-tablet, var(--tabs-button-border-width, 1px));
-  /* Border style for tab buttons */
-  border-style: var(--tabs-button-border-style-tablet, var(--tabs-button-border-style, solid));
-  /* Corner radius for tab buttons */
-  border-radius: var(--tabs-button-border-radius-tablet, var(--tabs-button-border-radius, 4px 4px 0px 0px));
-  /* Box shadow for tab buttons */
-  box-shadow: var(--tabs-button-border-shadow-tablet, var(--tabs-button-border-shadow, none));
+  background-color: var(--tabs-button-bg, #f5f5f5);
   /* Font size for tab buttons (rem) */
-  font-size: var(--tabs-button-font-size-tablet, var(--tabs-button-font-size, 1rem));
+  font-size: var(--tabs-button-font-size, 1rem);
   /* Font weight for tab buttons */
-  font-weight: var(--tabs-button-font-weight-tablet, var(--tabs-button-font-weight, 500));
+  font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
-  font-style: var(--tabs-button-font-style-tablet, var(--tabs-button-font-style, normal));
+  font-style: var(--tabs-button-font-style, normal);
   /* Text transformation for tab buttons */
-  text-transform: var(--tabs-button-text-transform-tablet, var(--tabs-button-text-transform, none));
+  text-transform: var(--tabs-button-text-transform, none);
   /* Text decoration for tab buttons */
-  text-decoration: var(--tabs-button-text-decoration-tablet, var(--tabs-button-text-decoration, none));
+  text-decoration: var(--tabs-button-text-decoration, none);
   /* Text alignment for tab buttons */
-  text-align: var(--tabs-button-text-align-tablet, var(--tabs-button-text-align, center));
+  text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
-  padding: var(--tabs-button-padding-tablet, var(--tabs-button-padding, 0.75rem 1.5rem));
+  padding: var(--tabs-button-padding, 0.75rempx NaNpx);
+  /* Border color for inactive tab buttons */
+  border-color: var(--tabs-button-border-color, #dddddd);
+  /* Border width for tab buttons */
+  border-width: var(--tabs-button-border-width, 1px);
+  /* Border style for tab buttons */
+  border-style: var(--tabs-button-border-style, solid);
+  /* Corner radius for tab buttons */
+  border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
+  /* Box shadow for tab buttons */
+  box-shadow: var(--tabs-button-border-shadow, none);
+  /* Display icons in tab buttons */
+  display: var(--tabs-show-icon, true);
+  /* Position of icon relative to text */
+  flex-direction: var(--tabs-icon-position, right);
 
   &:hover {
     /* Text color when hovering over tab */
-    color: var(--tabs-button-hover-color-tablet, var(--tabs-button-hover-color, #333333));
+    color: var(--tabs-button-hover-color, #333333);
     /* Background color when hovering over tab */
-    background-color: var(--tabs-button-hover-bg-tablet, var(--tabs-button-hover-bg, #e8e8e8));
+    background-color: var(--tabs-button-hover-bg, #e8e8e8);
     /* Box shadow for tab buttons on hover */
-    box-shadow: var(--tabs-button-border-shadow-hover-tablet, var(--tabs-button-border-shadow-hover, none));
+    box-shadow: var(--tabs-button-border-shadow-hover, none);
   }
 
   &.active,
   &[aria-selected="true"] {
     /* Text color for active/selected tab */
-    color: var(--tabs-button-active-color-tablet, var(--tabs-button-active-color, #333333));
+    color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
-    background-color: var(--tabs-button-active-bg-tablet, var(--tabs-button-active-bg, #ffffff));
-    /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px));
-    /* Style of the active button edge touching content */
-    border-bottom-style: var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid));
+    background-color: var(--tabs-button-active-bg, #ffffff);
     /* Font weight for active/selected tab button */
-    font-weight: var(--tabs-button-active-font-weight-tablet, var(--tabs-button-active-font-weight, bold));
+    font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
-    border-color: var(--tabs-button-active-border-color-tablet, var(--tabs-button-active-border-color, #dddddd));
+    border-color: var(--tabs-button-active-border-color, #dddddd);
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-bottom-color: var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff));
+    border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
 
   &:focus,
   &:focus-visible {
     /* Border on the edge touching the content, giving it a merged look. */
-    border: var(--tabs-enable-focus-border-tablet, var(--tabs-enable-focus-border, true));
-  }
-}
-
-[data-gutplus-device="tablet"] .tab-icon {
-  /* Color of the tab icon */
-  color: var(--tabs-icon-color-tablet, var(--tabs-icon-color, #666666));
-  /* Size of the icon in rem */
-  font-size: var(--tabs-icon-size-tablet, var(--tabs-icon-size, 1rem));
-  /* Icon for the tab (char or image URL) */
-  content: var(--tabs-icon-type-closed-tablet, var(--tabs-icon-type-closed, ▾));
-  /* Icon when tab is active (none = use closed icon with final rotation) */
-  content: var(--tabs-icon-type-open-tablet, var(--tabs-icon-type-open, none));
-  /* Base rotation of the icon */
-  transform: var(--tabs-icon-rotation-base-tablet, var(--tabs-icon-rotation-base, 0deg));
-
-  &.active,
-  &[aria-selected="true"] {
-    /* Rotation of the icon for the active tab */
-    transform: var(--tabs-icon-rotation-active-tablet, var(--tabs-icon-rotation-active, 180deg));
+    border: var(--tabs-enable-focus-border, true);
   }
 }
 
@@ -395,12 +319,12 @@
 
   &.active,
   &[aria-selected="true"] {
-    /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px));
-    /* Style of the active button edge touching content */
-    border-bottom-style: var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-bottom-color: var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff));
+    border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
 }
 
@@ -408,12 +332,12 @@
 
   &.active,
   &[aria-selected="true"] {
-    /* Width of the active button edge touching content */
-    border-right-width: var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px));
-    /* Style of the active button edge touching content */
-    border-right-style: var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-right-color: var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff));
+    border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-right-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-right-style: var(--tabs-button-active-content-border-style, solid);
   }
 }
 
@@ -421,189 +345,189 @@
 
   &.active,
   &[aria-selected="true"] {
-    /* Width of the active button edge touching content */
-    border-left-width: var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px));
-    /* Style of the active button edge touching content */
-    border-left-style: var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-left-color: var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff));
+    border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-left-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-left-style: var(--tabs-button-active-content-border-style, solid);
   }
 }
 
 [data-gutplus-device="tablet"] .tabs-list {
   /* Background color for the tab navigation bar */
-  background-color: var(--tabs-list-bg-tablet, var(--tabs-list-bg, transparent));
+  background-color: var(--tabs-list-bg, transparent);
   /* Border color for the tab row */
-  border-color: var(--tabs-row-border-color-tablet, var(--tabs-row-border-color, #dddddd));
+  border-color: var(--tabs-row-border-color, #dddddd);
   /* Border width for the tab row */
-  border-width: var(--tabs-row-border-width-tablet, var(--tabs-row-border-width, 0px));
+  border-width: var(--tabs-row-border-width, 0px);
   /* Border style for the tab row */
-  border-style: var(--tabs-row-border-style-tablet, var(--tabs-row-border-style, solid));
-  /* Alignment of tabs along the main axis */
-  justify-content: var(--tabs-list-align-tablet, var(--tabs-list-align, flex-start));
+  border-style: var(--tabs-row-border-style, solid);
   /* Padding/spacing for the tab row (rem) */
-  padding-top: var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem));
+  padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Spacing between individual tab buttons (rem) */
-  gap: var(--tabs-button-gap-tablet, var(--tabs-button-gap, 0.5rem));
+  gap: var(--tabs-button-gap, 0.5rem);
+  /* Alignment of tabs along the main axis */
+  justify-content: var(--tabs-list-align, flex-start);
   /* Enable or disable border between tab row and content */
-  border: var(--tabs-enable-list-divider-border-tablet, var(--tabs-enable-list-divider-border, false));
+  border: var(--tabs-enable-list-divider-border, false);
   /* Color of the tab row edge that touches the content */
-  border-bottom-color: var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent));
+  border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px));
+  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-bottom-style: var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid));
+  border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
 
 .gutplus-tabs[data-gutplus-device="tablet"][data-orientation="horizontal"] .tabs-list {
   /* Padding/spacing for the tab row (rem) */
-  padding-top: var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem));
+  padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
-  border-bottom-color: var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent));
+  border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px));
+  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-bottom-style: var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid));
+  border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
 
 .gutplus-tabs[data-gutplus-device="tablet"][data-orientation="vertical-left"] .tabs-list {
   /* Padding/spacing for the tab row (rem) */
-  padding-left: var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem));
+  padding-left: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
-  border-right-color: var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent));
+  border-right-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-right-width: var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px));
+  border-right-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-right-style: var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid));
+  border-right-style: var(--tabs-list-divider-border-style, solid);
 }
 
 .gutplus-tabs[data-gutplus-device="tablet"][data-orientation="vertical-right"] .tabs-list {
   /* Padding/spacing for the tab row (rem) */
-  padding-right: var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem));
+  padding-right: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
-  border-left-color: var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent));
+  border-left-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-left-width: var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px));
+  border-left-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-left-style: var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid));
+  border-left-style: var(--tabs-list-divider-border-style, solid);
 }
 
 [data-gutplus-device="tablet"] .tab-panel {
   /* Background color for tab panels */
-  background-color: var(--tabs-panel-bg-tablet, var(--tabs-panel-bg, #ffffff));
+  background-color: var(--tabs-panel-bg, #ffffff);
   /* Border color for tab content panel */
-  border-color: var(--tabs-panel-border-color-tablet, var(--tabs-panel-border-color, #dddddd));
+  border-color: var(--tabs-panel-border-color, #dddddd);
   /* Border width for tab content panel (0-10px) */
-  border-width: var(--tabs-panel-border-width-tablet, var(--tabs-panel-border-width, 1px));
+  border-width: var(--tabs-panel-border-width, 1px);
   /* Border style for tab content panel */
-  border-style: var(--tabs-panel-border-style-tablet, var(--tabs-panel-border-style, solid));
+  border-style: var(--tabs-panel-border-style, solid);
   /* Corner radius for tab content panel */
-  border-radius: var(--tabs-panel-border-radius-tablet, var(--tabs-panel-border-radius, 4px));
+  border-radius: var(--tabs-panel-border-radius, 4px);
 }
 
-.gutplus-tabs[data-gutplus-device="tablet"] {
-  /* Border color for main tabs wrapper */
-  border-color: var(--tabs-border-color-tablet, var(--tabs-border-color, #dddddd));
-  /* Border width for main wrapper */
-  border-width: var(--tabs-border-width-tablet, var(--tabs-border-width, 0px));
-  /* Border style for wrapper */
-  border-style: var(--tabs-border-style-tablet, var(--tabs-border-style, solid));
-  /* Corner radius for main wrapper */
-  border-radius: var(--tabs-border-radius-tablet, var(--tabs-border-radius, 0px));
-  /* Box shadow for main wrapper */
-  box-shadow: var(--tabs-border-shadow-tablet, var(--tabs-border-shadow, none));
+[data-gutplus-device="tablet"] .tab-icon {
+  /* Color of the tab icon */
+  color: var(--tabs-icon-color, #666666);
+  /* Size of the icon in rem */
+  font-size: var(--tabs-icon-size, 1rem);
+  /* Icon for the tab (char or image URL) */
+  content: var(--tabs-icon-type-closed, ▾);
+  /* Icon when tab is active (none = use closed icon with final rotation) */
+  content: var(--tabs-icon-type-open, none);
+  /* Base rotation of the icon */
+  transform: var(--tabs-icon-rotation-base, 0deg);
 
-  &:hover {
-    /* Box shadow for wrapper on hover */
-    box-shadow: var(--tabs-border-shadow-hover-tablet, var(--tabs-border-shadow-hover, none));
+  &.active,
+  &[aria-selected="true"] {
+    /* Rotation of the icon for the active tab */
+    transform: var(--tabs-icon-rotation-active, 180deg);
   }
 }
 
 
+.gutplus-tabs[data-gutplus-device="mobile"] {
+  /* Border color for main tabs wrapper */
+  border-color: var(--tabs-border-color, #dddddd);
+  /* Border width for main wrapper */
+  border-width: var(--tabs-border-width, 0px);
+  /* Border style for wrapper */
+  border-style: var(--tabs-border-style, solid);
+  /* Corner radius for main wrapper */
+  border-radius: var(--tabs-border-radius, 0px);
+  /* Box shadow for main wrapper */
+  box-shadow: var(--tabs-border-shadow, none);
+
+  &:hover {
+    /* Box shadow for wrapper on hover */
+    box-shadow: var(--tabs-border-shadow-hover, none);
+  }
+}
+
 [data-gutplus-device="mobile"] .tab-button {
-  /* Display icons in tab buttons */
-  display: var(--tabs-show-icon-mobile, var(--tabs-show-icon-tablet, var(--tabs-show-icon, true)));
-  /* Position of icon relative to text */
-  flex-direction: var(--tabs-icon-position-mobile, var(--tabs-icon-position-tablet, var(--tabs-icon-position, right)));
   /* Text color for inactive tab buttons */
-  color: var(--tabs-button-color-mobile, var(--tabs-button-color-tablet, var(--tabs-button-color, #666666)));
+  color: var(--tabs-button-color, #666666);
   /* Background color for inactive tab buttons */
-  background-color: var(--tabs-button-bg-mobile, var(--tabs-button-bg-tablet, var(--tabs-button-bg, #f5f5f5)));
-  /* Border color for inactive tab buttons */
-  border-color: var(--tabs-button-border-color-mobile, var(--tabs-button-border-color-tablet, var(--tabs-button-border-color, #dddddd)));
-  /* Border width for tab buttons */
-  border-width: var(--tabs-button-border-width-mobile, var(--tabs-button-border-width-tablet, var(--tabs-button-border-width, 1px)));
-  /* Border style for tab buttons */
-  border-style: var(--tabs-button-border-style-mobile, var(--tabs-button-border-style-tablet, var(--tabs-button-border-style, solid)));
-  /* Corner radius for tab buttons */
-  border-radius: var(--tabs-button-border-radius-mobile, var(--tabs-button-border-radius-tablet, var(--tabs-button-border-radius, 4px 4px 0px 0px)));
-  /* Box shadow for tab buttons */
-  box-shadow: var(--tabs-button-border-shadow-mobile, var(--tabs-button-border-shadow-tablet, var(--tabs-button-border-shadow, none)));
+  background-color: var(--tabs-button-bg, #f5f5f5);
   /* Font size for tab buttons (rem) */
-  font-size: var(--tabs-button-font-size-mobile, var(--tabs-button-font-size-tablet, var(--tabs-button-font-size, 1rem)));
+  font-size: var(--tabs-button-font-size, 1rem);
   /* Font weight for tab buttons */
-  font-weight: var(--tabs-button-font-weight-mobile, var(--tabs-button-font-weight-tablet, var(--tabs-button-font-weight, 500)));
+  font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
-  font-style: var(--tabs-button-font-style-mobile, var(--tabs-button-font-style-tablet, var(--tabs-button-font-style, normal)));
+  font-style: var(--tabs-button-font-style, normal);
   /* Text transformation for tab buttons */
-  text-transform: var(--tabs-button-text-transform-mobile, var(--tabs-button-text-transform-tablet, var(--tabs-button-text-transform, none)));
+  text-transform: var(--tabs-button-text-transform, none);
   /* Text decoration for tab buttons */
-  text-decoration: var(--tabs-button-text-decoration-mobile, var(--tabs-button-text-decoration-tablet, var(--tabs-button-text-decoration, none)));
+  text-decoration: var(--tabs-button-text-decoration, none);
   /* Text alignment for tab buttons */
-  text-align: var(--tabs-button-text-align-mobile, var(--tabs-button-text-align-tablet, var(--tabs-button-text-align, center)));
+  text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
-  padding: var(--tabs-button-padding-mobile, var(--tabs-button-padding-tablet, var(--tabs-button-padding, 0.75rem 1.5rem)));
+  padding: var(--tabs-button-padding, 0.75rempx NaNpx);
+  /* Border color for inactive tab buttons */
+  border-color: var(--tabs-button-border-color, #dddddd);
+  /* Border width for tab buttons */
+  border-width: var(--tabs-button-border-width, 1px);
+  /* Border style for tab buttons */
+  border-style: var(--tabs-button-border-style, solid);
+  /* Corner radius for tab buttons */
+  border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
+  /* Box shadow for tab buttons */
+  box-shadow: var(--tabs-button-border-shadow, none);
+  /* Display icons in tab buttons */
+  display: var(--tabs-show-icon, true);
+  /* Position of icon relative to text */
+  flex-direction: var(--tabs-icon-position, right);
 
   &:hover {
     /* Text color when hovering over tab */
-    color: var(--tabs-button-hover-color-mobile, var(--tabs-button-hover-color-tablet, var(--tabs-button-hover-color, #333333)));
+    color: var(--tabs-button-hover-color, #333333);
     /* Background color when hovering over tab */
-    background-color: var(--tabs-button-hover-bg-mobile, var(--tabs-button-hover-bg-tablet, var(--tabs-button-hover-bg, #e8e8e8)));
+    background-color: var(--tabs-button-hover-bg, #e8e8e8);
     /* Box shadow for tab buttons on hover */
-    box-shadow: var(--tabs-button-border-shadow-hover-mobile, var(--tabs-button-border-shadow-hover-tablet, var(--tabs-button-border-shadow-hover, none)));
+    box-shadow: var(--tabs-button-border-shadow-hover, none);
   }
 
   &.active,
   &[aria-selected="true"] {
     /* Text color for active/selected tab */
-    color: var(--tabs-button-active-color-mobile, var(--tabs-button-active-color-tablet, var(--tabs-button-active-color, #333333)));
+    color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
-    background-color: var(--tabs-button-active-bg-mobile, var(--tabs-button-active-bg-tablet, var(--tabs-button-active-bg, #ffffff)));
-    /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width-mobile, var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px)));
-    /* Style of the active button edge touching content */
-    border-bottom-style: var(--tabs-button-active-content-border-style-mobile, var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid)));
+    background-color: var(--tabs-button-active-bg, #ffffff);
     /* Font weight for active/selected tab button */
-    font-weight: var(--tabs-button-active-font-weight-mobile, var(--tabs-button-active-font-weight-tablet, var(--tabs-button-active-font-weight, bold)));
+    font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
-    border-color: var(--tabs-button-active-border-color-mobile, var(--tabs-button-active-border-color-tablet, var(--tabs-button-active-border-color, #dddddd)));
+    border-color: var(--tabs-button-active-border-color, #dddddd);
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-bottom-color: var(--tabs-button-active-content-border-color-mobile, var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff)));
+    border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
 
   &:focus,
   &:focus-visible {
     /* Border on the edge touching the content, giving it a merged look. */
-    border: var(--tabs-enable-focus-border-mobile, var(--tabs-enable-focus-border-tablet, var(--tabs-enable-focus-border, true)));
-  }
-}
-
-[data-gutplus-device="mobile"] .tab-icon {
-  /* Color of the tab icon */
-  color: var(--tabs-icon-color-mobile, var(--tabs-icon-color-tablet, var(--tabs-icon-color, #666666)));
-  /* Size of the icon in rem */
-  font-size: var(--tabs-icon-size-mobile, var(--tabs-icon-size-tablet, var(--tabs-icon-size, 1rem)));
-  /* Icon for the tab (char or image URL) */
-  content: var(--tabs-icon-type-closed-mobile, var(--tabs-icon-type-closed-tablet, var(--tabs-icon-type-closed, ▾)));
-  /* Icon when tab is active (none = use closed icon with final rotation) */
-  content: var(--tabs-icon-type-open-mobile, var(--tabs-icon-type-open-tablet, var(--tabs-icon-type-open, none)));
-  /* Base rotation of the icon */
-  transform: var(--tabs-icon-rotation-base-mobile, var(--tabs-icon-rotation-base-tablet, var(--tabs-icon-rotation-base, 0deg)));
-
-  &.active,
-  &[aria-selected="true"] {
-    /* Rotation of the icon for the active tab */
-    transform: var(--tabs-icon-rotation-active-mobile, var(--tabs-icon-rotation-active-tablet, var(--tabs-icon-rotation-active, 180deg)));
+    border: var(--tabs-enable-focus-border, true);
   }
 }
 
@@ -611,12 +535,12 @@
 
   &.active,
   &[aria-selected="true"] {
-    /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width-mobile, var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px)));
-    /* Style of the active button edge touching content */
-    border-bottom-style: var(--tabs-button-active-content-border-style-mobile, var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid)));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-bottom-color: var(--tabs-button-active-content-border-color-mobile, var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff)));
+    border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
 }
 
@@ -624,12 +548,12 @@
 
   &.active,
   &[aria-selected="true"] {
-    /* Width of the active button edge touching content */
-    border-right-width: var(--tabs-button-active-content-border-width-mobile, var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px)));
-    /* Style of the active button edge touching content */
-    border-right-style: var(--tabs-button-active-content-border-style-mobile, var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid)));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-right-color: var(--tabs-button-active-content-border-color-mobile, var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff)));
+    border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-right-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-right-style: var(--tabs-button-active-content-border-style, solid);
   }
 }
 
@@ -637,101 +561,102 @@
 
   &.active,
   &[aria-selected="true"] {
-    /* Width of the active button edge touching content */
-    border-left-width: var(--tabs-button-active-content-border-width-mobile, var(--tabs-button-active-content-border-width-tablet, var(--tabs-button-active-content-border-width, 1px)));
-    /* Style of the active button edge touching content */
-    border-left-style: var(--tabs-button-active-content-border-style-mobile, var(--tabs-button-active-content-border-style-tablet, var(--tabs-button-active-content-border-style, solid)));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
-    border-left-color: var(--tabs-button-active-content-border-color-mobile, var(--tabs-button-active-content-border-color-tablet, var(--tabs-button-active-content-border-color, #ffffff)));
+    border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
+    /* Width of the active button edge touching content */
+    border-left-width: var(--tabs-button-active-content-border-width, 1px);
+    /* Style of the active button edge touching content */
+    border-left-style: var(--tabs-button-active-content-border-style, solid);
   }
 }
 
 [data-gutplus-device="mobile"] .tabs-list {
   /* Background color for the tab navigation bar */
-  background-color: var(--tabs-list-bg-mobile, var(--tabs-list-bg-tablet, var(--tabs-list-bg, transparent)));
+  background-color: var(--tabs-list-bg, transparent);
   /* Border color for the tab row */
-  border-color: var(--tabs-row-border-color-mobile, var(--tabs-row-border-color-tablet, var(--tabs-row-border-color, #dddddd)));
+  border-color: var(--tabs-row-border-color, #dddddd);
   /* Border width for the tab row */
-  border-width: var(--tabs-row-border-width-mobile, var(--tabs-row-border-width-tablet, var(--tabs-row-border-width, 0px)));
+  border-width: var(--tabs-row-border-width, 0px);
   /* Border style for the tab row */
-  border-style: var(--tabs-row-border-style-mobile, var(--tabs-row-border-style-tablet, var(--tabs-row-border-style, solid)));
-  /* Alignment of tabs along the main axis */
-  justify-content: var(--tabs-list-align-mobile, var(--tabs-list-align-tablet, var(--tabs-list-align, flex-start)));
+  border-style: var(--tabs-row-border-style, solid);
   /* Padding/spacing for the tab row (rem) */
-  padding-top: var(--tabs-row-spacing-mobile, var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem)));
+  padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Spacing between individual tab buttons (rem) */
-  gap: var(--tabs-button-gap-mobile, var(--tabs-button-gap-tablet, var(--tabs-button-gap, 0.5rem)));
+  gap: var(--tabs-button-gap, 0.5rem);
+  /* Alignment of tabs along the main axis */
+  justify-content: var(--tabs-list-align, flex-start);
   /* Enable or disable border between tab row and content */
-  border: var(--tabs-enable-list-divider-border-mobile, var(--tabs-enable-list-divider-border-tablet, var(--tabs-enable-list-divider-border, false)));
+  border: var(--tabs-enable-list-divider-border, false);
   /* Color of the tab row edge that touches the content */
-  border-bottom-color: var(--tabs-list-divider-border-color-mobile, var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent)));
+  border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width-mobile, var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px)));
+  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-bottom-style: var(--tabs-list-divider-border-style-mobile, var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid)));
+  border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
 
 .gutplus-tabs[data-gutplus-device="mobile"][data-orientation="horizontal"] .tabs-list {
   /* Padding/spacing for the tab row (rem) */
-  padding-top: var(--tabs-row-spacing-mobile, var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem)));
+  padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
-  border-bottom-color: var(--tabs-list-divider-border-color-mobile, var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent)));
+  border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width-mobile, var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px)));
+  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-bottom-style: var(--tabs-list-divider-border-style-mobile, var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid)));
+  border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
 
 .gutplus-tabs[data-gutplus-device="mobile"][data-orientation="vertical-left"] .tabs-list {
   /* Padding/spacing for the tab row (rem) */
-  padding-left: var(--tabs-row-spacing-mobile, var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem)));
+  padding-left: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
-  border-right-color: var(--tabs-list-divider-border-color-mobile, var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent)));
+  border-right-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-right-width: var(--tabs-list-divider-border-width-mobile, var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px)));
+  border-right-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-right-style: var(--tabs-list-divider-border-style-mobile, var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid)));
+  border-right-style: var(--tabs-list-divider-border-style, solid);
 }
 
 .gutplus-tabs[data-gutplus-device="mobile"][data-orientation="vertical-right"] .tabs-list {
   /* Padding/spacing for the tab row (rem) */
-  padding-right: var(--tabs-row-spacing-mobile, var(--tabs-row-spacing-tablet, var(--tabs-row-spacing, 0.5rem)));
+  padding-right: var(--tabs-row-spacing, 0.5rem);
   /* Color of the tab row edge that touches the content */
-  border-left-color: var(--tabs-list-divider-border-color-mobile, var(--tabs-list-divider-border-color-tablet, var(--tabs-list-divider-border-color, transparent)));
+  border-left-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-left-width: var(--tabs-list-divider-border-width-mobile, var(--tabs-list-divider-border-width-tablet, var(--tabs-list-divider-border-width, 1px)));
+  border-left-width: var(--tabs-list-divider-border-width, 1px);
   /* Style of the tab row edge that touches the content */
-  border-left-style: var(--tabs-list-divider-border-style-mobile, var(--tabs-list-divider-border-style-tablet, var(--tabs-list-divider-border-style, solid)));
+  border-left-style: var(--tabs-list-divider-border-style, solid);
 }
 
 [data-gutplus-device="mobile"] .tab-panel {
   /* Background color for tab panels */
-  background-color: var(--tabs-panel-bg-mobile, var(--tabs-panel-bg-tablet, var(--tabs-panel-bg, #ffffff)));
+  background-color: var(--tabs-panel-bg, #ffffff);
   /* Border color for tab content panel */
-  border-color: var(--tabs-panel-border-color-mobile, var(--tabs-panel-border-color-tablet, var(--tabs-panel-border-color, #dddddd)));
+  border-color: var(--tabs-panel-border-color, #dddddd);
   /* Border width for tab content panel (0-10px) */
-  border-width: var(--tabs-panel-border-width-mobile, var(--tabs-panel-border-width-tablet, var(--tabs-panel-border-width, 1px)));
+  border-width: var(--tabs-panel-border-width, 1px);
   /* Border style for tab content panel */
-  border-style: var(--tabs-panel-border-style-mobile, var(--tabs-panel-border-style-tablet, var(--tabs-panel-border-style, solid)));
+  border-style: var(--tabs-panel-border-style, solid);
   /* Corner radius for tab content panel */
-  border-radius: var(--tabs-panel-border-radius-mobile, var(--tabs-panel-border-radius-tablet, var(--tabs-panel-border-radius, 4px)));
+  border-radius: var(--tabs-panel-border-radius, 4px);
 }
 
-.gutplus-tabs[data-gutplus-device="mobile"] {
-  /* Border color for main tabs wrapper */
-  border-color: var(--tabs-border-color-mobile, var(--tabs-border-color-tablet, var(--tabs-border-color, #dddddd)));
-  /* Border width for main wrapper */
-  border-width: var(--tabs-border-width-mobile, var(--tabs-border-width-tablet, var(--tabs-border-width, 0px)));
-  /* Border style for wrapper */
-  border-style: var(--tabs-border-style-mobile, var(--tabs-border-style-tablet, var(--tabs-border-style, solid)));
-  /* Corner radius for main wrapper */
-  border-radius: var(--tabs-border-radius-mobile, var(--tabs-border-radius-tablet, var(--tabs-border-radius, 0px)));
-  /* Box shadow for main wrapper */
-  box-shadow: var(--tabs-border-shadow-mobile, var(--tabs-border-shadow-tablet, var(--tabs-border-shadow, none)));
+[data-gutplus-device="mobile"] .tab-icon {
+  /* Color of the tab icon */
+  color: var(--tabs-icon-color, #666666);
+  /* Size of the icon in rem */
+  font-size: var(--tabs-icon-size, 1rem);
+  /* Icon for the tab (char or image URL) */
+  content: var(--tabs-icon-type-closed, ▾);
+  /* Icon when tab is active (none = use closed icon with final rotation) */
+  content: var(--tabs-icon-type-open, none);
+  /* Base rotation of the icon */
+  transform: var(--tabs-icon-rotation-base, 0deg);
 
-  &:hover {
-    /* Box shadow for wrapper on hover */
-    box-shadow: var(--tabs-border-shadow-hover-mobile, var(--tabs-border-shadow-hover-tablet, var(--tabs-border-shadow-hover, none)));
+  &.active,
+  &[aria-selected="true"] {
+    /* Rotation of the icon for the active tab */
+    transform: var(--tabs-icon-rotation-active, 180deg);
   }
 }
 

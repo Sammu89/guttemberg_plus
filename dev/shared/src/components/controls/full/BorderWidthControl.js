@@ -42,11 +42,11 @@ export function BorderWidthControl( {
 	responsive = false,
 	disabled = false,
 } ) {
-	const [ device, setDevice ] = useState( 'desktop' );
+	const [ device, setDevice ] = useState( 'global' );
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
-		? ( value[ device ] || value.desktop || {} )
+		? ( value[ device ] || value.value || {} )
 		: value;
 
 	// Destructure with defaults

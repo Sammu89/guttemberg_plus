@@ -57,24 +57,6 @@ export function FontFamilyControl( {
 		}
 	};
 
-	/**
-	 * Get the primary font name from a font stack for preview
-	 */
-	const getPrimaryFont = ( fontStack ) => {
-		if ( ! fontStack ) return 'inherit';
-		// Extract first font from the stack
-		const match = fontStack.match( /^['"]?([^'",]+)['"]?/ );
-		return match ? match[ 1 ] : fontStack;
-	};
-
-	/**
-	 * Custom render with font preview
-	 * Since SelectControl doesn't support custom option rendering,
-	 * we add a preview section below the select
-	 */
-	const previewFont = value || 'inherit';
-	const previewText = 'The quick brown fox jumps over the lazy dog';
-
 	return (
 		<BaseControl className="gutplus-font-family-control">
 			<SelectControl
@@ -85,32 +67,6 @@ export function FontFamilyControl( {
 				help={ help }
 				__nextHasNoMarginBottom
 			/>
-			{ value && (
-				<div
-					className="gutplus-font-preview"
-					style={ {
-						marginTop: '8px',
-						padding: '12px',
-						backgroundColor: '#f0f0f0',
-						borderRadius: '4px',
-						fontFamily: previewFont,
-						fontSize: '14px',
-						lineHeight: '1.5',
-					} }
-				>
-					<div
-						style={ {
-							fontSize: '10px',
-							color: '#666',
-							marginBottom: '4px',
-							fontFamily: 'system-ui, sans-serif',
-						} }
-					>
-						Preview:
-					</div>
-					{ previewText }
-				</div>
-			) }
 		</BaseControl>
 	);
 }

@@ -148,7 +148,8 @@
 			"type": "string"
 		},
 		"accordionWidth": {
-			"type": "string"
+			"type": "string",
+			"default": "100%"
 		},
 		"accordionHorizontalAlign": {
 			"type": "string",

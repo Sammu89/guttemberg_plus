@@ -1,7 +1,9 @@
 /**
  * useResponsiveDevice
  *
- * Tracks the globally selected responsive device for editor preview.
+ * Tracks the current responsive state for editor preview.
+ * Returns 'global' (base state), 'tablet', or 'mobile'.
+ * Global is the base state that applies to all devices unless overridden.
  *
  * @package GuttembergPlus
  * @since 1.0.0

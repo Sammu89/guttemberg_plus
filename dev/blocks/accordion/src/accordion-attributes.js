@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-26T22:38:19.346Z
+ * Generated at: 2025-12-29T01:32:27.273Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -19,53 +19,29 @@
  * Auto-generated from schema - DO NOT edit manually.
  */
 export const accordionAttributes = {
-  accordionId: {
-    type: 'string',
-    default: '',
-  },
-  uniqueId: {
-    type: 'string',
-    default: '',
-  },
-  blockId: {
-    type: 'string',
-    default: '',
-  },
-  title: {
-    type: 'string',
-    default: 'Accordion Title',
-  },
-  content: {
-    type: 'string',
-    default: '',
-  },
-  currentTheme: {
-    type: 'string',
-    default: '',
-  },
-  customizations: {
+  dividerWidth: {
     type: 'object',
-    default: {},
+    default: {"top":"0px","right":"0px","bottom":"0px","left":"0px"},
   },
-  accordionWidth: {
-    type: 'string',
-    default: '100%',
+  dividerColor: {
+    type: 'object',
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
   },
-  headingLevel: {
-    type: 'string',
-    default: 'none',
-  },
-  accordionHorizontalAlign: {
-    type: 'string',
-    default: 'center',
-  },
-  initiallyOpen: {
-    type: 'boolean',
-    default: false,
+  dividerStyle: {
+    type: 'object',
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
   borderWidth: {
     type: 'object',
-    default: {"top":1,"right":1,"bottom":1,"left":1,"unit":"px"},
+    default: {"top":"1px","right":"1px","bottom":"1px","left":"1px"},
+  },
+  borderRadius: {
+    type: 'object',
+    default: {"topLeft":"4px","topRight":"4px","bottomRight":"4px","bottomLeft":"4px"},
+  },
+  shadow: {
+    type: 'array',
+    default: [{"x":"0px","y":"8px","blur":"24px","spread":"0px","color":"rgba(0,0,0,0.15)","inset":false}],
   },
   borderColor: {
     type: 'object',
@@ -75,37 +51,17 @@ export const accordionAttributes = {
     type: 'object',
     default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
   },
-  borderRadius: {
-    type: 'object',
-    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4,"unit":"px"},
-  },
   headerPadding: {
     type: 'object',
-    default: {"top":12,"right":16,"bottom":12,"left":16,"unit":"px"},
+    default: {"top":"12px","right":"16px","bottom":"12px","left":"16px"},
   },
   contentPadding: {
     type: 'object',
-    default: {"top":16,"right":16,"bottom":16,"left":16,"unit":"px"},
+    default: {"top":"16px","right":"16px","bottom":"16px","left":"16px"},
   },
   blockMargin: {
     type: 'object',
-    default: {"top":1,"right":0,"bottom":1,"left":0,"unit":"em"},
-  },
-  shadow: {
-    type: 'string',
-    default: 'none',
-  },
-  dividerColor: {
-    type: 'string',
-    default: '#dddddd',
-  },
-  dividerStyle: {
-    type: 'string',
-    default: 'solid',
-  },
-  dividerWidth: {
-    type: 'number',
-    default: 0,
+    default: {"top":"1em","right":"0em","bottom":"1em","left":"0em"},
   },
   titleColor: {
     type: 'string',
@@ -123,14 +79,6 @@ export const accordionAttributes = {
     type: 'string',
     default: '#e8e8e8',
   },
-  activeTitleColor: {
-    type: 'string',
-    default: '#000000',
-  },
-  activeTitleBackgroundColor: {
-    type: 'string',
-    default: '#e8e8e8',
-  },
   contentTextColor: {
     type: 'string',
     default: '#333333',
@@ -139,25 +87,49 @@ export const accordionAttributes = {
     type: 'string',
     default: '#ffffff',
   },
+  contentFontFamily: {
+    type: 'string',
+    default: 'inherit',
+  },
+  contentFontSize: {
+    type: 'string',
+    default: '1rem',
+  },
+  contentLineHeight: {
+    type: 'number',
+    default: 1.6,
+  },
   titleFontFamily: {
     type: 'string',
     default: 'inherit',
   },
   titleFontSize: {
-    type: 'number',
-    default: 1.125,
+    type: 'string',
+    default: '1.125rem',
   },
-  titleAppearance: {
-    type: 'object',
-    default: {"weight":"600","style":"normal"},
+  titleFormatting: {
+    type: 'array',
+    default: [],
+  },
+  titleFontWeight: {
+    type: 'number',
+    default: 400,
+  },
+  titleDecorationColor: {
+    type: 'string',
+    default: 'currentColor',
+  },
+  titleDecorationStyle: {
+    type: 'string',
+    default: 'solid',
+  },
+  titleDecorationWidth: {
+    type: 'string',
+    default: 'auto',
   },
   titleLetterSpacing: {
-    type: 'number',
-    default: 0,
-  },
-  titleTextDecoration: {
     type: 'string',
-    default: 'none',
+    default: '0em',
   },
   titleTextTransform: {
     type: 'string',
@@ -171,17 +143,17 @@ export const accordionAttributes = {
     type: 'string',
     default: 'left',
   },
-  contentFontFamily: {
+  titleOffsetX: {
     type: 'string',
-    default: 'inherit',
+    default: '0px',
   },
-  contentFontSize: {
-    type: 'number',
-    default: 1,
+  titleOffsetY: {
+    type: 'string',
+    default: '0px',
   },
-  contentLineHeight: {
-    type: 'number',
-    default: 1.6,
+  titleTextShadow: {
+    type: 'array',
+    default: [],
   },
   showIcon: {
     type: 'boolean',
@@ -196,8 +168,8 @@ export const accordionAttributes = {
     default: '#666666',
   },
   iconSize: {
-    type: 'number',
-    default: 1.25,
+    type: 'string',
+    default: '1.25rem',
   },
   iconTypeClosed: {
     type: 'string',
@@ -208,20 +180,69 @@ export const accordionAttributes = {
     default: 'none',
   },
   iconRotation: {
-    type: 'number',
-    default: 180,
+    type: 'string',
+    default: '180deg',
   },
   animationType: {
     type: 'string',
     default: 'slide',
   },
   animationDuration: {
-    type: 'number',
-    default: 300,
+    type: 'string',
+    default: '300ms',
   },
   animationEasing: {
     type: 'string',
     default: 'ease',
+  },
+  accordionWidth: {
+    type: 'string',
+    default: '100%',
+  },
+  headingLevel: {
+    type: 'string',
+    default: 'none',
+  },
+  accordionHorizontalAlign: {
+    type: 'string',
+    default: 'center',
+  },
+  initiallyOpen: {
+    type: 'boolean',
+    default: false,
+  },
+  accordionId: {
+    type: 'string',
+    default: '',
+  },
+  blockId: {
+    type: 'string',
+    default: '',
+  },
+  content: {
+    type: 'string',
+    default: '',
+  },
+  currentTheme: {
+    type: 'string',
+    default: '',
+  },
+  customizations: {
+    type: 'object',
+    default: {},
+  },
+  title: {
+    type: 'string',
+    default: 'Accordion Title',
+  },
+  uniqueId: {
+    type: 'string',
+    default: '',
+  },
+  // Auto-generated: tracks which responsive attributes have responsive mode enabled
+  responsiveEnabled: {
+    type: 'object',
+    default: {"headerPadding":false,"contentPadding":false,"blockMargin":false,"contentFontSize":false,"titleFontSize":false,"titleOffsetX":false,"titleOffsetY":false,"iconPosition":false,"iconSize":false,"accordionWidth":false},
   },
 };
 

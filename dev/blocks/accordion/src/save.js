@@ -18,7 +18,7 @@
  */
 
 import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
-import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria, getAllDefaults, getAlignmentClass } from '@shared';
+import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria, getAllDefaults, getAlignmentClass, buildBoxShadow } from '@shared';
 import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
 import { accordionAttributes } from './accordion-attributes';
 
@@ -53,11 +53,13 @@ const getCustomizationStyles = ( customizations = {} ) => {
 			const isResponsive =
 				value &&
 				typeof value === 'object' &&
-				( value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined );
+				( value.tablet !== undefined || value.mobile !== undefined );
 
 			if ( isResponsive ) {
-				if ( value.desktop ) {
-					applyMarginVars( value.desktop, '' );
+				// Base (desktop) is at root level, not under value.desktop
+				const baseValue = value.value || value;
+				if ( baseValue && typeof baseValue === 'object' ) {
+					applyMarginVars( baseValue, '' );
 				}
 				if ( value.tablet ) {
 					applyMarginVars( value.tablet, '-tablet' );
@@ -71,6 +73,15 @@ const getCustomizationStyles = ( customizations = {} ) => {
 			return;
 		}
 
+		// Special handling for shadow arrays (box-shadow with multiple layers)
+		if ( attrName === 'shadow' && Array.isArray( value ) ) {
+			const shadowCss = buildBoxShadow( value );
+			if ( shadowCss && shadowCss !== 'none' ) {
+				styles[ '--accordion-shadow' ] = shadowCss;
+			}
+			return;
+		}
+
 		const cssVar = getCssVarName( attrName, 'accordion' );
 		if ( ! cssVar ) {
 			return;
@@ -79,11 +90,13 @@ const getCustomizationStyles = ( customizations = {} ) => {
 		const isResponsive =
 			value &&
 			typeof value === 'object' &&
-			( value.desktop !== undefined || value.tablet !== undefined || value.mobile !== undefined );
+			( value.tablet !== undefined || value.mobile !== undefined );
 
 		if ( isResponsive ) {
-			if ( value.desktop !== undefined && value.desktop !== null ) {
-				const formattedDesktop = formatCssValue( attrName, value.desktop, 'accordion' );
+			// Handle base value (desktop is at root level as value.value, not value.desktop)
+			const baseValue = value.value !== undefined ? value.value : value;
+			if ( baseValue !== null && baseValue !== undefined ) {
+				const formattedDesktop = formatCssValue( attrName, baseValue, 'accordion' );
 				if ( formattedDesktop !== null ) {
 					styles[ cssVar ] = formattedDesktop;
 				}
@@ -111,6 +124,38 @@ const getCustomizationStyles = ( customizations = {} ) => {
 			styles[ cssVar ] = formattedValue;
 		}
 	} );
+
+	// Handle titleFormatting array to build text-decoration-line
+	const titleFormatting = customizations.titleFormatting || [];
+	const decorationLines = titleFormatting.filter( ( f ) =>
+		[ 'underline', 'overline', 'line-through' ].includes( f )
+	);
+	if ( decorationLines.length > 0 ) {
+		styles[ '--accordion-title-text-decoration-line' ] = decorationLines.join( ' ' );
+	}
+
+	// Font weight (only if bold is selected)
+	if ( titleFormatting.includes( 'bold' ) && customizations.titleFontWeight ) {
+		styles[ '--accordion-title-font-weight' ] = customizations.titleFontWeight;
+	}
+
+	// Font style (only if italic is selected)
+	if ( titleFormatting.includes( 'italic' ) ) {
+		styles[ '--accordion-title-font-style' ] = 'italic';
+	}
+
+	// Decoration styling (only if any decoration is active)
+	if ( decorationLines.length > 0 ) {
+		if ( customizations.titleDecorationColor ) {
+			styles[ '--accordion-title-decoration-color' ] = customizations.titleDecorationColor;
+		}
+		if ( customizations.titleDecorationStyle ) {
+			styles[ '--accordion-title-decoration-style' ] = customizations.titleDecorationStyle;
+		}
+		if ( customizations.titleDecorationWidth ) {
+			styles[ '--accordion-title-decoration-width' ] = customizations.titleDecorationWidth;
+		}
+	}
 
 	return styles;
 };
@@ -305,14 +350,49 @@ export default function Save( { attributes } ) {
 	const alignmentClass = getAlignmentClass( attributes.accordionHorizontalAlign );
 	classNames.push( alignmentClass );
 
+	/**
+	 * Format dimension value (width/height) with proper unit
+	 * Handles both number and { value, unit } object formats
+	 */
+	const formatDimensionValue = ( value, defaultUnit = '%' ) => {
+		if ( value === null || value === undefined ) {
+			return null; // Don't apply default in save - let CSS handle it
+		}
+		// Handle responsive structure - extract base value (desktop is at root, not under .desktop key)
+		if ( typeof value === 'object' && ( value.tablet !== undefined || value.mobile !== undefined ) ) {
+			const baseValue = value.value ?? value;
+			return formatDimensionValue( baseValue, defaultUnit );
+		}
+		// Handle { value, unit } object format
+		if ( typeof value === 'object' && value.value !== undefined ) {
+			return `${ value.value }${ value.unit || defaultUnit }`;
+		}
+		// Handle plain number
+		if ( typeof value === 'number' ) {
+			return `${ value }${ defaultUnit }`;
+		}
+		// Handle string (already formatted)
+		return String( value );
+	};
+
+	// Format accordion width for inline style
+	const formattedWidth = formatDimensionValue( attributes.accordionWidth, '%' );
+
+	// Combine customization styles with width
+	const inlineStyles = {
+		...customizationStyles,
+		...( formattedWidth && { width: formattedWidth } ),
+	};
+	const hasInlineStyles = Object.keys( inlineStyles ).length > 0;
+
 	const blockProps = useBlockProps.save( {
 		className: classNames.join( ' ' ),
 		'data-accordion-id': accordionId,
-		'data-gutplus-device': 'desktop',
+		'data-gutplus-device': 'global',
 		// Add id attribute for CSS selector targeting (Tier 3 customizations)
 		...( accordionId && hasCustomizations && { id: accordionId } ),
-		// Apply inline customizations (Tier 3)
-		...( hasCustomizations && { style: customizationStyles } ),
+		// Apply inline styles (width + customizations)
+		...( hasInlineStyles && { style: inlineStyles } ),
 	} );
 
 	return (

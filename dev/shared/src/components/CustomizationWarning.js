@@ -10,7 +10,6 @@
  */
 
 import { Notice } from '@wordpress/components';
-import { debug } from '../utils/debug';
 
 /**
  * Customization Warning Component
@@ -22,14 +21,8 @@ import { debug } from '../utils/debug';
 export function CustomizationWarning( { currentTheme, themes = {} } ) {
 	// Get the current theme object with null check
 	const theme = themes && themes[ currentTheme ] ? themes[ currentTheme ] : null;
-	debug( '[DEBUG] CustomizationWarning - currentTheme:', currentTheme );
-	debug( '[DEBUG] CustomizationWarning - themes:', themes );
-	debug( '[DEBUG] CustomizationWarning - theme object:', theme );
-	debug( '[DEBUG] CustomizationWarning - theme?.name:', theme?.name );
 	const themeName = theme?.name || currentTheme || 'Default';
 	const isDefaultTheme = themeName === 'Default' || currentTheme === '';
-	debug( '[DEBUG] CustomizationWarning - final themeName:', themeName );
-	debug( '[DEBUG] CustomizationWarning - isDefaultTheme:', isDefaultTheme );
 
 	return (
 		<Notice status="warning" isDismissible={ false } style={ { marginTop: '50px', marginBottom: '50px' } }>

@@ -24,7 +24,7 @@
 		"className": false,
 		"customClassName": true,
 		"spacing": {
-			"margin": true,
+			"margin": false,
 			"padding": false
 		}
 	},
@@ -148,7 +148,8 @@
 			"type": "string"
 		},
 		"accordionWidth": {
-			"type": "string"
+			"type": "string",
+			"default": "100%"
 		},
 		"accordionHorizontalAlign": {
 			"type": "string",

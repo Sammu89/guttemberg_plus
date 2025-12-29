@@ -11,7 +11,6 @@
 
 import { SelectControl, Button, Modal, TextControl } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
-import { debug } from '../utils/debug';
 
 /**
  * Theme Selector Component
@@ -52,15 +51,6 @@ export function ThemeSelector( {
 	onThemeChange,
 	sessionCache = {},
 } ) {
-	debug( '[DEBUG] ThemeSelector props received:' );
-	debug( '  blockType:', blockType );
-	debug( '  currentTheme:', currentTheme );
-	debug( '  themes:', themes );
-	debug( '  onSaveNew type:', typeof onSaveNew );
-	debug( '  onUpdate type:', typeof onUpdate );
-	debug( '  onDelete type:', typeof onDelete );
-	debug( '  onRename type:', typeof onRename );
-	debug( '  onReset type:', typeof onReset );
 
 	const [ showCreateModal, setShowCreateModal ] = useState( false );
 	const [ showRenameModal, setShowRenameModal ] = useState( false );
@@ -68,11 +58,6 @@ export function ThemeSelector( {
 
 	// Log when currentTheme prop changes (for debugging theme switching)
 	useEffect( () => {
-		console.log( '\n[ThemeSelector] PROPS CHANGED (useEffect):' );
-		console.log( '  - currentTheme changed to:', currentTheme || '(empty = Default)' );
-		console.log( '  - isCustomized:', isCustomized );
-		console.log( '  - themes count:', Object.keys( themes || {} ).length );
-		console.log( '  - Available themes:', Object.keys( themes || {} ) );
 	}, [ currentTheme, isCustomized, themes ] );
 
 	// Handle theme change
@@ -141,12 +126,6 @@ export function ThemeSelector( {
 		: currentTheme;
 
 	// Debug what we're rendering
-	console.log( '\n[ThemeSelector] RENDERING:' );
-	console.log( '  - currentTheme prop:', currentTheme || '(empty string = Default)' );
-	console.log( '  - isCustomized prop:', isCustomized );
-	console.log( '  - Calculated dropdownValue:', dropdownValue || '(empty string = Default)' );
-	console.log( '  - Available theme options:', themeOptions.map( opt => opt.value ) );
-	console.log( '  - Dropdown will show:', themeOptions.find( opt => opt.value === dropdownValue )?.label || 'NOT FOUND!' );
 
 	return (
 		<div className="theme-selector">
