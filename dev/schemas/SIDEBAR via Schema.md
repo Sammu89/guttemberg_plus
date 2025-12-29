@@ -359,6 +359,53 @@ When CSS property changes based on another attribute:
 }
 ```
 
+### Responsive CSS Variables (Universal)
+
+**Rule:** Any attribute that outputs CSS and is `responsive: true` must define both
+`cssVar` and `appliesTo` **even if `themeable: false`**. This enables device-specific
+CSS vars in editor + frontend.
+
+**Generated CSS variables:**
+```
+--{cssVar}               // Base (global)
+--{cssVar}-tablet        // Tablet override (optional)
+--{cssVar}-mobile        // Mobile override (optional)
+```
+
+**Device selection is automatic:**
+- Editor: `data-gutplus-device` is set by `useResponsiveDevice()`.
+- Frontend: `data-gutplus-device` is set by `frontend.js` on resize.
+
+**Fallback chain (from CSS generator):**
+```
+tablet: var(--cssVar-tablet, var(--cssVar, default))
+mobile: var(--cssVar-mobile, var(--cssVar-tablet, var(--cssVar, default)))
+```
+
+### Editor + Frontend CSS Var Output (Auto-Generated)
+
+**Editor (preview):**
+- Generated helper: `buildEditorCssVars(effectiveValues)`
+- Uses **effectiveValues** (defaults + theme + customizations)
+- Emits base + device vars onto block root styles
+
+**Frontend (save):**
+- Generated helper: `buildFrontendCssVars(customizations, attributes)`
+- Themeable attrs: from `customizations` (delta system)
+- Non-themeable attrs: from `attributes` directly
+- Emits base + device vars inline per block
+
+**Theme CSS (PHP):**
+- Theme classes include base + device vars **only for themeable attributes**.
+- Uses theme deltas; non-themeable responsive values remain block-level only.
+
+### Build-Time Validator (Schema Safety)
+
+Responsive CSS attributes must pass validation:
+- If `responsive: true` and `outputsCSS !== false` → must have `cssVar` + `appliesTo`
+- `cssVar` without `appliesTo` → error
+- `appliesTo` without `cssVar` → error
+
 ---
 
 ## CONDITIONAL RENDERING
@@ -1814,32 +1861,28 @@ For scalar values (SliderWithInput), `getInheritedSliderValue()` provides inheri
 
 ### Editor Preview with Responsive Values
 
-The auto-generated `getInlineStyles(responsiveDevice)` in edit.js uses the current device to select values:
+**Current target:** editor preview should be CSS-variable driven (not inline styles).
 
+**Generated flow (preferred):**
 ```javascript
-// Generated code - uses responsiveDevice parameter:
-const getInlineStyles = (responsiveDevice = 'desktop') => {
-  return {
-    title: {
-      padding: (() => {
-        // Uses responsiveDevice to select the correct device value
-        const headerPaddingVal = headerPadding[responsiveDevice] || headerPadding;
-        const unit = headerPaddingVal.unit || 'px';
-        return `${headerPaddingVal.top || 0}${unit} ${headerPaddingVal.right || 0}${unit}...`;
-      })(),
-    },
-  };
-};
+const responsiveDevice = useResponsiveDevice();
+const editorCSSVars = buildEditorCssVars(effectiveValues);
 
-// Called with current device:
-const styles = getInlineStyles(responsiveDevice);
+const blockProps = useBlockProps({
+  style: { ...editorCSSVars },
+  'data-gutplus-device': responsiveDevice,
+});
 ```
 
 **How it works:**
 1. User clicks device icon in sidebar → `setGlobalResponsiveDevice('tablet')`
-2. `useResponsiveDevice()` hook returns `'tablet'`
-3. `getInlineStyles('tablet')` extracts tablet-specific values
-4. Editor preview updates with tablet styles
+2. `useResponsiveDevice()` returns `'tablet'`
+3. `data-gutplus-device="tablet"` activates responsive CSS selectors
+4. CSS variables resolve to `--cssVar-tablet` (or fall back to base)
+5. Preview updates automatically
+
+**Note:** `getInlineStyles()` is legacy/compat. The universal system should use
+CSS vars so editor and frontend share the exact same responsive logic.
 
 ### Adding DeviceSwitcher to a New Control
 

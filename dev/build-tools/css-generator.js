@@ -779,4 +779,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { generate };
+module.exports = { generate, getSelector };

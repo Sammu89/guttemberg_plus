@@ -515,7 +515,7 @@
       "group": "headerTypography",
       "order": 1,
       "control": "RangeControl",
-      "appliesTo": "tabButton",
+      "appliesTo": "tabButtonText",
       "cssVar": "tabs-button-font-size",
       "cssProperty": "font-size",
       "themeable": true
@@ -574,7 +574,7 @@
           "value": "bold"
         }
       ],
-      "appliesTo": "tabButton",
+      "appliesTo": "tabButtonText",
       "cssVar": "tabs-button-font-weight",
       "cssProperty": "font-weight",
       "themeable": true
@@ -601,7 +601,7 @@
           "value": "oblique"
         }
       ],
-      "appliesTo": "tabButton",
+      "appliesTo": "tabButtonText",
       "cssVar": "tabs-button-font-style",
       "cssProperty": "font-style",
       "themeable": true
@@ -632,7 +632,7 @@
           "value": "capitalize"
         }
       ],
-      "appliesTo": "tabButton",
+      "appliesTo": "tabButtonText",
       "cssVar": "tabs-button-text-transform",
       "cssProperty": "text-transform",
       "themeable": true
@@ -663,7 +663,7 @@
           "value": "line-through"
         }
       ],
-      "appliesTo": "tabButton",
+      "appliesTo": "tabButtonText",
       "cssVar": "tabs-button-text-decoration",
       "cssProperty": "text-decoration",
       "themeable": true
