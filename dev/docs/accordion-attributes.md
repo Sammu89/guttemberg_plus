@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-29T02:28:32.306Z
+> Generated at: 2025-12-29T15:44:13.294Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -65,8 +65,8 @@ Font settings for header and content
 | `contentLineHeight` | number | `1.6` | Yes | Line height for the content |
 | `titleFontFamily` | string | `inherit` | Yes | Font family for the header |
 | `titleFontSize` | string | `1.125rem` | Yes | Font size for the header |
-| `titleFormatting` | array | _object_ | Yes | Text formatting options (bold, italic, underline, overline, line-through) |
-| `titleFontWeight` | number | `400` | Yes | Font weight for title (100-900) |
+| `titleFormatting` | array | _object_ | Yes | Text formatting options (bold, italic, underline, overline, line-through). Note: Not every font supports every weight; the browser will use the closest available weight. |
+| `titleFontWeight` | number | `400` | Yes | Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. |
 | `titleDecorationColor` | string | `currentColor` | Yes | Color for text decorations |
 | `titleDecorationStyle` | string | `solid` | Yes | Style for text decorations |
 | `titleDecorationWidth` | string | `auto` | Yes | Thickness of text decorations |

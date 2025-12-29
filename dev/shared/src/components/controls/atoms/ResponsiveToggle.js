@@ -9,7 +9,7 @@
  */
 
 import { Button, Flex, FlexItem } from '@wordpress/components';
-import { DeviceSwitcher } from '../DeviceSwitcher';
+import { DeviceSwitcher } from './DeviceSwitcher';
 import { ResetButton } from '../ResetButton';
 import { ResponsiveIcon } from '../icons';
 
@@ -20,7 +20,6 @@ import { ResponsiveIcon } from '../icons';
  * @param {boolean}  props.isEnabled       - Whether responsive mode is enabled
  * @param {Function} props.onToggle        - Called when toggle is clicked (receives new state)
  * @param {string}   props.currentDevice   - Current device (global/tablet/mobile)
- * @param {Function} props.onDeviceChange  - Called when device changes
  * @param {Function} props.onReset         - Called when reset is clicked
  * @param {boolean}  props.disabled        - Disabled state
  * @param {boolean}  props.isResetDisabled - Whether reset button is disabled
@@ -29,7 +28,6 @@ export function ResponsiveToggle({
 	isEnabled = false,
 	onToggle,
 	currentDevice = 'global',
-	onDeviceChange,
 	onReset,
 	disabled = false,
 	isResetDisabled = false,
@@ -65,7 +63,7 @@ export function ResponsiveToggle({
 	return (
 		<Flex gap={1} align="center" className="gutplus-responsive-toggle gutplus-responsive-toggle--enabled">
 			<FlexItem>
-				<DeviceSwitcher value={currentDevice} onChange={onDeviceChange} />
+				<DeviceSwitcher value={currentDevice} />
 			</FlexItem>
 			<FlexItem>
 				<ResetButton onClick={onReset} disabled={isResetDisabled || disabled} />

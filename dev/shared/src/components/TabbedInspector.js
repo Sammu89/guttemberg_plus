@@ -38,7 +38,6 @@ const INSPECTOR_TABS = [
  * Appearance tab contains visual/styling controls.
  *
  * @param {Object}      props                   Component props
- * @param {JSX.Element} props.children          Optional children (deprecated, use settingsContent/appearanceContent)
  * @param {JSX.Element} props.settingsContent   Content for the Settings tab
  * @param {JSX.Element} props.appearanceContent Content for the Appearance tab
  * @param {string}      props.initialTabName    Initial tab to show (default: 'settings')
@@ -46,7 +45,6 @@ const INSPECTOR_TABS = [
  * @returns {JSX.Element} Tabbed inspector component
  */
 export function TabbedInspector( {
-	children,
 	settingsContent,
 	appearanceContent,
 	initialTabName = 'settings',
@@ -73,8 +71,6 @@ export function TabbedInspector( {
 			{ ( tab ) => (
 				<div className={ `gutplus-tab-content gutplus-tab-${ tab.name }` }>
 					{ tab.name === 'settings' ? settingsContent : appearanceContent }
-					{ /* Support legacy children prop - render in both tabs */ }
-					{ children }
 				</div>
 			) }
 		</TabPanel>

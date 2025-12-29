@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-29T02:28:32.312Z
+ * Generated at: 2025-12-29T15:44:13.303Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -43,7 +43,7 @@ export interface TabsTheme {
   tabButtonActiveBackgroundColor?: string;
   /** Font size for tab buttons (rem) */
   tabButtonFontSize?: number;
-  /** Font weight for tab buttons */
+  /** Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
   tabButtonFontWeight?: string;
   /** Font style for tab buttons */
   tabButtonFontStyle?: string;
@@ -55,7 +55,7 @@ export interface TabsTheme {
   tabButtonTextAlign?: string;
   /** Padding for tab buttons in rem (vertical/horizontal will be computed) */
   tabButtonPadding?: number;
-  /** Font weight for active/selected tab button */
+  /** Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
   tabButtonActiveFontWeight?: string;
   /** Border color for inactive tab buttons */
   tabButtonBorderColor?: Record<string, any>;
@@ -142,7 +142,7 @@ export const tabsDefaultTheme: TabsTheme = {
     "left": "#dddddd",
     "linked": true
   },
-  borderWidth: 0px,
+  borderWidth: 0,
   borderStyle: {
     "top": "solid",
     "right": "solid",
@@ -186,7 +186,7 @@ export const tabsDefaultTheme: TabsTheme = {
     "left": "#dddddd",
     "linked": true
   },
-  tabButtonBorderWidth: 1px,
+  tabButtonBorderWidth: 1,
   tabButtonBorderStyle: {
     "top": "solid",
     "right": "solid",
@@ -204,7 +204,7 @@ export const tabsDefaultTheme: TabsTheme = {
   tabButtonShadowHover: 'none',
   enableFocusBorder: true,
   tabButtonActiveContentBorderColor: '#ffffff',
-  tabButtonActiveContentBorderWidth: 1px,
+  tabButtonActiveContentBorderWidth: 1,
   tabButtonActiveContentBorderStyle: 'solid',
   tabListBackgroundColor: 'transparent',
   tabsRowBorderColor: {
@@ -214,7 +214,7 @@ export const tabsDefaultTheme: TabsTheme = {
     "left": "#dddddd",
     "linked": true
   },
-  tabsRowBorderWidth: 0px,
+  tabsRowBorderWidth: 0,
   tabsRowBorderStyle: {
     "top": "solid",
     "right": "solid",
@@ -228,7 +228,7 @@ export const tabsDefaultTheme: TabsTheme = {
   tabListAlignment: 'flex-start',
   enableTabsListContentBorder: false,
   tabsListContentBorderColor: 'transparent',
-  tabsListContentBorderWidth: 1px,
+  tabsListContentBorderWidth: 1,
   tabsListContentBorderStyle: 'solid',
   panelBackgroundColor: '#ffffff',
   panelBorderColor: {
@@ -238,7 +238,7 @@ export const tabsDefaultTheme: TabsTheme = {
     "left": "#dddddd",
     "linked": true
   },
-  panelBorderWidth: 1px,
+  panelBorderWidth: 1,
   panelBorderStyle: {
     "top": "solid",
     "right": "solid",

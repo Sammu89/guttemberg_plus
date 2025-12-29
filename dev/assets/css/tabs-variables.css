@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-29T02:28:32.317Z
+ * Generated at: 2025-12-29T15:44:13.307Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -11,7 +11,7 @@
 
 :root {
   --tabs-border-color: #dddddd;
-  --tabs-border-width: 0px;
+  --tabs-border-width: 0;
   --tabs-border-style: solid;
   --tabs-border-radius: 0px;
   --tabs-border-shadow: none;
@@ -32,29 +32,29 @@
   --tabs-button-active-font-weight: bold;
   --tabs-button-border-color: #dddddd;
   --tabs-button-active-border-color: #dddddd;
-  --tabs-button-border-width: 1px;
+  --tabs-button-border-width: 1;
   --tabs-button-border-style: solid;
   --tabs-button-border-radius: 4px 4px 0px 0px;
   --tabs-button-border-shadow: none;
   --tabs-button-border-shadow-hover: none;
   --tabs-enable-focus-border: true;
   --tabs-button-active-content-border-color: #ffffff;
-  --tabs-button-active-content-border-width: 1px;
+  --tabs-button-active-content-border-width: 1;
   --tabs-button-active-content-border-style: solid;
   --tabs-list-bg: transparent;
   --tabs-row-border-color: #dddddd;
-  --tabs-row-border-width: 0px;
+  --tabs-row-border-width: 0;
   --tabs-row-border-style: solid;
   --tabs-row-spacing: 0.5rem;
   --tabs-button-gap: 0.5rem;
   --tabs-list-align: flex-start;
   --tabs-enable-list-divider-border: false;
   --tabs-list-divider-border-color: transparent;
-  --tabs-list-divider-border-width: 1px;
+  --tabs-list-divider-border-width: 1;
   --tabs-list-divider-border-style: solid;
   --tabs-panel-bg: #ffffff;
   --tabs-panel-border-color: #dddddd;
-  --tabs-panel-border-width: 1px;
+  --tabs-panel-border-width: 1;
   --tabs-panel-border-style: solid;
   --tabs-panel-border-radius: 4px;
   --tabs-show-icon: true;

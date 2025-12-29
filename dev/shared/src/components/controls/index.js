@@ -3,9 +3,7 @@ export * from './icons';
 
 // Phase 2: Atomic Controls
 export { ResetButton } from './ResetButton';
-export { DeviceSwitcher } from './DeviceSwitcher';
 export { UnitSelector } from './UnitSelector';
-export { LinkToggle } from './LinkToggle';
 export { IconButton } from './IconButton';
 export { IconButtonGroup } from './IconButtonGroup';
 
@@ -41,6 +39,7 @@ export { ResponsiveToggle } from './atoms/ResponsiveToggle';
 export { StyleIconButton } from './atoms/StyleIconButton';
 export { ColorSwatch } from './atoms/ColorSwatch';
 export { SideIcon, sideIcons } from './atoms/SideIcon';
+export { UtilityBar } from './UtilityBar';
 
 // Lego Molecules
 export { ValueWithUnit } from './molecules/ValueWithUnit';

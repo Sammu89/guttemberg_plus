@@ -8,7 +8,7 @@
   "_IMPORTANT_README": {
     "title": "⚠️ CENTRALIZED CONFIG SYSTEM - READ BEFORE EDITING",
     "description": "Units, min, max, and step values are centralized. DO NOT hardcode them in this schema!",
-    "centralizer": "shared/src/config/css-property-scales.js",
+    "centralizer": "shared/src/config/css-property-scales.mjs",
     "rules": [
       "✅ DO: Specify 'cssProperty' - units/min/max/step come from centralizer automatically",
       "❌ DON'T: Add 'units', 'min', 'max', 'step' to SliderWithInput attributes (unless overriding)",
@@ -2592,7 +2592,7 @@
     },
     "blockBorderWidth": {
       "type": "string",
-      "default": "1px",
+      "default": "1",
       "cssVar": "toc-border-width",
       "group": "externalBorders",
       "label": "Block Border Width",
@@ -2663,10 +2663,11 @@
     "blockBorderRadius": {
       "type": "object",
       "default": {
-        "topLeft": "4px",
-        "topRight": "4px",
-        "bottomRight": "4px",
-        "bottomLeft": "4px"
+        "topLeft": 4,
+        "topRight": 4,
+        "bottomRight": 4,
+        "bottomLeft": 4,
+        "unit": "px"
       },
       "cssVar": "toc-border-radius",
       "group": "externalBorders",

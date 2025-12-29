@@ -130,6 +130,75 @@ export function normalizeBoxValue(value, defaultValue = '') {
 	};
 }
 
+const UNIT_REGEX = /^-?\d+(?:\.\d+)?\s*([a-zA-Z%]+)$/;
+
+function getUnitFromString(value) {
+	if (typeof value !== 'string') {
+		return '';
+	}
+	const match = value.trim().match(UNIT_REGEX);
+	return match ? match[1] : '';
+}
+
+/**
+ * Infer a unit from a box/corner value object.
+ * Falls back to the provided unit when no explicit unit is found.
+ *
+ * @param {Object} value - Box value object or responsive wrapper
+ * @param {string} [fallbackUnit=''] - Unit to use when none found
+ * @returns {string} Inferred unit or fallback
+ */
+export function inferBoxUnit(value, fallbackUnit = '') {
+	if (!value || typeof value !== 'object') {
+		return fallbackUnit;
+	}
+
+	if (value.unit) {
+		return value.unit;
+	}
+
+	if (value.value && typeof value.value === 'object') {
+		return inferBoxUnit(value.value, fallbackUnit);
+	}
+
+	const candidates = [
+		value.top,
+		value.right,
+		value.bottom,
+		value.left,
+		value.topLeft,
+		value.topRight,
+		value.bottomRight,
+		value.bottomLeft,
+	];
+
+	for (const candidate of candidates) {
+		if (!candidate) {
+			continue;
+		}
+		if (typeof candidate === 'string') {
+			const unit = getUnitFromString(candidate);
+			if (unit) {
+				return unit;
+			}
+			continue;
+		}
+		if (typeof candidate === 'object') {
+			if (candidate.unit) {
+				return candidate.unit;
+			}
+			if (typeof candidate.value === 'string') {
+				const unit = getUnitFromString(candidate.value);
+				if (unit) {
+					return unit;
+				}
+			}
+		}
+	}
+
+	return fallbackUnit;
+}
+
 /**
  * Converts a 4-side box value object to CSS shorthand string.
  *

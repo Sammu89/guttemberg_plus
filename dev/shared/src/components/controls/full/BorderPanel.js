@@ -19,15 +19,15 @@
  * @package guttemberg-plus
  */
 
-import { useState } from '@wordpress/element';
-import { BaseControl, Button, Flex, FlexItem, FlexBlock, __experimentalUnitControl as UnitControl } from '@wordpress/components';
+import { BaseControl, Flex, FlexItem, FlexBlock, __experimentalUnitControl as UnitControl } from '@wordpress/components';
 import { ColorSwatch } from '../atoms/ColorSwatch';
 import { StyleIconButton } from '../atoms/StyleIconButton';
 import { SideIcon } from '../atoms/SideIcon';
 import { MiniSlider } from '../atoms/MiniSlider';
-import { LinkToggle } from '../atoms/LinkToggle';
-import { DeviceSwitcher } from '../atoms/DeviceSwitcher';
-import { getAvailableUnits, getUnitConfig } from '../../../config/css-property-scales';
+import { UtilityBar } from '../UtilityBar';
+import { getAvailableUnits, getUnitConfig } from '../../../config/css-property-scales.mjs';
+import { useResponsiveDevice } from '../../../hooks/useResponsiveDevice';
+import { inferBoxUnit } from '../../../utils/box-value-utils';
 
 const SIDES = [ 'top', 'right', 'bottom', 'left' ];
 
@@ -155,7 +155,7 @@ export function BorderPanel( {
 } ) {
 	// Get units from centralizer for border-width property
 	const borderWidthUnits = getAvailableUnits( 'border-width' ) || [ 'px', 'rem', 'em' ];
-	const [ device, setDevice ] = useState( 'global' );
+	const device = useResponsiveDevice();
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
@@ -172,12 +172,36 @@ export function BorderPanel( {
 		linked: widthLinked = true,
 	} = currentValue;
 
+	const effectiveUnit = inferBoxUnit( currentValue, unit ) || unit || 'px';
+
 	// If lockLinked is true, force linked mode
 	const linked = lockLinked ? true : widthLinked;
 
+	const normalizeUnitValue = ( nextValue, fallbackUnit ) => {
+		if ( ! nextValue || typeof nextValue !== 'object' ) {
+			return nextValue;
+		}
+
+		const hasSides = [ 'top', 'right', 'bottom', 'left' ].some(
+			( side ) => nextValue[ side ] !== undefined
+		);
+		if ( ! hasSides ) {
+			return nextValue;
+		}
+
+		const hasUnit = typeof nextValue.unit === 'string' && nextValue.unit.trim() !== '';
+		const inferredUnit = inferBoxUnit( nextValue, fallbackUnit );
+		if ( hasUnit || ! inferredUnit ) {
+			return nextValue;
+		}
+
+		return { ...nextValue, unit: inferredUnit };
+	};
+
 	// Helper to update width value only
 	const updateValue = ( updates ) => {
-		const newValue = { ...currentValue, ...updates };
+		const mergedValue = { ...currentValue, ...updates };
+		const newValue = normalizeUnitValue( mergedValue, effectiveUnit );
 		if ( responsive ) {
 			onChange( { ...value, [ device ]: newValue } );
 		} else {
@@ -336,31 +360,15 @@ export function BorderPanel( {
 			label={
 				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
 					<span>{ label }</span>
-					<div style={ { display: 'flex', gap: '8px', alignItems: 'center' } }>
-						{ responsive && (
-							<DeviceSwitcher
-								value={ device }
-								onChange={ setDevice }
-								disabled={ disabled }
-							/>
-						) }
-						{ ! lockLinked && (
-							<LinkToggle
-								linked={ linked }
-								onChange={ handleLinkChange }
-								disabled={ disabled }
-							/>
-						) }
-						<Button
-							variant="tertiary"
-							size="small"
-							onClick={ handleReset }
-							disabled={ disabled }
-							title="Reset to default values"
-						>
-							↻
-						</Button>
-					</div>
+					<UtilityBar
+						isResponsive={ responsive }
+						currentDevice={ device }
+						isDecomposable={ ! lockLinked }
+						isLinked={ linked }
+						onLinkChange={ handleLinkChange }
+						onReset={ handleReset }
+						disabled={ disabled }
+					/>
 				</div>
 			}
 			className="gutplus-border-panel"
@@ -394,22 +402,22 @@ export function BorderPanel( {
 
 					{ /* Combined value + unit input */ }
 					<FlexItem className="gutplus-border-panel__value-unit">
-						<UnitControl
-							value={ `${ top }${ unit }` }
-							onChange={ ( newValue ) => {
-								const numericValue = parseFloat( newValue ) || 0;
-								const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || unit;
-								handleValueChange( 'top', numericValue );
-								if ( newUnit !== unit ) {
-									handleUnitChange( newUnit );
-								}
-							} }
-							units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
-							min={ min }
-							max={ max }
-							step={ getUnitConfig( 'border-width', unit )?.step ?? step }
-							disabled={ disabled }
-						/>
+					<UnitControl
+						value={ `${ top }${ effectiveUnit }` }
+						onChange={ ( newValue ) => {
+							const numericValue = parseFloat( newValue ) || 0;
+							const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || effectiveUnit;
+							handleValueChange( 'top', numericValue );
+							if ( newUnit !== effectiveUnit ) {
+								handleUnitChange( newUnit );
+							}
+						} }
+						units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
+						min={ min }
+						max={ max }
+						step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
+						disabled={ disabled }
+					/>
 					</FlexItem>
 
 					{ /* Slider */ }
@@ -419,7 +427,7 @@ export function BorderPanel( {
 							onChange={ ( newVal ) => handleValueChange( 'top', newVal ) }
 							min={ min }
 							max={ max }
-							step={ getUnitConfig( 'border-width', unit )?.step ?? step }
+							step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
 							disabled={ disabled }
 						/>
 					</FlexBlock>
@@ -461,19 +469,19 @@ export function BorderPanel( {
 							{ /* Combined value + unit input */ }
 							<FlexItem className="gutplus-border-panel__value-unit">
 								<UnitControl
-									value={ `${ getSideValue( side ) }${ unit }` }
+									value={ `${ getSideValue( side ) }${ effectiveUnit }` }
 									onChange={ ( newValue ) => {
 										const numericValue = parseFloat( newValue ) || 0;
-										const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || unit;
+										const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || effectiveUnit;
 										handleValueChange( side, numericValue );
-										if ( newUnit !== unit ) {
+										if ( newUnit !== effectiveUnit ) {
 											handleUnitChange( newUnit );
 										}
 									} }
 									units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
 									min={ min }
 									max={ max }
-									step={ getUnitConfig( 'border-width', unit )?.step ?? step }
+									step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
 									disabled={ disabled }
 									__next40pxDefaultSize
 								/>
@@ -486,7 +494,7 @@ export function BorderPanel( {
 									onChange={ ( newVal ) => handleValueChange( side, newVal ) }
 									min={ min }
 									max={ max }
-									step={ getUnitConfig( 'border-width', unit )?.step ?? step }
+									step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
 									disabled={ disabled }
 								/>
 							</FlexBlock>

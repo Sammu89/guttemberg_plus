@@ -1,3 +1,5 @@
+import { parseValueWithUnit } from '../config/css-property-scales.mjs';
+
 /**
  * Control Value Normalizer
  *
@@ -49,6 +51,34 @@ const CONTROL_DEFAULTS = {
 		bottomRight: 4,
 	},
 };
+
+const NUMERIC_STRING_REGEX = /^-?\d+(?:\.\d+)?\s*[a-zA-Z%]*$/;
+
+function isNumericString( value ) {
+	if ( typeof value !== 'string' ) {
+		return false;
+	}
+	return NUMERIC_STRING_REGEX.test( value.trim() );
+}
+
+function normalizeValueUnitObject( value ) {
+	if ( ! value || typeof value !== 'object' ) {
+		return value;
+	}
+	if ( value.value === undefined || typeof value.value !== 'string' ) {
+		return value;
+	}
+	if ( ! isNumericString( value.value ) ) {
+		return value;
+	}
+
+	const parsed = parseValueWithUnit( value.value );
+	const next = { ...value, value: parsed.value };
+	if ( ( next.unit === undefined || next.unit === null ) && parsed.unit ) {
+		next.unit = parsed.unit;
+	}
+	return next;
+}
 
 /**
  * Infer control type from attribute name
@@ -213,6 +243,95 @@ export function normalizeValueForControl( value, attrName, controlType = null ) 
 
 	// Value is null/undefined - provide fallback
 	return getFallbackValue( attrName, controlType );
+}
+
+/**
+ * Normalize values for specific controls before rendering.
+ *
+ * This handles cases where stored values use a valid structure but contain
+ * string payloads (e.g. { value: "100%" }) that numeric controls can't parse.
+ *
+ * @param {*}      value      - Value to normalize (scalar or responsive object)
+ * @param {Object} attrConfig - Schema config for the attribute
+ * @return {*} Normalized value for the control
+ */
+export function normalizeControlValue( value, attrConfig = {} ) {
+	const control = attrConfig?.control;
+	if ( control !== 'SliderWithInput' && control !== 'RangeControl' ) {
+		return value;
+	}
+
+	const normalizeRangeScalar = ( input ) => {
+		if ( typeof input === 'number' ) {
+			return input;
+		}
+		if ( typeof input === 'string' && isNumericString( input ) ) {
+			return parseValueWithUnit( input ).value;
+		}
+		if ( input && typeof input === 'object' && input.value !== undefined ) {
+			if ( typeof input.value === 'number' ) {
+				return input.value;
+			}
+			if ( typeof input.value === 'string' && isNumericString( input.value ) ) {
+				return parseValueWithUnit( input.value ).value;
+			}
+		}
+		return input;
+	};
+
+	const normalizeSliderScalar = ( input ) => {
+		if ( input && typeof input === 'object' ) {
+			return normalizeValueUnitObject( input );
+		}
+		return input;
+	};
+
+	const normalizeScalar = control === 'RangeControl'
+		? normalizeRangeScalar
+		: normalizeSliderScalar;
+
+	if (
+		value &&
+		typeof value === 'object' &&
+		( value.tablet !== undefined || value.mobile !== undefined )
+	) {
+		let changed = false;
+		const next = { ...value };
+
+		if ( value.value !== undefined || value.unit !== undefined ) {
+			const base = normalizeScalar( { value: value.value, unit: value.unit } );
+			if ( control === 'RangeControl' ) {
+				if ( base !== next.value ) {
+					next.value = base;
+					changed = true;
+				}
+			} else if ( base && typeof base === 'object' && base.value !== undefined ) {
+				if ( base.value !== next.value ) {
+					next.value = base.value;
+					changed = true;
+				}
+				if ( base.unit !== undefined && base.unit !== next.unit ) {
+					next.unit = base.unit;
+					changed = true;
+				}
+			}
+		}
+
+		[ 'tablet', 'mobile' ].forEach( ( device ) => {
+			if ( value[ device ] !== undefined ) {
+				const normalized = normalizeScalar( value[ device ] );
+				if ( normalized !== value[ device ] ) {
+					next[ device ] = normalized;
+					changed = true;
+				}
+			}
+		} );
+
+		return changed ? next : value;
+	}
+
+	const normalized = normalizeScalar( value );
+	return normalized === undefined ? value : normalized;
 }
 
 /**

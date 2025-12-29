@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-29T02:28:32.321Z
+ * Generated at: 2025-12-29T15:44:13.313Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -339,7 +339,7 @@ export const tocDefaultTheme: TocTheme = {
   titleTextTransform: 'none',
   titleTextDecoration: 'none',
   titleAlignment: 'left',
-  blockBorderWidth: '1px',
+  blockBorderWidth: '1',
   blockBorderStyle: {
     "top": "solid",
     "right": "solid",
@@ -348,10 +348,11 @@ export const tocDefaultTheme: TocTheme = {
     "linked": true
   },
   blockBorderRadius: {
-    "topLeft": "4px",
-    "topRight": "4px",
-    "bottomRight": "4px",
-    "bottomLeft": "4px"
+    "topLeft": 4,
+    "topRight": 4,
+    "bottomRight": 4,
+    "bottomLeft": 4,
+    "unit": "px"
   },
   blockShadow: 'none',
   blockShadowHover: 'none',

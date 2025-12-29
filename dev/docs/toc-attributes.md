@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-29T02:28:32.324Z
+> Generated at: 2025-12-29T15:44:13.319Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -69,7 +69,7 @@ Complete theme and appearance configuration for Table of Contents blocks
 |-----------|------|---------|-----------|-------------|
 | `wrapperBackgroundColor` | string | `#ffffff` | Yes | Background color of the TOC wrapper |
 | `blockBorderColor` | object | _object_ | Yes | Border color of the TOC wrapper |
-| `blockBorderWidth` | string | `1px` | Yes | Width of the wrapper border in pixels |
+| `blockBorderWidth` | string | `1` | Yes | Width of the wrapper border in pixels |
 | `blockBorderStyle` | object | _object_ | Yes | Style of the wrapper border |
 | `blockBorderRadius` | object | _object_ | Yes | Corner radius of the wrapper |
 | `blockShadow` | string | `none` | Yes | CSS box-shadow for the wrapper |

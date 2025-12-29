@@ -24,12 +24,10 @@ const devices = [
  *
  * @param {Object}   props
  * @param {string}   props.value     - Current device (global, tablet, mobile)
- * @param {Function} props.onChange  - Optional legacy change handler (deprecated, use global state)
  * @param {boolean}  props.disabled  - Disabled state
  */
 export function DeviceSwitcher( {
 	value = 'global',
-	onChange,
 	disabled = false,
 } ) {
 	return (
@@ -44,10 +42,6 @@ export function DeviceSwitcher( {
 					onClick={ () => {
 						// Update global state - all controls will sync
 						setGlobalResponsiveDevice( device.name );
-						// Call legacy onChange if provided (for backwards compatibility)
-						if ( onChange ) {
-							onChange( device.name );
-						}
 					} }
 					disabled={ disabled }
 					isSmall

@@ -37,7 +37,7 @@ import {
 import { buildBoxShadow, buildTextShadow } from '@shared/utils';
 import accordionSchema from '../../../schemas/accordion.json';
 import { accordionAttributes } from './accordion-attributes';
-import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
+import { buildEditorCssVars } from '@shared/styles/accordion-css-vars-generated';
 
 /**
  * Accordion Edit Component
@@ -116,32 +116,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	}, [ attributes.accordionWidth ] );
 
 	/**
-	 * Generate CSS variables from effective values for editor preview
-	 */
-	const getEditorCSSVariables = () => {
-		const cssVars = {};
-
-		Object.entries(effectiveValues).forEach(([attrName, value]) => {
-			if (value === null || value === undefined) {
-				return;
-			}
-
-			const cssVar = getCssVarName(attrName, 'accordion');
-			if (!cssVar) {
-				return;
-			}
-
-			// Format the value (formatCssValue handles compound values like border-style objects)
-			const formattedValue = formatCssValue(attrName, value, 'accordion');
-			if (formattedValue !== null) {
-				cssVars[cssVar] = formattedValue;
-			}
-		});
-
-		return cssVars;
-	};
-
-	/**
 	 * Apply inline styles from effective values
 	 */
 	/* ========== AUTO-GENERATED-STYLES-START ========== */
@@ -153,10 +127,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 const getInlineStyles = (responsiveDevice = 'global') => {
   // Extract object-type attributes with fallbacks
 	const dividerWidth = effectiveValues.dividerWidth || {
-		    "top": "0px",
-		    "right": "0px",
-		    "bottom": "0px",
-		    "left": "0px"
+		    "top": 0,
+		    "right": 0,
+		    "bottom": 0,
+		    "left": 0,
+		    "unit": "px"
 		};
 	const dividerColor = effectiveValues.dividerColor || {
 		    "top": "#dddddd",
@@ -173,16 +148,18 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		    "linked": true
 		};
 	const borderWidth = effectiveValues.borderWidth || {
-		    "top": "1px",
-		    "right": "1px",
-		    "bottom": "1px",
-		    "left": "1px"
+		    "top": 1,
+		    "right": 1,
+		    "bottom": 1,
+		    "left": 1,
+		    "unit": "px"
 		};
 	const borderRadius = effectiveValues.borderRadius || {
-		    "topLeft": "4px",
-		    "topRight": "4px",
-		    "bottomRight": "4px",
-		    "bottomLeft": "4px"
+		    "topLeft": 4,
+		    "topRight": 4,
+		    "bottomRight": 4,
+		    "bottomLeft": 4,
+		    "unit": "px"
 		};
 	const borderColor = effectiveValues.borderColor || {
 		    "top": "#dddddd",
@@ -199,22 +176,25 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		    "linked": true
 		};
 	const headerPadding = effectiveValues.headerPadding || {
-		    "top": "12px",
-		    "right": "16px",
-		    "bottom": "12px",
-		    "left": "16px"
+		    "top": 12,
+		    "right": 16,
+		    "bottom": 12,
+		    "left": 16,
+		    "unit": "px"
 		};
 	const contentPadding = effectiveValues.contentPadding || {
-		    "top": "16px",
-		    "right": "16px",
-		    "bottom": "16px",
-		    "left": "16px"
+		    "top": 16,
+		    "right": 16,
+		    "bottom": 16,
+		    "left": 16,
+		    "unit": "px"
 		};
 	const blockMargin = effectiveValues.blockMargin || {
-		    "top": "1em",
-		    "right": "0em",
-		    "bottom": "1em",
-		    "left": "0em"
+		    "top": 1,
+		    "right": 0,
+		    "bottom": 1,
+		    "left": 0,
+		    "unit": "em"
 		};
 
 	return {
@@ -230,6 +210,8 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 			padding: (() => { const headerPaddingVal = headerPadding[responsiveDevice] || headerPadding; const unit = headerPaddingVal.unit || 'px'; return `${headerPaddingVal.top || 0}${unit} ${headerPaddingVal.right || 0}${unit} ${headerPaddingVal.bottom || 0}${unit} ${headerPaddingVal.left || 0}${unit}`; })(),
 			color: (() => { const val = effectiveValues.titleColor; if (val === null || val === undefined) return '#333333'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#333333'; })(),
 			background: (() => { const val = effectiveValues.titleBackgroundColor; if (val === null || val === undefined) return '#f5f5f5'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#f5f5f5'; })(),
+		},
+		titleText: {
 			fontFamily: (() => { const val = effectiveValues.titleFontFamily; if (val === null || val === undefined) return 'inherit'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'inherit'; })(),
 			fontSize: (() => { const val = effectiveValues.titleFontSize; if (val === null || val === undefined) return '1.125rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '1.125rem'; })(),
 			fontWeight: effectiveValues.titleFontWeight ?? 400,
@@ -519,7 +501,7 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 	// Build inline styles - accordion-item is now the root element
 	// Combines wrapper styles (width) with item styles (borders, shadows)
 	// Note: alignment margins are applied via ref with !important
-	const editorCSSVars = getEditorCSSVariables();
+	const editorCSSVars = buildEditorCssVars( effectiveValues );
 	const rootStyles = {
 		width: formatDimensionValue( effectiveValues.accordionWidth, '%' ),
 		overflow: 'hidden', // Clip border-radius in editor
@@ -561,7 +543,6 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 						isCustomized={ isCustomized }
 						attributes={ attributes }
 						effectiveValues={ effectiveValues }
-						setAttributes={ setAttributes }
 						themes={ themes }
 						themesLoaded={ themesLoaded }
 						onSaveNew={ handleSaveNewTheme }

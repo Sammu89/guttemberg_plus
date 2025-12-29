@@ -23,12 +23,15 @@
         "gutplus-align-{accordionHorizontalAlign}": "{accordionHorizontalAlign || 'left'}"
       },
       "appliesStyles": [
+        "borderColor",
+        "borderStyle",
         "borderWidth",
         "borderRadius",
         "shadow",
         "blockMargin",
         "animationDuration",
-        "animationEasing"
+        "animationEasing",
+        "accordionWidth"
       ]
     },
     "titleWrapper": {
@@ -77,9 +80,11 @@
         "icon-right": "{iconPosition === 'right' || !iconPosition}"
       },
       "appliesStyles": [
+        "titleColor",
         "titleBackgroundColor",
         "headerPadding",
-        "hoverTitleBackgroundColor"
+        "hoverTitleBackgroundColor",
+        "hoverTitleColor"
       ]
     },
     "titleContentWrapper": {
@@ -102,7 +107,6 @@
       "contentType": "RichText",
       "source": "{title}",
       "appliesStyles": [
-        "titleColor",
         "titleFontFamily",
         "titleFontSize",
         "titleFormatting",
@@ -116,8 +120,7 @@
         "titleAlignment",
         "titleOffsetX",
         "titleOffsetY",
-        "titleTextShadow",
-        "hoverTitleColor"
+        "titleTextShadow"
       ]
     },
     "icon": {

@@ -104,6 +104,54 @@ function getAnimationDuration( element ) {
 }
 
 /**
+ * Read animation type from data attribute with fallback.
+ *
+ * @param {HTMLElement} element Block root element
+ * @return {string} Animation type (none|slide|fade|slideFade)
+ */
+function getAnimationType( element ) {
+	if ( ! element ) {
+		return 'slide';
+	}
+
+	return element.getAttribute( 'data-animation-type' ) || 'slide';
+}
+
+/**
+ * Resolve animation flags from type.
+ *
+ * @param {string} animationType Animation type string
+ * @return {{ height: boolean, opacity: boolean }}
+ */
+function getAnimationFlags( animationType ) {
+	return {
+		height: animationType === 'slide' || animationType === 'slideFade',
+		opacity: animationType === 'fade' || animationType === 'slideFade',
+	};
+}
+
+/**
+ * Build a transition string based on active properties.
+ *
+ * @param {boolean} animateHeight Whether to animate height
+ * @param {boolean} animateOpacity Whether to animate opacity
+ * @param {number} duration Duration in ms
+ * @return {string} Transition string
+ */
+function buildTransition( animateHeight, animateOpacity, duration ) {
+	const transitions = [];
+
+	if ( animateHeight ) {
+		transitions.push( `height ${ duration }ms ease-in-out` );
+	}
+	if ( animateOpacity ) {
+		transitions.push( `opacity ${ duration }ms ease-in-out` );
+	}
+
+	return transitions.join( ', ' );
+}
+
+/**
  * Compute the height we need to animate to, including padding on the wrapper.
  *
  * @param {HTMLElement} panel          Outer panel wrapper
@@ -180,7 +228,7 @@ function initializeSingleAccordion( block ) {
 		// Set initial state based on is-open class
 		const isInitiallyOpen = item.classList.contains( 'is-open' );
 		if ( isInitiallyOpen ) {
-			openAccordionItem( item, button, panel, contentWrapper, false );
+			openAccordionItem( item, button, panel, contentWrapper, false, getAnimationType( item ) );
 		}
 	} catch ( error ) {
 		// console.error( 'Failed to initialize accordion item:', error );
@@ -199,13 +247,14 @@ function initializeSingleAccordion( block ) {
  */
 function toggleAccordion( item, button, panel, contentWrapper, block ) {
 	const isOpen = item.classList.contains( 'is-open' );
+	const animationType = getAnimationType( block );
 
 	if ( isOpen ) {
 		// Close this item
-		closeAccordionItem( item, button, panel, contentWrapper );
+		closeAccordionItem( item, button, panel, contentWrapper, animationType );
 	} else {
 		// Open this item - other items stay as they are
-		openAccordionItem( item, button, panel, contentWrapper, true );
+		openAccordionItem( item, button, panel, contentWrapper, true, animationType );
 	}
 }
 
@@ -218,7 +267,7 @@ function toggleAccordion( item, button, panel, contentWrapper, block ) {
  * @param {HTMLElement} contentWrapper  Inner wrapper that contains the content
  * @param {boolean}     animate         Whether to animate
  */
-function openAccordionItem( item, button, panel, contentWrapper, animate ) {
+function openAccordionItem( item, button, panel, contentWrapper, animate, animationType ) {
 	// Update classes
 	item.classList.add( 'is-open' );
 
@@ -231,8 +280,8 @@ function openAccordionItem( item, button, panel, contentWrapper, animate ) {
 	updateIcon( button, true );
 
 	// Animate if requested
-	if ( animate ) {
-		animateOpen( panel, contentWrapper );
+	if ( animate && animationType !== 'none' ) {
+		animateOpen( panel, contentWrapper, animationType );
 	} else {
 		panel.style.height = 'auto';
 		panel.style.opacity = '';
@@ -249,7 +298,7 @@ function openAccordionItem( item, button, panel, contentWrapper, animate ) {
  * @param {HTMLElement} panel           Content panel (outer wrapper)
  * @param {HTMLElement} contentWrapper  Inner wrapper that contains the content
  */
-function closeAccordionItem( item, button, panel, contentWrapper ) {
+function closeAccordionItem( item, button, panel, contentWrapper, animationType ) {
 	// Update classes
 	item.classList.remove( 'is-open' );
 
@@ -260,7 +309,17 @@ function closeAccordionItem( item, button, panel, contentWrapper ) {
 	updateIcon( button, false );
 
 	// Animate close
-	animateClose( panel, contentWrapper, () => {
+	if ( animationType === 'none' ) {
+		panel.setAttribute( 'hidden', '' );
+		panel.style.display = 'none';
+		panel.style.height = '';
+		panel.style.opacity = '';
+		panel.style.overflow = '';
+		panel.style.transition = '';
+		return;
+	}
+
+	animateClose( panel, contentWrapper, animationType, () => {
 		// After animation completes
 		panel.setAttribute( 'hidden', '' );
 		panel.style.display = 'none';
@@ -282,7 +341,7 @@ function closeAllItems( block ) {
 		const contentWrapper = panel?.querySelector( '.accordion-content-inner' ) || panel;
 
 		if ( button && panel ) {
-			closeAccordionItem( block, button, panel, contentWrapper );
+			closeAccordionItem( block, button, panel, contentWrapper, getAnimationType( block ) );
 		}
 	}
 }
@@ -334,28 +393,60 @@ function updateIcon( button, isOpen ) {
  * @param {HTMLElement} panel          Content panel (outer wrapper)
  * @param {HTMLElement} contentWrapper Inner wrapper that contains the content
  */
-function animateOpen( panel, contentWrapper ) {
+function animateOpen( panel, contentWrapper, animationType ) {
 	const duration = getAnimationDuration( panel );
-	const targetHeight = getPanelTargetHeight( panel, contentWrapper );
+	const { height: animateHeight, opacity: animateOpacity } = getAnimationFlags( animationType );
+
+	if ( ! animateHeight && ! animateOpacity ) {
+		panel.style.height = 'auto';
+		panel.style.opacity = '';
+		panel.style.overflow = '';
+		panel.style.transition = '';
+		panel.style.display = '';
+		return;
+	}
 
 	panel.removeAttribute( 'hidden' );
 	panel.style.display = 'block';
-	panel.style.overflow = 'hidden';
-	panel.style.opacity = '0';
-	panel.style.height = '0px';
 
-	// Force reflow to ensure the browser registers the starting state
-	panel.offsetHeight;
+	if ( animateHeight ) {
+		const targetHeight = getPanelTargetHeight( panel, contentWrapper );
+		panel.style.overflow = 'hidden';
+		panel.style.height = '0px';
+		panel.style.opacity = animateOpacity ? '0' : '';
 
-	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
-	panel.style.height = `${ targetHeight }px`;
-	panel.style.opacity = '1';
+		// Force reflow to ensure the browser registers the starting state
+		panel.offsetHeight;
 
+		panel.style.transition = buildTransition( animateHeight, animateOpacity, duration );
+		panel.style.height = `${ targetHeight }px`;
+		if ( animateOpacity ) {
+			panel.style.opacity = '1';
+		}
+	} else {
+		panel.style.height = 'auto';
+		panel.style.opacity = '0';
+
+		// Force reflow to ensure the browser registers the starting state
+		panel.offsetHeight;
+
+		panel.style.transition = buildTransition( animateHeight, animateOpacity, duration );
+		panel.style.opacity = '1';
+	}
+
+	let handled = false;
 	const handleTransitionEnd = ( e ) => {
-		if ( e.propertyName !== 'height' ) {
+		if ( handled ) {
 			return;
 		}
 
+		const isHeight = animateHeight && e.propertyName === 'height';
+		const isOpacity = animateOpacity && e.propertyName === 'opacity';
+		if ( ! isHeight && ! isOpacity ) {
+			return;
+		}
+
+		handled = true;
 		panel.style.transition = '';
 		panel.style.height = 'auto';
 		panel.style.overflow = '';
@@ -377,28 +468,55 @@ function animateOpen( panel, contentWrapper ) {
  * @param {HTMLElement} contentWrapper Inner wrapper that contains the content
  * @param {Function}    callback       Callback after animation
  */
-function animateClose( panel, contentWrapper, callback ) {
+function animateClose( panel, contentWrapper, animationType, callback ) {
 	const duration = getAnimationDuration( panel );
-	const currentHeight =
-		panel.getBoundingClientRect().height || getPanelTargetHeight( panel, contentWrapper );
+	const { height: animateHeight, opacity: animateOpacity } = getAnimationFlags( animationType );
 
-	panel.style.overflow = 'hidden';
-	panel.style.height = `${ currentHeight }px`;
-	panel.style.opacity = '1';
+	if ( ! animateHeight && ! animateOpacity ) {
+		if ( callback ) {
+			callback();
+		}
+		return;
+	}
+
 	panel.style.display = 'block';
+
+	if ( animateHeight ) {
+		const currentHeight =
+			panel.getBoundingClientRect().height || getPanelTargetHeight( panel, contentWrapper );
+		panel.style.overflow = 'hidden';
+		panel.style.height = `${ currentHeight }px`;
+	} else {
+		panel.style.height = 'auto';
+		panel.style.overflow = '';
+	}
+
+	panel.style.opacity = animateOpacity ? '1' : '';
 
 	// Force reflow to ensure the browser registers the current height
 	panel.offsetHeight;
 
-	panel.style.transition = `height ${ duration }ms ease-in-out, opacity ${ duration }ms ease-in-out`;
-	panel.style.height = '0px';
-	panel.style.opacity = '0';
+	panel.style.transition = buildTransition( animateHeight, animateOpacity, duration );
+	if ( animateHeight ) {
+		panel.style.height = '0px';
+	}
+	if ( animateOpacity ) {
+		panel.style.opacity = '0';
+	}
 
+	let handled = false;
 	const handleTransitionEnd = ( e ) => {
-		if ( e.propertyName !== 'height' ) {
+		if ( handled ) {
 			return;
 		}
 
+		const isHeight = animateHeight && e.propertyName === 'height';
+		const isOpacity = animateOpacity && e.propertyName === 'opacity';
+		if ( ! isHeight && ! isOpacity ) {
+			return;
+		}
+
+		handled = true;
 		panel.style.transition = '';
 		panel.style.overflow = '';
 		panel.style.height = '';

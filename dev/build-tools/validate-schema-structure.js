@@ -517,8 +517,8 @@ function validateBlock(blockType) {
               warnings.push(
                 `⚠️  Attribute "${attrName}" applies to element "${elementId}" ` +
                 `but "${elementId}.appliesStyles" doesn't include "${attrName}"\n` +
-                `   This may cause the style not to be generated in CSS.\n` +
-                `   Fix: Add "${attrName}" to the appliesStyles array of element "${elementId}"`
+                `   This may cause schema-based generators to miss the style.\n` +
+                `   Fix: Add "${attrName}" to "${elementId}.appliesStyles", or change "${attrName}.appliesTo" to the correct element.`
               );
             }
           }
@@ -539,8 +539,7 @@ function validateBlock(blockType) {
               `⚠️  Element "${id}" lists "${attrName}" in appliesStyles ` +
               `but "${attrName}.appliesTo" is "${attr.appliesTo}", not "${id}"\n` +
               `   This creates inconsistent bidirectional references.\n` +
-              `   Fix: Either add "${id}" to "${attrName}.appliesTo" array or ` +
-              `remove "${attrName}" from "${id}.appliesStyles"`
+              `   Fix: Update "${attrName}.appliesTo" to include "${id}", or remove "${attrName}" from "${id}.appliesStyles".`
             );
           }
         }

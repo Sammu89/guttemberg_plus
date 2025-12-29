@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/accordion.json + schemas/accordion-structure.json
- * Generated at: 2025-12-29T02:28:32.365Z
+ * Generated at: 2025-12-29T15:44:13.375Z
  *
  * This file contains CSS rules that apply variables to selectors.
  * Default values are provided via var() fallbacks - no :root declarations needed.
@@ -23,6 +23,10 @@
   border-top-style: var(--accordion-divider-style, solid);
   /* Inner spacing of the content panel */
   padding: var(--accordion-content-padding, 16px);
+  padding-top: var(--accordion-content-padding-top, var(--accordion-content-padding, 16px));
+  padding-right: var(--accordion-content-padding-right, var(--accordion-content-padding, 16px));
+  padding-bottom: var(--accordion-content-padding-bottom, var(--accordion-content-padding, 16px));
+  padding-left: var(--accordion-content-padding-left, var(--accordion-content-padding, 16px));
   /* Text color for accordion content */
   color: var(--accordion-content-color, #333333);
   /* Background color for accordion content */
@@ -38,23 +42,46 @@
 .gutplus-accordion {
   /* Border width, color, and style for all sides */
   border-width: var(--accordion-border-width, 1px);
+  border-top-width: var(--accordion-border-width-top, var(--accordion-border-width, 1px));
+  border-right-width: var(--accordion-border-width-right, var(--accordion-border-width, 1px));
+  border-bottom-width: var(--accordion-border-width-bottom, var(--accordion-border-width, 1px));
+  border-left-width: var(--accordion-border-width-left, var(--accordion-border-width, 1px));
   /* Corner radius of the accordion wrapper */
   border-radius: var(--accordion-border-radius, 4px);
+  border-top-left-radius: var(--accordion-border-radius-top-left, var(--accordion-border-radius, 4px));
+  border-top-right-radius: var(--accordion-border-radius-top-right, var(--accordion-border-radius, 4px));
+  border-bottom-right-radius: var(--accordion-border-radius-bottom-right, var(--accordion-border-radius, 4px));
+  border-bottom-left-radius: var(--accordion-border-radius-bottom-left, var(--accordion-border-radius, 4px));
   /* Border color for all sides */
   border-color: var(--accordion-border-color, #dddddd);
+  border-top-color: var(--accordion-border-color-top, var(--accordion-border-color, #dddddd));
+  border-right-color: var(--accordion-border-color-right, var(--accordion-border-color, #dddddd));
+  border-bottom-color: var(--accordion-border-color-bottom, var(--accordion-border-color, #dddddd));
+  border-left-color: var(--accordion-border-color-left, var(--accordion-border-color, #dddddd));
   /* Border style for all sides */
   border-style: var(--accordion-border-style, solid);
+  border-top-style: var(--accordion-border-style-top, var(--accordion-border-style, solid));
+  border-right-style: var(--accordion-border-style-right, var(--accordion-border-style, solid));
+  border-bottom-style: var(--accordion-border-style-bottom, var(--accordion-border-style, solid));
+  border-left-style: var(--accordion-border-style-left, var(--accordion-border-style, solid));
   /* Outer spacing around the accordion */
-  margin: var(--accordion-block-margin, 1em 0em);
+  margin-top: var(--accordion-block-margin-top, 1em);
+  margin-bottom: var(--accordion-block-margin-bottom, 1em);
   /* Animation duration in milliseconds */
   transition-duration: var(--accordion-animation-duration, 300ms);
   /* Animation easing function */
   transition-timing-function: var(--accordion-animation-easing, ease);
+  /* Accordion container width */
+  width: var(--accordion-width, 100%);
 }
 
 .accordion-title {
   /* Inner spacing of the header */
   padding: var(--accordion-header-padding, 12px 16px);
+  padding-top: var(--accordion-header-padding-top, var(--accordion-header-padding, 12px 16px));
+  padding-right: var(--accordion-header-padding-right, var(--accordion-header-padding, 12px 16px));
+  padding-bottom: var(--accordion-header-padding-bottom, var(--accordion-header-padding, 12px 16px));
+  padding-left: var(--accordion-header-padding-left, var(--accordion-header-padding, 12px 16px));
   /* Text color for the accordion header */
   color: var(--accordion-title-color, #333333);
   /* Background color for the accordion header */
@@ -73,7 +100,7 @@
   font-family: var(--accordion-title-font-family, inherit);
   /* Font size for the header */
   font-size: var(--accordion-title-font-size, 1.125rem);
-  /* Font weight for title (100-900) */
+  /* Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
   font-weight: var(--accordion-title-font-weight, 400);
   /* Color for text decorations */
   text-decoration-color: var(--accordion-title-decoration-color, currentColor);
@@ -113,6 +140,10 @@
   border-top-style: var(--accordion-divider-style, solid);
   /* Inner spacing of the content panel */
   padding: var(--accordion-content-padding-tablet, var(--accordion-content-padding, 16px));
+  padding-top: var(--accordion-content-padding-top-tablet, var(--accordion-content-padding-top, var(--accordion-content-padding, 16px)));
+  padding-right: var(--accordion-content-padding-right-tablet, var(--accordion-content-padding-right, var(--accordion-content-padding, 16px)));
+  padding-bottom: var(--accordion-content-padding-bottom-tablet, var(--accordion-content-padding-bottom, var(--accordion-content-padding, 16px)));
+  padding-left: var(--accordion-content-padding-left-tablet, var(--accordion-content-padding-left, var(--accordion-content-padding, 16px)));
   /* Text color for accordion content */
   color: var(--accordion-content-color, #333333);
   /* Background color for accordion content */
@@ -128,23 +159,46 @@
 .gutplus-accordion[data-gutplus-device="tablet"] {
   /* Border width, color, and style for all sides */
   border-width: var(--accordion-border-width, 1px);
+  border-top-width: var(--accordion-border-width-top, var(--accordion-border-width, 1px));
+  border-right-width: var(--accordion-border-width-right, var(--accordion-border-width, 1px));
+  border-bottom-width: var(--accordion-border-width-bottom, var(--accordion-border-width, 1px));
+  border-left-width: var(--accordion-border-width-left, var(--accordion-border-width, 1px));
   /* Corner radius of the accordion wrapper */
   border-radius: var(--accordion-border-radius, 4px);
+  border-top-left-radius: var(--accordion-border-radius-top-left, var(--accordion-border-radius, 4px));
+  border-top-right-radius: var(--accordion-border-radius-top-right, var(--accordion-border-radius, 4px));
+  border-bottom-right-radius: var(--accordion-border-radius-bottom-right, var(--accordion-border-radius, 4px));
+  border-bottom-left-radius: var(--accordion-border-radius-bottom-left, var(--accordion-border-radius, 4px));
   /* Border color for all sides */
   border-color: var(--accordion-border-color, #dddddd);
+  border-top-color: var(--accordion-border-color-top, var(--accordion-border-color, #dddddd));
+  border-right-color: var(--accordion-border-color-right, var(--accordion-border-color, #dddddd));
+  border-bottom-color: var(--accordion-border-color-bottom, var(--accordion-border-color, #dddddd));
+  border-left-color: var(--accordion-border-color-left, var(--accordion-border-color, #dddddd));
   /* Border style for all sides */
   border-style: var(--accordion-border-style, solid);
+  border-top-style: var(--accordion-border-style-top, var(--accordion-border-style, solid));
+  border-right-style: var(--accordion-border-style-right, var(--accordion-border-style, solid));
+  border-bottom-style: var(--accordion-border-style-bottom, var(--accordion-border-style, solid));
+  border-left-style: var(--accordion-border-style-left, var(--accordion-border-style, solid));
   /* Outer spacing around the accordion */
-  margin: var(--accordion-block-margin-tablet, var(--accordion-block-margin, 1em 0em));
+  margin-top: var(--accordion-block-margin-top-tablet, var(--accordion-block-margin-top, 1em));
+  margin-bottom: var(--accordion-block-margin-bottom-tablet, var(--accordion-block-margin-bottom, 1em));
   /* Animation duration in milliseconds */
   transition-duration: var(--accordion-animation-duration, 300ms);
   /* Animation easing function */
   transition-timing-function: var(--accordion-animation-easing, ease);
+  /* Accordion container width */
+  width: var(--accordion-width-tablet, var(--accordion-width, 100%));
 }
 
 [data-gutplus-device="tablet"] .accordion-title {
   /* Inner spacing of the header */
   padding: var(--accordion-header-padding-tablet, var(--accordion-header-padding, 12px 16px));
+  padding-top: var(--accordion-header-padding-top-tablet, var(--accordion-header-padding-top, var(--accordion-header-padding, 12px 16px)));
+  padding-right: var(--accordion-header-padding-right-tablet, var(--accordion-header-padding-right, var(--accordion-header-padding, 12px 16px)));
+  padding-bottom: var(--accordion-header-padding-bottom-tablet, var(--accordion-header-padding-bottom, var(--accordion-header-padding, 12px 16px)));
+  padding-left: var(--accordion-header-padding-left-tablet, var(--accordion-header-padding-left, var(--accordion-header-padding, 12px 16px)));
   /* Text color for the accordion header */
   color: var(--accordion-title-color, #333333);
   /* Background color for the accordion header */
@@ -163,7 +217,7 @@
   font-family: var(--accordion-title-font-family, inherit);
   /* Font size for the header */
   font-size: var(--accordion-title-font-size-tablet, var(--accordion-title-font-size, 1.125rem));
-  /* Font weight for title (100-900) */
+  /* Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
   font-weight: var(--accordion-title-font-weight, 400);
   /* Color for text decorations */
   text-decoration-color: var(--accordion-title-decoration-color, currentColor);
@@ -204,6 +258,10 @@
   border-top-style: var(--accordion-divider-style, solid);
   /* Inner spacing of the content panel */
   padding: var(--accordion-content-padding-mobile, var(--accordion-content-padding-tablet, var(--accordion-content-padding, 16px)));
+  padding-top: var(--accordion-content-padding-top-mobile, var(--accordion-content-padding-top-tablet, var(--accordion-content-padding-top, var(--accordion-content-padding, 16px))));
+  padding-right: var(--accordion-content-padding-right-mobile, var(--accordion-content-padding-right-tablet, var(--accordion-content-padding-right, var(--accordion-content-padding, 16px))));
+  padding-bottom: var(--accordion-content-padding-bottom-mobile, var(--accordion-content-padding-bottom-tablet, var(--accordion-content-padding-bottom, var(--accordion-content-padding, 16px))));
+  padding-left: var(--accordion-content-padding-left-mobile, var(--accordion-content-padding-left-tablet, var(--accordion-content-padding-left, var(--accordion-content-padding, 16px))));
   /* Text color for accordion content */
   color: var(--accordion-content-color, #333333);
   /* Background color for accordion content */
@@ -219,23 +277,46 @@
 .gutplus-accordion[data-gutplus-device="mobile"] {
   /* Border width, color, and style for all sides */
   border-width: var(--accordion-border-width, 1px);
+  border-top-width: var(--accordion-border-width-top, var(--accordion-border-width, 1px));
+  border-right-width: var(--accordion-border-width-right, var(--accordion-border-width, 1px));
+  border-bottom-width: var(--accordion-border-width-bottom, var(--accordion-border-width, 1px));
+  border-left-width: var(--accordion-border-width-left, var(--accordion-border-width, 1px));
   /* Corner radius of the accordion wrapper */
   border-radius: var(--accordion-border-radius, 4px);
+  border-top-left-radius: var(--accordion-border-radius-top-left, var(--accordion-border-radius, 4px));
+  border-top-right-radius: var(--accordion-border-radius-top-right, var(--accordion-border-radius, 4px));
+  border-bottom-right-radius: var(--accordion-border-radius-bottom-right, var(--accordion-border-radius, 4px));
+  border-bottom-left-radius: var(--accordion-border-radius-bottom-left, var(--accordion-border-radius, 4px));
   /* Border color for all sides */
   border-color: var(--accordion-border-color, #dddddd);
+  border-top-color: var(--accordion-border-color-top, var(--accordion-border-color, #dddddd));
+  border-right-color: var(--accordion-border-color-right, var(--accordion-border-color, #dddddd));
+  border-bottom-color: var(--accordion-border-color-bottom, var(--accordion-border-color, #dddddd));
+  border-left-color: var(--accordion-border-color-left, var(--accordion-border-color, #dddddd));
   /* Border style for all sides */
   border-style: var(--accordion-border-style, solid);
+  border-top-style: var(--accordion-border-style-top, var(--accordion-border-style, solid));
+  border-right-style: var(--accordion-border-style-right, var(--accordion-border-style, solid));
+  border-bottom-style: var(--accordion-border-style-bottom, var(--accordion-border-style, solid));
+  border-left-style: var(--accordion-border-style-left, var(--accordion-border-style, solid));
   /* Outer spacing around the accordion */
-  margin: var(--accordion-block-margin-mobile, var(--accordion-block-margin-tablet, var(--accordion-block-margin, 1em 0em)));
+  margin-top: var(--accordion-block-margin-top-mobile, var(--accordion-block-margin-top-tablet, var(--accordion-block-margin-top, 1em)));
+  margin-bottom: var(--accordion-block-margin-bottom-mobile, var(--accordion-block-margin-bottom-tablet, var(--accordion-block-margin-bottom, 1em)));
   /* Animation duration in milliseconds */
   transition-duration: var(--accordion-animation-duration, 300ms);
   /* Animation easing function */
   transition-timing-function: var(--accordion-animation-easing, ease);
+  /* Accordion container width */
+  width: var(--accordion-width-mobile, var(--accordion-width-tablet, var(--accordion-width, 100%)));
 }
 
 [data-gutplus-device="mobile"] .accordion-title {
   /* Inner spacing of the header */
   padding: var(--accordion-header-padding-mobile, var(--accordion-header-padding-tablet, var(--accordion-header-padding, 12px 16px)));
+  padding-top: var(--accordion-header-padding-top-mobile, var(--accordion-header-padding-top-tablet, var(--accordion-header-padding-top, var(--accordion-header-padding, 12px 16px))));
+  padding-right: var(--accordion-header-padding-right-mobile, var(--accordion-header-padding-right-tablet, var(--accordion-header-padding-right, var(--accordion-header-padding, 12px 16px))));
+  padding-bottom: var(--accordion-header-padding-bottom-mobile, var(--accordion-header-padding-bottom-tablet, var(--accordion-header-padding-bottom, var(--accordion-header-padding, 12px 16px))));
+  padding-left: var(--accordion-header-padding-left-mobile, var(--accordion-header-padding-left-tablet, var(--accordion-header-padding-left, var(--accordion-header-padding, 12px 16px))));
   /* Text color for the accordion header */
   color: var(--accordion-title-color, #333333);
   /* Background color for the accordion header */
@@ -254,7 +335,7 @@
   font-family: var(--accordion-title-font-family, inherit);
   /* Font size for the header */
   font-size: var(--accordion-title-font-size-mobile, var(--accordion-title-font-size-tablet, var(--accordion-title-font-size, 1.125rem)));
-  /* Font weight for title (100-900) */
+  /* Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
   font-weight: var(--accordion-title-font-weight, 400);
   /* Color for text decorations */
   text-decoration-color: var(--accordion-title-decoration-color, currentColor);

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-29T02:28:32.314Z
+ * Generated at: 2025-12-29T15:44:13.306Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -69,7 +69,7 @@ export const tabsAttributes = {
   },
   borderWidth: {
     type: 'number',
-    default: '0px',
+    default: 0,
   },
   borderStyle: {
     type: 'object',
@@ -153,7 +153,7 @@ export const tabsAttributes = {
   },
   tabButtonBorderWidth: {
     type: 'number',
-    default: '1px',
+    default: 1,
   },
   tabButtonBorderStyle: {
     type: 'object',
@@ -181,7 +181,7 @@ export const tabsAttributes = {
   },
   tabButtonActiveContentBorderWidth: {
     type: 'number',
-    default: '1px',
+    default: 1,
   },
   tabButtonActiveContentBorderStyle: {
     type: 'string',
@@ -197,7 +197,7 @@ export const tabsAttributes = {
   },
   tabsRowBorderWidth: {
     type: 'number',
-    default: '0px',
+    default: 0,
   },
   tabsRowBorderStyle: {
     type: 'object',
@@ -229,7 +229,7 @@ export const tabsAttributes = {
   },
   tabsListContentBorderWidth: {
     type: 'number',
-    default: '1px',
+    default: 1,
   },
   tabsListContentBorderStyle: {
     type: 'string',
@@ -245,7 +245,7 @@ export const tabsAttributes = {
   },
   panelBorderWidth: {
     type: 'number',
-    default: '1px',
+    default: 1,
   },
   panelBorderStyle: {
     type: 'object',

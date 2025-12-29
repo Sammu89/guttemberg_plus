@@ -8,7 +8,7 @@
   "_IMPORTANT_README": {
     "title": "⚠️ CENTRALIZED CONFIG SYSTEM - READ BEFORE EDITING",
     "description": "Units, min, max, and step values are centralized. DO NOT hardcode them in this schema!",
-    "centralizer": "shared/src/config/css-property-scales.js",
+    "centralizer": "shared/src/config/css-property-scales.mjs",
     "rules": [
       "✅ DO: Specify 'cssProperty' - units/min/max/step come from centralizer automatically",
       "❌ DON'T: Add 'units', 'min', 'max', 'step' to SliderWithInput attributes (unless overriding)",
@@ -328,7 +328,7 @@
     },
     "borderWidth": {
       "type": "number",
-      "default": "0px",
+      "default": 0,
       "label": "Block Border Width",
       "description": "Border width for main wrapper",
       "group": "blockBorders",
@@ -804,7 +804,7 @@
     },
     "tabButtonBorderWidth": {
       "type": "number",
-      "default": "1px",
+      "default": 1,
       "label": "Header Border Width",
       "description": "Border width for tab buttons",
       "group": "headerBorders",
@@ -946,12 +946,13 @@
     },
     "tabButtonActiveContentBorderWidth": {
       "type": "number",
-      "default": "1px",
+      "default": 1,
       "label": "Active Content Edge Border Width",
       "description": "Width of the active button edge touching content",
       "group": "headerBorders",
       "order": 10,
       "control": "RangeControl",
+      "state": "active",
       "appliesTo": "tabButton",
       "cssVar": "tabs-button-active-content-border-width",
       "themeable": true,
@@ -979,6 +980,7 @@
       "group": "headerBorders",
       "order": 11,
       "control": "SelectControl",
+      "state": "active",
       "options": [
         {
           "label": "None",
@@ -1054,7 +1056,7 @@
     },
     "tabsRowBorderWidth": {
       "type": "number",
-      "default": "0px",
+      "default": 0,
       "label": "Row Border Width",
       "description": "Border width for the tab row",
       "group": "headerRowOptions",
@@ -1238,7 +1240,7 @@
     },
     "tabsListContentBorderWidth": {
       "type": "number",
-      "default": "1px",
+      "default": 1,
       "label": "Row Divider Border Width",
       "description": "Width of the tab row edge that touches the content",
       "group": "headerRowOptions",
@@ -1346,7 +1348,7 @@
     },
     "panelBorderWidth": {
       "type": "number",
-      "default": "1px",
+      "default": 1,
       "label": "Panel Border Width",
       "description": "Border width for tab content panel (0-10px)",
       "group": "panelAppearance",
@@ -1524,6 +1526,7 @@
       "group": "icon",
       "order": 8,
       "control": "RangeControl",
+      "state": "active",
       "appliesTo": "tabIcon",
       "cssVar": "tabs-icon-rotation-active",
       "cssProperty": "transform",

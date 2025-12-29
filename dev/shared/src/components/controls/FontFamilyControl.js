@@ -14,6 +14,30 @@ import sharedTemplates from '../../../../schemas/shared-templates.json';
 /**
  * FontFamilyControl - Font family selector with grouped options
  *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses a SIMPLE STRING pattern (single font-family value).
+ *
+ * VALUE PROP:
+ * -----------
+ * value prop accepts:
+ *   - "" (empty string for default)
+ *   - "Inter, sans-serif"
+ *   - "Georgia, serif"
+ *
+ * onChange callback signature:
+ *   onChange(newValue)
+ *   - newValue: string (font-family value)
+ *
+ * NOT RESPONSIVE:
+ * ---------------
+ * FontFamilyControl does NOT handle responsive values internally.
+ * Parent controls must switch values per device if needed.
+ *
+ * ============================================================================
+ *
  * @param {Object}   props          Component props
  * @param {string}   props.label    Label for the control
  * @param {string}   props.value    Current font family value

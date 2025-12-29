@@ -14,9 +14,9 @@
 
 import { useMemo } from '@wordpress/element';
 import { BaseControl, Flex, FlexItem, FlexBlock, __experimentalNumberControl as NumberControl } from '@wordpress/components';
-import { DeviceSwitcher } from './DeviceSwitcher';
+import { DeviceSwitcher } from './atoms/DeviceSwitcher';
 import { UnitSelector } from './UnitSelector';
-import { LinkToggle } from './LinkToggle';
+import { LinkToggle } from './atoms/LinkToggle';
 import { ResetButton } from './ResetButton';
 import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
 

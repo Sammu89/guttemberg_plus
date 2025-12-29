@@ -46,6 +46,7 @@ import {
 import tocSchema from '../../../schemas/toc.json';
 import { tocAttributes } from './toc-attributes';
 import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
+import { buildEditorCssVars } from '@shared/styles/toc-css-vars-generated';
 import './editor.scss';
 
 /**
@@ -464,32 +465,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// SOURCE OF TRUTH: attributes = merged state (what you see in sidebar)
 	const effectiveValues = attributes;
 
-		/**
-		 * Generate CSS variables from effective values for editor preview
-		 */
-	const getEditorCSSVariables = () => {
-		const cssVars = {};
-
-		Object.entries(effectiveValues).forEach(([attrName, value]) => {
-			if (value === null || value === undefined) {
-				return;
-			}
-
-			const cssVar = getCssVarName(attrName, 'toc');
-			if (!cssVar) {
-				return;
-			}
-
-			// Format the value (formatCssValue now handles compound values intelligently)
-			const formattedValue = formatCssValue(attrName, value, 'toc');
-			if (formattedValue !== null) {
-				cssVars[cssVar] = formattedValue;
-			}
-		});
-
-		return cssVars;
-	};
-
 	/**
 	 * Apply inline styles from effective values
 	 */
@@ -515,16 +490,17 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		    "linked": true
 		};
 	const blockBorderRadius = effectiveValues.blockBorderRadius || {
-		    "topLeft": "4px",
-		    "topRight": "4px",
-		    "bottomRight": "4px",
-		    "bottomLeft": "4px"
+		    "topLeft": 4,
+		    "topRight": 4,
+		    "bottomRight": 4,
+		    "bottomLeft": 4,
+		    "unit": "px"
 		};
 
 	return {
 		container: {
 			backgroundColor: (() => { const val = effectiveValues.wrapperBackgroundColor; if (val === null || val === undefined) return '#ffffff'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#ffffff'; })(),
-			borderWidth: (() => { const val = effectiveValues.blockBorderWidth; if (val === null || val === undefined) return '1px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1px'; })(),
+			borderWidth: (() => { const val = effectiveValues.blockBorderWidth; if (val === null || val === undefined) return '1'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1'; })(),
 			borderRadius: `${blockBorderRadius.topLeft}px ${blockBorderRadius.topRight}px ${blockBorderRadius.bottomRight}px ${blockBorderRadius.bottomLeft}px`,
 			boxShadow: (() => { const val = effectiveValues.blockShadow; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
 			top: (() => { const val = effectiveValues.positionTop; if (val === null || val === undefined) return '6.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '6.25rem'; })(),
@@ -568,7 +544,7 @@ const displayHeadings =
 	// Build inline styles - apply width from attributes
 	// IMPORTANT: Force static positioning in editor to prevent overflow issues
 	// Position type (sticky/fixed) should only apply on frontend
-	const editorCSSVars = getEditorCSSVariables();
+	const editorCSSVars = buildEditorCssVars( effectiveValues );
 
 	/**
 	 * Format dimension value (width/height) with proper unit
@@ -790,7 +766,6 @@ const displayHeadings =
 					<ThemeSelector
 						blockType="toc"
 						currentTheme={ currentTheme }
-						setAttributes={ setAttributes }
 						attributes={ attributes }
 						themes={ themes }
 						themesLoaded={ themesLoaded }
@@ -1024,6 +999,7 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 		return null;
 	}
 
+	const linkColorVar = getCssVarName( 'linkColor', 'toc' );
 	const numberingStyles = {};
 	const numberingDataAttributes = {};
 	[ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ].forEach( ( level ) => {
@@ -1056,7 +1032,7 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 						<a
 							href={ `#${ heading.id || heading.anchor || `heading-${ index }` }` }
 							className="toc-link"
-							style={ { color: effectiveValues.linkColor } }
+							style={ linkColorVar ? { color: `var(${ linkColorVar })` } : undefined }
 						>
 							{ heading.text }
 						</a>

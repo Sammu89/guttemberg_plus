@@ -14,6 +14,31 @@ import sharedTemplates from '../../../../schemas/shared-templates.json';
 /**
  * AppearanceControl - Combined font weight and style selector
  *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses an OBJECT pattern (compound value).
+ *
+ * VALUE PROP:
+ * -----------
+ * value prop structure:
+ *   {
+ *     weight: "400",   // string
+ *     style: "normal"  // string ("normal" or "italic")
+ *   }
+ *
+ * onChange callback signature:
+ *   onChange(newValue)
+ *   - newValue: object { weight, style }
+ *
+ * NOT RESPONSIVE:
+ * ---------------
+ * AppearanceControl does NOT handle responsive values internally.
+ * Parent controls must switch values per device if needed.
+ *
+ * ============================================================================
+ *
  * @param {Object}   props          Component props
  * @param {string}   props.label    Label for the control
  * @param {Object}   props.value    Current value { weight: string, style: string }

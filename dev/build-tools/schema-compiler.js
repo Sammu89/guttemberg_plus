@@ -23,11 +23,13 @@
 const fs = require('fs');
 const path = require('path');
 const { generateStyleBuilder } = require('./generators/style-builder-generator');
+const { generateEditorCssVarsBuilder } = require('./generators/editor-css-vars-injector');
+const { generateFrontendCssVarsBuilder } = require('./generators/frontend-css-vars-injector');
 
 // Dynamic import for ES module (css-property-scales uses ES6 exports)
 let CSS_PROPERTY_SCALES, CSS_PROPERTY_ALIASES, getPropertyScale;
 async function loadCssPropertyScales() {
-  const module = await import('../shared/src/config/css-property-scales.js');
+  const module = await import('../shared/src/config/css-property-scales.mjs');
   CSS_PROPERTY_SCALES = module.CSS_PROPERTY_SCALES;
   CSS_PROPERTY_ALIASES = module.CSS_PROPERTY_ALIASES;
   getPropertyScale = module.getPropertyScale;
@@ -64,6 +66,26 @@ const BLOCKS = ['accordion', 'tabs', 'toc'];
  */
 function getTimestamp() {
   return new Date().toISOString();
+}
+
+function getDefaultUnitForProperty(cssProperty) {
+  if (!getPropertyScale || !cssProperty) {
+    return null;
+  }
+  const scale = getPropertyScale(cssProperty);
+  if (!scale) {
+    return null;
+  }
+  if (cssProperty === 'transform' && scale.rotation?.units?.length) {
+    return scale.rotation.units[0] || null;
+  }
+  if (!Array.isArray(scale.units)) {
+    return null;
+  }
+  if (scale.units.includes('px')) {
+    return 'px';
+  }
+  return scale.units[0] || null;
 }
 
 /**
@@ -527,10 +549,12 @@ function generatePHPMappings(allSchemas) {
 
     for (const [attrName, attr] of Object.entries(schema.attributes)) {
       if (attr.themeable && attr.cssVar) {
+        const defaultUnit = getDefaultUnitForProperty(attr.cssProperty);
         // Store both cssVar and unit
         mappings[blockType][attrName] = {
           cssVar: attr.cssVar,
           unit: attr.unit || null,
+          defaultUnit: defaultUnit || null,
           type: attr.type
         };
       }
@@ -568,7 +592,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     for (const [attrName, info] of Object.entries(attrs)) {
       const unitStr = info.unit ? `'${info.unit}'` : 'null';
-      content += `      '${attrName}' => array( 'cssVar' => '${info.cssVar}', 'unit' => ${unitStr}, 'type' => '${info.type}' ),\n`;
+      const defaultUnitStr = info.defaultUnit ? `'${info.defaultUnit}'` : 'null';
+      content += `      '${attrName}' => array( 'cssVar' => '${info.cssVar}', 'unit' => ${unitStr}, 'defaultUnit' => ${defaultUnitStr}, 'type' => '${info.type}' ),\n`;
     }
 
     content += `    ),\n`;
@@ -594,10 +619,13 @@ function generateJSMappings(allSchemas) {
     mappings[blockType] = {};
 
     for (const [attrName, attr] of Object.entries(schema.attributes)) {
-      if (attr.themeable && attr.cssVar) {
+      const outputsCSS = attr.outputsCSS !== false;
+      if (outputsCSS && attr.cssVar) {
+        const defaultUnit = getDefaultUnitForProperty(attr.cssProperty);
         mappings[blockType][attrName] = {
           cssVar: `--${attr.cssVar}`,
           unit: attr.unit || null,
+          defaultUnit: defaultUnit || null,
           type: attr.type,
           cssProperty: attr.cssProperty || null,
           dependsOn: attr.dependsOn || null,
@@ -700,7 +728,8 @@ export const CSS_VAR_MAPPINGS = {\n`;
       const variantsStr = info.variants
         ? JSON.stringify(info.variants, null, 6).replace(/\n/g, '\n      ')
         : 'null';
-      content += `    ${attrName}: { cssVar: '${info.cssVar}', unit: ${unitStr}, type: '${info.type}', cssProperty: ${cssPropStr}, dependsOn: ${dependsOnStr}, variants: ${variantsStr} },\n`;
+      const defaultUnitStr = info.defaultUnit ? `'${info.defaultUnit}'` : 'null';
+      content += `    ${attrName}: { cssVar: '${info.cssVar}', unit: ${unitStr}, defaultUnit: ${defaultUnitStr}, type: '${info.type}', cssProperty: ${cssPropStr}, dependsOn: ${dependsOnStr}, variants: ${variantsStr} },\n`;
     }
 
     content += `  },\n`;
@@ -736,6 +765,67 @@ function compressBoxValue(values, unit = '') {
   return \`\${addUnit(top)} \${addUnit(right)} \${addUnit(bottom)} \${addUnit(left)}\`;
 }
 
+const UNIT_REGEX = /^-?\\d+(?:\\.\\d+)?\\s*([a-zA-Z%]+)$/;
+
+function getUnitFromString(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+  const match = value.trim().match(UNIT_REGEX);
+  return match ? match[1] : '';
+}
+
+function inferBoxUnit(value, fallbackUnit = '') {
+  if (!value || typeof value !== 'object') {
+    return fallbackUnit;
+  }
+
+  if (value.unit !== undefined && value.unit !== null && value.unit !== '') {
+    return value.unit;
+  }
+
+  if (value.value && typeof value.value === 'object') {
+    return inferBoxUnit(value.value, fallbackUnit);
+  }
+
+  const candidates = [
+    value.top,
+    value.right,
+    value.bottom,
+    value.left,
+    value.topLeft,
+    value.topRight,
+    value.bottomRight,
+    value.bottomLeft,
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate) {
+      continue;
+    }
+    if (typeof candidate === 'string') {
+      const unit = getUnitFromString(candidate);
+      if (unit) {
+        return unit;
+      }
+      continue;
+    }
+    if (typeof candidate === 'object') {
+      if (candidate.unit) {
+        return candidate.unit;
+      }
+      if (typeof candidate.value === 'string') {
+        const unit = getUnitFromString(candidate.value);
+        if (unit) {
+          return unit;
+        }
+      }
+    }
+  }
+
+  return fallbackUnit;
+}
+
 /**
  * Format a value with its unit for CSS output
  * @param {string} attrName - Attribute name
@@ -757,8 +847,12 @@ export function formatCssValue(attrName, value, blockType) {
     value.value !== undefined &&
     value.value !== null
   ) {
-    const unit = value.unit || mapping.unit || '';
-    return \`\${value.value}\${unit}\`;
+    if (typeof value.value === 'string') {
+      return value.value;
+    }
+    const fallbackUnit = mapping.unit || mapping.defaultUnit || '';
+    const unit = value.unit ?? fallbackUnit;
+    return \`\${value.value}\${unit ?? ''}\`;
   }
 
   // Handle object types (border radius, padding, colors, styles)
@@ -770,7 +864,7 @@ export function formatCssValue(attrName, value, blockType) {
 
     // Border radius format: topLeft topRight bottomRight bottomLeft
     if (value.topLeft !== undefined) {
-      const unit = value.unit || 'px';
+      const unit = inferBoxUnit(value, mapping.defaultUnit || mapping.unit || 'px');
       const values = [value.topLeft, value.topRight, value.bottomRight, value.bottomLeft];
       return compressBoxValue(values, unit);
     }
@@ -792,7 +886,7 @@ export function formatCssValue(attrName, value, blockType) {
       // Only apply unit if values are numeric (border-style/color are strings, don't need units)
       const firstValue = values.find(v => v !== '' && v !== undefined && v !== null);
       const isNumeric = typeof firstValue === 'number';
-      const unit = isNumeric ? (value.unit || '') : '';
+      const unit = isNumeric ? inferBoxUnit(value, mapping.defaultUnit || mapping.unit || '') : '';
 
       return compressBoxValue(values, unit);
     }
@@ -808,14 +902,118 @@ export function formatCssValue(attrName, value, blockType) {
   }
 
   // Handle numeric values with units
-  if (mapping.unit && typeof value === 'number') {
-    return \`\${value}\${mapping.unit}\`;
+  const numberUnit = mapping.unit || mapping.defaultUnit;
+  if (numberUnit && typeof value === 'number') {
+    return \`\${value}\${numberUnit}\`;
   }
 
   // Return value as-is for strings and other types
   return value;
 }
 
+/**
+ * Decompose box-like objects into per-side CSS variable assignments.
+ * Handles top/right/bottom/left and border-radius corner shapes.
+ *
+ * @param {string} attrName - Attribute name
+ * @param {*} value - Box-like value object
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @param {string} [suffix=''] - Optional suffix (e.g., '-tablet', '-mobile')
+ * @returns {Object} Map of CSS variable names to values
+ */
+export function decomposeObjectToSides(attrName, value, blockType, suffix = '') {
+  const mapping = CSS_VAR_MAPPINGS[blockType]?.[attrName];
+  if (!mapping || !mapping.cssVar || value === null || value === undefined) return {};
+  if (Array.isArray(value)) return {};
+
+  const baseVar = mapping.cssVar;
+  const linked = typeof value?.linked === 'boolean' ? value.linked : null;
+
+  const resolveSideValue = (sideValue, fallbackUnit) => {
+    if (sideValue === null || sideValue === undefined) return null;
+    if (typeof sideValue === 'string') return sideValue;
+    if (typeof sideValue === 'number') return '' + sideValue + (fallbackUnit || '');
+    if (typeof sideValue === 'object' && sideValue.value !== undefined) {
+      const unit = sideValue.unit ?? fallbackUnit ?? '';
+      return '' + sideValue.value + unit;
+    }
+    return null;
+  };
+
+  const valuesDiffer = (resolvedValues) => {
+    const filtered = resolvedValues.filter((val) => val !== null);
+    if (filtered.length <= 1) return false;
+    return filtered.some((val) => val !== filtered[0]);
+  };
+
+  const unitFromValue = value && typeof value === 'object'
+    ? inferBoxUnit(value, mapping.defaultUnit || mapping.unit || '')
+    : '';
+
+  // Border radius corners
+  if (value && typeof value === 'object' && value.topLeft !== undefined) {
+    const radiusUnit = inferBoxUnit(value, mapping.defaultUnit || mapping.unit || 'px');
+    const corners = {
+      'top-left': value.topLeft,
+      'top-right': value.topRight,
+      'bottom-right': value.bottomRight,
+      'bottom-left': value.bottomLeft,
+    };
+
+    const resolvedCorners = Object.entries(corners).map(([corner, cornerValue]) => ({
+      corner,
+      resolved: resolveSideValue(cornerValue, radiusUnit),
+    }));
+
+    const shouldEmit = linked === false || valuesDiffer(resolvedCorners.map((entry) => entry.resolved));
+    if (!shouldEmit) {
+      return {};
+    }
+
+    const result = {};
+    resolvedCorners.forEach(({ corner, resolved }) => {
+      if (resolved !== null) {
+        result[baseVar + '-' + corner + suffix] = resolved;
+      }
+    });
+
+    return result;
+  }
+
+  // Directional sides
+  if (value && typeof value === 'object' &&
+      (value.top !== undefined || value.right !== undefined ||
+       value.bottom !== undefined || value.left !== undefined)) {
+    const unit = unitFromValue || mapping.unit || '';
+    const sides = {
+      top: value.top,
+      right: value.right,
+      bottom: value.bottom,
+      left: value.left,
+    };
+
+    const resolvedSides = Object.entries(sides).map(([side, sideValue]) => ({
+      side,
+      resolved: resolveSideValue(sideValue, unit),
+    }));
+
+    const shouldEmit = linked === false || valuesDiffer(resolvedSides.map((entry) => entry.resolved));
+    if (!shouldEmit) {
+      return {};
+    }
+
+    const result = {};
+    resolvedSides.forEach(({ side, resolved }) => {
+      if (resolved !== null) {
+        result[baseVar + '-' + side + suffix] = resolved;
+      }
+    });
+
+    return result;
+  }
+
+  return {};
+}
 /**
  * Get the CSS variable name for an attribute
  * @param {string} attrName - Attribute name
@@ -852,15 +1050,6 @@ export default CSS_VAR_MAPPINGS;
 `;
 
   return { fileName: 'css-var-mappings-generated.js', content };
-}
-
-/**
- * Generate JavaScript exclusion lists
- * DEPRECATED: Exclusions are no longer generated as separate files
- */
-function generateExclusions(blockType, schema) {
-  // This function is kept for backwards compatibility but no longer generates files
-  return null;
 }
 
 /**
@@ -1380,12 +1569,14 @@ function generateInlineStylesFunction(schema, blockType) {
   code.push(``);
   code.push(`\treturn {`);
 
-  // Map CSS selectors to simplified keys (container, title, content, icon)
+  // Map CSS selectors to simplified keys (container, title, content, icon, text nodes)
   const selectorMap = {
     'container': [],
     'title': [],
+    'titleText': [],
     'content': [],
     'icon': [],
+    'tabButtonText': [],
   };
 
   // Helper to normalize appliesTo to array
@@ -1405,18 +1596,14 @@ function generateInlineStylesFunction(schema, blockType) {
   // Group attributes by simplified selector names
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
     if (!attr.themeable || !attr.cssProperty) continue;
+    if (attr.outputsCSS === false) {
+      continue;
+    }
 
     // EXCLUDE state-specific attributes from editor inline styles
     // Method 1: Check schema's "state" field (preferred - from schema cleanup)
     if (attr.state) {
       continue; // Skip non-base states (hover, active, focus, visited, disabled)
-    }
-
-    // Method 2: Pattern matching fallback (for backwards compatibility)
-    const statePatterns = [/Hover/i, /Active/i, /Focus/i, /Disabled/i, /Visited/i];
-    const isStateAttribute = statePatterns.some(pattern => pattern.test(attrName));
-    if (isStateAttribute) {
-      continue; // Skip state-specific attributes
     }
 
     // Determine selector group from appliesTo field
@@ -1439,7 +1626,7 @@ function generateInlineStylesFunction(schema, blockType) {
     const styleKeyMap = {
       // Tabs
       'tabIcon': 'icon',
-      'tabButtonText': 'tabButton',
+      'tabButtonText': 'tabButtonText',
       'tabsList': 'tabList',
       'tabPanel': 'panel',
       'wrapper': 'container',
@@ -1451,7 +1638,7 @@ function generateInlineStylesFunction(schema, blockType) {
       'accordionItem': 'container',
       'accordionIcon': 'icon',
       'item': 'container',  // Accordion item wrapper
-      'titleText': 'title',
+      'titleText': 'titleText',
       // Generic fallbacks
       'title': 'title',
       'titleStatic': 'title',
@@ -2106,6 +2293,26 @@ async function compile() {
         results.files.push({ path: filePath, lines: content.split('\n').length });
       } catch (error) {
         results.errors.push(`Style builder generation failed for ${blockType}: ${error.message}`);
+      }
+
+      // Editor CSS vars builders
+      try {
+        const { fileName, content } = generateEditorCssVarsBuilder(blockType, schema);
+        const filePath = path.join(OUTPUT_DIRS.styles, fileName);
+        fs.writeFileSync(filePath, content);
+        results.files.push({ path: filePath, lines: content.split('\n').length });
+      } catch (error) {
+        results.errors.push(`Editor CSS vars generation failed for ${blockType}: ${error.message}`);
+      }
+
+      // Frontend CSS vars builders
+      try {
+        const { fileName, content } = generateFrontendCssVarsBuilder(blockType, schema);
+        const filePath = path.join(OUTPUT_DIRS.styles, fileName);
+        fs.writeFileSync(filePath, content);
+        results.files.push({ path: filePath, lines: content.split('\n').length });
+      } catch (error) {
+        results.errors.push(`Frontend CSS vars generation failed for ${blockType}: ${error.message}`);
       }
 
       // Validate schema-mapping synchronization (silent unless warnings)

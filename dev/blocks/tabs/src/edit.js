@@ -41,6 +41,7 @@ import {
 	useResponsiveDevice,
 } from '@shared';
 import { getCssVarName, formatCssValue, resolveCssProperty } from '@shared/config/css-var-mappings-generated';
+import { buildEditorCssVars } from '@shared/styles/tabs-css-vars-generated';
 import tabsSchema from '../../../schemas/tabs.json';
 import { tabsAttributes } from './tabs-attributes';
 import './editor.scss';
@@ -265,33 +266,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const effectiveValues = attributes;
 
 	/**
-	 * Generate CSS variables from effective values for editor preview
-	 * Uses formatCssValue which handles compound values intelligently
-	 */
-	const getEditorCSSVariables = () => {
-		const cssVars = {};
-
-		Object.entries(effectiveValues).forEach(([attrName, value]) => {
-			if (value === null || value === undefined) {
-				return;
-			}
-
-			const cssVar = getCssVarName(attrName, 'tabs');
-			if (!cssVar) {
-				return;
-			}
-
-			// Format the value (formatCssValue now handles compound values intelligently)
-			const formattedValue = formatCssValue(attrName, value, 'tabs');
-			if (formattedValue !== null) {
-				cssVars[cssVar] = formattedValue;
-			}
-		});
-
-		return cssVars;
-	};
-
-	/**
 	 * Apply inline styles from effective values
 	 */
 	/* ========== AUTO-GENERATED-STYLES-START ========== */
@@ -385,17 +359,16 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 
 	return {
 		container: {
-			borderWidth: effectiveValues.borderWidth ?? '0px',
+			borderWidth: effectiveValues.borderWidth ?? 0,
 			borderRadius: `${borderRadius.topLeft}px ${borderRadius.topRight}px ${borderRadius.bottomRight}px ${borderRadius.bottomLeft}px`,
 			boxShadow: (() => { const val = effectiveValues.shadow; if (val === null || val === undefined) return 'none'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'none'; })(),
 		},
 		icon: {
 			color: (() => { const val = effectiveValues.iconColor; if (val === null || val === undefined) return '#666666'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#666666'; })(),
 			fontSize: effectiveValues.iconSize ?? '1rem',
-			content: (() => { const val = effectiveValues.iconTypeClosed; if (val === null || val === undefined) return '▾'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '▾'; })(),
 			transform: effectiveValues.iconRotation ?? '0deg',
 		},
-		tabButton: {
+		tabButtonText: {
 			fontSize: effectiveValues.tabButtonFontSize ?? '1rem',
 			fontWeight: (() => { const val = effectiveValues.tabButtonFontWeight; if (val === null || val === undefined) return '500'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '500'; })(),
 			fontStyle: (() => { const val = effectiveValues.tabButtonFontStyle; if (val === null || val === undefined) return 'normal'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'normal'; })(),
@@ -404,14 +377,13 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		},
 		tabList: {
 			backgroundColor: (() => { const val = effectiveValues.tabListBackgroundColor; if (val === null || val === undefined) return 'transparent'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'transparent'; })(),
-			borderWidth: effectiveValues.tabsRowBorderWidth ?? '0px',
+			borderWidth: effectiveValues.tabsRowBorderWidth ?? 0,
 			gap: effectiveValues.tabsButtonGap ?? '0.5rem',
 			justifyContent: (() => { const val = effectiveValues.tabListAlignment; if (val === null || val === undefined) return 'flex-start'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'flex-start'; })(),
-			border: effectiveValues.enableTabsListContentBorder ? 'flex' : 'none',
 		},
 		panel: {
 			backgroundColor: (() => { const val = effectiveValues.panelBackgroundColor; if (val === null || val === undefined) return '#ffffff'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#ffffff'; })(),
-			borderWidth: effectiveValues.panelBorderWidth ?? '1px',
+			borderWidth: effectiveValues.panelBorderWidth ?? 1,
 			borderRadius: `${panelBorderRadius.topLeft}px ${panelBorderRadius.topRight}px ${panelBorderRadius.bottomRight}px ${panelBorderRadius.bottomLeft}px`,
 		},
 	};
@@ -468,35 +440,31 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		// Add tabButton function to styles object to handle active/disabled states
 		styles.tabButton = (isActive, isDisabled) => {
 			const isActiveContentBorderEnabled = attributes.enableFocusBorder !== false;
-			const tabButtonFontSize = formatCssValue(
-				'tabButtonFontSize',
-				effectiveValues.tabButtonFontSize,
-				'tabs'
-			);
 
 			const baseStyles = {
-				color: effectiveValues.tabButtonColor,
-				backgroundColor: effectiveValues.tabButtonBackgroundColor,
-				borderWidth: `${effectiveValues.tabButtonBorderWidth}px`,
-				borderStyle: effectiveValues.tabButtonBorderStyle,
-				borderColor: effectiveValues.tabButtonBorderColor,
-				borderRadius: `${effectiveValues.tabButtonBorderRadius.topLeft}px ${effectiveValues.tabButtonBorderRadius.topRight}px ${effectiveValues.tabButtonBorderRadius.bottomRight}px ${effectiveValues.tabButtonBorderRadius.bottomLeft}px`,
-				boxShadow: effectiveValues.tabButtonShadow,
-				fontWeight: effectiveValues.tabButtonFontWeight,
-				fontStyle: effectiveValues.tabButtonFontStyle,
+				color: getCssVarValue( 'tabButtonColor' ),
+				backgroundColor: getCssVarValue( 'tabButtonBackgroundColor' ),
+				borderWidth: getCssVarValue( 'tabButtonBorderWidth' ),
+				borderStyle: getCssVarValue( 'tabButtonBorderStyle' ),
+				borderColor: getCssVarValue( 'tabButtonBorderColor' ),
+				borderRadius: getCssVarValue( 'tabButtonBorderRadius' ),
+				boxShadow: getCssVarValue( 'tabButtonShadow' ),
+				fontWeight: getCssVarValue( 'tabButtonFontWeight' ),
+				fontStyle: getCssVarValue( 'tabButtonFontStyle' ),
 			};
 
-			if ( tabButtonFontSize !== null && tabButtonFontSize !== undefined ) {
+			const tabButtonFontSize = getCssVarValue( 'tabButtonFontSize' );
+			if ( tabButtonFontSize ) {
 				baseStyles.fontSize = tabButtonFontSize;
 			}
 
 			if (isActive) {
 				const activeStyles = {
 					...baseStyles,
-					color: effectiveValues.tabButtonActiveColor,
-					backgroundColor: effectiveValues.tabButtonActiveBackgroundColor,
-					borderColor: effectiveValues.tabButtonActiveBorderColor,
-					fontWeight: effectiveValues.tabButtonActiveFontWeight,
+					color: getCssVarValue( 'tabButtonActiveColor' ),
+					backgroundColor: getCssVarValue( 'tabButtonActiveBackgroundColor' ),
+					borderColor: getCssVarValue( 'tabButtonActiveBorderColor' ),
+					fontWeight: getCssVarValue( 'tabButtonActiveFontWeight' ),
 				};
 
 				if (!isActiveContentBorderEnabled) {
@@ -785,8 +753,13 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		return styles;
 	};
 
+	const getCssVarValue = ( attrName ) => {
+		const cssVar = getCssVarName( attrName, 'tabs' );
+		return cssVar ? `var(${ cssVar })` : undefined;
+	};
+
 		const customizationStyles = getCustomizationStyles();
-		const editorCSSVars = getEditorCSSVariables();
+		const editorCSSVars = buildEditorCssVars( effectiveValues );
 
 		/**
 		 * Format dimension value (width/height) with proper unit
@@ -844,11 +817,10 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 				<ThemeSelector
 					blockType="tabs"
 					currentTheme={ attributes.currentTheme }
-					isCustomized={ isCustomized }
-					attributes={ attributes }
-					effectiveValues={ effectiveValues }
-					setAttributes={ setAttributes }
-					themes={ themes }
+						isCustomized={ isCustomized }
+						attributes={ attributes }
+						effectiveValues={ effectiveValues }
+						themes={ themes }
 					themesLoaded={ themesLoaded }
 					sessionCache={ sessionCache }
 					onThemeChange={ handleThemeChange }

@@ -207,6 +207,121 @@ function compressShorthand(top, right, bottom, left, unit) {
   return `${formatVal(top)} ${formatVal(right)} ${formatVal(bottom)} ${formatVal(left)}`;
 }
 
+const DECOMPOSE_SIDE_PROPERTIES = new Set([
+  'padding',
+  'margin',
+  'border-width',
+  'border-color',
+  'border-style',
+  'scroll-padding',
+  'scroll-margin',
+]);
+
+const DECOMPOSE_CORNER_PROPERTIES = new Set([
+  'border-radius',
+]);
+
+const LONGHAND_SIDE_REGEX = /-(top|right|bottom|left)(-|$)/;
+
+function isLonghandProperty(property) {
+  return LONGHAND_SIDE_REGEX.test(property);
+}
+
+function normalizeDefaultValue(defaultValue) {
+  if (!defaultValue || typeof defaultValue !== 'object') {
+    return defaultValue;
+  }
+  if ((defaultValue.tablet !== undefined || defaultValue.mobile !== undefined) &&
+      defaultValue.value !== undefined) {
+    return defaultValue.value;
+  }
+  return defaultValue;
+}
+
+function formatDefaultSideValue(defaultValue, key, unitFallback) {
+  if (!defaultValue || typeof defaultValue !== 'object') {
+    return null;
+  }
+
+  const keyMap = {
+    'top-left': 'topLeft',
+    'top-right': 'topRight',
+    'bottom-right': 'bottomRight',
+    'bottom-left': 'bottomLeft',
+  };
+
+  const rawKey = keyMap[key] || key;
+  const rawValue = defaultValue[rawKey];
+
+  if (rawValue === null || rawValue === undefined) {
+    return null;
+  }
+
+  if (typeof rawValue === 'string') {
+    return rawValue;
+  }
+
+  if (typeof rawValue === 'number') {
+    return unitFallback ? `${rawValue}${unitFallback}` : `${rawValue}`;
+  }
+
+  if (typeof rawValue === 'object' && rawValue.value !== undefined) {
+    const unit = rawValue.unit || unitFallback || '';
+    return `${rawValue.value}${unit}`;
+  }
+
+  return null;
+}
+
+function getDecomposedEntries(attr) {
+  const property = attr.property;
+  if (!property || isLonghandProperty(property) || property === 'border') {
+    return null;
+  }
+
+  const defaultValue = normalizeDefaultValue(attr.rawDefault);
+  const unitFallback = (defaultValue && typeof defaultValue === 'object' && defaultValue.unit)
+    ? defaultValue.unit
+    : attr.unit;
+
+  if (property === 'margin' && attr.control === 'CompactMargin') {
+    const sides = ['top', 'bottom'];
+    const entries = sides.map((side) => ({
+      cssProperty: `margin-${side}`,
+      varSuffix: side,
+      fallback: formatDefaultSideValue(defaultValue, side, unitFallback),
+    }));
+    return { entries, omitShorthand: true };
+  }
+
+  if (DECOMPOSE_SIDE_PROPERTIES.has(property)) {
+    const entries = ['top', 'right', 'bottom', 'left'].map((side) => {
+      let cssProperty = `${property}-${side}`;
+      if (property.startsWith('border-')) {
+        cssProperty = `border-${side}-${property.replace('border-', '')}`;
+      }
+      return {
+        cssProperty,
+        varSuffix: side,
+        fallback: null,
+      };
+    });
+    return { entries, omitShorthand: false };
+  }
+
+  if (DECOMPOSE_CORNER_PROPERTIES.has(property)) {
+    const corners = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
+    const entries = corners.map((corner) => ({
+      cssProperty: `border-${corner}-radius`,
+      varSuffix: corner,
+      fallback: null,
+    }));
+    return { entries, omitShorthand: false };
+  }
+
+  return null;
+}
+
 /**
  * Get root element selector (first class name) for data-attribute scoping
  */
@@ -262,11 +377,11 @@ function extractCssAttributes(schema, structure, blockType) {
   const usedElementIds = new Set();
 
   for (const [attrName, attr] of Object.entries(schema.attributes)) {
-    // Skip non-themeable attributes
+    // Skip attributes that should not output CSS or lack CSS info
     const hasVariants = attr.dependsOn && attr.variants && typeof attr.variants === 'object' && Object.keys(attr.variants).length > 0;
     const hasCssProperty = Boolean(attr.cssProperty);
 
-    if (!attr.themeable || !attr.cssVar || (!hasCssProperty && !hasVariants)) {
+    if (attr.outputsCSS === false || !attr.cssVar || (!hasCssProperty && !hasVariants)) {
       continue;
     }
 
@@ -354,6 +469,9 @@ function extractCssAttributes(schema, structure, blockType) {
           elementId: elementId,
           variantKey,
           responsive: attr.responsive === true, // Only true if explicitly set
+          control: attr.control,
+          rawDefault: attr.default,
+          unit: attr.unit,
         });
       });
 
@@ -370,6 +488,9 @@ function extractCssAttributes(schema, structure, blockType) {
       description: attr.description,
       elementId: elementId, // For grouping in new system
       responsive: attr.responsive === true, // Only true if explicitly set
+      control: attr.control,
+      rawDefault: attr.default,
+      unit: attr.unit,
     });
   }
 
@@ -461,6 +582,50 @@ function groupBySelector(cssAttrs) {
   return grouped;
 }
 
+function buildSideVar(attr, entry) {
+  const sideVar = `--${attr.cssVar}-${entry.varSuffix}`;
+  const shorthandVar = `--${attr.cssVar}`;
+
+  // Build fallback chain: side var → shorthand var → default value
+  // This ensures that if a side-specific var is not defined, it falls back to the shorthand
+  if (entry.fallback) {
+    // CompactMargin case: has explicit side fallback
+    return `var(${sideVar}, ${entry.fallback})`;
+  }
+
+  // Standard decomposed properties: fall back to shorthand + default
+  return `var(${sideVar}, var(${shorthandVar}, ${attr.default}))`;
+}
+
+function buildResponsiveSideVar(attr, entry, device) {
+  const baseSideVar = `--${attr.cssVar}-${entry.varSuffix}`;
+  const deviceSideVar = `--${attr.cssVar}-${entry.varSuffix}-${device}`;
+  const shorthandVar = `--${attr.cssVar}`;
+
+  if (!attr.responsive) {
+    // Non-responsive: fall back to shorthand + default
+    if (entry.fallback) {
+      return `var(${baseSideVar}, ${entry.fallback})`;
+    }
+    return `var(${baseSideVar}, var(${shorthandVar}, ${attr.default}))`;
+  }
+
+  // Responsive: device side var → base side var → shorthand → default
+  if (device === 'tablet') {
+    if (entry.fallback) {
+      return `var(${deviceSideVar}, var(${baseSideVar}, ${entry.fallback}))`;
+    }
+    return `var(${deviceSideVar}, var(${baseSideVar}, var(${shorthandVar}, ${attr.default})))`;
+  }
+
+  // Mobile: mobile side var → tablet side var → base side var → shorthand → default
+  const tabletSideVar = `--${attr.cssVar}-${entry.varSuffix}-tablet`;
+  if (entry.fallback) {
+    return `var(${deviceSideVar}, var(${tabletSideVar}, var(${baseSideVar}, ${entry.fallback})))`;
+  }
+  return `var(${deviceSideVar}, var(${tabletSideVar}, var(${baseSideVar}, var(${shorthandVar}, ${attr.default}))))`;
+}
+
 /**
  * Generate SCSS partial file for a block
  */
@@ -520,8 +685,18 @@ function generateScssPartial(blockType, schema, structure) {
     // Base state (no pseudo-class)
     // Uses shorthand CSS properties directly (e.g., border-width, padding, margin, border-radius)
     for (const attr of base) {
+      const decomposed = getDecomposedEntries(attr);
       if (attr.description) {
         content += `  /* ${attr.description} */\n`;
+      }
+      if (decomposed) {
+        if (!decomposed.omitShorthand) {
+          content += `  ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+        }
+        for (const entry of decomposed.entries) {
+          content += `  ${entry.cssProperty}: ${buildSideVar(attr, entry)};\n`;
+        }
+        continue;
       }
       content += `  ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
     }
@@ -530,8 +705,18 @@ function generateScssPartial(blockType, schema, structure) {
     if (hover.length > 0) {
       content += `\n  &:hover {\n`;
       for (const attr of hover) {
+        const decomposed = getDecomposedEntries(attr);
         if (attr.description) {
           content += `    /* ${attr.description} */\n`;
+        }
+        if (decomposed) {
+          if (!decomposed.omitShorthand) {
+            content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+          }
+          for (const entry of decomposed.entries) {
+            content += `    ${entry.cssProperty}: ${buildSideVar(attr, entry)};\n`;
+          }
+          continue;
         }
         content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
       }
@@ -542,8 +727,18 @@ function generateScssPartial(blockType, schema, structure) {
     if (active.length > 0) {
       content += `\n  &.active,\n  &[aria-selected="true"] {\n`;
       for (const attr of active) {
+        const decomposed = getDecomposedEntries(attr);
         if (attr.description) {
           content += `    /* ${attr.description} */\n`;
+        }
+        if (decomposed) {
+          if (!decomposed.omitShorthand) {
+            content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+          }
+          for (const entry of decomposed.entries) {
+            content += `    ${entry.cssProperty}: ${buildSideVar(attr, entry)};\n`;
+          }
+          continue;
         }
         content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
       }
@@ -554,8 +749,18 @@ function generateScssPartial(blockType, schema, structure) {
     if (focus.length > 0) {
       content += `\n  &:focus,\n  &:focus-visible {\n`;
       for (const attr of focus) {
+        const decomposed = getDecomposedEntries(attr);
         if (attr.description) {
           content += `    /* ${attr.description} */\n`;
+        }
+        if (decomposed) {
+          if (!decomposed.omitShorthand) {
+            content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+          }
+          for (const entry of decomposed.entries) {
+            content += `    ${entry.cssProperty}: ${buildSideVar(attr, entry)};\n`;
+          }
+          continue;
         }
         content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
       }
@@ -566,8 +771,18 @@ function generateScssPartial(blockType, schema, structure) {
     if (disabled.length > 0) {
       content += `\n  &:disabled,\n  &[disabled] {\n`;
       for (const attr of disabled) {
+        const decomposed = getDecomposedEntries(attr);
         if (attr.description) {
           content += `    /* ${attr.description} */\n`;
+        }
+        if (decomposed) {
+          if (!decomposed.omitShorthand) {
+            content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+          }
+          for (const entry of decomposed.entries) {
+            content += `    ${entry.cssProperty}: ${buildSideVar(attr, entry)};\n`;
+          }
+          continue;
         }
         content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
       }
@@ -578,8 +793,18 @@ function generateScssPartial(blockType, schema, structure) {
     if (visited.length > 0) {
       content += `\n  &:visited {\n`;
       for (const attr of visited) {
+        const decomposed = getDecomposedEntries(attr);
         if (attr.description) {
           content += `    /* ${attr.description} */\n`;
+        }
+        if (decomposed) {
+          if (!decomposed.omitShorthand) {
+            content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
+          }
+          for (const entry of decomposed.entries) {
+            content += `    ${entry.cssProperty}: ${buildSideVar(attr, entry)};\n`;
+          }
+          continue;
         }
         content += `    ${attr.property}: var(--${attr.cssVar}, ${attr.default});\n`;
       }
@@ -634,8 +859,18 @@ function generateScssPartial(blockType, schema, structure) {
       content += `${responsiveSelector} {\n`;
 
       for (const attr of base) {
+        const decomposed = getDecomposedEntries(attr);
         if (attr.description) {
           content += `  /* ${attr.description} */\n`;
+        }
+        if (decomposed) {
+          if (!decomposed.omitShorthand) {
+            content += `  ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+          }
+          for (const entry of decomposed.entries) {
+            content += `  ${entry.cssProperty}: ${buildResponsiveSideVar(attr, entry, device)};\n`;
+          }
+          continue;
         }
         content += `  ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
       }
@@ -643,8 +878,18 @@ function generateScssPartial(blockType, schema, structure) {
       if (hover.length > 0) {
         content += `\n  &:hover {\n`;
         for (const attr of hover) {
+          const decomposed = getDecomposedEntries(attr);
           if (attr.description) {
             content += `    /* ${attr.description} */\n`;
+          }
+          if (decomposed) {
+            if (!decomposed.omitShorthand) {
+              content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+            }
+            for (const entry of decomposed.entries) {
+              content += `    ${entry.cssProperty}: ${buildResponsiveSideVar(attr, entry, device)};\n`;
+            }
+            continue;
           }
           content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
         }
@@ -654,8 +899,18 @@ function generateScssPartial(blockType, schema, structure) {
       if (active.length > 0) {
         content += `\n  &.active,\n  &[aria-selected="true"] {\n`;
         for (const attr of active) {
+          const decomposed = getDecomposedEntries(attr);
           if (attr.description) {
             content += `    /* ${attr.description} */\n`;
+          }
+          if (decomposed) {
+            if (!decomposed.omitShorthand) {
+              content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+            }
+            for (const entry of decomposed.entries) {
+              content += `    ${entry.cssProperty}: ${buildResponsiveSideVar(attr, entry, device)};\n`;
+            }
+            continue;
           }
           content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
         }
@@ -665,8 +920,18 @@ function generateScssPartial(blockType, schema, structure) {
       if (focus.length > 0) {
         content += `\n  &:focus,\n  &:focus-visible {\n`;
         for (const attr of focus) {
+          const decomposed = getDecomposedEntries(attr);
           if (attr.description) {
             content += `    /* ${attr.description} */\n`;
+          }
+          if (decomposed) {
+            if (!decomposed.omitShorthand) {
+              content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+            }
+            for (const entry of decomposed.entries) {
+              content += `    ${entry.cssProperty}: ${buildResponsiveSideVar(attr, entry, device)};\n`;
+            }
+            continue;
           }
           content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
         }
@@ -676,8 +941,18 @@ function generateScssPartial(blockType, schema, structure) {
       if (disabled.length > 0) {
         content += `\n  &:disabled,\n  &[disabled] {\n`;
         for (const attr of disabled) {
+          const decomposed = getDecomposedEntries(attr);
           if (attr.description) {
             content += `    /* ${attr.description} */\n`;
+          }
+          if (decomposed) {
+            if (!decomposed.omitShorthand) {
+              content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+            }
+            for (const entry of decomposed.entries) {
+              content += `    ${entry.cssProperty}: ${buildResponsiveSideVar(attr, entry, device)};\n`;
+            }
+            continue;
           }
           content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
         }
@@ -687,8 +962,18 @@ function generateScssPartial(blockType, schema, structure) {
       if (visited.length > 0) {
         content += `\n  &:visited {\n`;
         for (const attr of visited) {
+          const decomposed = getDecomposedEntries(attr);
           if (attr.description) {
             content += `    /* ${attr.description} */\n`;
+          }
+          if (decomposed) {
+            if (!decomposed.omitShorthand) {
+              content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
+            }
+            for (const entry of decomposed.entries) {
+              content += `    ${entry.cssProperty}: ${buildResponsiveSideVar(attr, entry, device)};\n`;
+            }
+            continue;
           }
           content += `    ${attr.property}: ${buildResponsiveVar(attr, device)};\n`;
         }

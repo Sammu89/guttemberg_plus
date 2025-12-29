@@ -49,8 +49,8 @@ import { FormattingControl } from './controls/FormattingControl';
 
 import { CompactColorControl } from './CompactColorControl';
 import { isCustomizedFromDefaults } from '../theme-system/cascade-resolver';
-import { normalizeValueForControl } from '../theme-system/control-normalizer';
-import { getAvailableUnits, isUnitlessProperty } from '../config/css-property-scales';
+import { normalizeControlValue } from '../theme-system/control-normalizer';
+import { getAvailableUnits, isUnitlessProperty } from '../config/css-property-scales.mjs';
 
 /**
  * Normalize SelectControl options to consistent format
@@ -203,9 +203,11 @@ export function ControlRenderer( {
 		cssProperty,
 	} = attrConfig;
 
-	const effectiveValue = effectiveValues?.[ attrName ];
+	const rawValue = effectiveValues?.[ attrName ];
+	const effectiveValue = normalizeControlValue( rawValue, attrConfig );
 	const finalLabel = label || attrName;
 	const helpText = description || '';
+	const normalizedDefaultValue = normalizeControlValue( defaultValue, attrConfig );
 
 	// Get responsive enabled state for this attribute
 	// Default: responsive mode is disabled for all attributes
@@ -492,7 +494,7 @@ export function ControlRenderer( {
 
 		case 'RangeControl': {
 			const numericValue = toNumericValue( effectiveValue );
-			const defaultNumericValue = toNumericValue( defaultValue );
+			const defaultNumericValue = toNumericValue( normalizedDefaultValue );
 
 			return (
 				<RangeControl
@@ -531,18 +533,18 @@ export function ControlRenderer( {
 						cssProperty={ cssProperty }
 						min={ min }
 						max={ max }
-						step={ step }
-						help={ helpText }
-						defaultValue={ defaultValue }
-					/>
-				);
-			}
+					step={ step }
+					help={ helpText }
+					defaultValue={ normalizedDefaultValue }
+				/>
+			);
+		}
 
 			return (
 				<SliderWithInput
 					key={ attrName }
 					label={ renderLabel( finalLabel ) }
-					value={ effectiveValue ?? defaultValue }
+					value={ effectiveValue ?? normalizedDefaultValue }
 					onChange={ handleChange }
 					responsive={ false }
 					canBeResponsive={ false }
@@ -552,7 +554,7 @@ export function ControlRenderer( {
 					max={ max }
 					step={ step }
 					help={ helpText }
-					defaultValue={ defaultValue }
+					defaultValue={ normalizedDefaultValue }
 				/>
 			);
 		}
@@ -886,7 +888,7 @@ export function ControlRenderer( {
 					label={ renderLabel( finalLabel ) }
 					value={ effectiveValue ?? defaultValue ?? 'none' }
 					onChange={ handleChange }
-					defaultValue={ defaultValue }
+					defaultValue={ normalizedDefaultValue }
 					help={ helpText }
 				/>
 			);

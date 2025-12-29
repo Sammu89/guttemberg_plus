@@ -2,7 +2,7 @@
  * CompactBoxRow Organism
  *
  * The core reusable row component for box-type controls.
- * Layout: [ICON_SLOT] [value+unit] ────●──── [🔗]
+ * Layout: [ICON_SLOT] [value+unit] ────●────
  *
  * Uses native Gutenberg UnitControl for consistent UI with WordPress core.
  * Icon slot can contain: StyleIconButton, ColorSwatch, SideIcon (radius/margin/padding)
@@ -12,7 +12,6 @@
 
 import { Flex, FlexItem, FlexBlock, __experimentalUnitControl as UnitControl } from '@wordpress/components';
 import { MiniSlider } from '../atoms/MiniSlider';
-import { LinkToggle } from '../atoms/LinkToggle';
 
 /**
  * CompactBoxRow Component
@@ -28,9 +27,6 @@ import { LinkToggle } from '../atoms/LinkToggle';
  * @param {number}      props.max           - Maximum value
  * @param {number}      props.step          - Step increment
  * @param {boolean}     props.showSlider    - Whether to show slider
- * @param {boolean}     props.showLink      - Whether to show link toggle
- * @param {boolean}     props.linked        - Whether sides are linked
- * @param {Function}    props.onLinkChange  - Link toggle handler
  * @param {boolean}     props.disabled      - Disabled state
  * @param {string}      props.className     - Additional CSS class
  */
@@ -45,9 +41,6 @@ export function CompactBoxRow( {
 	max = 100,
 	step = 1,
 	showSlider = true,
-	showLink = true,
-	linked = true,
-	onLinkChange,
 	disabled = false,
 	className = '',
 } ) {
@@ -98,17 +91,6 @@ export function CompactBoxRow( {
 						disabled={ disabled }
 					/>
 				</FlexBlock>
-			) }
-
-			{ /* Link toggle (optional) */ }
-			{ showLink && onLinkChange && (
-				<FlexItem className="gutplus-compact-box-row__link">
-					<LinkToggle
-						linked={ linked }
-						onChange={ onLinkChange }
-						disabled={ disabled }
-					/>
-				</FlexItem>
 			) }
 		</Flex>
 	);

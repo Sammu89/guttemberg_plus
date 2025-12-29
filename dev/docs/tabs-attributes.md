@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-29T02:28:32.318Z
+> Generated at: 2025-12-29T15:44:13.308Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -41,7 +41,7 @@ Wrapper borders and shadows
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `borderColor` | object | _object_ | Yes | Border color for main tabs wrapper |
-| `borderWidth` | number | `0px` | Yes | Border width for main wrapper |
+| `borderWidth` | number | `0` | Yes | Border width for main wrapper |
 | `borderStyle` | object | _object_ | Yes | Border style for wrapper |
 | `borderRadius` | object | _object_ | Yes | Corner radius for main wrapper |
 | `shadow` | string | `none` | Yes | Box shadow for main wrapper |
@@ -67,13 +67,13 @@ Tab header typography
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `tabButtonFontSize` | number | `1rem` | Yes | Font size for tab buttons (rem) |
-| `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons |
+| `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. |
 | `tabButtonFontStyle` | string | `normal` | Yes | Font style for tab buttons |
 | `tabButtonTextTransform` | string | `none` | Yes | Text transformation for tab buttons |
 | `tabButtonTextDecoration` | string | `none` | Yes | Text decoration for tab buttons |
 | `tabButtonTextAlign` | string | `center` | Yes | Text alignment for tab buttons |
 | `tabButtonPadding` | number | `0.75rem` | Yes | Padding for tab buttons in rem (vertical/horizontal will be computed) |
-| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
+| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. |
 
 ## Header Borders
 
@@ -83,14 +83,14 @@ Tab header borders and active edge
 |-----------|------|---------|-----------|-------------|
 | `tabButtonBorderColor` | object | _object_ | Yes | Border color for inactive tab buttons |
 | `tabButtonActiveBorderColor` | object | _object_ | Yes | Border color for the active tab |
-| `tabButtonBorderWidth` | number | `1px` | Yes | Border width for tab buttons |
+| `tabButtonBorderWidth` | number | `1` | Yes | Border width for tab buttons |
 | `tabButtonBorderStyle` | object | _object_ | Yes | Border style for tab buttons |
 | `tabButtonBorderRadius` | object | _object_ | Yes | Corner radius for tab buttons |
 | `tabButtonShadow` | string | `none` | Yes | Box shadow for tab buttons |
 | `tabButtonShadowHover` | string | `none` | Yes | Box shadow for tab buttons on hover |
 | `enableFocusBorder` | boolean | `true` | Yes | Border on the edge touching the content, giving it a merged look. |
 | `tabButtonActiveContentBorderColor` | string | `#ffffff` | Yes | Color of the border. Keep it the same color as panel background for a merged look. |
-| `tabButtonActiveContentBorderWidth` | number | `1px` | Yes | Width of the active button edge touching content |
+| `tabButtonActiveContentBorderWidth` | number | `1` | Yes | Width of the active button edge touching content |
 | `tabButtonActiveContentBorderStyle` | string | `solid` | Yes | Style of the active button edge touching content |
 
 ## Header Row Options
@@ -101,7 +101,7 @@ Row background, spacing, alignment, dividers
 |-----------|------|---------|-----------|-------------|
 | `tabListBackgroundColor` | string | `transparent` | Yes | Background color for the tab navigation bar |
 | `tabsRowBorderColor` | object | _object_ | Yes | Border color for the tab row |
-| `tabsRowBorderWidth` | number | `0px` | Yes | Border width for the tab row |
+| `tabsRowBorderWidth` | number | `0` | Yes | Border width for the tab row |
 | `tabsRowBorderStyle` | object | _object_ | Yes | Border style for the tab row |
 | `tabsRowSpacing` | number | `0.5rem` | Yes | Padding/spacing for the tab row (rem) |
 | `tabsButtonGap` | number | `0.5rem` | Yes | Spacing between individual tab buttons (rem) |
@@ -109,7 +109,7 @@ Row background, spacing, alignment, dividers
 | `tabListAlignment` | string | `flex-start` | Yes | Alignment of tabs along the main axis |
 | `enableTabsListContentBorder` | boolean | `false` | Yes | Enable or disable border between tab row and content |
 | `tabsListContentBorderColor` | string | `transparent` | Yes | Color of the tab row edge that touches the content |
-| `tabsListContentBorderWidth` | number | `1px` | Yes | Width of the tab row edge that touches the content |
+| `tabsListContentBorderWidth` | number | `1` | Yes | Width of the tab row edge that touches the content |
 | `tabsListContentBorderStyle` | string | `solid` | Yes | Style of the tab row edge that touches the content |
 
 ## Panel Appearance
@@ -120,7 +120,7 @@ Panel background and borders
 |-----------|------|---------|-----------|-------------|
 | `panelBackgroundColor` | string | `#ffffff` | Yes | Background color for tab panels |
 | `panelBorderColor` | object | _object_ | Yes | Border color for tab content panel |
-| `panelBorderWidth` | number | `1px` | Yes | Border width for tab content panel (0-10px) |
+| `panelBorderWidth` | number | `1` | Yes | Border width for tab content panel (0-10px) |
 | `panelBorderStyle` | object | _object_ | Yes | Border style for tab content panel |
 | `panelBorderRadius` | object | _object_ | Yes | Corner radius for tab content panel |
 

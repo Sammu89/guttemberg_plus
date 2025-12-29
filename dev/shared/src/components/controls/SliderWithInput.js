@@ -16,7 +16,7 @@ import {
 	getAvailableUnits,
 	isUnitlessProperty,
 	parseValueWithUnit,
-} from '../../config/css-property-scales';
+} from '../../config/css-property-scales.mjs';
 
 /**
  * Get scale values for a given CSS property and unit
@@ -46,11 +46,9 @@ import {
 	FlexBlock,
 	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
-import { DeviceSwitcher } from './DeviceSwitcher';
 import { ResetButton } from './ResetButton';
 import { ResponsiveToggle } from './atoms/ResponsiveToggle';
 import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
-import { setGlobalResponsiveDevice } from '../../utils/responsive-device';
 
 /**
  * Inherited Badge Component
@@ -214,6 +212,17 @@ function parseValue( value, defaultUnit = 'px' ) {
 
 	// Object with value and unit properties
 	if ( typeof value === 'object' && value !== null ) {
+		if ( typeof value.value === 'string' ) {
+			const match = value.value.trim().match( /^(-?\d+(?:\.\d+)?)\s*(.*)$/ );
+			if ( ! match ) {
+				return { numericValue: null, unit: value.unit ?? defaultUnit };
+			}
+			const parsed = parseValueWithUnit( value.value );
+			return {
+				numericValue: parsed.value,
+				unit: value.unit ?? parsed.unit ?? defaultUnit,
+			};
+		}
 		return {
 			numericValue: value.value ?? null,
 			unit: value.unit ?? defaultUnit,
@@ -469,11 +478,6 @@ export function SliderWithInput( {
 		}
 	};
 
-	// Handler for device change from ResponsiveToggle
-	const handleDeviceChange = ( newDevice ) => {
-		setGlobalResponsiveDevice( newDevice );
-	};
-
 	// Build the label with header controls
 	const renderLabel = () => (
 		<Flex align="center" justify="space-between" style={ { width: '100%' } }>
@@ -485,14 +489,13 @@ export function SliderWithInput( {
 			</FlexItem>
 			<FlexItem>
 				{ canBeResponsive ? (
-					<ResponsiveToggle
-						isEnabled={ responsiveEnabled }
-						onToggle={ onResponsiveToggle }
-						currentDevice={ device }
-						onDeviceChange={ handleDeviceChange }
-						onReset={ handleResponsiveResetClick }
-						isResetDisabled={ isResetDisabled && ! responsiveEnabled }
-					/>
+						<ResponsiveToggle
+							isEnabled={ responsiveEnabled }
+							onToggle={ onResponsiveToggle }
+							currentDevice={ device }
+							onReset={ handleResponsiveResetClick }
+							isResetDisabled={ isResetDisabled && ! responsiveEnabled }
+						/>
 				) : (
 					<ResetButton onClick={ handleReset } disabled={ isResetDisabled } />
 				) }

@@ -15,7 +15,7 @@
 
 import { useState, useMemo } from '@wordpress/element';
 import { BaseControl, Flex, FlexItem, FlexBlock } from '@wordpress/components';
-import { DeviceSwitcher } from './DeviceSwitcher';
+import { DeviceSwitcher } from './atoms/DeviceSwitcher';
 import { ResetButton } from './ResetButton';
 import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
 

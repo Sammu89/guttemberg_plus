@@ -56,8 +56,8 @@ const BAD_PATTERNS = [
 const GOOD_PATTERNS = [
   // CSS variable pattern: --var-name: value
   /--[\w-]+:\s*/,
-  // getEditorCSSVariables() function exists
-  /getEditorCSSVariables|getCSSVariables|getCustomizationStyles/,
+  // buildEditorCssVars() or similar helper exists
+  /getEditorCSSVariables|getCSSVariables|getCustomizationStyles|buildEditorCssVars/,
   // ...cssVars or ...editorVars spreading
   /\.\.\.(cssVars|editorVars|editorCSSVars|customizationStyles)/,
 ];
@@ -87,6 +87,7 @@ function validateEditFile(blockType) {
 
   // Check 1: Does the file import CSS variable helpers?
   const hasImports =
+    content.includes('buildEditorCssVars') ||
     content.includes('decomposeObjectToSides') ||
     content.includes('formatCssValue') ||
     content.includes('getCssVarName');
@@ -94,7 +95,7 @@ function validateEditFile(blockType) {
   if (!hasImports) {
     errors.push({
       issue: 'Missing CSS variable helper imports',
-      fix: "Add: import { decomposeObjectToSides, formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';",
+      fix: `Add: import { buildEditorCssVars } from '@shared/styles/${blockType}-css-vars-generated';`,
       line: findLineNumber(content, 'import'),
     });
   }
@@ -105,7 +106,7 @@ function validateEditFile(blockType) {
   if (!hasCSSVarFunction) {
     errors.push({
       issue: 'Missing CSS variable generation function',
-      fix: 'Add getEditorCSSVariables() function to generate CSS variables from effectiveValues',
+      fix: 'Add buildEditorCssVars() usage to generate CSS variables from effectiveValues',
       suggestion: 'See blocks/accordion/src/edit.js for reference implementation',
     });
   }
@@ -165,7 +166,7 @@ function validateEditFile(blockType) {
       warnings.push({
         issue: 'rootStyles/blockProps may not be applying CSS variables',
         fix: 'Ensure CSS variables are spread into rootStyles: { ...editorCSSVars }',
-        suggestion: 'Check that getEditorCSSVariables() output is applied to inline styles',
+        suggestion: 'Check that buildEditorCssVars() output is applied to inline styles',
       });
     }
   }
@@ -286,7 +287,7 @@ function main() {
   console.log('\x1b[1m\nSummary:\x1b[0m', `${totalErrors} error(s), ${totalWarnings} warning(s)`);
   console.log('\x1b[90mThemeable properties that should use CSS vars: ' + THEMEABLE_PROPERTIES.slice(0, 5).join(', ') + '...\x1b[0m');
 
-  // Check for CRITICAL errors (missing getEditorCSSVariables function)
+  // Check for CRITICAL errors (missing CSS var helper)
   const criticalErrors = [];
   for (const [blockType, result] of Object.entries(results)) {
     for (const error of result.errors) {

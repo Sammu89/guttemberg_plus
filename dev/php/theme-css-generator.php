@@ -125,6 +125,373 @@ function guttemberg_plus_get_attribute_mapping( $block_type, $attr_name ) {
 }
 
 /**
+ * Compress CSS box values using shorthand notation
+ *
+ * Handles: border-width, border-color, border-style, padding, margin
+ *
+ * @param array  $values Array of [top, right, bottom, left] values.
+ * @param string $unit   CSS unit to append (empty string for non-numeric values).
+ * @return string Compressed CSS shorthand value
+ */
+function guttemberg_plus_compress_box_value( $values, $unit = '' ) {
+	list( $top, $right, $bottom, $left ) = $values;
+	$add_unit = function ( $value ) use ( $unit ) {
+		if ( $unit ) {
+			return "{$value}{$unit}";
+		}
+		return (string) $value;
+	};
+
+	if ( $top === $right && $right === $bottom && $bottom === $left ) {
+		return $add_unit( $top );
+	}
+	if ( $top === $bottom && $left === $right ) {
+		return $add_unit( $top ) . ' ' . $add_unit( $left );
+	}
+	if ( $left === $right ) {
+		return $add_unit( $top ) . ' ' . $add_unit( $right ) . ' ' . $add_unit( $bottom );
+	}
+	return $add_unit( $top ) . ' ' . $add_unit( $right ) . ' ' . $add_unit( $bottom ) . ' ' . $add_unit( $left );
+}
+
+/**
+ * Format a shadow value object to a CSS string with unit.
+ *
+ * @param mixed $value Shadow value or structured { value, unit }.
+ * @return string Formatted CSS value
+ */
+function guttemberg_plus_format_shadow_value( $value ) {
+	if ( $value === null ) {
+		return '0px';
+	}
+	if ( is_string( $value ) ) {
+		return $value;
+	}
+	if ( is_int( $value ) || is_float( $value ) ) {
+		return "{$value}px";
+	}
+	if ( is_array( $value ) ) {
+		$numeric = $value['value'] ?? 0;
+		$unit    = $value['unit'] ?? 'px';
+		return "{$numeric}{$unit}";
+	}
+	return '0px';
+}
+
+function guttemberg_plus_get_unit_from_string( $value ) {
+	if ( ! is_string( $value ) ) {
+		return '';
+	}
+	$trimmed = trim( $value );
+	if ( preg_match( '/^-?\d+(?:\.\d+)?\s*([a-zA-Z%]+)$/', $trimmed, $matches ) ) {
+		return $matches[1];
+	}
+	return '';
+}
+
+function guttemberg_plus_infer_box_unit( $value, $fallback = '' ) {
+	if ( ! is_array( $value ) ) {
+		return $fallback;
+	}
+
+	if ( array_key_exists( 'unit', $value ) && $value['unit'] !== null && $value['unit'] !== '' ) {
+		return $value['unit'];
+	}
+
+	if ( isset( $value['value'] ) && is_array( $value['value'] ) ) {
+		return guttemberg_plus_infer_box_unit( $value['value'], $fallback );
+	}
+
+	$candidates = array( 'top', 'right', 'bottom', 'left', 'topLeft', 'topRight', 'bottomRight', 'bottomLeft' );
+	foreach ( $candidates as $key ) {
+		if ( ! array_key_exists( $key, $value ) ) {
+			continue;
+		}
+		$candidate = $value[ $key ];
+		if ( is_string( $candidate ) ) {
+			$unit = guttemberg_plus_get_unit_from_string( $candidate );
+			if ( $unit !== '' ) {
+				return $unit;
+			}
+			continue;
+		}
+		if ( is_array( $candidate ) ) {
+			if ( array_key_exists( 'unit', $candidate ) && $candidate['unit'] !== null && $candidate['unit'] !== '' ) {
+				return $candidate['unit'];
+			}
+			if ( array_key_exists( 'value', $candidate ) && is_string( $candidate['value'] ) ) {
+				$unit = guttemberg_plus_get_unit_from_string( $candidate['value'] );
+				if ( $unit !== '' ) {
+					return $unit;
+				}
+			}
+		}
+	}
+
+	return $fallback;
+}
+
+/**
+ * Build CSS box-shadow value from an array of shadow layer objects.
+ *
+ * @param array|null $shadows Array of shadow layers.
+ * @return string CSS box-shadow value or 'none'
+ */
+function guttemberg_plus_build_box_shadow( $shadows ) {
+	if ( empty( $shadows ) || ! is_array( $shadows ) ) {
+		return 'none';
+	}
+
+	$valid_layers = array_filter(
+		$shadows,
+		function ( $layer ) {
+			return is_array( $layer ) && ! empty( $layer['color'] ) && trim( $layer['color'] ) !== '';
+		}
+	);
+
+	if ( empty( $valid_layers ) ) {
+		return 'none';
+	}
+
+	$shadow_strings = array_map(
+		function ( $layer ) {
+			$parts = array();
+			if ( ! empty( $layer['inset'] ) ) {
+				$parts[] = 'inset';
+			}
+
+			$parts[] = guttemberg_plus_format_shadow_value( $layer['x'] ?? null );
+			$parts[] = guttemberg_plus_format_shadow_value( $layer['y'] ?? null );
+			$parts[] = guttemberg_plus_format_shadow_value( $layer['blur'] ?? null );
+			$parts[] = guttemberg_plus_format_shadow_value( $layer['spread'] ?? null );
+			$parts[] = $layer['color'];
+
+			return implode( ' ', $parts );
+		},
+		$valid_layers
+	);
+
+	return implode( ', ', $shadow_strings );
+}
+
+/**
+ * Format a side value with unit fallback for decomposed CSS vars.
+ *
+ * @param mixed  $side_value   Value for a single side/corner.
+ * @param string $unit_fallback Unit to append for numeric values.
+ * @return string|null Formatted value or null if not mappable
+ */
+function guttemberg_plus_format_side_value( $side_value, $unit_fallback ) {
+	if ( $side_value === null ) {
+		return null;
+	}
+	if ( is_string( $side_value ) ) {
+		return $side_value;
+	}
+	if ( is_int( $side_value ) || is_float( $side_value ) ) {
+		return $unit_fallback ? "{$side_value}{$unit_fallback}" : (string) $side_value;
+	}
+	if ( is_array( $side_value ) && array_key_exists( 'value', $side_value ) ) {
+		$unit = $side_value['unit'] ?? $unit_fallback ?? '';
+		return "{$side_value['value']}{$unit}";
+	}
+	return null;
+}
+
+/**
+ * Check if resolved values differ across sides/corners.
+ *
+ * @param array $values Array of resolved values.
+ * @return bool True if values differ.
+ */
+function guttemberg_plus_values_differ( $values ) {
+	$filtered = array();
+	foreach ( $values as $value ) {
+		if ( $value !== null ) {
+			$filtered[] = $value;
+		}
+	}
+
+	if ( count( $filtered ) <= 1 ) {
+		return false;
+	}
+
+	$first = $filtered[0];
+	foreach ( $filtered as $value ) {
+		if ( $value !== $first ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Decompose box-like objects into per-side CSS variable assignments.
+ *
+ * @param mixed  $value   Box-like value object.
+ * @param array  $mapping Mapping info with cssVar/unit/type.
+ * @param string $suffix  Optional suffix (e.g., '-tablet', '-mobile').
+ * @return array Map of CSS variable names to values.
+ */
+function guttemberg_plus_decompose_css_value( $value, $mapping, $suffix = '' ) {
+	if ( ! is_array( $value ) || empty( $mapping['cssVar'] ) ) {
+		return array();
+	}
+
+	$css_var = $mapping['cssVar'];
+	$linked  = array_key_exists( 'linked', $value ) ? $value['linked'] : null;
+	$result  = array();
+
+	if ( isset( $value['topLeft'] ) ) {
+		$unit = guttemberg_plus_infer_box_unit( $value, $mapping['defaultUnit'] ?? ( $mapping['unit'] ?? 'px' ) );
+		$corners = array(
+			'top-left'     => $value['topLeft'],
+			'top-right'    => $value['topRight'],
+			'bottom-right' => $value['bottomRight'],
+			'bottom-left'  => $value['bottomLeft'],
+		);
+
+		$resolved = array();
+		foreach ( $corners as $corner => $corner_value ) {
+			$resolved[ $corner ] = guttemberg_plus_format_side_value( $corner_value, $unit );
+		}
+
+		$should_emit = ( $linked === false ) || guttemberg_plus_values_differ( array_values( $resolved ) );
+		if ( ! $should_emit ) {
+			return array();
+		}
+
+		foreach ( $resolved as $corner => $formatted ) {
+			if ( $formatted !== null ) {
+				$result[ "--{$css_var}-{$corner}{$suffix}" ] = $formatted;
+			}
+		}
+
+		return $result;
+	}
+
+	if ( isset( $value['top'] ) || isset( $value['right'] ) || isset( $value['bottom'] ) || isset( $value['left'] ) ) {
+		$unit  = guttemberg_plus_infer_box_unit( $value, $mapping['defaultUnit'] ?? ( $mapping['unit'] ?? '' ) );
+		$sides = array(
+			'top'    => $value['top'] ?? null,
+			'right'  => $value['right'] ?? null,
+			'bottom' => $value['bottom'] ?? null,
+			'left'   => $value['left'] ?? null,
+		);
+
+		$resolved = array();
+		foreach ( $sides as $side => $side_value ) {
+			$resolved[ $side ] = guttemberg_plus_format_side_value( $side_value, $unit );
+		}
+
+		$should_emit = ( $linked === false ) || guttemberg_plus_values_differ( array_values( $resolved ) );
+		if ( ! $should_emit ) {
+			return array();
+		}
+
+		foreach ( $resolved as $side => $formatted ) {
+			if ( $formatted !== null ) {
+				$result[ "--{$css_var}-{$side}{$suffix}" ] = $formatted;
+			}
+		}
+
+		return $result;
+	}
+
+	return $result;
+}
+
+/**
+ * Format a value with its unit for CSS output
+ *
+ * @param mixed $value   The value to format.
+ * @param array $mapping Mapping info with unit/type.
+ * @return string|null Formatted CSS value or null if not mappable
+ */
+function guttemberg_plus_format_css_value( $value, $mapping ) {
+	if ( $value === null ) {
+		return null;
+	}
+
+	$unit = $mapping['unit'] ?? ( $mapping['defaultUnit'] ?? '' );
+	$type = $mapping['type'] ?? null;
+
+	// Handle numeric objects that carry their own unit (e.g., { value, unit })
+	if ( is_array( $value ) && array_key_exists( 'value', $value ) && ! is_array( $value['value'] ) && $value['value'] !== null ) {
+		if ( is_string( $value['value'] ) ) {
+			return $value['value'];
+		}
+		if ( array_key_exists( 'unit', $value ) && $value['unit'] !== null ) {
+			$value_unit = $value['unit'];
+		} else {
+			$value_unit = $unit ?? '';
+		}
+		return "{$value['value']}{$value_unit}";
+	}
+
+	// Handle object types (border radius, padding, colors, styles)
+	if ( $type === 'object' && is_array( $value ) ) {
+		// Handle responsive objects (tablet/mobile keys) - use base value if nested
+		if ( ( array_key_exists( 'tablet', $value ) || array_key_exists( 'mobile', $value ) ) && isset( $value['value'] ) && is_array( $value['value'] ) ) {
+			return guttemberg_plus_format_css_value( $value['value'], $mapping );
+		}
+
+		// Border radius format: topLeft topRight bottomRight bottomLeft
+		if ( isset( $value['topLeft'] ) ) {
+			$radius_unit = guttemberg_plus_infer_box_unit( $value, $mapping['defaultUnit'] ?? ( $mapping['unit'] ?? 'px' ) );
+			$values      = array( $value['topLeft'], $value['topRight'], $value['bottomRight'], $value['bottomLeft'] );
+			return guttemberg_plus_compress_box_value( $values, $radius_unit );
+		}
+
+		// Directional properties (border-width, border-color, border-style, padding, margin)
+		if ( isset( $value['top'] ) || isset( $value['right'] ) || isset( $value['bottom'] ) || isset( $value['left'] ) ) {
+			$get_val = function ( $side ) use ( $value ) {
+				if ( isset( $value[ $side ] ) && is_array( $value[ $side ] ) && array_key_exists( 'value', $value[ $side ] ) ) {
+					return $value[ $side ]['value'];
+				}
+				return $value[ $side ] ?? '';
+			};
+
+			$values = array( $get_val( 'top' ), $get_val( 'right' ), $get_val( 'bottom' ), $get_val( 'left' ) );
+
+			$first_value = null;
+			foreach ( $values as $candidate ) {
+				if ( $candidate !== '' && $candidate !== null ) {
+					$first_value = $candidate;
+					break;
+				}
+			}
+
+			$is_numeric = is_int( $first_value ) || is_float( $first_value );
+			$value_unit = $is_numeric
+				? guttemberg_plus_infer_box_unit( $value, $mapping['defaultUnit'] ?? ( $mapping['unit'] ?? 'px' ) )
+				: '';
+
+			return guttemberg_plus_compress_box_value( $values, $value_unit );
+		}
+
+		return wp_json_encode( $value );
+	}
+
+	// Handle array types (e.g., box-shadow layers)
+	if ( $type === 'array' && is_array( $value ) ) {
+		return guttemberg_plus_build_box_shadow( $value );
+	}
+
+	// Handle numeric values with units
+	if ( $unit && ( is_int( $value ) || is_float( $value ) ) ) {
+		return "{$value}{$unit}";
+	}
+
+	if ( is_bool( $value ) ) {
+		return $value ? 'true' : 'false';
+	}
+
+	return $value;
+}
+
+/**
  * Generate CSS rules for a single theme
  *
  * Converts theme values array to CSS custom properties with proper formatting.
@@ -167,65 +534,60 @@ function guttemberg_plus_generate_theme_css_rules( $block_type, $theme_id, $valu
 		}
 
 		$css_var_name = $mapping['cssVar'];
-		$unit = $mapping['unit'] ?? null;
 
-		// Handle different value types
-		error_log( '[GUTTEMBERG DEBUG] Processing ' . $attr_name . ' with value type: ' . gettype( $value ) . ' unit: ' . ( $unit ?? 'none' ) );
+	// Handle responsive values (base + tablet/mobile overrides)
+	if ( is_array( $value ) && ( array_key_exists( 'tablet', $value ) || array_key_exists( 'mobile', $value ) ) ) {
+		$base_value     = array_key_exists( 'value', $value ) ? $value['value'] : $value;
+		$formatted_base = guttemberg_plus_format_css_value( $base_value, $mapping );
 
-		if ( is_array( $value ) ) {
-			error_log( '[GUTTEMBERG DEBUG] Value is array' );
-			// Handle object values like padding, borderRadius
-			// Format: { top: 12, right: 12, bottom: 12, left: 12 }
-			if ( isset( $value['top'] ) && isset( $value['right'] ) && isset( $value['bottom'] ) && isset( $value['left'] ) ) {
-				// Box model (padding, margin, etc.) - always uses px
-				$formatted = sprintf(
-					'%spx %spx %spx %spx',
-					esc_attr( $value['top'] ),
-					esc_attr( $value['right'] ),
-					esc_attr( $value['bottom'] ),
-					esc_attr( $value['left'] )
-				);
-				$css      .= "  --{$css_var_name}: {$formatted};\n";
-				error_log( '[GUTTEMBERG DEBUG] Added box model CSS: --' . $css_var_name . ': ' . $formatted );
-			} elseif ( isset( $value['topLeft'] ) && isset( $value['topRight'] ) && isset( $value['bottomLeft'] ) && isset( $value['bottomRight'] ) ) {
-				// Border radius - always uses px
-				$formatted = sprintf(
-					'%spx %spx %spx %spx',
-					esc_attr( $value['topLeft'] ),
-					esc_attr( $value['topRight'] ),
-					esc_attr( $value['bottomRight'] ),
-					esc_attr( $value['bottomLeft'] )
-				);
-				$css      .= "  --{$css_var_name}: {$formatted};\n";
-				error_log( '[GUTTEMBERG DEBUG] Added border radius CSS: --' . $css_var_name . ': ' . $formatted );
-			} else {
-				error_log( '[GUTTEMBERG DEBUG] Array value but no matching structure, skipping' );
-			}
-		} elseif ( is_bool( $value ) ) {
-			error_log( '[GUTTEMBERG DEBUG] Value is boolean' );
-			// Booleans: convert to string
-			$css .= "  --{$css_var_name}: " . ( $value ? 'true' : 'false' ) . ";\n";
-			error_log( '[GUTTEMBERG DEBUG] Added boolean CSS' );
-		} elseif ( is_numeric( $value ) ) {
-			error_log( '[GUTTEMBERG DEBUG] Value is numeric' );
-			// Numbers: add unit if specified in mapping
-			$formatted = esc_attr( $value );
-			if ( $unit ) {
-				$formatted .= $unit;
-			}
-			$css .= "  --{$css_var_name}: {$formatted};\n";
-			error_log( '[GUTTEMBERG DEBUG] Added numeric CSS: --' . $css_var_name . ': ' . $formatted );
-		} else {
-			error_log( '[GUTTEMBERG DEBUG] Value is string or other' );
-			// Strings: might be numeric string like "600" for font-weight
-			// Add unit if specified in mapping
-			$formatted = esc_attr( $value );
-			if ( $unit && is_numeric( $value ) ) {
-				$formatted .= $unit;
-			}
-			$css .= '  --' . $css_var_name . ': ' . $formatted . ";\n";
-			error_log( '[GUTTEMBERG DEBUG] Added string CSS: --' . $css_var_name . ': ' . $formatted );
+		if ( $formatted_base !== null ) {
+			$css .= '  --' . $css_var_name . ': ' . esc_attr( $formatted_base ) . ";\n";
 		}
+
+		$decomposed = guttemberg_plus_decompose_css_value( $base_value, $mapping, '' );
+		foreach ( $decomposed as $var_name => $var_value ) {
+			$css .= '  ' . $var_name . ': ' . esc_attr( $var_value ) . ";\n";
+		}
+
+		if ( array_key_exists( 'tablet', $value ) ) {
+			$formatted_tablet = guttemberg_plus_format_css_value( $value['tablet'], $mapping );
+			if ( $formatted_tablet !== null ) {
+				$css .= '  --' . $css_var_name . '-tablet: ' . esc_attr( $formatted_tablet ) . ";\n";
+			}
+
+			$decomposed = guttemberg_plus_decompose_css_value( $value['tablet'], $mapping, '-tablet' );
+			foreach ( $decomposed as $var_name => $var_value ) {
+				$css .= '  ' . $var_name . ': ' . esc_attr( $var_value ) . ";\n";
+			}
+		}
+
+		if ( array_key_exists( 'mobile', $value ) ) {
+			$formatted_mobile = guttemberg_plus_format_css_value( $value['mobile'], $mapping );
+			if ( $formatted_mobile !== null ) {
+				$css .= '  --' . $css_var_name . '-mobile: ' . esc_attr( $formatted_mobile ) . ";\n";
+			}
+
+			$decomposed = guttemberg_plus_decompose_css_value( $value['mobile'], $mapping, '-mobile' );
+			foreach ( $decomposed as $var_name => $var_value ) {
+				$css .= '  ' . $var_name . ': ' . esc_attr( $var_value ) . ";\n";
+			}
+		}
+
+		continue;
+	}
+
+		$formatted_value = guttemberg_plus_format_css_value( $value, $mapping );
+	if ( $formatted_value === null ) {
+		error_log( '[GUTTEMBERG DEBUG] Value not mappable for: ' . $attr_name );
+		continue;
+	}
+
+	$css .= '  --' . $css_var_name . ': ' . esc_attr( $formatted_value ) . ";\n";
+
+	$decomposed = guttemberg_plus_decompose_css_value( $value, $mapping, '' );
+	foreach ( $decomposed as $var_name => $var_value ) {
+		$css .= '  ' . $var_name . ': ' . esc_attr( $var_value ) . ";\n";
+	}
 	}
 
 	$css .= "}\n\n";

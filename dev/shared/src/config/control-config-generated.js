@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json, tabs.json, toc.json
- * Generated at: 2025-12-29T02:28:32.331Z
+ * Generated at: 2025-12-29T15:44:13.332Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -149,12 +149,12 @@ const CONTROL_CONFIGS = {
     'titleFormatting': {
       control: 'FormattingControl',
       label: 'Formatting',
-      description: 'Text formatting options (bold, italic, underline, overline, line-through)',
+      description: 'Text formatting options (bold, italic, underline, overline, line-through). Note: Not every font supports every weight; the browser will use the closest available weight.',
     },
     'titleFontWeight': {
       control: 'FormattingControl',
       label: 'Font Weight',
-      description: 'Font weight for title (100-900)',
+      description: 'Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight.',
       default: 400,
     },
     'titleDecorationColor': {
@@ -423,7 +423,7 @@ const CONTROL_CONFIGS = {
       control: 'RangeControl',
       label: 'Block Border Width',
       description: 'Border width for main wrapper',
-      default: '0px',
+      default: 0,
     },
     'borderStyle': {
       control: 'SelectControl',
@@ -561,7 +561,7 @@ const CONTROL_CONFIGS = {
               }
       ],
       label: 'Header Font Weight',
-      description: 'Font weight for tab buttons',
+      description: 'Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight.',
       default: '500',
     },
     'tabButtonFontStyle': {
@@ -698,7 +698,7 @@ const CONTROL_CONFIGS = {
               }
       ],
       label: 'Header Active Font Weight',
-      description: 'Font weight for active/selected tab button',
+      description: 'Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight.',
       default: 'bold',
     },
     'tabButtonBorderColor': {
@@ -715,7 +715,7 @@ const CONTROL_CONFIGS = {
       control: 'RangeControl',
       label: 'Header Border Width',
       description: 'Border width for tab buttons',
-      default: '1px',
+      default: 1,
     },
     'tabButtonBorderStyle': {
       control: 'SelectControl',
@@ -778,7 +778,7 @@ const CONTROL_CONFIGS = {
       control: 'RangeControl',
       label: 'Active Content Edge Border Width',
       description: 'Width of the active button edge touching content',
-      default: '1px',
+      default: 1,
     },
     'tabButtonActiveContentBorderStyle': {
       control: 'SelectControl',
@@ -823,7 +823,7 @@ const CONTROL_CONFIGS = {
       control: 'RangeControl',
       label: 'Row Border Width',
       description: 'Border width for the tab row',
-      default: '0px',
+      default: 0,
     },
     'tabsRowBorderStyle': {
       control: 'SelectControl',
@@ -906,7 +906,7 @@ const CONTROL_CONFIGS = {
       control: 'RangeControl',
       label: 'Row Divider Border Width',
       description: 'Width of the tab row edge that touches the content',
-      default: '1px',
+      default: 1,
     },
     'tabsListContentBorderStyle': {
       control: 'SelectControl',
@@ -951,7 +951,7 @@ const CONTROL_CONFIGS = {
       control: 'RangeControl',
       label: 'Panel Border Width',
       description: 'Border width for tab content panel (0-10px)',
-      default: '1px',
+      default: 1,
     },
     'panelBorderStyle': {
       control: 'SelectControl',
@@ -2514,7 +2514,7 @@ const CONTROL_CONFIGS = {
       control: 'RangeControl',
       label: 'Block Border Width',
       description: 'Width of the wrapper border in pixels',
-      default: '1px',
+      default: '1',
     },
     'blockBorderStyle': {
       control: 'SelectControl',

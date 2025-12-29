@@ -18,13 +18,11 @@ import { useState, useEffect } from '@wordpress/element';
  * @param {Object}   props                 Component props
  * @param {string}   props.blockType       Block type: 'accordion', 'tabs', or 'toc'
  * @param {string}   props.currentTheme    Current theme name
- * @param {Function} props.setAttributes   Function to update block attributes
  * @param {boolean}  props.isCustomized    Whether block has customizations
  * @param {Object}   props.themes          All available themes
  * @param {boolean}  props.themesLoaded    Whether themes have been loaded
  * @param {Object}   props.attributes      Block attributes (optional)
  * @param {Object}   props.effectiveValues Effective values from cascade (optional)
- * @param {Function} props.onChange        Callback when theme changes (optional, deprecated)
  * @param {Function} props.onSaveNew       Callback to save as new theme (optional)
  * @param {Function} props.onUpdate        Callback to update current theme (optional)
  * @param {Function} props.onDelete        Callback to delete theme (optional)
@@ -36,13 +34,11 @@ import { useState, useEffect } from '@wordpress/element';
 export function ThemeSelector( {
 	blockType,
 	currentTheme,
-	setAttributes,
 	isCustomized,
 	themes = {},
 	themesLoaded = false,
 	attributes = {},
 	effectiveValues = {},
-	onChange,
 	onSaveNew,
 	onUpdate,
 	onDelete,
@@ -72,14 +68,6 @@ export function ThemeSelector( {
 		if ( onThemeChange ) {
 			// Pass theme name and flag indicating if user wants customized variant
 			onThemeChange( themeName, isCustomizedVariant );
-		}
-		// Otherwise fall back to simple setAttributes (backwards compatibility)
-		else if ( setAttributes ) {
-			setAttributes( { currentTheme: themeName } );
-		}
-		// Deprecated onChange callback
-		else if ( onChange ) {
-			onChange( themeName );
 		}
 	};
 

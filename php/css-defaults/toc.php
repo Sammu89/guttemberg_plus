@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-29T01:32:27.289Z
+ * Generated at: 2025-12-29T15:44:13.317Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -115,7 +115,7 @@ return array(
   'titleTextTransform' => 'none',
   'titleTextDecoration' => 'none',
   'titleAlignment' => 'left',
-  'blockBorderWidth' => '1px',
+  'blockBorderWidth' => '1',
   'blockShadow' => 'none',
   'blockShadowHover' => 'none',
   'wrapperPadding' => '1.25rem',

@@ -221,14 +221,15 @@ function checkSelectControlUsage(blockType) {
 
 		if (!hasConditional && !hasUsage && !hasDataAttr) {
 			const optionValues = attr.options.map((o) => o.value || o.label || o);
-			warnings.push({
-				type: 'warning',
-				block: blockType,
-				attribute: attrName,
-				message: `has ${attr.options.length} options but no conditionals found`,
-				options: optionValues,
-				fix: `Add conditional logic to handle different ${attrName} values`,
-			});
+				warnings.push({
+					type: 'warning',
+					block: blockType,
+					attribute: attrName,
+					message: `has ${attr.options.length} options but no conditionals found`,
+					explanation: 'What it means: The schema defines multiple options, but the JS doesn’t have any logic that changes behavior based on those values.',
+					options: optionValues,
+					fix: `Add conditional logic to handle different ${attrName} values`,
+				});
 		}
 
 		// For positionType-like attributes, check CSS classes/selectors exist for options
@@ -839,6 +840,9 @@ function main() {
 			);
 			if (warn.options) {
 				console.log(`  ${colors.gray}Options: ${warn.options.join(', ')}${colors.reset}`);
+			}
+			if (warn.explanation) {
+				console.log(`  ${colors.gray}${warn.explanation}${colors.reset}`);
 			}
 			console.log(`  ${colors.gray}Fix: ${warn.fix}${colors.reset}\n`);
 		}

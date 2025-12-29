@@ -24,7 +24,7 @@
 
 import { useBlockProps } from '@wordpress/block-editor';
 import { getAllEffectiveValues, getAllDefaults, getAlignmentClass } from '@shared';
-import { getCssVarName, formatCssValue } from '@shared/config/css-var-mappings-generated';
+import { buildFrontendCssVars } from '@shared/styles/toc-frontend-css-vars-generated';
 import { tocAttributes } from './toc-attributes';
 
 /**
@@ -185,99 +185,14 @@ export default function save( { attributes } ) {
 	const alignmentClass = getAlignmentClass( attributes.tocHorizontalAlign );
 	classNames.push( alignmentClass );
 
-	/**
-	 * Build inline CSS variables ONLY for explicit customizations (Tier 3)
-	 * This function is auto-generated from schema below
-	 */
-	/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-START ========== */
-// DO NOT EDIT - This code is auto-generated from schema
-const getCustomizationStyles = () => {
-  const styles = {};
-
-  // Get customizations (deltas from expected values, calculated in edit.js)
-  const customizations = attributes.customizations || {};
-
-  // Process each customization using schema-generated mappings
-  Object.entries(customizations).forEach(([attrName, value]) => {
-    if (value === null || value === undefined) {
-      return;
-    }
-
-    // Get CSS variable name from generated mappings
-    const cssVar = getCssVarName(attrName, 'toc');
-    if (!cssVar) {
-      return; // Attribute not mapped to a CSS variable
-    }
-
-    const isResponsiveValue = value && typeof value === 'object' &&
-      (value.tablet !== undefined || value.mobile !== undefined);
-
-    if (isResponsiveValue) {
-      // Base (global) is at root level as value.value, not a device key
-      const baseValue = value.value !== undefined ? value.value : value;
-      if (baseValue !== null && baseValue !== undefined) {
-        const formattedGlobal = formatCssValue(attrName, baseValue, 'toc');
-        if (formattedGlobal !== null) {
-          styles[cssVar] = formattedGlobal;
-        }
-      }
-
-      if (value.tablet !== undefined && value.tablet !== null) {
-        const formattedTablet = formatCssValue(attrName, value.tablet, 'toc');
-        if (formattedTablet !== null) {
-          styles[`${cssVar}-tablet`] = formattedTablet;
-        }
-      }
-
-      if (value.mobile !== undefined && value.mobile !== null) {
-        const formattedMobile = formatCssValue(attrName, value.mobile, 'toc');
-        if (formattedMobile !== null) {
-          styles[`${cssVar}-mobile`] = formattedMobile;
-        }
-      }
-      return;
-    }
-
-    // Format value with proper unit from generated mappings
-    const formattedValue = formatCssValue(attrName, value, 'toc');
-    if (formattedValue !== null) {
-      styles[cssVar] = formattedValue;
-    }
-  });
-
-  return styles;
-};
-/* ========== AUTO-GENERATED-CUSTOMIZATION-STYLES-END ========== */
-
-	const customizationStyles = getCustomizationStyles();
+	const inlineStyles = buildFrontendCssVars( attributes.customizations, attributes );
 
 	// Add numbering style CSS variables
 	[ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ].forEach( ( level ) => {
 		const numbering = attributes[ `${ level }NumberingStyle` ];
 		if ( numbering !== undefined && numbering !== null ) {
-			customizationStyles[ `--toc-${ level }-numbering` ] = numbering;
+			inlineStyles[ `--toc-${ level }-numbering` ] = numbering;
 		}
-	} );
-
-	// Add heading-level CSS variables (h1-h6 styling)
-	// These are set directly as attributes, not via customizations
-	const headingLevels = [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ];
-	const headingProps = [ 'Color', 'FontSize', 'FontWeight', 'FontStyle', 'TextTransform', 'TextDecoration' ];
-
-	headingLevels.forEach( ( level ) => {
-		headingProps.forEach( ( prop ) => {
-			const attrName = `${ level }${ prop }`;
-			const value = attributes[ attrName ];
-			if ( value !== undefined && value !== null ) {
-				const cssVarName = getCssVarName( attrName, 'toc' );
-				if ( cssVarName ) {
-					const formattedValue = formatCssValue( attrName, value, 'toc' );
-					if ( formattedValue !== null ) {
-						customizationStyles[ cssVarName ] = formattedValue;
-					}
-				}
-			}
-		} );
 	} );
 
 	// Add fixed positioning horizontal offset
@@ -287,11 +202,11 @@ const getCustomizationStyles = () => {
 		const offset = positionHorizontalOffset || '1.25rem';
 
 		if ( side === 'left' ) {
-			customizationStyles.left = offset;
-			customizationStyles.right = 'auto';
+			inlineStyles.left = offset;
+			inlineStyles.right = 'auto';
 		} else {
-			customizationStyles.right = offset;
-			customizationStyles.left = 'auto';
+			inlineStyles.right = offset;
+			inlineStyles.left = 'auto';
 		}
 	}
 
@@ -300,14 +215,13 @@ const getCustomizationStyles = () => {
 		className: classNames.join( ' ' ),
 		'data-gutplus-device': 'global',
 		// Only add inline styles if there are customizations or fixed positioning
-		...( Object.keys( customizationStyles ).length > 0 && { style: customizationStyles } ),
+		...( Object.keys( inlineStyles ).length > 0 && { style: inlineStyles } ),
 		...dataAttributes,
 	} );
 
 	// Collapse button ID
 	const buttonId = `toc-toggle-${ tocId }`;
 	const contentId = `toc-content-${ tocId }`;
-	const titleFontSize = effectiveValues.titleFontSize ?? 1.25; // rem
 
 	/**
 	 * Render icon based on settings (accordion-like pattern)
@@ -420,13 +334,6 @@ const getCustomizationStyles = () => {
 					aria-expanded={ ! initiallyCollapsed }
 					aria-controls={ contentId }
 					type="button"
-					style={ {
-						fontSize: `${ titleFontSize }rem`,
-						fontWeight: effectiveValues.titleFontWeight || '700',
-						color: effectiveValues.titleColor || '#333333',
-						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-						textAlign: titleAlignment,
-					} }
 				>
 					{ buttonChildren }
 				</button>
@@ -438,13 +345,6 @@ const getCustomizationStyles = () => {
 			return (
 				<div
 					className={ `toc-title ${ titleAlignClass }` }
-					style={ {
-						fontSize: `${ titleFontSize }rem`,
-						fontWeight: effectiveValues.titleFontWeight || '700',
-						color: effectiveValues.titleColor || '#333333',
-						backgroundColor: effectiveValues.titleBackgroundColor || 'transparent',
-						textAlign: titleAlignment,
-					} }
 				>
 					<span className="toc-title-text">{ titleText }</span>
 				</div>

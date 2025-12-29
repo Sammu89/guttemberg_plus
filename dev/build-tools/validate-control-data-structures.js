@@ -28,6 +28,7 @@ const colors = {
 };
 
 const sharedDir = path.join(__dirname, '../shared/src/components/controls');
+const controlRendererPath = path.join(__dirname, '../shared/src/components/ControlRenderer.js');
 
 /**
  * Key controls that MUST have data structure documentation
@@ -67,6 +68,38 @@ const DATA_PATTERNS = {
 const errors = [];
 const warnings = [];
 const info = [];
+
+/**
+ * Get control component names from ControlRenderer imports
+ */
+function getControlComponentNames() {
+	try {
+		const content = fs.readFileSync(controlRendererPath, 'utf-8');
+		const names = new Set();
+		const importRegex = /import\s+{([^}]+)}\s+from\s+['"]\.\/controls(?:\/[^'"]+)?['"]/gms;
+		let match;
+
+		while ( ( match = importRegex.exec(content) ) ) {
+			const raw = match[1];
+			raw.split(',').forEach( ( part ) => {
+				const trimmed = part.trim();
+				if ( ! trimmed ) {
+					return;
+				}
+				const localName = trimmed.split(/\s+as\s+/i).pop().trim();
+				if ( localName ) {
+					names.add( localName );
+				}
+			} );
+		}
+
+		return names;
+	} catch (err) {
+		return new Set();
+	}
+}
+
+const CONTROL_COMPONENTS = getControlComponentNames();
 
 /**
  * Check if file has DATA STRUCTURE EXPECTATIONS section
@@ -111,23 +144,331 @@ function extractFunctionName(content) {
 }
 
 /**
+ * Extract balanced substring starting at a given opening character
+ */
+function extractBalancedSubstring(input, startIndex, openChar, closeChar) {
+	if ( input[ startIndex ] !== openChar ) {
+		return null;
+	}
+
+	let depth = 0;
+	let inSingle = false;
+	let inDouble = false;
+	let inTemplate = false;
+	let inLineComment = false;
+	let inBlockComment = false;
+	let escape = false;
+
+	for ( let i = startIndex; i < input.length; i++ ) {
+		const ch = input[ i ];
+		const next = input[ i + 1 ];
+
+		if ( inLineComment ) {
+			if ( ch === '\n' ) {
+				inLineComment = false;
+			}
+			continue;
+		}
+
+		if ( inBlockComment ) {
+			if ( ch === '*' && next === '/' ) {
+				inBlockComment = false;
+				i++;
+			}
+			continue;
+		}
+
+		if ( escape ) {
+			escape = false;
+			continue;
+		}
+
+		if ( inSingle ) {
+			if ( ch === '\\' ) {
+				escape = true;
+			} else if ( ch === '\'' ) {
+				inSingle = false;
+			}
+			continue;
+		}
+
+		if ( inDouble ) {
+			if ( ch === '\\' ) {
+				escape = true;
+			} else if ( ch === '"' ) {
+				inDouble = false;
+			}
+			continue;
+		}
+
+		if ( inTemplate ) {
+			if ( ch === '\\' ) {
+				escape = true;
+			} else if ( ch === '`' ) {
+				inTemplate = false;
+			}
+			continue;
+		}
+
+		if ( ch === '/' && next === '/' ) {
+			inLineComment = true;
+			i++;
+			continue;
+		}
+
+		if ( ch === '/' && next === '*' ) {
+			inBlockComment = true;
+			i++;
+			continue;
+		}
+
+		if ( ch === '\'' ) {
+			inSingle = true;
+			continue;
+		}
+
+		if ( ch === '"' ) {
+			inDouble = true;
+			continue;
+		}
+
+		if ( ch === '`' ) {
+			inTemplate = true;
+			continue;
+		}
+
+		if ( ch === openChar ) {
+			depth++;
+		} else if ( ch === closeChar ) {
+			depth--;
+			if ( depth === 0 ) {
+				return {
+					value: input.slice( startIndex, i + 1 ),
+					endIndex: i,
+				};
+			}
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Split a string by top-level commas, ignoring nested structures and strings
+ */
+function splitTopLevelByComma(input) {
+	const parts = [];
+	let current = '';
+	let depthParen = 0;
+	let depthBrace = 0;
+	let depthBracket = 0;
+	let inSingle = false;
+	let inDouble = false;
+	let inTemplate = false;
+	let inLineComment = false;
+	let inBlockComment = false;
+	let escape = false;
+
+	for ( let i = 0; i < input.length; i++ ) {
+		const ch = input[ i ];
+		const next = input[ i + 1 ];
+
+		if ( inLineComment ) {
+			current += ch;
+			if ( ch === '\n' ) {
+				inLineComment = false;
+			}
+			continue;
+		}
+
+		if ( inBlockComment ) {
+			current += ch;
+			if ( ch === '*' && next === '/' ) {
+				current += next;
+				inBlockComment = false;
+				i++;
+			}
+			continue;
+		}
+
+		if ( escape ) {
+			current += ch;
+			escape = false;
+			continue;
+		}
+
+		if ( inSingle ) {
+			current += ch;
+			if ( ch === '\\' ) {
+				escape = true;
+			} else if ( ch === '\'' ) {
+				inSingle = false;
+			}
+			continue;
+		}
+
+		if ( inDouble ) {
+			current += ch;
+			if ( ch === '\\' ) {
+				escape = true;
+			} else if ( ch === '"' ) {
+				inDouble = false;
+			}
+			continue;
+		}
+
+		if ( inTemplate ) {
+			current += ch;
+			if ( ch === '\\' ) {
+				escape = true;
+			} else if ( ch === '`' ) {
+				inTemplate = false;
+			}
+			continue;
+		}
+
+		if ( ch === '/' && next === '/' ) {
+			current += ch;
+			current += next;
+			inLineComment = true;
+			i++;
+			continue;
+		}
+
+		if ( ch === '/' && next === '*' ) {
+			current += ch;
+			current += next;
+			inBlockComment = true;
+			i++;
+			continue;
+		}
+
+		if ( ch === '\'' ) {
+			current += ch;
+			inSingle = true;
+			continue;
+		}
+
+		if ( ch === '"' ) {
+			current += ch;
+			inDouble = true;
+			continue;
+		}
+
+		if ( ch === '`' ) {
+			current += ch;
+			inTemplate = true;
+			continue;
+		}
+
+		if ( ch === '(' ) {
+			depthParen++;
+		} else if ( ch === ')' ) {
+			depthParen = Math.max( 0, depthParen - 1 );
+		} else if ( ch === '{' ) {
+			depthBrace++;
+		} else if ( ch === '}' ) {
+			depthBrace = Math.max( 0, depthBrace - 1 );
+		} else if ( ch === '[' ) {
+			depthBracket++;
+		} else if ( ch === ']' ) {
+			depthBracket = Math.max( 0, depthBracket - 1 );
+		}
+
+		if ( ch === ',' && depthParen === 0 && depthBrace === 0 && depthBracket === 0 ) {
+			parts.push( current );
+			current = '';
+			continue;
+		}
+
+		current += ch;
+	}
+
+	if ( current.trim() ) {
+		parts.push( current );
+	}
+
+	return parts;
+}
+
+/**
+ * Extract props from a component's destructured parameter list
+ */
+function extractPropsFromFunction(content, functionName) {
+	const signature = `export function ${ functionName }`;
+	const signatureIndex = content.indexOf( signature );
+	if ( signatureIndex === -1 ) {
+		return null;
+	}
+
+	const openParenIndex = content.indexOf( '(', signatureIndex );
+	if ( openParenIndex === -1 ) {
+		return null;
+	}
+
+	const paramsMatch = extractBalancedSubstring( content, openParenIndex, '(', ')' );
+	if ( ! paramsMatch ) {
+		return null;
+	}
+
+	const params = paramsMatch.value.slice( 1, -1 );
+	const topParams = splitTopLevelByComma( params );
+	if ( topParams.length === 0 ) {
+		return null;
+	}
+
+	const firstParam = topParams[ 0 ].trim();
+	if ( ! firstParam.startsWith( '{' ) ) {
+		return null;
+	}
+
+	const braceIndex = firstParam.indexOf( '{' );
+	const braceMatch = extractBalancedSubstring( firstParam, braceIndex, '{', '}' );
+	if ( ! braceMatch ) {
+		return null;
+	}
+
+	const objectBody = braceMatch.value.slice( 1, -1 );
+	const entries = splitTopLevelByComma( objectBody );
+	const props = new Set();
+
+	entries.forEach( ( entry ) => {
+		let prop = entry.trim();
+		if ( ! prop ) {
+			return;
+		}
+		if ( prop.startsWith( '...' ) ) {
+			return;
+		}
+
+		const colonIndex = prop.indexOf( ':' );
+		if ( colonIndex !== -1 ) {
+			prop = prop.slice( 0, colonIndex ).trim();
+		}
+
+		const equalsIndex = prop.indexOf( '=' );
+		if ( equalsIndex !== -1 ) {
+			prop = prop.slice( 0, equalsIndex ).trim();
+		}
+
+		if ( prop ) {
+			props.add( prop );
+		}
+	} );
+
+	return Array.from( props );
+}
+
+/**
  * Check prop destructuring for standard patterns
  */
 function checkPropPattern(content, functionName) {
 	const issues = [];
 
-	// Find the function definition
-	const functionRegex = new RegExp(
-		`export\\s+function\\s+${functionName}\\s*\\(\\s*\\{([^}]+)\\}`,
-		's'
-	);
-	const match = content.match(functionRegex);
-
-	if (!match) {
+	const props = extractPropsFromFunction( content, functionName );
+	if ( ! props ) {
 		return issues;
 	}
-
-	const props = match[1];
 
 	// Check for value/values
 	const hasValue = props.includes('value');
@@ -185,7 +526,10 @@ function validateControl(filePath) {
 	const pattern = extractDataPattern(content);
 	const hasChangeDoc = hasOnChangeDoc(content);
 	const hasRespDoc = hasResponsiveDoc(content);
-	const propIssues = checkPropPattern(content, functionName);
+	const isControlComponent = CONTROL_COMPONENTS.has(functionName);
+	const hasExemptTag = content.includes('@control-exempt');
+	const shouldCheckProps = ( isControlComponent || isCritical || hasDoc ) && ! hasExemptTag;
+	const propIssues = shouldCheckProps ? checkPropPattern(content, functionName) : [];
 
 	// Critical controls MUST have documentation
 	if (isCritical && !hasDoc) {

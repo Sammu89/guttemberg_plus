@@ -1,8 +1,8 @@
 /**
  * Optional distribution packager.
  *
- * After a successful build, this prompts to copy runtime artifacts one level up
- * from the development folder (excluding sources).
+ * After build, copy runtime artifacts from /dev to the plugin root (one level up),
+ * so the root plugin folder is ready for distribution without dev sources.
  */
 
 const fs = require('fs');

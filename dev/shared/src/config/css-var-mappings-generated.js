@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-29T02:28:32.330Z
+ * Generated at: 2025-12-29T15:44:13.330Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -91,75 +91,76 @@ function buildTextShadow(shadows) {
  */
 export const CSS_VAR_MAPPINGS = {
   accordion: {
-    dividerWidth: { cssVar: '--accordion-divider-width', unit: null, type: 'object', cssProperty: 'border-top-width', dependsOn: null, variants: null },
-    dividerColor: { cssVar: '--accordion-divider-color', unit: null, type: 'object', cssProperty: 'border-top-color', dependsOn: null, variants: null },
-    dividerStyle: { cssVar: '--accordion-divider-style', unit: null, type: 'object', cssProperty: 'border-top-style', dependsOn: null, variants: null },
-    borderWidth: { cssVar: '--accordion-border-width', unit: null, type: 'object', cssProperty: 'border-width', dependsOn: null, variants: null },
-    borderRadius: { cssVar: '--accordion-border-radius', unit: null, type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    shadow: { cssVar: '--accordion-shadow', unit: null, type: 'array', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    borderColor: { cssVar: '--accordion-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
-    borderStyle: { cssVar: '--accordion-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
-    headerPadding: { cssVar: '--accordion-header-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
-    contentPadding: { cssVar: '--accordion-content-padding', unit: null, type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
-    blockMargin: { cssVar: '--accordion-block-margin', unit: null, type: 'object', cssProperty: 'margin', dependsOn: null, variants: null },
-    titleColor: { cssVar: '--accordion-title-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    titleBackgroundColor: { cssVar: '--accordion-title-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
-    hoverTitleColor: { cssVar: '--accordion-title-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    hoverTitleBackgroundColor: { cssVar: '--accordion-title-hover-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
-    contentTextColor: { cssVar: '--accordion-content-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    contentBackgroundColor: { cssVar: '--accordion-content-bg', unit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
-    contentFontFamily: { cssVar: '--accordion-content-font-family', unit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
-    contentFontSize: { cssVar: '--accordion-content-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    contentLineHeight: { cssVar: '--accordion-content-line-height', unit: null, type: 'number', cssProperty: 'line-height', dependsOn: null, variants: null },
-    titleFontFamily: { cssVar: '--accordion-title-font-family', unit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
-    titleFontSize: { cssVar: '--accordion-title-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    titleFontWeight: { cssVar: '--accordion-title-font-weight', unit: null, type: 'number', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    titleDecorationColor: { cssVar: '--accordion-title-decoration-color', unit: null, type: 'string', cssProperty: 'text-decoration-color', dependsOn: null, variants: null },
-    titleDecorationStyle: { cssVar: '--accordion-title-decoration-style', unit: null, type: 'string', cssProperty: 'text-decoration-style', dependsOn: null, variants: null },
-    titleDecorationWidth: { cssVar: '--accordion-title-decoration-width', unit: null, type: 'string', cssProperty: 'text-decoration-thickness', dependsOn: null, variants: null },
-    titleLetterSpacing: { cssVar: '--accordion-title-letter-spacing', unit: null, type: 'string', cssProperty: 'letter-spacing', dependsOn: null, variants: null },
-    titleTextTransform: { cssVar: '--accordion-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    titleLineHeight: { cssVar: '--accordion-title-line-height', unit: null, type: 'number', cssProperty: 'line-height', dependsOn: null, variants: null },
-    titleAlignment: { cssVar: '--accordion-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
-    titleOffsetX: { cssVar: '--accordion-title-offset-x', unit: null, type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
-    titleOffsetY: { cssVar: '--accordion-title-offset-y', unit: null, type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
-    titleTextShadow: { cssVar: '--accordion-title-text-shadow', unit: null, type: 'array', cssProperty: 'text-shadow', dependsOn: null, variants: null },
-    iconColor: { cssVar: '--accordion-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--accordion-icon-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    iconRotation: { cssVar: '--accordion-icon-rotation', unit: null, type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
-    animationDuration: { cssVar: '--accordion-animation-duration', unit: null, type: 'string', cssProperty: 'transition-duration', dependsOn: null, variants: null },
-    animationEasing: { cssVar: '--accordion-animation-easing', unit: null, type: 'string', cssProperty: 'transition-timing-function', dependsOn: null, variants: null },
+    dividerWidth: { cssVar: '--accordion-divider-width', unit: null, defaultUnit: 'px', type: 'object', cssProperty: 'border-top-width', dependsOn: null, variants: null },
+    dividerColor: { cssVar: '--accordion-divider-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-top-color', dependsOn: null, variants: null },
+    dividerStyle: { cssVar: '--accordion-divider-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-top-style', dependsOn: null, variants: null },
+    borderWidth: { cssVar: '--accordion-border-width', unit: null, defaultUnit: 'px', type: 'object', cssProperty: 'border-width', dependsOn: null, variants: null },
+    borderRadius: { cssVar: '--accordion-border-radius', unit: null, defaultUnit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
+    shadow: { cssVar: '--accordion-shadow', unit: null, defaultUnit: 'px', type: 'array', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    borderColor: { cssVar: '--accordion-border-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    borderStyle: { cssVar: '--accordion-border-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
+    headerPadding: { cssVar: '--accordion-header-padding', unit: null, defaultUnit: 'px', type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
+    contentPadding: { cssVar: '--accordion-content-padding', unit: null, defaultUnit: 'px', type: 'object', cssProperty: 'padding', dependsOn: null, variants: null },
+    blockMargin: { cssVar: '--accordion-block-margin', unit: null, defaultUnit: 'px', type: 'object', cssProperty: 'margin', dependsOn: null, variants: null },
+    titleColor: { cssVar: '--accordion-title-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    titleBackgroundColor: { cssVar: '--accordion-title-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
+    hoverTitleColor: { cssVar: '--accordion-title-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    hoverTitleBackgroundColor: { cssVar: '--accordion-title-hover-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
+    contentTextColor: { cssVar: '--accordion-content-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    contentBackgroundColor: { cssVar: '--accordion-content-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background', dependsOn: null, variants: null },
+    contentFontFamily: { cssVar: '--accordion-content-font-family', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
+    contentFontSize: { cssVar: '--accordion-content-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    contentLineHeight: { cssVar: '--accordion-content-line-height', unit: null, defaultUnit: null, type: 'number', cssProperty: 'line-height', dependsOn: null, variants: null },
+    titleFontFamily: { cssVar: '--accordion-title-font-family', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
+    titleFontSize: { cssVar: '--accordion-title-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    titleFontWeight: { cssVar: '--accordion-title-font-weight', unit: null, defaultUnit: null, type: 'number', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    titleDecorationColor: { cssVar: '--accordion-title-decoration-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration-color', dependsOn: null, variants: null },
+    titleDecorationStyle: { cssVar: '--accordion-title-decoration-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration-style', dependsOn: null, variants: null },
+    titleDecorationWidth: { cssVar: '--accordion-title-decoration-width', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'text-decoration-thickness', dependsOn: null, variants: null },
+    titleLetterSpacing: { cssVar: '--accordion-title-letter-spacing', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'letter-spacing', dependsOn: null, variants: null },
+    titleTextTransform: { cssVar: '--accordion-title-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    titleLineHeight: { cssVar: '--accordion-title-line-height', unit: null, defaultUnit: null, type: 'number', cssProperty: 'line-height', dependsOn: null, variants: null },
+    titleAlignment: { cssVar: '--accordion-title-alignment', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
+    titleOffsetX: { cssVar: '--accordion-title-offset-x', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
+    titleOffsetY: { cssVar: '--accordion-title-offset-y', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
+    titleTextShadow: { cssVar: '--accordion-title-text-shadow', unit: null, defaultUnit: 'px', type: 'array', cssProperty: 'text-shadow', dependsOn: null, variants: null },
+    iconColor: { cssVar: '--accordion-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconSize: { cssVar: '--accordion-icon-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconRotation: { cssVar: '--accordion-icon-rotation', unit: null, defaultUnit: 'deg', type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
+    animationDuration: { cssVar: '--accordion-animation-duration', unit: null, defaultUnit: 'ms', type: 'string', cssProperty: 'transition-duration', dependsOn: null, variants: null },
+    animationEasing: { cssVar: '--accordion-animation-easing', unit: null, defaultUnit: null, type: 'string', cssProperty: 'transition-timing-function', dependsOn: null, variants: null },
+    accordionWidth: { cssVar: '--accordion-width', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'width', dependsOn: null, variants: null },
   },
   tabs: {
-    borderColor: { cssVar: '--tabs-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
-    borderWidth: { cssVar: '--tabs-border-width', unit: null, type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    borderStyle: { cssVar: '--tabs-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
-    borderRadius: { cssVar: '--tabs-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    shadow: { cssVar: '--tabs-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    shadowHover: { cssVar: '--tabs-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    tabButtonColor: { cssVar: '--tabs-button-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    tabButtonBackgroundColor: { cssVar: '--tabs-button-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    tabButtonHoverColor: { cssVar: '--tabs-button-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    tabButtonHoverBackgroundColor: { cssVar: '--tabs-button-hover-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    tabButtonActiveColor: { cssVar: '--tabs-button-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    tabButtonActiveBackgroundColor: { cssVar: '--tabs-button-active-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    tabButtonFontSize: { cssVar: '--tabs-button-font-size', unit: null, type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
-    tabButtonFontWeight: { cssVar: '--tabs-button-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    tabButtonFontStyle: { cssVar: '--tabs-button-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    tabButtonTextTransform: { cssVar: '--tabs-button-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    tabButtonTextDecoration: { cssVar: '--tabs-button-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    tabButtonTextAlign: { cssVar: '--tabs-button-text-align', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
-    tabButtonPadding: { cssVar: '--tabs-button-padding', unit: null, type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
-    tabButtonActiveFontWeight: { cssVar: '--tabs-button-active-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    tabButtonBorderColor: { cssVar: '--tabs-button-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
-    tabButtonActiveBorderColor: { cssVar: '--tabs-button-active-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
-    tabButtonBorderWidth: { cssVar: '--tabs-button-border-width', unit: null, type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    tabButtonBorderStyle: { cssVar: '--tabs-button-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
-    tabButtonBorderRadius: { cssVar: '--tabs-button-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    tabButtonShadow: { cssVar: '--tabs-button-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    tabButtonShadowHover: { cssVar: '--tabs-button-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    enableFocusBorder: { cssVar: '--tabs-enable-focus-border', unit: null, type: 'boolean', cssProperty: 'border', dependsOn: null, variants: null },
-    tabButtonActiveContentBorderColor: { cssVar: '--tabs-button-active-content-border-color', unit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabsWidth: { cssVar: '--tabs-width', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'width', dependsOn: null, variants: null },
+    borderColor: { cssVar: '--tabs-border-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    borderWidth: { cssVar: '--tabs-border-width', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
+    borderStyle: { cssVar: '--tabs-border-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
+    borderRadius: { cssVar: '--tabs-border-radius', unit: 'px', defaultUnit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
+    shadow: { cssVar: '--tabs-border-shadow', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    shadowHover: { cssVar: '--tabs-border-shadow-hover', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    tabButtonColor: { cssVar: '--tabs-button-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    tabButtonBackgroundColor: { cssVar: '--tabs-button-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    tabButtonHoverColor: { cssVar: '--tabs-button-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    tabButtonHoverBackgroundColor: { cssVar: '--tabs-button-hover-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    tabButtonActiveColor: { cssVar: '--tabs-button-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    tabButtonActiveBackgroundColor: { cssVar: '--tabs-button-active-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    tabButtonFontSize: { cssVar: '--tabs-button-font-size', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    tabButtonFontWeight: { cssVar: '--tabs-button-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    tabButtonFontStyle: { cssVar: '--tabs-button-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    tabButtonTextTransform: { cssVar: '--tabs-button-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    tabButtonTextDecoration: { cssVar: '--tabs-button-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    tabButtonTextAlign: { cssVar: '--tabs-button-text-align', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
+    tabButtonPadding: { cssVar: '--tabs-button-padding', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'padding', dependsOn: null, variants: null },
+    tabButtonActiveFontWeight: { cssVar: '--tabs-button-active-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    tabButtonBorderColor: { cssVar: '--tabs-button-border-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    tabButtonActiveBorderColor: { cssVar: '--tabs-button-active-border-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    tabButtonBorderWidth: { cssVar: '--tabs-button-border-width', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
+    tabButtonBorderStyle: { cssVar: '--tabs-button-border-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
+    tabButtonBorderRadius: { cssVar: '--tabs-button-border-radius', unit: 'px', defaultUnit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
+    tabButtonShadow: { cssVar: '--tabs-button-border-shadow', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    tabButtonShadowHover: { cssVar: '--tabs-button-border-shadow-hover', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    tabButtonActiveContentBorderColor: { cssVar: '--tabs-button-active-content-border-color', unit: null, defaultUnit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-color"
             },
@@ -173,7 +174,7 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "border-bottom-color"
             }
       } },
-    tabButtonActiveContentBorderWidth: { cssVar: '--tabs-button-active-content-border-width', unit: null, type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabButtonActiveContentBorderWidth: { cssVar: '--tabs-button-active-content-border-width', unit: null, defaultUnit: null, type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-width"
             },
@@ -187,7 +188,7 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "border-bottom-width"
             }
       } },
-    tabButtonActiveContentBorderStyle: { cssVar: '--tabs-button-active-content-border-style', unit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabButtonActiveContentBorderStyle: { cssVar: '--tabs-button-active-content-border-style', unit: null, defaultUnit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-style"
             },
@@ -201,11 +202,11 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "border-bottom-style"
             }
       } },
-    tabListBackgroundColor: { cssVar: '--tabs-list-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    tabsRowBorderColor: { cssVar: '--tabs-row-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
-    tabsRowBorderWidth: { cssVar: '--tabs-row-border-width', unit: null, type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    tabsRowBorderStyle: { cssVar: '--tabs-row-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
-    tabsRowSpacing: { cssVar: '--tabs-row-spacing', unit: null, type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabListBackgroundColor: { cssVar: '--tabs-list-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    tabsRowBorderColor: { cssVar: '--tabs-row-border-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    tabsRowBorderWidth: { cssVar: '--tabs-row-border-width', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
+    tabsRowBorderStyle: { cssVar: '--tabs-row-border-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
+    tabsRowSpacing: { cssVar: '--tabs-row-spacing', unit: null, defaultUnit: null, type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "padding-top"
             },
@@ -219,10 +220,9 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "padding-top"
             }
       } },
-    tabsButtonGap: { cssVar: '--tabs-button-gap', unit: null, type: 'number', cssProperty: 'gap', dependsOn: null, variants: null },
-    tabListAlignment: { cssVar: '--tabs-list-align', unit: null, type: 'string', cssProperty: 'justify-content', dependsOn: null, variants: null },
-    enableTabsListContentBorder: { cssVar: '--tabs-enable-list-divider-border', unit: null, type: 'boolean', cssProperty: 'border', dependsOn: null, variants: null },
-    tabsListContentBorderColor: { cssVar: '--tabs-list-divider-border-color', unit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabsButtonGap: { cssVar: '--tabs-button-gap', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'gap', dependsOn: null, variants: null },
+    tabListAlignment: { cssVar: '--tabs-list-align', unit: null, defaultUnit: null, type: 'string', cssProperty: 'justify-content', dependsOn: null, variants: null },
+    tabsListContentBorderColor: { cssVar: '--tabs-list-divider-border-color', unit: null, defaultUnit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-color"
             },
@@ -236,7 +236,7 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "border-bottom-color"
             }
       } },
-    tabsListContentBorderWidth: { cssVar: '--tabs-list-divider-border-width', unit: null, type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabsListContentBorderWidth: { cssVar: '--tabs-list-divider-border-width', unit: null, defaultUnit: null, type: 'number', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-width"
             },
@@ -250,7 +250,7 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "border-bottom-width"
             }
       } },
-    tabsListContentBorderStyle: { cssVar: '--tabs-list-divider-border-style', unit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
+    tabsListContentBorderStyle: { cssVar: '--tabs-list-divider-border-style', unit: null, defaultUnit: null, type: 'string', cssProperty: null, dependsOn: 'orientation', variants: {
             "horizontal": {
                   "cssProperty": "border-bottom-style"
             },
@@ -264,104 +264,101 @@ export const CSS_VAR_MAPPINGS = {
                   "cssProperty": "border-bottom-style"
             }
       } },
-    panelBackgroundColor: { cssVar: '--tabs-panel-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    panelBorderColor: { cssVar: '--tabs-panel-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
-    panelBorderWidth: { cssVar: '--tabs-panel-border-width', unit: null, type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
-    panelBorderStyle: { cssVar: '--tabs-panel-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
-    panelBorderRadius: { cssVar: '--tabs-panel-border-radius', unit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    showIcon: { cssVar: '--tabs-show-icon', unit: null, type: 'boolean', cssProperty: 'display', dependsOn: null, variants: null },
-    iconPosition: { cssVar: '--tabs-icon-position', unit: null, type: 'string', cssProperty: 'flex-direction', dependsOn: null, variants: null },
-    iconColor: { cssVar: '--tabs-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--tabs-icon-size', unit: null, type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
-    iconTypeClosed: { cssVar: '--tabs-icon-type-closed', unit: null, type: 'string', cssProperty: 'content', dependsOn: null, variants: null },
-    iconTypeOpen: { cssVar: '--tabs-icon-type-open', unit: null, type: 'string', cssProperty: 'content', dependsOn: null, variants: null },
-    iconRotation: { cssVar: '--tabs-icon-rotation-base', unit: null, type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
-    iconRotationActive: { cssVar: '--tabs-icon-rotation-active', unit: null, type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
+    panelBackgroundColor: { cssVar: '--tabs-panel-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    panelBorderColor: { cssVar: '--tabs-panel-border-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    panelBorderWidth: { cssVar: '--tabs-panel-border-width', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
+    panelBorderStyle: { cssVar: '--tabs-panel-border-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
+    panelBorderRadius: { cssVar: '--tabs-panel-border-radius', unit: 'px', defaultUnit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
+    iconColor: { cssVar: '--tabs-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconSize: { cssVar: '--tabs-icon-size', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconRotation: { cssVar: '--tabs-icon-rotation-base', unit: null, defaultUnit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
+    iconRotationActive: { cssVar: '--tabs-icon-rotation-active', unit: null, defaultUnit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
   },
   toc: {
-    wrapperBackgroundColor: { cssVar: '--toc-wrapper-background-color', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    blockBorderColor: { cssVar: '--toc-border-color', unit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
-    titleColor: { cssVar: '--toc-title-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    titleBackgroundColor: { cssVar: '--toc-title-background-color', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    hoverTitleColor: { cssVar: '--toc-title-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    hoverTitleBackgroundColor: { cssVar: '--toc-title-hover-bg', unit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
-    linkColor: { cssVar: '--toc-link-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    linkHoverColor: { cssVar: '--toc-link-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    linkActiveColor: { cssVar: '--toc-link-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    linkVisitedColor: { cssVar: '--toc-link-visited-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h1Color: { cssVar: '--toc-h1-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h1HoverColor: { cssVar: '--toc-h1-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h1VisitedColor: { cssVar: '--toc-h1-visited-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h1ActiveColor: { cssVar: '--toc-h1-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h1FontSize: { cssVar: '--toc-h1-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    h1FontWeight: { cssVar: '--toc-h1-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    h1FontStyle: { cssVar: '--toc-h1-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    h1TextTransform: { cssVar: '--toc-h1-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    h1TextDecoration: { cssVar: '--toc-h1-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    h2Color: { cssVar: '--toc-h2-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h2HoverColor: { cssVar: '--toc-h2-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h2VisitedColor: { cssVar: '--toc-h2-visited-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h2ActiveColor: { cssVar: '--toc-h2-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h2FontSize: { cssVar: '--toc-h2-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    h2FontWeight: { cssVar: '--toc-h2-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    h2FontStyle: { cssVar: '--toc-h2-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    h2TextTransform: { cssVar: '--toc-h2-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    h2TextDecoration: { cssVar: '--toc-h2-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    h3Color: { cssVar: '--toc-h3-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h3HoverColor: { cssVar: '--toc-h3-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h3VisitedColor: { cssVar: '--toc-h3-visited-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h3ActiveColor: { cssVar: '--toc-h3-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h3FontSize: { cssVar: '--toc-h3-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    h3FontWeight: { cssVar: '--toc-h3-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    h3FontStyle: { cssVar: '--toc-h3-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    h3TextTransform: { cssVar: '--toc-h3-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    h3TextDecoration: { cssVar: '--toc-h3-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    h4Color: { cssVar: '--toc-h4-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h4HoverColor: { cssVar: '--toc-h4-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h4VisitedColor: { cssVar: '--toc-h4-visited-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h4ActiveColor: { cssVar: '--toc-h4-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h4FontSize: { cssVar: '--toc-h4-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    h4FontWeight: { cssVar: '--toc-h4-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    h4FontStyle: { cssVar: '--toc-h4-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    h4TextTransform: { cssVar: '--toc-h4-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    h4TextDecoration: { cssVar: '--toc-h4-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    h5Color: { cssVar: '--toc-h5-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h5HoverColor: { cssVar: '--toc-h5-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h5VisitedColor: { cssVar: '--toc-h5-visited-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h5ActiveColor: { cssVar: '--toc-h5-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h5FontSize: { cssVar: '--toc-h5-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    h5FontWeight: { cssVar: '--toc-h5-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    h5FontStyle: { cssVar: '--toc-h5-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    h5TextTransform: { cssVar: '--toc-h5-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    h5TextDecoration: { cssVar: '--toc-h5-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    h6Color: { cssVar: '--toc-h6-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h6HoverColor: { cssVar: '--toc-h6-hover-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h6VisitedColor: { cssVar: '--toc-h6-visited-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h6ActiveColor: { cssVar: '--toc-h6-active-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    h6FontSize: { cssVar: '--toc-h6-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    h6FontWeight: { cssVar: '--toc-h6-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    h6FontStyle: { cssVar: '--toc-h6-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    h6TextTransform: { cssVar: '--toc-h6-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    h6TextDecoration: { cssVar: '--toc-h6-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--toc-icon-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    iconRotation: { cssVar: '--toc-icon-rotation', unit: null, type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
-    iconColor: { cssVar: '--toc-icon-color', unit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    titleFontSize: { cssVar: '--toc-title-font-size', unit: null, type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    titleFontWeight: { cssVar: '--toc-title-font-weight', unit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
-    titleFontStyle: { cssVar: '--toc-title-font-style', unit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
-    titleTextTransform: { cssVar: '--toc-title-text-transform', unit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
-    titleTextDecoration: { cssVar: '--toc-title-text-decoration', unit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    titleAlignment: { cssVar: '--toc-title-alignment', unit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
-    blockBorderWidth: { cssVar: '--toc-border-width', unit: null, type: 'string', cssProperty: 'border-width', dependsOn: null, variants: null },
-    blockBorderStyle: { cssVar: '--toc-border-style', unit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
-    blockBorderRadius: { cssVar: '--toc-border-radius', unit: null, type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    blockShadow: { cssVar: '--toc-border-shadow', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    blockShadowHover: { cssVar: '--toc-border-shadow-hover', unit: null, type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
-    wrapperPadding: { cssVar: '--toc-wrapper-padding', unit: null, type: 'string', cssProperty: 'padding', dependsOn: null, variants: null },
-    itemSpacing: { cssVar: '--toc-item-spacing', unit: null, type: 'string', cssProperty: 'gap', dependsOn: null, variants: null },
-    levelIndent: { cssVar: '--toc-level-indent', unit: null, type: 'string', cssProperty: 'margin-left', dependsOn: null, variants: null },
-    positionTop: { cssVar: '--toc-position-top', unit: null, type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
-    zIndex: { cssVar: '--toc-z-index', unit: null, type: 'number', cssProperty: 'z-index', dependsOn: null, variants: null },
+    tocWidth: { cssVar: '--toc-width', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'width', dependsOn: null, variants: null },
+    wrapperBackgroundColor: { cssVar: '--toc-wrapper-background-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    blockBorderColor: { cssVar: '--toc-border-color', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-color', dependsOn: null, variants: null },
+    titleColor: { cssVar: '--toc-title-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    titleBackgroundColor: { cssVar: '--toc-title-background-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    hoverTitleColor: { cssVar: '--toc-title-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    hoverTitleBackgroundColor: { cssVar: '--toc-title-hover-bg', unit: null, defaultUnit: null, type: 'string', cssProperty: 'background-color', dependsOn: null, variants: null },
+    linkColor: { cssVar: '--toc-link-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    linkHoverColor: { cssVar: '--toc-link-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    linkActiveColor: { cssVar: '--toc-link-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    linkVisitedColor: { cssVar: '--toc-link-visited-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h1Color: { cssVar: '--toc-h1-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h1HoverColor: { cssVar: '--toc-h1-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h1VisitedColor: { cssVar: '--toc-h1-visited-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h1ActiveColor: { cssVar: '--toc-h1-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h1FontSize: { cssVar: '--toc-h1-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    h1FontWeight: { cssVar: '--toc-h1-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    h1FontStyle: { cssVar: '--toc-h1-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    h1TextTransform: { cssVar: '--toc-h1-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    h1TextDecoration: { cssVar: '--toc-h1-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    h2Color: { cssVar: '--toc-h2-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h2HoverColor: { cssVar: '--toc-h2-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h2VisitedColor: { cssVar: '--toc-h2-visited-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h2ActiveColor: { cssVar: '--toc-h2-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h2FontSize: { cssVar: '--toc-h2-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    h2FontWeight: { cssVar: '--toc-h2-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    h2FontStyle: { cssVar: '--toc-h2-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    h2TextTransform: { cssVar: '--toc-h2-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    h2TextDecoration: { cssVar: '--toc-h2-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    h3Color: { cssVar: '--toc-h3-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h3HoverColor: { cssVar: '--toc-h3-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h3VisitedColor: { cssVar: '--toc-h3-visited-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h3ActiveColor: { cssVar: '--toc-h3-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h3FontSize: { cssVar: '--toc-h3-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    h3FontWeight: { cssVar: '--toc-h3-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    h3FontStyle: { cssVar: '--toc-h3-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    h3TextTransform: { cssVar: '--toc-h3-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    h3TextDecoration: { cssVar: '--toc-h3-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    h4Color: { cssVar: '--toc-h4-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h4HoverColor: { cssVar: '--toc-h4-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h4VisitedColor: { cssVar: '--toc-h4-visited-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h4ActiveColor: { cssVar: '--toc-h4-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h4FontSize: { cssVar: '--toc-h4-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    h4FontWeight: { cssVar: '--toc-h4-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    h4FontStyle: { cssVar: '--toc-h4-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    h4TextTransform: { cssVar: '--toc-h4-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    h4TextDecoration: { cssVar: '--toc-h4-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    h5Color: { cssVar: '--toc-h5-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h5HoverColor: { cssVar: '--toc-h5-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h5VisitedColor: { cssVar: '--toc-h5-visited-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h5ActiveColor: { cssVar: '--toc-h5-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h5FontSize: { cssVar: '--toc-h5-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    h5FontWeight: { cssVar: '--toc-h5-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    h5FontStyle: { cssVar: '--toc-h5-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    h5TextTransform: { cssVar: '--toc-h5-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    h5TextDecoration: { cssVar: '--toc-h5-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    h6Color: { cssVar: '--toc-h6-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h6HoverColor: { cssVar: '--toc-h6-hover-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h6VisitedColor: { cssVar: '--toc-h6-visited-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h6ActiveColor: { cssVar: '--toc-h6-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    h6FontSize: { cssVar: '--toc-h6-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    h6FontWeight: { cssVar: '--toc-h6-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    h6FontStyle: { cssVar: '--toc-h6-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    h6TextTransform: { cssVar: '--toc-h6-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    h6TextDecoration: { cssVar: '--toc-h6-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    iconSize: { cssVar: '--toc-icon-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconRotation: { cssVar: '--toc-icon-rotation', unit: null, defaultUnit: 'deg', type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
+    iconColor: { cssVar: '--toc-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    titleFontSize: { cssVar: '--toc-title-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    titleFontWeight: { cssVar: '--toc-title-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
+    titleFontStyle: { cssVar: '--toc-title-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
+    titleTextTransform: { cssVar: '--toc-title-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
+    titleTextDecoration: { cssVar: '--toc-title-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
+    titleAlignment: { cssVar: '--toc-title-alignment', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-align', dependsOn: null, variants: null },
+    blockBorderWidth: { cssVar: '--toc-border-width', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'border-width', dependsOn: null, variants: null },
+    blockBorderStyle: { cssVar: '--toc-border-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
+    blockBorderRadius: { cssVar: '--toc-border-radius', unit: null, defaultUnit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
+    blockShadow: { cssVar: '--toc-border-shadow', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    blockShadowHover: { cssVar: '--toc-border-shadow-hover', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'box-shadow', dependsOn: null, variants: null },
+    wrapperPadding: { cssVar: '--toc-wrapper-padding', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'padding', dependsOn: null, variants: null },
+    itemSpacing: { cssVar: '--toc-item-spacing', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'gap', dependsOn: null, variants: null },
+    levelIndent: { cssVar: '--toc-level-indent', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'margin-left', dependsOn: null, variants: null },
+    positionTop: { cssVar: '--toc-position-top', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
+    zIndex: { cssVar: '--toc-z-index', unit: null, defaultUnit: null, type: 'number', cssProperty: 'z-index', dependsOn: null, variants: null },
   },
 };
 
@@ -392,6 +389,67 @@ function compressBoxValue(values, unit = '') {
   return `${addUnit(top)} ${addUnit(right)} ${addUnit(bottom)} ${addUnit(left)}`;
 }
 
+const UNIT_REGEX = /^-?\d+(?:\.\d+)?\s*([a-zA-Z%]+)$/;
+
+function getUnitFromString(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+  const match = value.trim().match(UNIT_REGEX);
+  return match ? match[1] : '';
+}
+
+function inferBoxUnit(value, fallbackUnit = '') {
+  if (!value || typeof value !== 'object') {
+    return fallbackUnit;
+  }
+
+  if (value.unit !== undefined && value.unit !== null && value.unit !== '') {
+    return value.unit;
+  }
+
+  if (value.value && typeof value.value === 'object') {
+    return inferBoxUnit(value.value, fallbackUnit);
+  }
+
+  const candidates = [
+    value.top,
+    value.right,
+    value.bottom,
+    value.left,
+    value.topLeft,
+    value.topRight,
+    value.bottomRight,
+    value.bottomLeft,
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate) {
+      continue;
+    }
+    if (typeof candidate === 'string') {
+      const unit = getUnitFromString(candidate);
+      if (unit) {
+        return unit;
+      }
+      continue;
+    }
+    if (typeof candidate === 'object') {
+      if (candidate.unit) {
+        return candidate.unit;
+      }
+      if (typeof candidate.value === 'string') {
+        const unit = getUnitFromString(candidate.value);
+        if (unit) {
+          return unit;
+        }
+      }
+    }
+  }
+
+  return fallbackUnit;
+}
+
 /**
  * Format a value with its unit for CSS output
  * @param {string} attrName - Attribute name
@@ -413,8 +471,12 @@ export function formatCssValue(attrName, value, blockType) {
     value.value !== undefined &&
     value.value !== null
   ) {
-    const unit = value.unit || mapping.unit || '';
-    return `${value.value}${unit}`;
+    if (typeof value.value === 'string') {
+      return value.value;
+    }
+    const fallbackUnit = mapping.unit || mapping.defaultUnit || '';
+    const unit = value.unit ?? fallbackUnit;
+    return `${value.value}${unit ?? ''}`;
   }
 
   // Handle object types (border radius, padding, colors, styles)
@@ -426,7 +488,7 @@ export function formatCssValue(attrName, value, blockType) {
 
     // Border radius format: topLeft topRight bottomRight bottomLeft
     if (value.topLeft !== undefined) {
-      const unit = value.unit || 'px';
+      const unit = inferBoxUnit(value, mapping.defaultUnit || mapping.unit || 'px');
       const values = [value.topLeft, value.topRight, value.bottomRight, value.bottomLeft];
       return compressBoxValue(values, unit);
     }
@@ -448,7 +510,7 @@ export function formatCssValue(attrName, value, blockType) {
       // Only apply unit if values are numeric (border-style/color are strings, don't need units)
       const firstValue = values.find(v => v !== '' && v !== undefined && v !== null);
       const isNumeric = typeof firstValue === 'number';
-      const unit = isNumeric ? (value.unit || '') : '';
+      const unit = isNumeric ? inferBoxUnit(value, mapping.defaultUnit || mapping.unit || '') : '';
 
       return compressBoxValue(values, unit);
     }
@@ -464,14 +526,118 @@ export function formatCssValue(attrName, value, blockType) {
   }
 
   // Handle numeric values with units
-  if (mapping.unit && typeof value === 'number') {
-    return `${value}${mapping.unit}`;
+  const numberUnit = mapping.unit || mapping.defaultUnit;
+  if (numberUnit && typeof value === 'number') {
+    return `${value}${numberUnit}`;
   }
 
   // Return value as-is for strings and other types
   return value;
 }
 
+/**
+ * Decompose box-like objects into per-side CSS variable assignments.
+ * Handles top/right/bottom/left and border-radius corner shapes.
+ *
+ * @param {string} attrName - Attribute name
+ * @param {*} value - Box-like value object
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @param {string} [suffix=''] - Optional suffix (e.g., '-tablet', '-mobile')
+ * @returns {Object} Map of CSS variable names to values
+ */
+export function decomposeObjectToSides(attrName, value, blockType, suffix = '') {
+  const mapping = CSS_VAR_MAPPINGS[blockType]?.[attrName];
+  if (!mapping || !mapping.cssVar || value === null || value === undefined) return {};
+  if (Array.isArray(value)) return {};
+
+  const baseVar = mapping.cssVar;
+  const linked = typeof value?.linked === 'boolean' ? value.linked : null;
+
+  const resolveSideValue = (sideValue, fallbackUnit) => {
+    if (sideValue === null || sideValue === undefined) return null;
+    if (typeof sideValue === 'string') return sideValue;
+    if (typeof sideValue === 'number') return '' + sideValue + (fallbackUnit || '');
+    if (typeof sideValue === 'object' && sideValue.value !== undefined) {
+      const unit = sideValue.unit ?? fallbackUnit ?? '';
+      return '' + sideValue.value + unit;
+    }
+    return null;
+  };
+
+  const valuesDiffer = (resolvedValues) => {
+    const filtered = resolvedValues.filter((val) => val !== null);
+    if (filtered.length <= 1) return false;
+    return filtered.some((val) => val !== filtered[0]);
+  };
+
+  const unitFromValue = value && typeof value === 'object'
+    ? inferBoxUnit(value, mapping.defaultUnit || mapping.unit || '')
+    : '';
+
+  // Border radius corners
+  if (value && typeof value === 'object' && value.topLeft !== undefined) {
+    const radiusUnit = inferBoxUnit(value, mapping.defaultUnit || mapping.unit || 'px');
+    const corners = {
+      'top-left': value.topLeft,
+      'top-right': value.topRight,
+      'bottom-right': value.bottomRight,
+      'bottom-left': value.bottomLeft,
+    };
+
+    const resolvedCorners = Object.entries(corners).map(([corner, cornerValue]) => ({
+      corner,
+      resolved: resolveSideValue(cornerValue, radiusUnit),
+    }));
+
+    const shouldEmit = linked === false || valuesDiffer(resolvedCorners.map((entry) => entry.resolved));
+    if (!shouldEmit) {
+      return {};
+    }
+
+    const result = {};
+    resolvedCorners.forEach(({ corner, resolved }) => {
+      if (resolved !== null) {
+        result[baseVar + '-' + corner + suffix] = resolved;
+      }
+    });
+
+    return result;
+  }
+
+  // Directional sides
+  if (value && typeof value === 'object' &&
+      (value.top !== undefined || value.right !== undefined ||
+       value.bottom !== undefined || value.left !== undefined)) {
+    const unit = unitFromValue || mapping.unit || '';
+    const sides = {
+      top: value.top,
+      right: value.right,
+      bottom: value.bottom,
+      left: value.left,
+    };
+
+    const resolvedSides = Object.entries(sides).map(([side, sideValue]) => ({
+      side,
+      resolved: resolveSideValue(sideValue, unit),
+    }));
+
+    const shouldEmit = linked === false || valuesDiffer(resolvedSides.map((entry) => entry.resolved));
+    if (!shouldEmit) {
+      return {};
+    }
+
+    const result = {};
+    resolvedSides.forEach(({ side, resolved }) => {
+      if (resolved !== null) {
+        result[baseVar + '-' + side + suffix] = resolved;
+      }
+    });
+
+    return result;
+  }
+
+  return {};
+}
 /**
  * Get the CSS variable name for an attribute
  * @param {string} attrName - Attribute name

@@ -4,17 +4,7 @@
  */
 import { RangeControl } from '@wordpress/components';
 
-const WEIGHT_LABELS = {
-    100: 'Thin',
-    200: 'Extra Light',
-    300: 'Light',
-    400: 'Regular',
-    500: 'Medium',
-    600: 'Semi Bold',
-    700: 'Bold',
-    800: 'Extra Bold',
-    900: 'Black',
-};
+const HELP_TEXT = 'Not every font supports every weight; the browser will use the closest available weight.';
 
 export function FontWeightSlider({ value = 400, onChange, disabled = false }) {
     return (
@@ -33,7 +23,7 @@ export function FontWeightSlider({ value = 400, onChange, disabled = false }) {
                     { value: 900, label: '900' },
                 ]}
                 disabled={disabled}
-                help={WEIGHT_LABELS[value] || ''}
+                help={HELP_TEXT}
                 __nextHasNoMarginBottom
             />
         </div>

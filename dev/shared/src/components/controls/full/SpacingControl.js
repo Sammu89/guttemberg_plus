@@ -13,10 +13,10 @@
 import { BaseControl } from '@wordpress/components';
 import { CompactBoxRow } from '../organisms/CompactBoxRow';
 import { SideIcon } from '../atoms/SideIcon';
-import { ResponsiveToggle } from '../atoms/ResponsiveToggle';
+import { UtilityBar } from '../UtilityBar';
 import { useResponsiveDevice } from '../../../hooks/useResponsiveDevice';
-import { setGlobalResponsiveDevice } from '../../../utils/responsive-device';
-import { getAvailableUnits, getUnitConfig } from '../../../config/css-property-scales';
+import { getAvailableUnits, getUnitConfig } from '../../../config/css-property-scales.mjs';
+import { inferBoxUnit } from '../../../utils/box-value-utils';
 
 const ALL_SIDES = [ 'top', 'right', 'bottom', 'left' ];
 
@@ -173,17 +173,41 @@ export function SpacingControl( {
 		linked = true,
 	} = currentValue || {};
 
+	const effectiveUnit = inferBoxUnit( currentValue, unit ) || unit || 'px';
+
 	// Get unit-specific configuration from centralizer
-	const unitConfig = getUnitConfig( type, unit );
+	const unitConfig = getUnitConfig( type, effectiveUnit );
 	const min = minProp ?? unitConfig?.min ?? 0;
 	const max = maxProp ?? unitConfig?.max ?? 100;
 	const step = stepProp ?? unitConfig?.step ?? 1;
+
+	const normalizeUnitValue = ( nextValue, fallbackUnit ) => {
+		if ( ! nextValue || typeof nextValue !== 'object' ) {
+			return nextValue;
+		}
+
+		const hasSides = [ 'top', 'right', 'bottom', 'left' ].some(
+			( side ) => nextValue[ side ] !== undefined
+		);
+		if ( ! hasSides ) {
+			return nextValue;
+		}
+
+		const hasUnit = typeof nextValue.unit === 'string' && nextValue.unit.trim() !== '';
+		const inferredUnit = inferBoxUnit( nextValue, fallbackUnit );
+		if ( hasUnit || ! inferredUnit ) {
+			return nextValue;
+		}
+
+		return { ...nextValue, unit: inferredUnit };
+	};
 
 	// Helper to update value
 	// Global: updates the base (flat) properties
 	// Tablet/Mobile: creates/updates device-specific overrides
 	const updateValue = ( updates ) => {
-		const newValue = { ...currentValue, ...updates };
+		const mergedValue = { ...currentValue, ...updates };
+		const newValue = normalizeUnitValue( mergedValue, effectiveUnit );
 
 		if ( responsive ) {
 			if ( device === 'global' ) {
@@ -197,7 +221,9 @@ export function SpacingControl( {
 			} else {
 				// Tablet/Mobile create device-specific overrides
 				// Preserve base properties and other device overrides
-				const baseProps = hasBaseProperties ? getBaseValue() : {};
+				const baseProps = hasBaseProperties
+					? normalizeUnitValue( getBaseValue(), newValue?.unit || effectiveUnit )
+					: {};
 				const existingOverrides = {};
 				if ( value?.tablet && device !== 'tablet' ) existingOverrides.tablet = value.tablet;
 				if ( value?.mobile && device !== 'mobile' ) existingOverrides.mobile = value.mobile;
@@ -247,16 +273,29 @@ export function SpacingControl( {
 		}
 	};
 
-	// Handler for responsive reset (discard device overrides and disable responsive)
-	const handleResponsiveResetClick = () => {
-		if ( onResponsiveReset ) {
+	// Comprehensive reset handler
+	// Resets value to defaults with linked: true, removes device overrides, and disables responsive
+	const handleComprehensiveReset = () => {
+		// Get default values for all allowed sides
+		const defaultResetValue = {};
+		SIDES.forEach( ( side ) => {
+			defaultResetValue[ side ] = 0;
+		} );
+
+		// Create reset value with linked: true and default unit
+		const resetValue = {
+			...defaultResetValue,
+			unit: 'px',
+			linked: true,
+		};
+
+		// Update the attribute to reset value (this removes device overrides)
+		onChange( resetValue );
+
+		// If canBeResponsive, also disable responsive mode
+		if ( canBeResponsive && onResponsiveReset ) {
 			onResponsiveReset();
 		}
-	};
-
-	// Handler for device change
-	const handleDeviceChange = ( newDevice ) => {
-		setGlobalResponsiveDevice( newDevice );
 	};
 
 	return (
@@ -264,16 +303,17 @@ export function SpacingControl( {
 			label={
 				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
 					<span>{ controlLabel }</span>
-					{ canBeResponsive && (
-						<ResponsiveToggle
-							isEnabled={ responsiveEnabled }
-							onToggle={ onResponsiveToggle }
-							currentDevice={ device }
-							onDeviceChange={ handleDeviceChange }
-							onReset={ handleResponsiveResetClick }
-							disabled={ disabled }
-						/>
-					) }
+					<UtilityBar
+						canBeResponsive={ canBeResponsive }
+						isResponsiveEnabled={ responsiveEnabled }
+						currentDevice={ device }
+						isDecomposable={ true }
+						isLinked={ linked }
+						onResponsiveToggle={ onResponsiveToggle }
+						onLinkChange={ handleLinkChange }
+						onReset={ handleComprehensiveReset }
+						disabled={ disabled }
+					/>
 				</div>
 			}
 			className={ `gutplus-spacing-control gutplus-spacing-control--${ type }` }
@@ -284,7 +324,7 @@ export function SpacingControl( {
 				<CompactBoxRow
 					iconSlot={ <SideIcon side={ type } /> }
 					value={ top }
-					unit={ unit }
+					unit={ effectiveUnit }
 					onValueChange={ ( val ) => handleValueChange( 'top', val ) }
 					onUnitChange={ handleUnitChange }
 					units={ availableUnits }
@@ -292,22 +332,18 @@ export function SpacingControl( {
 					max={ max }
 					step={ step }
 					showSlider={ true }
-					showLink={ true }
-					linked={ linked }
-					onLinkChange={ handleLinkChange }
 					disabled={ disabled }
 				/>
 			) : (
 				// Multiple rows when unlinked (one per allowed side)
 				<div className="gutplus-spacing-control__sides">
-					{ SIDES.map( ( side, index ) => {
-						const isLastSide = index === SIDES.length - 1;
+					{ SIDES.map( ( side ) => {
 						return (
 							<CompactBoxRow
 								key={ side }
 								iconSlot={ <SideIcon side={ side } /> }
 								value={ currentValue[ side ] || 0 }
-								unit={ unit }
+								unit={ effectiveUnit }
 								onValueChange={ ( val ) => handleValueChange( side, val ) }
 								onUnitChange={ handleUnitChange }
 								units={ availableUnits }
@@ -315,9 +351,6 @@ export function SpacingControl( {
 								max={ max }
 								step={ step }
 								showSlider={ true }
-								showLink={ isLastSide } // Only show link on last row
-								linked={ linked }
-								onLinkChange={ isLastSide ? handleLinkChange : undefined }
 								disabled={ disabled }
 								className={ `gutplus-spacing-control__side gutplus-spacing-control__side--${ side }` }
 							/>

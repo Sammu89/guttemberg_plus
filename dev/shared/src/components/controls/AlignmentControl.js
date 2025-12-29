@@ -103,6 +103,29 @@ const getIcon = ( alignment ) => {
 /**
  * AlignmentControl - Text alignment button selector
  *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses a SIMPLE STRING pattern (single alignment value).
+ *
+ * VALUE PROP:
+ * -----------
+ * value prop accepts:
+ *   - "left" | "center" | "right"
+ *   - "wide" | "full" (only when type is "block")
+ *
+ * onChange callback signature:
+ *   onChange(newAlignment)
+ *   - newAlignment: string from shared templates
+ *
+ * NOT RESPONSIVE:
+ * ---------------
+ * AlignmentControl does NOT handle responsive values internally.
+ * Parent controls must switch values per device if needed.
+ *
+ * ============================================================================
+ *
  * @param {Object}   props           Component props
  * @param {string}   props.label     Label for the control
  * @param {string}   props.value     Current alignment value

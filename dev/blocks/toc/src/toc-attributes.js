@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-29T02:28:32.322Z
+ * Generated at: 2025-12-29T15:44:13.316Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -469,7 +469,7 @@ export const tocAttributes = {
   },
   blockBorderWidth: {
     type: 'string',
-    default: '1px',
+    default: '1',
   },
   blockBorderStyle: {
     type: 'object',
@@ -477,7 +477,7 @@ export const tocAttributes = {
   },
   blockBorderRadius: {
     type: 'object',
-    default: {"topLeft":"4px","topRight":"4px","bottomRight":"4px","bottomLeft":"4px"},
+    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4,"unit":"px"},
   },
   blockShadow: {
     type: 'string',

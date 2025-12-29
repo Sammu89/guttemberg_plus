@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-29T02:28:32.371Z
+ * Generated at: 2025-12-29T15:44:13.389Z
  *
  * This file contains CSS rules that apply variables to selectors.
  * Default values are provided via var() fallbacks - no :root declarations needed.
@@ -15,14 +15,32 @@
  */
 
 .gutplus-tabs {
+  /* Tabs container width */
+  width: var(--tabs-width, 100%);
   /* Border color for main tabs wrapper */
   border-color: var(--tabs-border-color, #dddddd);
+  border-top-color: var(--tabs-border-color-top, var(--tabs-border-color, #dddddd));
+  border-right-color: var(--tabs-border-color-right, var(--tabs-border-color, #dddddd));
+  border-bottom-color: var(--tabs-border-color-bottom, var(--tabs-border-color, #dddddd));
+  border-left-color: var(--tabs-border-color-left, var(--tabs-border-color, #dddddd));
   /* Border width for main wrapper */
-  border-width: var(--tabs-border-width, 0px);
+  border-width: var(--tabs-border-width, 0);
+  border-top-width: var(--tabs-border-width-top, var(--tabs-border-width, 0));
+  border-right-width: var(--tabs-border-width-right, var(--tabs-border-width, 0));
+  border-bottom-width: var(--tabs-border-width-bottom, var(--tabs-border-width, 0));
+  border-left-width: var(--tabs-border-width-left, var(--tabs-border-width, 0));
   /* Border style for wrapper */
   border-style: var(--tabs-border-style, solid);
+  border-top-style: var(--tabs-border-style-top, var(--tabs-border-style, solid));
+  border-right-style: var(--tabs-border-style-right, var(--tabs-border-style, solid));
+  border-bottom-style: var(--tabs-border-style-bottom, var(--tabs-border-style, solid));
+  border-left-style: var(--tabs-border-style-left, var(--tabs-border-style, solid));
   /* Corner radius for main wrapper */
   border-radius: var(--tabs-border-radius, 0px);
+  border-top-left-radius: var(--tabs-border-radius-top-left, var(--tabs-border-radius, 0px));
+  border-top-right-radius: var(--tabs-border-radius-top-right, var(--tabs-border-radius, 0px));
+  border-bottom-right-radius: var(--tabs-border-radius-bottom-right, var(--tabs-border-radius, 0px));
+  border-bottom-left-radius: var(--tabs-border-radius-bottom-left, var(--tabs-border-radius, 0px));
   /* Box shadow for main wrapper */
   box-shadow: var(--tabs-border-shadow, none);
 
@@ -41,20 +59,36 @@
   text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
   padding: var(--tabs-button-padding, 0.75rempx NaNpx);
+  padding-top: var(--tabs-button-padding-top, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-right: var(--tabs-button-padding-right, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-bottom: var(--tabs-button-padding-bottom, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-left: var(--tabs-button-padding-left, var(--tabs-button-padding, 0.75rempx NaNpx));
   /* Border color for inactive tab buttons */
   border-color: var(--tabs-button-border-color, #dddddd);
+  border-top-color: var(--tabs-button-border-color-top, var(--tabs-button-border-color, #dddddd));
+  border-right-color: var(--tabs-button-border-color-right, var(--tabs-button-border-color, #dddddd));
+  border-bottom-color: var(--tabs-button-border-color-bottom, var(--tabs-button-border-color, #dddddd));
+  border-left-color: var(--tabs-button-border-color-left, var(--tabs-button-border-color, #dddddd));
   /* Border width for tab buttons */
-  border-width: var(--tabs-button-border-width, 1px);
+  border-width: var(--tabs-button-border-width, 1);
+  border-top-width: var(--tabs-button-border-width-top, var(--tabs-button-border-width, 1));
+  border-right-width: var(--tabs-button-border-width-right, var(--tabs-button-border-width, 1));
+  border-bottom-width: var(--tabs-button-border-width-bottom, var(--tabs-button-border-width, 1));
+  border-left-width: var(--tabs-button-border-width-left, var(--tabs-button-border-width, 1));
   /* Border style for tab buttons */
   border-style: var(--tabs-button-border-style, solid);
+  border-top-style: var(--tabs-button-border-style-top, var(--tabs-button-border-style, solid));
+  border-right-style: var(--tabs-button-border-style-right, var(--tabs-button-border-style, solid));
+  border-bottom-style: var(--tabs-button-border-style-bottom, var(--tabs-button-border-style, solid));
+  border-left-style: var(--tabs-button-border-style-left, var(--tabs-button-border-style, solid));
   /* Corner radius for tab buttons */
   border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
+  border-top-left-radius: var(--tabs-button-border-radius-top-left, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-top-right-radius: var(--tabs-button-border-radius-top-right, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-bottom-right-radius: var(--tabs-button-border-radius-bottom-right, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-bottom-left-radius: var(--tabs-button-border-radius-bottom-left, var(--tabs-button-border-radius, 4px 4px 0px 0px));
   /* Box shadow for tab buttons */
   box-shadow: var(--tabs-button-border-shadow, none);
-  /* Display icons in tab buttons */
-  display: var(--tabs-show-icon, true);
-  /* Position of icon relative to text */
-  flex-direction: var(--tabs-icon-position, right);
 
   &:hover {
     /* Text color when hovering over tab */
@@ -71,29 +105,27 @@
     color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
-    /* Font weight for active/selected tab button */
+    /* Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
+    border-top-color: var(--tabs-button-active-border-color-top, var(--tabs-button-active-border-color, #dddddd));
+    border-right-color: var(--tabs-button-active-border-color-right, var(--tabs-button-active-border-color, #dddddd));
+    border-bottom-color: var(--tabs-button-active-border-color-bottom, var(--tabs-button-active-border-color, #dddddd));
+    border-left-color: var(--tabs-button-active-border-color-left, var(--tabs-button-active-border-color, #dddddd));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
-  }
-
-  &:focus,
-  &:focus-visible {
-    /* Border on the edge touching the content, giving it a merged look. */
-    border: var(--tabs-enable-focus-border, true);
   }
 }
 
 .tab-button-text {
   /* Font size for tab buttons (rem) */
   font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons */
+  /* Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
   font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
   font-style: var(--tabs-button-font-style, normal);
@@ -110,7 +142,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -123,7 +155,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-right-width: var(--tabs-button-active-content-border-width, 1px);
+    border-right-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-right-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -136,7 +168,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-left-width: var(--tabs-button-active-content-border-width, 1px);
+    border-left-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-left-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -147,22 +179,32 @@
   background-color: var(--tabs-list-bg, transparent);
   /* Border color for the tab row */
   border-color: var(--tabs-row-border-color, #dddddd);
+  border-top-color: var(--tabs-row-border-color-top, var(--tabs-row-border-color, #dddddd));
+  border-right-color: var(--tabs-row-border-color-right, var(--tabs-row-border-color, #dddddd));
+  border-bottom-color: var(--tabs-row-border-color-bottom, var(--tabs-row-border-color, #dddddd));
+  border-left-color: var(--tabs-row-border-color-left, var(--tabs-row-border-color, #dddddd));
   /* Border width for the tab row */
-  border-width: var(--tabs-row-border-width, 0px);
+  border-width: var(--tabs-row-border-width, 0);
+  border-top-width: var(--tabs-row-border-width-top, var(--tabs-row-border-width, 0));
+  border-right-width: var(--tabs-row-border-width-right, var(--tabs-row-border-width, 0));
+  border-bottom-width: var(--tabs-row-border-width-bottom, var(--tabs-row-border-width, 0));
+  border-left-width: var(--tabs-row-border-width-left, var(--tabs-row-border-width, 0));
   /* Border style for the tab row */
   border-style: var(--tabs-row-border-style, solid);
+  border-top-style: var(--tabs-row-border-style-top, var(--tabs-row-border-style, solid));
+  border-right-style: var(--tabs-row-border-style-right, var(--tabs-row-border-style, solid));
+  border-bottom-style: var(--tabs-row-border-style-bottom, var(--tabs-row-border-style, solid));
+  border-left-style: var(--tabs-row-border-style-left, var(--tabs-row-border-style, solid));
   /* Padding/spacing for the tab row (rem) */
   padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Spacing between individual tab buttons (rem) */
   gap: var(--tabs-button-gap, 0.5rem);
   /* Alignment of tabs along the main axis */
   justify-content: var(--tabs-list-align, flex-start);
-  /* Enable or disable border between tab row and content */
-  border: var(--tabs-enable-list-divider-border, false);
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
+  border-bottom-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -173,7 +215,7 @@
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
+  border-bottom-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -184,7 +226,7 @@
   /* Color of the tab row edge that touches the content */
   border-right-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-right-width: var(--tabs-list-divider-border-width, 1px);
+  border-right-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-right-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -195,7 +237,7 @@
   /* Color of the tab row edge that touches the content */
   border-left-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-left-width: var(--tabs-list-divider-border-width, 1px);
+  border-left-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-left-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -205,12 +247,28 @@
   background-color: var(--tabs-panel-bg, #ffffff);
   /* Border color for tab content panel */
   border-color: var(--tabs-panel-border-color, #dddddd);
+  border-top-color: var(--tabs-panel-border-color-top, var(--tabs-panel-border-color, #dddddd));
+  border-right-color: var(--tabs-panel-border-color-right, var(--tabs-panel-border-color, #dddddd));
+  border-bottom-color: var(--tabs-panel-border-color-bottom, var(--tabs-panel-border-color, #dddddd));
+  border-left-color: var(--tabs-panel-border-color-left, var(--tabs-panel-border-color, #dddddd));
   /* Border width for tab content panel (0-10px) */
-  border-width: var(--tabs-panel-border-width, 1px);
+  border-width: var(--tabs-panel-border-width, 1);
+  border-top-width: var(--tabs-panel-border-width-top, var(--tabs-panel-border-width, 1));
+  border-right-width: var(--tabs-panel-border-width-right, var(--tabs-panel-border-width, 1));
+  border-bottom-width: var(--tabs-panel-border-width-bottom, var(--tabs-panel-border-width, 1));
+  border-left-width: var(--tabs-panel-border-width-left, var(--tabs-panel-border-width, 1));
   /* Border style for tab content panel */
   border-style: var(--tabs-panel-border-style, solid);
+  border-top-style: var(--tabs-panel-border-style-top, var(--tabs-panel-border-style, solid));
+  border-right-style: var(--tabs-panel-border-style-right, var(--tabs-panel-border-style, solid));
+  border-bottom-style: var(--tabs-panel-border-style-bottom, var(--tabs-panel-border-style, solid));
+  border-left-style: var(--tabs-panel-border-style-left, var(--tabs-panel-border-style, solid));
   /* Corner radius for tab content panel */
   border-radius: var(--tabs-panel-border-radius, 4px);
+  border-top-left-radius: var(--tabs-panel-border-radius-top-left, var(--tabs-panel-border-radius, 4px));
+  border-top-right-radius: var(--tabs-panel-border-radius-top-right, var(--tabs-panel-border-radius, 4px));
+  border-bottom-right-radius: var(--tabs-panel-border-radius-bottom-right, var(--tabs-panel-border-radius, 4px));
+  border-bottom-left-radius: var(--tabs-panel-border-radius-bottom-left, var(--tabs-panel-border-radius, 4px));
 }
 
 .tab-icon {
@@ -218,10 +276,6 @@
   color: var(--tabs-icon-color, #666666);
   /* Size of the icon in rem */
   font-size: var(--tabs-icon-size, 1rem);
-  /* Icon for the tab (char or image URL) */
-  content: var(--tabs-icon-type-closed, ▾);
-  /* Icon when tab is active (none = use closed icon with final rotation) */
-  content: var(--tabs-icon-type-open, none);
   /* Base rotation of the icon */
   transform: var(--tabs-icon-rotation-base, 0deg);
 
@@ -233,14 +287,32 @@
 }
 
 .gutplus-tabs[data-gutplus-device="tablet"] {
+  /* Tabs container width */
+  width: var(--tabs-width-tablet, var(--tabs-width, 100%));
   /* Border color for main tabs wrapper */
   border-color: var(--tabs-border-color, #dddddd);
+  border-top-color: var(--tabs-border-color-top, var(--tabs-border-color, #dddddd));
+  border-right-color: var(--tabs-border-color-right, var(--tabs-border-color, #dddddd));
+  border-bottom-color: var(--tabs-border-color-bottom, var(--tabs-border-color, #dddddd));
+  border-left-color: var(--tabs-border-color-left, var(--tabs-border-color, #dddddd));
   /* Border width for main wrapper */
-  border-width: var(--tabs-border-width, 0px);
+  border-width: var(--tabs-border-width, 0);
+  border-top-width: var(--tabs-border-width-top, var(--tabs-border-width, 0));
+  border-right-width: var(--tabs-border-width-right, var(--tabs-border-width, 0));
+  border-bottom-width: var(--tabs-border-width-bottom, var(--tabs-border-width, 0));
+  border-left-width: var(--tabs-border-width-left, var(--tabs-border-width, 0));
   /* Border style for wrapper */
   border-style: var(--tabs-border-style, solid);
+  border-top-style: var(--tabs-border-style-top, var(--tabs-border-style, solid));
+  border-right-style: var(--tabs-border-style-right, var(--tabs-border-style, solid));
+  border-bottom-style: var(--tabs-border-style-bottom, var(--tabs-border-style, solid));
+  border-left-style: var(--tabs-border-style-left, var(--tabs-border-style, solid));
   /* Corner radius for main wrapper */
   border-radius: var(--tabs-border-radius, 0px);
+  border-top-left-radius: var(--tabs-border-radius-top-left, var(--tabs-border-radius, 0px));
+  border-top-right-radius: var(--tabs-border-radius-top-right, var(--tabs-border-radius, 0px));
+  border-bottom-right-radius: var(--tabs-border-radius-bottom-right, var(--tabs-border-radius, 0px));
+  border-bottom-left-radius: var(--tabs-border-radius-bottom-left, var(--tabs-border-radius, 0px));
   /* Box shadow for main wrapper */
   box-shadow: var(--tabs-border-shadow, none);
 
@@ -259,20 +331,36 @@
   text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
   padding: var(--tabs-button-padding, 0.75rempx NaNpx);
+  padding-top: var(--tabs-button-padding-top, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-right: var(--tabs-button-padding-right, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-bottom: var(--tabs-button-padding-bottom, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-left: var(--tabs-button-padding-left, var(--tabs-button-padding, 0.75rempx NaNpx));
   /* Border color for inactive tab buttons */
   border-color: var(--tabs-button-border-color, #dddddd);
+  border-top-color: var(--tabs-button-border-color-top, var(--tabs-button-border-color, #dddddd));
+  border-right-color: var(--tabs-button-border-color-right, var(--tabs-button-border-color, #dddddd));
+  border-bottom-color: var(--tabs-button-border-color-bottom, var(--tabs-button-border-color, #dddddd));
+  border-left-color: var(--tabs-button-border-color-left, var(--tabs-button-border-color, #dddddd));
   /* Border width for tab buttons */
-  border-width: var(--tabs-button-border-width, 1px);
+  border-width: var(--tabs-button-border-width, 1);
+  border-top-width: var(--tabs-button-border-width-top, var(--tabs-button-border-width, 1));
+  border-right-width: var(--tabs-button-border-width-right, var(--tabs-button-border-width, 1));
+  border-bottom-width: var(--tabs-button-border-width-bottom, var(--tabs-button-border-width, 1));
+  border-left-width: var(--tabs-button-border-width-left, var(--tabs-button-border-width, 1));
   /* Border style for tab buttons */
   border-style: var(--tabs-button-border-style, solid);
+  border-top-style: var(--tabs-button-border-style-top, var(--tabs-button-border-style, solid));
+  border-right-style: var(--tabs-button-border-style-right, var(--tabs-button-border-style, solid));
+  border-bottom-style: var(--tabs-button-border-style-bottom, var(--tabs-button-border-style, solid));
+  border-left-style: var(--tabs-button-border-style-left, var(--tabs-button-border-style, solid));
   /* Corner radius for tab buttons */
   border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
+  border-top-left-radius: var(--tabs-button-border-radius-top-left, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-top-right-radius: var(--tabs-button-border-radius-top-right, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-bottom-right-radius: var(--tabs-button-border-radius-bottom-right, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-bottom-left-radius: var(--tabs-button-border-radius-bottom-left, var(--tabs-button-border-radius, 4px 4px 0px 0px));
   /* Box shadow for tab buttons */
   box-shadow: var(--tabs-button-border-shadow, none);
-  /* Display icons in tab buttons */
-  display: var(--tabs-show-icon, true);
-  /* Position of icon relative to text */
-  flex-direction: var(--tabs-icon-position, right);
 
   &:hover {
     /* Text color when hovering over tab */
@@ -289,29 +377,27 @@
     color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
-    /* Font weight for active/selected tab button */
+    /* Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
+    border-top-color: var(--tabs-button-active-border-color-top, var(--tabs-button-active-border-color, #dddddd));
+    border-right-color: var(--tabs-button-active-border-color-right, var(--tabs-button-active-border-color, #dddddd));
+    border-bottom-color: var(--tabs-button-active-border-color-bottom, var(--tabs-button-active-border-color, #dddddd));
+    border-left-color: var(--tabs-button-active-border-color-left, var(--tabs-button-active-border-color, #dddddd));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
-  }
-
-  &:focus,
-  &:focus-visible {
-    /* Border on the edge touching the content, giving it a merged look. */
-    border: var(--tabs-enable-focus-border, true);
   }
 }
 
 [data-gutplus-device="tablet"] .tab-button-text {
   /* Font size for tab buttons (rem) */
   font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons */
+  /* Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
   font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
   font-style: var(--tabs-button-font-style, normal);
@@ -328,7 +414,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -341,7 +427,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-right-width: var(--tabs-button-active-content-border-width, 1px);
+    border-right-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-right-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -354,7 +440,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-left-width: var(--tabs-button-active-content-border-width, 1px);
+    border-left-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-left-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -365,22 +451,32 @@
   background-color: var(--tabs-list-bg, transparent);
   /* Border color for the tab row */
   border-color: var(--tabs-row-border-color, #dddddd);
+  border-top-color: var(--tabs-row-border-color-top, var(--tabs-row-border-color, #dddddd));
+  border-right-color: var(--tabs-row-border-color-right, var(--tabs-row-border-color, #dddddd));
+  border-bottom-color: var(--tabs-row-border-color-bottom, var(--tabs-row-border-color, #dddddd));
+  border-left-color: var(--tabs-row-border-color-left, var(--tabs-row-border-color, #dddddd));
   /* Border width for the tab row */
-  border-width: var(--tabs-row-border-width, 0px);
+  border-width: var(--tabs-row-border-width, 0);
+  border-top-width: var(--tabs-row-border-width-top, var(--tabs-row-border-width, 0));
+  border-right-width: var(--tabs-row-border-width-right, var(--tabs-row-border-width, 0));
+  border-bottom-width: var(--tabs-row-border-width-bottom, var(--tabs-row-border-width, 0));
+  border-left-width: var(--tabs-row-border-width-left, var(--tabs-row-border-width, 0));
   /* Border style for the tab row */
   border-style: var(--tabs-row-border-style, solid);
+  border-top-style: var(--tabs-row-border-style-top, var(--tabs-row-border-style, solid));
+  border-right-style: var(--tabs-row-border-style-right, var(--tabs-row-border-style, solid));
+  border-bottom-style: var(--tabs-row-border-style-bottom, var(--tabs-row-border-style, solid));
+  border-left-style: var(--tabs-row-border-style-left, var(--tabs-row-border-style, solid));
   /* Padding/spacing for the tab row (rem) */
   padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Spacing between individual tab buttons (rem) */
   gap: var(--tabs-button-gap, 0.5rem);
   /* Alignment of tabs along the main axis */
   justify-content: var(--tabs-list-align, flex-start);
-  /* Enable or disable border between tab row and content */
-  border: var(--tabs-enable-list-divider-border, false);
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
+  border-bottom-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -391,7 +487,7 @@
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
+  border-bottom-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -402,7 +498,7 @@
   /* Color of the tab row edge that touches the content */
   border-right-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-right-width: var(--tabs-list-divider-border-width, 1px);
+  border-right-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-right-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -413,7 +509,7 @@
   /* Color of the tab row edge that touches the content */
   border-left-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-left-width: var(--tabs-list-divider-border-width, 1px);
+  border-left-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-left-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -423,12 +519,28 @@
   background-color: var(--tabs-panel-bg, #ffffff);
   /* Border color for tab content panel */
   border-color: var(--tabs-panel-border-color, #dddddd);
+  border-top-color: var(--tabs-panel-border-color-top, var(--tabs-panel-border-color, #dddddd));
+  border-right-color: var(--tabs-panel-border-color-right, var(--tabs-panel-border-color, #dddddd));
+  border-bottom-color: var(--tabs-panel-border-color-bottom, var(--tabs-panel-border-color, #dddddd));
+  border-left-color: var(--tabs-panel-border-color-left, var(--tabs-panel-border-color, #dddddd));
   /* Border width for tab content panel (0-10px) */
-  border-width: var(--tabs-panel-border-width, 1px);
+  border-width: var(--tabs-panel-border-width, 1);
+  border-top-width: var(--tabs-panel-border-width-top, var(--tabs-panel-border-width, 1));
+  border-right-width: var(--tabs-panel-border-width-right, var(--tabs-panel-border-width, 1));
+  border-bottom-width: var(--tabs-panel-border-width-bottom, var(--tabs-panel-border-width, 1));
+  border-left-width: var(--tabs-panel-border-width-left, var(--tabs-panel-border-width, 1));
   /* Border style for tab content panel */
   border-style: var(--tabs-panel-border-style, solid);
+  border-top-style: var(--tabs-panel-border-style-top, var(--tabs-panel-border-style, solid));
+  border-right-style: var(--tabs-panel-border-style-right, var(--tabs-panel-border-style, solid));
+  border-bottom-style: var(--tabs-panel-border-style-bottom, var(--tabs-panel-border-style, solid));
+  border-left-style: var(--tabs-panel-border-style-left, var(--tabs-panel-border-style, solid));
   /* Corner radius for tab content panel */
   border-radius: var(--tabs-panel-border-radius, 4px);
+  border-top-left-radius: var(--tabs-panel-border-radius-top-left, var(--tabs-panel-border-radius, 4px));
+  border-top-right-radius: var(--tabs-panel-border-radius-top-right, var(--tabs-panel-border-radius, 4px));
+  border-bottom-right-radius: var(--tabs-panel-border-radius-bottom-right, var(--tabs-panel-border-radius, 4px));
+  border-bottom-left-radius: var(--tabs-panel-border-radius-bottom-left, var(--tabs-panel-border-radius, 4px));
 }
 
 [data-gutplus-device="tablet"] .tab-icon {
@@ -436,10 +548,6 @@
   color: var(--tabs-icon-color, #666666);
   /* Size of the icon in rem */
   font-size: var(--tabs-icon-size, 1rem);
-  /* Icon for the tab (char or image URL) */
-  content: var(--tabs-icon-type-closed, ▾);
-  /* Icon when tab is active (none = use closed icon with final rotation) */
-  content: var(--tabs-icon-type-open, none);
   /* Base rotation of the icon */
   transform: var(--tabs-icon-rotation-base, 0deg);
 
@@ -452,14 +560,32 @@
 
 
 .gutplus-tabs[data-gutplus-device="mobile"] {
+  /* Tabs container width */
+  width: var(--tabs-width-mobile, var(--tabs-width-tablet, var(--tabs-width, 100%)));
   /* Border color for main tabs wrapper */
   border-color: var(--tabs-border-color, #dddddd);
+  border-top-color: var(--tabs-border-color-top, var(--tabs-border-color, #dddddd));
+  border-right-color: var(--tabs-border-color-right, var(--tabs-border-color, #dddddd));
+  border-bottom-color: var(--tabs-border-color-bottom, var(--tabs-border-color, #dddddd));
+  border-left-color: var(--tabs-border-color-left, var(--tabs-border-color, #dddddd));
   /* Border width for main wrapper */
-  border-width: var(--tabs-border-width, 0px);
+  border-width: var(--tabs-border-width, 0);
+  border-top-width: var(--tabs-border-width-top, var(--tabs-border-width, 0));
+  border-right-width: var(--tabs-border-width-right, var(--tabs-border-width, 0));
+  border-bottom-width: var(--tabs-border-width-bottom, var(--tabs-border-width, 0));
+  border-left-width: var(--tabs-border-width-left, var(--tabs-border-width, 0));
   /* Border style for wrapper */
   border-style: var(--tabs-border-style, solid);
+  border-top-style: var(--tabs-border-style-top, var(--tabs-border-style, solid));
+  border-right-style: var(--tabs-border-style-right, var(--tabs-border-style, solid));
+  border-bottom-style: var(--tabs-border-style-bottom, var(--tabs-border-style, solid));
+  border-left-style: var(--tabs-border-style-left, var(--tabs-border-style, solid));
   /* Corner radius for main wrapper */
   border-radius: var(--tabs-border-radius, 0px);
+  border-top-left-radius: var(--tabs-border-radius-top-left, var(--tabs-border-radius, 0px));
+  border-top-right-radius: var(--tabs-border-radius-top-right, var(--tabs-border-radius, 0px));
+  border-bottom-right-radius: var(--tabs-border-radius-bottom-right, var(--tabs-border-radius, 0px));
+  border-bottom-left-radius: var(--tabs-border-radius-bottom-left, var(--tabs-border-radius, 0px));
   /* Box shadow for main wrapper */
   box-shadow: var(--tabs-border-shadow, none);
 
@@ -478,20 +604,36 @@
   text-align: var(--tabs-button-text-align, center);
   /* Padding for tab buttons in rem (vertical/horizontal will be computed) */
   padding: var(--tabs-button-padding, 0.75rempx NaNpx);
+  padding-top: var(--tabs-button-padding-top, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-right: var(--tabs-button-padding-right, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-bottom: var(--tabs-button-padding-bottom, var(--tabs-button-padding, 0.75rempx NaNpx));
+  padding-left: var(--tabs-button-padding-left, var(--tabs-button-padding, 0.75rempx NaNpx));
   /* Border color for inactive tab buttons */
   border-color: var(--tabs-button-border-color, #dddddd);
+  border-top-color: var(--tabs-button-border-color-top, var(--tabs-button-border-color, #dddddd));
+  border-right-color: var(--tabs-button-border-color-right, var(--tabs-button-border-color, #dddddd));
+  border-bottom-color: var(--tabs-button-border-color-bottom, var(--tabs-button-border-color, #dddddd));
+  border-left-color: var(--tabs-button-border-color-left, var(--tabs-button-border-color, #dddddd));
   /* Border width for tab buttons */
-  border-width: var(--tabs-button-border-width, 1px);
+  border-width: var(--tabs-button-border-width, 1);
+  border-top-width: var(--tabs-button-border-width-top, var(--tabs-button-border-width, 1));
+  border-right-width: var(--tabs-button-border-width-right, var(--tabs-button-border-width, 1));
+  border-bottom-width: var(--tabs-button-border-width-bottom, var(--tabs-button-border-width, 1));
+  border-left-width: var(--tabs-button-border-width-left, var(--tabs-button-border-width, 1));
   /* Border style for tab buttons */
   border-style: var(--tabs-button-border-style, solid);
+  border-top-style: var(--tabs-button-border-style-top, var(--tabs-button-border-style, solid));
+  border-right-style: var(--tabs-button-border-style-right, var(--tabs-button-border-style, solid));
+  border-bottom-style: var(--tabs-button-border-style-bottom, var(--tabs-button-border-style, solid));
+  border-left-style: var(--tabs-button-border-style-left, var(--tabs-button-border-style, solid));
   /* Corner radius for tab buttons */
   border-radius: var(--tabs-button-border-radius, 4px 4px 0px 0px);
+  border-top-left-radius: var(--tabs-button-border-radius-top-left, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-top-right-radius: var(--tabs-button-border-radius-top-right, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-bottom-right-radius: var(--tabs-button-border-radius-bottom-right, var(--tabs-button-border-radius, 4px 4px 0px 0px));
+  border-bottom-left-radius: var(--tabs-button-border-radius-bottom-left, var(--tabs-button-border-radius, 4px 4px 0px 0px));
   /* Box shadow for tab buttons */
   box-shadow: var(--tabs-button-border-shadow, none);
-  /* Display icons in tab buttons */
-  display: var(--tabs-show-icon, true);
-  /* Position of icon relative to text */
-  flex-direction: var(--tabs-icon-position, right);
 
   &:hover {
     /* Text color when hovering over tab */
@@ -508,29 +650,27 @@
     color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
-    /* Font weight for active/selected tab button */
+    /* Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
+    border-top-color: var(--tabs-button-active-border-color-top, var(--tabs-button-active-border-color, #dddddd));
+    border-right-color: var(--tabs-button-active-border-color-right, var(--tabs-button-active-border-color, #dddddd));
+    border-bottom-color: var(--tabs-button-active-border-color-bottom, var(--tabs-button-active-border-color, #dddddd));
+    border-left-color: var(--tabs-button-active-border-color-left, var(--tabs-button-active-border-color, #dddddd));
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
-  }
-
-  &:focus,
-  &:focus-visible {
-    /* Border on the edge touching the content, giving it a merged look. */
-    border: var(--tabs-enable-focus-border, true);
   }
 }
 
 [data-gutplus-device="mobile"] .tab-button-text {
   /* Font size for tab buttons (rem) */
   font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons */
+  /* Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
   font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
   font-style: var(--tabs-button-font-style, normal);
@@ -547,7 +687,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-bottom-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-bottom-width: var(--tabs-button-active-content-border-width, 1px);
+    border-bottom-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-bottom-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -560,7 +700,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-right-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-right-width: var(--tabs-button-active-content-border-width, 1px);
+    border-right-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-right-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -573,7 +713,7 @@
     /* Color of the border. Keep it the same color as panel background for a merged look. */
     border-left-color: var(--tabs-button-active-content-border-color, #ffffff);
     /* Width of the active button edge touching content */
-    border-left-width: var(--tabs-button-active-content-border-width, 1px);
+    border-left-width: var(--tabs-button-active-content-border-width, 1);
     /* Style of the active button edge touching content */
     border-left-style: var(--tabs-button-active-content-border-style, solid);
   }
@@ -584,22 +724,32 @@
   background-color: var(--tabs-list-bg, transparent);
   /* Border color for the tab row */
   border-color: var(--tabs-row-border-color, #dddddd);
+  border-top-color: var(--tabs-row-border-color-top, var(--tabs-row-border-color, #dddddd));
+  border-right-color: var(--tabs-row-border-color-right, var(--tabs-row-border-color, #dddddd));
+  border-bottom-color: var(--tabs-row-border-color-bottom, var(--tabs-row-border-color, #dddddd));
+  border-left-color: var(--tabs-row-border-color-left, var(--tabs-row-border-color, #dddddd));
   /* Border width for the tab row */
-  border-width: var(--tabs-row-border-width, 0px);
+  border-width: var(--tabs-row-border-width, 0);
+  border-top-width: var(--tabs-row-border-width-top, var(--tabs-row-border-width, 0));
+  border-right-width: var(--tabs-row-border-width-right, var(--tabs-row-border-width, 0));
+  border-bottom-width: var(--tabs-row-border-width-bottom, var(--tabs-row-border-width, 0));
+  border-left-width: var(--tabs-row-border-width-left, var(--tabs-row-border-width, 0));
   /* Border style for the tab row */
   border-style: var(--tabs-row-border-style, solid);
+  border-top-style: var(--tabs-row-border-style-top, var(--tabs-row-border-style, solid));
+  border-right-style: var(--tabs-row-border-style-right, var(--tabs-row-border-style, solid));
+  border-bottom-style: var(--tabs-row-border-style-bottom, var(--tabs-row-border-style, solid));
+  border-left-style: var(--tabs-row-border-style-left, var(--tabs-row-border-style, solid));
   /* Padding/spacing for the tab row (rem) */
   padding-top: var(--tabs-row-spacing, 0.5rem);
   /* Spacing between individual tab buttons (rem) */
   gap: var(--tabs-button-gap, 0.5rem);
   /* Alignment of tabs along the main axis */
   justify-content: var(--tabs-list-align, flex-start);
-  /* Enable or disable border between tab row and content */
-  border: var(--tabs-enable-list-divider-border, false);
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
+  border-bottom-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -610,7 +760,7 @@
   /* Color of the tab row edge that touches the content */
   border-bottom-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-bottom-width: var(--tabs-list-divider-border-width, 1px);
+  border-bottom-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-bottom-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -621,7 +771,7 @@
   /* Color of the tab row edge that touches the content */
   border-right-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-right-width: var(--tabs-list-divider-border-width, 1px);
+  border-right-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-right-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -632,7 +782,7 @@
   /* Color of the tab row edge that touches the content */
   border-left-color: var(--tabs-list-divider-border-color, transparent);
   /* Width of the tab row edge that touches the content */
-  border-left-width: var(--tabs-list-divider-border-width, 1px);
+  border-left-width: var(--tabs-list-divider-border-width, 1);
   /* Style of the tab row edge that touches the content */
   border-left-style: var(--tabs-list-divider-border-style, solid);
 }
@@ -642,12 +792,28 @@
   background-color: var(--tabs-panel-bg, #ffffff);
   /* Border color for tab content panel */
   border-color: var(--tabs-panel-border-color, #dddddd);
+  border-top-color: var(--tabs-panel-border-color-top, var(--tabs-panel-border-color, #dddddd));
+  border-right-color: var(--tabs-panel-border-color-right, var(--tabs-panel-border-color, #dddddd));
+  border-bottom-color: var(--tabs-panel-border-color-bottom, var(--tabs-panel-border-color, #dddddd));
+  border-left-color: var(--tabs-panel-border-color-left, var(--tabs-panel-border-color, #dddddd));
   /* Border width for tab content panel (0-10px) */
-  border-width: var(--tabs-panel-border-width, 1px);
+  border-width: var(--tabs-panel-border-width, 1);
+  border-top-width: var(--tabs-panel-border-width-top, var(--tabs-panel-border-width, 1));
+  border-right-width: var(--tabs-panel-border-width-right, var(--tabs-panel-border-width, 1));
+  border-bottom-width: var(--tabs-panel-border-width-bottom, var(--tabs-panel-border-width, 1));
+  border-left-width: var(--tabs-panel-border-width-left, var(--tabs-panel-border-width, 1));
   /* Border style for tab content panel */
   border-style: var(--tabs-panel-border-style, solid);
+  border-top-style: var(--tabs-panel-border-style-top, var(--tabs-panel-border-style, solid));
+  border-right-style: var(--tabs-panel-border-style-right, var(--tabs-panel-border-style, solid));
+  border-bottom-style: var(--tabs-panel-border-style-bottom, var(--tabs-panel-border-style, solid));
+  border-left-style: var(--tabs-panel-border-style-left, var(--tabs-panel-border-style, solid));
   /* Corner radius for tab content panel */
   border-radius: var(--tabs-panel-border-radius, 4px);
+  border-top-left-radius: var(--tabs-panel-border-radius-top-left, var(--tabs-panel-border-radius, 4px));
+  border-top-right-radius: var(--tabs-panel-border-radius-top-right, var(--tabs-panel-border-radius, 4px));
+  border-bottom-right-radius: var(--tabs-panel-border-radius-bottom-right, var(--tabs-panel-border-radius, 4px));
+  border-bottom-left-radius: var(--tabs-panel-border-radius-bottom-left, var(--tabs-panel-border-radius, 4px));
 }
 
 [data-gutplus-device="mobile"] .tab-icon {
@@ -655,10 +821,6 @@
   color: var(--tabs-icon-color, #666666);
   /* Size of the icon in rem */
   font-size: var(--tabs-icon-size, 1rem);
-  /* Icon for the tab (char or image URL) */
-  content: var(--tabs-icon-type-closed, ▾);
-  /* Icon when tab is active (none = use closed icon with final rotation) */
-  content: var(--tabs-icon-type-open, none);
   /* Base rotation of the icon */
   transform: var(--tabs-icon-rotation-base, 0deg);
 

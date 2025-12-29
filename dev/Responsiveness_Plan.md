@@ -171,6 +171,8 @@ Integration in blocks:
 
 ---
 
+STEPS 1 to 3 IMPLEMENTED - Implement Step 4 onwards
+
 ### Step 4: Generator for Frontend CSS Vars (Save)
 **Goal:** frontend output uses same CSS-var logic, while keeping deltas.
 
@@ -217,24 +219,31 @@ Ensure format consistency:
 
 ---
 
-### Step 6: Decomposed Values (Padding/Margin/Border)
+### Step 6: Decomposed Values (Padding/Margin/Border example on accordion block)
 **Goal:** define a consistent, schema-driven rule for special decompositions.
 
 Preferred approach:
-- Add a schema-level hint like:
-  - `transformValue: "marginVertical"` (or similar)
-- Extend formatter to emit multiple vars:
-  - `--block-margin-top`, `--block-margin-bottom`
-  - `--block-margin-top-tablet`, `--block-margin-bottom-tablet`
-  - `--block-margin-top-mobile`, `--block-margin-bottom-mobile`
+- At schema-level css properties like:
+  - margin
 
-Where to implement:
-- JS: in shared formatter used by generators.
-- PHP: mirror the same decomposition logic for theme output.
+padding
 
-This removes ad-hoc block-specific logic currently in:
-- `blocks/accordion/src/save.js` (blockMargin special handling)
-- `blocks/accordion/src/edit.js` (inline margin handling)
+scroll-margin
+
+scroll-padding
+
+border-width
+
+border-style
+
+border-color
+
+border (uses the three above internally)
+
+border-radius, can decompose on 4.
+- There is a special logic already coded to handle this in accordion padding and margin ( a builder that parses the values to attribute and build the composes values into the variable)
+- We need to standtartise this to be a universal fix
+- Build documentation that explains how decomposing / composing works, with and without responsiveness
 
 ---
 
@@ -248,13 +257,13 @@ Example (accordion width):
   "control": "SliderWithInput",
   "cssVar": "accordion-width",
   "cssProperty": "width",
-  "appliesTo": "container",
+  "appliesTo": "container" or the variable that targets the containter,
   "responsive": true,
   "themeable": false
 }
 ```
 
-Make sure the structure schema resolves `container`:
+Make sure the structure schema resolves `container` or similar:
 - `schemas/accordion-structure.json`
 
 ---

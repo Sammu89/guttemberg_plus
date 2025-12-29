@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-29T02:28:32.301Z
+ * Generated at: 2025-12-29T15:44:13.288Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,7 +21,7 @@
 export const accordionAttributes = {
   dividerWidth: {
     type: 'object',
-    default: {"top":"0px","right":"0px","bottom":"0px","left":"0px"},
+    default: {"top":0,"right":0,"bottom":0,"left":0,"unit":"px"},
   },
   dividerColor: {
     type: 'object',
@@ -33,15 +33,15 @@ export const accordionAttributes = {
   },
   borderWidth: {
     type: 'object',
-    default: {"top":"1px","right":"1px","bottom":"1px","left":"1px"},
+    default: {"top":1,"right":1,"bottom":1,"left":1,"unit":"px"},
   },
   borderRadius: {
     type: 'object',
-    default: {"topLeft":"4px","topRight":"4px","bottomRight":"4px","bottomLeft":"4px"},
+    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4,"unit":"px"},
   },
   shadow: {
     type: 'array',
-    default: [{"x":"0px","y":"8px","blur":"24px","spread":"0px","color":"rgba(0,0,0,0.15)","inset":false}],
+    default: [{"x":{"value":0,"unit":"px"},"y":{"value":8,"unit":"px"},"blur":{"value":24,"unit":"px"},"spread":{"value":0,"unit":"px"},"color":"rgba(0,0,0,0.15)","inset":false}],
   },
   borderColor: {
     type: 'object',
@@ -53,15 +53,15 @@ export const accordionAttributes = {
   },
   headerPadding: {
     type: 'object',
-    default: {"top":"12px","right":"16px","bottom":"12px","left":"16px"},
+    default: {"top":12,"right":16,"bottom":12,"left":16,"unit":"px"},
   },
   contentPadding: {
     type: 'object',
-    default: {"top":"16px","right":"16px","bottom":"16px","left":"16px"},
+    default: {"top":16,"right":16,"bottom":16,"left":16,"unit":"px"},
   },
   blockMargin: {
     type: 'object',
-    default: {"top":"1em","right":"0em","bottom":"1em","left":"0em"},
+    default: {"top":1,"right":0,"bottom":1,"left":0,"unit":"em"},
   },
   titleColor: {
     type: 'string',

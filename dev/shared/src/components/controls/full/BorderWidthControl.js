@@ -10,12 +10,14 @@
  * @package guttemberg-plus
  */
 
-import { useState } from '@wordpress/element';
 import { BaseControl } from '@wordpress/components';
 import { CompactBoxRow } from '../organisms/CompactBoxRow';
 import { StyleIconButton } from '../atoms/StyleIconButton';
 import { SideIcon } from '../atoms/SideIcon';
-import { DeviceSwitcher } from '../atoms/DeviceSwitcher';
+import { UtilityBar } from '../UtilityBar';
+import { useResponsiveDevice } from '../../../hooks/useResponsiveDevice';
+import { inferBoxUnit } from '../../../utils/box-value-utils';
+import { createComprehensiveReset } from '../../../utils/reset-helpers';
 
 const SIDES = [ 'top', 'right', 'bottom', 'left' ];
 
@@ -23,14 +25,16 @@ const SIDES = [ 'top', 'right', 'bottom', 'left' ];
  * BorderWidthControl Component
  *
  * @param {Object}   props
- * @param {string}   props.label       - Control label
- * @param {Object}   props.value       - Value object { top, right, bottom, left, style, unit, linked }
- * @param {Function} props.onChange    - Change handler
- * @param {Array}    props.units       - Available units
- * @param {number}   props.min         - Minimum value
- * @param {number}   props.max         - Maximum value
- * @param {boolean}  props.responsive  - Whether to show device switcher
- * @param {boolean}  props.disabled    - Disabled state
+ * @param {string}   props.label        - Control label
+ * @param {Object}   props.value        - Value object { top, right, bottom, left, style, unit, linked }
+ * @param {Function} props.onChange     - Change handler
+ * @param {Array}    props.units        - Available units
+ * @param {number}   props.min          - Minimum value
+ * @param {number}   props.max          - Maximum value
+ * @param {boolean}  props.responsive   - Whether to show device switcher
+ * @param {boolean}  props.disabled     - Disabled state
+ * @param {Object}   props.attributes   - Block attributes (for reset)
+ * @param {Function} props.setAttributes - Set attributes function (for reset)
  */
 export function BorderWidthControl( {
 	label = 'Border',
@@ -41,8 +45,19 @@ export function BorderWidthControl( {
 	max = 20,
 	responsive = false,
 	disabled = false,
+	attributes,
+	setAttributes,
 } ) {
-	const [ device, setDevice ] = useState( 'global' );
+	const device = useResponsiveDevice();
+
+	// Create comprehensive reset handler
+	const comprehensiveReset = createComprehensiveReset({
+		attributes,
+		setAttributes,
+		attrName: 'borderWidth',
+		canBeResponsive: false, // Always-on responsive
+		isDecomposable: true,
+	});
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
@@ -60,9 +75,33 @@ export function BorderWidthControl( {
 		linked = true,
 	} = currentValue;
 
+	const effectiveUnit = inferBoxUnit( currentValue, unit ) || unit || 'px';
+
+	const normalizeUnitValue = ( nextValue, fallbackUnit ) => {
+		if ( ! nextValue || typeof nextValue !== 'object' ) {
+			return nextValue;
+		}
+
+		const hasSides = [ 'top', 'right', 'bottom', 'left' ].some(
+			( side ) => nextValue[ side ] !== undefined
+		);
+		if ( ! hasSides ) {
+			return nextValue;
+		}
+
+		const hasUnit = typeof nextValue.unit === 'string' && nextValue.unit.trim() !== '';
+		const inferredUnit = inferBoxUnit( nextValue, fallbackUnit );
+		if ( hasUnit || ! inferredUnit ) {
+			return nextValue;
+		}
+
+		return { ...nextValue, unit: inferredUnit };
+	};
+
 	// Helper to update value
 	const updateValue = ( updates ) => {
-		const newValue = { ...currentValue, ...updates };
+		const mergedValue = { ...currentValue, ...updates };
+		const newValue = normalizeUnitValue( mergedValue, effectiveUnit );
 		if ( responsive ) {
 			onChange( { ...value, [ device ]: newValue } );
 		} else {
@@ -105,13 +144,15 @@ export function BorderWidthControl( {
 			label={
 				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
 					<span>{ label }</span>
-					{ responsive && (
-						<DeviceSwitcher
-							value={ device }
-							onChange={ setDevice }
-							disabled={ disabled }
-						/>
-					) }
+					<UtilityBar
+						isResponsive={ responsive }
+						currentDevice={ device }
+						isDecomposable={ true }
+						isLinked={ linked }
+						onLinkChange={ handleLinkChange }
+						onReset={ comprehensiveReset }
+						disabled={ disabled }
+					/>
 				</div>
 			}
 			className="gutplus-border-width-control"
@@ -128,16 +169,13 @@ export function BorderWidthControl( {
 						/>
 					}
 					value={ top }
-					unit={ unit }
+					unit={ effectiveUnit }
 					onValueChange={ ( val ) => handleValueChange( 'top', val ) }
 					onUnitChange={ handleUnitChange }
 					units={ units }
 					min={ min }
 					max={ max }
 					showSlider={ true }
-					showLink={ true }
-					linked={ linked }
-					onLinkChange={ handleLinkChange }
 					disabled={ disabled }
 				/>
 			) : (
@@ -148,16 +186,13 @@ export function BorderWidthControl( {
 							key={ side }
 							iconSlot={ <SideIcon side={ side } /> }
 							value={ currentValue[ side ] || 0 }
-							unit={ unit }
+							unit={ effectiveUnit }
 							onValueChange={ ( val ) => handleValueChange( side, val ) }
 							onUnitChange={ handleUnitChange }
 							units={ units }
 							min={ min }
 							max={ max }
 							showSlider={ true }
-							showLink={ side === 'left' } // Only show link on last row
-							linked={ linked }
-							onLinkChange={ side === 'left' ? handleLinkChange : undefined }
 							disabled={ disabled }
 							className={ `gutplus-border-width-control__side gutplus-border-width-control__side--${ side }` }
 						/>

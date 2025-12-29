@@ -19,6 +19,39 @@ import { duplicateShadowLayer } from '../../../utils/shadow-utils';
  * Manages an array of shadow layer objects with add/delete functionality.
  * All layers can be deleted - deleting the last layer results in an empty array (no shadow).
  *
+ * ============================================================================
+ * DATA STRUCTURE EXPECTATIONS (CRITICAL!)
+ * ============================================================================
+ *
+ * This control uses an OBJECT pattern (array of shadow layer objects).
+ *
+ * VALUE PROP:
+ * -----------
+ * value prop structure:
+ *   [
+ *     {
+ *       x: { value: 0, unit: "px" },
+ *       y: { value: 8, unit: "px" },
+ *       blur: { value: 24, unit: "px" },
+ *       spread: { value: 0, unit: "px" },
+ *       color: "rgba(0,0,0,0.15)",
+ *       inset: false
+ *     }
+ *   ]
+ *
+ * NOTE: x/y/blur/spread can also be raw numbers (assumed "px").
+ *
+ * onChange callback signature:
+ *   onChange(newValue)
+ *   - newValue: full array of shadow layer objects
+ *
+ * NOT RESPONSIVE:
+ * ---------------
+ * ShadowPanel does NOT handle responsive values internally.
+ * Parent controls must switch values per device if needed.
+ *
+ * ============================================================================
+ *
  * @param {Object}   props
  * @param {string}   props.label       - Panel label
  * @param {Array}    props.value       - Array of shadow layer objects

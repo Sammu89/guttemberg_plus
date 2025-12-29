@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-29T02:28:32.297Z
+ * Generated at: 2025-12-29T15:44:13.283Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -61,9 +61,9 @@ export interface AccordionTheme {
   titleFontFamily?: string;
   /** Font size for the header */
   titleFontSize?: string;
-  /** Text formatting options (bold, italic, underline, overline, line-through) */
+  /** Text formatting options (bold, italic, underline, overline, line-through). Note: Not every font supports every weight; the browser will use the closest available weight. */
   titleFormatting?: any[];
-  /** Font weight for title (100-900) */
+  /** Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
   titleFontWeight?: number;
   /** Color for text decorations */
   titleDecorationColor?: string;
@@ -112,10 +112,11 @@ export interface AccordionTheme {
  */
 export const accordionDefaultTheme: AccordionTheme = {
   dividerWidth: {
-    "top": "0px",
-    "right": "0px",
-    "bottom": "0px",
-    "left": "0px"
+    "top": 0,
+    "right": 0,
+    "bottom": 0,
+    "left": 0,
+    "unit": "px"
   },
   dividerColor: {
     "top": "#dddddd",
@@ -132,23 +133,37 @@ export const accordionDefaultTheme: AccordionTheme = {
     "linked": true
   },
   borderWidth: {
-    "top": "1px",
-    "right": "1px",
-    "bottom": "1px",
-    "left": "1px"
+    "top": 1,
+    "right": 1,
+    "bottom": 1,
+    "left": 1,
+    "unit": "px"
   },
   borderRadius: {
-    "topLeft": "4px",
-    "topRight": "4px",
-    "bottomRight": "4px",
-    "bottomLeft": "4px"
+    "topLeft": 4,
+    "topRight": 4,
+    "bottomRight": 4,
+    "bottomLeft": 4,
+    "unit": "px"
   },
   shadow: [
     {
-      "x": "0px",
-      "y": "8px",
-      "blur": "24px",
-      "spread": "0px",
+      "x": {
+        "value": 0,
+        "unit": "px"
+      },
+      "y": {
+        "value": 8,
+        "unit": "px"
+      },
+      "blur": {
+        "value": 24,
+        "unit": "px"
+      },
+      "spread": {
+        "value": 0,
+        "unit": "px"
+      },
       "color": "rgba(0,0,0,0.15)",
       "inset": false
     }
@@ -168,22 +183,25 @@ export const accordionDefaultTheme: AccordionTheme = {
     "linked": true
   },
   headerPadding: {
-    "top": "12px",
-    "right": "16px",
-    "bottom": "12px",
-    "left": "16px"
+    "top": 12,
+    "right": 16,
+    "bottom": 12,
+    "left": 16,
+    "unit": "px"
   },
   contentPadding: {
-    "top": "16px",
-    "right": "16px",
-    "bottom": "16px",
-    "left": "16px"
+    "top": 16,
+    "right": 16,
+    "bottom": 16,
+    "left": 16,
+    "unit": "px"
   },
   blockMargin: {
-    "top": "1em",
-    "right": "0em",
-    "bottom": "1em",
-    "left": "0em"
+    "top": 1,
+    "right": 0,
+    "bottom": 1,
+    "left": 0,
+    "unit": "em"
   },
   titleColor: '#333333',
   titleBackgroundColor: '#f5f5f5',
