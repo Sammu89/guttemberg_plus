@@ -12,7 +12,8 @@ import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
 const headingIcons = {
 	none: (
 		<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-			<text x="10" y="15" textAnchor="middle" fontSize="12" fill="currentColor" fontWeight="600">P</text>
+			<circle cx="10" cy="10" r="7" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+			<line x1="5" y1="5" x2="15" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
 		</svg>
 	),
 	h1: (

@@ -83,20 +83,6 @@ function getInheritedValue( values, device ) {
 }
 
 /**
- * Inherited Badge Component
- *
- * Displays a small badge indicating which device the value is inherited from
- *
- * @param {Object} props - Component props
- * @param {string} props.from - Device name the value is inherited from
- * @returns {JSX.Element|null} Badge element or null
- */
-function InheritedBadge( { from } ) {
-	// Hidden - user doesn't want text showing
-	return null;
-}
-
-/**
  * Responsive Wrapper Component
  *
  * Wraps any control to add responsive (device-based) editing capabilities.
@@ -167,7 +153,6 @@ export function ResponsiveWrapper( {
 					<FlexItem>
 						<span style={ { display: 'flex', alignItems: 'center' } }>
 							{ label }
-							<InheritedBadge from={ inheritedFrom } />
 						</span>
 					</FlexItem>
 					<FlexItem>

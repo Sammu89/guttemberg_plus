@@ -426,7 +426,7 @@ function activateTab( block, index, options = {} ) {
 
 /**
  * Update tab icon based on active state
- * Handles both icon content changes and rotation
+ * Handles new icon system with character, image, and library icons
  *
  * @param {HTMLElement} button Tab button element
  * @param {boolean}     isActive Whether tab is active
@@ -438,23 +438,43 @@ function updateTabIcon( button, isActive ) {
 		return;
 	}
 
-		const iconClosed = icon.getAttribute( 'data-icon-closed' ) || '▾';
-		const iconOpen = icon.getAttribute( 'data-icon-open' ) || 'none';
+	try {
+		// Get data attributes
+		const inactiveData = icon.getAttribute( 'data-icon-inactive' );
+		const activeData = icon.getAttribute( 'data-icon-active' );
+		const hasDifferentIcons = icon.getAttribute( 'data-has-different-icons' ) === 'true';
 
-		// Check if icon needs to change (not just rotate)
-		const isImage = icon.classList.contains( 'tab-icon-image' );
-		const newIcon = isActive ? iconOpen : iconClosed;
-		const currentIcon = isImage ? icon.src : icon.textContent;
-		const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
+		if ( ! inactiveData ) {
+			return;
+		}
 
-	// Change icon content if needed
-		if ( iconIsChanging ) {
-			if ( isImage ) {
-				// For image icons, update src
-				icon.src = newIcon;
-			} else {
-				// For text/emoji icons, update text content
-				icon.textContent = newIcon;
+		const inactiveSource = JSON.parse( inactiveData );
+		const activeSource = activeData ? JSON.parse( activeData ) : null;
+
+		// If we have different icons for active/inactive, swap the icon content
+		if ( hasDifferentIcons && activeSource ) {
+			const targetSource = isActive ? activeSource : inactiveSource;
+
+			// Update icon based on kind
+			if ( targetSource.kind === 'char' ) {
+				icon.textContent = targetSource.value;
+			} else if ( targetSource.kind === 'image' ) {
+				icon.setAttribute( 'src', targetSource.value );
+			} else if ( targetSource.kind === 'library' ) {
+				const [ library, iconName ] = targetSource.value.split( ':' );
+
+				if ( library === 'dashicons' ) {
+					// Update Dashicon classes
+					const dashiconSpan = icon.querySelector( '.dashicons' );
+					if ( dashiconSpan ) {
+						dashiconSpan.className = `dashicons dashicons-${ iconName }`;
+					}
+				}
+				// Note: Lucide icons would need SVG re-rendering, which is handled by CSS
+
+				// Update data attributes for library icons
+				icon.setAttribute( 'data-icon-library', library );
+				icon.setAttribute( 'data-icon-name', iconName );
 			}
 		}
 
@@ -464,7 +484,11 @@ function updateTabIcon( button, isActive ) {
 		} else {
 			icon.classList.remove( 'is-rotated' );
 		}
+	} catch ( error ) {
+		// Fallback to old behavior if parsing fails
+		// console.error( 'Error updating tab icon:', error );
 	}
+}
 
 /**
  * Handle keyboard navigation for tabs

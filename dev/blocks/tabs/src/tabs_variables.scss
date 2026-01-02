@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/tabs.json + schemas/tabs-structure.json
- * Generated at: 2025-12-29T15:44:13.389Z
+ * Generated at: 2026-01-02T19:57:50.529Z
  *
  * This file contains CSS rules that apply variables to selectors.
  * Default values are provided via var() fallbacks - no :root declarations needed.
@@ -105,7 +105,7 @@
     color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
-    /* Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
+    /* Font weight for active/selected tab button */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
@@ -125,7 +125,7 @@
 .tab-button-text {
   /* Font size for tab buttons (rem) */
   font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /* Font weight for tab buttons */
   font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
   font-style: var(--tabs-button-font-style, normal);
@@ -271,21 +271,6 @@
   border-bottom-left-radius: var(--tabs-panel-border-radius-bottom-left, var(--tabs-panel-border-radius, 4px));
 }
 
-.tab-icon {
-  /* Color of the tab icon */
-  color: var(--tabs-icon-color, #666666);
-  /* Size of the icon in rem */
-  font-size: var(--tabs-icon-size, 1rem);
-  /* Base rotation of the icon */
-  transform: var(--tabs-icon-rotation-base, 0deg);
-
-  &.active,
-  &[aria-selected="true"] {
-    /* Rotation of the icon for the active tab */
-    transform: var(--tabs-icon-rotation-active, 180deg);
-  }
-}
-
 .gutplus-tabs[data-gutplus-device="tablet"] {
   /* Tabs container width */
   width: var(--tabs-width-tablet, var(--tabs-width, 100%));
@@ -377,7 +362,7 @@
     color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
-    /* Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
+    /* Font weight for active/selected tab button */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
@@ -397,7 +382,7 @@
 [data-gutplus-device="tablet"] .tab-button-text {
   /* Font size for tab buttons (rem) */
   font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /* Font weight for tab buttons */
   font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
   font-style: var(--tabs-button-font-style, normal);
@@ -543,21 +528,6 @@
   border-bottom-left-radius: var(--tabs-panel-border-radius-bottom-left, var(--tabs-panel-border-radius, 4px));
 }
 
-[data-gutplus-device="tablet"] .tab-icon {
-  /* Color of the tab icon */
-  color: var(--tabs-icon-color, #666666);
-  /* Size of the icon in rem */
-  font-size: var(--tabs-icon-size, 1rem);
-  /* Base rotation of the icon */
-  transform: var(--tabs-icon-rotation-base, 0deg);
-
-  &.active,
-  &[aria-selected="true"] {
-    /* Rotation of the icon for the active tab */
-    transform: var(--tabs-icon-rotation-active, 180deg);
-  }
-}
-
 
 .gutplus-tabs[data-gutplus-device="mobile"] {
   /* Tabs container width */
@@ -650,7 +620,7 @@
     color: var(--tabs-button-active-color, #333333);
     /* Background color for active/selected tab */
     background-color: var(--tabs-button-active-bg, #ffffff);
-    /* Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
+    /* Font weight for active/selected tab button */
     font-weight: var(--tabs-button-active-font-weight, bold);
     /* Border color for the active tab */
     border-color: var(--tabs-button-active-border-color, #dddddd);
@@ -670,7 +640,7 @@
 [data-gutplus-device="mobile"] .tab-button-text {
   /* Font size for tab buttons (rem) */
   font-size: var(--tabs-button-font-size, 1rem);
-  /* Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /* Font weight for tab buttons */
   font-weight: var(--tabs-button-font-weight, 500);
   /* Font style for tab buttons */
   font-style: var(--tabs-button-font-style, normal);
@@ -814,21 +784,6 @@
   border-top-right-radius: var(--tabs-panel-border-radius-top-right, var(--tabs-panel-border-radius, 4px));
   border-bottom-right-radius: var(--tabs-panel-border-radius-bottom-right, var(--tabs-panel-border-radius, 4px));
   border-bottom-left-radius: var(--tabs-panel-border-radius-bottom-left, var(--tabs-panel-border-radius, 4px));
-}
-
-[data-gutplus-device="mobile"] .tab-icon {
-  /* Color of the tab icon */
-  color: var(--tabs-icon-color, #666666);
-  /* Size of the icon in rem */
-  font-size: var(--tabs-icon-size, 1rem);
-  /* Base rotation of the icon */
-  transform: var(--tabs-icon-rotation-base, 0deg);
-
-  &.active,
-  &[aria-selected="true"] {
-    /* Rotation of the icon for the active tab */
-    transform: var(--tabs-icon-rotation-active, 180deg);
-  }
 }
 
 

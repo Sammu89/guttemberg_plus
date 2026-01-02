@@ -103,42 +103,82 @@ export default function Save( { attributes } ) {
 	const hasInlineStyles = Object.keys( inlineStyles ).length > 0;
 
 	/**
-	 * Render icon based on settings
-	 * Supports both character and image icons
-	 * Can use rotation or separate open/closed icons
+	 * Render icon based on new icon system
+	 * Supports character, image, and library icons
 	 */
-	const renderIcon = () => {
-		if ( ! effectiveValues.showIcon ) {
+	const renderIcon = ( isActive = false ) => {
+		// Check showIcon attribute to determine visibility
+		if ( attributes.showIcon === false ) {
 			return null;
 		}
 
-		const iconClosed = effectiveValues.iconTypeClosed || '▾';
-		const iconOpen = effectiveValues.iconTypeOpen;
-		const isImage = iconClosed.startsWith( 'http' );
+		const inactiveSource = attributes.iconInactiveSource;
+		const activeSource = attributes.iconActiveSource;
 
-		if ( isImage ) {
+		if ( ! inactiveSource || ! inactiveSource.value ) {
+			return null;
+		}
+
+		// Determine which icon to render (based on active state)
+		const initialSource = isActive && activeSource && activeSource.value
+			? activeSource
+			: inactiveSource;
+
+		// Data attributes for frontend JS
+		const dataAttrs = {
+			'data-icon-inactive': JSON.stringify( inactiveSource ),
+			'data-icon-active': activeSource && activeSource.value ? JSON.stringify( activeSource ) : null,
+			'data-has-different-icons': !! ( activeSource && activeSource.value ),
+		};
+
+		// Icon classes
+		const iconClasses = 'tab-icon' + ( isActive ? ' is-rotated' : '' );
+
+		// Render based on icon kind
+		if ( initialSource.kind === 'char' ) {
+			return (
+				<span
+					className={ iconClasses + ' tab-icon-char' }
+					aria-hidden="true"
+					{ ...dataAttrs }
+				>
+					{ initialSource.value }
+				</span>
+			);
+		}
+
+		if ( initialSource.kind === 'image' ) {
 			return (
 				<img
-					src={ iconClosed }
+					className={ iconClasses + ' tab-icon-image' }
+					src={ initialSource.value }
 					alt=""
 					aria-hidden="true"
-					className="tab-icon tab-icon-image"
-					data-icon-closed={ iconClosed }
-					data-icon-open={ iconOpen !== 'none' ? iconOpen : iconClosed }
+					{ ...dataAttrs }
 				/>
 			);
 		}
 
-		return (
-			<span
-				className="tab-icon"
-				aria-hidden="true"
-				data-icon-closed={ iconClosed }
-				data-icon-open={ iconOpen !== 'none' ? iconOpen : iconClosed }
-			>
-				{ iconClosed }
-			</span>
-		);
+		if ( initialSource.kind === 'library' ) {
+			const [ library, iconName ] = initialSource.value.split( ':' );
+
+			// For library icons, we'll use a data attribute approach
+			return (
+				<span
+					className={ iconClasses + ' tab-icon-library' }
+					aria-hidden="true"
+					data-icon-library={ library }
+					data-icon-name={ iconName }
+					{ ...dataAttrs }
+				>
+					{ library === 'dashicons' && (
+						<span className={ `dashicons dashicons-${ iconName }` } />
+					) }
+				</span>
+			);
+		}
+
+		return null;
 	};
 
 	/**
@@ -173,9 +213,9 @@ export default function Save( { attributes } ) {
 						aria-selected={ isSelected ? 'true' : 'false' }
 						tabIndex={ isSelected ? 0 : -1 }
 					>
-						{ effectiveValues.showIcon && iconPosition === 'left' && renderIcon() }
-						<span className="tab-button-text">{ tab.title || `Tab ${ index + 1 }` }</span>
-						{ effectiveValues.showIcon && iconPosition === 'right' && renderIcon() }
+						{ iconPosition === 'left' && renderIcon( isSelected ) }
+						<span className="tab-title tab-button-text">{ tab.title || `Tab ${ index + 1 }` }</span>
+						{ iconPosition === 'right' && renderIcon( isSelected ) }
 					</button>
 				);
 
@@ -183,7 +223,7 @@ export default function Save( { attributes } ) {
 				if ( headingLevel !== 'none' ) {
 					const HeadingTag = headingLevel;
 					return (
-						<HeadingTag key={ tabId } className="tab-heading" style={ { margin: 0 } }>
+						<HeadingTag key={ tabId } className="tab-heading">
 							{ buttonContent }
 						</HeadingTag>
 					);
@@ -219,10 +259,7 @@ export default function Save( { attributes } ) {
 		'data-activation-mode': attributes.activationMode || 'click',
 		'data-breakpoint': attributes.responsiveBreakpoint || 768,
 		'data-responsive-fallback': attributes.enableResponsiveFallback || true,
-		'data-show-icon': attributes.showIcon || false,
-		'data-icon-closed': effectiveValues.iconTypeClosed || '▾',
-		'data-icon-open': effectiveValues.iconTypeOpen || 'none',
-		'data-icon-position': effectiveValues.iconPosition || 'right',
+		'data-icon-position': attributes.iconPosition || 'right',
 		'data-heading-level': attributes.headingLevel || 'none',
 		'data-stretch-buttons': attributes.stretchButtonsToRow || false,
 		'data-hide-inactive-edge': 'true',

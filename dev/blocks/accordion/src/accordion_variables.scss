@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/accordion.json + schemas/accordion-structure.json
- * Generated at: 2025-12-29T15:44:13.375Z
+ * Generated at: 2026-01-02T19:57:50.523Z
  *
  * This file contains CSS rules that apply variables to selectors.
  * Default values are provided via var() fallbacks - no :root declarations needed.
@@ -100,7 +100,9 @@
   font-family: var(--accordion-title-font-family, inherit);
   /* Font size for the header */
   font-size: var(--accordion-title-font-size, 1.125rem);
-  /* Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /* Keep the title on a single line */
+  white-space: var(--accordion-title-white-space, normal);
+  /* Font weight for title (100-900) */
   font-weight: var(--accordion-title-font-weight, 400);
   /* Color for text decorations */
   text-decoration-color: var(--accordion-title-decoration-color, currentColor);
@@ -120,15 +122,6 @@
   left: var(--accordion-title-offset-x, 0px);
   /* Move title up/down (negative = up, positive = down) */
   top: var(--accordion-title-offset-y, 0px);
-}
-
-.accordion-icon {
-  /* Color of the expand/collapse icon */
-  color: var(--accordion-icon-color, #666666);
-  /* Size of the icon */
-  font-size: var(--accordion-icon-size, 1.25rem);
-  /* Rotation angle when open (degrees) */
-  transform: var(--accordion-icon-rotation, 180deg);
 }
 
 [data-gutplus-device="tablet"] .accordion-content {
@@ -217,7 +210,9 @@
   font-family: var(--accordion-title-font-family, inherit);
   /* Font size for the header */
   font-size: var(--accordion-title-font-size-tablet, var(--accordion-title-font-size, 1.125rem));
-  /* Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /* Keep the title on a single line */
+  white-space: var(--accordion-title-white-space, normal);
+  /* Font weight for title (100-900) */
   font-weight: var(--accordion-title-font-weight, 400);
   /* Color for text decorations */
   text-decoration-color: var(--accordion-title-decoration-color, currentColor);
@@ -237,15 +232,6 @@
   left: var(--accordion-title-offset-x-tablet, var(--accordion-title-offset-x, 0px));
   /* Move title up/down (negative = up, positive = down) */
   top: var(--accordion-title-offset-y-tablet, var(--accordion-title-offset-y, 0px));
-}
-
-[data-gutplus-device="tablet"] .accordion-icon {
-  /* Color of the expand/collapse icon */
-  color: var(--accordion-icon-color, #666666);
-  /* Size of the icon */
-  font-size: var(--accordion-icon-size-tablet, var(--accordion-icon-size, 1.25rem));
-  /* Rotation angle when open (degrees) */
-  transform: var(--accordion-icon-rotation, 180deg);
 }
 
 
@@ -335,7 +321,9 @@
   font-family: var(--accordion-title-font-family, inherit);
   /* Font size for the header */
   font-size: var(--accordion-title-font-size-mobile, var(--accordion-title-font-size-tablet, var(--accordion-title-font-size, 1.125rem)));
-  /* Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /* Keep the title on a single line */
+  white-space: var(--accordion-title-white-space, normal);
+  /* Font weight for title (100-900) */
   font-weight: var(--accordion-title-font-weight, 400);
   /* Color for text decorations */
   text-decoration-color: var(--accordion-title-decoration-color, currentColor);
@@ -355,15 +343,6 @@
   left: var(--accordion-title-offset-x-mobile, var(--accordion-title-offset-x-tablet, var(--accordion-title-offset-x, 0px)));
   /* Move title up/down (negative = up, positive = down) */
   top: var(--accordion-title-offset-y-mobile, var(--accordion-title-offset-y-tablet, var(--accordion-title-offset-y, 0px)));
-}
-
-[data-gutplus-device="mobile"] .accordion-icon {
-  /* Color of the expand/collapse icon */
-  color: var(--accordion-icon-color, #666666);
-  /* Size of the icon */
-  font-size: var(--accordion-icon-size-mobile, var(--accordion-icon-size-tablet, var(--accordion-icon-size, 1.25rem)));
-  /* Rotation angle when open (degrees) */
-  transform: var(--accordion-icon-rotation, 180deg);
 }
 
 

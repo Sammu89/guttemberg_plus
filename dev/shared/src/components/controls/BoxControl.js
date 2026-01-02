@@ -43,44 +43,6 @@ const SIDE_LABELS = {
 };
 
 /**
- * Inherited Badge Component
- *
- * @param {Object} props - Component props
- * @param {string} props.from - Device name the value is inherited from
- * @returns {JSX.Element|null} Badge element or null
- */
-function InheritedBadge( { from } ) {
-	if ( ! from ) {
-		return null;
-	}
-
-	const labels = {
-		global: 'Global',
-		tablet: 'Tablet',
-		mobile: 'Mobile',
-	};
-
-	return (
-		<span
-			className="gutplus-inherited-badge"
-			style={ {
-				fontSize: '10px',
-				backgroundColor: '#e0e0e0',
-				color: '#666',
-				padding: '2px 6px',
-				borderRadius: '3px',
-				marginLeft: '8px',
-				fontWeight: 500,
-				textTransform: 'uppercase',
-				letterSpacing: '0.5px',
-			} }
-		>
-			{ `From ${ labels[ from ] || from }` }
-		</span>
-	);
-}
-
-/**
  * Extract the base/global value from a flat responsive structure
  * Base value is at root level, not under a key
  *
@@ -234,7 +196,7 @@ export function BoxControl( {
 	const device = useResponsiveDevice();
 
 	// Get effective value with inheritance
-	const { value: effectiveValue, inheritedFrom } = useMemo(
+	const { value: effectiveValue } = useMemo(
 		() => getInheritedBoxValue( values, device ),
 		[ values, device ]
 	);
@@ -307,7 +269,6 @@ export function BoxControl( {
 					<FlexItem>
 						<span style={ { display: 'flex', alignItems: 'center' } }>
 							{ label }
-							<InheritedBadge from={ inheritedFrom } />
 						</span>
 					</FlexItem>
 					<FlexItem>

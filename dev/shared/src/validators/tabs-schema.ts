@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-29T15:44:13.304Z
+ * Generated at: 2026-01-02T19:57:50.424Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -67,13 +67,21 @@ export const tabsThemeSchema = z.object({
   panelBorderStyle: z.record(z.any()),
   panelBorderRadius: z.record(z.any()),
   showIcon: z.boolean(),
+  useDifferentIcons: z.boolean(),
   iconPosition: z.string(),
-  iconColor: z.string(),
-  iconSize: z.number(),
-  iconTypeClosed: z.string(),
-  iconTypeOpen: z.string(),
-  iconRotation: z.number(),
-  iconRotationActive: z.number(),
+  iconRotation: z.string(),
+  iconInactiveSource: z.record(z.any()),
+  iconInactiveColor: z.string(),
+  iconInactiveSize: z.string(),
+  iconInactiveMaxSize: z.string(),
+  iconInactiveOffsetX: z.string(),
+  iconInactiveOffsetY: z.string(),
+  iconActiveSource: z.record(z.any()),
+  iconActiveColor: z.string(),
+  iconActiveSize: z.string(),
+  iconActiveMaxSize: z.string(),
+  iconActiveOffsetX: z.string(),
+  iconActiveOffsetY: z.string(),
 });
 
 /**
@@ -140,13 +148,21 @@ export const tabsAttributesSchema = z.object({
   panelBorderStyle: z.record(z.any()),
   panelBorderRadius: z.record(z.any()),
   showIcon: z.boolean(),
+  useDifferentIcons: z.boolean(),
   iconPosition: z.string(),
-  iconColor: z.string(),
-  iconSize: z.number(),
-  iconTypeClosed: z.string(),
-  iconTypeOpen: z.string(),
-  iconRotation: z.number(),
-  iconRotationActive: z.number(),
+  iconRotation: z.string(),
+  iconInactiveSource: z.record(z.any()),
+  iconInactiveColor: z.string(),
+  iconInactiveSize: z.string(),
+  iconInactiveMaxSize: z.string(),
+  iconInactiveOffsetX: z.string(),
+  iconInactiveOffsetY: z.string(),
+  iconActiveSource: z.record(z.any()),
+  iconActiveColor: z.string(),
+  iconActiveSize: z.string(),
+  iconActiveMaxSize: z.string(),
+  iconActiveOffsetX: z.string(),
+  iconActiveOffsetY: z.string(),
 });
 
 // Type inference exports

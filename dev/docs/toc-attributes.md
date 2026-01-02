@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2025-12-29T15:44:13.319Z
+> Generated at: 2026-01-02T19:57:50.471Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -165,13 +165,22 @@ Complete theme and appearance configuration for Table of Contents blocks
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
-| `iconPosition` | string | `right` | Yes | Position of icon relative to title |
-| `iconSize` | string | `1.25rem` | Yes | Size of the icon in rem |
-| `iconTypeClosed` | string | `▾` | Yes | Icon when TOC is collapsed |
-| `iconTypeOpen` | string | `none` | Yes | Icon when TOC is expanded (none = use iconTypeClosed with rotation) |
-| `iconRotation` | string | `180deg` | Yes | Rotation angle when open (degrees) |
-| `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
+| `showIcon` | boolean | `true` | Yes | Display icon in the block |
+| `useDifferentIcons` | boolean | `false` | Yes | Use different icons for active and inactive states |
+| `iconPosition` | string | `right` | Yes | Position of the icon relative to title |
+| `iconRotation` | string | `180deg` | Yes | Rotation angle applied during open/close transition |
+| `iconInactiveSource` | object | _object_ | Yes | Icon when closed |
+| `iconInactiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconInactiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
+| `iconInactiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
+| `iconInactiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
+| `iconInactiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
+| `iconActiveSource` | object | _object_ | Yes | Icon when open |
+| `iconActiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconActiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
+| `iconActiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
+| `iconActiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
+| `iconActiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
 
 ## HeaderTypography
 
@@ -261,9 +270,18 @@ The following CSS custom properties are available for theming:
 | `h6FontStyle` | `--toc-h6-font-style` |
 | `h6TextTransform` | `--toc-h6-text-transform` |
 | `h6TextDecoration` | `--toc-h6-text-decoration` |
-| `iconSize` | `--toc-icon-size` |
+| `showIcon` | `--toc-icon-display` |
 | `iconRotation` | `--toc-icon-rotation` |
-| `iconColor` | `--toc-icon-color` |
+| `iconInactiveColor` | `--toc-icon-color` |
+| `iconInactiveSize` | `--toc-icon-size` |
+| `iconInactiveMaxSize` | `--toc-icon-max-size` |
+| `iconInactiveOffsetX` | `--toc-icon-offset-x` |
+| `iconInactiveOffsetY` | `--toc-icon-offset-y` |
+| `iconActiveColor` | `--toc-icon-active-color` |
+| `iconActiveSize` | `--toc-icon-active-size` |
+| `iconActiveMaxSize` | `--toc-icon-active-max-size` |
+| `iconActiveOffsetX` | `--toc-icon-active-offset-x` |
+| `iconActiveOffsetY` | `--toc-icon-active-offset-y` |
 | `titleFontSize` | `--toc-title-font-size` |
 | `titleFontWeight` | `--toc-title-font-weight` |
 | `titleFontStyle` | `--toc-title-font-style` |

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-29T15:44:13.301Z
+ * Generated at: 2026-01-02T19:57:50.416Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -14,7 +14,7 @@
 
 import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';
 
-const THEMEABLE_ATTRS = new Set(["dividerWidth","dividerColor","dividerStyle","borderWidth","borderRadius","shadow","borderColor","borderStyle","headerPadding","contentPadding","blockMargin","titleColor","titleBackgroundColor","hoverTitleColor","hoverTitleBackgroundColor","contentTextColor","contentBackgroundColor","contentFontFamily","contentFontSize","contentLineHeight","titleFontFamily","titleFontSize","titleFontWeight","titleDecorationColor","titleDecorationStyle","titleDecorationWidth","titleLetterSpacing","titleTextTransform","titleLineHeight","titleAlignment","titleOffsetX","titleOffsetY","titleTextShadow","iconColor","iconSize","iconRotation","animationDuration","animationEasing"]);
+const THEMEABLE_ATTRS = new Set(["dividerWidth","dividerColor","dividerStyle","borderWidth","borderRadius","shadow","borderColor","borderStyle","headerPadding","contentPadding","blockMargin","titleColor","titleBackgroundColor","hoverTitleColor","hoverTitleBackgroundColor","contentTextColor","contentBackgroundColor","contentFontFamily","contentFontSize","contentLineHeight","titleFontFamily","titleFontSize","titleNoLineBreak","titleFontWeight","titleDecorationColor","titleDecorationStyle","titleDecorationWidth","titleLetterSpacing","titleTextTransform","titleLineHeight","titleAlignment","titleOffsetX","titleOffsetY","titleTextShadow","showIcon","iconRotation","iconInactiveColor","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY","animationDuration","animationEasing"]);
 const NON_THEMEABLE_ATTRS = new Set(["accordionWidth"]);
 
 /**

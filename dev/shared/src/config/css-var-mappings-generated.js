@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2025-12-29T15:44:13.330Z
+ * Generated at: 2026-01-02T19:57:50.489Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -52,7 +52,7 @@ function buildBoxShadow(shadows) {
 
 /**
  * Build CSS text-shadow from array of shadow layers
- * Similar to buildBoxShadow but omits spread and inset (not supported by text-shadow)
+ * Similar to buildBoxShadow but omits blur, spread, and inset (not supported by text-shadow)
  * @param {Array|null} shadows - Array of shadow layer objects
  * @returns {string} CSS text-shadow value or 'none'
  */
@@ -62,10 +62,9 @@ function buildTextShadow(shadows) {
   if (validLayers.length === 0) return 'none';
   return validLayers.map(layer => {
     const parts = [];
-    // text-shadow format: offset-x offset-y blur-radius color (NO spread or inset)
+    // text-shadow format: offset-x offset-y color (NO blur, spread, or inset)
     parts.push(formatShadowValue(layer.x));
     parts.push(formatShadowValue(layer.y));
-    parts.push(formatShadowValue(layer.blur));
     parts.push(layer.color);
     return parts.join(' ');
   }).join(', ');
@@ -113,6 +112,7 @@ export const CSS_VAR_MAPPINGS = {
     contentLineHeight: { cssVar: '--accordion-content-line-height', unit: null, defaultUnit: null, type: 'number', cssProperty: 'line-height', dependsOn: null, variants: null },
     titleFontFamily: { cssVar: '--accordion-title-font-family', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-family', dependsOn: null, variants: null },
     titleFontSize: { cssVar: '--accordion-title-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    titleNoLineBreak: { cssVar: '--accordion-title-white-space', unit: null, defaultUnit: null, type: 'string', cssProperty: 'white-space', dependsOn: null, variants: null },
     titleFontWeight: { cssVar: '--accordion-title-font-weight', unit: null, defaultUnit: null, type: 'number', cssProperty: 'font-weight', dependsOn: null, variants: null },
     titleDecorationColor: { cssVar: '--accordion-title-decoration-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration-color', dependsOn: null, variants: null },
     titleDecorationStyle: { cssVar: '--accordion-title-decoration-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration-style', dependsOn: null, variants: null },
@@ -124,9 +124,18 @@ export const CSS_VAR_MAPPINGS = {
     titleOffsetX: { cssVar: '--accordion-title-offset-x', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
     titleOffsetY: { cssVar: '--accordion-title-offset-y', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
     titleTextShadow: { cssVar: '--accordion-title-text-shadow', unit: null, defaultUnit: 'px', type: 'array', cssProperty: 'text-shadow', dependsOn: null, variants: null },
-    iconColor: { cssVar: '--accordion-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--accordion-icon-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    iconRotation: { cssVar: '--accordion-icon-rotation', unit: null, defaultUnit: 'deg', type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
+    showIcon: { cssVar: '--accordion-icon-display', unit: null, defaultUnit: null, type: 'boolean', cssProperty: 'display', dependsOn: null, variants: null },
+    iconRotation: { cssVar: '--accordion-icon-rotation', unit: 'deg', defaultUnit: 'deg', type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
+    iconInactiveColor: { cssVar: '--accordion-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconInactiveSize: { cssVar: '--accordion-icon-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconInactiveMaxSize: { cssVar: '--accordion-icon-max-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'max-width', dependsOn: null, variants: null },
+    iconInactiveOffsetX: { cssVar: '--accordion-icon-offset-x', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
+    iconInactiveOffsetY: { cssVar: '--accordion-icon-offset-y', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
+    iconActiveColor: { cssVar: '--accordion-icon-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconActiveSize: { cssVar: '--accordion-icon-active-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconActiveMaxSize: { cssVar: '--accordion-icon-active-max-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'max-width', dependsOn: null, variants: null },
+    iconActiveOffsetX: { cssVar: '--accordion-icon-active-offset-x', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
+    iconActiveOffsetY: { cssVar: '--accordion-icon-active-offset-y', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
     animationDuration: { cssVar: '--accordion-animation-duration', unit: null, defaultUnit: 'ms', type: 'string', cssProperty: 'transition-duration', dependsOn: null, variants: null },
     animationEasing: { cssVar: '--accordion-animation-easing', unit: null, defaultUnit: null, type: 'string', cssProperty: 'transition-timing-function', dependsOn: null, variants: null },
     accordionWidth: { cssVar: '--accordion-width', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'width', dependsOn: null, variants: null },
@@ -269,10 +278,18 @@ export const CSS_VAR_MAPPINGS = {
     panelBorderWidth: { cssVar: '--tabs-panel-border-width', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'border-width', dependsOn: null, variants: null },
     panelBorderStyle: { cssVar: '--tabs-panel-border-style', unit: null, defaultUnit: null, type: 'object', cssProperty: 'border-style', dependsOn: null, variants: null },
     panelBorderRadius: { cssVar: '--tabs-panel-border-radius', unit: 'px', defaultUnit: 'px', type: 'object', cssProperty: 'border-radius', dependsOn: null, variants: null },
-    iconColor: { cssVar: '--tabs-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--tabs-icon-size', unit: null, defaultUnit: 'px', type: 'number', cssProperty: 'font-size', dependsOn: null, variants: null },
-    iconRotation: { cssVar: '--tabs-icon-rotation-base', unit: null, defaultUnit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
-    iconRotationActive: { cssVar: '--tabs-icon-rotation-active', unit: null, defaultUnit: 'deg', type: 'number', cssProperty: 'transform', dependsOn: null, variants: null },
+    showIcon: { cssVar: '--tabs-icon-display', unit: null, defaultUnit: null, type: 'boolean', cssProperty: 'display', dependsOn: null, variants: null },
+    iconRotation: { cssVar: '--tabs-icon-rotation', unit: 'deg', defaultUnit: 'deg', type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
+    iconInactiveColor: { cssVar: '--tabs-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconInactiveSize: { cssVar: '--tabs-icon-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconInactiveMaxSize: { cssVar: '--tabs-icon-max-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'max-width', dependsOn: null, variants: null },
+    iconInactiveOffsetX: { cssVar: '--tabs-icon-offset-x', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
+    iconInactiveOffsetY: { cssVar: '--tabs-icon-offset-y', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
+    iconActiveColor: { cssVar: '--tabs-icon-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconActiveSize: { cssVar: '--tabs-icon-active-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconActiveMaxSize: { cssVar: '--tabs-icon-active-max-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'max-width', dependsOn: null, variants: null },
+    iconActiveOffsetX: { cssVar: '--tabs-icon-active-offset-x', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
+    iconActiveOffsetY: { cssVar: '--tabs-icon-active-offset-y', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
   },
   toc: {
     tocWidth: { cssVar: '--toc-width', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'width', dependsOn: null, variants: null },
@@ -340,9 +357,18 @@ export const CSS_VAR_MAPPINGS = {
     h6FontStyle: { cssVar: '--toc-h6-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
     h6TextTransform: { cssVar: '--toc-h6-text-transform', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-transform', dependsOn: null, variants: null },
     h6TextDecoration: { cssVar: '--toc-h6-text-decoration', unit: null, defaultUnit: null, type: 'string', cssProperty: 'text-decoration', dependsOn: null, variants: null },
-    iconSize: { cssVar: '--toc-icon-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
-    iconRotation: { cssVar: '--toc-icon-rotation', unit: null, defaultUnit: 'deg', type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
-    iconColor: { cssVar: '--toc-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    showIcon: { cssVar: '--toc-icon-display', unit: null, defaultUnit: null, type: 'boolean', cssProperty: 'display', dependsOn: null, variants: null },
+    iconRotation: { cssVar: '--toc-icon-rotation', unit: 'deg', defaultUnit: 'deg', type: 'string', cssProperty: 'transform', dependsOn: null, variants: null },
+    iconInactiveColor: { cssVar: '--toc-icon-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconInactiveSize: { cssVar: '--toc-icon-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconInactiveMaxSize: { cssVar: '--toc-icon-max-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'max-width', dependsOn: null, variants: null },
+    iconInactiveOffsetX: { cssVar: '--toc-icon-offset-x', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
+    iconInactiveOffsetY: { cssVar: '--toc-icon-offset-y', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
+    iconActiveColor: { cssVar: '--toc-icon-active-color', unit: null, defaultUnit: null, type: 'string', cssProperty: 'color', dependsOn: null, variants: null },
+    iconActiveSize: { cssVar: '--toc-icon-active-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
+    iconActiveMaxSize: { cssVar: '--toc-icon-active-max-size', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'max-width', dependsOn: null, variants: null },
+    iconActiveOffsetX: { cssVar: '--toc-icon-active-offset-x', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'left', dependsOn: null, variants: null },
+    iconActiveOffsetY: { cssVar: '--toc-icon-active-offset-y', unit: 'px', defaultUnit: 'px', type: 'string', cssProperty: 'top', dependsOn: null, variants: null },
     titleFontSize: { cssVar: '--toc-title-font-size', unit: null, defaultUnit: 'px', type: 'string', cssProperty: 'font-size', dependsOn: null, variants: null },
     titleFontWeight: { cssVar: '--toc-title-font-weight', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-weight', dependsOn: null, variants: null },
     titleFontStyle: { cssVar: '--toc-title-font-style', unit: null, defaultUnit: null, type: 'string', cssProperty: 'font-style', dependsOn: null, variants: null },
@@ -529,6 +555,11 @@ export function formatCssValue(attrName, value, blockType) {
   const numberUnit = mapping.unit || mapping.defaultUnit;
   if (numberUnit && typeof value === 'number') {
     return `${value}${numberUnit}`;
+  }
+
+  // Handle boolean values with cssValueMap
+  if (mapping.type === 'boolean' && mapping.cssValueMap) {
+    return mapping.cssValueMap[value.toString()];
   }
 
   // Return value as-is for strings and other types

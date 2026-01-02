@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-29T15:44:13.296Z
+ * Generated at: 2026-01-02T19:57:50.406Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -99,6 +99,9 @@ export function buildEditorStyles(values) {
     if (values.titleFontSize !== undefined && values.titleFontSize !== null) {
       styles.default.fontSize = values.titleFontSize;
     }
+    if (values.titleNoLineBreak !== undefined && values.titleNoLineBreak !== null) {
+      styles.default.whiteSpace = values.titleNoLineBreak;
+    }
     if (values.titleFontWeight !== undefined && values.titleFontWeight !== null) {
       styles.default.fontWeight = `${values.titleFontWeight}`;
     }
@@ -132,14 +135,41 @@ export function buildEditorStyles(values) {
     if (values.titleTextShadow !== undefined && values.titleTextShadow !== null) {
       styles.default.textShadow = values.titleTextShadow;
     }
-    if (values.iconColor !== undefined && values.iconColor !== null) {
-      styles.default.color = values.iconColor;
-    }
-    if (values.iconSize !== undefined && values.iconSize !== null) {
-      styles.default.fontSize = values.iconSize;
+    if (values.showIcon !== undefined && values.showIcon !== null) {
+      styles.default.display = values.showIcon;
     }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
       styles.default.transform = values.iconRotation;
+    }
+    if (values.iconInactiveColor !== undefined && values.iconInactiveColor !== null) {
+      styles.default.color = values.iconInactiveColor;
+    }
+    if (values.iconInactiveSize !== undefined && values.iconInactiveSize !== null) {
+      styles.default.fontSize = values.iconInactiveSize;
+    }
+    if (values.iconInactiveMaxSize !== undefined && values.iconInactiveMaxSize !== null) {
+      styles.default.maxWidth = values.iconInactiveMaxSize;
+    }
+    if (values.iconInactiveOffsetX !== undefined && values.iconInactiveOffsetX !== null) {
+      styles.default.left = values.iconInactiveOffsetX;
+    }
+    if (values.iconInactiveOffsetY !== undefined && values.iconInactiveOffsetY !== null) {
+      styles.default.top = values.iconInactiveOffsetY;
+    }
+    if (values.iconActiveColor !== undefined && values.iconActiveColor !== null) {
+      styles.default.color = values.iconActiveColor;
+    }
+    if (values.iconActiveSize !== undefined && values.iconActiveSize !== null) {
+      styles.default.fontSize = values.iconActiveSize;
+    }
+    if (values.iconActiveMaxSize !== undefined && values.iconActiveMaxSize !== null) {
+      styles.default.maxWidth = values.iconActiveMaxSize;
+    }
+    if (values.iconActiveOffsetX !== undefined && values.iconActiveOffsetX !== null) {
+      styles.default.left = values.iconActiveOffsetX;
+    }
+    if (values.iconActiveOffsetY !== undefined && values.iconActiveOffsetY !== null) {
+      styles.default.top = values.iconActiveOffsetY;
     }
     if (values.animationDuration !== undefined && values.animationDuration !== null) {
       styles.default.transitionDuration = values.animationDuration;
@@ -241,6 +271,10 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-title-font-size'] = customizations.titleFontSize;
   }
 
+  if (customizations.titleNoLineBreak !== undefined && customizations.titleNoLineBreak !== null) {
+    styles['--accordion-title-white-space'] = customizations.titleNoLineBreak;
+  }
+
   if (customizations.titleFontWeight !== undefined && customizations.titleFontWeight !== null) {
     styles['--accordion-title-font-weight'] = `${customizations.titleFontWeight}`;
   }
@@ -285,16 +319,52 @@ export function buildFrontendStyles(customizations) {
     styles['--accordion-title-text-shadow'] = customizations.titleTextShadow;
   }
 
-  if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
-    styles['--accordion-icon-color'] = customizations.iconColor;
-  }
-
-  if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
-    styles['--accordion-icon-size'] = customizations.iconSize;
+  if (customizations.showIcon !== undefined && customizations.showIcon !== null) {
+    styles['--accordion-icon-display'] = customizations.showIcon;
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
     styles['--accordion-icon-rotation'] = customizations.iconRotation;
+  }
+
+  if (customizations.iconInactiveColor !== undefined && customizations.iconInactiveColor !== null) {
+    styles['--accordion-icon-color'] = customizations.iconInactiveColor;
+  }
+
+  if (customizations.iconInactiveSize !== undefined && customizations.iconInactiveSize !== null) {
+    styles['--accordion-icon-size'] = customizations.iconInactiveSize;
+  }
+
+  if (customizations.iconInactiveMaxSize !== undefined && customizations.iconInactiveMaxSize !== null) {
+    styles['--accordion-icon-max-size'] = customizations.iconInactiveMaxSize;
+  }
+
+  if (customizations.iconInactiveOffsetX !== undefined && customizations.iconInactiveOffsetX !== null) {
+    styles['--accordion-icon-offset-x'] = customizations.iconInactiveOffsetX;
+  }
+
+  if (customizations.iconInactiveOffsetY !== undefined && customizations.iconInactiveOffsetY !== null) {
+    styles['--accordion-icon-offset-y'] = customizations.iconInactiveOffsetY;
+  }
+
+  if (customizations.iconActiveColor !== undefined && customizations.iconActiveColor !== null) {
+    styles['--accordion-icon-active-color'] = customizations.iconActiveColor;
+  }
+
+  if (customizations.iconActiveSize !== undefined && customizations.iconActiveSize !== null) {
+    styles['--accordion-icon-active-size'] = customizations.iconActiveSize;
+  }
+
+  if (customizations.iconActiveMaxSize !== undefined && customizations.iconActiveMaxSize !== null) {
+    styles['--accordion-icon-active-max-size'] = customizations.iconActiveMaxSize;
+  }
+
+  if (customizations.iconActiveOffsetX !== undefined && customizations.iconActiveOffsetX !== null) {
+    styles['--accordion-icon-active-offset-x'] = customizations.iconActiveOffsetX;
+  }
+
+  if (customizations.iconActiveOffsetY !== undefined && customizations.iconActiveOffsetY !== null) {
+    styles['--accordion-icon-active-offset-y'] = customizations.iconActiveOffsetY;
   }
 
   if (customizations.animationDuration !== undefined && customizations.animationDuration !== null) {

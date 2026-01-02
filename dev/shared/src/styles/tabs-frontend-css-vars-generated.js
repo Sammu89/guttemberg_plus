@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-29T15:44:13.311Z
+ * Generated at: 2026-01-02T19:57:50.447Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -14,7 +14,7 @@
 
 import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';
 
-const THEMEABLE_ATTRS = new Set(["borderColor","borderWidth","borderStyle","borderRadius","shadow","shadowHover","tabButtonColor","tabButtonBackgroundColor","tabButtonHoverColor","tabButtonHoverBackgroundColor","tabButtonActiveColor","tabButtonActiveBackgroundColor","tabButtonFontSize","tabButtonFontWeight","tabButtonFontStyle","tabButtonTextTransform","tabButtonTextDecoration","tabButtonTextAlign","tabButtonPadding","tabButtonActiveFontWeight","tabButtonBorderColor","tabButtonActiveBorderColor","tabButtonBorderWidth","tabButtonBorderStyle","tabButtonBorderRadius","tabButtonShadow","tabButtonShadowHover","tabButtonActiveContentBorderColor","tabButtonActiveContentBorderWidth","tabButtonActiveContentBorderStyle","tabListBackgroundColor","tabsRowBorderColor","tabsRowBorderWidth","tabsRowBorderStyle","tabsRowSpacing","tabsButtonGap","tabListAlignment","tabsListContentBorderColor","tabsListContentBorderWidth","tabsListContentBorderStyle","panelBackgroundColor","panelBorderColor","panelBorderWidth","panelBorderStyle","panelBorderRadius","iconColor","iconSize","iconRotation","iconRotationActive"]);
+const THEMEABLE_ATTRS = new Set(["borderColor","borderWidth","borderStyle","borderRadius","shadow","shadowHover","tabButtonColor","tabButtonBackgroundColor","tabButtonHoverColor","tabButtonHoverBackgroundColor","tabButtonActiveColor","tabButtonActiveBackgroundColor","tabButtonFontSize","tabButtonFontWeight","tabButtonFontStyle","tabButtonTextTransform","tabButtonTextDecoration","tabButtonTextAlign","tabButtonPadding","tabButtonActiveFontWeight","tabButtonBorderColor","tabButtonActiveBorderColor","tabButtonBorderWidth","tabButtonBorderStyle","tabButtonBorderRadius","tabButtonShadow","tabButtonShadowHover","tabButtonActiveContentBorderColor","tabButtonActiveContentBorderWidth","tabButtonActiveContentBorderStyle","tabListBackgroundColor","tabsRowBorderColor","tabsRowBorderWidth","tabsRowBorderStyle","tabsRowSpacing","tabsButtonGap","tabListAlignment","tabsListContentBorderColor","tabsListContentBorderWidth","tabsListContentBorderStyle","panelBackgroundColor","panelBorderColor","panelBorderWidth","panelBorderStyle","panelBorderRadius","showIcon","iconRotation","iconInactiveColor","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY"]);
 const NON_THEMEABLE_ATTRS = new Set(["tabsWidth"]);
 
 /**

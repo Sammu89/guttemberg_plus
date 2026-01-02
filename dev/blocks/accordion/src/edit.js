@@ -34,8 +34,10 @@ import {
 	useBlockAlignment,
 	useResponsiveDevice,
 } from '@shared';
+import { Dashicon } from '@wordpress/components';
+import * as LucideIcons from 'lucide-react';
 import { buildBoxShadow, buildTextShadow } from '@shared/utils';
-import accordionSchema from '../../../schemas/accordion.json';
+import accordionSchema from '../../../schemas/expanded/accordion-expanded.json';
 import { accordionAttributes } from './accordion-attributes';
 import { buildEditorCssVars } from '@shared/styles/accordion-css-vars-generated';
 
@@ -196,6 +198,14 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		    "left": 0,
 		    "unit": "em"
 		};
+	const iconInactiveSource = effectiveValues.iconInactiveSource || {
+		    "kind": "char",
+		    "value": "▾"
+		};
+	const iconActiveSource = effectiveValues.iconActiveSource || {
+		    "kind": "char",
+		    "value": "▾"
+		};
 
 	return {
 		container: {
@@ -214,6 +224,7 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		titleText: {
 			fontFamily: (() => { const val = effectiveValues.titleFontFamily; if (val === null || val === undefined) return 'inherit'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'inherit'; })(),
 			fontSize: (() => { const val = effectiveValues.titleFontSize; if (val === null || val === undefined) return '1.125rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '1.125rem'; })(),
+			whiteSpace: (() => { const val = effectiveValues.titleNoLineBreak; if (val === null || val === undefined) return 'normal'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'normal'; })(),
 			fontWeight: effectiveValues.titleFontWeight ?? 400,
 			textDecorationColor: (() => { const val = effectiveValues.titleDecorationColor; if (val === null || val === undefined) return 'currentColor'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'currentColor'; })(),
 			textDecorationStyle: (() => { const val = effectiveValues.titleDecorationStyle; if (val === null || val === undefined) return 'solid'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return 'solid'; })(),
@@ -235,9 +246,13 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 			lineHeight: effectiveValues.contentLineHeight ?? 1.6,
 		},
 		icon: {
-			color: (() => { const val = effectiveValues.iconColor; if (val === null || val === undefined) return '#666666'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#666666'; })(),
-			fontSize: (() => { const val = effectiveValues.iconSize; if (val === null || val === undefined) return '1.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '1.25rem'; })(),
-			transform: (() => { const val = effectiveValues.iconRotation; if (val === null || val === undefined) return '180deg'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '180deg'; })(),
+			display: effectiveValues.showIcon ? 'flex' : 'none',
+			transform: `rotate(${effectiveValues.iconRotation ?? '180deg'})`,
+			color: (() => { const val = effectiveValues.iconInactiveColor; if (val === null || val === undefined) return '#333333'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#333333'; })(),
+			fontSize: (() => { const val = effectiveValues.iconInactiveSize; if (val === null || val === undefined) return '16px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '16px'; })(),
+			maxWidth: (() => { const val = effectiveValues.iconInactiveMaxSize; if (val === null || val === undefined) return '24px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '24px'; })(),
+			left: (() => { const val = effectiveValues.iconInactiveOffsetX; if (val === null || val === undefined) return '0px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '0px'; })(),
+			top: (() => { const val = effectiveValues.iconInactiveOffsetY; if (val === null || val === undefined) return '0px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '0px'; })(),
 		},
 	};
 };
@@ -282,37 +297,136 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 			: undefined,
 	};
 
+	const titleTextInlineStyles = effectiveValues.titleNoLineBreak === 'nowrap'
+		? { whiteSpace: 'nowrap' }
+		: undefined;
+
 	/**
-	 * Render icon based on settings
-	 * @param {string} position - Icon position ('left', 'right', 'extreme-left', 'extreme-right')
+	 * Helper: Get responsive value based on current device
+	 * @param {*} value - Value that might be responsive (object with global/tablet/mobile keys)
+	 * @param {string} device - Current device ('global', 'tablet', 'mobile')
+	 * @return {*} Resolved value for current device
 	 */
-	const renderIcon = ( position = 'right' ) => {
-		if ( ! effectiveValues.showIcon ) {
+	const getResponsiveValue = ( value, device ) => {
+		if ( typeof value === 'object' && value !== null && ! Array.isArray( value ) ) {
+			// Check if it's a responsive object (has global/tablet/mobile keys)
+			if ( value.global !== undefined || value.tablet !== undefined || value.mobile !== undefined ) {
+				return value[ device ] !== undefined ? value[ device ] : value.global;
+			}
+		}
+		return value;
+	};
+
+	/**
+	 * Render library icon (Dashicons or Lucide)
+	 * @param {string} iconValue - Format: "library:iconName" (e.g., "dashicons:arrow-down")
+	 * @return {JSX.Element|null} Icon element
+	 */
+	const renderLibraryIcon = ( iconValue ) => {
+		if ( ! iconValue || typeof iconValue !== 'string' ) {
 			return null;
 		}
 
-		const iconContent = effectiveValues.iconTypeClosed;
-		const isImage = iconContent.startsWith( 'http' );
+		const [ library, iconName ] = iconValue.split( ':' );
 
-		const iconStyle = {
-			...styles.icon,
-		};
+		if ( library === 'dashicons' && iconName ) {
+			// Dashicon component needs explicit size styling
+			return <Dashicon icon={ iconName } style={ { fontSize: 'inherit', width: '1em', height: '1em' } } />;
+		}
 
-		if ( isImage ) {
+		if ( library === 'lucide' && iconName ) {
+			const LucideIcon = LucideIcons[ iconName ];
+			return LucideIcon ? <LucideIcon size="1em" /> : null;
+		}
+
+		return null;
+	};
+
+	/**
+	 * Render a single icon element based on kind and state
+	 *
+	 * IMPORTANT: Rotation is handled by CSS via .is-open class on parent
+	 * Do NOT apply inline rotation styles here - let CSS control it
+	 */
+	const renderSingleIcon = ( source, state ) => {
+		if ( ! source || ! source.value ) {
+			return null;
+		}
+
+		const stateClass = `accordion-icon-${ state }`;
+		const baseClasses = `accordion-icon ${ stateClass }`;
+
+		// Render based on icon kind
+		if ( source.kind === 'char' ) {
+			return (
+				<span
+					className={ `${ baseClasses } accordion-icon-char` }
+					aria-hidden="true"
+				>
+					{ source.value }
+				</span>
+			);
+		}
+
+		if ( source.kind === 'image' ) {
 			return (
 				<img
-					src={ iconContent }
+					className={ `${ baseClasses } accordion-icon-image` }
+					src={ source.value }
 					alt=""
 					aria-hidden="true"
-					className="accordion-icon accordion-icon-image"
-					style={ iconStyle }
 				/>
 			);
 		}
 
+		if ( source.kind === 'library' ) {
+			return (
+				<span
+					className={ `${ baseClasses } accordion-icon-library` }
+					aria-hidden="true"
+				>
+					{ renderLibraryIcon( source.value ) }
+				</span>
+			);
+		}
+
+		return null;
+	};
+
+	/**
+	 * Render icon wrapper with both inactive and active states
+	 * Both icons are rendered in the markup, CSS controls visibility
+	 *
+	 * @param {string} position - Icon position ('left', 'right', 'extreme-left', 'extreme-right')
+	 * @return {JSX.Element|null} Icon element with wrapper
+	 */
+	const renderIcon = ( position = 'right' ) => {
+		// Check if icon should be displayed based on showIcon attribute
+		const showIcon = effectiveValues.showIcon ?? true; // Default to true if undefined
+		if ( showIcon === false ) {
+			return null;
+		}
+
+		// Get icon sources (structured objects with {kind, value})
+		const inactiveSource = effectiveValues.iconInactiveSource || { kind: 'char', value: '▾' };
+		const activeSource = effectiveValues.iconActiveSource;
+
+		if ( ! inactiveSource || ! inactiveSource.value ) {
+			return null;
+		}
+
+		const hasDifferentIcons = !! ( activeSource && activeSource.value );
+
+		// Render inactive icon (always present)
+		const inactiveIcon = renderSingleIcon( inactiveSource, 'inactive' );
+
+		// Render active icon only if different from inactive
+		const activeIcon = hasDifferentIcons ? renderSingleIcon( activeSource, 'active' ) : null;
+
 		return (
-			<span className="accordion-icon" aria-hidden="true" style={ iconStyle }>
-				{ iconContent }
+			<span className="accordion-icon-wrapper" aria-hidden="true">
+				{ inactiveIcon }
+				{ activeIcon }
 			</span>
 		);
 	};
@@ -350,6 +464,10 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 							onChange={ ( value ) => setAttributes( { title: value } ) }
 							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 							className="accordion-title-text"
+							style={ {
+								...titleTextInlineStyles,
+								...titleFormattingStyles,
+							} }
 						/>
 					</div>
 				</>
@@ -364,6 +482,10 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 							onChange={ ( value ) => setAttributes( { title: value } ) }
 							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 							className="accordion-title-text"
+							style={ {
+								...titleTextInlineStyles,
+								...titleFormattingStyles,
+							} }
 						/>
 					</div>
 					{ hasIcon && (
@@ -383,6 +505,10 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 						className="accordion-title-text"
+						style={ {
+							...titleTextInlineStyles,
+							...titleFormattingStyles,
+						} }
 					/>
 				</div>
 			);
@@ -396,6 +522,10 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
 						className="accordion-title-text"
+						style={ {
+							...titleTextInlineStyles,
+							...titleFormattingStyles,
+						} }
 					/>
 					{ hasIcon && iconElement }
 				</div>
@@ -406,10 +536,7 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		const titleElement = (
 			<div
 				className={ `accordion-title ${ iconPositionClass } ${ titleAlignClass }` }
-				style={ {
-					...styles.title,
-					...titleFormattingStyles,
-				} }
+				style={ styles.title }
 			>
 				{ innerContent }
 			</div>
@@ -511,6 +638,11 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 
 	// Build class names - match frontend structure
 	const classNames = [ 'gutplus-accordion' ];
+
+	// Add open state class for preview
+	if ( effectiveValues.initiallyOpen ) {
+		classNames.push( 'is-open' );
+	}
 
 	// Add alignment class (same as frontend)
 	const alignmentClass = attributes.accordionHorizontalAlign

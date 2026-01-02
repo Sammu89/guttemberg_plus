@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-29T15:44:13.323Z
+ * Generated at: 2026-01-02T19:57:50.481Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -14,7 +14,7 @@
 
 import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';
 
-const THEMEABLE_ATTRS = new Set(["wrapperBackgroundColor","blockBorderColor","titleColor","titleBackgroundColor","hoverTitleColor","hoverTitleBackgroundColor","linkColor","linkHoverColor","linkActiveColor","linkVisitedColor","h1Color","h1HoverColor","h1VisitedColor","h1ActiveColor","h1FontSize","h1FontWeight","h1FontStyle","h1TextTransform","h1TextDecoration","h2Color","h2HoverColor","h2VisitedColor","h2ActiveColor","h2FontSize","h2FontWeight","h2FontStyle","h2TextTransform","h2TextDecoration","h3Color","h3HoverColor","h3VisitedColor","h3ActiveColor","h3FontSize","h3FontWeight","h3FontStyle","h3TextTransform","h3TextDecoration","h4Color","h4HoverColor","h4VisitedColor","h4ActiveColor","h4FontSize","h4FontWeight","h4FontStyle","h4TextTransform","h4TextDecoration","h5Color","h5HoverColor","h5VisitedColor","h5ActiveColor","h5FontSize","h5FontWeight","h5FontStyle","h5TextTransform","h5TextDecoration","h6Color","h6HoverColor","h6VisitedColor","h6ActiveColor","h6FontSize","h6FontWeight","h6FontStyle","h6TextTransform","h6TextDecoration","iconSize","iconRotation","iconColor","titleFontSize","titleFontWeight","titleFontStyle","titleTextTransform","titleTextDecoration","titleAlignment","blockBorderWidth","blockBorderStyle","blockBorderRadius","blockShadow","blockShadowHover","wrapperPadding","itemSpacing","levelIndent","positionTop","zIndex"]);
+const THEMEABLE_ATTRS = new Set(["wrapperBackgroundColor","blockBorderColor","titleColor","titleBackgroundColor","hoverTitleColor","hoverTitleBackgroundColor","linkColor","linkHoverColor","linkActiveColor","linkVisitedColor","h1Color","h1HoverColor","h1VisitedColor","h1ActiveColor","h1FontSize","h1FontWeight","h1FontStyle","h1TextTransform","h1TextDecoration","h2Color","h2HoverColor","h2VisitedColor","h2ActiveColor","h2FontSize","h2FontWeight","h2FontStyle","h2TextTransform","h2TextDecoration","h3Color","h3HoverColor","h3VisitedColor","h3ActiveColor","h3FontSize","h3FontWeight","h3FontStyle","h3TextTransform","h3TextDecoration","h4Color","h4HoverColor","h4VisitedColor","h4ActiveColor","h4FontSize","h4FontWeight","h4FontStyle","h4TextTransform","h4TextDecoration","h5Color","h5HoverColor","h5VisitedColor","h5ActiveColor","h5FontSize","h5FontWeight","h5FontStyle","h5TextTransform","h5TextDecoration","h6Color","h6HoverColor","h6VisitedColor","h6ActiveColor","h6FontSize","h6FontWeight","h6FontStyle","h6TextTransform","h6TextDecoration","showIcon","iconRotation","iconInactiveColor","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY","titleFontSize","titleFontWeight","titleFontStyle","titleTextTransform","titleTextDecoration","titleAlignment","blockBorderWidth","blockBorderStyle","blockBorderRadius","blockShadow","blockShadowHover","wrapperPadding","itemSpacing","levelIndent","positionTop","zIndex"]);
 const NON_THEMEABLE_ATTRS = new Set(["tocWidth"]);
 
 /**

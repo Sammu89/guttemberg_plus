@@ -652,7 +652,7 @@ case 'MyControl': {
 ```
 
 ### 6. Add Styles
-`shared/src/components/controls/lego-controls.scss`:
+`shared/src/components/controls/SidebarStyling.scss`:
 
 ```scss
 .gutplus-my-control {

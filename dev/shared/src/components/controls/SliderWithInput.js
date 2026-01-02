@@ -51,44 +51,6 @@ import { ResponsiveToggle } from './atoms/ResponsiveToggle';
 import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
 
 /**
- * Inherited Badge Component
- *
- * @param {Object} props - Component props
- * @param {string} props.from - Device name the value is inherited from
- * @returns {JSX.Element|null} Badge element or null
- */
-function InheritedBadge( { from } ) {
-	if ( ! from ) {
-		return null;
-	}
-
-	const labels = {
-		global: 'Global',
-		tablet: 'Tablet',
-		mobile: 'Mobile',
-	};
-
-	return (
-		<span
-			className="gutplus-inherited-badge"
-			style={ {
-				fontSize: '10px',
-				backgroundColor: '#e0e0e0',
-				color: '#666',
-				padding: '2px 6px',
-				borderRadius: '3px',
-				marginLeft: '8px',
-				fontWeight: 500,
-				textTransform: 'uppercase',
-				letterSpacing: '0.5px',
-			} }
-		>
-			{ `From ${ labels[ from ] || from }` }
-		</span>
-	);
-}
-
-/**
  * Check if value is a flat base (scalar or {value, unit} without device keys)
  *
  * @param {*} values - Value to check
@@ -354,7 +316,7 @@ export function SliderWithInput( {
 	// When responsive mode is ON: use getInheritedSliderValue to handle device inheritance
 	// When responsive mode is OFF but values is passed: extract base value from values
 	// When non-responsive: use singleValue directly
-	const { value: effectiveRawValue, inheritedFrom } = useMemo( () => {
+	const { value: effectiveRawValue } = useMemo( () => {
 		if ( isResponsive ) {
 			return getInheritedSliderValue( values, device );
 		}
@@ -484,7 +446,6 @@ export function SliderWithInput( {
 			<FlexItem>
 				<span style={ { display: 'flex', alignItems: 'center' } }>
 					{ label }
-					{ isResponsive && <InheritedBadge from={ inheritedFrom } /> }
 				</span>
 			</FlexItem>
 			<FlexItem>

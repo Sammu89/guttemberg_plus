@@ -388,3 +388,10 @@
 		display: flex; /* Always show actions for hidden items */
 	}
 }
+
+/* Disable icon animations in editor to prevent lag when adjusting settings */
+.toc-icon-wrapper,
+.toc-icon,
+.toc-icon-image {
+	transition: none !important;
+}

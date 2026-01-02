@@ -9,7 +9,7 @@
  * @since 1.0.0
  */
 
-import { TabPanel } from '@wordpress/components';
+import { TabPanel, Icon } from '@wordpress/components';
 import { settings, brush } from '@wordpress/icons';
 
 /**
@@ -18,14 +18,22 @@ import { settings, brush } from '@wordpress/icons';
 const INSPECTOR_TABS = [
 	{
 		name: 'settings',
-		title: 'Settings',
-		icon: settings,
+		title: (
+			<span className="gutplus-tabbed-inspector__tab-label">
+				<Icon icon={ settings } size={ 18 } />
+				<span className="gutplus-tabbed-inspector__tab-text">Settings</span>
+			</span>
+		),
 		className: 'gutplus-tab-settings',
 	},
 	{
 		name: 'appearance',
-		title: 'Appearance',
-		icon: brush,
+		title: (
+			<span className="gutplus-tabbed-inspector__tab-label">
+				<Icon icon={ brush } size={ 18 } />
+				<span className="gutplus-tabbed-inspector__tab-text">Appearance</span>
+			</span>
+		),
 		className: 'gutplus-tab-appearance',
 	},
 ];

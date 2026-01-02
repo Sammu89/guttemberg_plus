@@ -38,6 +38,7 @@
     "validate:destructuring": "node build-tools/validate-attribute-destructuring.js",
     "validate:css-vars": "node build-tools/validate-css-var-usage.js",
     "validate:editor-css-vars": "node build-tools/validate-editor-css-vars.js",
+    "validate:editor-frontend": "node build-tools/validate-editor-frontend-sync.js",
     "validate:toggles": "node build-tools/validate-toggles.js",
     "validate:structure-markup": "node build-tools/validate-structure-markup.js",
     "validate:control-structures": "node build-tools/validate-control-data-structures.js",
@@ -62,5 +63,8 @@
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^0.562.0"
   }
 }

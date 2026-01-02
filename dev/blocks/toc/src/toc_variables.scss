@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * Generated from: schemas/toc.json + schemas/toc-structure.json
- * Generated at: 2025-12-29T15:44:13.397Z
+ * Generated at: 2026-01-02T19:57:50.534Z
  *
  * This file contains CSS rules that apply variables to selectors.
  * Default values are provided via var() fallbacks - no :root declarations needed.
@@ -267,15 +267,6 @@
   &:visited {
     color: var(--toc-h6-visited-color, inherit);
   }
-}
-
-.toc-icon {
-  /* Size of the icon in rem */
-  font-size: var(--toc-icon-size, 1.25rem);
-  /* Rotation angle when open (degrees) */
-  transform: var(--toc-icon-rotation, 180deg);
-  /* Color of the expand/collapse icon */
-  color: var(--toc-icon-color, #666666);
 }
 
 .toc-content {
@@ -549,15 +540,6 @@
   }
 }
 
-[data-gutplus-device="tablet"] .toc-icon {
-  /* Size of the icon in rem */
-  font-size: var(--toc-icon-size, 1.25rem);
-  /* Rotation angle when open (degrees) */
-  transform: var(--toc-icon-rotation, 180deg);
-  /* Color of the expand/collapse icon */
-  color: var(--toc-icon-color, #666666);
-}
-
 [data-gutplus-device="tablet"] .toc-content {
   /* Padding inside the TOC wrapper (rem) */
   padding: var(--toc-wrapper-padding, 1.25rem);
@@ -828,15 +810,6 @@
   &:visited {
     color: var(--toc-h6-visited-color, inherit);
   }
-}
-
-[data-gutplus-device="mobile"] .toc-icon {
-  /* Size of the icon in rem */
-  font-size: var(--toc-icon-size, 1.25rem);
-  /* Rotation angle when open (degrees) */
-  transform: var(--toc-icon-rotation, 180deg);
-  /* Color of the expand/collapse icon */
-  color: var(--toc-icon-color, #666666);
 }
 
 [data-gutplus-device="mobile"] .toc-content {

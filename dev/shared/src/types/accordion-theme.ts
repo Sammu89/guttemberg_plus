@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-29T15:44:13.283Z
+ * Generated at: 2026-01-02T19:57:50.380Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -61,9 +61,11 @@ export interface AccordionTheme {
   titleFontFamily?: string;
   /** Font size for the header */
   titleFontSize?: string;
-  /** Text formatting options (bold, italic, underline, overline, line-through). Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /** Text formatting options (bold, italic, underline, overline, line-through) */
   titleFormatting?: any[];
-  /** Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /** Keep the title on a single line */
+  titleNoLineBreak?: string;
+  /** Font weight for title (100-900) */
   titleFontWeight?: number;
   /** Color for text decorations */
   titleDecorationColor?: string;
@@ -85,20 +87,38 @@ export interface AccordionTheme {
   titleOffsetY?: string;
   /** Shadow effect for the header text (supports multiple layers) */
   titleTextShadow?: any[];
-  /** Display expand/collapse icon */
+  /** Display icon in the block */
   showIcon?: boolean;
-  /** Position of icon relative to title */
+  /** Use different icons for active and inactive states */
+  useDifferentIcons?: boolean;
+  /** Position of the icon relative to title */
   iconPosition?: string;
-  /** Color of the expand/collapse icon */
-  iconColor?: string;
-  /** Size of the icon */
-  iconSize?: string;
-  /** Icon when accordion is closed (character, unicode, or image URL) */
-  iconTypeClosed?: string;
-  /** Icon when accordion is open (none = rotate closed icon) */
-  iconTypeOpen?: string;
-  /** Rotation angle when open (degrees) */
+  /** Rotation angle applied during open/close transition */
   iconRotation?: string;
+  /** Icon when closed */
+  iconInactiveSource?: Record<string, any>;
+  /** Icon color (for character/library icons) */
+  iconInactiveColor?: string;
+  /** Icon size (for character/library icons) */
+  iconInactiveSize?: string;
+  /** Maximum icon size (for image icons) */
+  iconInactiveMaxSize?: string;
+  /** Horizontal offset of icon */
+  iconInactiveOffsetX?: string;
+  /** Vertical offset of icon */
+  iconInactiveOffsetY?: string;
+  /** Icon when open */
+  iconActiveSource?: Record<string, any>;
+  /** Icon color (for character/library icons) */
+  iconActiveColor?: string;
+  /** Icon size (for character/library icons) */
+  iconActiveSize?: string;
+  /** Maximum icon size (for image icons) */
+  iconActiveMaxSize?: string;
+  /** Horizontal offset of icon */
+  iconActiveOffsetX?: string;
+  /** Vertical offset of icon */
+  iconActiveOffsetY?: string;
   /** How the accordion opens and closes */
   animationType?: string;
   /** Animation duration in milliseconds */
@@ -215,6 +235,7 @@ export const accordionDefaultTheme: AccordionTheme = {
   titleFontFamily: 'inherit',
   titleFontSize: '1.125rem',
   titleFormatting: [],
+  titleNoLineBreak: 'normal',
   titleFontWeight: 400,
   titleDecorationColor: 'currentColor',
   titleDecorationStyle: 'solid',
@@ -227,12 +248,27 @@ export const accordionDefaultTheme: AccordionTheme = {
   titleOffsetY: '0px',
   titleTextShadow: [],
   showIcon: true,
+  useDifferentIcons: false,
   iconPosition: 'right',
-  iconColor: '#666666',
-  iconSize: '1.25rem',
-  iconTypeClosed: '▾',
-  iconTypeOpen: 'none',
   iconRotation: '180deg',
+  iconInactiveSource: {
+    "kind": "char",
+    "value": "▾"
+  },
+  iconInactiveColor: '#333333',
+  iconInactiveSize: '16px',
+  iconInactiveMaxSize: '24px',
+  iconInactiveOffsetX: '0px',
+  iconInactiveOffsetY: '0px',
+  iconActiveSource: {
+    "kind": "char",
+    "value": "▾"
+  },
+  iconActiveColor: '#333333',
+  iconActiveSize: '16px',
+  iconActiveMaxSize: '24px',
+  iconActiveOffsetX: '0px',
+  iconActiveOffsetY: '0px',
   animationType: 'slide',
   animationDuration: '300ms',
   animationEasing: 'ease',
@@ -265,6 +301,7 @@ export interface AccordionThemeAttributes {
   titleFontFamily?: string;
   titleFontSize?: string;
   titleFormatting?: any[];
+  titleNoLineBreak?: string;
   titleFontWeight?: number;
   titleDecorationColor?: string;
   titleDecorationStyle?: string;
@@ -277,12 +314,21 @@ export interface AccordionThemeAttributes {
   titleOffsetY?: string;
   titleTextShadow?: any[];
   showIcon?: boolean;
+  useDifferentIcons?: boolean;
   iconPosition?: string;
-  iconColor?: string;
-  iconSize?: string;
-  iconTypeClosed?: string;
-  iconTypeOpen?: string;
   iconRotation?: string;
+  iconInactiveSource?: Record<string, any>;
+  iconInactiveColor?: string;
+  iconInactiveSize?: string;
+  iconInactiveMaxSize?: string;
+  iconInactiveOffsetX?: string;
+  iconInactiveOffsetY?: string;
+  iconActiveSource?: Record<string, any>;
+  iconActiveColor?: string;
+  iconActiveSize?: string;
+  iconActiveMaxSize?: string;
+  iconActiveOffsetX?: string;
+  iconActiveOffsetY?: string;
   animationType?: string;
   animationDuration?: string;
   animationEasing?: string;

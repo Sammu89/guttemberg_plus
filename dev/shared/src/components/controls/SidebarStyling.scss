@@ -160,8 +160,7 @@
 /* ValueWithUnit - Now uses native UnitControl */
 .gutplus-value-with-unit {
 	.components-unit-control-wrapper {
-		width: 100px;
-		min-width: 100px;
+		max-width: 70px;
 	}
 }
 
@@ -170,14 +169,13 @@
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	width: 100%;
+	max-width: 100%;
 
 	.gutplus-slider-with-value__unit-control {
 		flex-shrink: 0;
 
 		.components-unit-control-wrapper {
-			width: 100px;
-			min-width: 100px;
+			max-width: 70px;
 		}
 	}
 }
@@ -265,13 +263,13 @@
 /* HeadingLevelControl */
 .gutplus-heading-level-control {
 	.gutplus-heading-level-control__buttons {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
 		gap: 4px;
+		max-width: 180px;
 	}
 
 	.gutplus-heading-level-control__button {
-		padding: 4px 8px;
 		min-width: 36px;
 		height: 32px;
 		border: 1px solid #ddd;
@@ -396,18 +394,6 @@
 	margin-bottom: 8px;
 }
 
-/* Inherited badge */
-.gutplus-inherited-badge {
-	font-size: 10px;
-	background-color: #e0e0e0;
-	color: #666;
-	padding: 2px 6px;
-	border-radius: 3px;
-	margin-left: 8px;
-	font-weight: 500;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-}
 
 /* SliderWithInput - Typography controls (Font Size, Letter Spacing, etc.) */
 .gutplus-slider-with-input {
@@ -460,6 +446,35 @@
 	.components-custom-select-control__item {
 		font-size: 13px;
 		padding: 8px 12px;
+	}
+}
+
+/* ============================================
+   TABBED INSPECTOR
+   ============================================ */
+
+.gutplus-tabbed-inspector {
+	.components-tab-panel__tabs {
+		display: flex;
+		width: 100%;
+	}
+
+	.components-tab-panel__tabs-item {
+		flex: 1 1 0;
+		min-width: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+	}
+
+	.gutplus-tabbed-inspector__tab-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 1;
 	}
 }
 
@@ -518,4 +533,187 @@
     .components-base-control__label {
         margin-bottom: 8px;
     }
+}
+
+// ShadowLayer
+.gutplus-shadow-layer, .gutplus-text-decoration-panel {
+    border: 1px solid #b3b3b3;
+    border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+
+// Theme Selector
+.theme-selector {
+  padding: 15px;
+
+  .components-button {
+    padding: 10px;
+    text-transform: uppercase;
+    border-radius: 2px !important;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+// Buttons of Sidebar
+h2.components-panel__body-title {
+  margin-bottom: 10px;
+  background: linear-gradient(
+    135deg, rgba(120, 90, 200, 0.08), rgba(90, 110, 220, 0.04)
+  );
+  text-transform: uppercase;
+  border-radius: 4px;
+
+}
+
+
+//Utility Bar
+
+/* =========================================
+   GutPlus – Utility Bar 
+   ========================================= */
+
+.gutplus-utility-bar {
+  // Make sure everything stays on one line
+  display: flex;
+  align-items: center;
+  max-width: 150px;
+
+
+  // Right-aligned as discussed earlier
+  justify-content: flex-end;
+
+  // Prevent internal squeeze issues
+  > * {
+    min-width: 0;
+  }
+
+  // Never let the last icon button collapse or overlap
+  > :last-child {
+    flex-shrink: 0;
+    margin-left: 6px;
+  }
+
+  // Icon-only buttons must not shrink
+  .components-button.has-icon {
+    flex: 0 0 auto;
+  }
+}
+
+// =========================================
+// SidebarGlobal – Button state override
+// =========================================
+
+.gutplus-utility-bar {
+  justify-content: flex-end;
+
+  /* ---------- Variables ---------- */
+
+  --gutplus-inactive-color: #007cba;
+  --gutplus-active-bg: #007cba;
+  --gutplus-active-color: #ffffff;
+
+  /* ---------- Base button (inactive) ---------- */
+  .components-button {
+    /* Kill Gutenberg fake border */
+    box-shadow: none !important;
+
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  /* ---------- Icon inherits color ---------- */
+  .components-button svg {
+    fill: currentColor;
+  }
+
+  /* ---------- Active / pressed ---------- */
+  .components-button.is-pressed:not(:disabled,[aria-disabled="true"]),
+  .components-button[aria-pressed="true"]:not(:disabled,[aria-disabled="true"]) {
+    background: var(--gutplus-active-bg) !important;
+    color: var(--gutplus-active-color);
+    box-shadow: none !important;
+  }
+
+  /* ---------- Active hover (block WP override) ---------- */
+  .components-button.is-pressed:hover:not(:disabled,[aria-disabled="true"]),
+  .components-button[aria-pressed="true"]:hover:not(:disabled,[aria-disabled="true"]) {
+    background: var(--gutplus-active-bg) !important;
+    color: var(--gutplus-active-color);
+  }
+
+  /* ---------- Inactive hover (optional) ---------- */
+  .components-button:hover:not([aria-pressed="true"]) {
+    background: rgba(0, 124, 186, 0.08);
+  }
+
+  /* ---------- Keyboard focus ---------- */
+  .components-button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.4);
+  }
+}
+
+
+//Color Components without margins
+
+div.gutplus-subgroup-controls {
+  .components-tools-panel {
+    padding: 0 !important;
+	border: none;
+
+    > * {
+      margin: 0 !important;
+    }
+  }
+}
+
+
+//Subgroups
+
+.components-flex-item {
+
+border-bottom: 1px solid #ededed;
+
+}
+
+/* ============================================
+   ICON PANEL TABS
+   ============================================ */
+
+.icon-state-tabs {
+	.components-tab-panel__tabs {
+		display: flex;
+		width: 100%;
+		margin-bottom: 12px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.components-tab-panel__tabs-item {
+		flex: 1 1 0;
+		min-width: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px 12px;
+		font-size: 13px;
+		font-weight: 500;
+		border: none;
+		border-bottom: 2px solid transparent;
+		background: transparent;
+		cursor: pointer;
+		transition: all 0.2s ease;
+
+		&:hover {
+			background: #f0f0f1;
+		}
+
+		&[aria-selected="true"] {
+			border-bottom-color: var(--wp-admin-theme-color, #007cba);
+			color: var(--wp-admin-theme-color, #007cba);
+			font-weight: 600;
+		}
+	}
 }

@@ -43,6 +43,15 @@ function guttemberg_plus_register_blocks() {
 add_action( 'init', 'guttemberg_plus_register_blocks' );
 
 /**
+ * Enqueue Dashicons in the block editor
+ * Required for Dashicons to show in icon picker and editor preview
+ */
+function guttemberg_plus_enqueue_editor_assets() {
+	wp_enqueue_style( 'dashicons' );
+}
+add_action( 'enqueue_block_editor_assets', 'guttemberg_plus_enqueue_editor_assets' );
+
+/**
  * Render callback for Accordion block
  *
  * Server-side rendering not strictly necessary for this block,
@@ -53,8 +62,13 @@ add_action( 'init', 'guttemberg_plus_register_blocks' );
  * @return string Block HTML.
  */
 function guttemberg_plus_render_accordion_block( $attributes, $content ) {
-	// For now, just return the content as-is
-	// Future: Could add dynamic features here
+	// Enqueue Dashicons on frontend to support library icons
+	// Dashicons are needed for icon library functionality
+	if ( ! is_admin() ) {
+		wp_enqueue_style( 'dashicons' );
+	}
+
+	// Return the content as-is
 	return $content;
 }
 
@@ -66,6 +80,11 @@ function guttemberg_plus_render_accordion_block( $attributes, $content ) {
  * @return string Block HTML.
  */
 function guttemberg_plus_render_tabs_block( $attributes, $content ) {
+	// Enqueue Dashicons on frontend to support library icons
+	if ( ! is_admin() ) {
+		wp_enqueue_style( 'dashicons' );
+	}
+
 	return $content;
 }
 
@@ -77,5 +96,10 @@ function guttemberg_plus_render_tabs_block( $attributes, $content ) {
  * @return string Block HTML.
  */
 function guttemberg_plus_render_toc_block( $attributes, $content ) {
+	// Enqueue Dashicons on frontend to support library icons
+	if ( ! is_admin() ) {
+		wp_enqueue_style( 'dashicons' );
+	}
+
 	return $content;
 }

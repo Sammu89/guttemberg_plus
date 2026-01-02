@@ -128,27 +128,36 @@
       "tag": "span",
       "className": "accordion-icon",
       "description": "Expand/collapse icon (character or image)",
-      "conditionalRender": "{showIcon}",
+      "conditionalRender": "{iconPosition && iconPosition !== 'none'}",
       "attributes": {
         "aria-hidden": "true",
-        "data-icon-closed": "{iconTypeClosed}",
-        "data-icon-open": "{iconTypeOpen !== 'none' ? iconTypeOpen : iconTypeClosed}"
+        "data-icon-inactive": "{JSON.stringify(iconInactiveSource)}",
+        "data-icon-active": "{iconActiveSource ? JSON.stringify(iconActiveSource) : null}",
+        "data-has-different-icons": "{!!iconActiveSource}"
       },
       "renderVariant": {
-        "condition": "iconTypeClosed.startsWith('http')",
+        "condition": "iconInactiveSource.kind === 'image'",
         "ifTrue": {
           "tag": "img",
           "className": "accordion-icon accordion-icon-image",
           "attributes": {
-            "src": "{iconTypeClosed}",
+            "src": "{iconInactiveSource.value}",
             "alt": "",
             "aria-hidden": "true"
           }
         }
       },
       "appliesStyles": [
-        "iconColor",
-        "iconSize",
+        "iconInactiveColor",
+        "iconInactiveSize",
+        "iconInactiveMaxSize",
+        "iconInactiveOffsetX",
+        "iconInactiveOffsetY",
+        "iconActiveColor",
+        "iconActiveSize",
+        "iconActiveMaxSize",
+        "iconActiveOffsetX",
+        "iconActiveOffsetY",
         "iconRotation"
       ]
     },

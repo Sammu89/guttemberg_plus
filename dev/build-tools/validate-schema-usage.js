@@ -89,6 +89,84 @@ const SKIP_PATTERNS = [
 		'enableResponsiveFallback', 'responsiveBreakpoint',
 	]);
 
+// Positioning profiles for icon-panel macro
+const POSITIONING_PROFILES = {
+	accordion: ['left', 'right', 'extreme-left', 'extreme-right'],
+	toc: ['left', 'right', 'extreme-left', 'extreme-right'],
+	tabs: ['left', 'right']
+};
+
+/**
+ * Expand icon-panel macro into 15 individual attributes
+ */
+function expandIconPanelMacro(macroName, macro, blockType) {
+	const { cssVar, positioningProfile, responsive = [], default: defaults } = macro;
+	const expanded = {};
+
+	// 1. Show Icon Toggle
+	expanded.showIcon = {
+		type: 'boolean',
+		default: true
+	};
+
+	// 2. Use Different Icons Toggle
+	expanded.useDifferentIcons = {
+		type: 'boolean',
+		default: false
+	};
+
+	// 3. Icon Position
+	expanded.iconPosition = {
+		type: 'string',
+		default: defaults.position
+	};
+
+	// 4. Icon Rotation
+	expanded.iconRotation = {
+		type: 'string',
+		default: defaults.rotation
+	};
+
+	// 5-10. Inactive state attributes
+	expanded.iconInactiveSource = { type: 'object', default: defaults.inactive.source };
+	expanded.iconInactiveColor = { type: 'string', default: defaults.inactive.color };
+	expanded.iconInactiveSize = { type: 'string', default: defaults.inactive.size };
+	expanded.iconInactiveMaxSize = { type: 'string', default: defaults.inactive.maxSize };
+	expanded.iconInactiveOffsetX = { type: 'string', default: defaults.inactive.offsetX };
+	expanded.iconInactiveOffsetY = { type: 'string', default: defaults.inactive.offsetY };
+
+	// 11-16. Active state attributes
+	const activeDefaults = defaults.active || {};
+	expanded.iconActiveSource = { type: 'object', default: activeDefaults.source || null };
+	expanded.iconActiveColor = { type: 'string', default: activeDefaults.color || null };
+	expanded.iconActiveSize = { type: 'string', default: activeDefaults.size || null };
+	expanded.iconActiveMaxSize = { type: 'string', default: activeDefaults.maxSize || null };
+	expanded.iconActiveOffsetX = { type: 'string', default: activeDefaults.offsetX || null };
+	expanded.iconActiveOffsetY = { type: 'string', default: activeDefaults.offsetY || null };
+
+	return expanded;
+}
+
+/**
+ * Process schema attributes to expand icon-panel macros
+ */
+function processAttributes(attributes, blockType) {
+	const processed = {};
+
+	for (const [name, attr] of Object.entries(attributes)) {
+		if (attr.type === 'icon-panel') {
+			// Expand icon-panel macro
+			const expanded = expandIconPanelMacro(name, attr, blockType);
+			Object.assign(processed, expanded);
+		} else {
+			// Regular attribute - keep as is
+			processed[name] = attr;
+		}
+	}
+
+	return processed;
+}
+
 // Load schemas (attribute lists)
 function loadSchemas() {
 	const schemas = {};
@@ -97,7 +175,10 @@ function loadSchemas() {
 		try {
 			const content = fs.readFileSync(schemaPath, 'utf8');
 			const schema = JSON.parse(content);
-			schemas[blockType] = Object.keys(schema.attributes || {});
+
+			// Expand icon-panel macros before extracting attribute keys
+			const expandedAttributes = processAttributes(schema.attributes || {}, blockType);
+			schemas[blockType] = Object.keys(expandedAttributes);
 		} catch (error) {
 			console.error(`${colors.red}✗ Error loading ${blockType} schema:${colors.reset}`, error.message);
 			process.exit(1);
@@ -114,7 +195,14 @@ function loadSchemaObjects() {
 	for (const [blockType, schemaPath] of Object.entries(SCHEMAS)) {
 		try {
 			const content = fs.readFileSync(schemaPath, 'utf8');
-			schemas[blockType] = JSON.parse(content);
+			const schema = JSON.parse(content);
+
+			// Expand icon-panel macros
+			if (schema.attributes) {
+				schema.attributes = processAttributes(schema.attributes, blockType);
+			}
+
+			schemas[blockType] = schema;
 		} catch (error) {
 			console.error(`${colors.red}✗ Error loading ${blockType} schema:${colors.reset}`, error.message);
 			process.exit(1);

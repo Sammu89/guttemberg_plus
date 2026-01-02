@@ -156,6 +156,7 @@
 	text-decoration-style: var(--accordion-title-decoration-style, solid);
 	text-decoration-thickness: var(--accordion-title-decoration-width, auto);
 	text-shadow: var(--accordion-title-text-shadow, none);
+	white-space: var(--accordion-title-white-space, normal);
 
 	// Offset positioning (for "cut" effects)
 	position: relative;
@@ -189,14 +190,40 @@
 	text-align: right;
 }
 
-/* Icon */
-.accordion-icon {
-	display: flex;
+/* Icon wrapper - handles offsets via transform */
+.accordion-icon-wrapper {
+	display: var(--accordion-icon-display, inline-flex) !important;
 	align-items: center;
 	justify-content: center;
-	width: var(--accordion-icon-size, 1.5rem);
-	height: var(--accordion-icon-size, 1.5rem);
-	transition: transform 300ms ease, opacity 300ms ease;
+	// Default offsets for inactive icon
+	transform: translate(
+		var(--accordion-icon-offset-x, 0px),
+		var(--accordion-icon-offset-y, 0px)
+	);
+	transition: transform 0.3s ease;
+}
+
+// Active icon offsets when accordion is open
+.gutplus-accordion.is-open {
+	.accordion-icon-wrapper {
+		transform: translate(
+			var(--accordion-icon-active-offset-x, var(--accordion-icon-offset-x, 0px)),
+			var(--accordion-icon-active-offset-y, var(--accordion-icon-offset-y, 0px))
+		);
+	}
+}
+
+/* Icon element - handles rotation, color, size */
+.accordion-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--accordion-icon-color, #333333);
+	font-size: var(--accordion-icon-size, 16px);
+	width: var(--accordion-icon-size, 16px);
+	height: var(--accordion-icon-size, 16px);
+	transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+	line-height: 1;
 	flex-shrink: 0;
 
 	// Explicit resets to prevent inheritance
@@ -206,20 +233,92 @@
 	text-transform: none;
 	text-shadow: none;
 
-	&.is-rotated {
+	// For library icons (SVG - Lucide)
+	svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+	}
+
+	// For Dashicons (icon font)
+	.dashicons {
+		font-size: inherit;
+		width: 1em;
+		height: 1em;
+		line-height: 1;
+	}
+}
+
+/* Icon state visibility - show/hide based on accordion state */
+.accordion-icon-inactive {
+	display: inline-flex;
+	// Start with no rotation when closed
+	transform: rotate(0deg);
+	transition: transform 0.3s ease;
+}
+
+// Rotate when accordion opens
+.gutplus-accordion.is-open {
+	.accordion-icon-inactive {
 		transform: rotate(var(--accordion-icon-rotation, 180deg));
+
+		// Hide inactive icon if active icon exists (sibling selector)
+		&:has(+ .accordion-icon-active) {
+			display: none;
+		}
+	}
+}
+
+.accordion-icon-active {
+	display: none;
+	// Active icon has no rotation by default (it's a different icon, not rotated)
+	transform: rotate(0deg);
+	transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+}
+
+// Show active icon when accordion is open
+.gutplus-accordion.is-open {
+	.accordion-icon-active {
+		display: inline-flex;
+		// Apply active icon styles (color, size)
+		color: var(--accordion-icon-active-color, var(--accordion-icon-color, #333333));
+		font-size: var(--accordion-icon-active-size, var(--accordion-icon-size, 16px));
+		width: var(--accordion-icon-active-size, var(--accordion-icon-size, 16px));
+		height: var(--accordion-icon-active-size, var(--accordion-icon-size, 16px));
 	}
 }
 
 /* Image icon */
 .accordion-icon-image {
-	width: 100%;
-	height: 100%;
+	display: block;
+	width: auto;
+	height: auto;
 	object-fit: contain;
-	/* Enforce maximum size of 1.125rem (18px) for image icons */
-	max-width: 1.125rem;
-	max-height: 1.125rem;
-	transition: opacity 300ms ease;
+	max-width: var(--accordion-icon-max-size, 24px);
+	max-height: var(--accordion-icon-max-size, 24px);
+	transition: transform 0.3s ease, opacity 300ms ease;
+
+	// Rotation applied when open (for inactive image icons)
+	&.accordion-icon-inactive {
+		transform: rotate(0deg);
+	}
+
+	// Active image icon (no rotation, it's a different image)
+	&.accordion-icon-active {
+		transform: rotate(0deg);
+	}
+}
+
+// Image icon rotation when accordion opens
+.gutplus-accordion.is-open {
+	.accordion-icon-image.accordion-icon-inactive {
+		transform: rotate(var(--accordion-icon-rotation, 180deg));
+	}
+
+	.accordion-icon-image.accordion-icon-active {
+		max-width: var(--accordion-icon-active-max-size, var(--accordion-icon-max-size, 24px));
+		max-height: var(--accordion-icon-active-max-size, var(--accordion-icon-max-size, 24px));
+	}
 }
 
 /* Content panel - handles height animation with padding */

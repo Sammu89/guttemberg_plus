@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2025-12-29T15:44:13.308Z
+> Generated at: 2026-01-02T19:57:50.438Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -67,13 +67,13 @@ Tab header typography
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `tabButtonFontSize` | number | `1rem` | Yes | Font size for tab buttons (rem) |
-| `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. |
+| `tabButtonFontWeight` | string | `500` | Yes | Font weight for tab buttons |
 | `tabButtonFontStyle` | string | `normal` | Yes | Font style for tab buttons |
 | `tabButtonTextTransform` | string | `none` | Yes | Text transformation for tab buttons |
 | `tabButtonTextDecoration` | string | `none` | Yes | Text decoration for tab buttons |
 | `tabButtonTextAlign` | string | `center` | Yes | Text alignment for tab buttons |
 | `tabButtonPadding` | number | `0.75rem` | Yes | Padding for tab buttons in rem (vertical/horizontal will be computed) |
-| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. |
+| `tabButtonActiveFontWeight` | string | `bold` | Yes | Font weight for active/selected tab button |
 
 ## Header Borders
 
@@ -130,14 +130,22 @@ Icon appearance and behavior
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `showIcon` | boolean | `true` | Yes | Display icons in tab buttons |
-| `iconPosition` | string | `right` | Yes | Position of icon relative to text |
-| `iconColor` | string | `#666666` | Yes | Color of the tab icon |
-| `iconSize` | number | `1rem` | Yes | Size of the icon in rem |
-| `iconTypeClosed` | string | `▾` | Yes | Icon for the tab (char or image URL) |
-| `iconTypeOpen` | string | `none` | Yes | Icon when tab is active (none = use closed icon with final rotation) |
-| `iconRotation` | number | `0deg` | Yes | Base rotation of the icon |
-| `iconRotationActive` | number | `180deg` | Yes | Rotation of the icon for the active tab |
+| `showIcon` | boolean | `true` | Yes | Display icon in the block |
+| `useDifferentIcons` | boolean | `false` | Yes | Use different icons for active and inactive states |
+| `iconPosition` | string | `right` | Yes | Position of the icon relative to title |
+| `iconRotation` | string | `180deg` | Yes | Rotation angle applied during open/close transition |
+| `iconInactiveSource` | object | _object_ | Yes | Icon when closed |
+| `iconInactiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconInactiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
+| `iconInactiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
+| `iconInactiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
+| `iconInactiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
+| `iconActiveSource` | object | _object_ | Yes | Icon when open |
+| `iconActiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconActiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
+| `iconActiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
+| `iconActiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
+| `iconActiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
 
 ## CSS Variables
 
@@ -192,12 +200,16 @@ The following CSS custom properties are available for theming:
 | `panelBorderWidth` | `--tabs-panel-border-width` |
 | `panelBorderStyle` | `--tabs-panel-border-style` |
 | `panelBorderRadius` | `--tabs-panel-border-radius` |
-| `showIcon` | `--tabs-show-icon` |
-| `iconPosition` | `--tabs-icon-position` |
-| `iconColor` | `--tabs-icon-color` |
-| `iconSize` | `--tabs-icon-size` |
-| `iconTypeClosed` | `--tabs-icon-type-closed` |
-| `iconTypeOpen` | `--tabs-icon-type-open` |
-| `iconRotation` | `--tabs-icon-rotation-base` |
-| `iconRotationActive` | `--tabs-icon-rotation-active` |
+| `showIcon` | `--tabs-icon-display` |
+| `iconRotation` | `--tabs-icon-rotation` |
+| `iconInactiveColor` | `--tabs-icon-color` |
+| `iconInactiveSize` | `--tabs-icon-size` |
+| `iconInactiveMaxSize` | `--tabs-icon-max-size` |
+| `iconInactiveOffsetX` | `--tabs-icon-offset-x` |
+| `iconInactiveOffsetY` | `--tabs-icon-offset-y` |
+| `iconActiveColor` | `--tabs-icon-active-color` |
+| `iconActiveSize` | `--tabs-icon-active-size` |
+| `iconActiveMaxSize` | `--tabs-icon-active-max-size` |
+| `iconActiveOffsetX` | `--tabs-icon-active-offset-x` |
+| `iconActiveOffsetY` | `--tabs-icon-active-offset-y` |
 

@@ -133,7 +133,7 @@
       "className": "toc-icon-slot",
       "description": "Icon slot for extreme-left position",
       "children": ["icon"],
-      "conditionalRender": "{iconPosition === 'extreme-left' && showIcon}",
+      "conditionalRender": "{iconPosition === 'extreme-left'}",
       "appliesStyles": []
     },
 
@@ -143,7 +143,7 @@
       "className": "toc-icon-slot",
       "description": "Icon slot for extreme-right position",
       "children": ["icon"],
-      "conditionalRender": "{iconPosition === 'extreme-right' && showIcon}",
+      "conditionalRender": "{iconPosition === 'extreme-right'}",
       "appliesStyles": []
     },
 
@@ -182,18 +182,26 @@
       "tag": "span",
       "className": "toc-icon",
       "description": "Collapse/expand icon (accordion-like)",
-      "conditionalRender": "{showIcon}",
+      "conditionalRender": "{iconPosition && iconPosition !== 'none'}",
       "attributes": {
         "aria-hidden": "true",
-        "data-icon-closed": "{iconTypeClosed}",
-        "data-icon-open": "{iconTypeOpen}",
-        "data-icon-rotation": "{iconRotation}"
+        "data-icon-inactive": "{JSON.stringify(iconInactiveSource)}",
+        "data-icon-active": "{iconActiveSource ? JSON.stringify(iconActiveSource) : null}",
+        "data-has-different-icons": "{!!iconActiveSource}"
       },
       "contentType": "static",
-      "source": "{iconTypeClosed}",
+      "source": "{iconInactiveSource ? iconInactiveSource.value : ''}",
       "appliesStyles": [
-        "iconSize",
-        "iconColor",
+        "iconInactiveColor",
+        "iconInactiveSize",
+        "iconInactiveMaxSize",
+        "iconInactiveOffsetX",
+        "iconInactiveOffsetY",
+        "iconActiveColor",
+        "iconActiveSize",
+        "iconActiveMaxSize",
+        "iconActiveOffsetX",
+        "iconActiveOffsetY",
         "iconRotation"
       ]
     },

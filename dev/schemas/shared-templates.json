@@ -133,9 +133,7 @@
     "block": [
       { "name": "Left", "value": "left", "icon": "alignLeft" },
       { "name": "Center", "value": "center", "icon": "alignCenter" },
-      { "name": "Right", "value": "right", "icon": "alignRight" },
-      { "name": "Wide", "value": "wide", "icon": "alignWide" },
-      { "name": "Full", "value": "full", "icon": "alignFull" }
+      { "name": "Right", "value": "right", "icon": "alignRight" }
     ]
   },
 

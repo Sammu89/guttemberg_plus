@@ -568,6 +568,21 @@
       "themeable": true,
       "outputsCSS": false
     },
+    "titleNoLineBreak": {
+      "type": "string",
+      "default": "normal",
+      "label": "No line break",
+      "description": "Keep the title on a single line",
+      "group": "typography",
+      "subgroup": "Header",
+      "order": 3.1,
+      "control": "FormattingControl",
+      "controlId": "title-formatting",
+      "appliesTo": "titleText",
+      "themeable": true,
+      "cssVar": "accordion-title-white-space",
+      "cssProperty": "white-space"
+    },
     "titleFontWeight": {
       "type": "number",
       "default": 400,
@@ -744,120 +759,28 @@
       "themeable": true,
       "outputsCSS": true
     },
-    "showIcon": {
-      "type": "boolean",
-      "default": true,
-      "label": "Show Icon",
-      "description": "Display expand/collapse icon",
-      "group": "icon",
-      "order": 1,
-      "control": "ToggleControl",
-      "themeable": true,
-      "outputsCSS": false
-    },
-    "iconPosition": {
-      "type": "string",
-      "default": "right",
-      "label": "Icon Position",
-      "description": "Position of icon relative to title",
-      "group": "icon",
+    "titleIcon": {
+      "type": "icon-panel",
       "order": 2,
-      "control": "IconPositionControl",
-      "showWhen": {
-        "showIcon": [
-          true
-        ]
-      },
-      "responsive": true,
+      "cssVar": "accordion-icon",
+      "appliesToElement": "icon",
       "themeable": true,
-      "outputsCSS": false
-    },
-    "iconColor": {
-      "type": "string",
-      "default": "#666666",
-      "label": "Icon Color",
-      "description": "Color of the expand/collapse icon",
-      "group": "icon",
-      "order": 3,
-      "control": "ColorControl",
-      "showWhen": {
-        "showIcon": [
-          true
-        ]
-      },
-      "appliesTo": "icon",
-      "cssVar": "accordion-icon-color",
-      "cssProperty": "color",
-      "themeable": true
-    },
-    "iconSize": {
-      "type": "string",
-      "default": "1.25rem",
-      "label": "Icon Size",
-      "description": "Size of the icon",
-      "group": "icon",
-      "order": 4,
-      "control": "SliderWithInput",
-      "showWhen": {
-        "showIcon": [
-          true
-        ]
-      },
-      "appliesTo": "icon",
-      "cssVar": "accordion-icon-size",
-      "cssProperty": "font-size",
-      "responsive": true,
-      "themeable": true
-    },
-    "iconTypeClosed": {
-      "type": "string",
-      "default": "▾",
-      "label": "Closed Icon",
-      "description": "Icon when accordion is closed (character, unicode, or image URL)",
-      "group": "icon",
-      "order": 5,
-      "control": "IconPicker",
-      "showWhen": {
-        "showIcon": [
-          true
-        ]
-      },
-      "themeable": true,
-      "outputsCSS": false
-    },
-    "iconTypeOpen": {
-      "type": "string",
-      "default": "none",
-      "label": "Open Icon",
-      "description": "Icon when accordion is open (none = rotate closed icon)",
-      "group": "icon",
-      "order": 6,
-      "control": "IconPicker",
-      "showWhen": {
-        "showIcon": [
-          true
-        ]
-      },
-      "themeable": true,
-      "outputsCSS": false
-    },
-    "iconRotation": {
-      "type": "string",
-      "default": "180deg",
-      "label": "Icon Rotation",
-      "description": "Rotation angle when open (degrees)",
-      "group": "icon",
-      "order": 7,
-      "control": "SliderWithInput",
-      "showWhen": {
-        "showIcon": [
-          true
-        ]
-      },
-      "appliesTo": "icon",
-      "cssVar": "accordion-icon-rotation",
-      "cssProperty": "transform",
-      "themeable": true
+      "outputsCSS": false,
+      "default": {
+        "position": "right",
+        "rotation": "180deg",
+        "inactive": {
+          "source": {
+            "icon-type": "char",
+            "value": "▾"
+          },
+          "color": "#333333",
+          "size": "16px",
+          "maxSize": "24px",
+          "offsetX": "0px",
+          "offsetY": "0px"
+        }
+      }
     },
     "animationType": {
       "type": "string",

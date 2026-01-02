@@ -58,7 +58,7 @@ import { duplicateShadowLayer } from '../../../utils/shadow-utils';
  * @param {Function} props.onChange    - Called with updated array when changes occur
  * @param {boolean}  props.disabled    - Disabled state
  * @param {boolean}  props.showSpread  - Whether to show spread control (default: true, false for text-shadow)
- * @param {boolean}  props.showInset   - Whether to show inset control (default: true, false for text-shadow/borders)
+ * @param {boolean}  props.showBlur   - Whether to show blur control (default: true, false for text-shadow)
  */
 export function ShadowPanel( {
 	label = 'Shadow',
@@ -66,7 +66,7 @@ export function ShadowPanel( {
 	onChange,
 	disabled = false,
 	showSpread = true,
-	showInset = true,
+	showBlur = true,
 } ) {
 	// Track which layers are open/collapsed (default: first layer open)
 	const [ openLayers, setOpenLayers ] = useState(
@@ -153,7 +153,7 @@ export function ShadowPanel( {
 						isOpen={ adjustedOpenLayers[ index ] }
 						onToggle={ () => handleToggleLayer( index ) }
 						showSpread={ showSpread }
-						showInset={ showInset }
+						showBlur={ showBlur }
 					/>
 				) ) }
 			</div>

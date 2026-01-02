@@ -5,7 +5,6 @@
  * - Color (with alpha support)
  * - X/Y offsets
  * - Blur and spread
- * - Inset toggle
  *
  * Props:
  * - index (number) - Layer number (1-based for display)
@@ -25,7 +24,6 @@ import {
 	FlexItem,
 	FlexBlock,
 	Button,
-	ToggleControl,
 } from '@wordpress/components';
 import { chevronDown, chevronRight, trash } from '@wordpress/icons';
 import { ColorSwatch } from '../atoms/ColorSwatch';
@@ -44,7 +42,7 @@ import { SliderWithInput } from '../SliderWithInput';
  * @param {boolean}  props.isOpen    Controlled collapse state
  * @param {Function} props.onToggle  Toggle collapse
  * @param {boolean}  props.showSpread Whether to show spread control (default: true)
- * @param {boolean}  props.showInset  Whether to show inset control (default: true)
+ * @param {boolean}  props.showBlur   Whether to show blur control (default: true)
  * @returns {JSX.Element} ShadowLayer component
  */
 export function ShadowLayer( {
@@ -57,7 +55,7 @@ export function ShadowLayer( {
 	isOpen = false,
 	onToggle,
 	showSpread = true,
-	showInset = true,
+	showBlur = true,
 } ) {
 	// Destructure with defaults
 	const {
@@ -66,7 +64,6 @@ export function ShadowLayer( {
 		blur = 0,
 		spread = 0,
 		color = 'rgba(0, 0, 0, 0.1)',
-		inset = false,
 	} = value;
 
 	// Helper to update a specific property
@@ -249,20 +246,22 @@ export function ShadowLayer( {
 					</div>
 
 					{/* Blur */}
-					<div style={{ marginBottom: '16px' }}>
-						<SliderWithInput
-							label="Blur"
-							value={blur}
-							onChange={(newValue) => updateProperty('blur', newValue)}
-							units={['px', 'em', 'rem']}
-							min={0}
-							max={100}
-							step={1}
-							scaleType="spacing"
-							disabled={disabled}
-							responsive={false}
-						/>
-					</div>
+					{showBlur && (
+						<div style={{ marginBottom: '16px' }}>
+							<SliderWithInput
+								label="Blur"
+								value={blur}
+								onChange={(newValue) => updateProperty('blur', newValue)}
+								units={['px', 'em', 'rem']}
+								min={0}
+								max={100}
+								step={1}
+								scaleType="spacing"
+								disabled={disabled}
+								responsive={false}
+							/>
+						</div>
+					)}
 
 					{/* Spread */}
 					{showSpread && (
@@ -282,18 +281,6 @@ export function ShadowLayer( {
 						</div>
 					)}
 
-					{/* Inset toggle */}
-					{showInset && (
-						<div>
-							<ToggleControl
-								label="Inset"
-								checked={inset}
-								onChange={(newInset) => updateProperty('inset', newInset)}
-								disabled={disabled}
-								__nextHasNoMarginBottom
-							/>
-						</div>
-					)}
 				</div>
 			)}
 		</div>

@@ -2300,100 +2300,28 @@
       "appliesTo": "h6Link",
       "cssProperty": "text-decoration"
     },
-    "showIcon": {
-      "type": "boolean",
-      "default": true,
-      "group": "icon",
-      "label": "Show Icon",
-      "description": "Display expand/collapse icon",
+    "tocIcon": {
+      "type": "icon-panel",
+      "order": 2,
+      "cssVar": "toc-icon",
+      "appliesToElement": "icon",
       "themeable": true,
       "outputsCSS": false,
-      "control": "ToggleControl",
-      "order": 1
-    },
-    "iconPosition": {
-      "type": "string",
-      "default": "right",
-      "group": "icon",
-      "label": "Icon Position",
-      "description": "Position of icon relative to title",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "SelectControl",
-      "options": [
-        "left",
-        "right",
-        "extreme-left",
-        "extreme-right"
-      ],
-      "order": 2
-    },
-    "iconSize": {
-      "type": "string",
-      "default": "1.25rem",
-      "cssVar": "toc-icon-size",
-      "group": "icon",
-      "label": "Icon Size",
-      "description": "Size of the icon in rem",
-      "themeable": true,
-      "control": "RangeControl",
-      "order": 3,
-      "appliesTo": [
-        "icon"
-      ],
-      "cssProperty": "font-size"
-    },
-    "iconTypeClosed": {
-      "type": "string",
-      "default": "▾",
-      "group": "icon",
-      "label": "Closed Icon",
-      "description": "Icon when TOC is collapsed",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "IconPicker",
-      "order": 4
-    },
-    "iconTypeOpen": {
-      "type": "string",
-      "default": "none",
-      "group": "icon",
-      "label": "Open Icon",
-      "description": "Icon when TOC is expanded (none = use iconTypeClosed with rotation)",
-      "themeable": true,
-      "outputsCSS": false,
-      "control": "IconPicker",
-      "order": 5
-    },
-    "iconRotation": {
-      "type": "string",
-      "default": "180deg",
-      "cssVar": "toc-icon-rotation",
-      "group": "icon",
-      "label": "Icon Rotation",
-      "description": "Rotation angle when open (degrees)",
-      "themeable": true,
-      "control": "RangeControl",
-      "order": 6,
-      "appliesTo": [
-        "icon"
-      ],
-      "cssProperty": "transform"
-    },
-    "iconColor": {
-      "type": "string",
-      "default": "#666666",
-      "cssVar": "toc-icon-color",
-      "group": "icon",
-      "label": "Icon Color",
-      "description": "Color of the expand/collapse icon",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 7,
-      "appliesTo": [
-        "icon"
-      ],
-      "cssProperty": "color"
+      "default": {
+        "position": "right",
+        "rotation": "180deg",
+        "inactive": {
+          "source": {
+            "icon-type": "char",
+            "value": "▾"
+          },
+          "color": "#333333",
+          "size": "16px",
+          "maxSize": "24px",
+          "offsetX": "0px",
+          "offsetY": "0px"
+        }
+      }
     },
     "titleFontSize": {
       "type": "string",

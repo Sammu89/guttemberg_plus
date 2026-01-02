@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-29T15:44:13.313Z
+ * Generated at: 2026-01-02T19:57:50.449Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -170,20 +170,38 @@ export interface TocTheme {
   h6TextTransform?: string;
   /** Text decoration for H6 headings */
   h6TextDecoration?: string;
-  /** Display expand/collapse icon */
+  /** Display icon in the block */
   showIcon?: boolean;
-  /** Position of icon relative to title */
+  /** Use different icons for active and inactive states */
+  useDifferentIcons?: boolean;
+  /** Position of the icon relative to title */
   iconPosition?: string;
-  /** Size of the icon in rem */
-  iconSize?: string;
-  /** Icon when TOC is collapsed */
-  iconTypeClosed?: string;
-  /** Icon when TOC is expanded (none = use iconTypeClosed with rotation) */
-  iconTypeOpen?: string;
-  /** Rotation angle when open (degrees) */
+  /** Rotation angle applied during open/close transition */
   iconRotation?: string;
-  /** Color of the expand/collapse icon */
-  iconColor?: string;
+  /** Icon when closed */
+  iconInactiveSource?: Record<string, any>;
+  /** Icon color (for character/library icons) */
+  iconInactiveColor?: string;
+  /** Icon size (for character/library icons) */
+  iconInactiveSize?: string;
+  /** Maximum icon size (for image icons) */
+  iconInactiveMaxSize?: string;
+  /** Horizontal offset of icon */
+  iconInactiveOffsetX?: string;
+  /** Vertical offset of icon */
+  iconInactiveOffsetY?: string;
+  /** Icon when open */
+  iconActiveSource?: Record<string, any>;
+  /** Icon color (for character/library icons) */
+  iconActiveColor?: string;
+  /** Icon size (for character/library icons) */
+  iconActiveSize?: string;
+  /** Maximum icon size (for image icons) */
+  iconActiveMaxSize?: string;
+  /** Horizontal offset of icon */
+  iconActiveOffsetX?: string;
+  /** Vertical offset of icon */
+  iconActiveOffsetY?: string;
   /** Font size for the TOC header in rem */
   titleFontSize?: string;
   /** Font weight for the TOC header */
@@ -327,12 +345,27 @@ export const tocDefaultTheme: TocTheme = {
   h6TextTransform: 'none',
   h6TextDecoration: 'none',
   showIcon: true,
+  useDifferentIcons: false,
   iconPosition: 'right',
-  iconSize: '1.25rem',
-  iconTypeClosed: '▾',
-  iconTypeOpen: 'none',
   iconRotation: '180deg',
-  iconColor: '#666666',
+  iconInactiveSource: {
+    "kind": "char",
+    "value": "▾"
+  },
+  iconInactiveColor: '#333333',
+  iconInactiveSize: '16px',
+  iconInactiveMaxSize: '24px',
+  iconInactiveOffsetX: '0px',
+  iconInactiveOffsetY: '0px',
+  iconActiveSource: {
+    "kind": "char",
+    "value": "▾"
+  },
+  iconActiveColor: '#333333',
+  iconActiveSize: '16px',
+  iconActiveMaxSize: '24px',
+  iconActiveOffsetX: '0px',
+  iconActiveOffsetY: '0px',
   titleFontSize: '1.25rem',
   titleFontWeight: '700',
   titleFontStyle: 'normal',
@@ -470,12 +503,21 @@ export interface TocThemeAttributes {
   h6TextTransform?: string;
   h6TextDecoration?: string;
   showIcon?: boolean;
+  useDifferentIcons?: boolean;
   iconPosition?: string;
-  iconSize?: string;
-  iconTypeClosed?: string;
-  iconTypeOpen?: string;
   iconRotation?: string;
-  iconColor?: string;
+  iconInactiveSource?: Record<string, any>;
+  iconInactiveColor?: string;
+  iconInactiveSize?: string;
+  iconInactiveMaxSize?: string;
+  iconInactiveOffsetX?: string;
+  iconInactiveOffsetY?: string;
+  iconActiveSource?: Record<string, any>;
+  iconActiveColor?: string;
+  iconActiveSize?: string;
+  iconActiveMaxSize?: string;
+  iconActiveOffsetX?: string;
+  iconActiveOffsetY?: string;
   titleFontSize?: string;
   titleFontWeight?: string;
   titleFontStyle?: string;

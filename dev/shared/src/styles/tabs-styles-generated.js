@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-29T15:44:13.309Z
+ * Generated at: 2026-01-02T19:57:50.440Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -200,26 +200,38 @@ export function buildEditorStyles(values) {
     if (values.showIcon !== undefined && values.showIcon !== null) {
       styles.default.display = values.showIcon;
     }
-    if (values.iconPosition !== undefined && values.iconPosition !== null) {
-      styles.default.flexDirection = values.iconPosition;
-    }
-    if (values.iconColor !== undefined && values.iconColor !== null) {
-      styles.default.color = values.iconColor;
-    }
-    if (values.iconSize !== undefined && values.iconSize !== null) {
-      styles.default.fontSize = `${values.iconSize}`;
-    }
-    if (values.iconTypeClosed !== undefined && values.iconTypeClosed !== null) {
-      styles.default.content = values.iconTypeClosed;
-    }
-    if (values.iconTypeOpen !== undefined && values.iconTypeOpen !== null) {
-      styles.default.content = values.iconTypeOpen;
-    }
     if (values.iconRotation !== undefined && values.iconRotation !== null) {
-      styles.default.transform = `${values.iconRotation}`;
+      styles.default.transform = values.iconRotation;
     }
-    if (values.iconRotationActive !== undefined && values.iconRotationActive !== null) {
-      styles.default.transform = `${values.iconRotationActive}`;
+    if (values.iconInactiveColor !== undefined && values.iconInactiveColor !== null) {
+      styles.default.color = values.iconInactiveColor;
+    }
+    if (values.iconInactiveSize !== undefined && values.iconInactiveSize !== null) {
+      styles.default.fontSize = values.iconInactiveSize;
+    }
+    if (values.iconInactiveMaxSize !== undefined && values.iconInactiveMaxSize !== null) {
+      styles.default.maxWidth = values.iconInactiveMaxSize;
+    }
+    if (values.iconInactiveOffsetX !== undefined && values.iconInactiveOffsetX !== null) {
+      styles.default.left = values.iconInactiveOffsetX;
+    }
+    if (values.iconInactiveOffsetY !== undefined && values.iconInactiveOffsetY !== null) {
+      styles.default.top = values.iconInactiveOffsetY;
+    }
+    if (values.iconActiveColor !== undefined && values.iconActiveColor !== null) {
+      styles.default.color = values.iconActiveColor;
+    }
+    if (values.iconActiveSize !== undefined && values.iconActiveSize !== null) {
+      styles.default.fontSize = values.iconActiveSize;
+    }
+    if (values.iconActiveMaxSize !== undefined && values.iconActiveMaxSize !== null) {
+      styles.default.maxWidth = values.iconActiveMaxSize;
+    }
+    if (values.iconActiveOffsetX !== undefined && values.iconActiveOffsetX !== null) {
+      styles.default.left = values.iconActiveOffsetX;
+    }
+    if (values.iconActiveOffsetY !== undefined && values.iconActiveOffsetY !== null) {
+      styles.default.top = values.iconActiveOffsetY;
     }
 
   return styles;
@@ -413,35 +425,51 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.showIcon !== undefined && customizations.showIcon !== null) {
-    styles['--tabs-show-icon'] = customizations.showIcon;
-  }
-
-  if (customizations.iconPosition !== undefined && customizations.iconPosition !== null) {
-    styles['--tabs-icon-position'] = customizations.iconPosition;
-  }
-
-  if (customizations.iconColor !== undefined && customizations.iconColor !== null) {
-    styles['--tabs-icon-color'] = customizations.iconColor;
-  }
-
-  if (customizations.iconSize !== undefined && customizations.iconSize !== null) {
-    styles['--tabs-icon-size'] = `${customizations.iconSize}`;
-  }
-
-  if (customizations.iconTypeClosed !== undefined && customizations.iconTypeClosed !== null) {
-    styles['--tabs-icon-type-closed'] = customizations.iconTypeClosed;
-  }
-
-  if (customizations.iconTypeOpen !== undefined && customizations.iconTypeOpen !== null) {
-    styles['--tabs-icon-type-open'] = customizations.iconTypeOpen;
+    styles['--tabs-icon-display'] = customizations.showIcon;
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
-    styles['--tabs-icon-rotation-base'] = `${customizations.iconRotation}`;
+    styles['--tabs-icon-rotation'] = customizations.iconRotation;
   }
 
-  if (customizations.iconRotationActive !== undefined && customizations.iconRotationActive !== null) {
-    styles['--tabs-icon-rotation-active'] = `${customizations.iconRotationActive}`;
+  if (customizations.iconInactiveColor !== undefined && customizations.iconInactiveColor !== null) {
+    styles['--tabs-icon-color'] = customizations.iconInactiveColor;
+  }
+
+  if (customizations.iconInactiveSize !== undefined && customizations.iconInactiveSize !== null) {
+    styles['--tabs-icon-size'] = customizations.iconInactiveSize;
+  }
+
+  if (customizations.iconInactiveMaxSize !== undefined && customizations.iconInactiveMaxSize !== null) {
+    styles['--tabs-icon-max-size'] = customizations.iconInactiveMaxSize;
+  }
+
+  if (customizations.iconInactiveOffsetX !== undefined && customizations.iconInactiveOffsetX !== null) {
+    styles['--tabs-icon-offset-x'] = customizations.iconInactiveOffsetX;
+  }
+
+  if (customizations.iconInactiveOffsetY !== undefined && customizations.iconInactiveOffsetY !== null) {
+    styles['--tabs-icon-offset-y'] = customizations.iconInactiveOffsetY;
+  }
+
+  if (customizations.iconActiveColor !== undefined && customizations.iconActiveColor !== null) {
+    styles['--tabs-icon-active-color'] = customizations.iconActiveColor;
+  }
+
+  if (customizations.iconActiveSize !== undefined && customizations.iconActiveSize !== null) {
+    styles['--tabs-icon-active-size'] = customizations.iconActiveSize;
+  }
+
+  if (customizations.iconActiveMaxSize !== undefined && customizations.iconActiveMaxSize !== null) {
+    styles['--tabs-icon-active-max-size'] = customizations.iconActiveMaxSize;
+  }
+
+  if (customizations.iconActiveOffsetX !== undefined && customizations.iconActiveOffsetX !== null) {
+    styles['--tabs-icon-active-offset-x'] = customizations.iconActiveOffsetX;
+  }
+
+  if (customizations.iconActiveOffsetY !== undefined && customizations.iconActiveOffsetY !== null) {
+    styles['--tabs-icon-active-offset-y'] = customizations.iconActiveOffsetY;
   }
 
   return styles;

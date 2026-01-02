@@ -21,6 +21,7 @@ import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
 import { getAllEffectiveValues, getAccordionButtonAria, getAccordionPanelAria, getAllDefaults, getAlignmentClass } from '@shared';
 import { buildFrontendCssVars } from '@shared/styles/accordion-frontend-css-vars-generated';
 import { accordionAttributes } from './accordion-attributes';
+import * as LucideIcons from 'lucide-react';
 
 /**
  * Accordion Save Component
@@ -88,39 +89,105 @@ export default function Save( { attributes } ) {
 		}
 	}
 
+	const titleNoLineBreak = customizations.titleNoLineBreak ?? attributes.titleNoLineBreak;
+	const titleTextInlineStyles = titleNoLineBreak === 'nowrap'
+		? { whiteSpace: 'nowrap' }
+		: undefined;
+
 	/**
-	 * Render icon based on settings
+	 * Render a single icon element based on kind
 	 */
-	const renderIcon = () => {
-		if ( ! effectiveValues.showIcon ) {
+	const renderSingleIcon = ( source, state ) => {
+		if ( ! source || ! source.value ) {
 			return null;
 		}
 
-		const iconContent = effectiveValues.iconTypeClosed || '▾';
-		const iconOpen = effectiveValues.iconTypeOpen;
-		const isImage = iconContent.startsWith( 'http' );
+		const stateClass = `accordion-icon-${ state }`;
+		const baseClasses = `accordion-icon ${ stateClass }`;
 
-		if ( isImage ) {
+		// Render based on icon kind
+		if ( source.kind === 'char' ) {
+			return (
+				<span
+					className={ `${ baseClasses } accordion-icon-char` }
+					aria-hidden="true"
+				>
+					{ source.value }
+				</span>
+			);
+		}
+
+		if ( source.kind === 'image' ) {
 			return (
 				<img
-					src={ iconContent }
+					className={ `${ baseClasses } accordion-icon-image` }
+					src={ source.value }
 					alt=""
 					aria-hidden="true"
-					className="accordion-icon accordion-icon-image"
-					data-icon-closed={ iconContent }
-					data-icon-open={ iconOpen !== 'none' ? iconOpen : iconContent }
 				/>
 			);
 		}
 
+		if ( source.kind === 'library' ) {
+			const [ library, iconName ] = source.value.split( ':' );
+
+			if ( library === 'dashicons' ) {
+				return (
+					<span
+						className={ `${ baseClasses } accordion-icon-library accordion-icon-dashicons` }
+						aria-hidden="true"
+					>
+						<span className={ `dashicons dashicons-${ iconName }` } />
+					</span>
+				);
+			}
+
+			if ( library === 'lucide' ) {
+				// Render Lucide icon as inline SVG
+				const LucideIcon = LucideIcons[ iconName ];
+				return (
+					<span
+						className={ `${ baseClasses } accordion-icon-library accordion-icon-lucide` }
+						aria-hidden="true"
+					>
+						{ LucideIcon ? <LucideIcon size="1em" /> : null }
+					</span>
+				);
+			}
+		}
+
+		return null;
+	};
+
+	/**
+	 * Render icon wrapper with both inactive and active states
+	 * Both icons are rendered in the markup, CSS controls visibility
+	 */
+	const renderIcon = () => {
+		// Check showIcon attribute to determine visibility
+		if ( attributes.showIcon === false ) {
+			return null;
+		}
+
+		const inactiveSource = attributes.iconInactiveSource;
+		const activeSource = attributes.iconActiveSource;
+
+		if ( ! inactiveSource || ! inactiveSource.value ) {
+			return null;
+		}
+
+		const hasDifferentIcons = !! ( activeSource && activeSource.value );
+
+		// Render inactive icon (always visible when closed)
+		const inactiveIcon = renderSingleIcon( inactiveSource, 'inactive' );
+
+		// Render active icon only if different from inactive
+		const activeIcon = hasDifferentIcons ? renderSingleIcon( activeSource, 'active' ) : null;
+
 		return (
-			<span
-				className="accordion-icon"
-				aria-hidden="true"
-				data-icon-closed={ iconContent }
-				data-icon-open={ iconOpen !== 'none' ? iconOpen : iconContent }
-			>
-				{ iconContent }
+			<span className="accordion-icon-wrapper">
+				{ inactiveIcon }
+				{ activeIcon }
 			</span>
 		);
 	};
@@ -160,6 +227,7 @@ export default function Save( { attributes } ) {
 							tagName="span"
 							value={ attributes.title || '' }
 							className="accordion-title-text"
+							style={ titleTextInlineStyles }
 						/>
 					</div>
 				</>
@@ -173,6 +241,7 @@ export default function Save( { attributes } ) {
 							tagName="span"
 							value={ attributes.title || '' }
 							className="accordion-title-text"
+							style={ titleTextInlineStyles }
 						/>
 					</div>
 					{ hasIcon && (
@@ -191,6 +260,7 @@ export default function Save( { attributes } ) {
 						tagName="span"
 						value={ attributes.title || '' }
 						className="accordion-title-text"
+						style={ titleTextInlineStyles }
 					/>
 				</div>
 			);
@@ -202,6 +272,7 @@ export default function Save( { attributes } ) {
 						tagName="span"
 						value={ attributes.title || '' }
 						className="accordion-title-text"
+						style={ titleTextInlineStyles }
 					/>
 					{ hasIcon && iconElement }
 				</div>

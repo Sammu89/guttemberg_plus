@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2025-12-29T15:44:13.288Z
+ * Generated at: 2026-01-02T19:57:50.391Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -111,6 +111,10 @@ export const accordionAttributes = {
     type: 'array',
     default: [],
   },
+  titleNoLineBreak: {
+    type: 'string',
+    default: 'normal',
+  },
   titleFontWeight: {
     type: 'number',
     default: 400,
@@ -159,29 +163,65 @@ export const accordionAttributes = {
     type: 'boolean',
     default: true,
   },
+  useDifferentIcons: {
+    type: 'boolean',
+    default: false,
+  },
   iconPosition: {
     type: 'string',
     default: 'right',
   },
-  iconColor: {
-    type: 'string',
-    default: '#666666',
-  },
-  iconSize: {
-    type: 'string',
-    default: '1.25rem',
-  },
-  iconTypeClosed: {
-    type: 'string',
-    default: '▾',
-  },
-  iconTypeOpen: {
-    type: 'string',
-    default: 'none',
-  },
   iconRotation: {
     type: 'string',
     default: '180deg',
+  },
+  iconInactiveSource: {
+    type: 'object',
+    default: {"kind":"char","value":"▾"},
+  },
+  iconInactiveColor: {
+    type: 'string',
+    default: '#333333',
+  },
+  iconInactiveSize: {
+    type: 'string',
+    default: '16px',
+  },
+  iconInactiveMaxSize: {
+    type: 'string',
+    default: '24px',
+  },
+  iconInactiveOffsetX: {
+    type: 'string',
+    default: '0px',
+  },
+  iconInactiveOffsetY: {
+    type: 'string',
+    default: '0px',
+  },
+  iconActiveSource: {
+    type: 'object',
+    default: {"kind":"char","value":"▾"},
+  },
+  iconActiveColor: {
+    type: 'string',
+    default: '#333333',
+  },
+  iconActiveSize: {
+    type: 'string',
+    default: '16px',
+  },
+  iconActiveMaxSize: {
+    type: 'string',
+    default: '24px',
+  },
+  iconActiveOffsetX: {
+    type: 'string',
+    default: '0px',
+  },
+  iconActiveOffsetY: {
+    type: 'string',
+    default: '0px',
   },
   animationType: {
     type: 'string',
@@ -242,7 +282,7 @@ export const accordionAttributes = {
   // Auto-generated: tracks which responsive attributes have responsive mode enabled
   responsiveEnabled: {
     type: 'object',
-    default: {"headerPadding":false,"contentPadding":false,"blockMargin":false,"contentFontSize":false,"titleFontSize":false,"titleOffsetX":false,"titleOffsetY":false,"iconPosition":false,"iconSize":false,"accordionWidth":false},
+    default: {"headerPadding":false,"contentPadding":false,"blockMargin":false,"contentFontSize":false,"titleFontSize":false,"titleOffsetX":false,"titleOffsetY":false,"iconInactiveSize":false,"iconInactiveMaxSize":false,"iconInactiveOffsetX":false,"iconInactiveOffsetY":false,"iconActiveSize":false,"iconActiveMaxSize":false,"iconActiveOffsetX":false,"iconActiveOffsetY":false,"accordionWidth":false},
   },
 };
 

@@ -25,6 +25,10 @@ export { FontFamilyControl } from './FontFamilyControl';
 export { AlignmentControl } from './AlignmentControl';
 export { IconPositionControl } from './IconPositionControl';
 
+// Phase 5: Icon Components
+export { IconPicker } from './IconPicker';
+export { IconPanel } from './IconPanel';
+
 // ============================================
 // NEW LEGO CONTROLS (Compact, modular system)
 // ============================================

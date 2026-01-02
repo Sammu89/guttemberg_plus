@@ -14,3 +14,4 @@ export { HeadingLevelControl } from './HeadingLevelControl';
 export { PanelColorSettings } from './PanelColorSettings';
 export { ShadowPanel } from './ShadowPanel';
 export { ShadowLayer } from './ShadowLayer';
+export { IconPanel } from '../IconPanel';

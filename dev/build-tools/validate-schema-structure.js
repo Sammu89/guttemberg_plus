@@ -15,6 +15,13 @@ const path = require('path');
 const BLOCKS = ['accordion', 'tabs', 'toc'];
 const SOURCE_EXTENSIONS = new Set(['.js', '.jsx', '.ts', '.tsx']);
 
+// Icon positioning profiles for each block type
+const POSITIONING_PROFILES = {
+  accordion: ['left', 'right', 'extreme-left', 'extreme-right'],
+  toc: ['left', 'right', 'extreme-left', 'extreme-right'],
+  tabs: ['left', 'right']
+};
+
 /**
  * Load and parse a JSON file
  * @param {string} filePath - Path to the JSON file
@@ -33,6 +40,353 @@ function loadJSON(filePath) {
     }
     process.exit(1);
   }
+}
+
+/**
+ * Expand icon-panel macro into 15 individual attributes (2 toggles + 13 icon settings)
+ * (Same logic as schema-compiler.js - must stay in sync)
+ */
+function expandIconPanelMacro(macroName, macro, blockType) {
+  const expanded = {};
+
+  // ============================================================================
+  // INFER MISSING FIELDS WITH SMART DEFAULTS
+  // ============================================================================
+
+  // Always 'icon' for icon-panel type
+  const group = macro.group || 'icon';
+
+  // Derive label from attribute name: "titleIcon" → "Title Icon"
+  const label = macro.label || macroName.replace(/([A-Z])/g, ' $1').trim().replace(/^./, str => str.toUpperCase());
+
+  // Auto-generate description
+  const description = macro.description || `Icon settings for ${blockType}`;
+
+  // Infer positioning profile from blockType
+  const positioningProfile = macro.positioningProfile || blockType;
+
+  // Get appliesToElement (or use appliesTo for backwards compat)
+  const appliesToElement = macro.appliesToElement || macro.appliesTo || 'icon';
+
+  // structureElement is same as appliesToElement
+  const structureElement = appliesToElement;
+
+  // Responsive attributes are always the same for icons
+  const responsiveAttrs = ['size', 'maxSize', 'offsetX', 'offsetY'];
+
+  // Get other required fields
+  const { cssVar, order, themeable = true, outputsCSS = false } = macro;
+  const defaults = macro.default || {};
+
+  // Get positioning options from profile
+  const allowedPositions = POSITIONING_PROFILES[positioningProfile] || POSITIONING_PROFILES[blockType] || ['left', 'right'];
+
+  // Get state defaults (if active not provided, it means inherit from inactive)
+  const inactiveDefaults = defaults.inactive || {};
+  const activeDefaults = defaults.active !== undefined ? defaults.active : null;
+
+  // ============================================================================
+  // 1. SHOW ICON TOGGLE (NEW)
+  // ============================================================================
+
+  expanded.showIcon = {
+    type: 'boolean',
+    default: true,
+    control: 'ToggleControl',
+    themeable: true,
+    responsive: false,
+    outputsCSS: false,
+    group,
+    order: order || 0,
+    label: 'Show Icon',
+    description: 'Display icon in the block'
+  };
+
+  // ============================================================================
+  // 2. USE DIFFERENT ICONS TOGGLE (NEW)
+  // ============================================================================
+
+  expanded.useDifferentIcons = {
+    type: 'boolean',
+    default: false,
+    control: 'ToggleControl',
+    themeable: true,
+    responsive: false,
+    outputsCSS: false,
+    group,
+    order: order ? order + 0.05 : 0.05,
+    label: 'Different Icons for Open/Close',
+    description: 'Use different icons for active and inactive states',
+    showWhen: {
+      showIcon: [true]
+    }
+  };
+
+  // ============================================================================
+  // 3. ICON POSITION
+  // ============================================================================
+
+  expanded.iconPosition = {
+    type: 'string',
+    default: defaults.position || 'right',
+    control: 'IconPositionControl',
+    allowedPositions,
+    themeable: true,
+    responsive: false,
+    outputsCSS: false,
+    group,
+    order: order ? order + 0.1 : 0.1,
+    label: 'Icon Position',
+    description: 'Position of the icon relative to title',
+    showWhen: {
+      showIcon: [true]
+    }
+  };
+
+  // ============================================================================
+  // 4. ICON ROTATION
+  // ============================================================================
+
+  expanded.iconRotation = {
+    type: 'string',
+    default: defaults.rotation || '180deg',
+    control: 'SliderWithInput',
+    cssVar: `${cssVar}-rotation`,
+    cssProperty: 'transform',
+    appliesTo: structureElement,
+    themeable: true,
+    responsive: false,
+    outputsCSS: true,
+    group,
+    order: order ? order + 0.15 : 0.15,
+    label: 'Rotation',
+    description: 'Rotation angle when open (degrees)',
+    min: -360,
+    max: 360,
+    step: 1,
+    unit: 'deg',
+    showWhen: {
+      showIcon: [true],
+      useDifferentIcons: [false]
+    }
+  };
+
+  // ============================================================================
+  // HELPER: GENERATE STATE-SPECIFIC ATTRIBUTES (inactive/active)
+  // ============================================================================
+
+  const generateStateAttributes = (state) => {
+    const statePrefix = state === 'inactive' ? 'iconInactive' : 'iconActive';
+    const cssVarSuffix = state === 'inactive' ? '' : '-active';
+    const stateDefaults = state === 'inactive' ? inactiveDefaults : activeDefaults;
+    const stateLabel = state === 'inactive' ? '' : ' (Active)';
+    const orderOffset = state === 'inactive' ? 0.2 : 0.3;
+
+    // Get defaults with fallback to inactive state
+    const getDefault = (key) => {
+      if (stateDefaults && stateDefaults[key] !== undefined) {
+        return stateDefaults[key];
+      }
+      if (state === 'active' && inactiveDefaults && inactiveDefaults[key] !== undefined) {
+        return null; // null means "use inactive value"
+      }
+      return undefined;
+    };
+
+    // Get source default and normalize icon-type to kind
+    const sourceDefault = getDefault('source') || { 'icon-type': 'char', value: '▾' };
+    const normalizedSource = {
+      kind: sourceDefault['icon-type'] || sourceDefault.kind || 'char',
+      value: sourceDefault.value || '▾'
+    };
+
+    // Build showWhen rules based on state
+    const baseShowWhen = {
+      showIcon: [true]
+    };
+    const stateShowWhen = state === 'inactive'
+      ? baseShowWhen
+      : { ...baseShowWhen, useDifferentIcons: [true] };
+
+    return {
+      // ========================================================================
+      // SOURCE (IconPicker)
+      // ========================================================================
+      [`${statePrefix}Source`]: {
+        type: 'object',
+        default: normalizedSource,
+        control: 'IconPicker',
+        themeable: true,
+        responsive: false,
+        outputsCSS: false,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset : orderOffset,
+        label: `Icon${stateLabel}`,
+        description: `Icon when ${state === 'inactive' ? 'closed' : 'open'}`,
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // COLOR (ColorControl)
+      // ========================================================================
+      [`${statePrefix}Color`]: {
+        type: 'string',
+        default: getDefault('color') || '#333333',
+        control: 'ColorControl',
+        cssVar: `${cssVar}${cssVarSuffix}-color`,
+        cssProperty: 'color',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: false,
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.01 : orderOffset + 0.01,
+        label: `Color${stateLabel}`,
+        description: 'Icon color (for character/library icons)',
+        conditionalRender: `${statePrefix}Source.kind !== "image"`,
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // SIZE (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}Size`]: {
+        type: 'string',
+        default: getDefault('size') || '16px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-size`,
+        cssProperty: 'font-size',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('size'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.02 : orderOffset + 0.02,
+        label: `Size${stateLabel}`,
+        description: 'Icon size (for character/library icons)',
+        conditionalRender: `${statePrefix}Source.kind !== "image"`,
+        min: 8,
+        max: 64,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // MAX SIZE (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}MaxSize`]: {
+        type: 'string',
+        default: getDefault('maxSize') || '24px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-max-size`,
+        cssProperty: 'max-width',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('maxSize'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.03 : orderOffset + 0.03,
+        label: `Max Size${stateLabel}`,
+        description: 'Maximum icon size (for image icons)',
+        conditionalRender: `${statePrefix}Source.kind === "image"`,
+        min: 8,
+        max: 128,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // OFFSET X (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}OffsetX`]: {
+        type: 'string',
+        default: getDefault('offsetX') || '0px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-offset-x`,
+        cssProperty: 'left',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('offsetX'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.04 : orderOffset + 0.04,
+        label: `Offset X${stateLabel}`,
+        description: 'Horizontal offset of icon',
+        min: -100,
+        max: 100,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // OFFSET Y (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}OffsetY`]: {
+        type: 'string',
+        default: getDefault('offsetY') || '0px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-offset-y`,
+        cssProperty: 'top',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('offsetY'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.05 : orderOffset + 0.05,
+        label: `Offset Y${stateLabel}`,
+        description: 'Vertical offset of icon',
+        min: -100,
+        max: 100,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      }
+    };
+  };
+
+  // ============================================================================
+  // 5-10. INACTIVE STATE ATTRIBUTES
+  // ============================================================================
+
+  Object.assign(expanded, generateStateAttributes('inactive'));
+
+  // ============================================================================
+  // 11-16. ACTIVE STATE ATTRIBUTES
+  // ============================================================================
+
+  Object.assign(expanded, generateStateAttributes('active'));
+
+  return expanded;
+}
+
+/**
+ * Process schema attributes to expand icon-panel macros
+ * (Same logic as schema-compiler.js - must stay in sync)
+ */
+function processAttributes(attributes, blockType) {
+  const processed = {};
+
+  for (const [name, attr] of Object.entries(attributes)) {
+    if (attr.type === 'icon-panel') {
+      // Expand icon-panel macro
+      const expanded = expandIconPanelMacro(name, attr, blockType);
+      Object.assign(processed, expanded);
+    } else {
+      // Regular attribute - keep as is
+      processed[name] = attr;
+    }
+  }
+
+  return processed;
 }
 
 /**
@@ -194,7 +548,13 @@ function validateBlock(blockType) {
 
   // Load schemas
   const structure = loadJSON(structurePath);
-  const attributes = loadJSON(attributesPath);
+  const attributesRaw = loadJSON(attributesPath);
+
+  // Process attributes to expand icon-panel macros
+  const attributes = {
+    ...attributesRaw,
+    attributes: processAttributes(attributesRaw.attributes || {}, blockType)
+  };
 
   const errors = [];
   const warnings = [];

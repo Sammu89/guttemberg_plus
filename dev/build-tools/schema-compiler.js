@@ -57,6 +57,13 @@ const OUTPUT_DIRS = {
 // Block configurations
 const BLOCKS = ['accordion', 'tabs', 'toc'];
 
+// Icon positioning profiles for each block type
+const POSITIONING_PROFILES = {
+  accordion: ['left', 'right', 'extreme-left', 'extreme-right'],
+  toc: ['left', 'right', 'extreme-left', 'extreme-right'],
+  tabs: ['left', 'right']
+};
+
 // ============================================================================
 // Utility Functions
 // ============================================================================
@@ -255,6 +262,367 @@ function loadSchema(blockType) {
   } catch (error) {
     throw new Error(`Failed to parse schema ${blockType}.json: ${error.message}`);
   }
+}
+
+/**
+ * Expand icon-panel macro into 15 individual attributes (2 toggles + 13 icon settings)
+ *
+ * @param {string} macroName - The macro attribute name (e.g., 'titleIcon')
+ * @param {object} macro - The macro definition from schema
+ * @param {string} blockType - The block type (accordion, tabs, toc)
+ * @returns {object} - Expanded attributes object
+ */
+function expandIconPanelMacro(macroName, macro, blockType) {
+  const expanded = {};
+
+  // ============================================================================
+  // INFER MISSING FIELDS WITH SMART DEFAULTS
+  // ============================================================================
+
+  // Always 'icon' for icon-panel type
+  const group = macro.group || 'icon';
+
+  // Derive label from attribute name: "titleIcon" → "Title Icon"
+  const label = macro.label || macroName.replace(/([A-Z])/g, ' $1').trim().replace(/^./, str => str.toUpperCase());
+
+  // Auto-generate description
+  const description = macro.description || `Icon settings for ${blockType}`;
+
+  // Infer positioning profile from blockType
+  const positioningProfile = macro.positioningProfile || blockType;
+
+  // Get appliesToElement (or use appliesTo for backwards compat)
+  const appliesToElement = macro.appliesToElement || macro.appliesTo || 'icon';
+
+  // structureElement is same as appliesToElement
+  const structureElement = appliesToElement;
+
+  // Responsive attributes are always the same for icons
+  const responsiveAttrs = ['size', 'maxSize', 'offsetX', 'offsetY'];
+
+  // Get other required fields
+  const { cssVar, order, themeable = true, outputsCSS = false } = macro;
+  const defaults = macro.default || {};
+
+  // Get positioning options from profile
+  const allowedPositions = POSITIONING_PROFILES[positioningProfile] || POSITIONING_PROFILES[blockType] || ['left', 'right'];
+
+  // Get state defaults (if active not provided, it means inherit from inactive)
+  const inactiveDefaults = defaults.inactive || {};
+  const activeDefaults = defaults.active !== undefined ? defaults.active : null;
+
+  // ============================================================================
+  // 1. SHOW ICON TOGGLE (NEW)
+  // ============================================================================
+
+  expanded.showIcon = {
+    type: 'boolean',
+    default: true,
+    control: 'ToggleControl',
+    cssVar: `${cssVar}-display`,
+    cssProperty: 'display',
+    appliesTo: structureElement,
+    themeable: true,
+    responsive: false,
+    outputsCSS: true,
+    group,
+    order: order || 0,
+    label: 'Show Icon',
+    description: 'Display icon in the block',
+    // Map boolean to CSS values: true → 'inline-flex', false → 'none'
+    cssValueMap: {
+      true: 'inline-flex',
+      false: 'none'
+    }
+  };
+
+  // ============================================================================
+  // 2. USE DIFFERENT ICONS TOGGLE (NEW)
+  // ============================================================================
+
+  expanded.useDifferentIcons = {
+    type: 'boolean',
+    default: false,
+    control: 'ToggleControl',
+    themeable: true,
+    responsive: false,
+    outputsCSS: false,
+    group,
+    order: order ? order + 0.05 : 0.05,
+    label: 'Different Icons for Open/Close',
+    description: 'Use different icons for active and inactive states',
+    showWhen: {
+      showIcon: [true]
+    }
+  };
+
+  // ============================================================================
+  // 3. ICON POSITION
+  // ============================================================================
+
+  expanded.iconPosition = {
+    type: 'string',
+    default: defaults.position || 'right',
+    control: 'IconPositionControl',
+    allowedPositions,
+    themeable: true,
+    responsive: false,
+    outputsCSS: false,
+    group,
+    order: order ? order + 0.1 : 0.1,
+    label: 'Icon Position',
+    description: 'Position of the icon relative to title',
+    showWhen: {
+      showIcon: [true]
+    }
+  };
+
+  // ============================================================================
+  // 4. ICON ROTATION
+  // ============================================================================
+
+  expanded.iconRotation = {
+    type: 'string',
+    default: defaults.rotation || '180deg',
+    control: 'SliderWithInput',
+    cssVar: `${cssVar}-rotation`,
+    cssProperty: 'transform',
+    appliesTo: structureElement,
+    themeable: true,
+    responsive: false,
+    outputsCSS: true,
+    group,
+    order: order ? order + 0.15 : 0.15,
+    label: 'Rotation',
+    description: 'Rotation angle applied during open/close transition',
+    min: -360,
+    max: 360,
+    step: 1,
+    unit: 'deg',
+    showWhen: {
+      showIcon: [true]
+    }
+  };
+
+  // ============================================================================
+  // HELPER: GENERATE STATE-SPECIFIC ATTRIBUTES (inactive/active)
+  // ============================================================================
+
+  const generateStateAttributes = (state) => {
+    const statePrefix = state === 'inactive' ? 'iconInactive' : 'iconActive';
+    const cssVarSuffix = state === 'inactive' ? '' : '-active';
+    const stateDefaults = state === 'inactive' ? inactiveDefaults : activeDefaults;
+    const stateLabel = state === 'inactive' ? '' : ' (Active)';
+    const orderOffset = state === 'inactive' ? 0.2 : 0.3;
+
+    // Get defaults with fallback to inactive state
+    const getDefault = (key) => {
+      if (stateDefaults && stateDefaults[key] !== undefined) {
+        return stateDefaults[key];
+      }
+      if (state === 'active' && inactiveDefaults && inactiveDefaults[key] !== undefined) {
+        return null; // null means "use inactive value"
+      }
+      return undefined;
+    };
+
+    // Get source default and normalize icon-type to kind
+    const sourceDefault = getDefault('source') || { 'icon-type': 'char', value: '▾' };
+    const normalizedSource = {
+      kind: sourceDefault['icon-type'] || sourceDefault.kind || 'char',
+      value: sourceDefault.value || '▾'
+    };
+
+    // Build showWhen rules based on state
+    const baseShowWhen = {
+      showIcon: [true]
+    };
+    const stateShowWhen = state === 'inactive'
+      ? baseShowWhen
+      : { ...baseShowWhen, useDifferentIcons: [true] };
+
+    return {
+      // ========================================================================
+      // SOURCE (IconPicker)
+      // ========================================================================
+      [`${statePrefix}Source`]: {
+        type: 'object',
+        default: normalizedSource,
+        control: 'IconPicker',
+        themeable: true,
+        responsive: false,
+        outputsCSS: false,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset : orderOffset,
+        label: `Icon${stateLabel}`,
+        description: `Icon when ${state === 'inactive' ? 'closed' : 'open'}`,
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // COLOR (ColorControl)
+      // ========================================================================
+      [`${statePrefix}Color`]: {
+        type: 'string',
+        default: getDefault('color') || '#333333',
+        control: 'ColorControl',
+        cssVar: `${cssVar}${cssVarSuffix}-color`,
+        cssProperty: 'color',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: false,
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.01 : orderOffset + 0.01,
+        label: `Color${stateLabel}`,
+        description: 'Icon color (for character/library icons)',
+        conditionalRender: `${statePrefix}Source.kind !== "image"`,
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // SIZE (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}Size`]: {
+        type: 'string',
+        default: getDefault('size') || '16px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-size`,
+        cssProperty: 'font-size',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('size'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.02 : orderOffset + 0.02,
+        label: `Size${stateLabel}`,
+        description: 'Icon size (for character/library icons)',
+        conditionalRender: `${statePrefix}Source.kind !== "image"`,
+        min: 8,
+        max: 64,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // MAX SIZE (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}MaxSize`]: {
+        type: 'string',
+        default: getDefault('maxSize') || '24px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-max-size`,
+        cssProperty: 'max-width',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('maxSize'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.03 : orderOffset + 0.03,
+        label: `Max Size${stateLabel}`,
+        description: 'Maximum icon size (for image icons)',
+        conditionalRender: `${statePrefix}Source.kind === "image"`,
+        min: 8,
+        max: 128,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // OFFSET X (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}OffsetX`]: {
+        type: 'string',
+        default: getDefault('offsetX') || '0px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-offset-x`,
+        cssProperty: 'left',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('offsetX'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.04 : orderOffset + 0.04,
+        label: `Offset X${stateLabel}`,
+        description: 'Horizontal offset of icon',
+        min: -100,
+        max: 100,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      },
+
+      // ========================================================================
+      // OFFSET Y (SliderWithInput)
+      // ========================================================================
+      [`${statePrefix}OffsetY`]: {
+        type: 'string',
+        default: getDefault('offsetY') || '0px',
+        control: 'SliderWithInput',
+        cssVar: `${cssVar}${cssVarSuffix}-offset-y`,
+        cssProperty: 'top',
+        appliesTo: structureElement,
+        themeable: true,
+        responsive: responsiveAttrs.includes('offsetY'),
+        outputsCSS: true,
+        group,
+        subgroup: state,
+        order: order ? order + orderOffset + 0.05 : orderOffset + 0.05,
+        label: `Offset Y${stateLabel}`,
+        description: 'Vertical offset of icon',
+        min: -100,
+        max: 100,
+        step: 1,
+        unit: 'px',
+        showWhen: stateShowWhen
+      }
+    };
+  };
+
+  // ============================================================================
+  // 5-10. INACTIVE STATE ATTRIBUTES
+  // ============================================================================
+
+  Object.assign(expanded, generateStateAttributes('inactive'));
+
+  // ============================================================================
+  // 11-16. ACTIVE STATE ATTRIBUTES
+  // ============================================================================
+
+  Object.assign(expanded, generateStateAttributes('active'));
+
+  return expanded;
+}
+
+/**
+ * Process schema attributes to expand icon-panel macros
+ *
+ * @param {object} attributes - Schema attributes object
+ * @param {string} blockType - The block type
+ * @returns {object} - Processed attributes with macros expanded
+ */
+function processAttributes(attributes, blockType) {
+  const processed = {};
+
+  for (const [name, attr] of Object.entries(attributes)) {
+    if (attr.type === 'icon-panel') {
+      // Expand icon-panel macro
+      const expanded = expandIconPanelMacro(name, attr, blockType);
+      Object.assign(processed, expanded);
+    } else {
+      // Regular attribute - keep as is
+      processed[name] = attr;
+    }
+  }
+
+  return processed;
 }
 
 /**
@@ -630,6 +998,7 @@ function generateJSMappings(allSchemas) {
           cssProperty: attr.cssProperty || null,
           dependsOn: attr.dependsOn || null,
           variants: attr.variants || null,
+          cssValueMap: attr.cssValueMap || null,
         };
       }
     }
@@ -679,7 +1048,7 @@ function buildBoxShadow(shadows) {
 
 /**
  * Build CSS text-shadow from array of shadow layers
- * Similar to buildBoxShadow but omits spread and inset (not supported by text-shadow)
+ * Similar to buildBoxShadow but omits blur, spread, and inset (not supported by text-shadow)
  * @param {Array|null} shadows - Array of shadow layer objects
  * @returns {string} CSS text-shadow value or 'none'
  */
@@ -689,10 +1058,9 @@ function buildTextShadow(shadows) {
   if (validLayers.length === 0) return 'none';
   return validLayers.map(layer => {
     const parts = [];
-    // text-shadow format: offset-x offset-y blur-radius color (NO spread or inset)
+    // text-shadow format: offset-x offset-y color (NO blur, spread, or inset)
     parts.push(formatShadowValue(layer.x));
     parts.push(formatShadowValue(layer.y));
-    parts.push(formatShadowValue(layer.blur));
     parts.push(layer.color);
     return parts.join(' ');
   }).join(', ');
@@ -905,6 +1273,11 @@ export function formatCssValue(attrName, value, blockType) {
   const numberUnit = mapping.unit || mapping.defaultUnit;
   if (numberUnit && typeof value === 'number') {
     return \`\${value}\${numberUnit}\`;
+  }
+
+  // Handle boolean values with cssValueMap
+  if (mapping.type === 'boolean' && mapping.cssValueMap) {
+    return mapping.cssValueMap[value.toString()];
   }
 
   // Return value as-is for strings and other types
@@ -1127,11 +1500,20 @@ function generateCSSVariables(blockType, schema) {
         // Check for explicit 'unit' property, or use first element of 'units' array
         const effectiveUnit = attr.unit || (Array.isArray(attr.units) && attr.units.length > 0 ? attr.units[0] : null);
         cssValue = effectiveUnit ? `${attr.default}${effectiveUnit}` : attr.default;
+      } else if (attr.type === 'boolean' && attr.cssValueMap) {
+        // Map boolean value to CSS value using cssValueMap
+        cssValue = attr.cssValueMap[attr.default.toString()];
       } else {
         cssValue = attr.default;
       }
 
       content += `  --${attr.cssVar}: ${cssValue};\n`;
+
+      // Add responsive variants for responsive attributes
+      if (attr.responsive === true) {
+        content += `  --${attr.cssVar}-tablet: ${cssValue};\n`;
+        content += `  --${attr.cssVar}-mobile: ${cssValue};\n`;
+      }
     }
   }
 
@@ -1314,10 +1696,11 @@ const CONTROL_CONFIGS = {
       content += `    '${attrName}': {\n`;
       content += `      control: '${attr.control}',\n`;
 
-      // Add min/max for RangeControl
-      if (attr.control === 'RangeControl') {
+      // Add min/max/step for RangeControl and SliderWithInput
+      if (attr.control === 'RangeControl' || attr.control === 'SliderWithInput') {
         if (attr.min !== undefined) content += `      min: ${attr.min},\n`;
         if (attr.max !== undefined) content += `      max: ${attr.max},\n`;
+        if (attr.step !== undefined) content += `      step: ${attr.step},\n`;
       }
 
       // Add options for SelectControl and similar
@@ -1325,9 +1708,39 @@ const CONTROL_CONFIGS = {
         content += `      options: ${JSON.stringify(attr.options, null, 8).replace(/\n/g, '\n      ')},\n`;
       }
 
+      // Add allowedPositions for IconPositionControl
+      if (attr.control === 'IconPositionControl' && attr.allowedPositions) {
+        content += `      allowedPositions: ${JSON.stringify(attr.allowedPositions)},\n`;
+      }
+
       // Add unit if present
       if (attr.unit) {
         content += `      unit: '${attr.unit}',\n`;
+      }
+
+      // Add responsive flag
+      if (attr.responsive !== undefined) {
+        content += `      responsive: ${attr.responsive},\n`;
+      }
+
+      // Add conditionalRender if present
+      if (attr.conditionalRender) {
+        content += `      conditionalRender: '${attr.conditionalRender}',\n`;
+      }
+
+      // Add showWhen if present
+      if (attr.showWhen) {
+        content += `      showWhen: ${JSON.stringify(attr.showWhen)},\n`;
+      }
+
+      // Add disabledWhen if present
+      if (attr.disabledWhen) {
+        content += `      disabledWhen: ${JSON.stringify(attr.disabledWhen)},\n`;
+      }
+
+      // Add subgroup if present
+      if (attr.subgroup) {
+        content += `      subgroup: '${attr.subgroup}',\n`;
       }
 
       // Add other useful metadata
@@ -1336,7 +1749,11 @@ const CONTROL_CONFIGS = {
         const desc = attr.description.replace(/'/g, "\\\\'");
         content += `      description: '${desc}',\n`;
       }
-      if (attr.default !== undefined && typeof attr.default !== 'object') content += `      default: ${typeof attr.default === 'string' ? `'${attr.default}'` : attr.default},\n`;
+      if (attr.default !== undefined && typeof attr.default !== 'object') {
+        content += `      default: ${typeof attr.default === 'string' ? `'${attr.default}'` : attr.default},\n`;
+      } else if (attr.default !== undefined && typeof attr.default === 'object') {
+        content += `      default: ${JSON.stringify(attr.default)},\n`;
+      }
 
       content += `    },\n`;
     }
@@ -1705,6 +2122,15 @@ function generateInlineStylesFunction(schema, blockType) {
         // Use buildTextShadow for text-shadow, buildBoxShadow for box-shadow
         const shadowFunction = cssProperty === 'text-shadow' ? 'buildTextShadow' : 'buildBoxShadow';
         code.push(`\t\t\t${jsProperty}: ${shadowFunction}(effectiveValues.${attrName}),`);
+        continue; // Already handled, skip the rest
+      }
+
+      // Special handling for transform property (must use CSS functions like rotate())
+      if (cssProperty === 'transform') {
+        const quotedDefault = (defaultValue + '').replace(/'/g, "\\'");
+        const jsProperty = toCamelCase(cssProperty);
+        // Wrap value in rotate() function for transform property
+        code.push(`\t\t\t${jsProperty}: \`rotate(\${effectiveValues.${attrName} ?? '${quotedDefault}'})\`,`);
         continue; // Already handled, skip the rest
       }
 
@@ -2194,6 +2620,25 @@ async function compile() {
 
     if (Object.keys(schemas).length === 0) {
       throw new Error('No schemas loaded successfully');
+    }
+
+    // Process schemas to expand icon-panel macros
+    for (const [blockType, schema] of Object.entries(schemas)) {
+      if (schema.attributes) {
+        schema.attributes = processAttributes(schema.attributes, blockType);
+      }
+    }
+
+    // Write expanded schemas for runtime use
+    const expandedSchemasDir = path.join(__dirname, '..', 'schemas', 'expanded');
+    if (!fs.existsSync(expandedSchemasDir)) {
+      fs.mkdirSync(expandedSchemasDir, { recursive: true });
+    }
+
+    for (const [blockType, schema] of Object.entries(schemas)) {
+      const expandedSchemaPath = path.join(expandedSchemasDir, `${blockType}-expanded.json`);
+      fs.writeFileSync(expandedSchemaPath, JSON.stringify(schema, null, 2));
+      results.files.push({ path: expandedSchemaPath, lines: JSON.stringify(schema, null, 2).split('\n').length });
     }
 
     // Generate files for each block (silent unless errors)

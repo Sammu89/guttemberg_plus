@@ -2,7 +2,7 @@
  * FormattingControl - Main formatting control organism
  * Replaces AppearanceControl + DecorationControl
  */
-import { BaseControl } from '@wordpress/components';
+import { BaseControl, ToggleControl } from '@wordpress/components';
 import { FormattingToggleGroup } from './molecules/FormattingToggleGroup';
 import { FontWeightSlider } from './molecules/FontWeightSlider';
 import { TextDecorationPanel } from './molecules/TextDecorationPanel';
@@ -22,6 +22,7 @@ export function FormattingControl({
         decorationColor = 'currentColor',
         decorationStyle = 'solid',
         decorationWidth = 'auto',
+        noLineBreak = false,
     } = value;
 
     const hasBold = formatting.includes('bold');
@@ -41,6 +42,13 @@ export function FormattingControl({
             decorationColor: color,
             decorationStyle: style,
             decorationWidth: width,
+        });
+    };
+
+    const handleNoLineBreakChange = (newValue) => {
+        onChange({
+            ...value,
+            noLineBreak: newValue,
         });
     };
 
@@ -70,6 +78,14 @@ export function FormattingControl({
                     disabled={disabled}
                 />
             )}
+
+            <ToggleControl
+                label="No line break"
+                checked={noLineBreak}
+                onChange={handleNoLineBreakChange}
+                disabled={disabled}
+                __nextHasNoMarginBottom
+            />
         </BaseControl>
     );
 }

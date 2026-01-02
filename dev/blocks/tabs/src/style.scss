@@ -371,15 +371,30 @@
 	z-index: 2;
 }
 
-/* Tab icon (rendered when showIcon is true in JS) */
+/* Tab icon wrapper - handles offsets via transform */
+.tab-icon-wrapper {
+	display: var(--tabs-icon-display, inline-flex) !important;
+	align-items: center;
+	justify-content: center;
+	transform: translate(
+		var(--tabs-icon-offset-x, 0px),
+		var(--tabs-icon-offset-y, 0px)
+	);
+	transition: transform 0.3s ease;
+}
+
+/* Tab icon element - handles rotation, color, size */
 .tab-icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--tabs-icon-color);
-	font-size: var(--tabs-icon-size);
-	transition: transform 300ms ease, opacity 300ms ease;
-	transform: rotate(var(--tabs-icon-rotation-base));
+	color: var(--tabs-icon-color, #333333);
+	font-size: var(--tabs-icon-size, 16px);
+	width: var(--tabs-icon-size, 16px);
+	height: var(--tabs-icon-size, 16px);
+	transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+	line-height: 1;
+	flex-shrink: 0;
 
 	// Explicit resets to prevent inheritance
 	font-weight: normal;
@@ -387,27 +402,52 @@
 	text-decoration: none;
 	text-transform: none;
 
-	/* Icon rotation (for open/close states, controlled via JS) */
-	&.is-rotated {
-		transform: rotate(var(--tabs-icon-rotation-active));
+	// Rotation applied when tab is active
+	.tab-button.active &,
+	.tab-button[aria-selected="true"] & {
+		transform: rotate(var(--tabs-icon-active-rotation, var(--tabs-icon-rotation, 0deg)));
 	}
 
-	/* Image icon */
-	&.tab-icon-image {
-		width: var(--tabs-icon-size);
-		height: var(--tabs-icon-size);
-		object-fit: contain;
-		transition: opacity 300ms ease;
+	// For library icons (SVG - Lucide)
+	svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+	}
+
+	// For Dashicons (icon font)
+	.dashicons {
+		font-size: inherit;
+		width: 1em;
+		height: 1em;
+		line-height: 1;
+	}
+}
+
+/* Image icon */
+.tab-icon-image {
+	display: block;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	max-width: var(--tabs-icon-max-size, 24px);
+	max-height: var(--tabs-icon-max-size, 24px);
+	transition: opacity 300ms ease;
+
+	// Rotation applied when tab is active (for image icons)
+	.tab-button.active &,
+	.tab-button[aria-selected="true"] & {
+		transform: rotate(var(--tabs-icon-active-rotation, var(--tabs-icon-rotation, 0deg)));
 	}
 }
 
 /* Icon margin based on position */
-.gutplus-tabs[data-icon-position="left"] .tab-icon {
+.gutplus-tabs[data-icon-position="left"] .tab-icon-wrapper {
 	margin-right: 0.5rem;
 	margin-left: 0;
 }
 
-.gutplus-tabs[data-icon-position="right"] .tab-icon {
+.gutplus-tabs[data-icon-position="right"] .tab-icon-wrapper {
 	margin-left: 0.5rem;
 	margin-right: 0;
 }

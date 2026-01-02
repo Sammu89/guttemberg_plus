@@ -17,9 +17,9 @@
         "data-activation-mode": "{activationMode || 'auto'}",
         "data-breakpoint": "{responsiveBreakpoint || 768}",
         "data-responsive-fallback": "{enableResponsiveFallback || true}",
-        "data-show-icon": "{showIcon || false}",
-        "data-icon-closed": "{iconTypeClosed || '▾'}",
-        "data-icon-open": "{iconTypeOpen || 'none'}"
+        "data-icon-inactive": "{iconInactiveSource ? JSON.stringify(iconInactiveSource) : null}",
+        "data-icon-active": "{iconActiveSource ? JSON.stringify(iconActiveSource) : null}",
+        "data-has-different-icons": "{!!iconActiveSource}"
       },
       "conditionalClass": {
         "gutplus-tabs-theme-{currentTheme}": "{currentTheme}",
@@ -97,7 +97,6 @@
         "tabButtonActiveContentBorderStyle",
         "tabButtonActiveFontWeight",
         "enableFocusBorder",
-        "showIcon",
         "iconPosition",
         "tabButtonBorderColor",
         "tabButtonBorderWidth",
@@ -128,31 +127,37 @@
       "tag": "span",
       "className": "tab-icon",
       "description": "Expand/collapse icon for responsive accordion mode",
-      "conditionalRender": "{showIcon && enableResponsiveFallback}",
+      "conditionalRender": "{iconPosition && iconPosition !== 'none' && enableResponsiveFallback}",
       "attributes": {
         "aria-hidden": "true",
-        "data-icon-closed": "{iconTypeClosed}",
-        "data-icon-open": "{iconTypeOpen !== 'none' ? iconTypeOpen : iconTypeClosed}"
+        "data-icon-inactive": "{JSON.stringify(iconInactiveSource)}",
+        "data-icon-active": "{iconActiveSource ? JSON.stringify(iconActiveSource) : null}",
+        "data-has-different-icons": "{!!iconActiveSource}"
       },
       "renderVariant": {
-        "condition": "iconTypeClosed.startsWith('http')",
+        "condition": "iconInactiveSource.kind === 'image'",
         "ifTrue": {
           "tag": "img",
           "className": "tab-icon tab-icon-image",
           "attributes": {
-            "src": "{iconTypeClosed}",
+            "src": "{iconInactiveSource.value}",
             "alt": "",
             "aria-hidden": "true"
           }
         }
       },
       "appliesStyles": [
-        "iconColor",
-        "iconSize",
-        "iconRotation",
-        "iconRotationActive",
-        "iconTypeClosed",
-        "iconTypeOpen"
+        "iconInactiveColor",
+        "iconInactiveSize",
+        "iconInactiveMaxSize",
+        "iconInactiveOffsetX",
+        "iconInactiveOffsetY",
+        "iconActiveColor",
+        "iconActiveSize",
+        "iconActiveMaxSize",
+        "iconActiveOffsetX",
+        "iconActiveOffsetY",
+        "iconRotation"
       ]
     },
 

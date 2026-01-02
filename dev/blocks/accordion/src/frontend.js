@@ -348,43 +348,19 @@ function closeAllItems( block ) {
 
 /**
  * Update icon based on open/closed state
+ * Simplified version - CSS now handles icon visibility via .is-open class
+ * This function is now primarily for backward compatibility
  *
  * @param {HTMLElement} button Toggle button
  * @param {boolean}     isOpen Whether accordion is open
  */
 function updateIcon( button, isOpen ) {
-	const icon = button.querySelector( '.accordion-icon' );
+	// Icon switching is now handled by CSS via .is-open class on parent
+	// Both inactive and active icons are rendered in the HTML
+	// CSS shows/hides them based on accordion state
 
-	if ( ! icon ) {
-		return;
-	}
-
-	const iconClosed = icon.getAttribute( 'data-icon-closed' ) || '▾';
-	const iconOpen = icon.getAttribute( 'data-icon-open' ) || 'none';
-
-	// Check if icon needs to change (not just rotate)
-	const isImage = icon.classList.contains( 'accordion-icon-image' );
-	const newIcon = isOpen ? iconOpen : iconClosed;
-	const currentIcon = isImage ? icon.src : icon.textContent;
-	const iconIsChanging = newIcon !== 'none' && currentIcon !== newIcon;
-
-	// Change icon content if needed
-	if ( iconIsChanging ) {
-		if ( isImage ) {
-			// For image icons, update src
-			icon.src = newIcon;
-		} else {
-			// For text/emoji icons, update text content
-			icon.textContent = newIcon;
-		}
-	}
-
-	// Toggle rotation class for CSS animation (rotates immediately)
-	if ( isOpen ) {
-		icon.classList.add( 'is-rotated' );
-	} else {
-		icon.classList.remove( 'is-rotated' );
-	}
+	// This function is kept for backward compatibility and future enhancements
+	// but the core icon switching logic is no longer needed
 }
 
 /**

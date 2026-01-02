@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2025-12-29T15:44:13.303Z
+ * Generated at: 2026-01-02T19:57:50.418Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -43,7 +43,7 @@ export interface TabsTheme {
   tabButtonActiveBackgroundColor?: string;
   /** Font size for tab buttons (rem) */
   tabButtonFontSize?: number;
-  /** Font weight for tab buttons. Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /** Font weight for tab buttons */
   tabButtonFontWeight?: string;
   /** Font style for tab buttons */
   tabButtonFontStyle?: string;
@@ -55,7 +55,7 @@ export interface TabsTheme {
   tabButtonTextAlign?: string;
   /** Padding for tab buttons in rem (vertical/horizontal will be computed) */
   tabButtonPadding?: number;
-  /** Font weight for active/selected tab button. Note: Not every font supports every weight; the browser will use the closest available weight. */
+  /** Font weight for active/selected tab button */
   tabButtonActiveFontWeight?: string;
   /** Border color for inactive tab buttons */
   tabButtonBorderColor?: Record<string, any>;
@@ -113,22 +113,38 @@ export interface TabsTheme {
   panelBorderStyle?: Record<string, any>;
   /** Corner radius for tab content panel */
   panelBorderRadius?: Record<string, any>;
-  /** Display icons in tab buttons */
+  /** Display icon in the block */
   showIcon?: boolean;
-  /** Position of icon relative to text */
+  /** Use different icons for active and inactive states */
+  useDifferentIcons?: boolean;
+  /** Position of the icon relative to title */
   iconPosition?: string;
-  /** Color of the tab icon */
-  iconColor?: string;
-  /** Size of the icon in rem */
-  iconSize?: number;
-  /** Icon for the tab (char or image URL) */
-  iconTypeClosed?: string;
-  /** Icon when tab is active (none = use closed icon with final rotation) */
-  iconTypeOpen?: string;
-  /** Base rotation of the icon */
-  iconRotation?: number;
-  /** Rotation of the icon for the active tab */
-  iconRotationActive?: number;
+  /** Rotation angle applied during open/close transition */
+  iconRotation?: string;
+  /** Icon when closed */
+  iconInactiveSource?: Record<string, any>;
+  /** Icon color (for character/library icons) */
+  iconInactiveColor?: string;
+  /** Icon size (for character/library icons) */
+  iconInactiveSize?: string;
+  /** Maximum icon size (for image icons) */
+  iconInactiveMaxSize?: string;
+  /** Horizontal offset of icon */
+  iconInactiveOffsetX?: string;
+  /** Vertical offset of icon */
+  iconInactiveOffsetY?: string;
+  /** Icon when open */
+  iconActiveSource?: Record<string, any>;
+  /** Icon color (for character/library icons) */
+  iconActiveColor?: string;
+  /** Icon size (for character/library icons) */
+  iconActiveSize?: string;
+  /** Maximum icon size (for image icons) */
+  iconActiveMaxSize?: string;
+  /** Horizontal offset of icon */
+  iconActiveOffsetX?: string;
+  /** Vertical offset of icon */
+  iconActiveOffsetY?: string;
 }
 
 /**
@@ -253,13 +269,27 @@ export const tabsDefaultTheme: TabsTheme = {
     "bottomLeft": 4
   },
   showIcon: true,
+  useDifferentIcons: false,
   iconPosition: 'right',
-  iconColor: '#666666',
-  iconSize: 1rem,
-  iconTypeClosed: '▾',
-  iconTypeOpen: 'none',
-  iconRotation: 0deg,
-  iconRotationActive: 180deg,
+  iconRotation: '180deg',
+  iconInactiveSource: {
+    "kind": "char",
+    "value": "▾"
+  },
+  iconInactiveColor: '#333333',
+  iconInactiveSize: '16px',
+  iconInactiveMaxSize: '24px',
+  iconInactiveOffsetX: '0px',
+  iconInactiveOffsetY: '0px',
+  iconActiveSource: {
+    "kind": "char",
+    "value": "▾"
+  },
+  iconActiveColor: '#333333',
+  iconActiveSize: '16px',
+  iconActiveMaxSize: '24px',
+  iconActiveOffsetX: '0px',
+  iconActiveOffsetY: '0px',
 };
 
 /**
@@ -326,11 +356,19 @@ export interface TabsThemeAttributes {
   panelBorderStyle?: Record<string, any>;
   panelBorderRadius?: Record<string, any>;
   showIcon?: boolean;
+  useDifferentIcons?: boolean;
   iconPosition?: string;
-  iconColor?: string;
-  iconSize?: number;
-  iconTypeClosed?: string;
-  iconTypeOpen?: string;
-  iconRotation?: number;
-  iconRotationActive?: number;
+  iconRotation?: string;
+  iconInactiveSource?: Record<string, any>;
+  iconInactiveColor?: string;
+  iconInactiveSize?: string;
+  iconInactiveMaxSize?: string;
+  iconInactiveOffsetX?: string;
+  iconInactiveOffsetY?: string;
+  iconActiveSource?: Record<string, any>;
+  iconActiveColor?: string;
+  iconActiveSize?: string;
+  iconActiveMaxSize?: string;
+  iconActiveOffsetX?: string;
+  iconActiveOffsetY?: string;
 }

@@ -11,8 +11,8 @@
 /* Import frontend styles (style.scss includes block_schema.scss) */
 @import 'style.scss';
 
-/* Import Lego control styles for sidebar */
-@import '../../../shared/src/components/controls/lego-controls.scss';
+/* Import sidebar control styles */
+@import '../../../shared/src/components/controls/SidebarStyling.scss';
 
 /* Editor-specific overrides and additions */
 
@@ -80,4 +80,34 @@
 /* Accordion content inner wrapper */
 .accordion-content-inner {
 	padding: 1rem 1.5rem;
+}
+
+/* Disable icon animations in editor to prevent lag when adjusting settings */
+.accordion-icon-wrapper,
+.accordion-icon,
+.accordion-icon-image {
+	transition: none !important;
+}
+
+/* Editor preview: Icon state visibility based on initiallyOpen toggle */
+.gutplus-accordion {
+	/* Show inactive icon by default */
+	.accordion-icon-inactive {
+		display: inline-flex !important;
+	}
+
+	.accordion-icon-active {
+		display: none !important;
+	}
+
+	/* When "Preview Open State" is toggled on */
+	&.is-open {
+		.accordion-icon-inactive {
+			display: none !important;
+		}
+
+		.accordion-icon-active {
+			display: inline-flex !important;
+		}
+	}
 }

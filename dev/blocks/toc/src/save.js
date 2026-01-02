@@ -224,42 +224,81 @@ export default function save( { attributes } ) {
 	const contentId = `toc-content-${ tocId }`;
 
 	/**
-	 * Render icon based on settings (accordion-like pattern)
+	 * Render icon based on new icon system
+	 * Supports character, image, and library icons
 	 */
 	const renderIcon = () => {
 		if ( ! showIcon ) {
 			return null;
 		}
 
-		const iconContent = iconTypeClosed || '▾';
-		const iconOpen = iconTypeOpen || 'none';
-		const isImage = iconContent.startsWith( 'http' );
+		const inactiveSource = attributes.iconInactiveSource;
+		const activeSource = attributes.iconActiveSource;
 
-		if ( isImage ) {
+		if ( ! inactiveSource || ! inactiveSource.value ) {
+			return null;
+		}
+
+		// Determine which icon to render initially (based on initiallyCollapsed)
+		const initialSource = ( ! initiallyCollapsed ) && activeSource && activeSource.value
+			? activeSource
+			: inactiveSource;
+
+		// Data attributes for frontend JS
+		const dataAttrs = {
+			'data-icon-inactive': JSON.stringify( inactiveSource ),
+			'data-icon-active': activeSource && activeSource.value ? JSON.stringify( activeSource ) : null,
+			'data-has-different-icons': !! ( activeSource && activeSource.value ),
+		};
+
+		// Icon classes
+		const iconClasses = 'toc-icon' + ( ! initiallyCollapsed ? ' is-rotated' : '' );
+
+		// Render based on icon kind
+		if ( initialSource.kind === 'char' ) {
+			return (
+				<span
+					className={ iconClasses + ' toc-icon-char' }
+					aria-hidden="true"
+					{ ...dataAttrs }
+				>
+					{ initialSource.value }
+				</span>
+			);
+		}
+
+		if ( initialSource.kind === 'image' ) {
 			return (
 				<img
-					src={ iconContent }
+					className={ iconClasses + ' toc-icon-image' }
+					src={ initialSource.value }
 					alt=""
 					aria-hidden="true"
-					className="toc-icon toc-icon-image"
-					data-icon-closed={ iconContent }
-					data-icon-open={ iconOpen !== 'none' ? iconOpen : iconContent }
-					data-icon-rotation={ iconRotation || 180 }
+					{ ...dataAttrs }
 				/>
 			);
 		}
 
-		return (
-			<span
-				className="toc-icon"
-				aria-hidden="true"
-				data-icon-closed={ iconContent }
-				data-icon-open={ iconOpen !== 'none' ? iconOpen : iconContent }
-				data-icon-rotation={ iconRotation || 180 }
-			>
-				{ iconContent }
-			</span>
-		);
+		if ( initialSource.kind === 'library' ) {
+			const [ library, iconName ] = initialSource.value.split( ':' );
+
+			// For library icons, we'll use a data attribute approach
+			return (
+				<span
+					className={ iconClasses + ' toc-icon-library' }
+					aria-hidden="true"
+					data-icon-library={ library }
+					data-icon-name={ iconName }
+					{ ...dataAttrs }
+				>
+					{ library === 'dashicons' && (
+						<span className={ `dashicons dashicons-${ iconName }` } />
+					) }
+				</span>
+			);
+		}
+
+		return null;
 	};
 
 	/**

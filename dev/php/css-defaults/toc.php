@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-29T15:44:13.317Z
+ * Generated at: 2026-01-02T19:57:50.465Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -103,12 +103,19 @@ return array(
   'h6TextTransform' => 'none',
   'h6TextDecoration' => 'none',
   'showIcon' => 'true',
+  'useDifferentIcons' => 'false',
   'iconPosition' => 'right',
-  'iconSize' => '1.25rem',
-  'iconTypeClosed' => '▾',
-  'iconTypeOpen' => 'none',
   'iconRotation' => '180deg',
-  'iconColor' => '#666666',
+  'iconInactiveColor' => '#333333',
+  'iconInactiveSize' => '16px',
+  'iconInactiveMaxSize' => '24px',
+  'iconInactiveOffsetX' => '0px',
+  'iconInactiveOffsetY' => '0px',
+  'iconActiveColor' => '#333333',
+  'iconActiveSize' => '16px',
+  'iconActiveMaxSize' => '24px',
+  'iconActiveOffsetX' => '0px',
+  'iconActiveOffsetY' => '0px',
   'titleFontSize' => '1.25rem',
   'titleFontWeight' => '700',
   'titleFontStyle' => 'normal',

@@ -1419,118 +1419,28 @@
       "themeable": true,
       "unit": "px"
     },
-    "showIcon": {
-      "type": "boolean",
-      "default": true,
-      "label": "Show Icon",
-      "description": "Display icons in tab buttons",
-      "group": "icon",
-      "order": 1,
-      "control": "ToggleControl",
-      "appliesTo": "tabButton",
-      "cssVar": "tabs-show-icon",
-      "cssProperty": "display",
-      "themeable": true,
-      "outputsCSS": false
-    },
-    "iconPosition": {
-      "type": "string",
-      "default": "right",
-      "label": "Icon Position",
-      "description": "Position of icon relative to text",
-      "group": "icon",
+    "tabIcon": {
+      "type": "icon-panel",
       "order": 2,
-      "control": "SelectControl",
-      "options": [
-        "left",
-        "right"
-      ],
-      "appliesTo": "tabButton",
-      "cssVar": "tabs-icon-position",
-      "cssProperty": "flex-direction",
+      "cssVar": "tabs-icon",
+      "appliesToElement": "tabIcon",
       "themeable": true,
-      "outputsCSS": false
-    },
-    "iconColor": {
-      "type": "string",
-      "default": "#666666",
-      "label": "Icon Color",
-      "description": "Color of the tab icon",
-      "group": "icon",
-      "order": 3,
-      "control": "ColorPicker",
-      "appliesTo": "tabIcon",
-      "cssVar": "tabs-icon-color",
-      "cssProperty": "color",
-      "themeable": true
-    },
-    "iconSize": {
-      "type": "number",
-      "default": "1rem",
-      "label": "Icon Size",
-      "description": "Size of the icon in rem",
-      "group": "icon",
-      "order": 4,
-      "control": "RangeControl",
-      "appliesTo": "tabIcon",
-      "cssVar": "tabs-icon-size",
-      "cssProperty": "font-size",
-      "themeable": true
-    },
-    "iconTypeClosed": {
-      "type": "string",
-      "default": "▾",
-      "label": "Icon Closed",
-      "description": "Icon for the tab (char or image URL)",
-      "group": "icon",
-      "order": 5,
-      "control": "IconPicker",
-      "appliesTo": "tabIcon",
-      "cssVar": "tabs-icon-type-closed",
-      "cssProperty": "content",
-      "themeable": true,
-      "outputsCSS": false
-    },
-    "iconTypeOpen": {
-      "type": "string",
-      "default": "none",
-      "label": "Icon Open",
-      "description": "Icon when tab is active (none = use closed icon with final rotation)",
-      "group": "icon",
-      "order": 6,
-      "control": "IconPicker",
-      "appliesTo": "tabIcon",
-      "cssVar": "tabs-icon-type-open",
-      "cssProperty": "content",
-      "themeable": true,
-      "outputsCSS": false
-    },
-    "iconRotation": {
-      "type": "number",
-      "default": "0deg",
-      "label": "Icon Base Rotation",
-      "description": "Base rotation of the icon",
-      "group": "icon",
-      "order": 7,
-      "control": "RangeControl",
-      "appliesTo": "tabIcon",
-      "cssVar": "tabs-icon-rotation-base",
-      "cssProperty": "transform",
-      "themeable": true
-    },
-    "iconRotationActive": {
-      "type": "number",
-      "default": "180deg",
-      "label": "Icon Active Rotation",
-      "description": "Rotation of the icon for the active tab",
-      "group": "icon",
-      "order": 8,
-      "control": "RangeControl",
-      "state": "active",
-      "appliesTo": "tabIcon",
-      "cssVar": "tabs-icon-rotation-active",
-      "cssProperty": "transform",
-      "themeable": true
+      "outputsCSS": false,
+      "default": {
+        "position": "right",
+        "rotation": "180deg",
+        "inactive": {
+          "source": {
+            "icon-type": "char",
+            "value": "▾"
+          },
+          "color": "#333333",
+          "size": "16px",
+          "maxSize": "24px",
+          "offsetX": "0px",
+          "offsetY": "0px"
+        }
+      }
     }
   },
   "groups": {

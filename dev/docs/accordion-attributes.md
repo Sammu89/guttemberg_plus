@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2025-12-29T15:44:13.294Z
+> Generated at: 2026-01-02T19:57:50.403Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -65,8 +65,9 @@ Font settings for header and content
 | `contentLineHeight` | number | `1.6` | Yes | Line height for the content |
 | `titleFontFamily` | string | `inherit` | Yes | Font family for the header |
 | `titleFontSize` | string | `1.125rem` | Yes | Font size for the header |
-| `titleFormatting` | array | _object_ | Yes | Text formatting options (bold, italic, underline, overline, line-through). Note: Not every font supports every weight; the browser will use the closest available weight. |
-| `titleFontWeight` | number | `400` | Yes | Font weight for title (100-900). Note: Not every font supports every weight; the browser will use the closest available weight. |
+| `titleFormatting` | array | _object_ | Yes | Text formatting options (bold, italic, underline, overline, line-through) |
+| `titleNoLineBreak` | string | `normal` | Yes | Keep the title on a single line |
+| `titleFontWeight` | number | `400` | Yes | Font weight for title (100-900) |
 | `titleDecorationColor` | string | `currentColor` | Yes | Color for text decorations |
 | `titleDecorationStyle` | string | `solid` | Yes | Style for text decorations |
 | `titleDecorationWidth` | string | `auto` | Yes | Thickness of text decorations |
@@ -84,13 +85,22 @@ Icon appearance and behavior
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `showIcon` | boolean | `true` | Yes | Display expand/collapse icon |
-| `iconPosition` | string | `right` | Yes | Position of icon relative to title |
-| `iconColor` | string | `#666666` | Yes | Color of the expand/collapse icon |
-| `iconSize` | string | `1.25rem` | Yes | Size of the icon |
-| `iconTypeClosed` | string | `▾` | Yes | Icon when accordion is closed (character, unicode, or image URL) |
-| `iconTypeOpen` | string | `none` | Yes | Icon when accordion is open (none = rotate closed icon) |
-| `iconRotation` | string | `180deg` | Yes | Rotation angle when open (degrees) |
+| `showIcon` | boolean | `true` | Yes | Display icon in the block |
+| `useDifferentIcons` | boolean | `false` | Yes | Use different icons for active and inactive states |
+| `iconPosition` | string | `right` | Yes | Position of the icon relative to title |
+| `iconRotation` | string | `180deg` | Yes | Rotation angle applied during open/close transition |
+| `iconInactiveSource` | object | _object_ | Yes | Icon when closed |
+| `iconInactiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconInactiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
+| `iconInactiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
+| `iconInactiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
+| `iconInactiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
+| `iconActiveSource` | object | _object_ | Yes | Icon when open |
+| `iconActiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconActiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
+| `iconActiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
+| `iconActiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
+| `iconActiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
 
 ## Animation
 
@@ -148,6 +158,7 @@ The following CSS custom properties are available for theming:
 | `contentLineHeight` | `--accordion-content-line-height` |
 | `titleFontFamily` | `--accordion-title-font-family` |
 | `titleFontSize` | `--accordion-title-font-size` |
+| `titleNoLineBreak` | `--accordion-title-white-space` |
 | `titleFontWeight` | `--accordion-title-font-weight` |
 | `titleDecorationColor` | `--accordion-title-decoration-color` |
 | `titleDecorationStyle` | `--accordion-title-decoration-style` |
@@ -159,9 +170,18 @@ The following CSS custom properties are available for theming:
 | `titleOffsetX` | `--accordion-title-offset-x` |
 | `titleOffsetY` | `--accordion-title-offset-y` |
 | `titleTextShadow` | `--accordion-title-text-shadow` |
-| `iconColor` | `--accordion-icon-color` |
-| `iconSize` | `--accordion-icon-size` |
+| `showIcon` | `--accordion-icon-display` |
 | `iconRotation` | `--accordion-icon-rotation` |
+| `iconInactiveColor` | `--accordion-icon-color` |
+| `iconInactiveSize` | `--accordion-icon-size` |
+| `iconInactiveMaxSize` | `--accordion-icon-max-size` |
+| `iconInactiveOffsetX` | `--accordion-icon-offset-x` |
+| `iconInactiveOffsetY` | `--accordion-icon-offset-y` |
+| `iconActiveColor` | `--accordion-icon-active-color` |
+| `iconActiveSize` | `--accordion-icon-active-size` |
+| `iconActiveMaxSize` | `--accordion-icon-active-max-size` |
+| `iconActiveOffsetX` | `--accordion-icon-active-offset-x` |
+| `iconActiveOffsetY` | `--accordion-icon-active-offset-y` |
 | `animationDuration` | `--accordion-animation-duration` |
 | `animationEasing` | `--accordion-animation-easing` |
 

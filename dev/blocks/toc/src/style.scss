@@ -150,27 +150,72 @@
 	text-align: right;
 }
 
-/* Icon */
+/* Icon wrapper - handles offsets via transform */
+.toc-icon-wrapper {
+	display: var(--toc-icon-display, inline-flex) !important;
+	align-items: center;
+	justify-content: center;
+	transform: translate(
+		var(--toc-icon-offset-x, 0px),
+		var(--toc-icon-offset-y, 0px)
+	);
+	transition: transform 0.3s ease;
+}
+
+/* Icon element - handles rotation, color, size */
 .toc-icon {
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	color: var(--toc-icon-color, #666666);
-	font-size: var(--toc-icon-size, 1.25rem);
-	width: var(--toc-icon-size, 1.25rem);
-	height: var(--toc-icon-size, 1.25rem);
-	transition: transform 300ms ease;
+	font-size: var(--toc-icon-size, 20px);
+	width: var(--toc-icon-size, 20px);
+	height: var(--toc-icon-size, 20px);
+	transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+	line-height: 1;
 	flex-shrink: 0;
-	/* Reset inherited typography properties from parent */
+
+	// Explicit resets to prevent inheritance
 	font-weight: normal;
 	font-style: normal;
-	text-transform: none;
 	text-decoration: none;
+	text-transform: none;
+
+	// Rotation applied when open
+	.gutplus-toc.is-open & {
+		transform: rotate(var(--toc-icon-active-rotation, var(--toc-icon-rotation, 180deg)));
+	}
+
+	// For library icons (SVG - Lucide)
+	svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+	}
+
+	// For Dashicons (icon font)
+	.dashicons {
+		font-size: inherit;
+		width: 1em;
+		height: 1em;
+		line-height: 1;
+	}
 }
 
-/* Icon rotation when TOC is open */
-.gutplus-toc.is-open .toc-icon {
-	transform: rotate(var(--toc-icon-rotation, 180deg));
+/* Image icon */
+.toc-icon-image {
+	display: block;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	max-width: var(--toc-icon-max-size, 24px);
+	max-height: var(--toc-icon-max-size, 24px);
+	transition: opacity 300ms ease;
+
+	// Rotation applied when open (for image icons)
+	.gutplus-toc.is-open & {
+		transform: rotate(var(--toc-icon-active-rotation, var(--toc-icon-rotation, 180deg)));
+	}
 }
 
 /* TOC content container */

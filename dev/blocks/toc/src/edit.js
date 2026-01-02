@@ -43,7 +43,9 @@ import {
 	useBlockAlignment,
 	useResponsiveDevice,
 } from '@shared';
-import tocSchema from '../../../schemas/toc.json';
+import { Dashicon } from '@wordpress/components';
+import * as LucideIcons from 'lucide-react';
+import tocSchema from '../../../schemas/expanded/toc-expanded.json';
 import { tocAttributes } from './toc-attributes';
 import { formatCssValue, getCssVarName } from '@shared/config/css-var-mappings-generated';
 import { buildEditorCssVars } from '@shared/styles/toc-css-vars-generated';
@@ -482,6 +484,14 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		    "left": "#dddddd",
 		    "linked": true
 		};
+	const iconInactiveSource = effectiveValues.iconInactiveSource || {
+		    "kind": "char",
+		    "value": "▾"
+		};
+	const iconActiveSource = effectiveValues.iconActiveSource || {
+		    "kind": "char",
+		    "value": "▾"
+		};
 	const blockBorderStyle = effectiveValues.blockBorderStyle || {
 		    "top": "solid",
 		    "right": "solid",
@@ -520,9 +530,13 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 			padding: (() => { const val = effectiveValues.wrapperPadding; if (val === null || val === undefined) return '1.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1.25rem'; })(),
 		},
 		icon: {
-			fontSize: (() => { const val = effectiveValues.iconSize; if (val === null || val === undefined) return '1.25rem'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '1.25rem'; })(),
-			transform: (() => { const val = effectiveValues.iconRotation; if (val === null || val === undefined) return '180deg'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '180deg'; })(),
-			color: (() => { const val = effectiveValues.iconColor; if (val === null || val === undefined) return '#666666'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#666666'; })(),
+			display: effectiveValues.showIcon ? 'flex' : 'none',
+			transform: `rotate(${effectiveValues.iconRotation ?? '180deg'})`,
+			color: (() => { const val = effectiveValues.iconInactiveColor; if (val === null || val === undefined) return '#333333'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object' && val.value !== undefined) { return `${val.value}${val.unit || ''}`; } return '#333333'; })(),
+			fontSize: (() => { const val = effectiveValues.iconInactiveSize; if (val === null || val === undefined) return '16px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '16px'; })(),
+			maxWidth: (() => { const val = effectiveValues.iconInactiveMaxSize; if (val === null || val === undefined) return '24px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '24px'; })(),
+			left: (() => { const val = effectiveValues.iconInactiveOffsetX; if (val === null || val === undefined) return '0px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '0px'; })(),
+			top: (() => { const val = effectiveValues.iconInactiveOffsetY; if (val === null || val === undefined) return '0px'; if (typeof val === 'string') return val; if (typeof val === 'number') return val; if (typeof val === 'object') { const deviceVal = val[responsiveDevice]; if (deviceVal !== undefined) { if (typeof deviceVal === 'string') return deviceVal; if (typeof deviceVal === 'number') return deviceVal; if (typeof deviceVal === 'object' && deviceVal.value !== undefined) { return `${deviceVal.value}${deviceVal.unit || ''}`; } return deviceVal; } if (val.value !== undefined) { return `${val.value}${val.unit || ''}`; } } return '0px'; })(),
 		},
 	};
 };
@@ -608,38 +622,139 @@ const displayHeadings =
 	const contentId = `toc-content-${ safeTocId }`;
 
 	/**
-	 * Render icon based on settings (accordion-like pattern)
+	 * Helper: Get responsive value based on current device
+	 * @param {*} value - Value that might be responsive (object with global/tablet/mobile keys)
+	 * @param {string} device - Current device ('global', 'tablet', 'mobile')
+	 * @return {*} Resolved value for current device
 	 */
-	const renderIcon = () => {
-		if ( ! effectiveValues.showIcon ) {
+	const getResponsiveValue = ( value, device ) => {
+		if ( typeof value === 'object' && value !== null && ! Array.isArray( value ) ) {
+			// Check if it's a responsive object (has global/tablet/mobile keys)
+			if ( value.global !== undefined || value.tablet !== undefined || value.mobile !== undefined ) {
+				return value[ device ] !== undefined ? value[ device ] : value.global;
+			}
+		}
+		return value;
+	};
+
+	/**
+	 * Render library icon (Dashicons or Lucide)
+	 * @param {string} iconValue - Format: "library:iconName" (e.g., "dashicons:arrow-down")
+	 * @return {JSX.Element|null} Icon element
+	 */
+	const renderLibraryIcon = ( iconValue ) => {
+		if ( ! iconValue || typeof iconValue !== 'string' ) {
 			return null;
 		}
 
-		const iconContent = effectiveValues.iconTypeClosed || '▾';
-		const isImage = iconContent.startsWith( 'http' );
-		const iconSize = effectiveValues.iconSize ?? 1.25;
-		const iconColor = effectiveValues.iconColor || '#666666';
+		const [ library, iconName ] = iconValue.split( ':' );
 
-		const iconStyle = {
-			color: iconColor,
-			fontSize: `${ iconSize }rem`,
+		if ( library === 'dashicons' && iconName ) {
+			// Dashicon component needs explicit size styling
+			return <Dashicon icon={ iconName } style={ { fontSize: 'inherit', width: '1em', height: '1em' } } />;
+		}
+
+		if ( library === 'lucide' && iconName ) {
+			const LucideIcon = LucideIcons[ iconName ];
+			return LucideIcon ? <LucideIcon size="1em" /> : null;
+		}
+
+		return null;
+	};
+
+	/**
+	 * Render icon based on new icon system
+	 * Uses iconInactiveSource and iconActiveSource with structured {kind, value} format
+	 * Applies offsets to wrapper, rotation/color/size to icon element
+	 *
+	 * @return {JSX.Element|null} Icon element with wrapper
+	 */
+	const renderIcon = () => {
+		const iconPosition = effectiveValues.iconPosition || 'right';
+
+		// Check if icon should be displayed based on showIcon attribute
+		// Return null to completely hide icon when Show Icon toggle is off
+		if ( effectiveValues.showIcon === false ) {
+			return null;
+		}
+
+		// Get icon sources (structured objects with {kind, value})
+		const inactiveSource = effectiveValues.iconInactiveSource || { kind: 'char', value: '▾' };
+		const activeSource = effectiveValues.iconActiveSource;
+
+		// Determine which icon to show based on collapsed state
+		// In editor, we use initiallyCollapsed for preview
+		const isCollapsed = effectiveValues.initiallyCollapsed || false;
+		const hasDifferentActiveIcon = activeSource && activeSource.value;
+		const displaySource = ! isCollapsed && hasDifferentActiveIcon ? activeSource : inactiveSource;
+		const displayPrefix = ! isCollapsed && hasDifferentActiveIcon ? 'iconActive' : 'iconInactive';
+
+		// Get responsive values for current device
+		const offsetX = getResponsiveValue( effectiveValues[ `${ displayPrefix }OffsetX` ], responsiveDevice ) || '0px';
+		const offsetY = getResponsiveValue( effectiveValues[ `${ displayPrefix }OffsetY` ], responsiveDevice ) || '0px';
+		const color = effectiveValues[ `${ displayPrefix }Color` ] || '#333333';
+		const size = getResponsiveValue( effectiveValues[ `${ displayPrefix }Size` ], responsiveDevice ) || '16px';
+		const maxSize = getResponsiveValue( effectiveValues[ `${ displayPrefix }MaxSize` ], responsiveDevice ) || '24px';
+		const rotation = ! isCollapsed ? ( effectiveValues.iconRotation || '180deg' ) : '0deg';
+
+		// Wrapper styles (layout only)
+		// Note: Display is handled by CSS variable (--toc-icon-display)
+		// Note: Offsets are handled by CSS variables (--toc-icon-offset-x, --toc-icon-offset-y)
+		const wrapperStyle = {
+			alignItems: 'center',
 		};
 
-		if ( isImage ) {
-			return (
+		// Icon styles (color, size, rotation) - for char and library icons
+		// Icon styles (rotation only) - for char and library icons
+		// Note: fontSize and color are handled by CSS variables (--toc-icon-size, --toc-icon-color)
+		const iconStyle = {
+			transform: `rotate(${ rotation })`,
+			display: 'inline-flex',
+			alignItems: 'center',
+			lineHeight: 1,
+		};
+
+		// Image styles (rotation only)
+		// Note: max-width/max-height are handled by CSS variables (--toc-icon-max-size)
+		const imageStyle = {
+			transform: `rotate(${ rotation })`,
+			display: 'block',
+		};
+
+		// Render based on icon kind
+		let iconElement = null;
+
+		if ( displaySource.kind === 'char' ) {
+			iconElement = (
+				<span className="toc-icon toc-icon-char" style={ iconStyle }>
+					{ displaySource.value }
+				</span>
+			);
+		} else if ( displaySource.kind === 'image' ) {
+			iconElement = (
 				<img
-					src={ iconContent }
+					className="toc-icon toc-icon-image"
+					src={ displaySource.value }
 					alt=""
 					aria-hidden="true"
-					className="toc-icon toc-icon-image"
-					style={ iconStyle }
+					style={ imageStyle }
 				/>
+			);
+		} else if ( displaySource.kind === 'library' ) {
+			iconElement = (
+				<span className="toc-icon toc-icon-library" style={ iconStyle }>
+					{ renderLibraryIcon( displaySource.value ) }
+				</span>
 			);
 		}
 
+		if ( ! iconElement ) {
+			return null;
+		}
+
 		return (
-			<span className="toc-icon" aria-hidden="true" style={ iconStyle }>
-				{ iconContent }
+			<span className="toc-icon-wrapper" style={ wrapperStyle } aria-hidden="true">
+				{ iconElement }
 			</span>
 		);
 	};

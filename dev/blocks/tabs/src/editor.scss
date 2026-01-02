@@ -343,3 +343,10 @@
 	margin: 0;
 	display: contents;
 }
+
+/* Disable icon animations in editor to prevent lag when adjusting settings */
+.tab-icon-wrapper,
+.tab-icon,
+.tab-icon-image {
+	transition: none !important;
+}

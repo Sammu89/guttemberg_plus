@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2025-12-29T15:44:13.318Z
+ * Generated at: 2026-01-02T19:57:50.469Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -74,9 +74,34 @@
   --toc-h6-font-style: normal;
   --toc-h6-text-transform: none;
   --toc-h6-text-decoration: none;
-  --toc-icon-size: 1.25rem;
+  --toc-icon-display: inline-flex;
   --toc-icon-rotation: 180deg;
-  --toc-icon-color: #666666;
+  --toc-icon-color: #333333;
+  --toc-icon-size: 16px;
+  --toc-icon-size-tablet: 16px;
+  --toc-icon-size-mobile: 16px;
+  --toc-icon-max-size: 24px;
+  --toc-icon-max-size-tablet: 24px;
+  --toc-icon-max-size-mobile: 24px;
+  --toc-icon-offset-x: 0px;
+  --toc-icon-offset-x-tablet: 0px;
+  --toc-icon-offset-x-mobile: 0px;
+  --toc-icon-offset-y: 0px;
+  --toc-icon-offset-y-tablet: 0px;
+  --toc-icon-offset-y-mobile: 0px;
+  --toc-icon-active-color: #333333;
+  --toc-icon-active-size: 16px;
+  --toc-icon-active-size-tablet: 16px;
+  --toc-icon-active-size-mobile: 16px;
+  --toc-icon-active-max-size: 24px;
+  --toc-icon-active-max-size-tablet: 24px;
+  --toc-icon-active-max-size-mobile: 24px;
+  --toc-icon-active-offset-x: 0px;
+  --toc-icon-active-offset-x-tablet: 0px;
+  --toc-icon-active-offset-x-mobile: 0px;
+  --toc-icon-active-offset-y: 0px;
+  --toc-icon-active-offset-y-tablet: 0px;
+  --toc-icon-active-offset-y-mobile: 0px;
   --toc-title-font-size: 1.25rem;
   --toc-title-font-weight: 700;
   --toc-title-font-style: normal;

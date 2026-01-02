@@ -159,9 +159,8 @@ export function buildBoxShadow(shadows) {
 /**
  * Builds a CSS text-shadow string from an array of shadow layer objects.
  *
- * Similar to buildBoxShadow, but omits spread and inset properties which
- * are not supported by text-shadow. Compiles multiple shadow layers into
- * a single CSS text-shadow value.
+ * Similar to buildBoxShadow, but omits blur, spread, and inset properties.
+ * Compiles multiple shadow layers into a single CSS text-shadow value.
  *
  * @param {Array<ShadowLayer>|null|undefined} shadows - Array of shadow layer objects
  * @returns {string} CSS text-shadow value or 'none' if no valid shadows
@@ -171,11 +170,10 @@ export function buildBoxShadow(shadows) {
  *   {
  *     x: { value: 2, unit: 'px' },
  *     y: { value: 2, unit: 'px' },
- *     blur: { value: 4, unit: 'px' },
  *     color: 'rgba(0,0,0,0.3)'
  *   }
  * ])
- * // Returns: "2px 2px 4px rgba(0,0,0,0.3)"
+ * // Returns: "2px 2px rgba(0,0,0,0.3)"
  *
  * @example
  * buildTextShadow([])
@@ -197,14 +195,13 @@ export function buildTextShadow(shadows) {
 		return 'none';
 	}
 
-	// Build shadow string for each layer (text-shadow format: offset-x offset-y blur-radius color)
+	// Build shadow string for each layer (text-shadow format: offset-x offset-y color)
 	const shadowStrings = validLayers.map((layer) => {
 		const parts = [];
 
-		// Add offset-x, offset-y, blur-radius (NO spread or inset for text-shadow)
+		// Add offset-x, offset-y (NO blur, spread, or inset for text-shadow)
 		parts.push(formatShadowValue(layer.x));
 		parts.push(formatShadowValue(layer.y));
-		parts.push(formatShadowValue(layer.blur));
 
 		// Add color
 		parts.push(layer.color);

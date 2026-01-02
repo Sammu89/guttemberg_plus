@@ -45,7 +45,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	);
 
 	const blockProps = useBlockProps( {
-		className: `tab-panel-editor ${ isActive ? 'is-active' : '' }`,
+		className: `tab-panel tab-panel-editor ${ isActive ? 'is-active' : '' }`,
 		style: {
 			display: isActive ? 'block' : 'none',
 		},

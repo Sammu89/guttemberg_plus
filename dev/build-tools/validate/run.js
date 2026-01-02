@@ -158,6 +158,12 @@ const validations = [
     command: ['node', 'build-tools/validate-editor-css-vars.js'],
   },
   {
+    id: 'editor-frontend-sync',
+    title: 'Editor ↔ Frontend Synchronization',
+    group: 'code',
+    command: ['node', 'build-tools/validate-editor-frontend-sync.js'],
+  },
+  {
     id: 'generated-css',
     title: 'Generated CSS Output (Responsive + Decomposition)',
     group: 'css',

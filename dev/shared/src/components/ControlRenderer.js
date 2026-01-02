@@ -158,6 +158,54 @@ function checkDisabledWhen( disabledWhen, attributes ) {
 }
 
 /**
+ * Evaluate conditionalRender expression
+ * Examples:
+ *   "iconInactiveSource.kind !== 'image'"
+ *   "iconActiveSource.kind === 'image'"
+ *
+ * @param {string} expression - JavaScript expression to evaluate
+ * @param {Object} values - Effective attribute values
+ * @returns {boolean} - Whether control should be shown
+ */
+function evaluateConditionalRender( expression, values ) {
+	try {
+		// Create a safe evaluation context
+		// Replace attribute references with actual values
+		let safeExpression = expression;
+
+		// Find all attribute references (e.g., iconInactiveSource.kind)
+		const attrPattern = /(\w+(?:\.\w+)*)/g;
+		const matches = expression.match( attrPattern );
+
+		if ( matches ) {
+			const evalContext = {};
+			matches.forEach( ( match ) => {
+				// Get nested value (e.g., iconInactiveSource.kind)
+				const parts = match.split( '.' );
+				let value = values;
+				for ( const part of parts ) {
+					value = value?.[ part ];
+				}
+				evalContext[ match.replace( /\./g, '_' ) ] = value;
+				safeExpression = safeExpression.replace(
+					new RegExp( match.replace( /\./g, '\\.' ), 'g' ),
+					match.replace( /\./g, '_' )
+				);
+			} );
+
+			// Evaluate with context
+			const func = new Function( ...Object.keys( evalContext ), `return ${safeExpression}` );
+			return func( ...Object.values( evalContext ) );
+		}
+
+		return true; // Default to showing if can't parse
+	} catch ( error ) {
+		console.warn( 'Failed to evaluate conditionalRender:', expression, error );
+		return true; // Default to showing on error
+	}
+}
+
+/**
  * Control Renderer Component
  *
  * Renders the appropriate control component based on schema configuration.
@@ -203,6 +251,9 @@ export function ControlRenderer( {
 		cssProperty,
 	} = attrConfig;
 
+	// Extract blockType from schema for controls that need it (e.g., IconPositionControl)
+	const blockType = schema?.blockType;
+
 	const rawValue = effectiveValues?.[ attrName ];
 	const effectiveValue = normalizeControlValue( rawValue, attrConfig );
 	const finalLabel = label || attrName;
@@ -217,6 +268,17 @@ export function ControlRenderer( {
 	// Check if control should be hidden based on showWhen conditions
 	if ( ! checkShowWhen( showWhen, attributes ) ) {
 		return null;
+	}
+
+	// Check conditionalRender (expression-based visibility)
+	if ( attrConfig.conditionalRender ) {
+		const shouldShow = evaluateConditionalRender(
+			attrConfig.conditionalRender,
+			effectiveValues
+		);
+		if ( ! shouldShow ) {
+			return null;
+		}
 	}
 
 	// Check if control should be disabled based on disabledWhen conditions
@@ -610,16 +672,14 @@ export function ControlRenderer( {
 		}
 
 		case 'IconPicker': {
-			const iconHelp = helpText || "Use a character, Unicode code, or image URL. Use 'none' to disable.";
+			const { IconPicker } = require( './controls' );
 			return (
-				<TextControl
+				<IconPicker
 					key={ attrName }
 					label={ renderLabel( finalLabel ) }
-					value={ effectiveValue ?? defaultValue ?? '' }
+					value={ effectiveValue ?? defaultValue ?? { kind: 'char', value: '▾' } }
 					onChange={ handleChange }
-					placeholder="Enter icon char or image URL"
-					help={ iconHelp }
-					__next40pxDefaultSize
+					help={ helpText }
 				/>
 			);
 		}
@@ -908,11 +968,10 @@ export function ControlRenderer( {
 			];
 
 			// Determine which controls to show based on CSS property
-			// text-shadow doesn't support spread or inset
-			// box-shadow on borders typically doesn't need inset
+			// text-shadow doesn't support spread or blur
 			const isTextShadow = cssProperty === 'text-shadow';
 			const showSpread = !isTextShadow;
-			const showInset = !isTextShadow; // Hide inset for text-shadow
+			const showBlur = !isTextShadow;
 
 			return (
 				<ShadowPanel
@@ -922,7 +981,7 @@ export function ControlRenderer( {
 					onChange={ handleChange }
 					disabled={ isDisabled }
 					showSpread={ showSpread }
-					showInset={ showInset }
+					showBlur={ showBlur }
 				/>
 			);
 		}
@@ -997,6 +1056,7 @@ export function ControlRenderer( {
 						decorationColor: attributes.titleDecorationColor || 'currentColor',
 						decorationStyle: attributes.titleDecorationStyle || 'solid',
 						decorationWidth: attributes.titleDecorationWidth || 'auto',
+						noLineBreak: ( effectiveValues?.titleNoLineBreak ?? attributes.titleNoLineBreak ) === 'nowrap',
 					} }
 					textColor={ effectiveValues?.titleColor }
 					onChange={ ( newValue ) => {
@@ -1006,6 +1066,7 @@ export function ControlRenderer( {
 							titleDecorationColor: newValue.decorationColor,
 							titleDecorationStyle: newValue.decorationStyle,
 							titleDecorationWidth: newValue.decorationWidth,
+							titleNoLineBreak: newValue.noLineBreak ? 'nowrap' : 'normal',
 						} );
 					} }
 					label={ attrConfig.label }
@@ -1023,6 +1084,7 @@ export function ControlRenderer( {
 					label={ renderLabel( finalLabel ) }
 					value={ effectiveValue ?? defaultValue ?? 'left' }
 					onChange={ handleChange }
+					blockType={ blockType }
 				/>
 			);
 		}

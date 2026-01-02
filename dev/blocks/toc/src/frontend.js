@@ -822,6 +822,70 @@ function setupScrollSpy( block, headings ) {
 }
 
 /**
+ * Update TOC icon based on open/closed state
+ * Handles new icon system with character, image, and library icons
+ *
+ * @param {HTMLElement} icon Icon element
+ * @param {boolean}     isOpen Whether TOC is open
+ */
+function updateTocIcon( icon, isOpen ) {
+	if ( ! icon ) {
+		return;
+	}
+
+	try {
+		// Get data attributes
+		const inactiveData = icon.getAttribute( 'data-icon-inactive' );
+		const activeData = icon.getAttribute( 'data-icon-active' );
+		const hasDifferentIcons = icon.getAttribute( 'data-has-different-icons' ) === 'true';
+
+		if ( ! inactiveData ) {
+			return;
+		}
+
+		const inactiveSource = JSON.parse( inactiveData );
+		const activeSource = activeData ? JSON.parse( activeData ) : null;
+
+		// If we have different icons for active/inactive, swap the icon content
+		if ( hasDifferentIcons && activeSource ) {
+			const targetSource = isOpen ? activeSource : inactiveSource;
+
+			// Update icon based on kind
+			if ( targetSource.kind === 'char' ) {
+				icon.textContent = targetSource.value;
+			} else if ( targetSource.kind === 'image' ) {
+				icon.setAttribute( 'src', targetSource.value );
+			} else if ( targetSource.kind === 'library' ) {
+				const [ library, iconName ] = targetSource.value.split( ':' );
+
+				if ( library === 'dashicons' ) {
+					// Update Dashicon classes
+					const dashiconSpan = icon.querySelector( '.dashicons' );
+					if ( dashiconSpan ) {
+						dashiconSpan.className = `dashicons dashicons-${ iconName }`;
+					}
+				}
+				// Note: Lucide icons would need SVG re-rendering, which is handled by CSS
+
+				// Update data attributes for library icons
+				icon.setAttribute( 'data-icon-library', library );
+				icon.setAttribute( 'data-icon-name', iconName );
+			}
+		}
+
+		// Toggle rotation class for CSS animation
+		if ( isOpen ) {
+			icon.classList.add( 'is-rotated' );
+		} else {
+			icon.classList.remove( 'is-rotated' );
+		}
+	} catch ( error ) {
+		// Fallback to old behavior if parsing fails
+		// console.error( 'Error updating TOC icon:', error );
+	}
+}
+
+/**
  * Setup collapsible toggle behavior
  * @param block
  * @param config
@@ -841,9 +905,6 @@ function setupCollapsible( block, config ) {
 
 	// Get icon data attributes
 	const showIcon = config.showIcon !== false;
-	const iconClosed = toggleButton.getAttribute( 'data-icon-closed' ) || '▾';
-	const iconOpen = toggleButton.getAttribute( 'data-icon-open' ) || 'none';
-	const iconRotation = parseInt( toggleButton.getAttribute( 'data-icon-rotation' ) || '180', 10 );
 
 	// If showIcon is false, don't allow toggling
 	if ( ! showIcon ) {
@@ -863,11 +924,7 @@ function setupCollapsible( block, config ) {
 
 	// Apply initial icon state
 	if ( icon && ! isCollapsed ) {
-		if ( iconOpen && iconOpen !== 'none' ) {
-			icon.textContent = iconOpen;
-		} else {
-			icon.style.transform = `rotate(${ iconRotation }deg)`;
-		}
+		updateTocIcon( icon, true );
 	}
 
 	// Toggle function
@@ -881,26 +938,16 @@ function setupCollapsible( block, config ) {
 				toggleButton.setAttribute( 'aria-expanded', 'true' );
 				block.classList.add( 'is-open' );
 
-				if ( icon ) {
-					if ( iconOpen && iconOpen !== 'none' ) {
-						// Swap to open icon
-						icon.textContent = iconOpen;
-					} else {
-						// Rotate closed icon
-						icon.style.transform = `rotate(${ iconRotation }deg)`;
-					}
-				}
+				// Update icon
+				updateTocIcon( icon, true );
 			} else {
 				// Collapse
 				content.setAttribute( 'hidden', 'true' );
 				toggleButton.setAttribute( 'aria-expanded', 'false' );
 				block.classList.remove( 'is-open' );
 
-				if ( icon ) {
-					// Reset to closed icon
-					icon.textContent = iconClosed;
-					icon.style.transform = 'rotate(0deg)';
-				}
+				// Update icon
+				updateTocIcon( icon, false );
 			}
 		} catch ( error ) {
 		}
@@ -943,4 +990,4 @@ if ( document.readyState === 'loading' ) {
 /**
  * Export functions for potential reuse
  */
-export { initializeTOCBlocks, detectHeadings, setupSmoothScroll, setupScrollSpy, setupCollapsible, openParentAccordionOrTab };
+export { initializeTOCBlocks, detectHeadings, setupSmoothScroll, setupScrollSpy, setupCollapsible, openParentAccordionOrTab, updateTocIcon };

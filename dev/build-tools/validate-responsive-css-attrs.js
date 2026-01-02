@@ -50,6 +50,11 @@ function validateBlock(blockType) {
 	const elements = structure && structure.elements ? structure.elements : null;
 
 	for (const [attrName, attr] of Object.entries(schema.attributes)) {
+		// Skip validation for icon-panel macros (they use appliesToElement instead)
+		if (attr.type === 'icon-panel') {
+			continue;
+		}
+
 		const outputsCSS = attr.outputsCSS !== false;
 		const isResponsive = attr.responsive === true;
 		const hasCssVar = Boolean(attr.cssVar);

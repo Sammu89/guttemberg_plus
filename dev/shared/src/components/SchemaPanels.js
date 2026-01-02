@@ -11,6 +11,7 @@
 
 import GenericPanel from './GenericPanel';
 import SubgroupPanel from './SubgroupPanel';
+import { IconPanel } from './controls/IconPanel';
 
 /**
  * Get all groups from schema tabs
@@ -137,6 +138,20 @@ export function SchemaPanels( {
 				// Skip groups with no visible attributes
 				if ( ! groupHasAttributes( groupId, schema ) ) {
 					return null;
+				}
+
+				// Use IconPanel for icon group - provides proper TabPanel UI for icon states
+				if ( groupId === 'icon' ) {
+					return (
+						<IconPanel
+							key={ groupId }
+							blockType={ schema.blockType || 'accordion' }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							effectiveValues={ effectiveValues }
+							label={ groupConfig.title || 'Icon' }
+						/>
+					);
 				}
 
 				// Use SubgroupPanel if group has subgroups and useSubgroupPanels is true
