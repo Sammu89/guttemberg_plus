@@ -46,11 +46,12 @@ Designer changes default:
 - `assets/css/tabs.css` - All tabs defaults
 - `assets/css/toc.css` - All TOC defaults
 
-### 2. Complete Snapshot Themes
+### 2. Delta Themes (Optimized Storage)
 
-Themes store **ALL attributes** with explicit values:
+Themes store **ONLY differences from defaults** (deltas):
+- Unchanged attributes are omitted from `values`
 - No null values in saved themes
-- Themes are portable and self-contained
+- Defaults can evolve without breaking themes
 - Update theme → all blocks using it update
 - Separate storage per block type (no cross-contamination)
 
@@ -141,7 +142,7 @@ theme.titleColor = '#00ff00'; // Ignored
 'accordion_themes' => array(
   'theme-id-xyz' => array(
     'name' => 'Dark Mode',
-    'values' => array( /* all attributes */ )
+    'values' => array( /* deltas only */ )
   )
 )
 

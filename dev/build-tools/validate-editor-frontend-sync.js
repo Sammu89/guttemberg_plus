@@ -42,7 +42,7 @@ const BLOCKS = ['accordion', 'tabs', 'toc'];
 function loadBlockFiles(blockName) {
 	const editPath = path.join(ROOT_DIR, `blocks/${blockName}/src/edit.js`);
 	const savePath = path.join(ROOT_DIR, `blocks/${blockName}/src/save.js`);
-	const stylePath = path.join(ROOT_DIR, `blocks/${blockName}/src/style.scss`);
+	const stylePath = path.join(ROOT_DIR, `css/${blockName}_hardcoded.scss`);
 
 	if (!fs.existsSync(editPath) || !fs.existsSync(savePath)) {
 		return null;

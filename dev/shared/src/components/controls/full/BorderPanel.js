@@ -159,7 +159,7 @@ export function BorderPanel( {
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
-		? ( value[ device ] || value.value || DEFAULT_VALUE )
+		? ( value?.[ device ] ?? value?.value ?? DEFAULT_VALUE )
 		: value;
 
 	// Destructure with defaults

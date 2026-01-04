@@ -1,0 +1,106 @@
+{
+  "blockType": "toc",
+  "structure": {
+    "elements": {
+      "wrapper": {
+        "id": "wrapper",
+        "selector": ".gutplus-toc",
+        "tag": "div",
+        "classes": [
+          "gutplus-toc"
+        ],
+        "attributes": {},
+        "children": [
+          "titleStatic",
+          "titleButton",
+          "content"
+        ],
+        "parent": null,
+        "isSlot": false
+      },
+      "titleStatic": {
+        "id": "titleStatic",
+        "selector": ".toc-title",
+        "tag": "div",
+        "classes": [
+          "toc-title"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "wrapper",
+        "isSlot": false
+      },
+      "titleButton": {
+        "id": "titleButton",
+        "selector": ".toc-title",
+        "tag": "button",
+        "classes": [
+          "toc-title"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "children": [],
+        "parent": "wrapper",
+        "isSlot": false
+      },
+      "content": {
+        "id": "content",
+        "selector": ".toc-content",
+        "tag": "div",
+        "classes": [
+          "toc-content"
+        ],
+        "attributes": {},
+        "children": [
+          "list"
+        ],
+        "parent": "wrapper",
+        "isSlot": false
+      },
+      "list": {
+        "id": "list",
+        "selector": ".toc-list",
+        "tag": "ul",
+        "classes": [
+          "toc-list"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "content",
+        "isSlot": false
+      }
+    },
+    "variations": {
+      "titleStyle": {
+        "type": "switch",
+        "expression": "titleStyle",
+        "cases": {
+          "static": {
+            "value": "static",
+            "content": "\n          <div class=\"toc-title\" data-el=\"titleStatic\"></div>\n        ",
+            "isDefault": false
+          },
+          "default": {
+            "value": "default",
+            "content": "\n          <button class=\"toc-title\" data-el=\"titleButton\" type=\"button\"></button>\n        ",
+            "isDefault": true
+          }
+        }
+      }
+    },
+    "slots": {
+      "tocItems": {
+        "name": "tocItems",
+        "injections": [
+          {}
+        ]
+      }
+    },
+    "conditions": [],
+    "placeholders": [
+      "headingLevel"
+    ],
+    "template": "<!-- Template: TOC Structure -->\n    <div class=\"gutplus-toc\" data-el=\"wrapper\">\n      <template data-switch=\"titleStyle\">\n        <template data-case=\"static\">\n          <div class=\"toc-title\" data-el=\"titleStatic\"></div>\n        </template>\n        <template data-default>\n          <button class=\"toc-title\" data-el=\"titleButton\" type=\"button\"></button>\n        </template>\n      </template>\n\n      <div class=\"toc-content\" data-el=\"content\">\n        <ul class=\"toc-list\" data-el=\"list\">\n          <template data-slot=\"tocItems\"></template>\n        </ul>\n      </div>\n    </div>\n\n    <template data-slot=\"tocItems\">\n      <li class=\"toc-item\" data-el=\"listItem\">\n        <template data-switch=\"headingLevel\">\n          <template data-case=\"1\">\n            <a class=\"toc-link\" data-el=\"h1Link\"></a>\n          </template>\n          <template data-case=\"2\">\n            <a class=\"toc-link\" data-el=\"h2Link\"></a>\n          </template>\n          <template data-case=\"3\">\n            <a class=\"toc-link\" data-el=\"h3Link\"></a>\n          </template>\n          <template data-case=\"4\">\n            <a class=\"toc-link\" data-el=\"h4Link\"></a>\n          </template>\n          <template data-case=\"5\">\n            <a class=\"toc-link\" data-el=\"h5Link\"></a>\n          </template>\n          <template data-case=\"6\">\n            <a class=\"toc-link\" data-el=\"h6Link\"></a>\n          </template>\n          <template data-default>\n            <a class=\"toc-link\" data-el=\"link\"></a>\n          </template>\n        </template>\n\n        <template data-when=\"hasChildren\">\n          <ul class=\"toc-list toc-hierarchical-numbering\" data-el=\"nestedList\">\n            <template data-slot=\"tocItems\"></template>\n          </ul>\n        </template>\n      </li>\n    </template>\n<!-- End Template: TOC Structure -->\n  <section id=\"instructions\">\n    <h2>Instructions</h2>\n    <pre>\nTemplate syntax:\n- data-el defines the element id used by the generator.\n- class defines the selector (first class is the selector).\n- Use <template data-slot=\"name\"> to define reusable fragments and\n  <template data-slot=\"name\"></template> where you want to inject them.\n- Use <template data-when=\"expression\"> for conditional branches and\n  <template data-else> for fallback.\n- Use <template data-switch=\"expr\"> with child <template data-case=\"value\">\n  and <template data-default> for variations.\n- Curly-brace placeholders (e.g., {headingLevel}) are string substitutions.\n- <slot> is a leaf placeholder for InnerBlocks or dynamic content.\n    </pre>\n  </section>\n"
+  }
+}

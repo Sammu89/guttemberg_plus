@@ -43,6 +43,21 @@ function guttemberg_plus_register_blocks() {
 add_action( 'init', 'guttemberg_plus_register_blocks' );
 
 /**
+ * Enqueue Dashicons for both editor and frontend
+ *
+ * Uses enqueue_block_assets instead of enqueue_block_editor_assets
+ * to ensure assets load in the iframed editor (WordPress 6.3+)
+ *
+ * @see https://developer.wordpress.org/block-editor/how-to-guides/enqueueing-assets-in-the-editor/
+ */
+function guttemberg_plus_enqueue_block_assets() {
+	// Enqueue Dashicons for icon library support
+	// This loads in both editor and frontend
+	wp_enqueue_style( 'dashicons' );
+}
+add_action( 'enqueue_block_assets', 'guttemberg_plus_enqueue_block_assets' );
+
+/**
  * Render callback for Accordion block
  *
  * Server-side rendering not strictly necessary for this block,
@@ -53,8 +68,7 @@ add_action( 'init', 'guttemberg_plus_register_blocks' );
  * @return string Block HTML.
  */
 function guttemberg_plus_render_accordion_block( $attributes, $content ) {
-	// For now, just return the content as-is
-	// Future: Could add dynamic features here
+	// Note: Dashicons are now globally enqueued via enqueue_block_assets hook
 	return $content;
 }
 
@@ -66,6 +80,7 @@ function guttemberg_plus_render_accordion_block( $attributes, $content ) {
  * @return string Block HTML.
  */
 function guttemberg_plus_render_tabs_block( $attributes, $content ) {
+	// Note: Dashicons are now globally enqueued via enqueue_block_assets hook
 	return $content;
 }
 
@@ -77,5 +92,6 @@ function guttemberg_plus_render_tabs_block( $attributes, $content ) {
  * @return string Block HTML.
  */
 function guttemberg_plus_render_toc_block( $attributes, $content ) {
+	// Note: Dashicons are now globally enqueued via enqueue_block_assets hook
 	return $content;
 }

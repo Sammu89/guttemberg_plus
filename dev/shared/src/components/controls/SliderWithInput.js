@@ -441,28 +441,34 @@ export function SliderWithInput( {
 	};
 
 	// Build the label with header controls
-	const renderLabel = () => (
-		<Flex align="center" justify="space-between" style={ { width: '100%' } }>
-			<FlexItem>
-				<span style={ { display: 'flex', alignItems: 'center' } }>
-					{ label }
-				</span>
-			</FlexItem>
-			<FlexItem>
-				{ canBeResponsive ? (
-						<ResponsiveToggle
-							isEnabled={ responsiveEnabled }
-							onToggle={ onResponsiveToggle }
-							currentDevice={ device }
-							onReset={ handleResponsiveResetClick }
-							isResetDisabled={ isResetDisabled && ! responsiveEnabled }
-						/>
-				) : (
-					<ResetButton onClick={ handleReset } disabled={ isResetDisabled } />
-				) }
-			</FlexItem>
-		</Flex>
-	);
+	// Return null if no label provided - avoids duplicate labels when used inside BaseControl
+	const renderLabel = () => {
+		if ( ! label ) {
+			return null;
+		}
+		return (
+			<Flex align="center" justify="space-between" style={ { width: '100%' } }>
+				<FlexItem>
+					<span style={ { display: 'flex', alignItems: 'center' } }>
+						{ label }
+					</span>
+				</FlexItem>
+				<FlexItem>
+					{ canBeResponsive ? (
+							<ResponsiveToggle
+								isEnabled={ responsiveEnabled }
+								onToggle={ onResponsiveToggle }
+								currentDevice={ device }
+								onReset={ handleResponsiveResetClick }
+								isResetDisabled={ isResetDisabled && ! responsiveEnabled }
+							/>
+					) : (
+						<ResetButton onClick={ handleReset } disabled={ isResetDisabled } />
+					) }
+				</FlexItem>
+			</Flex>
+		);
+	};
 
 	// Display value for the slider
 	const displayValue = numericValue ?? defaultValue ?? min;

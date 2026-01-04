@@ -1,0 +1,164 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guttemberg Plus Shared Templates",
+  "version": "1.0.0",
+
+  "appearance": {
+    "description": "Font weight + style combinations",
+    "presets": [
+      { "name": "Default", "weight": "normal", "style": "normal" },
+      { "name": "Thin", "weight": "100", "style": "normal" },
+      { "name": "Extra Light", "weight": "200", "style": "normal" },
+      { "name": "Light", "weight": "300", "style": "normal" },
+      { "name": "Regular", "weight": "400", "style": "normal" },
+      { "name": "Medium", "weight": "500", "style": "normal" },
+      { "name": "Semi Bold", "weight": "600", "style": "normal" },
+      { "name": "Bold", "weight": "700", "style": "normal" },
+      { "name": "Extra Bold", "weight": "800", "style": "normal" },
+      { "name": "Black", "weight": "900", "style": "normal" },
+      { "name": "Thin Italic", "weight": "100", "style": "italic" },
+      { "name": "Extra Light Italic", "weight": "200", "style": "italic" },
+      { "name": "Light Italic", "weight": "300", "style": "italic" },
+      { "name": "Regular Italic", "weight": "400", "style": "italic" },
+      { "name": "Medium Italic", "weight": "500", "style": "italic" },
+      { "name": "Semi Bold Italic", "weight": "600", "style": "italic" },
+      { "name": "Bold Italic", "weight": "700", "style": "italic" },
+      { "name": "Extra Bold Italic", "weight": "800", "style": "italic" },
+      { "name": "Black Italic", "weight": "900", "style": "italic" }
+    ]
+  },
+
+  "shadows": {
+    "description": "Box shadow presets",
+    "presets": [
+      { "name": "None", "value": "none" },
+      { "name": "Subtle", "value": "0 1px 3px var(--gutplus-shadow-color, rgba(0,0,0,0.12))" },
+      { "name": "Medium", "value": "0 4px 6px var(--gutplus-shadow-color, rgba(0,0,0,0.15))" },
+      { "name": "Strong", "value": "0 10px 20px var(--gutplus-shadow-color, rgba(0,0,0,0.2))" },
+      { "name": "Heavy", "value": "0 15px 35px var(--gutplus-shadow-color, rgba(0,0,0,0.25))" }
+    ]
+  },
+
+  "animations": {
+    "description": "Animation presets for accordion open/close",
+    "types": [
+      { "name": "None", "value": "none" },
+      { "name": "Slide", "value": "slide" },
+      { "name": "Fade", "value": "fade" },
+      { "name": "Slide + Fade", "value": "slideFade" }
+    ],
+    "easings": [
+      { "name": "Ease", "value": "ease" },
+      { "name": "Ease In", "value": "ease-in" },
+      { "name": "Ease Out", "value": "ease-out" },
+      { "name": "Ease In-Out", "value": "ease-in-out" },
+      { "name": "Linear", "value": "linear" },
+      { "name": "Bounce", "value": "cubic-bezier(0.68, -0.55, 0.265, 1.55)" }
+    ]
+  },
+
+  "decorations": {
+    "description": "Text decoration options",
+    "common": [
+      { "name": "None", "value": "none", "icon": "dash" },
+      { "name": "Underline", "value": "underline", "icon": "underline" },
+      { "name": "Line Through", "value": "line-through", "icon": "strikethrough" },
+      { "name": "Overline", "value": "overline", "icon": "overline" }
+    ],
+    "extended": [
+      { "name": "Underline + Line Through", "value": "underline line-through" },
+      { "name": "Underline + Overline", "value": "underline overline" },
+      { "name": "Overline + Line Through", "value": "overline line-through" },
+      { "name": "All", "value": "underline overline line-through" }
+    ],
+    "styles": [
+      { "name": "Solid", "value": "solid" },
+      { "name": "Double", "value": "double" },
+      { "name": "Dotted", "value": "dotted" },
+      { "name": "Dashed", "value": "dashed" },
+      { "name": "Wavy", "value": "wavy" }
+    ]
+  },
+
+  "letterCase": {
+    "description": "Text transform options",
+    "options": [
+      { "name": "None", "value": "none", "display": "—" },
+      { "name": "Uppercase", "value": "uppercase", "display": "AB" },
+      { "name": "Lowercase", "value": "lowercase", "display": "ab" },
+      { "name": "Capitalize", "value": "capitalize", "display": "Ab" }
+    ]
+  },
+
+  "fontFamilies": {
+    "description": "Available font families",
+    "system": [
+      { "name": "System Default", "value": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" },
+      { "name": "Arial", "value": "Arial, Helvetica, sans-serif" },
+      { "name": "Georgia", "value": "Georgia, 'Times New Roman', serif" },
+      { "name": "Courier New", "value": "'Courier New', Courier, monospace" },
+      { "name": "Verdana", "value": "Verdana, Geneva, sans-serif" },
+      { "name": "Trebuchet MS", "value": "'Trebuchet MS', sans-serif" }
+    ],
+    "google": [
+      { "name": "Open Sans", "value": "'Open Sans', sans-serif" },
+      { "name": "Roboto", "value": "'Roboto', sans-serif" },
+      { "name": "Lato", "value": "'Lato', sans-serif" },
+      { "name": "Montserrat", "value": "'Montserrat', sans-serif" },
+      { "name": "Poppins", "value": "'Poppins', sans-serif" },
+      { "name": "Playfair Display", "value": "'Playfair Display', serif" }
+    ]
+  },
+
+  "borderStyles": {
+    "description": "Border style options",
+    "options": [
+      { "name": "None", "value": "none" },
+      { "name": "Solid", "value": "solid" },
+      { "name": "Dashed", "value": "dashed" },
+      { "name": "Dotted", "value": "dotted" },
+      { "name": "Double", "value": "double" },
+      { "name": "Groove", "value": "groove" },
+      { "name": "Ridge", "value": "ridge" }
+    ]
+  },
+
+  "alignments": {
+    "description": "Text and block alignment options",
+    "text": [
+      { "name": "Left", "value": "left", "icon": "alignLeft" },
+      { "name": "Center", "value": "center", "icon": "alignCenter" },
+      { "name": "Right", "value": "right", "icon": "alignRight" }
+    ],
+    "block": [
+      { "name": "Left", "value": "left", "icon": "alignLeft" },
+      { "name": "Center", "value": "center", "icon": "alignCenter" },
+      { "name": "Right", "value": "right", "icon": "alignRight" }
+    ]
+  },
+
+  "units": {
+    "description": "CSS unit options",
+    "size": ["px", "em", "rem", "%", "vw", "vh"],
+    "spacing": ["px", "em", "rem", "%"],
+    "fontSize": ["px", "em", "rem", "vw"],
+    "borderWidth": ["px", "em"],
+    "borderRadius": ["px", "em", "rem", "%"]
+  },
+
+  "iconPositions": {
+    "description": "Icon position options",
+    "options": [
+      { "name": "Left", "value": "left" },
+      { "name": "Right", "value": "right" }
+    ]
+  },
+
+  "breakpoints": {
+    "description": "Default responsive breakpoints",
+    "defaults": {
+      "mobile": 600,
+      "tablet": 1024
+    }
+  }
+}

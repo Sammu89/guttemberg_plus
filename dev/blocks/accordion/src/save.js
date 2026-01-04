@@ -171,17 +171,19 @@ export default function Save( { attributes } ) {
 
 		const inactiveSource = attributes.iconInactiveSource;
 		const activeSource = attributes.iconActiveSource;
+		const useDifferentIcons = attributes.useDifferentIcons;
 
 		if ( ! inactiveSource || ! inactiveSource.value ) {
 			return null;
 		}
 
-		const hasDifferentIcons = !! ( activeSource && activeSource.value );
+		// Only render different icons if explicitly enabled AND active source exists
+		const hasDifferentIcons = useDifferentIcons && activeSource && activeSource.value;
 
 		// Render inactive icon (always visible when closed)
 		const inactiveIcon = renderSingleIcon( inactiveSource, 'inactive' );
 
-		// Render active icon only if different from inactive
+		// Render active icon only if different icons mode is enabled
 		const activeIcon = hasDifferentIcons ? renderSingleIcon( activeSource, 'active' ) : null;
 
 		return (
@@ -213,7 +215,7 @@ export default function Save( { attributes } ) {
 		// Build button content - icon position affects layout structure
 		let buttonChildren;
 
-		if ( iconPosition === 'extreme-left' ) {
+		if ( iconPosition === 'box-left' ) {
 			// Extreme left: icon at far left, text with flex grows to fill
 			buttonChildren = (
 				<>
@@ -232,7 +234,7 @@ export default function Save( { attributes } ) {
 					</div>
 				</>
 			);
-		} else if ( iconPosition === 'extreme-right' ) {
+		} else if ( iconPosition === 'box-right' ) {
 			// Extreme right: text with flex grows, icon at far right
 			buttonChildren = (
 				<>

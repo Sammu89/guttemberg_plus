@@ -62,8 +62,8 @@ Use resolved tab values (after themes/customizations). Apply only when non-null.
 - Position mapping:
   - Tabs `left` → accordion `icon-left`
   - Tabs `right` → accordion `icon-right`
-  - Tabs `extreme-left` → accordion `icon-extreme-left`
-  - Tabs `extreme-right` → accordion `icon-extreme-right`
+  - Tabs `box-left` → accordion `icon-box-left`
+  - Tabs `box-right` → accordion `icon-box-right`
 
 ### Panel / Content (tab panel vars)
 - `panelBackgroundColor` → `--tabs-panel-bg`

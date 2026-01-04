@@ -1,0 +1,42 @@
+<!-- Template: Tabs Structure -->
+    <div class="gutplus-tabs" data-el="wrapper">
+      <div class="tabs-list" data-el="tabsList" role="tablist">
+        <template data-slot="tabButtons"></template>
+      </div>
+
+      <div class="tabs-panels" data-el="tabsPanels">
+        <template data-slot="tabPanels"></template>
+      </div>
+    </div>
+
+    <template data-slot="tabButtons">
+      <button class="tab-button" data-el="tabButton" role="tab">
+        <span class="tab-button-text" data-el="tabButtonText"></span>
+      </button>
+    </template>
+
+    <template data-slot="tabPanels">
+      <div class="tab-panel" data-el="tabPanel" role="tabpanel">
+        <slot data-el="panelSlot"></slot>
+      </div>
+    </template>
+<!-- End Template: Tabs Structure -->
+
+  <section id="instructions">
+    <h2>Instructions</h2>
+    <pre>
+Template syntax:
+- data-el defines the element id used by the generator.
+- class defines the selector (first class is the selector).
+- Use <template data-slot="name"> to define reusable fragments and
+  <template data-slot="name"></template> where you want to inject them.
+- Use <template data-when="expression"> for conditional branches and
+  <template data-else> for fallback.
+- Use <template data-switch="expr"> with child <template data-case="value">
+  and <template data-default> for variations.
+- Curly-brace placeholders (e.g., {headingLevel}) are string substitutions.
+- <slot> is a leaf placeholder for InnerBlocks or dynamic content.
+    </pre>
+  </section>
+</body>
+</html>

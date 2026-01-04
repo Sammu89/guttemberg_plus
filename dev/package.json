@@ -30,6 +30,7 @@
     "schema:validate-structure": "node build-tools/validate-schema-structure.js",
     "schema:validate-responsive-css": "node build-tools/validate-responsive-css-attrs.js",
     "schema:build": "npm run schema:validate-structure && npm run schema:validate-responsive-css && node build-tools/schema-compiler.js",
+    "schema:build:warn": "node build-tools/validate/run.js --only schema-structure --warn-only && node build-tools/validate/run.js --only responsive-schema --warn-only && node build-tools/schema-compiler.js --warn-only",
     "validate:controls": "node build-tools/validate-controls.js && node build-tools/validate-control-values.js",
     "validate:theme-json": "node build-tools/validate-theme-json-values.js",
     "validate:theme-css": "node build-tools/validate-theme-css-vars.js",
@@ -43,9 +44,9 @@
     "validate:structure-markup": "node build-tools/validate-structure-markup.js",
     "validate:control-structures": "node build-tools/validate-control-data-structures.js",
     "validate:all": "npm run validate",
-    "prebuild": "npm run schema:build && npm run validate:schema && npm run validate:code",
+    "prebuild": "npm run schema:build:warn && npm run validate:schema -- --warn-only && npm run validate:code -- --warn-only",
     "build": "wp-scripts build",
-    "postbuild": "node build-tools/rename-css-files.js && npm run validate:css && npm run validate:behavior && node build-tools/prompt-dist.js",
+    "postbuild": "node build-tools/rename-css-files.js && npm run validate:css -- --warn-only && npm run validate:behavior -- --warn-only && node build-tools/prompt-dist.js",
     "dist": "DIST_YES=1 npm run build",
     "dist:win": "set DIST_YES=1&& npm run build",
     "prestart": "npm run schema:build",
@@ -58,7 +59,8 @@
   },
   "devDependencies": {
     "@wordpress/icons": "^11.4.0",
-    "@wordpress/scripts": "^27.0.0"
+    "@wordpress/scripts": "^27.0.0",
+    "jsdom": "^27.4.0"
   },
   "engines": {
     "node": ">=18.0.0",

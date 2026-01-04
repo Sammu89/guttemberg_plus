@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2026-01-02T19:57:50.459Z
+ * Generated at: 2026-01-04T23:18:45.233Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -137,23 +137,11 @@ export const tocAttributes = {
   },
   blockBorderColor: {
     type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},
   },
   titleColor: {
     type: 'string',
-    default: '#333333',
-  },
-  titleBackgroundColor: {
-    type: 'string',
-    default: 'transparent',
-  },
-  hoverTitleColor: {
-    type: 'string',
-    default: '#000000',
-  },
-  hoverTitleBackgroundColor: {
-    type: 'string',
-    default: 'transparent',
+    default: {"text":"#333333","background":"transparent","hover":{"text":"#000000","background":"transparent"}},
   },
   unifiedLinkColors: {
     type: 'boolean',
@@ -161,19 +149,7 @@ export const tocAttributes = {
   },
   linkColor: {
     type: 'string',
-    default: '#0073aa',
-  },
-  linkHoverColor: {
-    type: 'string',
-    default: '#005177',
-  },
-  linkActiveColor: {
-    type: 'string',
-    default: '#005177',
-  },
-  linkVisitedColor: {
-    type: 'string',
-    default: '#0073aa',
+    default: {"text":"#0073aa","hover":{"text":"#005177"},"visited":{"text":"#0073aa"},"active":{"text":"#005177"}},
   },
   h1NumberingStyle: {
     type: 'string',
@@ -201,19 +177,7 @@ export const tocAttributes = {
   },
   h1Color: {
     type: 'string',
-    default: 'inherit',
-  },
-  h1HoverColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h1VisitedColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h1ActiveColor: {
-    type: 'string',
-    default: 'inherit',
+    default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h1FontSize: {
     type: 'string',
@@ -237,19 +201,7 @@ export const tocAttributes = {
   },
   h2Color: {
     type: 'string',
-    default: 'inherit',
-  },
-  h2HoverColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h2VisitedColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h2ActiveColor: {
-    type: 'string',
-    default: 'inherit',
+    default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h2FontSize: {
     type: 'string',
@@ -273,19 +225,7 @@ export const tocAttributes = {
   },
   h3Color: {
     type: 'string',
-    default: 'inherit',
-  },
-  h3HoverColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h3VisitedColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h3ActiveColor: {
-    type: 'string',
-    default: 'inherit',
+    default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h3FontSize: {
     type: 'string',
@@ -309,19 +249,7 @@ export const tocAttributes = {
   },
   h4Color: {
     type: 'string',
-    default: 'inherit',
-  },
-  h4HoverColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h4VisitedColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h4ActiveColor: {
-    type: 'string',
-    default: 'inherit',
+    default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h4FontSize: {
     type: 'string',
@@ -345,19 +273,7 @@ export const tocAttributes = {
   },
   h5Color: {
     type: 'string',
-    default: 'inherit',
-  },
-  h5HoverColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h5VisitedColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h5ActiveColor: {
-    type: 'string',
-    default: 'inherit',
+    default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h5FontSize: {
     type: 'string',
@@ -381,19 +297,7 @@ export const tocAttributes = {
   },
   h6Color: {
     type: 'string',
-    default: 'inherit',
-  },
-  h6HoverColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h6VisitedColor: {
-    type: 'string',
-    default: 'inherit',
-  },
-  h6ActiveColor: {
-    type: 'string',
-    default: 'inherit',
+    default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h6FontSize: {
     type: 'string',
@@ -439,6 +343,10 @@ export const tocAttributes = {
     type: 'string',
     default: '#333333',
   },
+  iconInactiveRotation: {
+    type: 'string',
+    default: '0deg',
+  },
   iconInactiveSize: {
     type: 'string',
     default: '16px',
@@ -462,6 +370,10 @@ export const tocAttributes = {
   iconActiveColor: {
     type: 'string',
     default: '#333333',
+  },
+  iconActiveRotation: {
+    type: 'string',
+    default: '0deg',
   },
   iconActiveSize: {
     type: 'string',
@@ -509,7 +421,7 @@ export const tocAttributes = {
   },
   blockBorderStyle: {
     type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid"},
   },
   blockBorderRadius: {
     type: 'object',
@@ -558,7 +470,7 @@ export const tocAttributes = {
   // Auto-generated: tracks which responsive attributes have responsive mode enabled
   responsiveEnabled: {
     type: 'object',
-    default: {"tocWidth":false,"iconInactiveSize":false,"iconInactiveMaxSize":false,"iconInactiveOffsetX":false,"iconInactiveOffsetY":false,"iconActiveSize":false,"iconActiveMaxSize":false,"iconActiveOffsetX":false,"iconActiveOffsetY":false},
+    default: {"tocWidth":false,"iconInactiveRotation":false,"iconInactiveSize":false,"iconInactiveMaxSize":false,"iconInactiveOffsetX":false,"iconInactiveOffsetY":false,"iconActiveRotation":false,"iconActiveSize":false,"iconActiveMaxSize":false,"iconActiveOffsetX":false,"iconActiveOffsetY":false},
   },
 };
 

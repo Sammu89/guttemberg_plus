@@ -661,7 +661,7 @@ User must be able to choose radius per corner.
 - **Type**: `string`
 - **Default**: `"right"` (hardcoded behavioral default)
 - **Purpose**: Position of icon relative to title text or div title
-- **Validation**: Must be `"left"`, `"right"`, `"extreme-left"`, or `"extreme-right"`
+- **Validation**: Must be `"left"`, `"right"`, `"box-left"`, or `"box-right"`
 - **Customizable**: Yes (behavioral)
 - **Theme Storage**: Yes
 - **Notes**: Behavioral attribute with hardcoded default (not from CSS)
@@ -1044,7 +1044,7 @@ dispatchEvent('accordion-theme-updated', { themeName: "Professional Blue" });
 
 ### Enum Validation
 - **titleAlignment**: `"left"`, `"center"`, `"right"`
-- **iconPosition**: `"left"`, `"right"`, `"extreme-left"`, `"extreme-right"`
+- **iconPosition**: `"left"`, `"right"`, `"box-left"`, `"box-right"`
 - **titleFontWeight**: `"normal"`, `"bold"`, `"100"`–`"900"`
 - **titleTextTransform**, **contentTextTransform**: `"none"`, `"uppercase"`, `"lowercase"`, `"capitalize"`
 - **titleFontStyle**, **contentFontStyle**: `"normal"`, `"italic"`
@@ -1159,7 +1159,7 @@ Accept:
 3. **No Shared Wrapper**: Blocks render independently in the frontend, no grouping `<div>`.
 4. **Per-Block Themes**: Different accordion blocks can use different themes or inline customizations.
 6. **Dynamic Inheritance**: `iconColor` inherits from `titleColor`, `iconSize` from `titleFontSize` at runtime if `null`.
-7. **Complete Theme Snapshots**: Themes store all customizable attributes with explicit values.
+7. **Delta Theme Storage**: Themes store only differences from defaults (unchanged attributes omitted).
 8. **Validation Layers**: Client-side, JavaScript, PHP, and database sanitization.
 9. **No Shared Behavior**: Open/closed state controlled per block via `initiallyOpen`.
 
@@ -1169,7 +1169,7 @@ Accept:
 
 - [ ] Register block as `wp:custom/accordion`
 - [ ] Define all attributes with correct types and defaults
-- [ ] Validate themes for complete snapshots
+- [ ] Validate themes for delta storage (no nulls, omit unchanged values)
 - [ ] Generate unique `theme_Id` for each theme
 - [ ] User-chosen name for theme is linked to its unique theme_Id
 - [ ] Implement 4-tier cascade for customizable attributes

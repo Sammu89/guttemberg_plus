@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2026-01-02T19:57:50.481Z
+ * Generated at: 2026-01-04T23:18:45.237Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -14,8 +14,8 @@
 
 import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';
 
-const THEMEABLE_ATTRS = new Set(["wrapperBackgroundColor","blockBorderColor","titleColor","titleBackgroundColor","hoverTitleColor","hoverTitleBackgroundColor","linkColor","linkHoverColor","linkActiveColor","linkVisitedColor","h1Color","h1HoverColor","h1VisitedColor","h1ActiveColor","h1FontSize","h1FontWeight","h1FontStyle","h1TextTransform","h1TextDecoration","h2Color","h2HoverColor","h2VisitedColor","h2ActiveColor","h2FontSize","h2FontWeight","h2FontStyle","h2TextTransform","h2TextDecoration","h3Color","h3HoverColor","h3VisitedColor","h3ActiveColor","h3FontSize","h3FontWeight","h3FontStyle","h3TextTransform","h3TextDecoration","h4Color","h4HoverColor","h4VisitedColor","h4ActiveColor","h4FontSize","h4FontWeight","h4FontStyle","h4TextTransform","h4TextDecoration","h5Color","h5HoverColor","h5VisitedColor","h5ActiveColor","h5FontSize","h5FontWeight","h5FontStyle","h5TextTransform","h5TextDecoration","h6Color","h6HoverColor","h6VisitedColor","h6ActiveColor","h6FontSize","h6FontWeight","h6FontStyle","h6TextTransform","h6TextDecoration","showIcon","iconRotation","iconInactiveColor","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY","titleFontSize","titleFontWeight","titleFontStyle","titleTextTransform","titleTextDecoration","titleAlignment","blockBorderWidth","blockBorderStyle","blockBorderRadius","blockShadow","blockShadowHover","wrapperPadding","itemSpacing","levelIndent","positionTop","zIndex"]);
-const NON_THEMEABLE_ATTRS = new Set(["tocWidth"]);
+const THEMEABLE_ATTRS = new Set(["wrapperBackgroundColor","blockBorderColor","h1FontSize","h1FontWeight","h1FontStyle","h1TextTransform","h1TextDecoration","h2FontSize","h2FontWeight","h2FontStyle","h2TextTransform","h2TextDecoration","h3FontSize","h3FontWeight","h3FontStyle","h3TextTransform","h3TextDecoration","h4FontSize","h4FontWeight","h4FontStyle","h4TextTransform","h4TextDecoration","h5FontSize","h5FontWeight","h5FontStyle","h5TextTransform","h5TextDecoration","h6FontSize","h6FontWeight","h6FontStyle","h6TextTransform","h6TextDecoration","showIcon","iconRotation","iconInactiveColor","iconInactiveRotation","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveRotation","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY","titleFontSize","titleFontWeight","titleFontStyle","titleTextTransform","titleTextDecoration","titleAlignment","blockBorderWidth","blockBorderStyle","blockBorderRadius","blockShadow","blockShadowHover","wrapperPadding","itemSpacing","levelIndent","positionTop","zIndex"]);
+const NON_THEMEABLE_ATTRS = new Set(["tocWidth","titleColor","linkColor","h1Color","h2Color","h3Color","h4Color","h5Color","h6Color"]);
 
 /**
  * Build inline CSS variables for frontend save output.
@@ -54,13 +54,18 @@ export function buildFrontendCssVars(customizations, attributes) {
       (value.tablet !== undefined || value.mobile !== undefined);
 
     if (isResponsiveValue) {
+      // Extract base value - skip if only device overrides exist
       let baseValue = value.value !== undefined ? value.value : value;
       if (typeof baseValue === 'number' && value.unit !== undefined) {
         baseValue = { value: baseValue, unit: value.unit };
       }
-      if (baseValue !== null && baseValue !== undefined) {
+      // Only output base if it's not a responsive container object
+      const isResponsiveContainer = baseValue && typeof baseValue === 'object' &&
+        (baseValue.tablet !== undefined || baseValue.mobile !== undefined);
+      if (!isResponsiveContainer && baseValue !== null && baseValue !== undefined) {
         const formattedBase = formatCssValue(attrName, baseValue, 'toc');
-        if (formattedBase !== null) {
+        if (formattedBase !== null && formattedBase !== 'undefined' &&
+            !(typeof formattedBase === 'string' && formattedBase.startsWith('undefined'))) {
           styles[cssVar] = formattedBase;
         }
         applyDecomposed(attrName, baseValue, '');
@@ -68,7 +73,8 @@ export function buildFrontendCssVars(customizations, attributes) {
 
       if (value.tablet !== undefined && value.tablet !== null) {
         const formattedTablet = formatCssValue(attrName, value.tablet, 'toc');
-        if (formattedTablet !== null) {
+        if (formattedTablet !== null && formattedTablet !== 'undefined' &&
+            !(typeof formattedTablet === 'string' && formattedTablet.startsWith('undefined'))) {
           styles[`${cssVar}-tablet`] = formattedTablet;
         }
         applyDecomposed(attrName, value.tablet, '-tablet');
@@ -76,7 +82,8 @@ export function buildFrontendCssVars(customizations, attributes) {
 
       if (value.mobile !== undefined && value.mobile !== null) {
         const formattedMobile = formatCssValue(attrName, value.mobile, 'toc');
-        if (formattedMobile !== null) {
+        if (formattedMobile !== null && formattedMobile !== 'undefined' &&
+            !(typeof formattedMobile === 'string' && formattedMobile.startsWith('undefined'))) {
           styles[`${cssVar}-mobile`] = formattedMobile;
         }
         applyDecomposed(attrName, value.mobile, '-mobile');
@@ -85,7 +92,8 @@ export function buildFrontendCssVars(customizations, attributes) {
     }
 
     const formattedValue = formatCssValue(attrName, value, 'toc');
-    if (formattedValue !== null) {
+    if (formattedValue !== null && formattedValue !== 'undefined' &&
+        !(typeof formattedValue === 'string' && formattedValue.startsWith('undefined'))) {
       styles[cssVar] = formattedValue;
     }
     applyDecomposed(attrName, value, '');

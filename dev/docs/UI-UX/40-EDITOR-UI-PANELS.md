@@ -657,8 +657,8 @@ Horizontal alignement is only available when width if not empty and is different
 │                                │
 │ Icon Position: [right ▾]       │
 │ Options: left, right,          │
-│          extreme-left,         │
-│          extreme-right         │
+│          box-left,         │
+│          box-right         │
 │                                │
 │ Icon Color: [████████] inherit │
 │ (null = inherit from title)    │
@@ -721,13 +721,13 @@ Horizontal alignement is only available when width if not empty and is different
 
 **Attribute**: `iconPosition` (string, customizable)
 **Default**: `"right"`
-**Options**: `"left"`, `"right"`, `"extreme-left"`, `"extreme-right"`
+**Options**: `"left"`, `"right"`, `"box-left"`, `"box-right"`
 
 **Visual Examples**:
 - `left`: `[▾] Accordion Title`-relative to title
 - `right`: `Accordion Title [▾]` - relative to title
-- `extreme-left`: Far left edge of the header
-- `extreme-right`: Far right edge of the header
+- `box-left`: Far left edge of the header
+- `box-right`: Far right edge of the header
 
 #### Icon Color
 **Critical**: Greyed out when both iconOpen and iconClosed are image (of only of iconOpen if iconCLosed is null) because this setting doesnt control a image
@@ -1055,18 +1055,18 @@ Named theme (customized):
    - Ensure uniqueness
 
 2. **Collect effective values**:
-   - Resolve ALL customizable attributes through cascade
-   - Build complete snapshot with ALL values defined
+   - Resolve all customizable attributes through cascade
+   - Build a complete snapshot (in memory) for delta calculation
 
-3. **Save to database**:
+3. **Save to database (deltas only)**:
    ```php
    'theme_id' => array(
      'name' => 'User Theme Name',
      'modified' => '2025-10-10 14:30:00',
      'values' => array(
-       'titleColor' => '#333333',
-       'titleBackgroundColor' => '#f5f5f5',
-       // ... ALL customizable attributes ...
+       'titleColor' => '#333333',            // Only if different from default
+       'titleBackgroundColor' => '#f5f5f5',  // Only if different from default
+       // ... unchanged attributes are omitted ...
      )
    )
    ```
@@ -1133,7 +1133,8 @@ Named theme (customized):
 1. **Collect effective values** from current block
 2. **Update theme in database** (by `currentTheme` id):
    - Fetch theme by `theme_id`
-   - Overwrite `values` with new complete snapshot
+   - Build snapshot, calculate deltas vs defaults
+   - Overwrite `values` with new deltas
    - Update `modified` timestamp
 3. **Update current block**:
    - Clear ALL customization attributes
@@ -1521,12 +1522,12 @@ Theme Name:
 Accordion Title [▾]
 ```
 
-`extreme-left`:
+`box-left`:
 ```
 [▾]                    Accordion Title
 ```
 
-`extreme-right`:
+`box-right`:
 ```
 Accordion Title                    [▾]
 ```
@@ -1733,4 +1734,3 @@ When implementing the accordion block editor UI, follow this order:
 5. Test compatibility and consistency
 
 **Critical**: By building shared infrastructure first, both blocks can be implemented cleanly without code duplication or refactoring.
-

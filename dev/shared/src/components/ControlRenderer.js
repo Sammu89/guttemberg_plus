@@ -293,6 +293,7 @@ export function ControlRenderer( {
 	// Global edits update the base (flat), tablet/mobile add device overrides
 	const handleResponsiveChange = ( device, value ) => {
 		const currentValue = attributes[ attrName ];
+		const isClearing = value === undefined || value === null;
 
 		// Check if current value is flat (scalar or {value, unit} without device keys)
 		const isFlat = ( val ) => {
@@ -324,12 +325,20 @@ export function ControlRenderer( {
 			// Preserve any existing tablet/mobile overrides
 			if ( isFlat( currentValue ) ) {
 				// Value was flat, stays flat with new value
-				setAttributes( { [ attrName ]: value } );
+				setAttributes( { [ attrName ]: isClearing ? undefined : value } );
 			} else {
 				// Value has device keys, update base while preserving overrides
 				const existingOverrides = {};
-				if ( currentValue?.tablet ) existingOverrides.tablet = currentValue.tablet;
-				if ( currentValue?.mobile ) existingOverrides.mobile = currentValue.mobile;
+				if ( currentValue?.tablet !== undefined ) existingOverrides.tablet = currentValue.tablet;
+				if ( currentValue?.mobile !== undefined ) existingOverrides.mobile = currentValue.mobile;
+
+				if ( isClearing ) {
+					const nextValue = Object.keys( existingOverrides ).length > 0
+						? existingOverrides
+						: undefined;
+					setAttributes( { [ attrName ]: nextValue } );
+					return;
+				}
 
 				// For scalar values, just use the new value; for objects, spread
 				const newValue = typeof value === 'object' && value !== null
@@ -340,10 +349,22 @@ export function ControlRenderer( {
 			}
 		} else {
 			// Tablet/Mobile create device-specific overrides
+			if ( isClearing ) {
+				if ( ! currentValue || typeof currentValue !== 'object' ) {
+					return;
+				}
+				const { tablet, mobile, ...baseValue } = currentValue;
+				const nextValue = { ...baseValue };
+				if ( device !== 'tablet' && tablet !== undefined ) nextValue.tablet = tablet;
+				if ( device !== 'mobile' && mobile !== undefined ) nextValue.mobile = mobile;
+				setAttributes( { [ attrName ]: Object.keys( nextValue ).length > 0 ? nextValue : undefined } );
+				return;
+			}
+
 			const baseValue = getBase( currentValue );
 			const existingOverrides = {};
-			if ( currentValue?.tablet && device !== 'tablet' ) existingOverrides.tablet = currentValue.tablet;
-			if ( currentValue?.mobile && device !== 'mobile' ) existingOverrides.mobile = currentValue.mobile;
+			if ( currentValue?.tablet !== undefined && device !== 'tablet' ) existingOverrides.tablet = currentValue.tablet;
+			if ( currentValue?.mobile !== undefined && device !== 'mobile' ) existingOverrides.mobile = currentValue.mobile;
 
 			// Build new value structure: base + existing overrides + new device override
 			let newAttrValue;
@@ -404,28 +425,30 @@ export function ControlRenderer( {
 	 */
 	const handleResponsiveReset = () => {
 		const currentValue = attributes[ attrName ];
+		const updates = {
+			responsiveEnabled: {
+				...responsiveEnabledState,
+				[ attrName ]: false,
+			},
+		};
 
-		// If value has tablet/mobile overrides, remove them
+		// If schema default is defined, reset to it and remove overrides.
+		if ( defaultValue !== undefined ) {
+			updates[ attrName ] = normalizedDefaultValue;
+			setAttributes( updates );
+			return;
+		}
+
+		// Otherwise, remove tablet/mobile overrides and keep base value.
 		if ( currentValue && typeof currentValue === 'object' ) {
 			const { tablet, mobile, ...baseValue } = currentValue;
-
-			// Set base value (without device keys) and disable responsive
-			setAttributes( {
-				[ attrName ]: Object.keys( baseValue ).length > 0 ? baseValue : defaultValue,
-				responsiveEnabled: {
-					...responsiveEnabledState,
-					[ attrName ]: false,
-				},
-			} );
-		} else {
-			// No overrides to remove, just disable responsive
-			setAttributes( {
-				responsiveEnabled: {
-					...responsiveEnabledState,
-					[ attrName ]: false,
-				},
-			} );
+			updates[ attrName ] = Object.keys( baseValue ).length > 0 ? baseValue : undefined;
+			setAttributes( updates );
+			return;
 		}
+
+		// No overrides to remove, just disable responsive
+		setAttributes( updates );
 	};
 
 	/**

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2026-01-02T19:57:50.416Z
+ * Generated at: 2026-01-04T23:18:45.224Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -14,8 +14,8 @@
 
 import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';
 
-const THEMEABLE_ATTRS = new Set(["dividerWidth","dividerColor","dividerStyle","borderWidth","borderRadius","shadow","borderColor","borderStyle","headerPadding","contentPadding","blockMargin","titleColor","titleBackgroundColor","hoverTitleColor","hoverTitleBackgroundColor","contentTextColor","contentBackgroundColor","contentFontFamily","contentFontSize","contentLineHeight","titleFontFamily","titleFontSize","titleNoLineBreak","titleFontWeight","titleDecorationColor","titleDecorationStyle","titleDecorationWidth","titleLetterSpacing","titleTextTransform","titleLineHeight","titleAlignment","titleOffsetX","titleOffsetY","titleTextShadow","showIcon","iconRotation","iconInactiveColor","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY","animationDuration","animationEasing"]);
-const NON_THEMEABLE_ATTRS = new Set(["accordionWidth"]);
+const THEMEABLE_ATTRS = new Set(["showIcon","iconRotation","iconInactiveColor","iconInactiveRotation","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveRotation","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY","animationDuration"]);
+const NON_THEMEABLE_ATTRS = new Set(["contentTypography","titleTypography","accordionWidth"]);
 
 /**
  * Build inline CSS variables for frontend save output.
@@ -54,13 +54,18 @@ export function buildFrontendCssVars(customizations, attributes) {
       (value.tablet !== undefined || value.mobile !== undefined);
 
     if (isResponsiveValue) {
+      // Extract base value - skip if only device overrides exist
       let baseValue = value.value !== undefined ? value.value : value;
       if (typeof baseValue === 'number' && value.unit !== undefined) {
         baseValue = { value: baseValue, unit: value.unit };
       }
-      if (baseValue !== null && baseValue !== undefined) {
+      // Only output base if it's not a responsive container object
+      const isResponsiveContainer = baseValue && typeof baseValue === 'object' &&
+        (baseValue.tablet !== undefined || baseValue.mobile !== undefined);
+      if (!isResponsiveContainer && baseValue !== null && baseValue !== undefined) {
         const formattedBase = formatCssValue(attrName, baseValue, 'accordion');
-        if (formattedBase !== null) {
+        if (formattedBase !== null && formattedBase !== 'undefined' &&
+            !(typeof formattedBase === 'string' && formattedBase.startsWith('undefined'))) {
           styles[cssVar] = formattedBase;
         }
         applyDecomposed(attrName, baseValue, '');
@@ -68,7 +73,8 @@ export function buildFrontendCssVars(customizations, attributes) {
 
       if (value.tablet !== undefined && value.tablet !== null) {
         const formattedTablet = formatCssValue(attrName, value.tablet, 'accordion');
-        if (formattedTablet !== null) {
+        if (formattedTablet !== null && formattedTablet !== 'undefined' &&
+            !(typeof formattedTablet === 'string' && formattedTablet.startsWith('undefined'))) {
           styles[`${cssVar}-tablet`] = formattedTablet;
         }
         applyDecomposed(attrName, value.tablet, '-tablet');
@@ -76,7 +82,8 @@ export function buildFrontendCssVars(customizations, attributes) {
 
       if (value.mobile !== undefined && value.mobile !== null) {
         const formattedMobile = formatCssValue(attrName, value.mobile, 'accordion');
-        if (formattedMobile !== null) {
+        if (formattedMobile !== null && formattedMobile !== 'undefined' &&
+            !(typeof formattedMobile === 'string' && formattedMobile.startsWith('undefined'))) {
           styles[`${cssVar}-mobile`] = formattedMobile;
         }
         applyDecomposed(attrName, value.mobile, '-mobile');
@@ -85,7 +92,8 @@ export function buildFrontendCssVars(customizations, attributes) {
     }
 
     const formattedValue = formatCssValue(attrName, value, 'accordion');
-    if (formattedValue !== null) {
+    if (formattedValue !== null && formattedValue !== 'undefined' &&
+        !(typeof formattedValue === 'string' && formattedValue.startsWith('undefined'))) {
       styles[cssVar] = formattedValue;
     }
     applyDecomposed(attrName, value, '');

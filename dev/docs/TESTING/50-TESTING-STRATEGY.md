@@ -14,7 +14,7 @@
 - No cascade resolution on every render (cache results)
 
 ### 3. Theme Operations
-- Create theme saves complete snapshot (no null values except Default)
+- Create theme saves deltas (no null values; unchanged attributes omitted)
 - Update theme clears block customizations
 - Delete theme falls back to Default
 - Rename theme updates all blocks using it

@@ -528,8 +528,8 @@ export const IconPositionExtremeRightIcon = (
 export const IconPositionIcons = {
 	left: IconPositionLeftIcon,
 	right: IconPositionRightIcon,
-	'extreme-left': IconPositionExtremeLeftIcon,
-	'extreme-right': IconPositionExtremeRightIcon,
+	'box-left': IconPositionExtremeLeftIcon,
+	'box-right': IconPositionExtremeRightIcon,
 };
 
 // ----------------------------------------------------------------------------

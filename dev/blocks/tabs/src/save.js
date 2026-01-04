@@ -114,21 +114,23 @@ export default function Save( { attributes } ) {
 
 		const inactiveSource = attributes.iconInactiveSource;
 		const activeSource = attributes.iconActiveSource;
+		const useDifferentIcons = attributes.useDifferentIcons;
 
 		if ( ! inactiveSource || ! inactiveSource.value ) {
 			return null;
 		}
 
-		// Determine which icon to render (based on active state)
-		const initialSource = isActive && activeSource && activeSource.value
+		// Determine which icon to render (based on active state and useDifferentIcons)
+		const initialSource = isActive && useDifferentIcons && activeSource && activeSource.value
 			? activeSource
 			: inactiveSource;
 
 		// Data attributes for frontend JS
+		const hasDifferentIcons = useDifferentIcons && activeSource && activeSource.value;
 		const dataAttrs = {
 			'data-icon-inactive': JSON.stringify( inactiveSource ),
-			'data-icon-active': activeSource && activeSource.value ? JSON.stringify( activeSource ) : null,
-			'data-has-different-icons': !! ( activeSource && activeSource.value ),
+			'data-icon-active': hasDifferentIcons ? JSON.stringify( activeSource ) : null,
+			'data-has-different-icons': hasDifferentIcons,
 		};
 
 		// Icon classes

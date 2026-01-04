@@ -236,7 +236,7 @@ function checkSelectControlUsage(blockType) {
 		// Skip purely behavioral attributes (no CSS needed)
 		if (attrName.match(/position|orientation|style/i) && !attrName.match(/mode$/i)) {
 			const optionValues = attr.options.map((o) => o.value || o.label || o);
-			const stylePath = path.join(ROOT, `blocks/${blockType}/src/style.scss`);
+			const stylePath = path.join(ROOT, `css/${blockType}_hardcoded.scss`);
 			const themeGeneratedPath = path.join(ROOT, `blocks/${blockType}/src/_theme-generated.scss`);
 
 			// Check both style.scss and _theme-generated.scss
@@ -455,7 +455,7 @@ function checkBehaviorAttributesCoverage(blockType) {
 function checkCssVariableGeneration(blockType) {
 	const errors = [];
 
-	const stylePath = path.join(ROOT, `blocks/${blockType}/src/style.scss`);
+	const stylePath = path.join(ROOT, `css/${blockType}_hardcoded.scss`);
 	const varsPath = path.join(ROOT, `assets/css/${blockType}-variables.css`);
 
 	if (!fs.existsSync(stylePath) || !fs.existsSync(varsPath)) {
@@ -630,7 +630,7 @@ function checkCssClassConcordance(blockType) {
 	const errors = [];
 
 	const frontendPath = path.join(ROOT, `blocks/${blockType}/src/frontend.js`);
-	const stylePath = path.join(ROOT, `blocks/${blockType}/src/style.scss`);
+	const stylePath = path.join(ROOT, `css/${blockType}_hardcoded.scss`);
 	const themeGeneratedPath = path.join(ROOT, `blocks/${blockType}/src/_theme-generated.scss`);
 
 	// Require frontend and at least one CSS source

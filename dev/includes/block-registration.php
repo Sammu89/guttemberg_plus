@@ -43,13 +43,19 @@ function guttemberg_plus_register_blocks() {
 add_action( 'init', 'guttemberg_plus_register_blocks' );
 
 /**
- * Enqueue Dashicons in the block editor
- * Required for Dashicons to show in icon picker and editor preview
+ * Enqueue Dashicons for both editor and frontend
+ *
+ * Uses enqueue_block_assets instead of enqueue_block_editor_assets
+ * to ensure assets load in the iframed editor (WordPress 6.3+)
+ *
+ * @see https://developer.wordpress.org/block-editor/how-to-guides/enqueueing-assets-in-the-editor/
  */
-function guttemberg_plus_enqueue_editor_assets() {
+function guttemberg_plus_enqueue_block_assets() {
+	// Enqueue Dashicons for icon library support
+	// This loads in both editor and frontend
 	wp_enqueue_style( 'dashicons' );
 }
-add_action( 'enqueue_block_editor_assets', 'guttemberg_plus_enqueue_editor_assets' );
+add_action( 'enqueue_block_assets', 'guttemberg_plus_enqueue_block_assets' );
 
 /**
  * Render callback for Accordion block
@@ -62,13 +68,7 @@ add_action( 'enqueue_block_editor_assets', 'guttemberg_plus_enqueue_editor_asset
  * @return string Block HTML.
  */
 function guttemberg_plus_render_accordion_block( $attributes, $content ) {
-	// Enqueue Dashicons on frontend to support library icons
-	// Dashicons are needed for icon library functionality
-	if ( ! is_admin() ) {
-		wp_enqueue_style( 'dashicons' );
-	}
-
-	// Return the content as-is
+	// Note: Dashicons are now globally enqueued via enqueue_block_assets hook
 	return $content;
 }
 
@@ -80,11 +80,7 @@ function guttemberg_plus_render_accordion_block( $attributes, $content ) {
  * @return string Block HTML.
  */
 function guttemberg_plus_render_tabs_block( $attributes, $content ) {
-	// Enqueue Dashicons on frontend to support library icons
-	if ( ! is_admin() ) {
-		wp_enqueue_style( 'dashicons' );
-	}
-
+	// Note: Dashicons are now globally enqueued via enqueue_block_assets hook
 	return $content;
 }
 
@@ -96,10 +92,6 @@ function guttemberg_plus_render_tabs_block( $attributes, $content ) {
  * @return string Block HTML.
  */
 function guttemberg_plus_render_toc_block( $attributes, $content ) {
-	// Enqueue Dashicons on frontend to support library icons
-	if ( ! is_admin() ) {
-		wp_enqueue_style( 'dashicons' );
-	}
-
+	// Note: Dashicons are now globally enqueued via enqueue_block_assets hook
 	return $content;
 }

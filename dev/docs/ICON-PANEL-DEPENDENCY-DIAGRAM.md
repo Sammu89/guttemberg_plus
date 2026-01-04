@@ -232,7 +232,7 @@ IconPanel.js (complete ✅)
 │   ├── Dashicons (available ✅)
 │   └── lucide-react (installed ✅)
 │
-├── ResponsiveWrapper.js (exists ✅)
+├── UtilityBar.js (exists ✅)
 │   └── useResponsiveDevice() hook (exists ✅)
 │
 ├── SliderWithInput.js (exists ✅)

@@ -82,7 +82,7 @@ const PositionIcons = {
 	/**
 	 * Extreme left position icon (reuses left icon)
 	 */
-	'extreme-left': (
+	'box-left': (
 		<svg
 			width="24"
 			height="24"
@@ -114,7 +114,7 @@ const PositionIcons = {
 	/**
 	 * Extreme right position icon (reuses right icon)
 	 */
-	'extreme-right': (
+	'box-right': (
 		<svg
 			width="24"
 			height="24"
@@ -207,7 +207,7 @@ const AlternativePositionIcons = {
 	/**
 	 * Extreme left position - icon on far left (reuses left icon)
 	 */
-	'extreme-left': (
+	'box-left': (
 		<svg
 			width="24"
 			height="24"
@@ -235,7 +235,7 @@ const AlternativePositionIcons = {
 	/**
 	 * Extreme right position - icon on far right (reuses right icon)
 	 */
-	'extreme-right': (
+	'box-right': (
 		<svg
 			width="24"
 			height="24"
@@ -262,7 +262,7 @@ const AlternativePositionIcons = {
 };
 
 /**
- * IconPositionControl - Icon position selector (left/right/extreme-left/extreme-right)
+ * IconPositionControl - Icon position selector (left/right/box-left/box-right)
  *
  * @param {Object}   props              Component props
  * @param {string}   props.label        Label for the control
@@ -282,8 +282,8 @@ export function IconPositionControl( {
 	const ALL_POSITION_OPTIONS = [
 		{ name: 'Left', value: 'left' },
 		{ name: 'Right', value: 'right' },
-		{ name: 'Extreme Left', value: 'extreme-left' },
-		{ name: 'Extreme Right', value: 'extreme-right' },
+		{ name: 'Extreme Left', value: 'box-left' },
+		{ name: 'Extreme Right', value: 'box-right' },
 	];
 
 	// Get allowed positions from schema config, or fallback to left/right

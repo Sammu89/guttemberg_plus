@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2026-01-02T19:57:50.449Z
+ * Generated at: 2026-01-04T23:18:45.232Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -50,24 +50,8 @@ export interface TocTheme {
   wrapperBackgroundColor?: string;
   /** Border color of the TOC wrapper */
   blockBorderColor?: Record<string, any>;
-  /** Text color for the TOC header */
-  titleColor?: string;
-  /** Background color for the TOC header */
-  titleBackgroundColor?: string;
-  /** Text color when hovering over title */
-  hoverTitleColor?: string;
-  /** Background color when hovering over title */
-  hoverTitleBackgroundColor?: string;
   /** Use the same link colors for all heading levels */
   unifiedLinkColors?: boolean;
-  /** Default color for all TOC links */
-  linkColor?: string;
-  /** Color when hovering over links */
-  linkHoverColor?: string;
-  /** Color for the currently active link */
-  linkActiveColor?: string;
-  /** Color for visited links */
-  linkVisitedColor?: string;
   /** Numbering style for H1 headings */
   h1NumberingStyle?: string;
   /** Numbering style for H2 headings */
@@ -80,11 +64,6 @@ export interface TocTheme {
   h5NumberingStyle?: string;
   /** Numbering style for H6 headings */
   h6NumberingStyle?: string;
-  /** Link color for H1 headings (inherits general color if not set) */
-  h1Color?: string;
-  h1HoverColor?: string;
-  h1VisitedColor?: string;
-  h1ActiveColor?: string;
   /** Font size for H1 headings in rem */
   h1FontSize?: string;
   /** Font weight for H1 headings */
@@ -95,11 +74,6 @@ export interface TocTheme {
   h1TextTransform?: string;
   /** Text decoration for H1 headings */
   h1TextDecoration?: string;
-  /** Link color for H2 headings (inherits general color if not set) */
-  h2Color?: string;
-  h2HoverColor?: string;
-  h2VisitedColor?: string;
-  h2ActiveColor?: string;
   /** Font size for H2 headings in rem */
   h2FontSize?: string;
   /** Font weight for H2 headings */
@@ -110,11 +84,6 @@ export interface TocTheme {
   h2TextTransform?: string;
   /** Text decoration for H2 headings */
   h2TextDecoration?: string;
-  /** Link color for H3 headings (inherits general color if not set) */
-  h3Color?: string;
-  h3HoverColor?: string;
-  h3VisitedColor?: string;
-  h3ActiveColor?: string;
   /** Font size for H3 headings in rem */
   h3FontSize?: string;
   /** Font weight for H3 headings */
@@ -125,11 +94,6 @@ export interface TocTheme {
   h3TextTransform?: string;
   /** Text decoration for H3 headings */
   h3TextDecoration?: string;
-  /** Link color for H4 headings (inherits general color if not set) */
-  h4Color?: string;
-  h4HoverColor?: string;
-  h4VisitedColor?: string;
-  h4ActiveColor?: string;
   /** Font size for H4 headings in rem */
   h4FontSize?: string;
   /** Font weight for H4 headings */
@@ -140,11 +104,6 @@ export interface TocTheme {
   h4TextTransform?: string;
   /** Text decoration for H4 headings */
   h4TextDecoration?: string;
-  /** Link color for H5 headings (inherits general color if not set) */
-  h5Color?: string;
-  h5HoverColor?: string;
-  h5VisitedColor?: string;
-  h5ActiveColor?: string;
   /** Font size for H5 headings in rem */
   h5FontSize?: string;
   /** Font weight for H5 headings */
@@ -155,11 +114,6 @@ export interface TocTheme {
   h5TextTransform?: string;
   /** Text decoration for H5 headings */
   h5TextDecoration?: string;
-  /** Link color for H6 headings (inherits general color if not set) */
-  h6Color?: string;
-  h6HoverColor?: string;
-  h6VisitedColor?: string;
-  h6ActiveColor?: string;
   /** Font size for H6 headings in rem */
   h6FontSize?: string;
   /** Font weight for H6 headings */
@@ -182,6 +136,8 @@ export interface TocTheme {
   iconInactiveSource?: Record<string, any>;
   /** Icon color (for character/library icons) */
   iconInactiveColor?: string;
+  /** Initial rotation of inactive icon */
+  iconInactiveRotation?: string;
   /** Icon size (for character/library icons) */
   iconInactiveSize?: string;
   /** Maximum icon size (for image icons) */
@@ -194,6 +150,8 @@ export interface TocTheme {
   iconActiveSource?: Record<string, any>;
   /** Icon color (for character/library icons) */
   iconActiveColor?: string;
+  /** Initial rotation of active icon */
+  iconActiveRotation?: string;
   /** Icon size (for character/library icons) */
   iconActiveSize?: string;
   /** Maximum icon size (for image icons) */
@@ -272,73 +230,40 @@ export const tocDefaultTheme: TocTheme = {
     "top": "#dddddd",
     "right": "#dddddd",
     "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
+    "left": "#dddddd"
   },
-  titleColor: '#333333',
-  titleBackgroundColor: 'transparent',
-  hoverTitleColor: '#000000',
-  hoverTitleBackgroundColor: 'transparent',
   unifiedLinkColors: true,
-  linkColor: '#0073aa',
-  linkHoverColor: '#005177',
-  linkActiveColor: '#005177',
-  linkVisitedColor: '#0073aa',
   h1NumberingStyle: 'decimal',
   h2NumberingStyle: 'decimal',
   h3NumberingStyle: 'decimal',
   h4NumberingStyle: 'decimal',
   h5NumberingStyle: 'decimal',
   h6NumberingStyle: 'decimal',
-  h1Color: 'inherit',
-  h1HoverColor: 'inherit',
-  h1VisitedColor: 'inherit',
-  h1ActiveColor: 'inherit',
   h1FontSize: '1.5rem',
   h1FontWeight: '700',
   h1FontStyle: 'normal',
   h1TextTransform: 'none',
   h1TextDecoration: 'none',
-  h2Color: 'inherit',
-  h2HoverColor: 'inherit',
-  h2VisitedColor: 'inherit',
-  h2ActiveColor: 'inherit',
   h2FontSize: '1.25rem',
   h2FontWeight: '600',
   h2FontStyle: 'normal',
   h2TextTransform: 'none',
   h2TextDecoration: 'none',
-  h3Color: 'inherit',
-  h3HoverColor: 'inherit',
-  h3VisitedColor: 'inherit',
-  h3ActiveColor: 'inherit',
   h3FontSize: '1.125rem',
   h3FontWeight: '500',
   h3FontStyle: 'normal',
   h3TextTransform: 'none',
   h3TextDecoration: 'none',
-  h4Color: 'inherit',
-  h4HoverColor: 'inherit',
-  h4VisitedColor: 'inherit',
-  h4ActiveColor: 'inherit',
   h4FontSize: '1rem',
   h4FontWeight: 'normal',
   h4FontStyle: 'normal',
   h4TextTransform: 'none',
   h4TextDecoration: 'none',
-  h5Color: 'inherit',
-  h5HoverColor: 'inherit',
-  h5VisitedColor: 'inherit',
-  h5ActiveColor: 'inherit',
   h5FontSize: '0.9375rem',
   h5FontWeight: 'normal',
   h5FontStyle: 'normal',
   h5TextTransform: 'none',
   h5TextDecoration: 'none',
-  h6Color: 'inherit',
-  h6HoverColor: 'inherit',
-  h6VisitedColor: 'inherit',
-  h6ActiveColor: 'inherit',
   h6FontSize: '0.875rem',
   h6FontWeight: 'normal',
   h6FontStyle: 'normal',
@@ -353,6 +278,7 @@ export const tocDefaultTheme: TocTheme = {
     "value": "▾"
   },
   iconInactiveColor: '#333333',
+  iconInactiveRotation: '0deg',
   iconInactiveSize: '16px',
   iconInactiveMaxSize: '24px',
   iconInactiveOffsetX: '0px',
@@ -362,6 +288,7 @@ export const tocDefaultTheme: TocTheme = {
     "value": "▾"
   },
   iconActiveColor: '#333333',
+  iconActiveRotation: '0deg',
   iconActiveSize: '16px',
   iconActiveMaxSize: '24px',
   iconActiveOffsetX: '0px',
@@ -377,8 +304,7 @@ export const tocDefaultTheme: TocTheme = {
     "top": "solid",
     "right": "solid",
     "bottom": "solid",
-    "left": "solid",
-    "linked": true
+    "left": "solid"
   },
   blockBorderRadius: {
     "topLeft": 4,
@@ -433,70 +359,46 @@ export interface TocThemeAttributes {
   tocHorizontalAlign?: string;
   wrapperBackgroundColor?: string;
   blockBorderColor?: Record<string, any>;
-  titleColor?: string;
-  titleBackgroundColor?: string;
-  hoverTitleColor?: string;
-  hoverTitleBackgroundColor?: string;
+  titleColor?: any;
   unifiedLinkColors?: boolean;
-  linkColor?: string;
-  linkHoverColor?: string;
-  linkActiveColor?: string;
-  linkVisitedColor?: string;
+  linkColor?: any;
   h1NumberingStyle?: string;
   h2NumberingStyle?: string;
   h3NumberingStyle?: string;
   h4NumberingStyle?: string;
   h5NumberingStyle?: string;
   h6NumberingStyle?: string;
-  h1Color?: string;
-  h1HoverColor?: string;
-  h1VisitedColor?: string;
-  h1ActiveColor?: string;
+  h1Color?: any;
   h1FontSize?: string;
   h1FontWeight?: string;
   h1FontStyle?: string;
   h1TextTransform?: string;
   h1TextDecoration?: string;
-  h2Color?: string;
-  h2HoverColor?: string;
-  h2VisitedColor?: string;
-  h2ActiveColor?: string;
+  h2Color?: any;
   h2FontSize?: string;
   h2FontWeight?: string;
   h2FontStyle?: string;
   h2TextTransform?: string;
   h2TextDecoration?: string;
-  h3Color?: string;
-  h3HoverColor?: string;
-  h3VisitedColor?: string;
-  h3ActiveColor?: string;
+  h3Color?: any;
   h3FontSize?: string;
   h3FontWeight?: string;
   h3FontStyle?: string;
   h3TextTransform?: string;
   h3TextDecoration?: string;
-  h4Color?: string;
-  h4HoverColor?: string;
-  h4VisitedColor?: string;
-  h4ActiveColor?: string;
+  h4Color?: any;
   h4FontSize?: string;
   h4FontWeight?: string;
   h4FontStyle?: string;
   h4TextTransform?: string;
   h4TextDecoration?: string;
-  h5Color?: string;
-  h5HoverColor?: string;
-  h5VisitedColor?: string;
-  h5ActiveColor?: string;
+  h5Color?: any;
   h5FontSize?: string;
   h5FontWeight?: string;
   h5FontStyle?: string;
   h5TextTransform?: string;
   h5TextDecoration?: string;
-  h6Color?: string;
-  h6HoverColor?: string;
-  h6VisitedColor?: string;
-  h6ActiveColor?: string;
+  h6Color?: any;
   h6FontSize?: string;
   h6FontWeight?: string;
   h6FontStyle?: string;
@@ -508,12 +410,14 @@ export interface TocThemeAttributes {
   iconRotation?: string;
   iconInactiveSource?: Record<string, any>;
   iconInactiveColor?: string;
+  iconInactiveRotation?: string;
   iconInactiveSize?: string;
   iconInactiveMaxSize?: string;
   iconInactiveOffsetX?: string;
   iconInactiveOffsetY?: string;
   iconActiveSource?: Record<string, any>;
   iconActiveColor?: string;
+  iconActiveRotation?: string;
   iconActiveSize?: string;
   iconActiveMaxSize?: string;
   iconActiveOffsetX?: string;

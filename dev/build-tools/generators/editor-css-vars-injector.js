@@ -81,13 +81,18 @@ export function buildEditorCssVars(effectiveValues) {
       (value.tablet !== undefined || value.mobile !== undefined);
 
     if (isResponsiveValue) {
+      // Extract base value - skip if only device overrides exist
       let baseValue = value.value !== undefined ? value.value : value;
       if (typeof baseValue === 'number' && value.unit !== undefined) {
         baseValue = { value: baseValue, unit: value.unit };
       }
-      if (baseValue !== null && baseValue !== undefined) {
+      // Only output base if it's not a responsive container object
+      const isResponsiveContainer = baseValue && typeof baseValue === 'object' &&
+        (baseValue.tablet !== undefined || baseValue.mobile !== undefined);
+      if (!isResponsiveContainer && baseValue !== null && baseValue !== undefined) {
         const formattedBase = formatCssValue(attrName, baseValue, '${blockType}');
-        if (formattedBase !== null) {
+        if (formattedBase !== null && formattedBase !== 'undefined' &&
+            !(typeof formattedBase === 'string' && formattedBase.startsWith('undefined'))) {
           styles[cssVar] = formattedBase;
         }
         applyDecomposed(attrName, baseValue, '');
@@ -95,7 +100,8 @@ export function buildEditorCssVars(effectiveValues) {
 
       if (value.tablet !== undefined && value.tablet !== null) {
         const formattedTablet = formatCssValue(attrName, value.tablet, '${blockType}');
-        if (formattedTablet !== null) {
+        if (formattedTablet !== null && formattedTablet !== 'undefined' &&
+            !(typeof formattedTablet === 'string' && formattedTablet.startsWith('undefined'))) {
           styles[\`\${cssVar}-tablet\`] = formattedTablet;
         }
         applyDecomposed(attrName, value.tablet, '-tablet');
@@ -103,7 +109,8 @@ export function buildEditorCssVars(effectiveValues) {
 
       if (value.mobile !== undefined && value.mobile !== null) {
         const formattedMobile = formatCssValue(attrName, value.mobile, '${blockType}');
-        if (formattedMobile !== null) {
+        if (formattedMobile !== null && formattedMobile !== 'undefined' &&
+            !(typeof formattedMobile === 'string' && formattedMobile.startsWith('undefined'))) {
           styles[\`\${cssVar}-mobile\`] = formattedMobile;
         }
         applyDecomposed(attrName, value.mobile, '-mobile');
@@ -112,7 +119,8 @@ export function buildEditorCssVars(effectiveValues) {
     }
 
     const formattedValue = formatCssValue(attrName, value, '${blockType}');
-    if (formattedValue !== null) {
+    if (formattedValue !== null && formattedValue !== 'undefined' &&
+        !(typeof formattedValue === 'string' && formattedValue.startsWith('undefined'))) {
       styles[cssVar] = formattedValue;
     }
     applyDecomposed(attrName, value, '');

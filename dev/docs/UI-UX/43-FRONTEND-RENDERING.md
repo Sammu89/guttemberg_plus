@@ -451,7 +451,7 @@ function buildCustomVars(attributes) {
 - Semantic heading structure for search engines
 
 **Icon Classes**:
-- Position: `icon-left`, `icon-right`, `icon-extreme-right`
+- Position: `icon-left`, `icon-right`, `icon-box-right`
 - Animation: `data-animate="true"` (rotates 180deg when open)
 
 **Initial State**:
@@ -842,7 +842,7 @@ User customized accordion stays customized (inline CSS variables override theme)
 - [ ] ARIA attributes update correctly
 - [ ] Icon displays/hides based on `showIcon`
 - [ ] Icon rotates when `data-animate="true"`
-- [ ] All icon positions work (left/right/extreme-right)
+- [ ] All icon positions work (left/right/box-right)
 - [ ] Default theme styles apply
 - [ ] Custom theme styles apply
 - [ ] Per-accordion customizations override theme

@@ -1,0 +1,68 @@
+<!-- Template: TOC Structure -->
+    <div class="gutplus-toc" data-el="wrapper">
+      <template data-switch="titleStyle">
+        <template data-case="static">
+          <div class="toc-title" data-el="titleStatic"></div>
+        </template>
+        <template data-default>
+          <button class="toc-title" data-el="titleButton" type="button"></button>
+        </template>
+      </template>
+
+      <div class="toc-content" data-el="content">
+        <ul class="toc-list" data-el="list">
+          <template data-slot="tocItems"></template>
+        </ul>
+      </div>
+    </div>
+
+    <template data-slot="tocItems">
+      <li class="toc-item" data-el="listItem">
+        <template data-switch="headingLevel">
+          <template data-case="1">
+            <a class="toc-link" data-el="h1Link"></a>
+          </template>
+          <template data-case="2">
+            <a class="toc-link" data-el="h2Link"></a>
+          </template>
+          <template data-case="3">
+            <a class="toc-link" data-el="h3Link"></a>
+          </template>
+          <template data-case="4">
+            <a class="toc-link" data-el="h4Link"></a>
+          </template>
+          <template data-case="5">
+            <a class="toc-link" data-el="h5Link"></a>
+          </template>
+          <template data-case="6">
+            <a class="toc-link" data-el="h6Link"></a>
+          </template>
+          <template data-default>
+            <a class="toc-link" data-el="link"></a>
+          </template>
+        </template>
+
+        <template data-when="hasChildren">
+          <ul class="toc-list toc-hierarchical-numbering" data-el="nestedList">
+            <template data-slot="tocItems"></template>
+          </ul>
+        </template>
+      </li>
+    </template>
+<!-- End Template: TOC Structure -->
+  <section id="instructions">
+    <h2>Instructions</h2>
+    <pre>
+Template syntax:
+- data-el defines the element id used by the generator.
+- class defines the selector (first class is the selector).
+- Use <template data-slot="name"> to define reusable fragments and
+  <template data-slot="name"></template> where you want to inject them.
+- Use <template data-when="expression"> for conditional branches and
+  <template data-else> for fallback.
+- Use <template data-switch="expr"> with child <template data-case="value">
+  and <template data-default> for variations.
+- Curly-brace placeholders (e.g., {headingLevel}) are string substitutions.
+- <slot> is a leaf placeholder for InnerBlocks or dynamic content.
+    </pre>
+  </section>

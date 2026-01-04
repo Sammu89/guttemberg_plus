@@ -1,0 +1,241 @@
+{
+  "blockType": "accordion",
+  "structure": {
+    "elements": {
+      "item": {
+        "id": "item",
+        "selector": ".gutplus-accordion",
+        "tag": "div",
+        "classes": [
+          "gutplus-accordion"
+        ],
+        "attributes": {},
+        "children": [
+          "titleWrapper",
+          "title",
+          "icon",
+          "icon",
+          "content"
+        ],
+        "parent": null,
+        "isSlot": false
+      },
+      "titleWrapper": {
+        "id": "titleWrapper",
+        "selector": ".accordion-title-wrapper",
+        "tag": "div",
+        "classes": [
+          "accordion-title-wrapper"
+        ],
+        "attributes": {},
+        "children": [
+          "heading"
+        ],
+        "parent": "item",
+        "isSlot": false
+      },
+      "heading": {
+        "id": "heading",
+        "selector": ".accordion-heading",
+        "tag": "h{headinglevel}",
+        "classes": [
+          "accordion-heading"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "titleWrapper",
+        "isSlot": false
+      },
+      "title": {
+        "id": "title",
+        "selector": ".accordion-title",
+        "tag": "button",
+        "classes": [
+          "accordion-title"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "children": [
+          "iconSlot",
+          "titleTextWrapper",
+          "titleTextWrapper",
+          "iconSlot",
+          "titleInline"
+        ],
+        "parent": "item",
+        "isSlot": false
+      },
+      "iconSlot": {
+        "id": "iconSlot",
+        "selector": ".accordion-icon-slot",
+        "tag": "span",
+        "classes": [
+          "accordion-icon-slot"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "title",
+        "isSlot": false
+      },
+      "titleTextWrapper": {
+        "id": "titleTextWrapper",
+        "selector": ".accordion-title-text-wrapper",
+        "tag": "div",
+        "classes": [
+          "accordion-title-text-wrapper"
+        ],
+        "attributes": {},
+        "children": [
+          "titleText"
+        ],
+        "parent": "title",
+        "isSlot": false
+      },
+      "titleText": {
+        "id": "titleText",
+        "selector": ".accordion-title-text",
+        "tag": "span",
+        "classes": [
+          "accordion-title-text"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "titleInline",
+        "isSlot": false
+      },
+      "titleInline": {
+        "id": "titleInline",
+        "selector": ".accordion-title-inline",
+        "tag": "div",
+        "classes": [
+          "accordion-title-inline"
+        ],
+        "attributes": {},
+        "children": [
+          "titleText"
+        ],
+        "parent": "title",
+        "isSlot": false
+      },
+      "icon": {
+        "id": "icon",
+        "selector": ".accordion-icon",
+        "tag": "span",
+        "classes": [
+          "accordion-icon",
+          "accordion-icon-char"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "item",
+        "isSlot": false
+      },
+      "content": {
+        "id": "content",
+        "selector": ".accordion-content",
+        "tag": "div",
+        "classes": [
+          "accordion-content"
+        ],
+        "attributes": {},
+        "children": [
+          "contentInner"
+        ],
+        "parent": "item",
+        "isSlot": false
+      },
+      "contentInner": {
+        "id": "contentInner",
+        "selector": ".accordion-content-inner",
+        "tag": "div",
+        "classes": [
+          "accordion-content-inner"
+        ],
+        "attributes": {},
+        "children": [
+          "contentSlot"
+        ],
+        "parent": "content",
+        "isSlot": false
+      },
+      "contentSlot": {
+        "id": "contentSlot",
+        "selector": null,
+        "tag": "slot",
+        "classes": [],
+        "attributes": {},
+        "children": [],
+        "parent": "contentInner",
+        "isSlot": true
+      }
+    },
+    "variations": {
+      "headingLevel !== 'none'": {
+        "condition": "headingLevel !== 'none'",
+        "trueStructure": "\n          <h{headinglevel} class=\"accordion-heading\" data-el=\"heading\">\n            <template data-slot=\"titleButton\"></template>\n          </h{headinglevel}>\n        ",
+        "falseStructure": null
+      },
+      "iconPosition": {
+        "type": "switch",
+        "expression": "iconPosition",
+        "cases": {
+          "box-left": {
+            "value": "box-left",
+            "content": "\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n            ",
+            "isDefault": false
+          },
+          "box-right": {
+            "value": "box-right",
+            "content": "\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n            ",
+            "isDefault": false
+          },
+          "default": {
+            "value": "default",
+            "content": "\n              <div class=\"accordion-title-inline\" data-el=\"titleInline\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n                <template data-slot=\"iconMarkup\"></template>\n              </div>\n            ",
+            "isDefault": true
+          }
+        }
+      },
+      "iconInactiveSource.kind === 'image'": {
+        "condition": "iconInactiveSource.kind === 'image'",
+        "trueStructure": "\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        ",
+        "falseStructure": null
+      }
+    },
+    "slots": {
+      "titleButton": {
+        "name": "titleButton",
+        "content": "\n        <button class=\"accordion-title\" data-el=\"title\" type=\"button\">\n          <template data-switch=\"iconPosition\">\n            <template data-case=\"box-left\">\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n            </template>\n            <template data-case=\"box-right\">\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n            </template>\n            <template data-default=\"\">\n              <div class=\"accordion-title-inline\" data-el=\"titleInline\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n                <template data-slot=\"iconMarkup\"></template>\n              </div>\n            </template>\n          </template>\n        </button>\n      ",
+        "node": {}
+      },
+      "iconMarkup": {
+        "name": "iconMarkup",
+        "content": "\n        <template data-when=\"iconInactiveSource.kind === 'image'\">\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        </template>\n        <template data-else=\"\">\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        </template>\n      ",
+        "node": {}
+      }
+    },
+    "conditions": [
+      {
+        "type": "conditional",
+        "expression": "headingLevel !== 'none'",
+        "isElse": false,
+        "trueContent": "\n          <h{headinglevel} class=\"accordion-heading\" data-el=\"heading\">\n            <template data-slot=\"titleButton\"></template>\n          </h{headinglevel}>\n        ",
+        "falseContent": "\n          <template data-slot=\"titleButton\"></template>\n        ",
+        "node": {}
+      },
+      {
+        "type": "conditional",
+        "expression": "iconInactiveSource.kind === 'image'",
+        "isElse": false,
+        "trueContent": "\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        ",
+        "falseContent": "\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        ",
+        "node": {}
+      }
+    ],
+    "placeholders": [
+      "headingLevel"
+    ],
+    "template": "<!-- Template: Accordion Structure -->\n    <div class=\"gutplus-accordion\" data-el=\"item\">\n      <div class=\"accordion-title-wrapper\" data-el=\"titleWrapper\">\n        <template data-when=\"headingLevel !== 'none'\">\n          <h{headingLevel} class=\"accordion-heading\" data-el=\"heading\">\n            <template data-slot=\"titleButton\"></template>\n          </h{headingLevel}>\n        </template>\n        <template data-else>\n          <template data-slot=\"titleButton\"></template>\n        </template>\n      </div>\n\n      <template data-slot=\"titleButton\">\n        <button class=\"accordion-title\" data-el=\"title\" type=\"button\">\n          <template data-switch=\"iconPosition\">\n            <template data-case=\"box-left\">\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n            </template>\n            <template data-case=\"box-right\">\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n            </template>\n            <template data-default>\n              <div class=\"accordion-title-inline\" data-el=\"titleInline\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n                <template data-slot=\"iconMarkup\"></template>\n              </div>\n            </template>\n          </template>\n        </button>\n      </template>\n\n      <template data-slot=\"iconMarkup\">\n        <template data-when=\"iconInactiveSource.kind === 'image'\">\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        </template>\n        <template data-else>\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        </template>\n      </template>\n\n      <div class=\"accordion-content\" data-el=\"content\">\n        <div class=\"accordion-content-inner\" data-el=\"contentInner\">\n          <slot data-el=\"contentSlot\"></slot>\n        </div>\n      </div>\n    </div>\n<!-- End Template: Accordion Structure -->\n  <section id=\"instructions\">\n    <h2>Instructions</h2>\n    <pre>\nTemplate syntax:\n- data-el defines the element id used by the generator.\n- class defines the selector (first class is the selector).\n- Use <template data-slot=\"name\"> to define reusable fragments and\n  <template data-slot=\"name\"></template> where you want to inject them.\n- Use <template data-when=\"expression\"> for conditional branches and\n  <template data-else> for fallback.\n- Use <template data-switch=\"expr\"> with child <template data-case=\"value\">\n  and <template data-default> for variations.\n- Curly-brace placeholders (e.g., {headingLevel}) are string substitutions.\n- <slot> is a leaf placeholder for InnerBlocks or dynamic content.\n    </pre>\n  </section>\n"
+  }
+}

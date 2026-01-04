@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-02T19:57:50.436Z
+ * Generated at: 2026-01-04T23:18:45.227Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
@@ -16,12 +16,6 @@
   --tabs-border-radius: 0px;
   --tabs-border-shadow: none;
   --tabs-border-shadow-hover: none;
-  --tabs-button-color: #666666;
-  --tabs-button-bg: #f5f5f5;
-  --tabs-button-hover-color: #333333;
-  --tabs-button-hover-bg: #e8e8e8;
-  --tabs-button-active-color: #333333;
-  --tabs-button-active-bg: #ffffff;
   --tabs-button-font-size: 1rem;
   --tabs-button-font-weight: 500;
   --tabs-button-font-style: normal;
@@ -57,9 +51,12 @@
   --tabs-panel-border-width: 1;
   --tabs-panel-border-style: solid;
   --tabs-panel-border-radius: 4px;
-  --tabs-icon-display: inline-flex;
+  --tabs-icon-display: inline-grid;
   --tabs-icon-rotation: 180deg;
   --tabs-icon-color: #333333;
+  --tabs-icon-initial-rotation: 0deg;
+  --tabs-icon-initial-rotation-tablet: 0deg;
+  --tabs-icon-initial-rotation-mobile: 0deg;
   --tabs-icon-size: 16px;
   --tabs-icon-size-tablet: 16px;
   --tabs-icon-size-mobile: 16px;
@@ -73,6 +70,9 @@
   --tabs-icon-offset-y-tablet: 0px;
   --tabs-icon-offset-y-mobile: 0px;
   --tabs-icon-active-color: #333333;
+  --tabs-icon-active-initial-rotation: 0deg;
+  --tabs-icon-active-initial-rotation-tablet: 0deg;
+  --tabs-icon-active-initial-rotation-mobile: 0deg;
   --tabs-icon-active-size: 16px;
   --tabs-icon-active-size-tablet: 16px;
   --tabs-icon-active-size-mobile: 16px;

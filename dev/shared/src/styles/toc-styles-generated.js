@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2026-01-02T19:57:50.474Z
+ * Generated at: 2026-01-04T23:18:45.236Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -37,42 +37,6 @@ export function buildEditorStyles(values) {
       styles.default.backgroundColor = values.wrapperBackgroundColor;
     }
     // Complex object: blockBorderColor - handle manually if needed
-    if (values.titleColor !== undefined && values.titleColor !== null) {
-      styles.default.color = values.titleColor;
-    }
-    if (values.titleBackgroundColor !== undefined && values.titleBackgroundColor !== null) {
-      styles.default.backgroundColor = values.titleBackgroundColor;
-    }
-    if (values.hoverTitleColor !== undefined && values.hoverTitleColor !== null) {
-      styles.default.color = values.hoverTitleColor;
-    }
-    if (values.hoverTitleBackgroundColor !== undefined && values.hoverTitleBackgroundColor !== null) {
-      styles.default.backgroundColor = values.hoverTitleBackgroundColor;
-    }
-    if (values.linkColor !== undefined && values.linkColor !== null) {
-      styles.default.color = values.linkColor;
-    }
-    if (values.linkHoverColor !== undefined && values.linkHoverColor !== null) {
-      styles.default.color = values.linkHoverColor;
-    }
-    if (values.linkActiveColor !== undefined && values.linkActiveColor !== null) {
-      styles.default.color = values.linkActiveColor;
-    }
-    if (values.linkVisitedColor !== undefined && values.linkVisitedColor !== null) {
-      styles.default.color = values.linkVisitedColor;
-    }
-    if (values.h1Color !== undefined && values.h1Color !== null) {
-      styles.default.color = values.h1Color;
-    }
-    if (values.h1HoverColor !== undefined && values.h1HoverColor !== null) {
-      styles.default.color = values.h1HoverColor;
-    }
-    if (values.h1VisitedColor !== undefined && values.h1VisitedColor !== null) {
-      styles.default.color = values.h1VisitedColor;
-    }
-    if (values.h1ActiveColor !== undefined && values.h1ActiveColor !== null) {
-      styles.default.color = values.h1ActiveColor;
-    }
     if (values.h1FontSize !== undefined && values.h1FontSize !== null) {
       styles.default.fontSize = values.h1FontSize;
     }
@@ -87,18 +51,6 @@ export function buildEditorStyles(values) {
     }
     if (values.h1TextDecoration !== undefined && values.h1TextDecoration !== null) {
       styles.default.textDecoration = values.h1TextDecoration;
-    }
-    if (values.h2Color !== undefined && values.h2Color !== null) {
-      styles.default.color = values.h2Color;
-    }
-    if (values.h2HoverColor !== undefined && values.h2HoverColor !== null) {
-      styles.default.color = values.h2HoverColor;
-    }
-    if (values.h2VisitedColor !== undefined && values.h2VisitedColor !== null) {
-      styles.default.color = values.h2VisitedColor;
-    }
-    if (values.h2ActiveColor !== undefined && values.h2ActiveColor !== null) {
-      styles.default.color = values.h2ActiveColor;
     }
     if (values.h2FontSize !== undefined && values.h2FontSize !== null) {
       styles.default.fontSize = values.h2FontSize;
@@ -115,18 +67,6 @@ export function buildEditorStyles(values) {
     if (values.h2TextDecoration !== undefined && values.h2TextDecoration !== null) {
       styles.default.textDecoration = values.h2TextDecoration;
     }
-    if (values.h3Color !== undefined && values.h3Color !== null) {
-      styles.default.color = values.h3Color;
-    }
-    if (values.h3HoverColor !== undefined && values.h3HoverColor !== null) {
-      styles.default.color = values.h3HoverColor;
-    }
-    if (values.h3VisitedColor !== undefined && values.h3VisitedColor !== null) {
-      styles.default.color = values.h3VisitedColor;
-    }
-    if (values.h3ActiveColor !== undefined && values.h3ActiveColor !== null) {
-      styles.default.color = values.h3ActiveColor;
-    }
     if (values.h3FontSize !== undefined && values.h3FontSize !== null) {
       styles.default.fontSize = values.h3FontSize;
     }
@@ -141,18 +81,6 @@ export function buildEditorStyles(values) {
     }
     if (values.h3TextDecoration !== undefined && values.h3TextDecoration !== null) {
       styles.default.textDecoration = values.h3TextDecoration;
-    }
-    if (values.h4Color !== undefined && values.h4Color !== null) {
-      styles.default.color = values.h4Color;
-    }
-    if (values.h4HoverColor !== undefined && values.h4HoverColor !== null) {
-      styles.default.color = values.h4HoverColor;
-    }
-    if (values.h4VisitedColor !== undefined && values.h4VisitedColor !== null) {
-      styles.default.color = values.h4VisitedColor;
-    }
-    if (values.h4ActiveColor !== undefined && values.h4ActiveColor !== null) {
-      styles.default.color = values.h4ActiveColor;
     }
     if (values.h4FontSize !== undefined && values.h4FontSize !== null) {
       styles.default.fontSize = values.h4FontSize;
@@ -169,18 +97,6 @@ export function buildEditorStyles(values) {
     if (values.h4TextDecoration !== undefined && values.h4TextDecoration !== null) {
       styles.default.textDecoration = values.h4TextDecoration;
     }
-    if (values.h5Color !== undefined && values.h5Color !== null) {
-      styles.default.color = values.h5Color;
-    }
-    if (values.h5HoverColor !== undefined && values.h5HoverColor !== null) {
-      styles.default.color = values.h5HoverColor;
-    }
-    if (values.h5VisitedColor !== undefined && values.h5VisitedColor !== null) {
-      styles.default.color = values.h5VisitedColor;
-    }
-    if (values.h5ActiveColor !== undefined && values.h5ActiveColor !== null) {
-      styles.default.color = values.h5ActiveColor;
-    }
     if (values.h5FontSize !== undefined && values.h5FontSize !== null) {
       styles.default.fontSize = values.h5FontSize;
     }
@@ -195,18 +111,6 @@ export function buildEditorStyles(values) {
     }
     if (values.h5TextDecoration !== undefined && values.h5TextDecoration !== null) {
       styles.default.textDecoration = values.h5TextDecoration;
-    }
-    if (values.h6Color !== undefined && values.h6Color !== null) {
-      styles.default.color = values.h6Color;
-    }
-    if (values.h6HoverColor !== undefined && values.h6HoverColor !== null) {
-      styles.default.color = values.h6HoverColor;
-    }
-    if (values.h6VisitedColor !== undefined && values.h6VisitedColor !== null) {
-      styles.default.color = values.h6VisitedColor;
-    }
-    if (values.h6ActiveColor !== undefined && values.h6ActiveColor !== null) {
-      styles.default.color = values.h6ActiveColor;
     }
     if (values.h6FontSize !== undefined && values.h6FontSize !== null) {
       styles.default.fontSize = values.h6FontSize;
@@ -232,6 +136,9 @@ export function buildEditorStyles(values) {
     if (values.iconInactiveColor !== undefined && values.iconInactiveColor !== null) {
       styles.default.color = values.iconInactiveColor;
     }
+    if (values.iconInactiveRotation !== undefined && values.iconInactiveRotation !== null) {
+      styles.default.transform = values.iconInactiveRotation;
+    }
     if (values.iconInactiveSize !== undefined && values.iconInactiveSize !== null) {
       styles.default.fontSize = values.iconInactiveSize;
     }
@@ -246,6 +153,9 @@ export function buildEditorStyles(values) {
     }
     if (values.iconActiveColor !== undefined && values.iconActiveColor !== null) {
       styles.default.color = values.iconActiveColor;
+    }
+    if (values.iconActiveRotation !== undefined && values.iconActiveRotation !== null) {
+      styles.default.transform = values.iconActiveRotation;
     }
     if (values.iconActiveSize !== undefined && values.iconActiveSize !== null) {
       styles.default.fontSize = values.iconActiveSize;
@@ -329,54 +239,6 @@ export function buildFrontendStyles(customizations) {
 
   // Complex object: blockBorderColor - handle manually if needed
 
-  if (customizations.titleColor !== undefined && customizations.titleColor !== null) {
-    styles['--toc-title-color'] = customizations.titleColor;
-  }
-
-  if (customizations.titleBackgroundColor !== undefined && customizations.titleBackgroundColor !== null) {
-    styles['--toc-title-background-color'] = customizations.titleBackgroundColor;
-  }
-
-  if (customizations.hoverTitleColor !== undefined && customizations.hoverTitleColor !== null) {
-    styles['--toc-title-hover-color'] = customizations.hoverTitleColor;
-  }
-
-  if (customizations.hoverTitleBackgroundColor !== undefined && customizations.hoverTitleBackgroundColor !== null) {
-    styles['--toc-title-hover-bg'] = customizations.hoverTitleBackgroundColor;
-  }
-
-  if (customizations.linkColor !== undefined && customizations.linkColor !== null) {
-    styles['--toc-link-color'] = customizations.linkColor;
-  }
-
-  if (customizations.linkHoverColor !== undefined && customizations.linkHoverColor !== null) {
-    styles['--toc-link-hover-color'] = customizations.linkHoverColor;
-  }
-
-  if (customizations.linkActiveColor !== undefined && customizations.linkActiveColor !== null) {
-    styles['--toc-link-active-color'] = customizations.linkActiveColor;
-  }
-
-  if (customizations.linkVisitedColor !== undefined && customizations.linkVisitedColor !== null) {
-    styles['--toc-link-visited-color'] = customizations.linkVisitedColor;
-  }
-
-  if (customizations.h1Color !== undefined && customizations.h1Color !== null) {
-    styles['--toc-h1-color'] = customizations.h1Color;
-  }
-
-  if (customizations.h1HoverColor !== undefined && customizations.h1HoverColor !== null) {
-    styles['--toc-h1-hover-color'] = customizations.h1HoverColor;
-  }
-
-  if (customizations.h1VisitedColor !== undefined && customizations.h1VisitedColor !== null) {
-    styles['--toc-h1-visited-color'] = customizations.h1VisitedColor;
-  }
-
-  if (customizations.h1ActiveColor !== undefined && customizations.h1ActiveColor !== null) {
-    styles['--toc-h1-active-color'] = customizations.h1ActiveColor;
-  }
-
   if (customizations.h1FontSize !== undefined && customizations.h1FontSize !== null) {
     styles['--toc-h1-font-size'] = customizations.h1FontSize;
   }
@@ -395,22 +257,6 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.h1TextDecoration !== undefined && customizations.h1TextDecoration !== null) {
     styles['--toc-h1-text-decoration'] = customizations.h1TextDecoration;
-  }
-
-  if (customizations.h2Color !== undefined && customizations.h2Color !== null) {
-    styles['--toc-h2-color'] = customizations.h2Color;
-  }
-
-  if (customizations.h2HoverColor !== undefined && customizations.h2HoverColor !== null) {
-    styles['--toc-h2-hover-color'] = customizations.h2HoverColor;
-  }
-
-  if (customizations.h2VisitedColor !== undefined && customizations.h2VisitedColor !== null) {
-    styles['--toc-h2-visited-color'] = customizations.h2VisitedColor;
-  }
-
-  if (customizations.h2ActiveColor !== undefined && customizations.h2ActiveColor !== null) {
-    styles['--toc-h2-active-color'] = customizations.h2ActiveColor;
   }
 
   if (customizations.h2FontSize !== undefined && customizations.h2FontSize !== null) {
@@ -433,22 +279,6 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-h2-text-decoration'] = customizations.h2TextDecoration;
   }
 
-  if (customizations.h3Color !== undefined && customizations.h3Color !== null) {
-    styles['--toc-h3-color'] = customizations.h3Color;
-  }
-
-  if (customizations.h3HoverColor !== undefined && customizations.h3HoverColor !== null) {
-    styles['--toc-h3-hover-color'] = customizations.h3HoverColor;
-  }
-
-  if (customizations.h3VisitedColor !== undefined && customizations.h3VisitedColor !== null) {
-    styles['--toc-h3-visited-color'] = customizations.h3VisitedColor;
-  }
-
-  if (customizations.h3ActiveColor !== undefined && customizations.h3ActiveColor !== null) {
-    styles['--toc-h3-active-color'] = customizations.h3ActiveColor;
-  }
-
   if (customizations.h3FontSize !== undefined && customizations.h3FontSize !== null) {
     styles['--toc-h3-font-size'] = customizations.h3FontSize;
   }
@@ -467,22 +297,6 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.h3TextDecoration !== undefined && customizations.h3TextDecoration !== null) {
     styles['--toc-h3-text-decoration'] = customizations.h3TextDecoration;
-  }
-
-  if (customizations.h4Color !== undefined && customizations.h4Color !== null) {
-    styles['--toc-h4-color'] = customizations.h4Color;
-  }
-
-  if (customizations.h4HoverColor !== undefined && customizations.h4HoverColor !== null) {
-    styles['--toc-h4-hover-color'] = customizations.h4HoverColor;
-  }
-
-  if (customizations.h4VisitedColor !== undefined && customizations.h4VisitedColor !== null) {
-    styles['--toc-h4-visited-color'] = customizations.h4VisitedColor;
-  }
-
-  if (customizations.h4ActiveColor !== undefined && customizations.h4ActiveColor !== null) {
-    styles['--toc-h4-active-color'] = customizations.h4ActiveColor;
   }
 
   if (customizations.h4FontSize !== undefined && customizations.h4FontSize !== null) {
@@ -505,22 +319,6 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-h4-text-decoration'] = customizations.h4TextDecoration;
   }
 
-  if (customizations.h5Color !== undefined && customizations.h5Color !== null) {
-    styles['--toc-h5-color'] = customizations.h5Color;
-  }
-
-  if (customizations.h5HoverColor !== undefined && customizations.h5HoverColor !== null) {
-    styles['--toc-h5-hover-color'] = customizations.h5HoverColor;
-  }
-
-  if (customizations.h5VisitedColor !== undefined && customizations.h5VisitedColor !== null) {
-    styles['--toc-h5-visited-color'] = customizations.h5VisitedColor;
-  }
-
-  if (customizations.h5ActiveColor !== undefined && customizations.h5ActiveColor !== null) {
-    styles['--toc-h5-active-color'] = customizations.h5ActiveColor;
-  }
-
   if (customizations.h5FontSize !== undefined && customizations.h5FontSize !== null) {
     styles['--toc-h5-font-size'] = customizations.h5FontSize;
   }
@@ -539,22 +337,6 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.h5TextDecoration !== undefined && customizations.h5TextDecoration !== null) {
     styles['--toc-h5-text-decoration'] = customizations.h5TextDecoration;
-  }
-
-  if (customizations.h6Color !== undefined && customizations.h6Color !== null) {
-    styles['--toc-h6-color'] = customizations.h6Color;
-  }
-
-  if (customizations.h6HoverColor !== undefined && customizations.h6HoverColor !== null) {
-    styles['--toc-h6-hover-color'] = customizations.h6HoverColor;
-  }
-
-  if (customizations.h6VisitedColor !== undefined && customizations.h6VisitedColor !== null) {
-    styles['--toc-h6-visited-color'] = customizations.h6VisitedColor;
-  }
-
-  if (customizations.h6ActiveColor !== undefined && customizations.h6ActiveColor !== null) {
-    styles['--toc-h6-active-color'] = customizations.h6ActiveColor;
   }
 
   if (customizations.h6FontSize !== undefined && customizations.h6FontSize !== null) {
@@ -589,6 +371,10 @@ export function buildFrontendStyles(customizations) {
     styles['--toc-icon-color'] = customizations.iconInactiveColor;
   }
 
+  if (customizations.iconInactiveRotation !== undefined && customizations.iconInactiveRotation !== null) {
+    styles['--toc-icon-initial-rotation'] = customizations.iconInactiveRotation;
+  }
+
   if (customizations.iconInactiveSize !== undefined && customizations.iconInactiveSize !== null) {
     styles['--toc-icon-size'] = customizations.iconInactiveSize;
   }
@@ -607,6 +393,10 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.iconActiveColor !== undefined && customizations.iconActiveColor !== null) {
     styles['--toc-icon-active-color'] = customizations.iconActiveColor;
+  }
+
+  if (customizations.iconActiveRotation !== undefined && customizations.iconActiveRotation !== null) {
+    styles['--toc-icon-active-initial-rotation'] = customizations.iconActiveRotation;
   }
 
   if (customizations.iconActiveSize !== undefined && customizations.iconActiveSize !== null) {

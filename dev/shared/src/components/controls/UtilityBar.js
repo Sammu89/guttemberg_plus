@@ -5,7 +5,7 @@
  * Intelligently shows/hides controls based on responsive and decomposable patterns.
  *
  * Features:
- * - Always shows reset button
+ * - Shows reset button by default (can be hidden)
  * - Conditionally shows device switcher when responsive
  * - Conditionally shows link toggle when decomposable
  * - Handles both "always responsive" and "canBeResponsive" patterns
@@ -34,6 +34,8 @@ import { ResponsiveIcon } from './icons';
  * @param {Function} props.onResponsiveToggle     - Enable/disable responsive handler
  * @param {Function} props.onLinkChange           - Link toggle handler
  * @param {Function} props.onReset                - Comprehensive reset handler
+ * @param {boolean}  props.showReset              - Whether to show reset button
+ * @param {boolean}  props.resetDisabled          - Disable only the reset button
  * @param {boolean}  props.disabled               - Disable all controls
  */
 export function UtilityBar( {
@@ -46,12 +48,15 @@ export function UtilityBar( {
 	onResponsiveToggle,
 	onLinkChange,
 	onReset,
+	showReset = true,
+	resetDisabled = false,
 	disabled = false,
 } ) {
 	// Determine what controls to show
 	const showEnableResponsiveButton = canBeResponsive && ! isResponsiveEnabled;
 	const showDeviceSwitcher = isResponsive || isResponsiveEnabled;
 	const showLinkToggle = isDecomposable;
+	const shouldDisableReset = disabled || resetDisabled;
 
 	return (
 		<Flex gap={ 1 } align="center" className="gutplus-utility-bar">
@@ -89,13 +94,15 @@ export function UtilityBar( {
 				</FlexItem>
 			) }
 
-			{ /* Reset Button - Always Shown */ }
-			<FlexItem>
-				<ResetButton
-					onClick={ onReset }
-					disabled={ disabled }
-				/>
-			</FlexItem>
+			{ /* Reset Button */ }
+			{ showReset && (
+				<FlexItem>
+					<ResetButton
+						onClick={ onReset }
+						disabled={ shouldDisableReset }
+					/>
+				</FlexItem>
+			) }
 		</Flex>
 	);
 }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2026-01-02T19:57:50.391Z
+ * Generated at: 2026-01-04T23:18:45.216Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -19,145 +19,37 @@
  * Auto-generated from schema - DO NOT edit manually.
  */
 export const accordionAttributes = {
-  dividerWidth: {
-    type: 'object',
-    default: {"top":0,"right":0,"bottom":0,"left":0,"unit":"px"},
+  dividerBorder: {
+    type: 'string',
+    default: {"width":{"top":0,"unit":"px"},"color":{"top":"#dddddd"},"style":{"top":"solid"}},
   },
-  dividerColor: {
-    type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+  blockBox: {
+    type: 'string',
+    default: {"border":{"width":{"top":1,"right":1,"bottom":1,"left":1,"unit":"px"},"color":{"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},"style":{"top":"solid","right":"solid","bottom":"solid","left":"solid"}},"radius":{"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4,"unit":"px"},"shadow":[{"x":{"value":0,"unit":"px"},"y":{"value":8,"unit":"px"},"blur":{"value":24,"unit":"px"},"spread":{"value":0,"unit":"px"},"color":"rgba(0,0,0,0.15)","inset":false}],"margin":{"top":1,"right":0,"bottom":1,"left":0,"unit":"em"}},
   },
-  dividerStyle: {
-    type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+  headerBox: {
+    type: 'string',
+    default: {"padding":{"top":12,"right":16,"bottom":12,"left":16,"unit":"px"}},
   },
-  borderWidth: {
-    type: 'object',
-    default: {"top":1,"right":1,"bottom":1,"left":1,"unit":"px"},
-  },
-  borderRadius: {
-    type: 'object',
-    default: {"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4,"unit":"px"},
-  },
-  shadow: {
-    type: 'array',
-    default: [{"x":{"value":0,"unit":"px"},"y":{"value":8,"unit":"px"},"blur":{"value":24,"unit":"px"},"spread":{"value":0,"unit":"px"},"color":"rgba(0,0,0,0.15)","inset":false}],
-  },
-  borderColor: {
-    type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
-  },
-  borderStyle: {
-    type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
-  },
-  headerPadding: {
-    type: 'object',
-    default: {"top":12,"right":16,"bottom":12,"left":16,"unit":"px"},
-  },
-  contentPadding: {
-    type: 'object',
-    default: {"top":16,"right":16,"bottom":16,"left":16,"unit":"px"},
-  },
-  blockMargin: {
-    type: 'object',
-    default: {"top":1,"right":0,"bottom":1,"left":0,"unit":"em"},
+  contentBox: {
+    type: 'string',
+    default: {"padding":{"top":16,"right":16,"bottom":16,"left":16,"unit":"px"}},
   },
   titleColor: {
     type: 'string',
-    default: '#333333',
+    default: {"text":"#333333","background":"#f5f5f5","hover":{"text":"#000000","background":"#e8e8e8"}},
   },
-  titleBackgroundColor: {
+  contentColor: {
     type: 'string',
-    default: '#f5f5f5',
+    default: {"text":"#333333","background":"#ffffff"},
   },
-  hoverTitleColor: {
+  contentTypography: {
     type: 'string',
-    default: '#000000',
+    default: null,
   },
-  hoverTitleBackgroundColor: {
+  titleTypography: {
     type: 'string',
-    default: '#e8e8e8',
-  },
-  contentTextColor: {
-    type: 'string',
-    default: '#333333',
-  },
-  contentBackgroundColor: {
-    type: 'string',
-    default: '#ffffff',
-  },
-  contentFontFamily: {
-    type: 'string',
-    default: 'inherit',
-  },
-  contentFontSize: {
-    type: 'string',
-    default: '1rem',
-  },
-  contentLineHeight: {
-    type: 'number',
-    default: 1.6,
-  },
-  titleFontFamily: {
-    type: 'string',
-    default: 'inherit',
-  },
-  titleFontSize: {
-    type: 'string',
-    default: '1.125rem',
-  },
-  titleFormatting: {
-    type: 'array',
-    default: [],
-  },
-  titleNoLineBreak: {
-    type: 'string',
-    default: 'normal',
-  },
-  titleFontWeight: {
-    type: 'number',
-    default: 400,
-  },
-  titleDecorationColor: {
-    type: 'string',
-    default: 'currentColor',
-  },
-  titleDecorationStyle: {
-    type: 'string',
-    default: 'solid',
-  },
-  titleDecorationWidth: {
-    type: 'string',
-    default: 'auto',
-  },
-  titleLetterSpacing: {
-    type: 'string',
-    default: '0em',
-  },
-  titleTextTransform: {
-    type: 'string',
-    default: 'none',
-  },
-  titleLineHeight: {
-    type: 'number',
-    default: 1.4,
-  },
-  titleAlignment: {
-    type: 'string',
-    default: 'left',
-  },
-  titleOffsetX: {
-    type: 'string',
-    default: '0px',
-  },
-  titleOffsetY: {
-    type: 'string',
-    default: '0px',
-  },
-  titleTextShadow: {
-    type: 'array',
-    default: [],
+    default: null,
   },
   showIcon: {
     type: 'boolean',
@@ -183,6 +75,10 @@ export const accordionAttributes = {
     type: 'string',
     default: '#333333',
   },
+  iconInactiveRotation: {
+    type: 'string',
+    default: '0deg',
+  },
   iconInactiveSize: {
     type: 'string',
     default: '16px',
@@ -207,6 +103,10 @@ export const accordionAttributes = {
     type: 'string',
     default: '#333333',
   },
+  iconActiveRotation: {
+    type: 'string',
+    default: '0deg',
+  },
   iconActiveSize: {
     type: 'string',
     default: '16px',
@@ -229,11 +129,7 @@ export const accordionAttributes = {
   },
   animationDuration: {
     type: 'string',
-    default: '300ms',
-  },
-  animationEasing: {
-    type: 'string',
-    default: 'ease',
+    default: '250ms',
   },
   accordionWidth: {
     type: 'string',
@@ -282,7 +178,7 @@ export const accordionAttributes = {
   // Auto-generated: tracks which responsive attributes have responsive mode enabled
   responsiveEnabled: {
     type: 'object',
-    default: {"headerPadding":false,"contentPadding":false,"blockMargin":false,"contentFontSize":false,"titleFontSize":false,"titleOffsetX":false,"titleOffsetY":false,"iconInactiveSize":false,"iconInactiveMaxSize":false,"iconInactiveOffsetX":false,"iconInactiveOffsetY":false,"iconActiveSize":false,"iconActiveMaxSize":false,"iconActiveOffsetX":false,"iconActiveOffsetY":false,"accordionWidth":false},
+    default: {"iconInactiveRotation":false,"iconInactiveSize":false,"iconInactiveMaxSize":false,"iconInactiveOffsetX":false,"iconInactiveOffsetY":false,"iconActiveRotation":false,"iconActiveSize":false,"iconActiveMaxSize":false,"iconActiveOffsetX":false,"iconActiveOffsetY":false,"accordionWidth":false},
   },
 };
 

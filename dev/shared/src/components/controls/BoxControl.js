@@ -14,10 +14,8 @@
 
 import { useMemo } from '@wordpress/element';
 import { BaseControl, Flex, FlexItem, FlexBlock, __experimentalNumberControl as NumberControl } from '@wordpress/components';
-import { DeviceSwitcher } from './atoms/DeviceSwitcher';
 import { UnitSelector } from './UnitSelector';
-import { LinkToggle } from './atoms/LinkToggle';
-import { ResetButton } from './ResetButton';
+import { UtilityBar } from './UtilityBar';
 import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
 
 /**
@@ -272,26 +270,25 @@ export function BoxControl( {
 						</span>
 					</FlexItem>
 					<FlexItem>
-						<Flex gap={ 2 }>
-							{ responsive && (
-								<FlexItem>
-									<DeviceSwitcher value={ device } />
-								</FlexItem>
-							) }
-							<FlexItem>
-								<ResetButton onClick={ handleReset } disabled={ isResetDisabled } />
-							</FlexItem>
-						</Flex>
+						<UtilityBar
+							isResponsive={ responsive }
+							isDecomposable={ true }
+							currentDevice={ device }
+							isLinked={ linked }
+							onLinkChange={ handleLinkToggle }
+							onReset={ handleReset }
+							resetDisabled={ isResetDisabled }
+						/>
 					</FlexItem>
 				</Flex>
 			}
 			help={ help }
 		>
 			<div className="gutplus-box-control__content">
-				{ /* Unit selector and link toggle row */ }
+				{ /* Unit selector row */ }
 				<Flex
 					align="center"
-					justify="space-between"
+					justify="flex-start"
 					style={ { marginBottom: '12px' } }
 				>
 					<FlexItem>
@@ -300,9 +297,6 @@ export function BoxControl( {
 							onChange={ handleUnitChange }
 							units={ units }
 						/>
-					</FlexItem>
-					<FlexItem>
-						<LinkToggle linked={ linked } onChange={ handleLinkToggle } />
 					</FlexItem>
 				</Flex>
 

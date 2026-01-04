@@ -234,21 +234,23 @@ export default function save( { attributes } ) {
 
 		const inactiveSource = attributes.iconInactiveSource;
 		const activeSource = attributes.iconActiveSource;
+		const useDifferentIcons = attributes.useDifferentIcons;
 
 		if ( ! inactiveSource || ! inactiveSource.value ) {
 			return null;
 		}
 
-		// Determine which icon to render initially (based on initiallyCollapsed)
-		const initialSource = ( ! initiallyCollapsed ) && activeSource && activeSource.value
+		// Determine which icon to render initially (based on initiallyCollapsed and useDifferentIcons)
+		const initialSource = ( ! initiallyCollapsed ) && useDifferentIcons && activeSource && activeSource.value
 			? activeSource
 			: inactiveSource;
 
 		// Data attributes for frontend JS
+		const hasDifferentIcons = useDifferentIcons && activeSource && activeSource.value;
 		const dataAttrs = {
 			'data-icon-inactive': JSON.stringify( inactiveSource ),
-			'data-icon-active': activeSource && activeSource.value ? JSON.stringify( activeSource ) : null,
-			'data-has-different-icons': !! ( activeSource && activeSource.value ),
+			'data-icon-active': hasDifferentIcons ? JSON.stringify( activeSource ) : null,
+			'data-has-different-icons': hasDifferentIcons,
 		};
 
 		// Icon classes
@@ -318,7 +320,7 @@ export default function save( { attributes } ) {
 		// Build header content based on icon position
 		let buttonChildren;
 
-		if ( currentIconPosition === 'extreme-left' ) {
+		if ( currentIconPosition === 'box-left' ) {
 			// Extreme left: icon at far left, text with flex grows to fill
 			buttonChildren = (
 				<>
@@ -332,7 +334,7 @@ export default function save( { attributes } ) {
 					</div>
 				</>
 			);
-		} else if ( currentIconPosition === 'extreme-right' ) {
+		} else if ( currentIconPosition === 'box-right' ) {
 			// Extreme right: text with flex grows, icon at far right
 			buttonChildren = (
 				<>

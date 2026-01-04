@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-02T19:57:50.428Z
+ * Generated at: 2026-01-04T23:18:45.226Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -65,7 +65,7 @@ export const tabsAttributes = {
   },
   borderColor: {
     type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},
   },
   borderWidth: {
     type: 'number',
@@ -73,7 +73,7 @@ export const tabsAttributes = {
   },
   borderStyle: {
     type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid"},
   },
   borderRadius: {
     type: 'object',
@@ -89,27 +89,7 @@ export const tabsAttributes = {
   },
   tabButtonColor: {
     type: 'string',
-    default: '#666666',
-  },
-  tabButtonBackgroundColor: {
-    type: 'string',
-    default: '#f5f5f5',
-  },
-  tabButtonHoverColor: {
-    type: 'string',
-    default: '#333333',
-  },
-  tabButtonHoverBackgroundColor: {
-    type: 'string',
-    default: '#e8e8e8',
-  },
-  tabButtonActiveColor: {
-    type: 'string',
-    default: '#333333',
-  },
-  tabButtonActiveBackgroundColor: {
-    type: 'string',
-    default: '#ffffff',
+    default: {"text":"#666666","background":"#f5f5f5","hover":{"text":"#333333","background":"#e8e8e8"},"active":{"text":"#333333","background":"#ffffff"}},
   },
   tabButtonFontSize: {
     type: 'number',
@@ -145,11 +125,11 @@ export const tabsAttributes = {
   },
   tabButtonBorderColor: {
     type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},
   },
   tabButtonActiveBorderColor: {
     type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},
   },
   tabButtonBorderWidth: {
     type: 'number',
@@ -157,7 +137,7 @@ export const tabsAttributes = {
   },
   tabButtonBorderStyle: {
     type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid"},
   },
   tabButtonBorderRadius: {
     type: 'object',
@@ -193,7 +173,7 @@ export const tabsAttributes = {
   },
   tabsRowBorderColor: {
     type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},
   },
   tabsRowBorderWidth: {
     type: 'number',
@@ -201,7 +181,7 @@ export const tabsAttributes = {
   },
   tabsRowBorderStyle: {
     type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid"},
   },
   tabsRowSpacing: {
     type: 'number',
@@ -241,7 +221,7 @@ export const tabsAttributes = {
   },
   panelBorderColor: {
     type: 'object',
-    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd","linked":true},
+    default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},
   },
   panelBorderWidth: {
     type: 'number',
@@ -249,7 +229,7 @@ export const tabsAttributes = {
   },
   panelBorderStyle: {
     type: 'object',
-    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid","linked":true},
+    default: {"top":"solid","right":"solid","bottom":"solid","left":"solid"},
   },
   panelBorderRadius: {
     type: 'object',
@@ -279,6 +259,10 @@ export const tabsAttributes = {
     type: 'string',
     default: '#333333',
   },
+  iconInactiveRotation: {
+    type: 'string',
+    default: '0deg',
+  },
   iconInactiveSize: {
     type: 'string',
     default: '16px',
@@ -303,6 +287,10 @@ export const tabsAttributes = {
     type: 'string',
     default: '#333333',
   },
+  iconActiveRotation: {
+    type: 'string',
+    default: '0deg',
+  },
   iconActiveSize: {
     type: 'string',
     default: '16px',
@@ -322,7 +310,7 @@ export const tabsAttributes = {
   // Auto-generated: tracks which responsive attributes have responsive mode enabled
   responsiveEnabled: {
     type: 'object',
-    default: {"tabsWidth":false,"iconInactiveSize":false,"iconInactiveMaxSize":false,"iconInactiveOffsetX":false,"iconInactiveOffsetY":false,"iconActiveSize":false,"iconActiveMaxSize":false,"iconActiveOffsetX":false,"iconActiveOffsetY":false},
+    default: {"tabsWidth":false,"iconInactiveRotation":false,"iconInactiveSize":false,"iconInactiveMaxSize":false,"iconInactiveOffsetX":false,"iconInactiveOffsetY":false,"iconActiveRotation":false,"iconActiveSize":false,"iconActiveMaxSize":false,"iconActiveOffsetX":false,"iconActiveOffsetY":false},
   },
 };
 

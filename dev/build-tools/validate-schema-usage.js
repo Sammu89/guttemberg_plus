@@ -91,8 +91,8 @@ const SKIP_PATTERNS = [
 
 // Positioning profiles for icon-panel macro
 const POSITIONING_PROFILES = {
-	accordion: ['left', 'right', 'extreme-left', 'extreme-right'],
-	toc: ['left', 'right', 'extreme-left', 'extreme-right'],
+	accordion: ['left', 'right', 'box-left', 'box-right'],
+	toc: ['left', 'right', 'box-left', 'box-right'],
 	tabs: ['left', 'right']
 };
 

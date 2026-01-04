@@ -13,7 +13,7 @@ import metadata from '../block.json';
 import edit from './edit';
 import save from './save';
 import { tabsAttributes } from './tabs-attributes';
-import './editor.scss';
+import '../../../css/tabs_editor.scss';
 
 // Register the tab-panel child block
 import './tab-panel';

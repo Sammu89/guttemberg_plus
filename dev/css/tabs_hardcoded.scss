@@ -1,0 +1,639 @@
+/**
+ * Tabs Block - Frontend Styles
+ *
+ * Provides core styling for tabs functionality on the frontend.
+ * Supports both horizontal and vertical orientations.
+ * Uses CSS custom properties from schema (single source of truth).
+ *
+ * @package
+ * @since 1.0.0
+ */
+
+@use './generated/tabs_variables';
+
+/* Reset all heading margins */
+.gutplus-tabs {
+	h1, h2, h3, h4, h5, h6 {
+		margin: 0 !important;
+	}
+}
+
+/* Block wrapper */
+.gutplus-tabs {
+	overflow: clip;
+	border: var(--tabs-border-width) var(--tabs-border-style) var(--tabs-border-color);
+	border-radius: var(--tabs-border-radius);
+	box-shadow: var(--tabs-border-shadow);
+	transition: box-shadow 0.2s ease;
+	margin-top: 1em;
+	margin-bottom: 1em;
+
+	&:hover {
+		box-shadow: var(--tabs-border-shadow-hover);
+	}
+
+	// Alignment classes
+	&.gutplus-align-left {
+		margin-left: 0 !important;
+		margin-right: auto !important;
+	}
+
+	&.gutplus-align-center {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
+	&.gutplus-align-right {
+		margin-left: auto !important;
+		margin-right: 0 !important;
+	}
+}
+
+/* Tab list wrapper for horizontal scrolling */
+.tabs-list-wrapper {
+	position: relative;
+	display: flex;
+	align-items: stretch;
+	background-color: var(--tabs-list-bg);
+	/* Allow vertical overflow so active tab can translate down and overlap content */
+	overflow: visible;
+}
+
+/* Scroll navigation buttons */
+.tabs-scroll-button {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 2rem;
+	height: 2rem;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+	background: white;
+	cursor: pointer;
+	z-index: 2; /* Below active tab (z-index: 3) but above inactive tabs */
+	display: none; /* Hidden by default, shown by JS when needed */
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	opacity: 0.9;
+	color: var(--tabs-button-color, #666);
+	pointer-events: auto; /* Ensure buttons are clickable */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+	&:hover:not(:disabled) {
+		opacity: 1;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	}
+
+	&:disabled {
+		opacity: 0; /* Fade out completely when disabled */
+		pointer-events: none; /* Don't capture clicks when invisible */
+		cursor: default;
+	}
+
+	&.scroll-left {
+		left: 0.5rem;
+	}
+
+	&.scroll-right {
+		right: 0.5rem;
+	}
+
+	/* Show when parent has overflow class */
+	.tabs-list-wrapper.has-overflow & {
+		display: flex;
+	}
+}
+
+/* Tab list (navigation) */
+.tabs-list {
+	display: flex;
+	gap: var(--tabs-button-gap);
+	background-color: var(--tabs-list-bg);
+	justify-content: var(--tabs-list-align);
+	overflow-x: auto;
+	overflow-y: visible;
+	flex-wrap: nowrap; /* Changed from wrap to nowrap for horizontal scrolling */
+	border: var(--tabs-row-border-width) var(--tabs-row-border-style) var(--tabs-row-border-color);
+	/* Horizontal orientation padding: top is user-controlled, left/right are 0.5rem */
+	/* Bottom padding removed to allow seamless connection with content panel */
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	padding-bottom: 0;
+	padding-top: var(--tabs-row-spacing);
+	outline: none !important;
+	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
+	border-bottom: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
+	/* Hide scrollbar but keep functionality */
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE/Edge */
+	scroll-behavior: smooth;
+	flex: 1; /* Take available space */
+	/* Create space below for active tab to translate down without being clipped */
+	margin-bottom: -2px;
+
+	&::-webkit-scrollbar {
+		display: none; /* Chrome/Safari/Opera */
+	}
+
+	/* When stretch buttons is enabled, prevent wrapping */
+	.gutplus-tabs[data-orientation="horizontal"][data-stretch-buttons="true"] & {
+		flex-wrap: nowrap;
+	}
+
+	/* Base vertical - shared by both left and right */
+	&[role="tablist"][aria-orientation="vertical"] {
+		flex-direction: column;
+		border-bottom: none;
+		/* Vertical orientation padding: top/bottom use row spacing var, left/right depend on orientation */
+		padding-top: var(--tabs-row-spacing);
+		padding-bottom: var(--tabs-row-spacing);
+	}
+
+	/* Vertical-left: nav on left, border on right */
+	.gutplus-tabs[data-orientation="vertical-left"] &[role="tablist"] {
+		padding-right: 0;
+		/* Let the list size itself to the widest button */
+		width: max-content;
+		flex: 0 0 auto;
+		min-width: 0;
+		padding-left: var(--tabs-row-spacing);
+		border-right: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
+	}
+
+	/* Vertical-right: nav on right, border on left */
+	.gutplus-tabs[data-orientation="vertical-right"] &[role="tablist"] {
+		padding-left: 0;
+		/* Let the list size itself to the widest button */
+		width: max-content;
+		flex: 0 0 auto;
+		min-width: 0;
+		padding-right: var(--tabs-row-spacing);
+		border-left: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
+	}
+}
+
+/* Tab heading wrapper (when headingLevel is set) */
+.tab-heading {
+	margin: 0;
+	padding: 0;
+	display: contents; // Makes heading transparent to flexbox layout
+}
+
+/* Tab button */
+.tab-button {
+	padding: var(--tabs-button-padding);
+	background-color: var(--tabs-button-bg);
+	color: var(--tabs-button-color);
+	font-size: var(--tabs-button-font-size);
+	font-weight: var(--tabs-button-font-weight);
+	font-style: var(--tabs-button-font-style);
+	text-transform: var(--tabs-button-text-transform);
+	text-decoration: var(--tabs-button-text-decoration);
+	text-align: var(--tabs-button-text-align);
+	border: var(--tabs-button-border-width) var(--tabs-button-border-style) var(--tabs-button-border-color);
+	border-radius: var(--tabs-button-border-radius);
+	box-shadow: var(--tabs-button-border-shadow);
+	cursor: pointer;
+	white-space: nowrap;
+	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+	outline: none !important;
+	display: block;
+	width: auto;
+	position: relative;
+	z-index: 1;
+
+	/* Stretch buttons to full width when toggle is enabled (horizontal only) */
+	.gutplus-tabs[data-orientation="horizontal"][data-stretch-buttons="true"] & {
+		width: 100%;
+		flex: 1 1 0; /* Equal width distribution */
+	}
+
+	/* Hide content-facing border for inactive tabs (per orientation) */
+	.gutplus-tabs[data-hide-inactive-edge="true"][data-orientation="horizontal"] & {
+		&:not(.active):not([aria-selected="true"]) {
+			border-bottom-style: none !important;
+			border-bottom-width: 0 !important;
+		}
+	}
+
+	.gutplus-tabs[data-hide-inactive-edge="true"][data-orientation="vertical-left"] & {
+		&:not(.active):not([aria-selected="true"]) {
+			border-right-style: none !important;
+			border-right-width: 0 !important;
+		}
+	}
+
+	.gutplus-tabs[data-hide-inactive-edge="true"][data-orientation="vertical-right"] & {
+		&:not(.active):not([aria-selected="true"]) {
+			border-left-style: none !important;
+			border-left-width: 0 !important;
+		}
+	}
+
+	/* In vertical layouts, always size to content regardless of stretch setting */
+	.gutplus-tabs[data-orientation="vertical-left"] &,
+	.gutplus-tabs[data-orientation="vertical-right"] & {
+		width: auto;
+	}
+
+	&:hover:not(:disabled) {
+		color: var(--tabs-button-hover-color);
+		background-color: var(--tabs-button-hover-bg);
+		box-shadow: var(--tabs-button-border-shadow-hover);
+	}
+
+	&:focus {
+		// Use same colors as normal state to prevent theme CSS override
+		background-color: var(--tabs-button-bg);
+		color: var(--tabs-button-color);
+		// Override WordPress global focus outline style
+		outline: none;
+		// Default (horizontal): shadow from top, left, right - NOT bottom (content edge)
+		box-shadow:
+			inset 0 4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 4px 0 6px -2px rgba(0, 0, 0, 0.06),
+			inset -4px 0 6px -2px rgba(0, 0, 0, 0.06);
+	}
+
+	/* Vertical-left focus: shadow from top, bottom, left - NOT right (content edge) */
+	.gutplus-tabs[data-orientation="vertical-left"] .tabs-list &:focus {
+		box-shadow:
+			inset 0 4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 0 -4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 4px 0 6px -2px rgba(0, 0, 0, 0.06);
+	}
+
+	/* Vertical-right focus: shadow from top, bottom, right - NOT left (content edge) */
+	.gutplus-tabs[data-orientation="vertical-right"] .tabs-list &:focus {
+		box-shadow:
+			inset 0 4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset 0 -4px 6px -2px rgba(0, 0, 0, 0.08),
+			inset -4px 0 6px -2px rgba(0, 0, 0, 0.06);
+	}
+
+	&.active,
+	&[aria-selected="true"] {
+		color: var(--tabs-button-active-color);
+		background-color: var(--tabs-button-active-bg);
+		font-weight: var(--tabs-button-active-font-weight, bold);
+		border-color: var(--tabs-button-active-border-color);
+		border-bottom-color: var(--tabs-button-active-content-border-color);
+		border-bottom-width: var(--tabs-button-active-content-border-width);
+		border-bottom-style: var(--tabs-button-active-content-border-style);
+		transform: translateY(2px);
+		z-index: 3;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	/* Vertical-left: focus border on right, active tab connects to panel */
+	.gutplus-tabs[data-orientation="vertical-left"] .tabs-list & {
+		&.active,
+		&[aria-selected="true"] {
+			/* Content edge uses dedicated color; others stay on active border color */
+			border-right-color: var(--tabs-button-active-content-border-color);
+			border-right-width: var(--tabs-button-active-content-border-width);
+			border-right-style: var(--tabs-button-active-content-border-style);
+			border-top-color: var(--tabs-button-active-border-color);
+			border-bottom-color: var(--tabs-button-active-border-color);
+			border-bottom-width: var(--tabs-button-border-width);
+			border-bottom-style: var(--tabs-button-border-style);
+			border-left-color: var(--tabs-button-active-border-color);
+			transform: translateX(2px);
+		}
+	}
+
+	/* Vertical-right: focus border on left, active tab connects to panel */
+	.gutplus-tabs[data-orientation="vertical-right"] .tabs-list & {
+		&.active,
+		&[aria-selected="true"] {
+			/* Content edge uses dedicated color; others stay on active border color */
+			border-left-color: var(--tabs-button-active-content-border-color);
+			border-left-width: var(--tabs-button-active-content-border-width);
+			border-left-style: var(--tabs-button-active-content-border-style);
+			border-top-color: var(--tabs-button-active-border-color);
+			border-bottom-color: var(--tabs-button-active-border-color);
+			border-bottom-width: var(--tabs-button-border-width);
+			border-bottom-style: var(--tabs-button-border-style);
+			border-right-color: var(--tabs-button-active-border-color);
+			transform: translateX(-2px);
+		}
+	}
+}
+
+/* Active content-edge pseudo elements (keep edge visible during translation) */
+.gutplus-tabs[data-orientation="horizontal"] .tab-button.active::after,
+.gutplus-tabs[data-orientation="horizontal"] .tab-button[aria-selected="true"]::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc(-1 * var(--tabs-button-active-content-border-width));
+	height: 0;
+	border-bottom: var(--tabs-button-active-content-border-width)
+		var(--tabs-button-active-content-border-style)
+		var(--tabs-button-active-content-border-color);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.gutplus-tabs[data-orientation="vertical-left"] .tab-button.active::after,
+.gutplus-tabs[data-orientation="vertical-left"] .tab-button[aria-selected="true"]::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: calc(-1 * var(--tabs-button-active-content-border-width));
+	width: 0;
+	border-right: var(--tabs-button-active-content-border-width)
+		var(--tabs-button-active-content-border-style)
+		var(--tabs-button-active-content-border-color);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.gutplus-tabs[data-orientation="vertical-right"] .tab-button.active::after,
+.gutplus-tabs[data-orientation="vertical-right"] .tab-button[aria-selected="true"]::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(-1 * var(--tabs-button-active-content-border-width));
+	width: 0;
+	border-left: var(--tabs-button-active-content-border-width)
+		var(--tabs-button-active-content-border-style)
+		var(--tabs-button-active-content-border-color);
+	pointer-events: none;
+	z-index: 2;
+}
+
+/* Tab icon wrapper - handles offsets via transform */
+.tab-icon-wrapper {
+	display: var(--tabs-icon-display, inline-flex) !important;
+	align-items: center;
+	justify-content: center;
+	transform: translate(
+		var(--tabs-icon-offset-x, 0px),
+		var(--tabs-icon-offset-y, 0px)
+	);
+	transition: transform 0.3s ease;
+}
+
+/* Tab icon element - handles rotation, color, size */
+.tab-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--tabs-icon-color, #333333);
+	font-size: var(--tabs-icon-size, 16px);
+	width: var(--tabs-icon-size, 16px);
+	height: var(--tabs-icon-size, 16px);
+	transform: rotate(var(--tabs-icon-initial-rotation, 0deg));
+	transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+	line-height: 1;
+	flex-shrink: 0;
+
+	// Explicit resets to prevent inheritance
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	text-transform: none;
+
+	// Rotation applied when tab is active
+	&.is-rotated,
+	.tab-button.active &,
+	.tab-button[aria-selected="true"] & {
+		color: var(--tabs-icon-active-color, var(--tabs-icon-color, #333333));
+		transform: rotate(calc(
+			var(--tabs-icon-initial-rotation, 0deg)
+			+ var(--tabs-icon-rotation, 180deg)
+		));
+	}
+
+	// Use active initial rotation when different icons are enabled
+	&[data-has-different-icons="true"].is-rotated,
+	.tab-button.active &[data-has-different-icons="true"],
+	.tab-button[aria-selected="true"] &[data-has-different-icons="true"] {
+		color: var(--tabs-icon-active-color, var(--tabs-icon-color, #333333));
+		transform: rotate(calc(
+			var(--tabs-icon-active-initial-rotation, var(--tabs-icon-initial-rotation, 0deg))
+			+ var(--tabs-icon-rotation, 180deg)
+		));
+	}
+
+	// For library icons (SVG - Lucide)
+	svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+	}
+
+	// For Dashicons (icon font)
+	.dashicons {
+		font-size: inherit;
+		width: 1em;
+		height: 1em;
+		line-height: 1;
+	}
+}
+
+/* Image icon */
+.tab-icon-image {
+	display: block;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	max-width: var(--tabs-icon-max-size, 24px);
+	max-height: var(--tabs-icon-max-size, 24px);
+	transform: rotate(var(--tabs-icon-initial-rotation, 0deg));
+	transition: transform 0.3s ease, opacity 300ms ease;
+
+	// Rotation applied when tab is active (for image icons)
+	&.is-rotated,
+	.tab-button.active &,
+	.tab-button[aria-selected="true"] & {
+		transform: rotate(calc(
+			var(--tabs-icon-initial-rotation, 0deg)
+			+ var(--tabs-icon-rotation, 180deg)
+		));
+	}
+
+	// Use active initial rotation when different icons are enabled
+	&[data-has-different-icons="true"].is-rotated,
+	.tab-button.active &[data-has-different-icons="true"],
+	.tab-button[aria-selected="true"] &[data-has-different-icons="true"] {
+		transform: rotate(calc(
+			var(--tabs-icon-active-initial-rotation, var(--tabs-icon-initial-rotation, 0deg))
+			+ var(--tabs-icon-rotation, 180deg)
+		));
+	}
+}
+
+/* Icon margin based on position */
+.gutplus-tabs[data-icon-position="left"] .tab-icon-wrapper {
+	margin-right: 0.5rem;
+	margin-left: 0;
+}
+
+.gutplus-tabs[data-icon-position="right"] .tab-icon-wrapper {
+	margin-left: 0.5rem;
+	margin-right: 0;
+}
+
+/* Tabs panels container */
+.tabs-panels {
+	position: relative;
+	outline: none !important;
+}
+
+/* Tab panel */
+.tab-panel {
+	background-color: var(--tabs-panel-bg);
+	border: var(--tabs-panel-border-width) var(--tabs-panel-border-style) var(--tabs-panel-border-color);
+	border-radius: var(--tabs-panel-border-radius);
+	padding: 1.5rem;
+	height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	outline: none !important;
+	&[hidden] {
+		display: none;
+	}
+
+	&.active {
+		animation: tabs-panel-fade-in 200ms ease-out;
+	}
+}
+
+.gutplus-tabs[data-orientation="vertical-left"] .tab-panel.active {
+	animation-name: tabs-panel-fade-in-left;
+}
+
+.gutplus-tabs[data-orientation="vertical-right"] .tab-panel.active {
+	animation-name: tabs-panel-fade-in-right;
+}
+
+@keyframes tabs-panel-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(0.5rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes tabs-panel-fade-in-left {
+	from {
+		opacity: 0;
+		transform: translateX(0.5rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes tabs-panel-fade-in-right {
+	from {
+		opacity: 0;
+		transform: translateX(-0.5rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* Responsive accordion fallback */
+.accordion-fallback {
+	display: none;
+
+	.responsive-accordion & {
+
+		@media (max-width: 768px) {
+			display: block;
+		}
+	}
+}
+
+/* Layout variations */
+
+/* Vertical-left layout: nav on left, content on right */
+.gutplus-tabs[data-orientation="vertical-left"] {
+	display: flex;
+	flex-direction: row;
+	gap: 0;
+	align-items: stretch;
+
+	.tabs-list {
+		flex-shrink: 0;
+		min-width: 12.5rem;
+	}
+
+	.tabs-panels {
+		flex: 1;
+	}
+
+}
+
+/* Vertical-right layout: nav on right, content on left */
+.gutplus-tabs[data-orientation="vertical-right"] {
+	display: flex;
+	flex-direction: row-reverse;
+	gap: 0;
+	align-items: stretch;
+
+	.tabs-list {
+		flex-shrink: 0;
+		min-width: 12.5rem;
+	}
+
+	.tabs-panels {
+		flex: 1;
+	}
+
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+	.tab-button {
+		font-size: 0.95rem;
+	}
+
+	.tab-panel {
+		padding: 1rem;
+	}
+
+	/* Hide tab navigation and show accordion on mobile if responsive fallback enabled */
+	.gutplus-tabs.responsive-accordion {
+
+		.tabs-list,
+		.tabs-panels {
+			display: none;
+		}
+
+		.accordion-fallback {
+			display: block;
+		}
+	}
+}
+
+/* Accessibility - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+	.tab-button,
+	.tab-panel,
+	.tab-icon,
+	.accordion-button,
+	.accordion-panel {
+		transition: none !important;
+		animation: none !important;
+	}
+}

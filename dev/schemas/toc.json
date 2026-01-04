@@ -5,59 +5,6 @@
   "description": "Complete theme and appearance configuration for Table of Contents blocks",
   "blockType": "toc",
   "blockName": "Table of Contents",
-  "_IMPORTANT_README": {
-    "title": "⚠️ CENTRALIZED CONFIG SYSTEM - READ BEFORE EDITING",
-    "description": "Units, min, max, and step values are centralized. DO NOT hardcode them in this schema!",
-    "centralizer": "shared/src/config/css-property-scales.mjs",
-    "rules": [
-      "✅ DO: Specify 'cssProperty' - units/min/max/step come from centralizer automatically",
-      "❌ DON'T: Add 'units', 'min', 'max', 'step' to SliderWithInput attributes (unless overriding)",
-      "✅ DO: Only define 'default' value in schema",
-      "✅ DO: Add new CSS properties to centralizer if needed"
-    ],
-    "examples": {
-      "CORRECT": {
-        "linkFontSize": {
-          "type": "string",
-          "default": "1rem",
-          "control": "SliderWithInput",
-          "cssProperty": "font-size",
-          "comment": "Units/min/max/step inherited from 'font-size' in centralizer"
-        }
-      },
-      "INCORRECT": {
-        "linkFontSize": {
-          "type": "string",
-          "default": "1rem",
-          "control": "SliderWithInput",
-          "cssProperty": "font-size",
-          "units": ["rem", "px"],
-          "min": 0.5,
-          "max": 2,
-          "step": 0.1,
-          "comment": "❌ WRONG! These should come from centralizer, not hardcoded here"
-        }
-      }
-    },
-    "override_when_needed": "You CAN override centralizer values if this specific attribute needs different ranges, but document why in a comment",
-    "centralizer_lookup": {
-      "font-size": "Units: [rem, px, %, em] | Range varies per unit",
-      "letter-spacing": "Units: [em, px, rem] | Range varies per unit",
-      "padding": "Units: [rem, px, %, em, vw, vh] | Range varies per unit",
-      "margin": "Units: [rem, px, %, em, vw, vh] | Range: -20rem to 20rem (px: -128 to 128)",
-      "top/left/right/bottom": "Units: [px, %, rem, em, vh] | Range: -200px to 200px (or equivalent)",
-      "border-width": "Units: [px, rem, em] | Range: 0 to 20px",
-      "border-radius": "Units: [px, rem, em, %] | Range: 0 to 100px"
-    },
-    "see_also": "docs/CONTROL_DATA_STRUCTURES.md for control data format patterns"
-  },
-  "manualSyncRequired": {
-    "description": "CSS properties are auto-generated from cssVar/cssSelector/cssProperty fields",
-    "files": [
-      "blocks/toc/src/_theme-generated.scss (AUTO-GENERATED - do not edit)"
-    ],
-    "instructions": "CSS variable declarations are automatically generated. Only edit style.scss for structural/layout CSS. To add CSS variables, add cssVar, cssSelector, and cssProperty to schema attributes."
-  },
   "tabs": [
     {
       "name": "settings",
@@ -491,8 +438,7 @@
         "top": "#dddddd",
         "right": "#dddddd",
         "bottom": "#dddddd",
-        "left": "#dddddd",
-        "linked": true
+        "left": "#dddddd"
       },
       "cssVar": "toc-border-color",
       "group": "externalBorders",
@@ -505,70 +451,29 @@
       "cssProperty": "border-color"
     },
     "titleColor": {
-      "type": "string",
-      "default": "#333333",
-      "cssVar": "toc-title-color",
+      "type": "color-panel",
       "group": "headerColors",
-      "label": "Header Text Color",
-      "description": "Text color for the TOC header",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 1,
       "appliesTo": [
         "titleStatic",
         "titleButton"
       ],
-      "cssProperty": "color"
-    },
-    "titleBackgroundColor": {
-      "type": "string",
-      "default": "transparent",
-      "cssVar": "toc-title-background-color",
-      "group": "headerColors",
-      "label": "Header Background",
-      "description": "Background color for the TOC header",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 2,
-      "appliesTo": [
-        "titleStatic",
-        "titleButton"
+      "states": [
+        "base",
+        "hover"
       ],
-      "cssProperty": "background-color"
-    },
-    "hoverTitleColor": {
-      "type": "string",
-      "default": "#000000",
-      "cssVar": "toc-title-hover-color",
-      "state": "hover",
-      "group": "headerColors",
-      "label": "Header Hover Text Color",
-      "description": "Text color when hovering over title",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 3,
-      "appliesTo": [
-        "titleStatic",
-        "titleButton"
+      "fields": [
+        "text",
+        "background"
       ],
-      "cssProperty": "color"
-    },
-    "hoverTitleBackgroundColor": {
-      "type": "string",
-      "default": "transparent",
-      "cssVar": "toc-title-hover-bg",
-      "state": "hover",
-      "group": "headerColors",
-      "label": "Header Hover Background",
-      "description": "Background color when hovering over title",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 4,
-      "appliesTo": [
-        "titleStatic",
-        "titleButton"
-      ],
-      "cssProperty": "background-color"
+      "cssVar": "toc-title",
+      "default": {
+        "text": "#333333",
+        "background": "transparent",
+        "hover": {
+          "text": "#000000",
+          "background": "transparent"
+        }
+      }
     },
     "unifiedLinkColors": {
       "type": "boolean",
@@ -582,79 +487,31 @@
       "order": 1
     },
     "linkColor": {
-      "type": "string",
-      "default": "#0073aa",
-      "cssVar": "toc-link-color",
+      "type": "color-panel",
       "group": "linkColors",
-      "label": "Link Color (General)",
-      "description": "Default color for all TOC links",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 2,
-      "showWhen": {
-        "unifiedLinkColors": [
-          true
-        ]
-      },
       "appliesTo": "link",
-      "cssProperty": "color"
-    },
-    "linkHoverColor": {
-      "type": "string",
-      "default": "#005177",
-      "cssVar": "toc-link-hover-color",
-      "group": "linkColors",
-      "label": "Link Hover Color",
-      "description": "Color when hovering over links",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 3,
-      "showWhen": {
-        "unifiedLinkColors": [
-          true
-        ]
-      },
-      "appliesTo": "link",
-      "cssProperty": "color"
-    },
-    "linkActiveColor": {
-      "type": "string",
-      "default": "#005177",
-      "cssVar": "toc-link-active-color",
-      "group": "linkColors",
-      "label": "Link Active Color",
-      "description": "Color for the currently active link",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 4,
-      "showWhen": {
-        "unifiedLinkColors": [
-          true
-        ]
-      },
-      "appliesTo": "link",
-      "cssProperty": "color"
-    },
-    "linkVisitedColor": {
-      "type": "string",
-      "default": "#0073aa",
-      "cssVar": "toc-link-visited-color",
-      "group": "linkColors",
-      "label": "Link Visited Color",
-      "description": "Color for visited links",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "visited",
-      "order": 5,
-      "showWhen": {
-        "unifiedLinkColors": [
-          true
-        ]
-      },
-      "appliesTo": "link",
-      "cssProperty": "color"
+      "states": [
+        "base",
+        "hover",
+        "visited",
+        "active"
+      ],
+      "fields": [
+        "text"
+      ],
+      "cssVar": "toc-link",
+      "default": {
+        "text": "#0073aa",
+        "hover": {
+          "text": "#005177"
+        },
+        "visited": {
+          "text": "#0073aa"
+        },
+        "active": {
+          "text": "#005177"
+        }
+      }
     },
     "h1NumberingStyle": {
       "type": "string",
@@ -903,76 +760,31 @@
       "order": 53
     },
     "h1Color": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h1-color",
+      "type": "color-panel",
       "group": "headingStyles",
-      "label": "H1 Link Color",
-      "description": "Link color for H1 headings (inherits general color if not set)",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 4,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
       "appliesTo": "h1Link",
-      "cssProperty": "color"
-    },
-    "h1HoverColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h1-hover-color",
-      "group": "headingStyles",
-      "label": "H1 Hover Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 5,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h1Link",
-      "cssProperty": "color"
-    },
-    "h1VisitedColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h1-visited-color",
-      "group": "headingStyles",
-      "label": "H1 Visited Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "visited",
-      "order": 6,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h1Link",
-      "cssProperty": "color"
-    },
-    "h1ActiveColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h1-active-color",
-      "group": "headingStyles",
-      "label": "H1 Active Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 7,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h1Link",
-      "cssProperty": "color"
+      "states": [
+        "base",
+        "hover",
+        "visited",
+        "active"
+      ],
+      "fields": [
+        "text"
+      ],
+      "cssVar": "toc-h1",
+      "default": {
+        "text": "inherit",
+        "hover": {
+          "text": "inherit"
+        },
+        "visited": {
+          "text": "inherit"
+        },
+        "active": {
+          "text": "inherit"
+        }
+      }
     },
     "h1FontSize": {
       "type": "string",
@@ -1136,76 +948,31 @@
       "cssProperty": "text-decoration"
     },
     "h2Color": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h2-color",
+      "type": "color-panel",
       "group": "headingStyles",
-      "label": "H2 Link Color",
-      "description": "Link color for H2 headings (inherits general color if not set)",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 14,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
       "appliesTo": "h2Link",
-      "cssProperty": "color"
-    },
-    "h2HoverColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h2-hover-color",
-      "group": "headingStyles",
-      "label": "H2 Hover Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 15,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h2Link",
-      "cssProperty": "color"
-    },
-    "h2VisitedColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h2-visited-color",
-      "group": "headingStyles",
-      "label": "H2 Visited Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "visited",
-      "order": 16,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h2Link",
-      "cssProperty": "color"
-    },
-    "h2ActiveColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h2-active-color",
-      "group": "headingStyles",
-      "label": "H2 Active Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 17,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h2Link",
-      "cssProperty": "color"
+      "states": [
+        "base",
+        "hover",
+        "visited",
+        "active"
+      ],
+      "fields": [
+        "text"
+      ],
+      "cssVar": "toc-h2",
+      "default": {
+        "text": "inherit",
+        "hover": {
+          "text": "inherit"
+        },
+        "visited": {
+          "text": "inherit"
+        },
+        "active": {
+          "text": "inherit"
+        }
+      }
     },
     "h2FontSize": {
       "type": "string",
@@ -1369,76 +1136,31 @@
       "cssProperty": "text-decoration"
     },
     "h3Color": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h3-color",
+      "type": "color-panel",
       "group": "headingStyles",
-      "label": "H3 Link Color",
-      "description": "Link color for H3 headings (inherits general color if not set)",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 24,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
       "appliesTo": "h3Link",
-      "cssProperty": "color"
-    },
-    "h3HoverColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h3-hover-color",
-      "group": "headingStyles",
-      "label": "H3 Hover Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 25,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h3Link",
-      "cssProperty": "color"
-    },
-    "h3VisitedColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h3-visited-color",
-      "group": "headingStyles",
-      "label": "H3 Visited Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "visited",
-      "order": 26,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h3Link",
-      "cssProperty": "color"
-    },
-    "h3ActiveColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h3-active-color",
-      "group": "headingStyles",
-      "label": "H3 Active Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 27,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h3Link",
-      "cssProperty": "color"
+      "states": [
+        "base",
+        "hover",
+        "visited",
+        "active"
+      ],
+      "fields": [
+        "text"
+      ],
+      "cssVar": "toc-h3",
+      "default": {
+        "text": "inherit",
+        "hover": {
+          "text": "inherit"
+        },
+        "visited": {
+          "text": "inherit"
+        },
+        "active": {
+          "text": "inherit"
+        }
+      }
     },
     "h3FontSize": {
       "type": "string",
@@ -1602,76 +1324,31 @@
       "cssProperty": "text-decoration"
     },
     "h4Color": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h4-color",
+      "type": "color-panel",
       "group": "headingStyles",
-      "label": "H4 Link Color",
-      "description": "Link color for H4 headings (inherits general color if not set)",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 34,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
       "appliesTo": "h4Link",
-      "cssProperty": "color"
-    },
-    "h4HoverColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h4-hover-color",
-      "group": "headingStyles",
-      "label": "H4 Hover Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 35,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h4Link",
-      "cssProperty": "color"
-    },
-    "h4VisitedColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h4-visited-color",
-      "group": "headingStyles",
-      "label": "H4 Visited Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "visited",
-      "order": 36,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h4Link",
-      "cssProperty": "color"
-    },
-    "h4ActiveColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h4-active-color",
-      "group": "headingStyles",
-      "label": "H4 Active Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 37,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h4Link",
-      "cssProperty": "color"
+      "states": [
+        "base",
+        "hover",
+        "visited",
+        "active"
+      ],
+      "fields": [
+        "text"
+      ],
+      "cssVar": "toc-h4",
+      "default": {
+        "text": "inherit",
+        "hover": {
+          "text": "inherit"
+        },
+        "visited": {
+          "text": "inherit"
+        },
+        "active": {
+          "text": "inherit"
+        }
+      }
     },
     "h4FontSize": {
       "type": "string",
@@ -1835,76 +1512,31 @@
       "cssProperty": "text-decoration"
     },
     "h5Color": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h5-color",
+      "type": "color-panel",
       "group": "headingStyles",
-      "label": "H5 Link Color",
-      "description": "Link color for H5 headings (inherits general color if not set)",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 44,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
       "appliesTo": "h5Link",
-      "cssProperty": "color"
-    },
-    "h5HoverColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h5-hover-color",
-      "group": "headingStyles",
-      "label": "H5 Hover Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 45,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h5Link",
-      "cssProperty": "color"
-    },
-    "h5VisitedColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h5-visited-color",
-      "group": "headingStyles",
-      "label": "H5 Visited Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "visited",
-      "order": 46,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h5Link",
-      "cssProperty": "color"
-    },
-    "h5ActiveColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h5-active-color",
-      "group": "headingStyles",
-      "label": "H5 Active Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 47,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h5Link",
-      "cssProperty": "color"
+      "states": [
+        "base",
+        "hover",
+        "visited",
+        "active"
+      ],
+      "fields": [
+        "text"
+      ],
+      "cssVar": "toc-h5",
+      "default": {
+        "text": "inherit",
+        "hover": {
+          "text": "inherit"
+        },
+        "visited": {
+          "text": "inherit"
+        },
+        "active": {
+          "text": "inherit"
+        }
+      }
     },
     "h5FontSize": {
       "type": "string",
@@ -2068,76 +1700,31 @@
       "cssProperty": "text-decoration"
     },
     "h6Color": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h6-color",
+      "type": "color-panel",
       "group": "headingStyles",
-      "label": "H6 Link Color",
-      "description": "Link color for H6 headings (inherits general color if not set)",
-      "themeable": true,
-      "control": "ColorPicker",
-      "order": 54,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
       "appliesTo": "h6Link",
-      "cssProperty": "color"
-    },
-    "h6HoverColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h6-hover-color",
-      "group": "headingStyles",
-      "label": "H6 Hover Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "hover",
-      "order": 55,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h6Link",
-      "cssProperty": "color"
-    },
-    "h6VisitedColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h6-visited-color",
-      "group": "headingStyles",
-      "label": "H6 Visited Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "visited",
-      "order": 56,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h6Link",
-      "cssProperty": "color"
-    },
-    "h6ActiveColor": {
-      "type": "string",
-      "default": "inherit",
-      "cssVar": "toc-h6-active-color",
-      "group": "headingStyles",
-      "label": "H6 Active Color",
-      "themeable": true,
-      "control": "ColorPicker",
-      "state": "active",
-      "order": 57,
-      "showWhen": {
-        "unifiedLinkColors": [
-          false
-        ]
-      },
-      "appliesTo": "h6Link",
-      "cssProperty": "color"
+      "states": [
+        "base",
+        "hover",
+        "visited",
+        "active"
+      ],
+      "fields": [
+        "text"
+      ],
+      "cssVar": "toc-h6",
+      "default": {
+        "text": "inherit",
+        "hover": {
+          "text": "inherit"
+        },
+        "visited": {
+          "text": "inherit"
+        },
+        "active": {
+          "text": "inherit"
+        }
+      }
     },
     "h6FontSize": {
       "type": "string",
@@ -2302,11 +1889,8 @@
     },
     "tocIcon": {
       "type": "icon-panel",
-      "order": 2,
       "cssVar": "toc-icon",
       "appliesToElement": "icon",
-      "themeable": true,
-      "outputsCSS": false,
       "default": {
         "position": "right",
         "rotation": "180deg",
@@ -2537,8 +2121,7 @@
         "top": "solid",
         "right": "solid",
         "bottom": "solid",
-        "left": "solid",
-        "linked": true
+        "left": "solid"
       },
       "cssVar": "toc-border-style",
       "group": "externalBorders",

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2026-01-02T19:57:50.380Z
+ * Generated at: 2026-01-04T23:18:45.213Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -17,76 +17,6 @@
  * Contains all themeable attributes
  */
 export interface AccordionTheme {
-  /** Border between header and content */
-  dividerWidth?: Record<string, any>;
-  /** Color of divider between header and content */
-  dividerColor?: Record<string, any>;
-  /** Style of divider between header and content */
-  dividerStyle?: Record<string, any>;
-  /** Border width, color, and style for all sides */
-  borderWidth?: Record<string, any>;
-  /** Corner radius of the accordion wrapper */
-  borderRadius?: Record<string, any>;
-  /** Shadow effect for the accordion (supports multiple layers) */
-  shadow?: any[];
-  /** Border color for all sides */
-  borderColor?: Record<string, any>;
-  /** Border style for all sides */
-  borderStyle?: Record<string, any>;
-  /** Inner spacing of the header */
-  headerPadding?: Record<string, any>;
-  /** Inner spacing of the content panel */
-  contentPadding?: Record<string, any>;
-  /** Outer spacing around the accordion */
-  blockMargin?: Record<string, any>;
-  /** Text color for the accordion header */
-  titleColor?: string;
-  /** Background color for the accordion header */
-  titleBackgroundColor?: string;
-  /** Text color when hovering over header */
-  hoverTitleColor?: string;
-  /** Background color when hovering over header */
-  hoverTitleBackgroundColor?: string;
-  /** Text color for accordion content */
-  contentTextColor?: string;
-  /** Background color for accordion content */
-  contentBackgroundColor?: string;
-  /** Font family for the content */
-  contentFontFamily?: string;
-  /** Font size for the content */
-  contentFontSize?: string;
-  /** Line height for the content */
-  contentLineHeight?: number;
-  /** Font family for the header */
-  titleFontFamily?: string;
-  /** Font size for the header */
-  titleFontSize?: string;
-  /** Text formatting options (bold, italic, underline, overline, line-through) */
-  titleFormatting?: any[];
-  /** Keep the title on a single line */
-  titleNoLineBreak?: string;
-  /** Font weight for title (100-900) */
-  titleFontWeight?: number;
-  /** Color for text decorations */
-  titleDecorationColor?: string;
-  /** Style for text decorations */
-  titleDecorationStyle?: string;
-  /** Thickness of text decorations */
-  titleDecorationWidth?: string;
-  /** Space between letters */
-  titleLetterSpacing?: string;
-  /** Text transformation for the header */
-  titleTextTransform?: string;
-  /** Line height for the header */
-  titleLineHeight?: number;
-  /** Text alignment for the header */
-  titleAlignment?: string;
-  /** Move title left/right (negative = left, positive = right) */
-  titleOffsetX?: string;
-  /** Move title up/down (negative = up, positive = down) */
-  titleOffsetY?: string;
-  /** Shadow effect for the header text (supports multiple layers) */
-  titleTextShadow?: any[];
   /** Display icon in the block */
   showIcon?: boolean;
   /** Use different icons for active and inactive states */
@@ -99,6 +29,8 @@ export interface AccordionTheme {
   iconInactiveSource?: Record<string, any>;
   /** Icon color (for character/library icons) */
   iconInactiveColor?: string;
+  /** Initial rotation of inactive icon */
+  iconInactiveRotation?: string;
   /** Icon size (for character/library icons) */
   iconInactiveSize?: string;
   /** Maximum icon size (for image icons) */
@@ -111,6 +43,8 @@ export interface AccordionTheme {
   iconActiveSource?: Record<string, any>;
   /** Icon color (for character/library icons) */
   iconActiveColor?: string;
+  /** Initial rotation of active icon */
+  iconActiveRotation?: string;
   /** Icon size (for character/library icons) */
   iconActiveSize?: string;
   /** Maximum icon size (for image icons) */
@@ -123,130 +57,12 @@ export interface AccordionTheme {
   animationType?: string;
   /** Animation duration in milliseconds */
   animationDuration?: string;
-  /** Animation easing function */
-  animationEasing?: string;
 }
 
 /**
  * Default theme values for Accordion block
  */
 export const accordionDefaultTheme: AccordionTheme = {
-  dividerWidth: {
-    "top": 0,
-    "right": 0,
-    "bottom": 0,
-    "left": 0,
-    "unit": "px"
-  },
-  dividerColor: {
-    "top": "#dddddd",
-    "right": "#dddddd",
-    "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
-  },
-  dividerStyle: {
-    "top": "solid",
-    "right": "solid",
-    "bottom": "solid",
-    "left": "solid",
-    "linked": true
-  },
-  borderWidth: {
-    "top": 1,
-    "right": 1,
-    "bottom": 1,
-    "left": 1,
-    "unit": "px"
-  },
-  borderRadius: {
-    "topLeft": 4,
-    "topRight": 4,
-    "bottomRight": 4,
-    "bottomLeft": 4,
-    "unit": "px"
-  },
-  shadow: [
-    {
-      "x": {
-        "value": 0,
-        "unit": "px"
-      },
-      "y": {
-        "value": 8,
-        "unit": "px"
-      },
-      "blur": {
-        "value": 24,
-        "unit": "px"
-      },
-      "spread": {
-        "value": 0,
-        "unit": "px"
-      },
-      "color": "rgba(0,0,0,0.15)",
-      "inset": false
-    }
-  ],
-  borderColor: {
-    "top": "#dddddd",
-    "right": "#dddddd",
-    "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
-  },
-  borderStyle: {
-    "top": "solid",
-    "right": "solid",
-    "bottom": "solid",
-    "left": "solid",
-    "linked": true
-  },
-  headerPadding: {
-    "top": 12,
-    "right": 16,
-    "bottom": 12,
-    "left": 16,
-    "unit": "px"
-  },
-  contentPadding: {
-    "top": 16,
-    "right": 16,
-    "bottom": 16,
-    "left": 16,
-    "unit": "px"
-  },
-  blockMargin: {
-    "top": 1,
-    "right": 0,
-    "bottom": 1,
-    "left": 0,
-    "unit": "em"
-  },
-  titleColor: '#333333',
-  titleBackgroundColor: '#f5f5f5',
-  hoverTitleColor: '#000000',
-  hoverTitleBackgroundColor: '#e8e8e8',
-  contentTextColor: '#333333',
-  contentBackgroundColor: '#ffffff',
-  contentFontFamily: 'inherit',
-  contentFontSize: '1rem',
-  contentLineHeight: 1.6,
-  titleFontFamily: 'inherit',
-  titleFontSize: '1.125rem',
-  titleFormatting: [],
-  titleNoLineBreak: 'normal',
-  titleFontWeight: 400,
-  titleDecorationColor: 'currentColor',
-  titleDecorationStyle: 'solid',
-  titleDecorationWidth: 'auto',
-  titleLetterSpacing: '0em',
-  titleTextTransform: 'none',
-  titleLineHeight: 1.4,
-  titleAlignment: 'left',
-  titleOffsetX: '0px',
-  titleOffsetY: '0px',
-  titleTextShadow: [],
   showIcon: true,
   useDifferentIcons: false,
   iconPosition: 'right',
@@ -256,6 +72,7 @@ export const accordionDefaultTheme: AccordionTheme = {
     "value": "▾"
   },
   iconInactiveColor: '#333333',
+  iconInactiveRotation: '0deg',
   iconInactiveSize: '16px',
   iconInactiveMaxSize: '24px',
   iconInactiveOffsetX: '0px',
@@ -265,73 +82,47 @@ export const accordionDefaultTheme: AccordionTheme = {
     "value": "▾"
   },
   iconActiveColor: '#333333',
+  iconActiveRotation: '0deg',
   iconActiveSize: '16px',
   iconActiveMaxSize: '24px',
   iconActiveOffsetX: '0px',
   iconActiveOffsetY: '0px',
   animationType: 'slide',
-  animationDuration: '300ms',
-  animationEasing: 'ease',
+  animationDuration: '250ms',
 };
 
 /**
  * Full attribute interface including non-themeable attributes
  */
 export interface AccordionThemeAttributes {
-  dividerWidth?: Record<string, any>;
-  dividerColor?: Record<string, any>;
-  dividerStyle?: Record<string, any>;
-  borderWidth?: Record<string, any>;
-  borderRadius?: Record<string, any>;
-  shadow?: any[];
-  borderColor?: Record<string, any>;
-  borderStyle?: Record<string, any>;
-  headerPadding?: Record<string, any>;
-  contentPadding?: Record<string, any>;
-  blockMargin?: Record<string, any>;
-  titleColor?: string;
-  titleBackgroundColor?: string;
-  hoverTitleColor?: string;
-  hoverTitleBackgroundColor?: string;
-  contentTextColor?: string;
-  contentBackgroundColor?: string;
-  contentFontFamily?: string;
-  contentFontSize?: string;
-  contentLineHeight?: number;
-  titleFontFamily?: string;
-  titleFontSize?: string;
-  titleFormatting?: any[];
-  titleNoLineBreak?: string;
-  titleFontWeight?: number;
-  titleDecorationColor?: string;
-  titleDecorationStyle?: string;
-  titleDecorationWidth?: string;
-  titleLetterSpacing?: string;
-  titleTextTransform?: string;
-  titleLineHeight?: number;
-  titleAlignment?: string;
-  titleOffsetX?: string;
-  titleOffsetY?: string;
-  titleTextShadow?: any[];
+  dividerBorder?: any;
+  blockBox?: any;
+  headerBox?: any;
+  contentBox?: any;
+  titleColor?: any;
+  contentColor?: any;
+  contentTypography?: any;
+  titleTypography?: any;
   showIcon?: boolean;
   useDifferentIcons?: boolean;
   iconPosition?: string;
   iconRotation?: string;
   iconInactiveSource?: Record<string, any>;
   iconInactiveColor?: string;
+  iconInactiveRotation?: string;
   iconInactiveSize?: string;
   iconInactiveMaxSize?: string;
   iconInactiveOffsetX?: string;
   iconInactiveOffsetY?: string;
   iconActiveSource?: Record<string, any>;
   iconActiveColor?: string;
+  iconActiveRotation?: string;
   iconActiveSize?: string;
   iconActiveMaxSize?: string;
   iconActiveOffsetX?: string;
   iconActiveOffsetY?: string;
   animationType?: string;
   animationDuration?: string;
-  animationEasing?: string;
   accordionWidth?: string;
   headingLevel?: string;
   accordionHorizontalAlign?: string;

@@ -61,7 +61,7 @@ export function BorderWidthControl( {
 
 	// Get current device value for responsive, or direct value
 	const currentValue = responsive
-		? ( value[ device ] || value.value || {} )
+		? ( value?.[ device ] ?? value?.value ?? {} )
 		: value;
 
 	// Destructure with defaults

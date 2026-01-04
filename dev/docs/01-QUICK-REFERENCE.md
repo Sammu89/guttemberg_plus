@@ -155,7 +155,7 @@ import { useDispatch } from '@wordpress/data';
 const { createTheme, updateTheme, deleteTheme, renameTheme } =
   useDispatch('gutenberg-blocks/themes');
 
-// Create theme (complete snapshot)
+// Create theme (snapshot → deltas)
 await createTheme('accordion', 'My Theme', effectiveValues);
 
 // Update theme
@@ -450,7 +450,7 @@ setAttributes({ customizations: {} });
 - [ ] No cascade resolution on render (cache results)
 
 ### Theme Operations
-- [ ] Create theme saves complete snapshot
+- [ ] Create theme saves deltas (differences from defaults)
 - [ ] Update theme clears customizations
 - [ ] Delete theme falls back to Default
 - [ ] Rename theme preserves all blocks using it

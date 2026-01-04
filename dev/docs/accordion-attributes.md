@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2026-01-02T19:57:50.403Z
+> Generated at: 2026-01-04T23:18:45.220Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -14,70 +14,20 @@
 Complete theme and appearance configuration for Accordion blocks
 
 - **Block Type:** `accordion`
-- **Version:** 2.0.0
+- **Version:** 1.0.0
 
-## Borders
-
-Block borders, radius, shadows, and divider settings
+## Other
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `dividerWidth` | object | _object_ | Yes | Border between header and content |
-| `dividerColor` | object | _object_ | Yes | Color of divider between header and content |
-| `dividerStyle` | object | _object_ | Yes | Style of divider between header and content |
-| `borderWidth` | object | _object_ | Yes | Border width, color, and style for all sides |
-| `borderRadius` | object | _object_ | Yes | Corner radius of the accordion wrapper |
-| `shadow` | array | _object_ | Yes | Shadow effect for the accordion (supports multiple layers) |
-| `borderColor` | object | _object_ | Yes | Border color for all sides |
-| `borderStyle` | object | _object_ | Yes | Border style for all sides |
-
-## Layout
-
-Spacing and padding settings
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `headerPadding` | object | _object_ | Yes | Inner spacing of the header |
-| `contentPadding` | object | _object_ | Yes | Inner spacing of the content panel |
-| `blockMargin` | object | _object_ | Yes | Outer spacing around the accordion |
-
-## Colors
-
-Header and panel color settings
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `titleColor` | string | `#333333` | Yes | Text color for the accordion header |
-| `titleBackgroundColor` | string | `#f5f5f5` | Yes | Background color for the accordion header |
-| `hoverTitleColor` | string | `#000000` | Yes | Text color when hovering over header |
-| `hoverTitleBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over header |
-| `contentTextColor` | string | `#333333` | Yes | Text color for accordion content |
-| `contentBackgroundColor` | string | `#ffffff` | Yes | Background color for accordion content |
-
-## Typography
-
-Font settings for header and content
-
-| Attribute | Type | Default | Themeable | Description |
-|-----------|------|---------|-----------|-------------|
-| `contentFontFamily` | string | `inherit` | Yes | Font family for the content |
-| `contentFontSize` | string | `1rem` | Yes | Font size for the content |
-| `contentLineHeight` | number | `1.6` | Yes | Line height for the content |
-| `titleFontFamily` | string | `inherit` | Yes | Font family for the header |
-| `titleFontSize` | string | `1.125rem` | Yes | Font size for the header |
-| `titleFormatting` | array | _object_ | Yes | Text formatting options (bold, italic, underline, overline, line-through) |
-| `titleNoLineBreak` | string | `normal` | Yes | Keep the title on a single line |
-| `titleFontWeight` | number | `400` | Yes | Font weight for title (100-900) |
-| `titleDecorationColor` | string | `currentColor` | Yes | Color for text decorations |
-| `titleDecorationStyle` | string | `solid` | Yes | Style for text decorations |
-| `titleDecorationWidth` | string | `auto` | Yes | Thickness of text decorations |
-| `titleLetterSpacing` | string | `0em` | Yes | Space between letters |
-| `titleTextTransform` | string | `none` | Yes | Text transformation for the header |
-| `titleLineHeight` | number | `1.4` | Yes | Line height for the header |
-| `titleAlignment` | string | `left` | Yes | Text alignment for the header |
-| `titleOffsetX` | string | `0px` | Yes | Move title left/right (negative = left, positive = right) |
-| `titleOffsetY` | string | `0px` | Yes | Move title up/down (negative = up, positive = down) |
-| `titleTextShadow` | array | _object_ | Yes | Shadow effect for the header text (supports multiple layers) |
+| `dividerBorder` | border-panel | _object_ | No (N/A) |  |
+| `blockBox` | box-panel | _object_ | No (N/A) |  |
+| `headerBox` | box-panel | _object_ | No (N/A) |  |
+| `contentBox` | box-panel | _object_ | No (N/A) |  |
+| `titleColor` | color-panel | _object_ | No (N/A) |  |
+| `contentColor` | color-panel | _object_ | No (N/A) |  |
+| `contentTypography` | typography-panel | `undefined` | No (N/A) |  |
+| `titleTypography` | typography-panel | `undefined` | No (N/A) |  |
 
 ## Icon
 
@@ -91,12 +41,14 @@ Icon appearance and behavior
 | `iconRotation` | string | `180deg` | Yes | Rotation angle applied during open/close transition |
 | `iconInactiveSource` | object | _object_ | Yes | Icon when closed |
 | `iconInactiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconInactiveRotation` | string | `0deg` | Yes | Initial rotation of inactive icon |
 | `iconInactiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
 | `iconInactiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
 | `iconInactiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
 | `iconInactiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
 | `iconActiveSource` | object | _object_ | Yes | Icon when open |
 | `iconActiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconActiveRotation` | string | `0deg` | Yes | Initial rotation of active icon |
 | `iconActiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
 | `iconActiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
 | `iconActiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
@@ -109,8 +61,7 @@ Open/close animation settings
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `animationType` | string | `slide` | Yes | How the accordion opens and closes |
-| `animationDuration` | string | `300ms` | Yes | Animation duration in milliseconds |
-| `animationEasing` | string | `ease` | Yes | Animation easing function |
+| `animationDuration` | string | `250ms` | Yes | Animation duration in milliseconds |
 
 ## Block Options
 
@@ -136,52 +87,19 @@ The following CSS custom properties are available for theming:
 
 | Attribute | CSS Variable |
 |-----------|-------------|
-| `dividerWidth` | `--accordion-divider-width` |
-| `dividerColor` | `--accordion-divider-color` |
-| `dividerStyle` | `--accordion-divider-style` |
-| `borderWidth` | `--accordion-border-width` |
-| `borderRadius` | `--accordion-border-radius` |
-| `shadow` | `--accordion-shadow` |
-| `borderColor` | `--accordion-border-color` |
-| `borderStyle` | `--accordion-border-style` |
-| `headerPadding` | `--accordion-header-padding` |
-| `contentPadding` | `--accordion-content-padding` |
-| `blockMargin` | `--accordion-block-margin` |
-| `titleColor` | `--accordion-title-color` |
-| `titleBackgroundColor` | `--accordion-title-bg` |
-| `hoverTitleColor` | `--accordion-title-hover-color` |
-| `hoverTitleBackgroundColor` | `--accordion-title-hover-bg` |
-| `contentTextColor` | `--accordion-content-color` |
-| `contentBackgroundColor` | `--accordion-content-bg` |
-| `contentFontFamily` | `--accordion-content-font-family` |
-| `contentFontSize` | `--accordion-content-font-size` |
-| `contentLineHeight` | `--accordion-content-line-height` |
-| `titleFontFamily` | `--accordion-title-font-family` |
-| `titleFontSize` | `--accordion-title-font-size` |
-| `titleNoLineBreak` | `--accordion-title-white-space` |
-| `titleFontWeight` | `--accordion-title-font-weight` |
-| `titleDecorationColor` | `--accordion-title-decoration-color` |
-| `titleDecorationStyle` | `--accordion-title-decoration-style` |
-| `titleDecorationWidth` | `--accordion-title-decoration-width` |
-| `titleLetterSpacing` | `--accordion-title-letter-spacing` |
-| `titleTextTransform` | `--accordion-title-text-transform` |
-| `titleLineHeight` | `--accordion-title-line-height` |
-| `titleAlignment` | `--accordion-title-alignment` |
-| `titleOffsetX` | `--accordion-title-offset-x` |
-| `titleOffsetY` | `--accordion-title-offset-y` |
-| `titleTextShadow` | `--accordion-title-text-shadow` |
 | `showIcon` | `--accordion-icon-display` |
 | `iconRotation` | `--accordion-icon-rotation` |
 | `iconInactiveColor` | `--accordion-icon-color` |
+| `iconInactiveRotation` | `--accordion-icon-initial-rotation` |
 | `iconInactiveSize` | `--accordion-icon-size` |
 | `iconInactiveMaxSize` | `--accordion-icon-max-size` |
 | `iconInactiveOffsetX` | `--accordion-icon-offset-x` |
 | `iconInactiveOffsetY` | `--accordion-icon-offset-y` |
 | `iconActiveColor` | `--accordion-icon-active-color` |
+| `iconActiveRotation` | `--accordion-icon-active-initial-rotation` |
 | `iconActiveSize` | `--accordion-icon-active-size` |
 | `iconActiveMaxSize` | `--accordion-icon-active-max-size` |
 | `iconActiveOffsetX` | `--accordion-icon-active-offset-x` |
 | `iconActiveOffsetY` | `--accordion-icon-active-offset-y` |
 | `animationDuration` | `--accordion-animation-duration` |
-| `animationEasing` | `--accordion-animation-easing` |
 

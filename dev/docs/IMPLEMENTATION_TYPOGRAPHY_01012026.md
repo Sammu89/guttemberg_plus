@@ -31,7 +31,7 @@ The `icon-panel` macro is the precedent:
 - Single schema declaration (`type: "icon-panel"`).
 - Build expands to a fixed set of attributes.
 - Expanded schema feeds **all generators** (attributes, CSS vars, docs, validators).
-- UI renders from expanded schema via `SchemaPanels` + `ControlRenderer`.
+- **Important difference:** `IconPanel` is routed directly by `SchemaPanels` (group `icon`) and does **not** use `ControlRenderer`, so its UI ignores schema `showWhen`/`min`/`max`/`step`. If typography needs a unified panel UI, we must choose between `ControlRenderer` (schema-driven) or a custom `TypographyPanel` (IconPanel-style).
 
 Typography macro must follow **the exact same model**.
 
@@ -46,6 +46,7 @@ This section describes the existing pipeline, because the typography macro must 
 - `SchemaPanels` reads `schema.tabs` and group definitions, then renders `GenericPanel` or `SubgroupPanel`.
 - `GenericPanel`/`SubgroupPanel` iterate over `schema.attributes` and pass each attribute to `ControlRenderer`.
 - Result: **If a field is not in the expanded schema, it cannot appear in the sidebar.**
+- **Exception:** groups routed to custom panels (e.g., IconPanel when `groupId === "icon"`) bypass `ControlRenderer` and can ignore schema `showWhen`/ranges.
 
 ### 4.2 Macro Expansion
 - The schema compiler currently expands `type: "icon-panel"` into individual attributes.
@@ -63,6 +64,7 @@ This section describes the existing pipeline, because the typography macro must 
 
 ### 4.4 Frontend Rendering and Save
 - CSS-driven attributes are output via inline CSS vars and theme CSS classes.
+- `buildFrontendCssVars()` emits **only** values present in `attributes.customizations` (themeable deltas).
 - Non-CSS attributes are serialized directly into markup/data attributes inside `save.js`.
 - The editor uses `attributes` plus defaults to render previews.
 
@@ -95,10 +97,12 @@ This section lists what must change to make `typography-panel` behave like `icon
 ### 5.4 CSS Var Generation (No New Logic Required)
 - Existing CSS var generators will work if expanded attributes provide `cssVar` + `cssProperty`.
 - State fallback must be encoded as defaults + CSS fallback chains.
+- Because frontend CSS vars are emitted from `customizations` only, state values that should always appear must be either non-themeable or in CSS defaults.
 
 ### 5.5 Theme System (No Code Change Required)
 - As long as expanded attributes remain `themeable: true`, they are stored as theme deltas automatically.
 - State values should default to `null` so inheritance works without forced overrides.
+- Do not inject fallback defaults for non-default states in the macro; they should remain `null` unless explicitly set.
 
 ---
 
@@ -195,6 +199,8 @@ All expanded attributes must include:
 
 This guarantees **one Typography panel** with subgroup tabs.
 
+**Note:** If the typography UI is implemented as a custom panel (IconPanel-style), `SchemaPanels` must route `groupId === "typography"` to the new component. Otherwise, use `SubgroupPanel` + `ControlRenderer` for schema-driven controls.
+
 ---
 
 ## 9) State Inheritance (Required Behavior)
@@ -210,6 +216,8 @@ State values must **inherit implicitly** from default state unless explicitly se
 - CSS uses `var(--accordion-title-hover-font-size, var(--accordion-title-font-size))`
 
 No implicit inheritance exists in the theme system; it must be encoded via **defaults + CSS fallback**.
+
+**Clarification:** Avoid macro-level fallback defaults for non-default states (unlike earlier icon-panel behavior); otherwise the state variants will always override the default values.
 
 ---
 

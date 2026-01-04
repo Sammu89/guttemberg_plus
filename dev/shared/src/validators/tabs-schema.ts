@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-02T19:57:50.424Z
+ * Generated at: 2026-01-04T23:18:45.226Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -24,12 +24,6 @@ export const tabsThemeSchema = z.object({
   borderRadius: z.record(z.any()),
   shadow: z.string(),
   shadowHover: z.string(),
-  tabButtonColor: z.string(),
-  tabButtonBackgroundColor: z.string(),
-  tabButtonHoverColor: z.string(),
-  tabButtonHoverBackgroundColor: z.string(),
-  tabButtonActiveColor: z.string(),
-  tabButtonActiveBackgroundColor: z.string(),
   tabButtonFontSize: z.number(),
   tabButtonFontWeight: z.string(),
   tabButtonFontStyle: z.string(),
@@ -72,12 +66,14 @@ export const tabsThemeSchema = z.object({
   iconRotation: z.string(),
   iconInactiveSource: z.record(z.any()),
   iconInactiveColor: z.string(),
+  iconInactiveRotation: z.string(),
   iconInactiveSize: z.string(),
   iconInactiveMaxSize: z.string(),
   iconInactiveOffsetX: z.string(),
   iconInactiveOffsetY: z.string(),
   iconActiveSource: z.record(z.any()),
   iconActiveColor: z.string(),
+  iconActiveRotation: z.string(),
   iconActiveSize: z.string(),
   iconActiveMaxSize: z.string(),
   iconActiveOffsetX: z.string(),
@@ -105,12 +101,7 @@ export const tabsAttributesSchema = z.object({
   borderRadius: z.record(z.any()),
   shadow: z.string(),
   shadowHover: z.string(),
-  tabButtonColor: z.string(),
-  tabButtonBackgroundColor: z.string(),
-  tabButtonHoverColor: z.string(),
-  tabButtonHoverBackgroundColor: z.string(),
-  tabButtonActiveColor: z.string(),
-  tabButtonActiveBackgroundColor: z.string(),
+  tabButtonColor: z.any(),
   tabButtonFontSize: z.number(),
   tabButtonFontWeight: z.string(),
   tabButtonFontStyle: z.string(),
@@ -153,12 +144,14 @@ export const tabsAttributesSchema = z.object({
   iconRotation: z.string(),
   iconInactiveSource: z.record(z.any()),
   iconInactiveColor: z.string(),
+  iconInactiveRotation: z.string(),
   iconInactiveSize: z.string(),
   iconInactiveMaxSize: z.string(),
   iconInactiveOffsetX: z.string(),
   iconInactiveOffsetY: z.string(),
   iconActiveSource: z.record(z.any()),
   iconActiveColor: z.string(),
+  iconActiveRotation: z.string(),
   iconActiveSize: z.string(),
   iconActiveMaxSize: z.string(),
   iconActiveOffsetX: z.string(),

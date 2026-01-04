@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-02T19:57:50.418Z
+ * Generated at: 2026-01-04T23:18:45.225Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -29,18 +29,6 @@ export interface TabsTheme {
   shadow?: string;
   /** Box shadow for wrapper on hover */
   shadowHover?: string;
-  /** Text color for inactive tab buttons */
-  tabButtonColor?: string;
-  /** Background color for inactive tab buttons */
-  tabButtonBackgroundColor?: string;
-  /** Text color when hovering over tab */
-  tabButtonHoverColor?: string;
-  /** Background color when hovering over tab */
-  tabButtonHoverBackgroundColor?: string;
-  /** Text color for active/selected tab */
-  tabButtonActiveColor?: string;
-  /** Background color for active/selected tab */
-  tabButtonActiveBackgroundColor?: string;
   /** Font size for tab buttons (rem) */
   tabButtonFontSize?: number;
   /** Font weight for tab buttons */
@@ -125,6 +113,8 @@ export interface TabsTheme {
   iconInactiveSource?: Record<string, any>;
   /** Icon color (for character/library icons) */
   iconInactiveColor?: string;
+  /** Initial rotation of inactive icon */
+  iconInactiveRotation?: string;
   /** Icon size (for character/library icons) */
   iconInactiveSize?: string;
   /** Maximum icon size (for image icons) */
@@ -137,6 +127,8 @@ export interface TabsTheme {
   iconActiveSource?: Record<string, any>;
   /** Icon color (for character/library icons) */
   iconActiveColor?: string;
+  /** Initial rotation of active icon */
+  iconActiveRotation?: string;
   /** Icon size (for character/library icons) */
   iconActiveSize?: string;
   /** Maximum icon size (for image icons) */
@@ -155,16 +147,14 @@ export const tabsDefaultTheme: TabsTheme = {
     "top": "#dddddd",
     "right": "#dddddd",
     "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
+    "left": "#dddddd"
   },
   borderWidth: 0,
   borderStyle: {
     "top": "solid",
     "right": "solid",
     "bottom": "solid",
-    "left": "solid",
-    "linked": true
+    "left": "solid"
   },
   borderRadius: {
     "topLeft": 0,
@@ -174,12 +164,6 @@ export const tabsDefaultTheme: TabsTheme = {
   },
   shadow: 'none',
   shadowHover: 'none',
-  tabButtonColor: '#666666',
-  tabButtonBackgroundColor: '#f5f5f5',
-  tabButtonHoverColor: '#333333',
-  tabButtonHoverBackgroundColor: '#e8e8e8',
-  tabButtonActiveColor: '#333333',
-  tabButtonActiveBackgroundColor: '#ffffff',
   tabButtonFontSize: 1rem,
   tabButtonFontWeight: '500',
   tabButtonFontStyle: 'normal',
@@ -192,23 +176,20 @@ export const tabsDefaultTheme: TabsTheme = {
     "top": "#dddddd",
     "right": "#dddddd",
     "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
+    "left": "#dddddd"
   },
   tabButtonActiveBorderColor: {
     "top": "#dddddd",
     "right": "#dddddd",
     "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
+    "left": "#dddddd"
   },
   tabButtonBorderWidth: 1,
   tabButtonBorderStyle: {
     "top": "solid",
     "right": "solid",
     "bottom": "solid",
-    "left": "solid",
-    "linked": true
+    "left": "solid"
   },
   tabButtonBorderRadius: {
     "topLeft": 4,
@@ -227,16 +208,14 @@ export const tabsDefaultTheme: TabsTheme = {
     "top": "#dddddd",
     "right": "#dddddd",
     "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
+    "left": "#dddddd"
   },
   tabsRowBorderWidth: 0,
   tabsRowBorderStyle: {
     "top": "solid",
     "right": "solid",
     "bottom": "solid",
-    "left": "solid",
-    "linked": true
+    "left": "solid"
   },
   tabsRowSpacing: 0.5rem,
   tabsButtonGap: 0.5rem,
@@ -251,16 +230,14 @@ export const tabsDefaultTheme: TabsTheme = {
     "top": "#dddddd",
     "right": "#dddddd",
     "bottom": "#dddddd",
-    "left": "#dddddd",
-    "linked": true
+    "left": "#dddddd"
   },
   panelBorderWidth: 1,
   panelBorderStyle: {
     "top": "solid",
     "right": "solid",
     "bottom": "solid",
-    "left": "solid",
-    "linked": true
+    "left": "solid"
   },
   panelBorderRadius: {
     "topLeft": 4,
@@ -277,6 +254,7 @@ export const tabsDefaultTheme: TabsTheme = {
     "value": "▾"
   },
   iconInactiveColor: '#333333',
+  iconInactiveRotation: '0deg',
   iconInactiveSize: '16px',
   iconInactiveMaxSize: '24px',
   iconInactiveOffsetX: '0px',
@@ -286,6 +264,7 @@ export const tabsDefaultTheme: TabsTheme = {
     "value": "▾"
   },
   iconActiveColor: '#333333',
+  iconActiveRotation: '0deg',
   iconActiveSize: '16px',
   iconActiveMaxSize: '24px',
   iconActiveOffsetX: '0px',
@@ -313,12 +292,7 @@ export interface TabsThemeAttributes {
   borderRadius?: Record<string, any>;
   shadow?: string;
   shadowHover?: string;
-  tabButtonColor?: string;
-  tabButtonBackgroundColor?: string;
-  tabButtonHoverColor?: string;
-  tabButtonHoverBackgroundColor?: string;
-  tabButtonActiveColor?: string;
-  tabButtonActiveBackgroundColor?: string;
+  tabButtonColor?: any;
   tabButtonFontSize?: number;
   tabButtonFontWeight?: string;
   tabButtonFontStyle?: string;
@@ -361,12 +335,14 @@ export interface TabsThemeAttributes {
   iconRotation?: string;
   iconInactiveSource?: Record<string, any>;
   iconInactiveColor?: string;
+  iconInactiveRotation?: string;
   iconInactiveSize?: string;
   iconInactiveMaxSize?: string;
   iconInactiveOffsetX?: string;
   iconInactiveOffsetY?: string;
   iconActiveSource?: Record<string, any>;
   iconActiveColor?: string;
+  iconActiveRotation?: string;
   iconActiveSize?: string;
   iconActiveMaxSize?: string;
   iconActiveOffsetX?: string;

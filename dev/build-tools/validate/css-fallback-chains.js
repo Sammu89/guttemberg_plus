@@ -105,7 +105,7 @@ function validateLonghandFallback(property, value, baseProperty, blockType, hasS
  * Validate fallback chains in a generated SCSS file
  */
 function validateScssFile(blockType) {
-  const scssPath = path.join(ROOT_DIR, 'blocks', blockType, 'src', `${blockType}_variables.scss`);
+  const scssPath = path.join(ROOT_DIR, 'css', 'generated', `${blockType}_variables.scss`);
 
   if (!fs.existsSync(scssPath)) {
     return {

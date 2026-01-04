@@ -99,7 +99,7 @@ function expectedResponsiveSideVars(cssVar, control, cssProperty) {
 
 function validateBlock(blockType) {
   const schemaPath = path.join(ROOT, 'schemas', `${blockType}.json`);
-  const cssPath = path.join(ROOT, 'blocks', blockType, 'src', `${blockType}_variables.scss`);
+  const cssPath = path.join(ROOT, 'css', 'generated', `${blockType}_variables.scss`);
 
   if (!fs.existsSync(schemaPath)) {
     return {

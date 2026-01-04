@@ -1,0 +1,74 @@
+<!-- Template: Accordion Structure -->
+    <div class="gutplus-accordion" data-el="item">
+      <div class="accordion-title-wrapper" data-el="titleWrapper">
+        <template data-when="headingLevel !== 'none'">
+          <h{headingLevel} class="accordion-heading" data-el="heading">
+            <template data-slot="titleButton"></template>
+          </h{headingLevel}>
+        </template>
+        <template data-else>
+          <template data-slot="titleButton"></template>
+        </template>
+      </div>
+
+      <template data-slot="titleButton">
+        <button class="accordion-title" data-el="title" type="button">
+          <template data-switch="iconPosition">
+            <template data-case="box-left">
+              <span class="accordion-icon-slot" data-el="iconSlot">
+                <template data-slot="iconMarkup"></template>
+              </span>
+              <div class="accordion-title-text-wrapper" data-el="titleTextWrapper">
+                <span class="accordion-title-text" data-el="titleText"></span>
+              </div>
+            </template>
+            <template data-case="box-right">
+              <div class="accordion-title-text-wrapper" data-el="titleTextWrapper">
+                <span class="accordion-title-text" data-el="titleText"></span>
+              </div>
+              <span class="accordion-icon-slot" data-el="iconSlot">
+                <template data-slot="iconMarkup"></template>
+              </span>
+            </template>
+            <template data-default>
+              <div class="accordion-title-inline" data-el="titleInline">
+                <span class="accordion-title-text" data-el="titleText"></span>
+                <template data-slot="iconMarkup"></template>
+              </div>
+            </template>
+          </template>
+        </button>
+      </template>
+
+      <template data-slot="iconMarkup">
+        <template data-when="iconInactiveSource.kind === 'image'">
+          <img class="accordion-icon accordion-icon-image" data-el="icon" alt="">
+        </template>
+        <template data-else>
+          <span class="accordion-icon accordion-icon-char" data-el="icon"></span>
+        </template>
+      </template>
+
+      <div class="accordion-content" data-el="content">
+        <div class="accordion-content-inner" data-el="contentInner">
+          <slot data-el="contentSlot"></slot>
+        </div>
+      </div>
+    </div>
+<!-- End Template: Accordion Structure -->
+  <section id="instructions">
+    <h2>Instructions</h2>
+    <pre>
+Template syntax:
+- data-el defines the element id used by the generator.
+- class defines the selector (first class is the selector).
+- Use <template data-slot="name"> to define reusable fragments and
+  <template data-slot="name"></template> where you want to inject them.
+- Use <template data-when="expression"> for conditional branches and
+  <template data-else> for fallback.
+- Use <template data-switch="expr"> with child <template data-case="value">
+  and <template data-default> for variations.
+- Curly-brace placeholders (e.g., {headingLevel}) are string substitutions.
+- <slot> is a leaf placeholder for InnerBlocks or dynamic content.
+    </pre>
+  </section>

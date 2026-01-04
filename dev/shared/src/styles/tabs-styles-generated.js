@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-02T19:57:50.440Z
+ * Generated at: 2026-01-04T23:18:45.229Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -63,24 +63,6 @@ export function buildEditorStyles(values) {
     }
     if (values.shadowHover !== undefined && values.shadowHover !== null) {
       styles.default.boxShadow = values.shadowHover;
-    }
-    if (values.tabButtonColor !== undefined && values.tabButtonColor !== null) {
-      styles.default.color = values.tabButtonColor;
-    }
-    if (values.tabButtonBackgroundColor !== undefined && values.tabButtonBackgroundColor !== null) {
-      styles.default.backgroundColor = values.tabButtonBackgroundColor;
-    }
-    if (values.tabButtonHoverColor !== undefined && values.tabButtonHoverColor !== null) {
-      styles.default.color = values.tabButtonHoverColor;
-    }
-    if (values.tabButtonHoverBackgroundColor !== undefined && values.tabButtonHoverBackgroundColor !== null) {
-      styles.default.backgroundColor = values.tabButtonHoverBackgroundColor;
-    }
-    if (values.tabButtonActiveColor !== undefined && values.tabButtonActiveColor !== null) {
-      styles.default.color = values.tabButtonActiveColor;
-    }
-    if (values.tabButtonActiveBackgroundColor !== undefined && values.tabButtonActiveBackgroundColor !== null) {
-      styles.default.backgroundColor = values.tabButtonActiveBackgroundColor;
     }
     if (values.tabButtonFontSize !== undefined && values.tabButtonFontSize !== null) {
       styles.default.fontSize = `${values.tabButtonFontSize}`;
@@ -206,6 +188,9 @@ export function buildEditorStyles(values) {
     if (values.iconInactiveColor !== undefined && values.iconInactiveColor !== null) {
       styles.default.color = values.iconInactiveColor;
     }
+    if (values.iconInactiveRotation !== undefined && values.iconInactiveRotation !== null) {
+      styles.default.transform = values.iconInactiveRotation;
+    }
     if (values.iconInactiveSize !== undefined && values.iconInactiveSize !== null) {
       styles.default.fontSize = values.iconInactiveSize;
     }
@@ -220,6 +205,9 @@ export function buildEditorStyles(values) {
     }
     if (values.iconActiveColor !== undefined && values.iconActiveColor !== null) {
       styles.default.color = values.iconActiveColor;
+    }
+    if (values.iconActiveRotation !== undefined && values.iconActiveRotation !== null) {
+      styles.default.transform = values.iconActiveRotation;
     }
     if (values.iconActiveSize !== undefined && values.iconActiveSize !== null) {
       styles.default.fontSize = values.iconActiveSize;
@@ -269,30 +257,6 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.shadowHover !== undefined && customizations.shadowHover !== null) {
     styles['--tabs-border-shadow-hover'] = customizations.shadowHover;
-  }
-
-  if (customizations.tabButtonColor !== undefined && customizations.tabButtonColor !== null) {
-    styles['--tabs-button-color'] = customizations.tabButtonColor;
-  }
-
-  if (customizations.tabButtonBackgroundColor !== undefined && customizations.tabButtonBackgroundColor !== null) {
-    styles['--tabs-button-bg'] = customizations.tabButtonBackgroundColor;
-  }
-
-  if (customizations.tabButtonHoverColor !== undefined && customizations.tabButtonHoverColor !== null) {
-    styles['--tabs-button-hover-color'] = customizations.tabButtonHoverColor;
-  }
-
-  if (customizations.tabButtonHoverBackgroundColor !== undefined && customizations.tabButtonHoverBackgroundColor !== null) {
-    styles['--tabs-button-hover-bg'] = customizations.tabButtonHoverBackgroundColor;
-  }
-
-  if (customizations.tabButtonActiveColor !== undefined && customizations.tabButtonActiveColor !== null) {
-    styles['--tabs-button-active-color'] = customizations.tabButtonActiveColor;
-  }
-
-  if (customizations.tabButtonActiveBackgroundColor !== undefined && customizations.tabButtonActiveBackgroundColor !== null) {
-    styles['--tabs-button-active-bg'] = customizations.tabButtonActiveBackgroundColor;
   }
 
   if (customizations.tabButtonFontSize !== undefined && customizations.tabButtonFontSize !== null) {
@@ -436,6 +400,10 @@ export function buildFrontendStyles(customizations) {
     styles['--tabs-icon-color'] = customizations.iconInactiveColor;
   }
 
+  if (customizations.iconInactiveRotation !== undefined && customizations.iconInactiveRotation !== null) {
+    styles['--tabs-icon-initial-rotation'] = customizations.iconInactiveRotation;
+  }
+
   if (customizations.iconInactiveSize !== undefined && customizations.iconInactiveSize !== null) {
     styles['--tabs-icon-size'] = customizations.iconInactiveSize;
   }
@@ -454,6 +422,10 @@ export function buildFrontendStyles(customizations) {
 
   if (customizations.iconActiveColor !== undefined && customizations.iconActiveColor !== null) {
     styles['--tabs-icon-active-color'] = customizations.iconActiveColor;
+  }
+
+  if (customizations.iconActiveRotation !== undefined && customizations.iconActiveRotation !== null) {
+    styles['--tabs-icon-active-initial-rotation'] = customizations.iconActiveRotation;
   }
 
   if (customizations.iconActiveSize !== undefined && customizations.iconActiveSize !== null) {

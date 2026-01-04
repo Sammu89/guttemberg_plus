@@ -3,62 +3,19 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2026-01-02T19:57:50.400Z
+ * Generated at: 2026-01-04T23:18:45.219Z
  *
  * This file defines CSS custom properties (variables) with default values.
  * These can be overridden by themes via class selectors.
  */
 
 :root {
-  --accordion-divider-width: 0px;
-  --accordion-divider-color: #dddddd;
-  --accordion-divider-style: solid;
-  --accordion-border-width: 1px;
-  --accordion-border-radius: 4px;
-  --accordion-border-color: #dddddd;
-  --accordion-border-style: solid;
-  --accordion-header-padding: 12px 16px;
-  --accordion-header-padding-tablet: 12px 16px;
-  --accordion-header-padding-mobile: 12px 16px;
-  --accordion-content-padding: 16px;
-  --accordion-content-padding-tablet: 16px;
-  --accordion-content-padding-mobile: 16px;
-  --accordion-block-margin: 1em 0em;
-  --accordion-block-margin-tablet: 1em 0em;
-  --accordion-block-margin-mobile: 1em 0em;
-  --accordion-title-color: #333333;
-  --accordion-title-bg: #f5f5f5;
-  --accordion-title-hover-color: #000000;
-  --accordion-title-hover-bg: #e8e8e8;
-  --accordion-content-color: #333333;
-  --accordion-content-bg: #ffffff;
-  --accordion-content-font-family: inherit;
-  --accordion-content-font-size: 1rem;
-  --accordion-content-font-size-tablet: 1rem;
-  --accordion-content-font-size-mobile: 1rem;
-  --accordion-content-line-height: 1.6;
-  --accordion-title-font-family: inherit;
-  --accordion-title-font-size: 1.125rem;
-  --accordion-title-font-size-tablet: 1.125rem;
-  --accordion-title-font-size-mobile: 1.125rem;
-  --accordion-title-white-space: normal;
-  --accordion-title-font-weight: 400;
-  --accordion-title-decoration-color: currentColor;
-  --accordion-title-decoration-style: solid;
-  --accordion-title-decoration-width: auto;
-  --accordion-title-letter-spacing: 0em;
-  --accordion-title-text-transform: none;
-  --accordion-title-line-height: 1.4;
-  --accordion-title-alignment: left;
-  --accordion-title-offset-x: 0px;
-  --accordion-title-offset-x-tablet: 0px;
-  --accordion-title-offset-x-mobile: 0px;
-  --accordion-title-offset-y: 0px;
-  --accordion-title-offset-y-tablet: 0px;
-  --accordion-title-offset-y-mobile: 0px;
-  --accordion-icon-display: inline-flex;
+  --accordion-icon-display: inline-grid;
   --accordion-icon-rotation: 180deg;
   --accordion-icon-color: #333333;
+  --accordion-icon-initial-rotation: 0deg;
+  --accordion-icon-initial-rotation-tablet: 0deg;
+  --accordion-icon-initial-rotation-mobile: 0deg;
   --accordion-icon-size: 16px;
   --accordion-icon-size-tablet: 16px;
   --accordion-icon-size-mobile: 16px;
@@ -72,6 +29,9 @@
   --accordion-icon-offset-y-tablet: 0px;
   --accordion-icon-offset-y-mobile: 0px;
   --accordion-icon-active-color: #333333;
+  --accordion-icon-active-initial-rotation: 0deg;
+  --accordion-icon-active-initial-rotation-tablet: 0deg;
+  --accordion-icon-active-initial-rotation-mobile: 0deg;
   --accordion-icon-active-size: 16px;
   --accordion-icon-active-size-tablet: 16px;
   --accordion-icon-active-size-mobile: 16px;
@@ -84,6 +44,5 @@
   --accordion-icon-active-offset-y: 0px;
   --accordion-icon-active-offset-y-tablet: 0px;
   --accordion-icon-active-offset-y-mobile: 0px;
-  --accordion-animation-duration: 300ms;
-  --accordion-animation-easing: ease;
+  --accordion-animation-duration: 250ms;
 }

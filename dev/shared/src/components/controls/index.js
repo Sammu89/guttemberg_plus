@@ -8,7 +8,6 @@ export { IconButton } from './IconButton';
 export { IconButtonGroup } from './IconButtonGroup';
 
 // Phase 3: Composite Controls
-export { ResponsiveWrapper, useResponsiveValue } from './ResponsiveWrapper';
 export { BoxControl } from './BoxControl';
 export { SliderWithInput } from './SliderWithInput';
 export { ColorControl } from './ColorControl';

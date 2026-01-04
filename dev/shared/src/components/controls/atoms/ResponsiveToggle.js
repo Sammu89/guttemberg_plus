@@ -63,7 +63,7 @@ export function ResponsiveToggle({
 	return (
 		<Flex gap={1} align="center" className="gutplus-responsive-toggle gutplus-responsive-toggle--enabled">
 			<FlexItem>
-				<DeviceSwitcher value={currentDevice} />
+				<DeviceSwitcher value={currentDevice} disabled={disabled} />
 			</FlexItem>
 			<FlexItem>
 				<ResetButton onClick={onReset} disabled={isResetDisabled || disabled} />

@@ -1,0 +1,68 @@
+{
+  "blockType": "tabs",
+  "structure": {
+    "elements": {
+      "wrapper": {
+        "id": "wrapper",
+        "selector": ".gutplus-tabs",
+        "tag": "div",
+        "classes": [
+          "gutplus-tabs"
+        ],
+        "attributes": {},
+        "children": [
+          "tabsList",
+          "tabsPanels"
+        ],
+        "parent": null,
+        "isSlot": false
+      },
+      "tabsList": {
+        "id": "tabsList",
+        "selector": ".tabs-list",
+        "tag": "div",
+        "classes": [
+          "tabs-list"
+        ],
+        "attributes": {
+          "role": "tablist"
+        },
+        "children": [],
+        "parent": "wrapper",
+        "isSlot": false
+      },
+      "tabsPanels": {
+        "id": "tabsPanels",
+        "selector": ".tabs-panels",
+        "tag": "div",
+        "classes": [
+          "tabs-panels"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "wrapper",
+        "isSlot": false
+      }
+    },
+    "variations": {},
+    "slots": {
+      "tabButtons": {
+        "name": "tabButtons",
+        "injections": [
+          {}
+        ]
+      },
+      "tabPanels": {
+        "name": "tabPanels",
+        "injections": [
+          {}
+        ]
+      }
+    },
+    "conditions": [],
+    "placeholders": [
+      "headingLevel"
+    ],
+    "template": "<!-- Template: Tabs Structure -->\n    <div class=\"gutplus-tabs\" data-el=\"wrapper\">\n      <div class=\"tabs-list\" data-el=\"tabsList\" role=\"tablist\">\n        <template data-slot=\"tabButtons\"></template>\n      </div>\n\n      <div class=\"tabs-panels\" data-el=\"tabsPanels\">\n        <template data-slot=\"tabPanels\"></template>\n      </div>\n    </div>\n\n    <template data-slot=\"tabButtons\">\n      <button class=\"tab-button\" data-el=\"tabButton\" role=\"tab\">\n        <span class=\"tab-button-text\" data-el=\"tabButtonText\"></span>\n      </button>\n    </template>\n\n    <template data-slot=\"tabPanels\">\n      <div class=\"tab-panel\" data-el=\"tabPanel\" role=\"tabpanel\">\n        <slot data-el=\"panelSlot\"></slot>\n      </div>\n    </template>\n<!-- End Template: Tabs Structure -->\n\n  <section id=\"instructions\">\n    <h2>Instructions</h2>\n    <pre>\nTemplate syntax:\n- data-el defines the element id used by the generator.\n- class defines the selector (first class is the selector).\n- Use <template data-slot=\"name\"> to define reusable fragments and\n  <template data-slot=\"name\"></template> where you want to inject them.\n- Use <template data-when=\"expression\"> for conditional branches and\n  <template data-else> for fallback.\n- Use <template data-switch=\"expr\"> with child <template data-case=\"value\">\n  and <template data-default> for variations.\n- Curly-brace placeholders (e.g., {headingLevel}) are string substitutions.\n- <slot> is a leaf placeholder for InnerBlocks or dynamic content.\n    </pre>\n  </section>\n</body>\n</html>\n"
+  }
+}

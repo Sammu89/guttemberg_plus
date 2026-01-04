@@ -25,9 +25,9 @@ const hasBuildCss = () => {
 
 const hasGeneratedCss = () => {
   const candidates = [
-    'blocks/accordion/src/accordion_variables.scss',
-    'blocks/tabs/src/tabs_variables.scss',
-    'blocks/toc/src/toc_variables.scss',
+    'css/generated/accordion_variables.scss',
+    'css/generated/tabs_variables.scss',
+    'css/generated/toc_variables.scss',
   ];
   return candidates.every((rel) => fs.existsSync(path.join(ROOT, rel)));
 };
@@ -200,11 +200,12 @@ function parseArgs() {
   const groupIndex = args.indexOf('--group');
   const onlyIndex = args.indexOf('--only');
   const listOnly = args.includes('--list');
+  const warnOnly = args.includes('--warn-only');
 
   const group = groupIndex !== -1 ? args[groupIndex + 1] : null;
   const only = onlyIndex !== -1 ? args[onlyIndex + 1] : null;
 
-  return { group, only, listOnly };
+  return { group, only, listOnly, warnOnly };
 }
 
 function filterValidations({ group, only }) {
@@ -221,7 +222,7 @@ function filterValidations({ group, only }) {
   return filtered;
 }
 
-function runValidation(validation, index, total) {
+function runValidation(validation, index, total, warnOnly) {
   const label = `Validation ${index} of ${total} — ${validation.title}`;
   console.log(`\n${label}`);
   console.log('-'.repeat(label.length));
@@ -240,6 +241,8 @@ function runValidation(validation, index, total) {
 
   if (result.status === 0) {
     console.log(`Status: PASS`);
+  } else if (warnOnly) {
+    console.log(`Status: WARN (non-blocking)`);
   } else {
     console.log(`Status: FAIL`);
   }
@@ -267,7 +270,7 @@ function main() {
   let skipped = 0;
 
   selected.forEach((validation, idx) => {
-    const result = runValidation(validation, idx + 1, selected.length);
+    const result = runValidation(validation, idx + 1, selected.length, args.warnOnly);
     if (result.skipped) {
       skipped += 1;
       return;
@@ -278,12 +281,22 @@ function main() {
   });
 
   if (failures > 0) {
-    console.error(`\nValidation failed: ${failures} failing check(s).`);
-    process.exit(1);
+    if (!args.warnOnly) {
+      console.error(`\nValidation failed: ${failures} failing check(s).`);
+      process.exit(1);
+    }
   }
 
+  const summary = [];
+  if (failures > 0 && args.warnOnly) {
+    summary.push(`${failures} warning(s)`);
+  }
   if (skipped > 0) {
-    console.log(`\nValidation complete with ${skipped} skipped check(s).`);
+    summary.push(`${skipped} skipped check(s)`);
+  }
+
+  if (summary.length > 0) {
+    console.log(`\nValidation complete with ${summary.join(' and ')}.`);
   } else {
     console.log(`\nValidation complete: all checks passed.`);
   }

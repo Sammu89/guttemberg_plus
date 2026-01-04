@@ -70,11 +70,11 @@ const sharedConfig = {
  * All entries build in parallel. Editor imports style.scss (source) directly.
  *
  * CSS Build Flow:
- *   block_schema.scss (:root vars + themeable rules)
+ *   {block}_variables.scss (vars + selector rules)
  *       ↓ imported by
- *   style.scss (layout CSS) → {block}.css (frontend)
+ *   {block}_hardcoded.scss (layout CSS) → {block}.css (frontend)
  *       ↓ imported by
- *   editor.scss (editor overrides) → index.css (editor)
+ *   {block}_editor.scss (editor overrides) → index.css (editor)
  */
 module.exports = {
 	...defaultConfig,
@@ -83,17 +83,17 @@ module.exports = {
 		// Accordion block
 		'blocks/accordion/index': path.resolve( __dirname, 'blocks/accordion/src/index.js' ),
 		'blocks/accordion/frontend': path.resolve( __dirname, 'blocks/accordion/src/frontend.js' ),
-		'blocks/accordion/accordion': path.resolve( __dirname, 'blocks/accordion/src/style.scss' ),
+		'blocks/accordion/accordion': path.resolve( __dirname, 'css/accordion_hardcoded.scss' ),
 
 		// Tabs block
 		'blocks/tabs/index': path.resolve( __dirname, 'blocks/tabs/src/index.js' ),
 		'blocks/tabs/frontend': path.resolve( __dirname, 'blocks/tabs/src/frontend.js' ),
-		'blocks/tabs/tabs': path.resolve( __dirname, 'blocks/tabs/src/style.scss' ),
+		'blocks/tabs/tabs': path.resolve( __dirname, 'css/tabs_hardcoded.scss' ),
 
 		// TOC block
 		'blocks/toc/index': path.resolve( __dirname, 'blocks/toc/src/index.js' ),
 		'blocks/toc/frontend': path.resolve( __dirname, 'blocks/toc/src/frontend.js' ),
-		'blocks/toc/toc': path.resolve( __dirname, 'blocks/toc/src/style.scss' ),
+		'blocks/toc/toc': path.resolve( __dirname, 'css/toc_hardcoded.scss' ),
 
 		// Shared infrastructure
 		'shared/index': path.resolve( __dirname, 'shared/src/index.js' ),

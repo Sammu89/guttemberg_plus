@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2026-01-02T19:57:50.438Z
+> Generated at: 2026-01-04T23:18:45.228Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -53,12 +53,7 @@ Tab header text/background colors
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `tabButtonColor` | string | `#666666` | Yes | Text color for inactive tab buttons |
-| `tabButtonBackgroundColor` | string | `#f5f5f5` | Yes | Background color for inactive tab buttons |
-| `tabButtonHoverColor` | string | `#333333` | Yes | Text color when hovering over tab |
-| `tabButtonHoverBackgroundColor` | string | `#e8e8e8` | Yes | Background color when hovering over tab |
-| `tabButtonActiveColor` | string | `#333333` | Yes | Text color for active/selected tab |
-| `tabButtonActiveBackgroundColor` | string | `#ffffff` | Yes | Background color for active/selected tab |
+| `tabButtonColor` | color-panel | _object_ | No (N/A) |  |
 
 ## Header Typography
 
@@ -136,12 +131,14 @@ Icon appearance and behavior
 | `iconRotation` | string | `180deg` | Yes | Rotation angle applied during open/close transition |
 | `iconInactiveSource` | object | _object_ | Yes | Icon when closed |
 | `iconInactiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconInactiveRotation` | string | `0deg` | Yes | Initial rotation of inactive icon |
 | `iconInactiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
 | `iconInactiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
 | `iconInactiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
 | `iconInactiveOffsetY` | string | `0px` | Yes | Vertical offset of icon |
 | `iconActiveSource` | object | _object_ | Yes | Icon when open |
 | `iconActiveColor` | string | `#333333` | Yes | Icon color (for character/library icons) |
+| `iconActiveRotation` | string | `0deg` | Yes | Initial rotation of active icon |
 | `iconActiveSize` | string | `16px` | Yes | Icon size (for character/library icons) |
 | `iconActiveMaxSize` | string | `24px` | Yes | Maximum icon size (for image icons) |
 | `iconActiveOffsetX` | string | `0px` | Yes | Horizontal offset of icon |
@@ -159,12 +156,6 @@ The following CSS custom properties are available for theming:
 | `borderRadius` | `--tabs-border-radius` |
 | `shadow` | `--tabs-border-shadow` |
 | `shadowHover` | `--tabs-border-shadow-hover` |
-| `tabButtonColor` | `--tabs-button-color` |
-| `tabButtonBackgroundColor` | `--tabs-button-bg` |
-| `tabButtonHoverColor` | `--tabs-button-hover-color` |
-| `tabButtonHoverBackgroundColor` | `--tabs-button-hover-bg` |
-| `tabButtonActiveColor` | `--tabs-button-active-color` |
-| `tabButtonActiveBackgroundColor` | `--tabs-button-active-bg` |
 | `tabButtonFontSize` | `--tabs-button-font-size` |
 | `tabButtonFontWeight` | `--tabs-button-font-weight` |
 | `tabButtonFontStyle` | `--tabs-button-font-style` |
@@ -203,11 +194,13 @@ The following CSS custom properties are available for theming:
 | `showIcon` | `--tabs-icon-display` |
 | `iconRotation` | `--tabs-icon-rotation` |
 | `iconInactiveColor` | `--tabs-icon-color` |
+| `iconInactiveRotation` | `--tabs-icon-initial-rotation` |
 | `iconInactiveSize` | `--tabs-icon-size` |
 | `iconInactiveMaxSize` | `--tabs-icon-max-size` |
 | `iconInactiveOffsetX` | `--tabs-icon-offset-x` |
 | `iconInactiveOffsetY` | `--tabs-icon-offset-y` |
 | `iconActiveColor` | `--tabs-icon-active-color` |
+| `iconActiveRotation` | `--tabs-icon-active-initial-rotation` |
 | `iconActiveSize` | `--tabs-icon-active-size` |
 | `iconActiveMaxSize` | `--tabs-icon-active-max-size` |
 | `iconActiveOffsetX` | `--tabs-icon-active-offset-x` |

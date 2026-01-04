@@ -81,9 +81,10 @@ function filterGroupsByTab( tabs, tabName ) {
  * @returns {boolean} Whether the group has visible attributes
  */
 function groupHasAttributes( groupName, schema ) {
-	return Object.values( schema.attributes || {} ).some(
+	const hasAttrs = Object.values( schema.attributes || {} ).some(
 		( attr ) => attr.group === groupName && attr.visibleOnSidebar !== false
 	);
+	return hasAttrs;
 }
 
 /**
@@ -98,6 +99,7 @@ function groupHasAttributes( groupName, schema ) {
  * @param {Object}   props.cssDefaults      CSS default values (optional)
  * @param {string}   props.tab              Tab name to filter by (optional)
  * @param {boolean}  props.useSubgroupPanels Whether to use SubgroupPanel for groups with subgroups
+ * @param {Function} props.onIconPreviewChange Optional handler for icon preview state changes
  * @returns {JSX.Element|null} Rendered panels or null
  */
 export function SchemaPanels( {
@@ -109,6 +111,7 @@ export function SchemaPanels( {
 	cssDefaults = {},
 	tab = null,
 	useSubgroupPanels = true,
+	onIconPreviewChange,
 } ) {
 	// Validate required props
 	if ( ! setAttributes ) {
@@ -150,6 +153,11 @@ export function SchemaPanels( {
 							setAttributes={ setAttributes }
 							effectiveValues={ effectiveValues }
 							label={ groupConfig.title || 'Icon' }
+							onIconPreviewChange={ onIconPreviewChange }
+							canBeResponsive={ false }
+							responsiveEnabled={ false }
+							onResponsiveToggle={ () => {} }
+							onResponsiveReset={ () => {} }
 						/>
 					);
 				}

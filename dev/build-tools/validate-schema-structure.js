@@ -17,8 +17,8 @@ const SOURCE_EXTENSIONS = new Set(['.js', '.jsx', '.ts', '.tsx']);
 
 // Icon positioning profiles for each block type
 const POSITIONING_PROFILES = {
-  accordion: ['left', 'right', 'extreme-left', 'extreme-right'],
-  toc: ['left', 'right', 'extreme-left', 'extreme-right'],
+  accordion: ['left', 'right', 'box-left', 'box-right'],
+  toc: ['left', 'right', 'box-left', 'box-right'],
   tabs: ['left', 'right']
 };
 
