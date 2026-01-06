@@ -8,15 +8,6 @@
  * @since 1.0.0
  */
 
-// CSS Parser Utilities (Module 1.1)
-export {
-	getCSSDefault,
-	getAllCSSDefaults,
-	areCSSDefaultsLoaded,
-	getCSSDefaultWithFallback,
-	getMultipleCSSDefaults,
-} from './utils/css-parser';
-
 // Cascade Resolver (Module 1.2)
 export {
 	getEffectiveValue,
@@ -27,18 +18,8 @@ export {
 	getValueSource,
 } from './theme-system/cascade-resolver';
 
-// Control Value Normalizer (Module 1.2b)
-export {
-	normalizeValueForControl,
-	normalizeAllValues,
-	needsNormalization,
-} from './theme-system/control-normalizer';
-
 // WordPress Data Store (Module 1.3a)
 export { store, STORE_NAME } from './data';
-
-// Theme Manager (Module 1.4)
-export { getThemeManager } from './theme-system/theme-manager';
 
 // Theme Configuration (auto-generated from schemas)
 // Note: Exclusions are now derived dynamically from schema.themeable field in each block
@@ -79,35 +60,6 @@ export {
 	getHeaderIdFromContentId,
 } from './utils/aria-helpers';
 
-export {
-	KEYS,
-	isActivationKey,
-	isArrowKey,
-	handleAccordionKeyboard,
-	handleTabsKeyboard,
-	getNextIndex,
-	focusElement,
-	getFocusableElements,
-	trapFocus,
-	addKeyboardListener,
-} from './utils/keyboard-nav';
-
-export {
-	isValidColor,
-	validateThemeName,
-	isValidNumber,
-	isValidSpacing,
-	isValidBorderRadius,
-	isValidEnum,
-	isValidFontWeight,
-	isValidHeadingLevel,
-	isValidBorderStyle,
-	isValidIconType,
-	sanitizeAttributeValue,
-} from './utils/validation';
-
-// Debug utilities
-export { debug, debugError, debugWarn, debugTable } from './utils/debug';
 
 // Shared UI Components (Module 1.6)
 export { ThemeSelector } from './components/ThemeSelector';
@@ -123,11 +75,21 @@ export { BreakpointSettings } from './components/BreakpointSettings';
 // Re-export all controls for convenience
 export * from './components/controls';
 
+// Compression/Decompression Utilities (Module 1.7)
+export {
+	compressAttributes,
+	compressCustomizations,
+	getCompressionStats,
+} from './utils/attribute-compression';
+
+export {
+	decompressAttributes,
+	decompressCustomizations,
+} from './utils/attribute-decompression';
+
 // Shared Hooks (Phase 4)
 export {
 	useBlockAlignment,
-	useBlockThemes,
-	useCSSDefaults,
 	useThemeManager,
 	useResponsiveDevice,
 } from './hooks';

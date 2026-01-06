@@ -9,10 +9,8 @@
  * - TypeScript type definitions (shared/src/types/)
  * - Zod validation schemas (shared/src/validators/)
  * - JavaScript block attributes (blocks/[blockType]/src/[blockType]-attributes.js)
- * - PHP CSS defaults (php/css-defaults/)
  * - PHP CSS variable mappings (php/css-defaults/css-mappings-generated.php)
  * - Control configuration (shared/src/config/control-config-generated.js)
- * - CSS variable declarations (assets/css/)
  * - Style builder functions (shared/src/styles/)
  * - Markdown documentation (docs/)
  *
@@ -25,7 +23,7 @@ const path = require( 'path' );
 const { generateStyleBuilder } = require( './generators/style-builder-generator' );
 const { generateEditorCssVarsBuilder } = require( './generators/editor-css-vars-injector' );
 const { generateFrontendCssVarsBuilder } = require( './generators/frontend-css-vars-injector' );
-const { generateStructureJsx } = require( './generators/structure-jsx-generator' );
+const { generateStructureJsx, generateBlockContent } = require( './generators/structure-jsx-generator' );
 
 // Dynamic import for ES module (css-property-scales uses ES6 exports)
 let CSS_PROPERTY_SCALES, CSS_PROPERTY_ALIASES, getPropertyScale;
@@ -49,7 +47,6 @@ const OUTPUT_DIRS = {
 	validators: path.join( ROOT_DIR, 'shared', 'src', 'validators' ),
 	phpCssDefaults: path.join( ROOT_DIR, 'php', 'css-defaults' ),
 	config: path.join( ROOT_DIR, 'shared', 'src', 'config' ),
-	css: path.join( ROOT_DIR, 'assets', 'css' ),
 	docs: path.join( ROOT_DIR, 'docs' ),
 	blockAttributes: path.join( ROOT_DIR, 'blocks' ),
 	styles: path.join( ROOT_DIR, 'shared', 'src', 'styles' ),
@@ -908,53 +905,6 @@ function generateValidationSchema( blockType, schema ) {
 }
 
 /**
- * Generate PHP CSS defaults
- * @param blockType
- * @param schema
- */
-function generatePHPCSSDefaults( blockType, schema ) {
-	const fileName = `${ blockType }.php`;
-
-	let content = getPHPGeneratedHeader(
-		`${ blockType }.json`,
-		`CSS Default Values for ${ schema.blockName } Block`
-	);
-
-	content += `return array(\n`;
-
-	for ( const [ attrName, attr ] of Object.entries( schema.attributes ) ) {
-		if (
-			attr.themeable &&
-			attr.default !== undefined &&
-			attr.default !== null &&
-			attr.default !== ''
-		) {
-			// Skip complex objects
-			if ( typeof attr.default === 'object' ) {
-				continue;
-			}
-
-			let defaultValue = attr.default;
-
-			// Handle special transformValue for paddingRectangle
-			if ( attr.transformValue === 'paddingRectangle' && typeof attr.default === 'number' ) {
-				const vertical = attr.default;
-				const horizontal = attr.default * 2;
-				const unit = attr.unit || 'px';
-				defaultValue = `${ vertical }${ unit } ${ horizontal }${ unit }`;
-			}
-
-			// Use the default value directly (now includes units, e.g., "18px", "1.6", "180deg")
-			content += `  '${ attrName }' => '${ defaultValue }',\n`;
-		}
-	}
-
-	content += `);\n`;
-
-	return { fileName, content };
-}
-
-/**
  * Generate PHP attribute definitions
  * @param blockType
  * @param schema
@@ -1521,155 +1471,6 @@ export default CSS_VAR_MAPPINGS;
 `;
 
 	return { fileName: 'css-var-mappings-generated.js', content };
-}
-
-/**
- * Generate CSS variable declarations
- * @param blockType
- * @param schema
- */
-function generateCSSVariables( blockType, schema ) {
-	const fileName = `${ blockType }-variables.css`;
-	const prefix = blockType;
-
-	let content = `/**
- * CSS Variables for ${ schema.blockName } Block
- *
- * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
- * Generated from: schemas/${ blockType }.json
- * Generated at: ${ getTimestamp() }
- *
- * This file defines CSS custom properties (variables) with default values.
- * These can be overridden by themes via class selectors.
- */
-
-:root {\n`;
-
-	// Collect all themeable attributes and use default values with units
-	for ( const [ attrName, attr ] of Object.entries( schema.attributes ) ) {
-		if (
-			attr.themeable &&
-			attr.cssVar &&
-			attr.default !== undefined &&
-			attr.default !== null &&
-			attr.default !== ''
-		) {
-			let cssValue;
-
-			// Handle special transformValue for paddingRectangle
-			if ( attr.transformValue === 'paddingRectangle' && typeof attr.default === 'number' ) {
-				const vertical = attr.default;
-				const horizontal = attr.default * 2;
-				const unit =
-					attr.unit ||
-					( Array.isArray( attr.units ) && attr.units.length > 0
-						? attr.units[ 0 ]
-						: null ) ||
-					'px';
-				cssValue = `${ vertical }${ unit } ${ horizontal }${ unit }`;
-			}
-			// Handle object types (border radius, padding, colors, styles, etc.)
-			else if ( typeof attr.default === 'object' ) {
-				// Helper to get effective unit from attr.unit or attr.units[0]
-				const getEffectiveUnit = ( fallback = 'px' ) => {
-					return (
-						attr.unit ||
-						( Array.isArray( attr.units ) && attr.units.length > 0
-							? attr.units[ 0 ]
-							: null ) ||
-						fallback
-					);
-				};
-
-				// Border radius format: topLeft topRight bottomRight bottomLeft
-				if ( attr.default.topLeft !== undefined ) {
-					const unit = attr.default.unit || getEffectiveUnit( 'px' );
-					cssValue = compressShorthand(
-						attr.default.topLeft,
-						attr.default.topRight,
-						attr.default.bottomRight,
-						attr.default.bottomLeft,
-						unit
-					);
-				}
-				// Directional format: top right bottom left (border-width, border-color, border-style, padding, margin)
-				else if (
-					attr.default.top !== undefined &&
-					attr.default.right !== undefined &&
-					attr.default.bottom !== undefined &&
-					attr.default.left !== undefined
-				) {
-					// Use unit for numeric values, empty string for strings (colors, styles)
-					const isStringValue = typeof attr.default.top === 'string';
-					const unit = isStringValue ? '' : attr.default.unit || getEffectiveUnit( 'px' );
-					cssValue = compressShorthand(
-						attr.default.top,
-						attr.default.right,
-						attr.default.bottom,
-						attr.default.left,
-						unit
-					);
-				}
-				// Responsive format: base value (global is at root as .value, not a device key)
-				else if (
-					( attr.default.tablet !== undefined || attr.default.mobile !== undefined ) &&
-					typeof attr.default.value === 'object'
-				) {
-					const baseValue = attr.default.value;
-					if (
-						baseValue.top !== undefined &&
-						baseValue.right !== undefined &&
-						baseValue.bottom !== undefined &&
-						baseValue.left !== undefined
-					) {
-						const isStringValue = typeof baseValue.top === 'string';
-						const unit = isStringValue
-							? ''
-							: baseValue.unit || getEffectiveUnit( 'px' );
-						cssValue = compressShorthand(
-							baseValue.top,
-							baseValue.right,
-							baseValue.bottom,
-							baseValue.left,
-							unit
-						);
-					} else {
-						// Skip other complex base objects we don't know how to handle
-						continue;
-					}
-				} else {
-					// Skip other complex objects we don't know how to handle
-					continue;
-				}
-			} else if ( attr.type === 'number' ) {
-				// Format value with unit if applicable
-				// Check for explicit 'unit' property, or use first element of 'units' array
-				const effectiveUnit =
-					attr.unit ||
-					( Array.isArray( attr.units ) && attr.units.length > 0
-						? attr.units[ 0 ]
-						: null );
-				cssValue = effectiveUnit ? `${ attr.default }${ effectiveUnit }` : attr.default;
-			} else if ( attr.type === 'boolean' && attr.cssValueMap ) {
-				// Map boolean value to CSS value using cssValueMap
-				cssValue = attr.cssValueMap[ attr.default.toString() ];
-			} else {
-				cssValue = attr.default;
-			}
-
-			content += `  --${ attr.cssVar }: ${ cssValue };\n`;
-
-			// Add responsive variants for responsive attributes
-			if ( attr.responsive === true ) {
-				content += `  --${ attr.cssVar }-tablet: ${ cssValue };\n`;
-				content += `  --${ attr.cssVar }-mobile: ${ cssValue };\n`;
-			}
-		}
-	}
-
-	content += `}\n`;
-
-	return { fileName, content };
 }
 
 /**
@@ -2757,6 +2558,54 @@ function injectCodeIntoBlocks( schemas ) {
 					results.errors.push( `${ blockType }/edit.js (RENDER-TITLE): ${ editJsxResult.error }` );
 					console.log( `  ✗ ${ blockType }/edit.js (RENDER-TITLE) - Error: ${ editJsxResult.error }` );
 				}
+
+				// Inject into save.js - BLOCK-CONTENT marker
+				const saveBlockContent = generateBlockContent( structureMapping, 'save' );
+				const saveBlockContentResult = injectCodeIntoFile( savePath, 'BLOCK-CONTENT', saveBlockContent, {
+					backup: false,
+					warnIfMissing: false,
+				} );
+
+				if ( saveBlockContentResult.success ) {
+					results.success.push( `${ blockType }/save.js (BLOCK-CONTENT)` );
+					if ( saveBlockContentResult.action === 'injected' ) {
+						results.changed++;
+						console.log(
+							`  ✓ ${ blockType }/save.js - Injected ${ saveBlockContentResult.linesInjected } lines (BLOCK-CONTENT)`
+						);
+					}
+				} else if ( saveBlockContentResult.action === 'skipped' ) {
+					results.skipped.push(
+						`${ blockType }/save.js (BLOCK-CONTENT - markers not found)`
+					);
+				} else {
+					results.errors.push( `${ blockType }/save.js (BLOCK-CONTENT): ${ saveBlockContentResult.error }` );
+					console.log( `  ✗ ${ blockType }/save.js (BLOCK-CONTENT) - Error: ${ saveBlockContentResult.error }` );
+				}
+
+				// Inject into edit.js - BLOCK-CONTENT marker
+				const editBlockContent = generateBlockContent( structureMapping, 'edit' );
+				const editBlockContentResult = injectCodeIntoFile( editPath, 'BLOCK-CONTENT', editBlockContent, {
+					backup: false,
+					warnIfMissing: false,
+				} );
+
+				if ( editBlockContentResult.success ) {
+					results.success.push( `${ blockType }/edit.js (BLOCK-CONTENT)` );
+					if ( editBlockContentResult.action === 'injected' ) {
+						results.changed++;
+						console.log(
+							`  ✓ ${ blockType }/edit.js - Injected ${ editBlockContentResult.linesInjected } lines (BLOCK-CONTENT)`
+						);
+					}
+				} else if ( editBlockContentResult.action === 'skipped' ) {
+					results.skipped.push(
+						`${ blockType }/edit.js (BLOCK-CONTENT - markers not found)`
+					);
+				} else {
+					results.errors.push( `${ blockType }/edit.js (BLOCK-CONTENT): ${ editBlockContentResult.error }` );
+					console.log( `  ✗ ${ blockType }/edit.js (BLOCK-CONTENT) - Error: ${ editBlockContentResult.error }` );
+				}
 			} catch ( error ) {
 				results.errors.push(
 					`Structure JSX generation failed for ${ blockType }: ${ error.message }`
@@ -3066,30 +2915,6 @@ async function compile( options = {} ) {
 			} catch ( error ) {
 				results.errors.push(
 					`Block attributes generation failed for ${ blockType }: ${ error.message }`
-				);
-			}
-
-			// PHP CSS defaults
-			try {
-				const { fileName, content } = generatePHPCSSDefaults( blockType, schema );
-				const filePath = path.join( OUTPUT_DIRS.phpCssDefaults, fileName );
-				fs.writeFileSync( filePath, content );
-				results.files.push( { path: filePath, lines: content.split( '\n' ).length } );
-			} catch ( error ) {
-				results.errors.push(
-					`PHP CSS defaults generation failed for ${ blockType }: ${ error.message }`
-				);
-			}
-
-			// CSS variables
-			try {
-				const { fileName, content } = generateCSSVariables( blockType, schema );
-				const filePath = path.join( OUTPUT_DIRS.css, fileName );
-				fs.writeFileSync( filePath, content );
-				results.files.push( { path: filePath, lines: content.split( '\n' ).length } );
-			} catch ( error ) {
-				results.errors.push(
-					`CSS generation failed for ${ blockType }: ${ error.message }`
 				);
 			}
 
