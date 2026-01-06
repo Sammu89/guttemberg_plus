@@ -4,7 +4,7 @@
  * Uses native WordPress ColorGradientControl for solid colors and gradients.
  * Supports theme color palettes and custom colors.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -16,9 +16,7 @@ import {
 	ColorPalette,
 	TabPanel,
 } from '@wordpress/components';
-import {
-	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
-} from '@wordpress/block-editor';
+import { __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients } from '@wordpress/block-editor';
 import { useState, useRef } from '@wordpress/element';
 import { ResetButton } from './ResetButton';
 
@@ -28,16 +26,16 @@ import { ResetButton } from './ResetButton';
  * A combined color and gradient picker.
  * Displays theme colors/gradients and allows custom values.
  *
- * @param {Object}   props              Component props
- * @param {string}   props.label        Label for the control
- * @param {string}   props.value        Current color or gradient value
- * @param {Function} props.onChange     Callback when value changes
- * @param {Function} props.onReset      Optional custom reset callback
- * @param {string}   props.defaultValue Default value for reset
- * @param {string}   props.help         Help text below the control
- * @param {boolean}  props.showReset    Whether to show reset button (default: true)
+ * @param {Object}   props                Component props
+ * @param {string}   props.label          Label for the control
+ * @param {string}   props.value          Current color or gradient value
+ * @param {Function} props.onChange       Callback when value changes
+ * @param {Function} props.onReset        Optional custom reset callback
+ * @param {string}   props.defaultValue   Default value for reset
+ * @param {string}   props.help           Help text below the control
+ * @param {boolean}  props.showReset      Whether to show reset button (default: true)
  * @param {boolean}  props.enableGradient Whether to enable gradient selection (default: true)
- * @returns {JSX.Element} Color gradient control component
+ * @return {JSX.Element} Color gradient control component
  */
 export function ColorGradientControl( {
 	label,
@@ -109,9 +107,7 @@ export function ColorGradientControl( {
 	const isResetDisabled = value === defaultValue || ( ! value && ! defaultValue );
 
 	// Tabs for solid/gradient selection
-	const tabs = [
-		{ name: 'solid', title: 'Solid' },
-	];
+	const tabs = [ { name: 'solid', title: 'Solid' } ];
 
 	if ( enableGradient ) {
 		tabs.push( { name: 'gradient', title: 'Gradient' } );
@@ -133,10 +129,7 @@ export function ColorGradientControl( {
 			className="gutplus-color-gradient-control"
 		>
 			{ enableGradient ? (
-				<TabPanel
-					tabs={ tabs }
-					initialTabName={ isGradient ? 'gradient' : 'solid' }
-				>
+				<TabPanel tabs={ tabs } initialTabName={ isGradient ? 'gradient' : 'solid' }>
 					{ ( tab ) => (
 						<div style={ { paddingTop: '12px' } }>
 							{ tab.name === 'solid' && (

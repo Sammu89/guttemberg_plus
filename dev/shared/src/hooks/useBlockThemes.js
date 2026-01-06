@@ -39,7 +39,7 @@ import { STORE_NAME } from '../data';
 /**
  * Hook to manage block themes
  *
- * @param {string} blockType - Block type ('accordion', 'tabs', 'toc')
+ * @param {string} blockType  - Block type ('accordion', 'tabs', 'toc')
  * @param {Object} attributes - Current block attributes (optional, for currentTheme memoization)
  * @return {Object} Theme system interface
  * @return {Object} return.themes - Themes object keyed by theme name
@@ -80,7 +80,7 @@ export function useBlockThemes( blockType, attributes = null ) {
 	// CRITICAL: Memoize currentTheme to prevent infinite loops
 	// This creates a stable reference that only changes when the actual theme changes
 	const currentTheme = useMemo(
-		() => attributes?.currentTheme ? themes[ attributes.currentTheme ] : undefined,
+		() => ( attributes?.currentTheme ? themes[ attributes.currentTheme ] : undefined ),
 		[ themes, attributes?.currentTheme ]
 	);
 

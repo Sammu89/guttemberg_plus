@@ -5,7 +5,7 @@
  * When disabled: Shows toggle button + reset button
  * When enabled: Shows DeviceSwitcher + reset button
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { Button, Flex, FlexItem } from '@wordpress/components';
@@ -24,36 +24,36 @@ import { ResponsiveIcon } from '../icons';
  * @param {boolean}  props.disabled        - Disabled state
  * @param {boolean}  props.isResetDisabled - Whether reset button is disabled
  */
-export function ResponsiveToggle({
+export function ResponsiveToggle( {
 	isEnabled = false,
 	onToggle,
 	currentDevice = 'global',
 	onReset,
 	disabled = false,
 	isResetDisabled = false,
-}) {
+} ) {
 	const handleToggleClick = () => {
-		if (onToggle && !disabled) {
-			onToggle(true); // Enable responsive
+		if ( onToggle && ! disabled ) {
+			onToggle( true ); // Enable responsive
 		}
 	};
 
-	if (!isEnabled) {
+	if ( ! isEnabled ) {
 		// Responsive disabled: Show toggle button + reset
 		return (
-			<Flex gap={1} align="center" className="gutplus-responsive-toggle">
+			<Flex gap={ 1 } align="center" className="gutplus-responsive-toggle">
 				<FlexItem>
 					<Button
-						icon={ResponsiveIcon}
+						icon={ ResponsiveIcon }
 						label="Enable responsive mode"
-						onClick={handleToggleClick}
-						disabled={disabled}
+						onClick={ handleToggleClick }
+						disabled={ disabled }
 						isSmall
 						className="gutplus-responsive-toggle__enable-btn"
 					/>
 				</FlexItem>
 				<FlexItem>
-					<ResetButton onClick={onReset} disabled={isResetDisabled || disabled} />
+					<ResetButton onClick={ onReset } disabled={ isResetDisabled || disabled } />
 				</FlexItem>
 			</Flex>
 		);
@@ -61,12 +61,16 @@ export function ResponsiveToggle({
 
 	// Responsive enabled: Show DeviceSwitcher + reset
 	return (
-		<Flex gap={1} align="center" className="gutplus-responsive-toggle gutplus-responsive-toggle--enabled">
+		<Flex
+			gap={ 1 }
+			align="center"
+			className="gutplus-responsive-toggle gutplus-responsive-toggle--enabled"
+		>
 			<FlexItem>
-				<DeviceSwitcher value={currentDevice} disabled={disabled} />
+				<DeviceSwitcher value={ currentDevice } disabled={ disabled } />
 			</FlexItem>
 			<FlexItem>
-				<ResetButton onClick={onReset} disabled={isResetDisabled || disabled} />
+				<ResetButton onClick={ onReset } disabled={ isResetDisabled || disabled } />
 			</FlexItem>
 		</Flex>
 	);

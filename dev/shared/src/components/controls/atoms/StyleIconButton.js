@@ -5,7 +5,7 @@
  * Clicking opens a popover to select style.
  * Uses line-based icons matching BorderStyleControl.js for visual consistency.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { useState } from '@wordpress/element';
@@ -14,28 +14,66 @@ import { Button, Popover } from '@wordpress/components';
 // Border style icons as inline SVGs (line-based, matching BorderStyleControl.js)
 const styleIcons = {
 	none: (
-		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+		<svg
+			width="20"
+			height="20"
+			viewBox="0 0 20 20"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		>
 			<rect x="3" y="3" width="14" height="14" rx="1" strokeDasharray="2 2" opacity="0.4" />
 			<line x1="3" y1="3" x2="17" y2="17" strokeWidth="1.5" />
 		</svg>
 	),
 	solid: (
-		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+		<svg
+			width="20"
+			height="20"
+			viewBox="0 0 20 20"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+		>
 			<line x1="3" y1="10" x2="17" y2="10" />
 		</svg>
 	),
 	dashed: (
-		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2">
+		<svg
+			width="20"
+			height="20"
+			viewBox="0 0 20 20"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeDasharray="4 2"
+		>
 			<line x1="3" y1="10" x2="17" y2="10" />
 		</svg>
 	),
 	dotted: (
-		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="0.5 3">
+		<svg
+			width="20"
+			height="20"
+			viewBox="0 0 20 20"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeDasharray="0.5 3"
+		>
 			<line x1="3" y1="10" x2="17" y2="10" />
 		</svg>
 	),
 	double: (
-		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+		<svg
+			width="20"
+			height="20"
+			viewBox="0 0 20 20"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		>
 			<line x1="3" y1="8" x2="17" y2="8" />
 			<line x1="3" y1="12" x2="17" y2="12" />
 		</svg>
@@ -68,15 +106,11 @@ const styleOptions = [
  * StyleIconButton Component
  *
  * @param {Object}   props
- * @param {string}   props.value     - Current style (none, solid, dashed, dotted, double, groove, ridge)
- * @param {Function} props.onChange  - Change handler
- * @param {boolean}  props.disabled  - Disabled state
+ * @param {string}   props.value    - Current style (none, solid, dashed, dotted, double, groove, ridge)
+ * @param {Function} props.onChange - Change handler
+ * @param {boolean}  props.disabled - Disabled state
  */
-export function StyleIconButton( {
-	value = 'solid',
-	onChange,
-	disabled = false,
-} ) {
+export function StyleIconButton( { value = 'solid', onChange, disabled = false } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	return (
@@ -100,7 +134,9 @@ export function StyleIconButton( {
 						{ styleOptions.map( ( option ) => (
 							<Button
 								key={ option.value }
-								className={ `gutplus-style-option ${ value === option.value ? 'is-selected' : '' }` }
+								className={ `gutplus-style-option ${
+									value === option.value ? 'is-selected' : ''
+								}` }
 								onClick={ () => {
 									onChange( option.value );
 									setIsOpen( false );

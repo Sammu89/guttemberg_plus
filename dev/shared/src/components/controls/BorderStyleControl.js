@@ -4,7 +4,7 @@
  * 7 icon buttons for border style selection: none, solid, dashed,
  * dotted, double, groove, ridge. Each icon is an inline SVG component.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -193,7 +193,7 @@ const BORDER_STYLE_OPTIONS = [
  * @param {string}   props.value     Current border style value
  * @param {Function} props.onChange  Callback when style changes
  * @param {boolean}  props.allowWrap Whether buttons can wrap (default: true)
- * @returns {JSX.Element} Border style control component
+ * @return {JSX.Element} Border style control component
  */
 export function BorderStyleControl( {
 	label = 'Border Style',

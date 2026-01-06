@@ -8,11 +8,7 @@
  * @since 1.0.0
  */
 
-import {
-	alignLeft,
-	alignCenter,
-	alignRight,
-} from '@wordpress/icons';
+import { alignLeft, alignCenter, alignRight } from '@wordpress/icons';
 import { Icon } from '@wordpress/components';
 import { IconButtonGroup } from './IconButtonGroup';
 import sharedTemplates from '../../../../schemas/shared-templates.json';
@@ -41,10 +37,42 @@ const FallbackIcons = {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="4" y1="10" x2="14" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="4" y1="14" x2="18" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="4" y1="18" x2="12" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<line
+				x1="4"
+				y1="6"
+				x2="20"
+				y2="6"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="4"
+				y1="10"
+				x2="14"
+				y2="10"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="4"
+				y1="14"
+				x2="18"
+				y2="14"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="4"
+				y1="18"
+				x2="12"
+				y2="18"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
 		</svg>
 	),
 
@@ -59,10 +87,42 @@ const FallbackIcons = {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="7" y1="10" x2="17" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="5" y1="14" x2="19" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="8" y1="18" x2="16" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<line
+				x1="4"
+				y1="6"
+				x2="20"
+				y2="6"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="7"
+				y1="10"
+				x2="17"
+				y2="10"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="5"
+				y1="14"
+				x2="19"
+				y2="14"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="8"
+				y1="18"
+				x2="16"
+				y2="18"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
 		</svg>
 	),
 
@@ -77,10 +137,42 @@ const FallbackIcons = {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="10" y1="10" x2="20" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="6" y1="14" x2="20" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<line x1="12" y1="18" x2="20" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<line
+				x1="4"
+				y1="6"
+				x2="20"
+				y2="6"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="10"
+				y1="10"
+				x2="20"
+				y2="10"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="6"
+				y1="14"
+				x2="20"
+				y2="14"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="12"
+				y1="18"
+				x2="20"
+				y2="18"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+			/>
 		</svg>
 	),
 };
@@ -126,11 +218,11 @@ const getIcon = ( alignment ) => {
  *
  * ============================================================================
  *
- * @param {Object}   props           Component props
- * @param {string}   props.label     Label for the control
- * @param {string}   props.value     Current alignment value
- * @param {Function} props.onChange  Callback when value changes
- * @param {string}   props.type      Type of alignment: 'text' or 'block' (default: 'text')
+ * @param {Object}   props          Component props
+ * @param {string}   props.label    Label for the control
+ * @param {string}   props.value    Current alignment value
+ * @param {Function} props.onChange Callback when value changes
+ * @param {string}   props.type     Type of alignment: 'text' or 'block' (default: 'text')
  */
 export function AlignmentControl( {
 	label = 'Alignment',
@@ -139,9 +231,7 @@ export function AlignmentControl( {
 	type = 'text',
 } ) {
 	const { alignments } = sharedTemplates;
-	const alignmentOptions = type === 'block'
-		? alignments?.block || []
-		: alignments?.text || [];
+	const alignmentOptions = type === 'block' ? alignments?.block || [] : alignments?.text || [];
 
 	/**
 	 * Build options array for IconButtonGroup

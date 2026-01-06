@@ -44,12 +44,7 @@ import sharedTemplates from '../../../../schemas/shared-templates.json';
  * @param {Function} props.onChange Callback when value changes
  * @param {string}   props.help     Optional help text
  */
-export function FontFamilyControl( {
-	label = 'Font Family',
-	value = '',
-	onChange,
-	help = '',
-} ) {
+export function FontFamilyControl( { label = 'Font Family', value = '', onChange, help = '' } ) {
 	const { fontFamilies } = sharedTemplates;
 	const systemFonts = fontFamilies?.system || [];
 	const googleFonts = fontFamilies?.google || [];
@@ -74,6 +69,7 @@ export function FontFamilyControl( {
 
 	/**
 	 * Handle change, filtering out header options
+	 * @param newValue
 	 */
 	const handleChange = ( newValue ) => {
 		if ( ! newValue.startsWith( '__' ) ) {

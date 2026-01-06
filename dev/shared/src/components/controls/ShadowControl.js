@@ -5,7 +5,7 @@
  * Provides 5 preset shadow levels (none, subtle, medium, strong, heavy)
  * with SVG icons, plus a custom CSS input and shadow color picker.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -51,15 +51,18 @@ const NoShadowIcon = () => (
  * Subtle shadow icon - light blur
  */
 const SubtleShadowIcon = () => (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		viewBox="0 0 24 24"
-		width="24"
-		height="24"
-		fill="none"
-	>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none">
 		<rect x="7" y="7" width="12" height="12" rx="2" fill="currentColor" opacity="0.1" />
-		<rect x="5" y="5" width="12" height="12" rx="2" fill="white" stroke="currentColor" strokeWidth="1.5" />
+		<rect
+			x="5"
+			y="5"
+			width="12"
+			height="12"
+			rx="2"
+			fill="white"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		/>
 	</svg>
 );
 
@@ -67,15 +70,18 @@ const SubtleShadowIcon = () => (
  * Medium shadow icon - moderate blur
  */
 const MediumShadowIcon = () => (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		viewBox="0 0 24 24"
-		width="24"
-		height="24"
-		fill="none"
-	>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none">
 		<rect x="8" y="8" width="12" height="12" rx="2" fill="currentColor" opacity="0.2" />
-		<rect x="5" y="5" width="12" height="12" rx="2" fill="white" stroke="currentColor" strokeWidth="1.5" />
+		<rect
+			x="5"
+			y="5"
+			width="12"
+			height="12"
+			rx="2"
+			fill="white"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		/>
 	</svg>
 );
 
@@ -83,15 +89,18 @@ const MediumShadowIcon = () => (
  * Strong shadow icon - heavier blur
  */
 const StrongShadowIcon = () => (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		viewBox="0 0 24 24"
-		width="24"
-		height="24"
-		fill="none"
-	>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none">
 		<rect x="9" y="9" width="12" height="12" rx="2" fill="currentColor" opacity="0.3" />
-		<rect x="5" y="5" width="12" height="12" rx="2" fill="white" stroke="currentColor" strokeWidth="1.5" />
+		<rect
+			x="5"
+			y="5"
+			width="12"
+			height="12"
+			rx="2"
+			fill="white"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		/>
 	</svg>
 );
 
@@ -99,15 +108,18 @@ const StrongShadowIcon = () => (
  * Heavy shadow icon - deep shadow
  */
 const HeavyShadowIcon = () => (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		viewBox="0 0 24 24"
-		width="24"
-		height="24"
-		fill="none"
-	>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none">
 		<rect x="10" y="10" width="12" height="12" rx="2" fill="currentColor" opacity="0.4" />
-		<rect x="5" y="5" width="12" height="12" rx="2" fill="white" stroke="currentColor" strokeWidth="1.5" />
+		<rect
+			x="5"
+			y="5"
+			width="12"
+			height="12"
+			rx="2"
+			fill="white"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		/>
 	</svg>
 );
 
@@ -151,7 +163,7 @@ const SHADOW_PRESETS = [
  * Extract color from box-shadow value
  *
  * @param {string} shadowValue - CSS box-shadow value
- * @returns {string} Extracted color or default
+ * @return {string} Extracted color or default
  */
 function extractShadowColor( shadowValue ) {
 	if ( ! shadowValue || shadowValue === 'none' ) {
@@ -178,7 +190,7 @@ function extractShadowColor( shadowValue ) {
  *
  * @param {string} shadowValue - Original shadow value
  * @param {string} newColor    - New color to use
- * @returns {string} Updated shadow value
+ * @return {string} Updated shadow value
  */
 function replaceShadowColor( shadowValue, newColor ) {
 	if ( ! shadowValue || shadowValue === 'none' ) {
@@ -200,7 +212,7 @@ function replaceShadowColor( shadowValue, newColor ) {
  * Detect which preset matches the current value
  *
  * @param {string} value - Current shadow value
- * @returns {string|null} Preset name or null for custom
+ * @return {string|null} Preset name or null for custom
  */
 function detectPreset( value ) {
 	if ( ! value || value === 'none' ) {
@@ -234,7 +246,7 @@ function detectPreset( value ) {
  * @param {string}   props.defaultValue Default value for reset
  * @param {string}   props.help         Help text below the control
  * @param {boolean}  props.showReset    Whether to show reset button (default: true)
- * @returns {JSX.Element} Shadow control component
+ * @return {JSX.Element} Shadow control component
  */
 export function ShadowControl( {
 	label = 'Box Shadow',
@@ -397,9 +409,7 @@ export function ShadowControl( {
 				{ /* Shadow color picker */ }
 				<Flex gap={ 2 } align="center">
 					<FlexItem>
-						<span style={ { fontSize: '12px', color: '#757575' } }>
-							Shadow Color:
-						</span>
+						<span style={ { fontSize: '12px', color: '#757575' } }>Shadow Color:</span>
 					</FlexItem>
 					<FlexItem>
 						<Button
@@ -425,9 +435,7 @@ export function ShadowControl( {
 						</Button>
 					</FlexItem>
 					<FlexItem>
-						<span style={ { fontSize: '11px', color: '#999' } }>
-							{ tempColor }
-						</span>
+						<span style={ { fontSize: '11px', color: '#999' } }>{ tempColor }</span>
 					</FlexItem>
 				</Flex>
 

@@ -4,20 +4,22 @@
  * Auto-generates buildFrontendCssVars() helpers per block.
  * These helpers output base + responsive CSS variables for frontend save output.
  *
- * @package GuttemberPlus
+ * @package
  * @since 1.0.0
  */
 
 /**
  * Get auto-generated file header
+ * @param schemaFile
+ * @param blockName
  */
-function getGeneratedHeader(schemaFile, blockName) {
-  return `/**
- * Frontend CSS Vars for ${blockName} Block
+function getGeneratedHeader( schemaFile, blockName ) {
+	return `/**
+ * Frontend CSS Vars for ${ blockName } Block
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
- * Generated from: schemas/${schemaFile}
- * Generated at: ${new Date().toISOString()}
+ * Generated from: schemas/${ schemaFile }
+ * Generated at: ${ new Date().toISOString() }
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -33,35 +35,35 @@ function getGeneratedHeader(schemaFile, blockName) {
  * Generate buildFrontendCssVars helper for a block
  *
  * @param {string} blockType - Block type identifier (accordion, tabs, toc)
- * @param {Object} schema - Block schema
- * @returns {{ fileName: string, content: string }}
+ * @param {Object} schema    - Block schema
+ * @return {{ fileName: string, content: string }}
  */
-function generateFrontendCssVarsBuilder(blockType, schema) {
-  const fileName = `${blockType}-frontend-css-vars-generated.js`;
-  const blockName = schema.blockName || blockType;
+function generateFrontendCssVarsBuilder( blockType, schema ) {
+	const fileName = `${ blockType }-frontend-css-vars-generated.js`;
+	const blockName = schema.blockName || blockType;
 
-  const themeableAttrs = [];
-  const nonThemeableAttrs = [];
+	const themeableAttrs = [];
+	const nonThemeableAttrs = [];
 
-  Object.entries(schema.attributes).forEach(([attrName, attr]) => {
-    if (attr.outputsCSS === false || !attr.cssVar) {
-      return;
-    }
+	Object.entries( schema.attributes ).forEach( ( [ attrName, attr ] ) => {
+		if ( attr.outputsCSS === false || ! attr.cssVar ) {
+			return;
+		}
 
-    if (attr.themeable) {
-      themeableAttrs.push(attrName);
-      return;
-    }
+		if ( attr.themeable ) {
+			themeableAttrs.push( attrName );
+			return;
+		}
 
-    nonThemeableAttrs.push(attrName);
-  });
+		nonThemeableAttrs.push( attrName );
+	} );
 
-  let content = getGeneratedHeader(`${blockType}.json`, blockName);
+	let content = getGeneratedHeader( `${ blockType }.json`, blockName );
 
-  content += `import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';\n\n`;
-  content += `const THEMEABLE_ATTRS = new Set(${JSON.stringify(themeableAttrs)});\n`;
-  content += `const NON_THEMEABLE_ATTRS = new Set(${JSON.stringify(nonThemeableAttrs)});\n\n`;
-  content += `/**
+	content += `import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';\n\n`;
+	content += `const THEMEABLE_ATTRS = new Set(${ JSON.stringify( themeableAttrs ) });\n`;
+	content += `const NON_THEMEABLE_ATTRS = new Set(${ JSON.stringify( nonThemeableAttrs ) });\n\n`;
+	content += `/**
  * Build inline CSS variables for frontend save output.
  * Themeable attrs use customizations (deltas only).
  * Non-themeable attrs use per-block attribute values.
@@ -78,7 +80,7 @@ export function buildFrontendCssVars(customizations, attributes) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
       return;
     }
-    const decomposed = decomposeObjectToSides(attrName, value, '${blockType}', suffix);
+    const decomposed = decomposeObjectToSides(attrName, value, '${ blockType }', suffix);
     if (Object.keys(decomposed).length > 0) {
       Object.assign(styles, decomposed);
     }
@@ -89,7 +91,7 @@ export function buildFrontendCssVars(customizations, attributes) {
       return;
     }
 
-    const cssVar = getCssVarName(attrName, '${blockType}');
+    const cssVar = getCssVarName(attrName, '${ blockType }');
     if (!cssVar) {
       return;
     }
@@ -107,7 +109,7 @@ export function buildFrontendCssVars(customizations, attributes) {
       const isResponsiveContainer = baseValue && typeof baseValue === 'object' &&
         (baseValue.tablet !== undefined || baseValue.mobile !== undefined);
       if (!isResponsiveContainer && baseValue !== null && baseValue !== undefined) {
-        const formattedBase = formatCssValue(attrName, baseValue, '${blockType}');
+        const formattedBase = formatCssValue(attrName, baseValue, '${ blockType }');
         if (formattedBase !== null && formattedBase !== 'undefined' &&
             !(typeof formattedBase === 'string' && formattedBase.startsWith('undefined'))) {
           styles[cssVar] = formattedBase;
@@ -116,7 +118,7 @@ export function buildFrontendCssVars(customizations, attributes) {
       }
 
       if (value.tablet !== undefined && value.tablet !== null) {
-        const formattedTablet = formatCssValue(attrName, value.tablet, '${blockType}');
+        const formattedTablet = formatCssValue(attrName, value.tablet, '${ blockType }');
         if (formattedTablet !== null && formattedTablet !== 'undefined' &&
             !(typeof formattedTablet === 'string' && formattedTablet.startsWith('undefined'))) {
           styles[\`\${cssVar}-tablet\`] = formattedTablet;
@@ -125,7 +127,7 @@ export function buildFrontendCssVars(customizations, attributes) {
       }
 
       if (value.mobile !== undefined && value.mobile !== null) {
-        const formattedMobile = formatCssValue(attrName, value.mobile, '${blockType}');
+        const formattedMobile = formatCssValue(attrName, value.mobile, '${ blockType }');
         if (formattedMobile !== null && formattedMobile !== 'undefined' &&
             !(typeof formattedMobile === 'string' && formattedMobile.startsWith('undefined'))) {
           styles[\`\${cssVar}-mobile\`] = formattedMobile;
@@ -135,7 +137,7 @@ export function buildFrontendCssVars(customizations, attributes) {
       return;
     }
 
-    const formattedValue = formatCssValue(attrName, value, '${blockType}');
+    const formattedValue = formatCssValue(attrName, value, '${ blockType }');
     if (formattedValue !== null && formattedValue !== 'undefined' &&
         !(typeof formattedValue === 'string' && formattedValue.startsWith('undefined'))) {
       styles[cssVar] = formattedValue;
@@ -162,9 +164,9 @@ export function buildFrontendCssVars(customizations, attributes) {
 }
 `;
 
-  return { fileName, content };
+	return { fileName, content };
 }
 
 module.exports = {
-  generateFrontendCssVarsBuilder,
+	generateFrontendCssVarsBuilder,
 };

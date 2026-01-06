@@ -14,18 +14,22 @@
  *   FontSize -> font-size
  *
  * @param {string} str - camelCase or PascalCase string
- * @returns {string} kebab-case string
+ * @return {string} kebab-case string
  */
-function camelToKebab(str) {
-  if (!str) return '';
+function camelToKebab( str ) {
+	if ( ! str ) {
+		return '';
+	}
 
-  return str
-    // Insert hyphen before uppercase letters
-    .replace(/([A-Z])/g, '-$1')
-    // Convert to lowercase
-    .toLowerCase()
-    // Remove leading hyphen if present
-    .replace(/^-/, '');
+	return (
+		str
+			// Insert hyphen before uppercase letters
+			.replace( /([A-Z])/g, '-$1' )
+			// Convert to lowercase
+			.toLowerCase()
+			// Remove leading hyphen if present
+			.replace( /^-/, '' )
+	);
 }
 
 /**
@@ -37,26 +41,26 @@ function camelToKebab(str) {
  *   buildKebabName('borderWidth', 'Top') -> 'border-width-top'
  *
  * @param {string} baseName - Base attribute name (e.g., 'titleIcon')
- * @param {string} field - Field name (e.g., 'Size', 'Color')
- * @param {string} state - Optional state (e.g., 'Active', 'Hover')
- * @returns {string} Full kebab-case attribute name
+ * @param {string} field    - Field name (e.g., 'Size', 'Color')
+ * @param {string} state    - Optional state (e.g., 'Active', 'Hover')
+ * @return {string} Full kebab-case attribute name
  */
-function buildKebabName(baseName, field, state) {
-  const kebabBase = camelToKebab(baseName);
-  const kebabField = camelToKebab(field);
+function buildKebabName( baseName, field, state ) {
+	const kebabBase = camelToKebab( baseName );
+	const kebabField = camelToKebab( field );
 
-  let result = kebabBase;
+	let result = kebabBase;
 
-  if (field) {
-    result += `-${kebabField}`;
-  }
+	if ( field ) {
+		result += `-${ kebabField }`;
+	}
 
-  if (state && state !== 'inactive' && state !== 'base') {
-    const kebabState = camelToKebab(state);
-    result += `-${kebabState}`;
-  }
+	if ( state && state !== 'inactive' && state !== 'base' ) {
+		const kebabState = camelToKebab( state );
+		result += `-${ kebabState }`;
+	}
 
-  return result;
+	return result;
 }
 
 /**
@@ -67,12 +71,14 @@ function buildKebabName(baseName, field, state) {
  *   border-width-top -> borderWidthTop
  *
  * @param {string} str - kebab-case string
- * @returns {string} camelCase string
+ * @return {string} camelCase string
  */
-function kebabToCamel(str) {
-  if (!str) return '';
+function kebabToCamel( str ) {
+	if ( ! str ) {
+		return '';
+	}
 
-  return str.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
+	return str.replace( /-([a-z])/g, ( match, letter ) => letter.toUpperCase() );
 }
 
 /**
@@ -90,37 +96,37 @@ function kebabToCamel(str) {
  *   buildCssVarName('accordion', 'icon', 'font-size', 'active', 'tablet')
  *     → '--accordion-icon-font-size-active-tablet'
  *
- * @param {string} blockType - Block type (e.g., 'accordion', 'tabs')
- * @param {string} element - Element ID (e.g., 'title', 'icon')
+ * @param {string} blockType   - Block type (e.g., 'accordion', 'tabs')
+ * @param {string} element     - Element ID (e.g., 'title', 'icon')
  * @param {string} cssProperty - CSS property (e.g., 'color', 'border-top-width')
- * @param {string} state - Optional state ('hover', 'active', etc.) - 'base' is omitted
- * @param {string} device - Optional device ('tablet', 'mobile') - 'desktop' is omitted
- * @returns {string} CSS variable name with leading '--'
+ * @param {string} state       - Optional state ('hover', 'active', etc.) - 'base' is omitted
+ * @param {string} device      - Optional device ('tablet', 'mobile') - 'desktop' is omitted
+ * @return {string} CSS variable name with leading '--'
  */
-function buildCssVarName(blockType, element, cssProperty, state = 'base', device = 'desktop') {
-  if (!blockType || !element || !cssProperty) {
-    throw new Error('buildCssVarName requires blockType, element, and cssProperty');
-  }
+function buildCssVarName( blockType, element, cssProperty, state = 'base', device = 'desktop' ) {
+	if ( ! blockType || ! element || ! cssProperty ) {
+		throw new Error( 'buildCssVarName requires blockType, element, and cssProperty' );
+	}
 
-  // Start with base: --blockType-element-cssProperty
-  let varName = `--${blockType}-${element}-${cssProperty}`;
+	// Start with base: --blockType-element-cssProperty
+	let varName = `--${ blockType }-${ element }-${ cssProperty }`;
 
-  // Add state suffix (skip 'base' as it's the default)
-  if (state && state !== 'base' && state !== 'inactive') {
-    varName += `-${state}`;
-  }
+	// Add state suffix (skip 'base' as it's the default)
+	if ( state && state !== 'base' && state !== 'inactive' ) {
+		varName += `-${ state }`;
+	}
 
-  // Add device suffix (skip 'desktop' as it's the default)
-  if (device && device !== 'desktop') {
-    varName += `-${device}`;
-  }
+	// Add device suffix (skip 'desktop' as it's the default)
+	if ( device && device !== 'desktop' ) {
+		varName += `-${ device }`;
+	}
 
-  return varName;
+	return varName;
 }
 
 module.exports = {
-  camelToKebab,
-  buildKebabName,
-  kebabToCamel,
-  buildCssVarName
+	camelToKebab,
+	buildKebabName,
+	kebabToCamel,
+	buildCssVarName,
 };

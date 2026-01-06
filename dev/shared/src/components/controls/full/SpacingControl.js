@@ -7,7 +7,7 @@
  * Layout (linked):   [⬒] [11] [px] ────●──── [🔗]
  * Layout (unlinked): 4 rows with side icons
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { BaseControl } from '@wordpress/components';
@@ -89,17 +89,20 @@ const ALL_SIDES = [ 'top', 'right', 'bottom', 'left' ];
  * ============================================================================
  *
  * @param {Object}   props
- * @param {string}   props.label       - Control label
- * @param {string}   props.type        - Type of spacing ('margin' or 'padding')
- * @param {Object}   props.value       - Value object - see DATA STRUCTURE above
- * @param {Function} props.onChange    - Change handler - see DATA STRUCTURE above
- * @param {Array}    props.units       - Available units (defaults to centralizer config)
- * @param {number}   props.min         - Minimum value (defaults to centralizer config based on unit)
- * @param {number}   props.max         - Maximum value (defaults to centralizer config based on unit)
- * @param {number}   props.step        - Step value (defaults to centralizer config based on unit)
- * @param {boolean}  props.responsive  - Whether to show device switcher
- * @param {boolean}  props.disabled    - Disabled state
- * @param {Array}    props.sides       - Limit which sides to show (e.g., ['top', 'bottom'] for margins)
+ * @param {string}   props.label              - Control label
+ * @param {string}   props.type               - Type of spacing ('margin' or 'padding')
+ * @param {Object}   props.value              - Value object - see DATA STRUCTURE above
+ * @param {Function} props.onChange           - Change handler - see DATA STRUCTURE above
+ * @param {Array}    props.units              - Available units (defaults to centralizer config)
+ * @param {number}   props.min                - Minimum value (defaults to centralizer config based on unit)
+ * @param {number}   props.max                - Maximum value (defaults to centralizer config based on unit)
+ * @param {number}   props.step               - Step value (defaults to centralizer config based on unit)
+ * @param {boolean}  props.responsive         - Whether to show device switcher
+ * @param {boolean}  props.disabled           - Disabled state
+ * @param {Array}    props.sides              - Limit which sides to show (e.g., ['top', 'bottom'] for margins)
+ * @param            props.canBeResponsive
+ * @param            props.onResponsiveToggle
+ * @param            props.onResponsiveReset
  */
 export function SpacingControl( {
 	label,
@@ -133,10 +136,14 @@ export function SpacingControl( {
 	// Check if value has base (flat) properties - these are global/base values
 	// Base structure: { top, right, bottom, left, unit, linked } (no device wrappers)
 	// Mixed structure: { top, right, ..., tablet: {...}, mobile: {...} } (base + overrides)
-	const hasBaseProperties = value && typeof value === 'object' &&
-		( value.top !== undefined || value.bottom !== undefined ||
-		  value.left !== undefined || value.right !== undefined ||
-		  value.unit !== undefined );
+	const hasBaseProperties =
+		value &&
+		typeof value === 'object' &&
+		( value.top !== undefined ||
+			value.bottom !== undefined ||
+			value.left !== undefined ||
+			value.right !== undefined ||
+			value.unit !== undefined );
 
 	// Extract base values (global) from the flat structure
 	const getBaseValue = () => {
@@ -146,21 +153,35 @@ export function SpacingControl( {
 		// Extract only the spacing properties, not device keys
 		const { top, right, bottom, left, unit, linked } = value;
 		const base = {};
-		if ( top !== undefined ) base.top = top;
-		if ( right !== undefined ) base.right = right;
-		if ( bottom !== undefined ) base.bottom = bottom;
-		if ( left !== undefined ) base.left = left;
-		if ( unit !== undefined ) base.unit = unit;
-		if ( linked !== undefined ) base.linked = linked;
+		if ( top !== undefined ) {
+			base.top = top;
+		}
+		if ( right !== undefined ) {
+			base.right = right;
+		}
+		if ( bottom !== undefined ) {
+			base.bottom = bottom;
+		}
+		if ( left !== undefined ) {
+			base.left = left;
+		}
+		if ( unit !== undefined ) {
+			base.unit = unit;
+		}
+		if ( linked !== undefined ) {
+			base.linked = linked;
+		}
 		return base;
 	};
 
 	// Get current device value for responsive, or direct value
 	// Global uses base (flat) properties; tablet/mobile use device-specific overrides or inherit from base
 	const currentValue = responsive
-		? ( device === 'global'
-			? ( hasBaseProperties ? getBaseValue() : ( value?.value || {} ) )
-			: ( value?.[ device ] || getBaseValue() ) ) // Tablet/mobile inherit from base if no override
+		? device === 'global'
+			? hasBaseProperties
+				? getBaseValue()
+				: value?.value || {}
+			: value?.[ device ] || getBaseValue() // Tablet/mobile inherit from base if no override
 		: value;
 
 	// Destructure with defaults
@@ -214,8 +235,12 @@ export function SpacingControl( {
 				// Global edits update the base (flat) structure
 				// Preserve any existing tablet/mobile overrides
 				const existingOverrides = {};
-				if ( value?.tablet ) existingOverrides.tablet = value.tablet;
-				if ( value?.mobile ) existingOverrides.mobile = value.mobile;
+				if ( value?.tablet ) {
+					existingOverrides.tablet = value.tablet;
+				}
+				if ( value?.mobile ) {
+					existingOverrides.mobile = value.mobile;
+				}
 
 				onChange( { ...newValue, ...existingOverrides } );
 			} else {
@@ -225,8 +250,12 @@ export function SpacingControl( {
 					? normalizeUnitValue( getBaseValue(), newValue?.unit || effectiveUnit )
 					: {};
 				const existingOverrides = {};
-				if ( value?.tablet && device !== 'tablet' ) existingOverrides.tablet = value.tablet;
-				if ( value?.mobile && device !== 'mobile' ) existingOverrides.mobile = value.mobile;
+				if ( value?.tablet && device !== 'tablet' ) {
+					existingOverrides.tablet = value.tablet;
+				}
+				if ( value?.mobile && device !== 'mobile' ) {
+					existingOverrides.mobile = value.mobile;
+				}
 
 				onChange( {
 					...baseProps,
@@ -301,7 +330,14 @@ export function SpacingControl( {
 	return (
 		<BaseControl
 			label={
-				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
+				<div
+					style={ {
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						width: '100%',
+					} }
+				>
 					<span>{ controlLabel }</span>
 					<UtilityBar
 						canBeResponsive={ canBeResponsive }

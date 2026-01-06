@@ -16,7 +16,7 @@
  * - Maintainability: Changes to attribute structure only need to happen in schema
  * - Consistency: All blocks follow the same pattern for panel configuration
  *
- * @package GuttemberPlus
+ * @package
  * @since 1.0.0
  */
 
@@ -26,9 +26,9 @@
  * Filters all attributes in the schema that belong to the specified panel group.
  * Returns an object containing the filtered attributes with their full metadata.
  *
- * @param {Object} schema - The full schema object (e.g., accordion.json content)
+ * @param {Object} schema    - The full schema object (e.g., accordion.json content)
  * @param {string} panelType - The panel/group name to filter by (e.g., 'colors', 'borders', 'typography')
- * @returns {Object} Configuration object with structure: { attributes: { ...filtered attributes } }
+ * @return {Object} Configuration object with structure: { attributes: { ...filtered attributes } }
  *
  * @example
  * // Get all color-related attributes for accordion
@@ -71,9 +71,9 @@ export function getPanelConfig( schema, panelType ) {
  * Returns just the attribute names (keys) for a given panel group,
  * useful for iteration or validation checks.
  *
- * @param {Object} schema - The full schema object
+ * @param {Object} schema     - The full schema object
  * @param {string} panelGroup - The panel/group name to filter by
- * @returns {string[]} Array of attribute names in the group
+ * @return {string[]} Array of attribute names in the group
  *
  * @example
  * // Get list of icon attributes
@@ -104,9 +104,9 @@ export function getAttributesByPanel( schema, panelGroup ) {
  * Checks if all expected attributes are present in the configuration.
  * Useful for ensuring schema compatibility and debugging.
  *
- * @param {Object} config - The panel configuration object (from getPanelConfig)
+ * @param {Object}   config             - The panel configuration object (from getPanelConfig)
  * @param {string[]} expectedAttributes - Array of attribute names that should be present
- * @returns {Object} Validation result: { valid: boolean, missing: string[], extra: string[] }
+ * @return {Object} Validation result: { valid: boolean, missing: string[], extra: string[] }
  *
  * @example
  * // Validate accordion border config has required attributes
@@ -152,9 +152,9 @@ export function validatePanelConfig( config, expectedAttributes ) {
  * Retrieves the full configuration for a specific attribute.
  * Useful when you need individual attribute metadata.
  *
- * @param {Object} schema - The full schema object
+ * @param {Object} schema   - The full schema object
  * @param {string} attrName - The attribute name to look up
- * @returns {Object|null} The attribute configuration or null if not found
+ * @return {Object|null} The attribute configuration or null if not found
  *
  * @example
  * // Get titleColor configuration
@@ -176,7 +176,7 @@ export function getAttributeConfig( schema, attrName ) {
  * building panel structures.
  *
  * @param {Object} schema - The full schema object
- * @returns {Object} Groups object with group names as keys
+ * @return {Object} Groups object with group names as keys
  *
  * @example
  * // Get all group definitions
@@ -202,9 +202,9 @@ export function getSchemaGroups( schema ) {
  * Filters panel attributes to only include those marked as themeable.
  * Useful for theme system integration.
  *
- * @param {Object} schema - The full schema object
+ * @param {Object} schema     - The full schema object
  * @param {string} panelGroup - The panel/group name to filter by
- * @returns {Object} Configuration with only themeable attributes
+ * @return {Object} Configuration with only themeable attributes
  *
  * @example
  * // Get themeable color attributes only
@@ -232,10 +232,10 @@ export function getThemeableAttributes( schema, panelGroup ) {
  * to reference attribute names dynamically. This replaces the inline
  * blockType-based if/else logic.
  *
- * @param {Object} schema - The full schema object
- * @param {string} panelGroup - The panel/group name
+ * @param {Object} schema      - The full schema object
+ * @param {string} panelGroup  - The panel/group name
  * @param {Object} roleMapping - Mapping of roles to attribute name patterns
- * @returns {Object} Mapping of roles to actual attribute names
+ * @return {Object} Mapping of roles to actual attribute names
  *
  * @example
  * // Build border attribute mapping
@@ -281,9 +281,9 @@ export function buildAttributeMapping( schema, panelGroup, roleMapping ) {
  * Extracts control-specific configuration (min, max, step, options, etc.)
  * for use in rendering UI controls.
  *
- * @param {Object} schema - The full schema object
+ * @param {Object} schema   - The full schema object
  * @param {string} attrName - The attribute name
- * @returns {Object} Control configuration
+ * @return {Object} Control configuration
  *
  * @example
  * // Get range control config

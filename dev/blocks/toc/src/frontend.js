@@ -12,7 +12,6 @@
  * @since 1.0.0
  */
 
-
 /* global history */
 
 const DEFAULT_BREAKPOINTS = {
@@ -109,7 +108,8 @@ function initializeTOCBlocks() {
 				isCollapsible: block.getAttribute( 'data-collapsible' ) === 'true',
 				initiallyCollapsed: block.getAttribute( 'data-initially-collapsed' ) === 'true',
 				clickBehavior: block.getAttribute( 'data-click-behavior' ) || 'navigate',
-				enableHierarchicalIndent: block.getAttribute( 'data-enable-hierarchical-indent' ) === 'true',
+				enableHierarchicalIndent:
+					block.getAttribute( 'data-enable-hierarchical-indent' ) === 'true',
 				levelIndent: block.getAttribute( 'data-level-indent' ) || '1.25rem',
 				showIcon: block.getAttribute( 'data-show-icon' ) !== 'false',
 				iconClosed: block.getAttribute( 'data-icon-closed' ) || '▾',
@@ -162,8 +162,7 @@ function initTOC( block, config ) {
 					heading.element.id = `heading-${ config.tocId }-${ index }`;
 					heading.id = heading.element.id;
 				}
-			} catch ( error ) {
-			}
+			} catch ( error ) {}
 		} );
 
 		// Generate TOC list
@@ -171,35 +170,30 @@ function initTOC( block, config ) {
 		if ( listContainer ) {
 			try {
 				renderTOCList( listContainer, headings, config );
-			} catch ( error ) {
-			}
+			} catch ( error ) {}
 		}
 
 		// Setup smooth scroll
 		if ( config.smoothScroll ) {
 			try {
 				setupSmoothScroll( block, config );
-			} catch ( error ) {
-			}
+			} catch ( error ) {}
 		}
 
 		// Setup scroll spy (active link highlighting)
 		if ( config.autoHighlight ) {
 			try {
 				setupScrollSpy( block, headings );
-			} catch ( error ) {
-			}
+			} catch ( error ) {}
 		}
 
 		// Setup collapsible behavior
 		if ( config.isCollapsible ) {
 			try {
 				setupCollapsible( block, config );
-			} catch ( error ) {
-			}
+			} catch ( error ) {}
 		}
-	} catch ( error ) {
-	}
+	} catch ( error ) {}
 }
 
 /**
@@ -330,8 +324,7 @@ function parseCuratedItems( block ) {
 				} )
 				.filter( ( item ) => item.id );
 		}
-	} catch ( error ) {
-	}
+	} catch ( error ) {}
 
 	return [];
 }
@@ -367,10 +360,7 @@ function mapCuratedItemsToHeadings( curatedItems, detectedHeadings, config ) {
 				if ( item.level && heading.level !== item.level ) {
 					return false;
 				}
-				return (
-					normalizeTextForMatch( heading.text ) ===
-					normalizeTextForMatch( item.text )
-				);
+				return normalizeTextForMatch( heading.text ) === normalizeTextForMatch( item.text );
 			} );
 		}
 
@@ -504,7 +494,10 @@ function renderTOCList( listContainer, headings, config ) {
 				indentLevel = hierarchyStack.length - 1;
 			} else {
 				// Going back up - find parent level
-				while ( hierarchyStack.length > 0 && hierarchyStack[ hierarchyStack.length - 1 ] >= heading.level ) {
+				while (
+					hierarchyStack.length > 0 &&
+					hierarchyStack[ hierarchyStack.length - 1 ] >= heading.level
+				) {
 					hierarchyStack.pop();
 				}
 				indentLevel = hierarchyStack.length;
@@ -538,8 +531,8 @@ function renderTOCList( listContainer, headings, config ) {
 
 /**
  * Open parent accordion or tab if target element is inside one
- * @param targetElement - The heading element to navigate to
- * @returns {boolean} - True if an accordion/tab was opened, false otherwise
+ * @param  targetElement - The heading element to navigate to
+ * @return {boolean} - True if an accordion/tab was opened, false otherwise
  */
 function openParentAccordionOrTab( targetElement ) {
 	if ( ! targetElement ) {
@@ -644,8 +637,10 @@ function setupSmoothScroll( block, config ) {
 					let scrollTarget = targetElement;
 
 					// Check if target is a tab button or inside a tab heading
-					const isTabButton = targetElement.classList && targetElement.classList.contains( 'tab-button' );
-					const tabHeading = targetElement.closest && targetElement.closest( '.tab-heading' );
+					const isTabButton =
+						targetElement.classList && targetElement.classList.contains( 'tab-button' );
+					const tabHeading =
+						targetElement.closest && targetElement.closest( '.tab-heading' );
 
 					if ( isTabButton || tabHeading ) {
 						// Find parent tabs block
@@ -656,8 +651,11 @@ function setupSmoothScroll( block, config ) {
 					}
 
 					// Check if target is an accordion heading or button
-					const accordionHeading = targetElement.closest && targetElement.closest( '.accordion-heading' );
-					const isAccordionButton = targetElement.classList && targetElement.classList.contains( 'accordion-title' );
+					const accordionHeading =
+						targetElement.closest && targetElement.closest( '.accordion-heading' );
+					const isAccordionButton =
+						targetElement.classList &&
+						targetElement.classList.contains( 'accordion-title' );
 
 					if ( accordionHeading || isAccordionButton ) {
 						// Find parent accordion block
@@ -698,7 +696,11 @@ function setupSmoothScroll( block, config ) {
 				targetElement.focus( { preventScroll: true } );
 
 				// Handle click behavior - collapse TOC if configured
-				if ( config.clickBehavior === 'navigate-and-collapse' && config.isCollapsible && config.showIcon ) {
+				if (
+					config.clickBehavior === 'navigate-and-collapse' &&
+					config.isCollapsible &&
+					config.showIcon
+				) {
 					// Wait for scroll to complete before collapsing
 					setTimeout( () => {
 						try {
@@ -713,17 +715,16 @@ function setupSmoothScroll( block, config ) {
 								block.classList.remove( 'is-open' );
 
 								if ( icon ) {
-									const iconClosed = toggleButton.getAttribute( 'data-icon-closed' ) || '▾';
+									const iconClosed =
+										toggleButton.getAttribute( 'data-icon-closed' ) || '▾';
 									icon.textContent = iconClosed;
 									icon.style.transform = 'rotate(0deg)';
 								}
 							}
-						} catch ( error ) {
-						}
+						} catch ( error ) {}
 					}, 600 ); // Match scroll duration
 				}
-			} catch ( error ) {
-			}
+			} catch ( error ) {}
 		} );
 	} );
 }
@@ -801,8 +802,7 @@ function setupScrollSpy( block, headings ) {
 					} else {
 						clearActive();
 					}
-				} catch ( error ) {
-				}
+				} catch ( error ) {}
 
 				ticking = false;
 			} );
@@ -814,8 +814,7 @@ function setupScrollSpy( block, headings ) {
 	// Initial check
 	try {
 		onScroll();
-	} catch ( error ) {
-	}
+	} catch ( error ) {}
 
 	// Listen to scroll
 	window.addEventListener( 'scroll', onScroll, { passive: true } );
@@ -825,7 +824,7 @@ function setupScrollSpy( block, headings ) {
  * Update TOC icon based on open/closed state
  * Handles new icon system with character, image, and library icons
  *
- * @param {HTMLElement} icon Icon element
+ * @param {HTMLElement} icon   Icon element
  * @param {boolean}     isOpen Whether TOC is open
  */
 function updateTocIcon( icon, isOpen ) {
@@ -949,8 +948,7 @@ function setupCollapsible( block, config ) {
 				// Update icon
 				updateTocIcon( icon, false );
 			}
-		} catch ( error ) {
-		}
+		} catch ( error ) {}
 	};
 
 	// Click handler
@@ -977,17 +975,23 @@ if ( document.readyState === 'loading' ) {
 		try {
 			updateDeviceAttributes();
 			initializeTOCBlocks();
-		} catch ( error ) {
-		}
+		} catch ( error ) {}
 	} );
 } else {
 	try {
 		initializeTOCBlocks();
-	} catch ( error ) {
-	}
+	} catch ( error ) {}
 }
 
 /**
  * Export functions for potential reuse
  */
-export { initializeTOCBlocks, detectHeadings, setupSmoothScroll, setupScrollSpy, setupCollapsible, openParentAccordionOrTab, updateTocIcon };
+export {
+	initializeTOCBlocks,
+	detectHeadings,
+	setupSmoothScroll,
+	setupScrollSpy,
+	setupCollapsible,
+	openParentAccordionOrTab,
+	updateTocIcon,
+};

@@ -59,15 +59,13 @@ export {
 	getUsedIdCount,
 } from './utils/id-generator';
 
-export {
-	calculateDeltas,
-	applyDeltas,
-	getThemeableSnapshot,
-} from './utils/delta-calculator';
+export { calculateDeltas, applyDeltas, getThemeableSnapshot } from './utils/delta-calculator';
 
 export { getAlignmentClass } from './utils/getAlignmentClass';
 
 export { buildBoxShadow } from './utils/shadow-utils';
+
+export { renderSingleIcon, renderIconWrapper } from './utils/icon-renderer';
 
 export {
 	getAccordionButtonAria,

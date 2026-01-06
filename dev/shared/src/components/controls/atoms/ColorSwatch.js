@@ -4,7 +4,7 @@
  * Clickable color preview that opens color picker on click.
  * No "Choose" button - direct click interaction.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { useState } from '@wordpress/element';
@@ -14,15 +14,11 @@ import { ColorPicker, Popover } from '@wordpress/components';
  * ColorSwatch Component
  *
  * @param {Object}   props
- * @param {string}   props.value     - Current color (hex, rgba, etc.)
- * @param {Function} props.onChange  - Change handler
- * @param {boolean}  props.disabled  - Disabled state
+ * @param {string}   props.value    - Current color (hex, rgba, etc.)
+ * @param {Function} props.onChange - Change handler
+ * @param {boolean}  props.disabled - Disabled state
  */
-export function ColorSwatch( {
-	value = '#000000',
-	onChange,
-	disabled = false,
-} ) {
+export function ColorSwatch( { value = '#000000', onChange, disabled = false } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	// Checkerboard pattern for transparency
@@ -73,11 +69,7 @@ export function ColorSwatch( {
 					onClose={ () => setIsOpen( false ) }
 				>
 					<div style={ { padding: '8px' } }>
-						<ColorPicker
-							color={ value }
-							onChange={ onChange }
-							enableAlpha
-						/>
+						<ColorPicker color={ value } onChange={ onChange } enableAlpha />
 					</div>
 				</Popover>
 			) }

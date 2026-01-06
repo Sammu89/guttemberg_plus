@@ -196,7 +196,6 @@ const actions = {
 	 * @param {Object} values    - Complete snapshot of all attribute values
 	 */
 	*createTheme( blockType, name, values ) {
-
 		yield actions.setLoading( true );
 		yield actions.setError( null );
 
@@ -214,13 +213,11 @@ const actions = {
 				},
 			};
 
-
 			const action = {
 				type: TYPES.THEME_CREATED,
 				blockType,
 				theme,
 			};
-
 
 			return action;
 		} catch ( error ) {

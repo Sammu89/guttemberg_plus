@@ -5,7 +5,7 @@
  * Reads schema.groups, sorts by order, and renders appropriate panels.
  * Supports filtering by tab (settings vs appearance) and subgroups.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -20,7 +20,7 @@ import { IconPanel } from './controls/IconPanel';
  * Each tab contains an array of groups that need to be collected.
  *
  * @param {Array} tabs - Tabs array from schema
- * @returns {Array} All groups with their configuration
+ * @return {Array} All groups with their configuration
  */
 function getAllGroups( tabs ) {
 	if ( ! tabs || ! Array.isArray( tabs ) ) {
@@ -49,9 +49,9 @@ function getAllGroups( tabs ) {
  * - 'settings': Structural/behavioral controls
  * - 'appearance': Visual/styling controls
  *
- * @param {Array} tabs     - Tabs array from schema
+ * @param {Array}  tabs    - Tabs array from schema
  * @param {string} tabName - Tab name to filter by ('settings' or 'appearance')
- * @returns {Array} Filtered and sorted array of groups
+ * @return {Array} Filtered and sorted array of groups
  */
 function filterGroupsByTab( tabs, tabName ) {
 	if ( ! tabs || ! Array.isArray( tabs ) ) {
@@ -78,7 +78,7 @@ function filterGroupsByTab( tabs, tabName ) {
  *
  * @param {string} groupName - Group name to check
  * @param {Object} schema    - Full schema object
- * @returns {boolean} Whether the group has visible attributes
+ * @return {boolean} Whether the group has visible attributes
  */
 function groupHasAttributes( groupName, schema ) {
 	const hasAttrs = Object.values( schema.attributes || {} ).some(
@@ -90,17 +90,17 @@ function groupHasAttributes( groupName, schema ) {
 /**
  * Schema Panels - Auto-generate all sidebar panels from schema
  *
- * @param {Object}   props                  Component props
- * @param {Object}   props.schema           JSON schema with groups and attributes
- * @param {Object}   props.attributes       Block attributes
- * @param {Function} props.setAttributes    Function to update block attributes
- * @param {Object}   props.effectiveValues  All effective values from cascade resolution
- * @param {Object}   props.theme            Current theme object (optional)
- * @param {Object}   props.cssDefaults      CSS default values (optional)
- * @param {string}   props.tab              Tab name to filter by (optional)
- * @param {boolean}  props.useSubgroupPanels Whether to use SubgroupPanel for groups with subgroups
+ * @param {Object}   props                     Component props
+ * @param {Object}   props.schema              JSON schema with groups and attributes
+ * @param {Object}   props.attributes          Block attributes
+ * @param {Function} props.setAttributes       Function to update block attributes
+ * @param {Object}   props.effectiveValues     All effective values from cascade resolution
+ * @param {Object}   props.theme               Current theme object (optional)
+ * @param {Object}   props.cssDefaults         CSS default values (optional)
+ * @param {string}   props.tab                 Tab name to filter by (optional)
+ * @param {boolean}  props.useSubgroupPanels   Whether to use SubgroupPanel for groups with subgroups
  * @param {Function} props.onIconPreviewChange Optional handler for icon preview state changes
- * @returns {JSX.Element|null} Rendered panels or null
+ * @return {JSX.Element|null} Rendered panels or null
  */
 export function SchemaPanels( {
 	schema = {},
@@ -163,7 +163,8 @@ export function SchemaPanels( {
 				}
 
 				// Use SubgroupPanel if group has subgroups and useSubgroupPanels is true
-				const hasSubgroups = subgroups && Array.isArray( subgroups ) && subgroups.length > 0;
+				const hasSubgroups =
+					subgroups && Array.isArray( subgroups ) && subgroups.length > 0;
 
 				if ( hasSubgroups && useSubgroupPanels ) {
 					return (
@@ -206,7 +207,7 @@ export function SchemaPanels( {
  * Settings Panels - Convenience component for settings tab only
  *
  * @param {Object} props - Same props as SchemaPanels
- * @returns {JSX.Element|null} Rendered panels for settings tab
+ * @return {JSX.Element|null} Rendered panels for settings tab
  */
 export function SettingsPanels( props ) {
 	return <SchemaPanels { ...props } tab="settings" />;
@@ -216,7 +217,7 @@ export function SettingsPanels( props ) {
  * Appearance Panels - Convenience component for appearance tab only
  *
  * @param {Object} props - Same props as SchemaPanels
- * @returns {JSX.Element|null} Rendered panels for appearance tab
+ * @return {JSX.Element|null} Rendered panels for appearance tab
  */
 export function AppearancePanels( props ) {
 	return <SchemaPanels { ...props } tab="appearance" />;

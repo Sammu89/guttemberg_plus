@@ -4,7 +4,7 @@
  * Shared panel for controlling responsive breakpoints across all blocks.
  * Appears in Settings tab before the Advanced panel.
  *
- * @package GuttembergPlus
+ * @package
  * @since 1.0.0
  */
 
@@ -14,7 +14,7 @@ import {
 	__experimentalUnitControl as UnitControl,
 	Button,
 	ButtonGroup,
-	Notice
+	Notice,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { mobile, tablet } from '@wordpress/icons';
@@ -38,10 +38,10 @@ export function BreakpointSettings() {
 		hasChangesFromDefaults,
 		isLoading,
 		isSaving,
-		DEFAULT_BREAKPOINTS
+		DEFAULT_BREAKPOINTS,
 	} = useBreakpoints();
 
-	const [notice, setNotice] = useState(null);
+	const [ notice, setNotice ] = useState( null );
 
 	const handleMobileChange = ( value ) => {
 		const numValue = parseInt( value, 10 );
@@ -70,7 +70,7 @@ export function BreakpointSettings() {
 		if ( result.success ) {
 			setNotice( {
 				type: 'success',
-				message: __( 'Breakpoint settings saved successfully!', 'guttemberg-plus' )
+				message: __( 'Breakpoint settings saved successfully!', 'guttemberg-plus' ),
 			} );
 
 			// Re-apply viewport simulation with new breakpoints
@@ -82,13 +82,23 @@ export function BreakpointSettings() {
 		} else {
 			setNotice( {
 				type: 'error',
-				message: __( 'Failed to save breakpoint settings. Please try again.', 'guttemberg-plus' )
+				message: __(
+					'Failed to save breakpoint settings. Please try again.',
+					'guttemberg-plus'
+				),
 			} );
 		}
 	};
 
 	const handleReset = async () => {
-		if ( ! window.confirm( __( 'Are you sure you want to reset breakpoints to defaults (Mobile: 481px, Tablet: 768px)?', 'guttemberg-plus' ) ) ) {
+		if (
+			! window.confirm(
+				__(
+					'Are you sure you want to reset breakpoints to defaults (Mobile: 481px, Tablet: 768px)?',
+					'guttemberg-plus'
+				)
+			)
+		) {
 			return;
 		}
 
@@ -96,7 +106,7 @@ export function BreakpointSettings() {
 		if ( result.success ) {
 			setNotice( {
 				type: 'success',
-				message: __( 'Breakpoints reset to defaults successfully!', 'guttemberg-plus' )
+				message: __( 'Breakpoints reset to defaults successfully!', 'guttemberg-plus' ),
 			} );
 
 			// Re-apply viewport simulation with default breakpoints
@@ -108,7 +118,7 @@ export function BreakpointSettings() {
 		} else {
 			setNotice( {
 				type: 'error',
-				message: __( 'Failed to reset breakpoints. Please try again.', 'guttemberg-plus' )
+				message: __( 'Failed to reset breakpoints. Please try again.', 'guttemberg-plus' ),
 			} );
 		}
 	};
@@ -120,10 +130,13 @@ export function BreakpointSettings() {
 			className="gutplus-breakpoint-settings"
 		>
 			<p className="gutplus-breakpoint-settings__description">
-				{ __( 'Set the maximum width for mobile and tablet devices. These breakpoints apply globally to all responsive controls.', 'guttemberg-plus' ) }
+				{ __(
+					'Set the maximum width for mobile and tablet devices. These breakpoints apply globally to all responsive controls.',
+					'guttemberg-plus'
+				) }
 			</p>
 
-			{/* Notice */ }
+			{ /* Notice */ }
 			{ notice && (
 				<Notice
 					status={ notice.type }
@@ -135,7 +148,7 @@ export function BreakpointSettings() {
 				</Notice>
 			) }
 
-			{/* Mobile Breakpoint */ }
+			{ /* Mobile Breakpoint */ }
 			<div className="gutplus-breakpoint-setting">
 				<div className="gutplus-breakpoint-setting__header">
 					<span className="gutplus-breakpoint-setting__icon">{ mobile }</span>
@@ -159,7 +172,7 @@ export function BreakpointSettings() {
 				/>
 			</div>
 
-			{/* Tablet Breakpoint */ }
+			{ /* Tablet Breakpoint */ }
 			<div className="gutplus-breakpoint-setting">
 				<div className="gutplus-breakpoint-setting__header">
 					<span className="gutplus-breakpoint-setting__icon">{ tablet }</span>
@@ -183,7 +196,7 @@ export function BreakpointSettings() {
 				/>
 			</div>
 
-			{/* Action Buttons */ }
+			{ /* Action Buttons */ }
 			<div className="gutplus-breakpoint-settings__actions">
 				<ButtonGroup>
 					<Button
@@ -208,7 +221,10 @@ export function BreakpointSettings() {
 			</div>
 
 			<p className="gutplus-breakpoint-settings__note">
-				{ __( 'Note: Click Save to apply changes. Breakpoints affect all blocks and update the responsive preview.', 'guttemberg-plus' ) }
+				{ __(
+					'Note: Click Save to apply changes. Breakpoints affect all blocks and update the responsive preview.',
+					'guttemberg-plus'
+				) }
 			</p>
 		</PanelBody>
 	);

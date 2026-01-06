@@ -4,7 +4,7 @@
  * Centralized hook for handling horizontal block alignment in the editor.
  * Applies margin styles with !important to override WordPress editor defaults.
  *
- * @package GuttemberPlus
+ * @package
  * @since 1.0.0
  */
 

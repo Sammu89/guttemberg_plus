@@ -142,11 +142,7 @@ const DecorationIcons = {
  * @param {string}   props.value    Current decoration value
  * @param {Function} props.onChange Callback when value changes
  */
-export function DecorationControl( {
-	label = 'Text Decoration',
-	value = 'none',
-	onChange,
-} ) {
+export function DecorationControl( { label = 'Text Decoration', value = 'none', onChange } ) {
 	const { decorations } = sharedTemplates;
 	const commonDecorations = decorations?.common || [];
 

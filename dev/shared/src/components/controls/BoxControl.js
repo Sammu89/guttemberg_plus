@@ -8,12 +8,18 @@
  * - Base/global values at ROOT level: { top: 10, unit: 'px', tablet: {...}, mobile: {...} }
  * - NOT under a 'global' or 'desktop' key
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
 import { useMemo } from '@wordpress/element';
-import { BaseControl, Flex, FlexItem, FlexBlock, __experimentalNumberControl as NumberControl } from '@wordpress/components';
+import {
+	BaseControl,
+	Flex,
+	FlexItem,
+	FlexBlock,
+	__experimentalNumberControl as NumberControl,
+} from '@wordpress/components';
 import { UnitSelector } from './UnitSelector';
 import { UtilityBar } from './UtilityBar';
 import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
@@ -45,7 +51,7 @@ const SIDE_LABELS = {
  * Base value is at root level, not under a key
  *
  * @param {Object} vals - Responsive values object
- * @returns {Object|null} Base value object or null
+ * @return {Object|null} Base value object or null
  */
 function getBaseValue( vals ) {
 	if ( ! vals || typeof vals !== 'object' ) {
@@ -62,7 +68,7 @@ function getBaseValue( vals ) {
  *
  * @param {Object} values - Object with base values at root, tablet/mobile as keys
  * @param {string} device - Current device (global, tablet, mobile)
- * @returns {Object} Object with value and inheritedFrom
+ * @return {Object} Object with value and inheritedFrom
  */
 function getInheritedBoxValue( values, device ) {
 	const baseValue = getBaseValue( values );
@@ -113,7 +119,7 @@ function getInheritedBoxValue( values, device ) {
  * @param {number}   props.min      Minimum value
  * @param {number}   props.max      Maximum value
  * @param {number}   props.step     Step increment
- * @returns {JSX.Element} Number input for side
+ * @return {JSX.Element} Number input for side
  */
 function SideInput( { side, value, onChange, disabled = false, min = 0, max = 999, step = 1 } ) {
 	return (
@@ -161,20 +167,20 @@ function SideInput( { side, value, onChange, disabled = false, min = 0, max = 99
  * - Base/global values at ROOT level: { top: 10, unit: 'px', tablet: {...}, mobile: {...} }
  * - NOT under a 'global' key
  *
- * @param {Object}   props                Component props
- * @param {string}   props.label          Label for the control
- * @param {Object}   props.values         Responsive values with base at root, tablet/mobile as keys
- * @param {Function} props.onChange       Callback receiving (device, boxValue)
- * @param {Function} props.onReset        Optional reset callback
- * @param {boolean}  props.responsive     Whether to show device switcher (default: true)
- * @param {Array}    props.units          Available units (default: ['px', 'em', 'rem', '%'])
- * @param {string}   props.help           Help text
- * @param {number}   props.min            Minimum value (default: 0)
- * @param {number}   props.max            Maximum value (default: 999)
- * @param {number}   props.step           Step increment (default: 1)
- * @param {boolean}  props.allowNegative  Whether to allow negative values (default: false)
- * @param {string}   props.initialDevice  Initial device (default: 'global')
- * @returns {JSX.Element} Box control component
+ * @param {Object}   props               Component props
+ * @param {string}   props.label         Label for the control
+ * @param {Object}   props.values        Responsive values with base at root, tablet/mobile as keys
+ * @param {Function} props.onChange      Callback receiving (device, boxValue)
+ * @param {Function} props.onReset       Optional reset callback
+ * @param {boolean}  props.responsive    Whether to show device switcher (default: true)
+ * @param {Array}    props.units         Available units (default: ['px', 'em', 'rem', '%'])
+ * @param {string}   props.help          Help text
+ * @param {number}   props.min           Minimum value (default: 0)
+ * @param {number}   props.max           Maximum value (default: 999)
+ * @param {number}   props.step          Step increment (default: 1)
+ * @param {boolean}  props.allowNegative Whether to allow negative values (default: false)
+ * @param {string}   props.initialDevice Initial device (default: 'global')
+ * @return {JSX.Element} Box control component
  */
 export function BoxControl( {
 	label,
@@ -265,9 +271,7 @@ export function BoxControl( {
 			label={
 				<Flex align="center" justify="space-between" style={ { width: '100%' } }>
 					<FlexItem>
-						<span style={ { display: 'flex', alignItems: 'center' } }>
-							{ label }
-						</span>
+						<span style={ { display: 'flex', alignItems: 'center' } }>{ label }</span>
 					</FlexItem>
 					<FlexItem>
 						<UtilityBar
@@ -286,11 +290,7 @@ export function BoxControl( {
 		>
 			<div className="gutplus-box-control__content">
 				{ /* Unit selector row */ }
-				<Flex
-					align="center"
-					justify="flex-start"
-					style={ { marginBottom: '12px' } }
-				>
+				<Flex align="center" justify="flex-start" style={ { marginBottom: '12px' } }>
 					<FlexItem>
 						<UnitSelector
 							value={ unit }

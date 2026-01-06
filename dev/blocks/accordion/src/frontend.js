@@ -133,9 +133,9 @@ function getAnimationFlags( animationType ) {
 /**
  * Build a transition string based on active properties.
  *
- * @param {boolean} animateHeight Whether to animate height
+ * @param {boolean} animateHeight  Whether to animate height
  * @param {boolean} animateOpacity Whether to animate opacity
- * @param {number} duration Duration in ms
+ * @param {number}  duration       Duration in ms
  * @return {string} Transition string
  */
 function buildTransition( animateHeight, animateOpacity, duration ) {
@@ -228,7 +228,14 @@ function initializeSingleAccordion( block ) {
 		// Set initial state based on is-open class
 		const isInitiallyOpen = item.classList.contains( 'is-open' );
 		if ( isInitiallyOpen ) {
-			openAccordionItem( item, button, panel, contentWrapper, false, getAnimationType( item ) );
+			openAccordionItem(
+				item,
+				button,
+				panel,
+				contentWrapper,
+				false,
+				getAnimationType( item )
+			);
 		}
 	} catch ( error ) {
 		// console.error( 'Failed to initialize accordion item:', error );
@@ -239,11 +246,11 @@ function initializeSingleAccordion( block ) {
  * Toggle accordion item open/closed
  * Each item can be independently opened/closed based on its "Initially Open" toggle
  *
- * @param {HTMLElement} item            Accordion item element
- * @param {HTMLElement} button          Toggle button
- * @param {HTMLElement} panel           Content panel (outer wrapper)
- * @param {HTMLElement} contentWrapper  Inner wrapper that contains the content
- * @param {HTMLElement} block           Parent block
+ * @param {HTMLElement} item           Accordion item element
+ * @param {HTMLElement} button         Toggle button
+ * @param {HTMLElement} panel          Content panel (outer wrapper)
+ * @param {HTMLElement} contentWrapper Inner wrapper that contains the content
+ * @param {HTMLElement} block          Parent block
  */
 function toggleAccordion( item, button, panel, contentWrapper, block ) {
 	const isOpen = item.classList.contains( 'is-open' );
@@ -261,11 +268,12 @@ function toggleAccordion( item, button, panel, contentWrapper, block ) {
 /**
  * Open an accordion item
  *
- * @param {HTMLElement} item            Accordion item
- * @param {HTMLElement} button          Toggle button
- * @param {HTMLElement} panel           Content panel (outer wrapper)
- * @param {HTMLElement} contentWrapper  Inner wrapper that contains the content
- * @param {boolean}     animate         Whether to animate
+ * @param {HTMLElement} item           Accordion item
+ * @param {HTMLElement} button         Toggle button
+ * @param {HTMLElement} panel          Content panel (outer wrapper)
+ * @param {HTMLElement} contentWrapper Inner wrapper that contains the content
+ * @param {boolean}     animate        Whether to animate
+ * @param               animationType
  */
 function openAccordionItem( item, button, panel, contentWrapper, animate, animationType ) {
 	// Update classes
@@ -293,10 +301,11 @@ function openAccordionItem( item, button, panel, contentWrapper, animate, animat
 /**
  * Close an accordion item
  *
- * @param {HTMLElement} item            Accordion item
- * @param {HTMLElement} button          Toggle button
- * @param {HTMLElement} panel           Content panel (outer wrapper)
- * @param {HTMLElement} contentWrapper  Inner wrapper that contains the content
+ * @param {HTMLElement} item           Accordion item
+ * @param {HTMLElement} button         Toggle button
+ * @param {HTMLElement} panel          Content panel (outer wrapper)
+ * @param {HTMLElement} contentWrapper Inner wrapper that contains the content
+ * @param               animationType
  */
 function closeAccordionItem( item, button, panel, contentWrapper, animationType ) {
 	// Update classes
@@ -358,7 +367,6 @@ function updateIcon( button, isOpen ) {
 	// Icon switching is now handled by CSS via .is-open class on parent
 	// Both inactive and active icons are rendered in the HTML
 	// CSS shows/hides them based on accordion state
-
 	// This function is kept for backward compatibility and future enhancements
 	// but the core icon switching logic is no longer needed
 }
@@ -368,6 +376,7 @@ function updateIcon( button, isOpen ) {
  *
  * @param {HTMLElement} panel          Content panel (outer wrapper)
  * @param {HTMLElement} contentWrapper Inner wrapper that contains the content
+ * @param               animationType
  */
 function animateOpen( panel, contentWrapper, animationType ) {
 	const duration = getAnimationDuration( panel );
@@ -442,6 +451,7 @@ function animateOpen( panel, contentWrapper, animationType ) {
  *
  * @param {HTMLElement} panel          Content panel (outer wrapper)
  * @param {HTMLElement} contentWrapper Inner wrapper that contains the content
+ * @param               animationType
  * @param {Function}    callback       Callback after animation
  */
 function animateClose( panel, contentWrapper, animationType, callback ) {

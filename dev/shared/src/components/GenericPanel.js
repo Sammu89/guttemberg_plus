@@ -11,7 +11,7 @@
  *
  * Replaces: HeaderColorsPanel, ContentColorsPanel, TypographyPanel, IconPanel
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -36,7 +36,7 @@ import { ControlRenderer } from './ControlRenderer';
  * @param {boolean}  props.initialOpen     Whether panel is initially open
  * @param {string}   props.title           Panel title override (default: from schema)
  * @param {string}   props.pago            Whether this is a paid feature (optional)
- * @returns {JSX.Element|null} Rendered panel or null if no attributes
+ * @return {JSX.Element|null} Rendered panel or null if no attributes
  */
 export function GenericPanel( {
 	schema = {},

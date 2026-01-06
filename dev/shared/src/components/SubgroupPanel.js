@@ -5,7 +5,7 @@
  * Only shows controls belonging to the currently selected subgroup.
  * Provides a clean way to organize complex panels with many controls.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -28,12 +28,12 @@ import { ControlRenderer } from './ControlRenderer';
  *
  * Radio-style button group for selecting subgroups.
  *
- * @param {Object}   props              Component props
- * @param {Array}    props.subgroups    Array of subgroup names
- * @param {string}   props.selected     Currently selected subgroup
- * @param {Function} props.onSelect     Callback when subgroup is selected
- * @param {boolean}  props.useDropdown  Whether to use dropdown instead of buttons
- * @returns {JSX.Element} Subgroup selector
+ * @param {Object}   props             Component props
+ * @param {Array}    props.subgroups   Array of subgroup names
+ * @param {string}   props.selected    Currently selected subgroup
+ * @param {Function} props.onSelect    Callback when subgroup is selected
+ * @param {boolean}  props.useDropdown Whether to use dropdown instead of buttons
+ * @return {JSX.Element} Subgroup selector
  */
 function SubgroupSelector( { subgroups, selected, onSelect, useDropdown = false } ) {
 	if ( ! subgroups || subgroups.length <= 1 ) {
@@ -89,10 +89,7 @@ function SubgroupSelector( { subgroups, selected, onSelect, useDropdown = false 
 
 	// Button group variant (default)
 	return (
-		<div
-			className="gutplus-subgroup-selector"
-			style={ { marginBottom: '16px' } }
-		>
+		<div className="gutplus-subgroup-selector" style={ { marginBottom: '16px' } }>
 			<ButtonGroup
 				style={ {
 					display: 'flex',
@@ -134,7 +131,7 @@ function SubgroupSelector( { subgroups, selected, onSelect, useDropdown = false 
  * @param {Object}   props.cssDefaults     CSS default values (optional)
  * @param {boolean}  props.initialOpen     Whether panel is initially open
  * @param {boolean}  props.useDropdown     Whether to use dropdown selector
- * @returns {JSX.Element|null} Rendered panel or null
+ * @return {JSX.Element|null} Rendered panel or null
  */
 export function SubgroupPanel( {
 	groupId,
@@ -165,9 +162,7 @@ export function SubgroupPanel( {
 	const groupTitle = groupConfig?.title || groupId;
 
 	// Track selected subgroup (default to first)
-	const [ selectedSubgroup, setSelectedSubgroup ] = useState(
-		subgroups[ 0 ] || null
-	);
+	const [ selectedSubgroup, setSelectedSubgroup ] = useState( subgroups[ 0 ] || null );
 
 	// Validate required props
 	if ( ! setAttributes ) {

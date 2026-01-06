@@ -12,16 +12,16 @@
  *
  * Usage: npm run validate:mismatches
  *
- * @package GuttemberPlus
+ * @package
  * @since 1.0.0
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require( 'fs' );
+const path = require( 'path' );
 
 // Configuration
-const BLOCKS = ['accordion', 'tabs', 'toc'];
-const ROOT = path.resolve(__dirname, '..');
+const BLOCKS = [ 'accordion', 'tabs', 'toc' ];
+const ROOT = path.resolve( __dirname, '..' );
 
 // ANSI colors for terminal output
 const colors = {
@@ -41,7 +41,7 @@ const colors = {
 
 // Data attributes that are set on inner blocks (panels), not the main block
 // These are false positives because they're read from child elements
-const INNER_BLOCK_DATA_ATTRS = new Set([
+const INNER_BLOCK_DATA_ATTRS = new Set( [
 	'data-tab-id',
 	'data-tab-title',
 	'data-disabled',
@@ -49,43 +49,51 @@ const INNER_BLOCK_DATA_ATTRS = new Set([
 	'data-accordion-id',
 	'data-item-id',
 	'data-toc-item',
-]);
+] );
 
-function checkDataAttributeSync(blockType) {
+function checkDataAttributeSync( blockType ) {
 	const errors = [];
 
-	const frontendPath = path.join(ROOT, `blocks/${blockType}/src/frontend.js`);
-	const savePath = path.join(ROOT, `blocks/${blockType}/src/save.js`);
+	const frontendPath = path.join( ROOT, `blocks/${ blockType }/src/frontend.js` );
+	const savePath = path.join( ROOT, `blocks/${ blockType }/src/save.js` );
 
-	if (!fs.existsSync(frontendPath) || !fs.existsSync(savePath)) {
+	if ( ! fs.existsSync( frontendPath ) || ! fs.existsSync( savePath ) ) {
 		return errors;
 	}
 
-	const frontendCode = fs.readFileSync(frontendPath, 'utf8');
-	const saveCode = fs.readFileSync(savePath, 'utf8');
+	const frontendCode = fs.readFileSync( frontendPath, 'utf8' );
+	const saveCode = fs.readFileSync( savePath, 'utf8' );
 
 	// Find all getAttribute('data-*') calls in frontend.js
 	// Only flag those called on 'block' variable (main block), not 'panel', 'item', etc.
-	const frontendLines = frontendCode.split('\n');
+	const frontendLines = frontendCode.split( '\n' );
 	const frontendDataAttrs = new Map(); // attr -> { line, context }
 
 	// Pattern: something.getAttribute('data-*')
 	const getAttrRegex = /(\w+)\.getAttribute\s*\(\s*['"`](data-[\w-]+)['"`]\s*\)/g;
 	let match;
 
-	while ((match = getAttrRegex.exec(frontendCode)) !== null) {
-		const variable = match[1];
-		const attr = match[2];
+	while ( ( match = getAttrRegex.exec( frontendCode ) ) !== null ) {
+		const variable = match[ 1 ];
+		const attr = match[ 2 ];
 
 		// Skip inner block attributes
-		if (INNER_BLOCK_DATA_ATTRS.has(attr)) {
+		if ( INNER_BLOCK_DATA_ATTRS.has( attr ) ) {
 			continue;
 		}
 
 		// Only flag if reading from 'block' variable (main block element)
 		// Skip if reading from panel, item, button, etc. (inner elements)
-		const innerElementVars = ['panel', 'item', 'button', 'header', 'content', 'element', 'el'];
-		if (innerElementVars.includes(variable.toLowerCase())) {
+		const innerElementVars = [
+			'panel',
+			'item',
+			'button',
+			'header',
+			'content',
+			'element',
+			'el',
+		];
+		if ( innerElementVars.includes( variable.toLowerCase() ) ) {
 			continue;
 		}
 
@@ -93,43 +101,43 @@ function checkDataAttributeSync(blockType) {
 		let lineNum = 0;
 		const matchPos = match.index;
 		let charCount = 0;
-		for (let i = 0; i < frontendLines.length; i++) {
-			charCount += frontendLines[i].length + 1;
-			if (charCount > matchPos) {
+		for ( let i = 0; i < frontendLines.length; i++ ) {
+			charCount += frontendLines[ i ].length + 1;
+			if ( charCount > matchPos ) {
 				lineNum = i + 1;
 				break;
 			}
 		}
 
-		frontendDataAttrs.set(attr, { line: lineNum, variable });
+		frontendDataAttrs.set( attr, { line: lineNum, variable } );
 	}
 
 	// Find all 'data-*': patterns in save.js (within useBlockProps.save or JSX)
 	const setAttrRegex = /['"`](data-[\w-]+)['"`]\s*:/g;
 	const saveDataAttrs = new Set();
 
-	while ((match = setAttrRegex.exec(saveCode)) !== null) {
-		saveDataAttrs.add(match[1]);
+	while ( ( match = setAttrRegex.exec( saveCode ) ) !== null ) {
+		saveDataAttrs.add( match[ 1 ] );
 	}
 
 	// Also check for data-* in JSX attributes like data-orientation={...}
 	const jsxAttrRegex = /(data-[\w-]+)\s*=\s*\{/g;
-	while ((match = jsxAttrRegex.exec(saveCode)) !== null) {
-		saveDataAttrs.add(match[1]);
+	while ( ( match = jsxAttrRegex.exec( saveCode ) ) !== null ) {
+		saveDataAttrs.add( match[ 1 ] );
 	}
 
 	// Check for mismatches
-	for (const [attr, info] of frontendDataAttrs) {
-		if (!saveDataAttrs.has(attr)) {
-			const camelName = kebabToCamel(attr.replace('data-', ''));
-			errors.push({
+	for ( const [ attr, info ] of frontendDataAttrs ) {
+		if ( ! saveDataAttrs.has( attr ) ) {
+			const camelName = kebabToCamel( attr.replace( 'data-', '' ) );
+			errors.push( {
 				type: 'error',
 				block: blockType,
 				file: 'frontend.js',
 				line: info.line,
-				message: `reads '${attr}' from '${info.variable}' but save.js doesn't set it`,
-				fix: `Add '${attr}': attributes.${camelName} to useBlockProps.save() in save.js`,
-			});
+				message: `reads '${ attr }' from '${ info.variable }' but save.js doesn't set it`,
+				fix: `Add '${ attr }': attributes.${ camelName } to useBlockProps.save() in save.js`,
+			} );
 		}
 	}
 
@@ -144,151 +152,174 @@ function checkDataAttributeSync(blockType) {
 // SelectControl attributes that work via CSS variables only (no JS logic needed)
 // These are alignment, font-weight, text-transform, etc. that CSS handles
 const CSS_ONLY_SELECT_PATTERNS = [
-	/align/i,           // horizontalAlign, verticalAlign, textAlign, etc.
-	/fontWeight/i,      // titleFontWeight, contentFontWeight
-	/fontStyle/i,       // titleFontStyle
-	/textTransform/i,   // titleTextTransform
-	/textDecoration/i,  // titleTextDecoration
-	/borderStyle/i,     // borderStyle, focusBorderStyle
-	/position$/i,       // iconPosition (but check if it needs JS for rendering order)
+	/align/i, // horizontalAlign, verticalAlign, textAlign, etc.
+	/fontWeight/i, // titleFontWeight, contentFontWeight
+	/fontStyle/i, // titleFontStyle
+	/textTransform/i, // titleTextTransform
+	/textDecoration/i, // titleTextDecoration
+	/borderStyle/i, // borderStyle, focusBorderStyle
+	/position$/i, // iconPosition (but check if it needs JS for rendering order)
 ];
 
-function checkSelectControlUsage(blockType) {
+function checkSelectControlUsage( blockType ) {
 	const warnings = [];
 	const errors = [];
 
-	const schemaPath = path.join(ROOT, `schemas/${blockType}.json`);
+	const schemaPath = path.join( ROOT, `schemas/${ blockType }.json` );
 
-	if (!fs.existsSync(schemaPath)) {
+	if ( ! fs.existsSync( schemaPath ) ) {
 		return { errors, warnings };
 	}
 
-	const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+	const schema = JSON.parse( fs.readFileSync( schemaPath, 'utf8' ) );
 
 	// Find SelectControl attributes with options
-	const selectAttrs = Object.entries(schema.attributes || {}).filter(
-		([_, attr]) => attr.control === 'SelectControl' && attr.options?.length > 0
+	const selectAttrs = Object.entries( schema.attributes || {} ).filter(
+		( [ _, attr ] ) => attr.control === 'SelectControl' && attr.options?.length > 0
 	);
 
-	if (selectAttrs.length === 0) return { errors, warnings };
+	if ( selectAttrs.length === 0 ) {
+		return { errors, warnings };
+	}
 
 	// Load all code files
-	const codeFiles = ['edit.js', 'save.js', 'frontend.js']
-		.map((f) => path.join(ROOT, `blocks/${blockType}/src/${f}`))
-		.filter((f) => fs.existsSync(f))
-		.map((f) => fs.readFileSync(f, 'utf8'))
-		.join('\n');
+	const codeFiles = [ 'edit.js', 'save.js', 'frontend.js' ]
+		.map( ( f ) => path.join( ROOT, `blocks/${ blockType }/src/${ f }` ) )
+		.filter( ( f ) => fs.existsSync( f ) )
+		.map( ( f ) => fs.readFileSync( f, 'utf8' ) )
+		.join( '\n' );
 
-	for (const [attrName, attr] of selectAttrs) {
+	for ( const [ attrName, attr ] of selectAttrs ) {
 		// Skip attributes that are purely CSS-driven (no JS logic needed)
 		// Check if attribute name matches CSS-only patterns
-		const isCssOnly = CSS_ONLY_SELECT_PATTERNS.some((pattern) => pattern.test(attrName));
+		const isCssOnly = CSS_ONLY_SELECT_PATTERNS.some( ( pattern ) => pattern.test( attrName ) );
 
 		// Also skip if it has cssVar and cssProperty (handled by CSS)
-		if (isCssOnly || (attr.cssVar && attr.cssProperty)) {
+		if ( isCssOnly || ( attr.cssVar && attr.cssProperty ) ) {
 			continue;
 		}
 
 		// Skip hierarchical numbering controls (handled via CSS counters and data attributes)
-		if (attrName.endsWith('NumberingStyle')) {
+		if ( attrName.endsWith( 'NumberingStyle' ) ) {
 			continue;
 		}
 
 		// Check if attribute is used in any conditional
 		const conditionalPatterns = [
-			new RegExp(`${attrName}\\s*[!=]==?\\s*['"\`]`, 'g'), // attr === 'value' or attr !== 'value'
-			new RegExp(`['"\`]\\w+['"\`]\\s*[!=]==?\\s*${attrName}`, 'g'), // 'value' === attr
-			new RegExp(`switch\\s*\\([^)]*${attrName}`, 'g'), // switch(attr)
-			new RegExp(`${attrName}\\s*\\?`, 'g'), // attr ? (ternary)
-			new RegExp(`\\.${attrName}\\s*[!=]==?`, 'g'), // .attr === or .attr !== (effectiveValues.attr)
-			new RegExp(`\\[\\s*['"\`]${attrName}['"\`]\\s*\\]`, 'g'), // ['attr'] access
+			new RegExp( `${ attrName }\\s*[!=]==?\\s*['"\`]`, 'g' ), // attr === 'value' or attr !== 'value'
+			new RegExp( `['"\`]\\w+['"\`]\\s*[!=]==?\\s*${ attrName }`, 'g' ), // 'value' === attr
+			new RegExp( `switch\\s*\\([^)]*${ attrName }`, 'g' ), // switch(attr)
+			new RegExp( `${ attrName }\\s*\\?`, 'g' ), // attr ? (ternary)
+			new RegExp( `\\.${ attrName }\\s*[!=]==?`, 'g' ), // .attr === or .attr !== (effectiveValues.attr)
+			new RegExp( `\\[\\s*['"\`]${ attrName }['"\`]\\s*\\]`, 'g' ), // ['attr'] access
 		];
 
-		const hasConditional = conditionalPatterns.some((p) => p.test(codeFiles));
+		const hasConditional = conditionalPatterns.some( ( p ) => p.test( codeFiles ) );
 
 		// Also check if it's used in className or style computation
 		const usagePatterns = [
-			new RegExp(`${attrName}.*className`, 'g'),
-			new RegExp(`className.*${attrName}`, 'g'),
-			new RegExp(`\\$\\{.*${attrName}.*\\}`, 'g'), // template literal
+			new RegExp( `${ attrName }.*className`, 'g' ),
+			new RegExp( `className.*${ attrName }`, 'g' ),
+			new RegExp( `\\$\\{.*${ attrName }.*\\}`, 'g' ), // template literal
 		];
 
-		const hasUsage = usagePatterns.some((p) => p.test(codeFiles));
+		const hasUsage = usagePatterns.some( ( p ) => p.test( codeFiles ) );
 
 		// Treat presence as data-* attribute as valid usage (frontend can read it)
-		const dataAttrName = `data-${kebabCase(attrName)}`;
-		const hasDataAttr = codeFiles.includes(dataAttrName);
+		const dataAttrName = `data-${ kebabCase( attrName ) }`;
+		const hasDataAttr = codeFiles.includes( dataAttrName );
 
-		if (!hasConditional && !hasUsage && !hasDataAttr) {
-			const optionValues = attr.options.map((o) => o.value || o.label || o);
-				warnings.push({
-					type: 'warning',
-					block: blockType,
-					attribute: attrName,
-					message: `has ${attr.options.length} options but no conditionals found`,
-					explanation: 'What it means: The schema defines multiple options, but the JS doesn’t have any logic that changes behavior based on those values.',
-					options: optionValues,
-					fix: `Add conditional logic to handle different ${attrName} values`,
-				});
+		if ( ! hasConditional && ! hasUsage && ! hasDataAttr ) {
+			const optionValues = attr.options.map( ( o ) => o.value || o.label || o );
+			warnings.push( {
+				type: 'warning',
+				block: blockType,
+				attribute: attrName,
+				message: `has ${ attr.options.length } options but no conditionals found`,
+				explanation:
+					'What it means: The schema defines multiple options, but the JS doesn’t have any logic that changes behavior based on those values.',
+				options: optionValues,
+				fix: `Add conditional logic to handle different ${ attrName } values`,
+			} );
 		}
 
 		// For positionType-like attributes, check CSS classes/selectors exist for options
 		// Skip purely behavioral attributes (no CSS needed)
-		if (attrName.match(/position|orientation|style/i) && !attrName.match(/mode$/i)) {
-			const optionValues = attr.options.map((o) => o.value || o.label || o);
-			const stylePath = path.join(ROOT, `css/${blockType}_hardcoded.scss`);
-			const themeGeneratedPath = path.join(ROOT, `blocks/${blockType}/src/_theme-generated.scss`);
+		if ( attrName.match( /position|orientation|style/i ) && ! attrName.match( /mode$/i ) ) {
+			const optionValues = attr.options.map( ( o ) => o.value || o.label || o );
+			const stylePath = path.join( ROOT, `css/${ blockType }_hardcoded.scss` );
+			const themeGeneratedPath = path.join(
+				ROOT,
+				`blocks/${ blockType }/src/_theme-generated.scss`
+			);
 
 			// Check both style.scss and _theme-generated.scss
 			let styleCode = '';
-			if (fs.existsSync(stylePath)) {
-				styleCode += fs.readFileSync(stylePath, 'utf8');
+			if ( fs.existsSync( stylePath ) ) {
+				styleCode += fs.readFileSync( stylePath, 'utf8' );
 			}
-			if (fs.existsSync(themeGeneratedPath)) {
-				styleCode += fs.readFileSync(themeGeneratedPath, 'utf8');
+			if ( fs.existsSync( themeGeneratedPath ) ) {
+				styleCode += fs.readFileSync( themeGeneratedPath, 'utf8' );
 			}
 
-			if (styleCode) {
+			if ( styleCode ) {
 				const missingClasses = [];
 
-				for (const optionValue of optionValues) {
+				for ( const optionValue of optionValues ) {
 					// Check for FIVE patterns:
 					// 1. Class: .blockType-attrName-optionValue (e.g., .toc-position-type-sticky)
 					// 2. Class: .toc-attrName-optionValue (alternate prefix, e.g., .toc-position-type-sticky)
 					// 3. Class: .toc-firstWordOfAttr-optionValue (e.g., .toc-position-sticky)
 					// 4. Class: .shortNameOfAttr-optionValue (e.g., .numbering-decimal)
 					// 5. Data attribute selector: [data-attr-name="value"] (e.g., [data-position-type="sticky"])
-					const expectedClass = `.${blockType}-${kebabCase(attrName)}-${optionValue}`;
-					const alternateClass = `.toc-${kebabCase(attrName)}-${optionValue}`;
+					const expectedClass = `.${ blockType }-${ kebabCase(
+						attrName
+					) }-${ optionValue }`;
+					const alternateClass = `.toc-${ kebabCase( attrName ) }-${ optionValue }`;
 
 					// Extract first word from camelCase for attrs like "positionType" → "position"
-					const firstWord = attrName.replace(/([A-Z].*)/, '').toLowerCase();
-					const shorthandClass = firstWord ? `.${blockType}-${firstWord}-${optionValue}` : '';
-					const shorthandAlternateClass = firstWord ? `.toc-${firstWord}-${optionValue}` : '';
+					const firstWord = attrName.replace( /([A-Z].*)/, '' ).toLowerCase();
+					const shorthandClass = firstWord
+						? `.${ blockType }-${ firstWord }-${ optionValue }`
+						: '';
+					const shorthandAlternateClass = firstWord
+						? `.toc-${ firstWord }-${ optionValue }`
+						: '';
 
 					// Additional pattern for attrs like "numberingStyle" → ".numbering-decimal"
-					const shortNameClass = `.${firstWord}-${optionValue}`;
+					const shortNameClass = `.${ firstWord }-${ optionValue }`;
 
-					const dataAttrSelector = `data-${kebabCase(attrName)}="${optionValue}"`;
+					const dataAttrSelector = `data-${ kebabCase( attrName ) }="${ optionValue }"`;
 
-					if (!styleCode.includes(expectedClass) &&
-					    !styleCode.includes(alternateClass) &&
-					    !styleCode.includes(shorthandClass) &&
-					    !styleCode.includes(shorthandAlternateClass) &&
-					    !styleCode.includes(shortNameClass) &&
-					    !styleCode.includes(dataAttrSelector)) {
-						missingClasses.push(optionValue);
+					if (
+						! styleCode.includes( expectedClass ) &&
+						! styleCode.includes( alternateClass ) &&
+						! styleCode.includes( shorthandClass ) &&
+						! styleCode.includes( shorthandAlternateClass ) &&
+						! styleCode.includes( shortNameClass ) &&
+						! styleCode.includes( dataAttrSelector )
+					) {
+						missingClasses.push( optionValue );
 					}
 				}
 
-				if (missingClasses.length > 0) {
-					errors.push({
+				if ( missingClasses.length > 0 ) {
+					errors.push( {
 						type: 'error',
 						block: blockType,
 						attribute: attrName,
-						message: `has options [${missingClasses.join(', ')}] but CSS classes/selectors not found`,
-						fix: `Add CSS for: ${missingClasses.map(v => `.${blockType}-${kebabCase(attrName)}-${v} or [data-${kebabCase(attrName)}="${v}"]`).join(', ')}`,
-					});
+						message: `has options [${ missingClasses.join(
+							', '
+						) }] but CSS classes/selectors not found`,
+						fix: `Add CSS for: ${ missingClasses
+							.map(
+								( v ) =>
+									`.${ blockType }-${ kebabCase(
+										attrName
+									) }-${ v } or [data-${ kebabCase( attrName ) }="${ v }"]`
+							)
+							.join( ', ' ) }`,
+					} );
 				}
 			}
 		}
@@ -302,58 +333,66 @@ function checkSelectControlUsage(blockType) {
 // Ensures ToggleControl attributes actually affect something
 // ═══════════════════════════════════════════════════════════════════════════
 
-function checkToggleEffects(blockType) {
+function checkToggleEffects( blockType ) {
 	const warnings = [];
 
-	const schemaPath = path.join(ROOT, `schemas/${blockType}.json`);
+	const schemaPath = path.join( ROOT, `schemas/${ blockType }.json` );
 
-	if (!fs.existsSync(schemaPath)) {
+	if ( ! fs.existsSync( schemaPath ) ) {
 		return warnings;
 	}
 
-	const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+	const schema = JSON.parse( fs.readFileSync( schemaPath, 'utf8' ) );
 
 	// Find ToggleControl attributes
-	const toggleAttrs = Object.entries(schema.attributes || {}).filter(
-		([_, attr]) => attr.control === 'ToggleControl'
+	const toggleAttrs = Object.entries( schema.attributes || {} ).filter(
+		( [ _, attr ] ) => attr.control === 'ToggleControl'
 	);
 
-	if (toggleAttrs.length === 0) return warnings;
+	if ( toggleAttrs.length === 0 ) {
+		return warnings;
+	}
 
 	// Load all code files
-	const codeFiles = ['edit.js', 'save.js', 'frontend.js']
-		.map((f) => path.join(ROOT, `blocks/${blockType}/src/${f}`))
-		.filter((f) => fs.existsSync(f))
-		.map((f) => fs.readFileSync(f, 'utf8'))
-		.join('\n');
+	const codeFiles = [ 'edit.js', 'save.js', 'frontend.js' ]
+		.map( ( f ) => path.join( ROOT, `blocks/${ blockType }/src/${ f }` ) )
+		.filter( ( f ) => fs.existsSync( f ) )
+		.map( ( f ) => fs.readFileSync( f, 'utf8' ) )
+		.join( '\n' );
 
-	for (const [attrName, attr] of toggleAttrs) {
+	for ( const [ attrName, attr ] of toggleAttrs ) {
 		// Skip internal/structural toggles
-		if (attrName.startsWith('_')) continue;
-		if (attr.themeable === false && attr.reason === 'structural') continue;
-		if (attr.themeable === false && attr.reason === 'behavioral') continue;
+		if ( attrName.startsWith( '_' ) ) {
+			continue;
+		}
+		if ( attr.themeable === false && attr.reason === 'structural' ) {
+			continue;
+		}
+		if ( attr.themeable === false && attr.reason === 'behavioral' ) {
+			continue;
+		}
 
 		// Check if toggle is used in conditional
 		const conditionalPatterns = [
-			new RegExp(`if\\s*\\([^)]*${attrName}`, 'g'), // if (toggle) or if (!toggle)
-			new RegExp(`${attrName}\\s*&&`, 'g'), // toggle &&
-			new RegExp(`${attrName}\\s*\\?`, 'g'), // toggle ?
-			new RegExp(`!\\s*${attrName}`, 'g'), // !toggle
-			new RegExp(`${attrName}\\s*\\|\\|`, 'g'), // toggle ||
-			new RegExp(`\\.${attrName}\\s*[?&|]`, 'g'), // .toggle ? or .toggle &&
-			new RegExp(`\\[\\s*['"\`]${attrName}['"\`]\\s*\\]`, 'g'), // ['toggle']
+			new RegExp( `if\\s*\\([^)]*${ attrName }`, 'g' ), // if (toggle) or if (!toggle)
+			new RegExp( `${ attrName }\\s*&&`, 'g' ), // toggle &&
+			new RegExp( `${ attrName }\\s*\\?`, 'g' ), // toggle ?
+			new RegExp( `!\\s*${ attrName }`, 'g' ), // !toggle
+			new RegExp( `${ attrName }\\s*\\|\\|`, 'g' ), // toggle ||
+			new RegExp( `\\.${ attrName }\\s*[?&|]`, 'g' ), // .toggle ? or .toggle &&
+			new RegExp( `\\[\\s*['"\`]${ attrName }['"\`]\\s*\\]`, 'g' ), // ['toggle']
 		];
 
-		const hasConditional = conditionalPatterns.some((p) => p.test(codeFiles));
+		const hasConditional = conditionalPatterns.some( ( p ) => p.test( codeFiles ) );
 
-		if (!hasConditional) {
-			warnings.push({
+		if ( ! hasConditional ) {
+			warnings.push( {
 				type: 'warning',
 				block: blockType,
 				attribute: attrName,
 				message: `toggle defined but never checked in code`,
-				fix: `Add conditional: if (${attrName}) { ... } or ${attrName} && render()`,
-			});
+				fix: `Add conditional: if (${ attrName }) { ... } or ${ attrName } && render()`,
+			} );
 		}
 	}
 
@@ -367,7 +406,7 @@ function checkToggleEffects(blockType) {
 
 // Attributes that should NOT be data attributes (structural/editor-only attributes)
 // These are used during render but don't need to be in the frontend DOM
-const STRUCTURAL_ONLY_ATTRS = new Set([
+const STRUCTURAL_ONLY_ATTRS = new Set( [
 	// IDs and identifiers (React/editor only, not needed in frontend JS)
 	'uniqueId',
 	'blockId',
@@ -383,63 +422,64 @@ const STRUCTURAL_ONLY_ATTRS = new Set([
 	'title',
 	'titleText',
 	'content',
-]);
+] );
 
-function checkBehaviorAttributesCoverage(blockType) {
+function checkBehaviorAttributesCoverage( blockType ) {
 	const warnings = [];
 
-	const schemaPath = path.join(ROOT, `schemas/${blockType}.json`);
-	const savePath = path.join(ROOT, `blocks/${blockType}/src/save.js`);
-	const frontendPath = path.join(ROOT, `blocks/${blockType}/src/frontend.js`);
+	const schemaPath = path.join( ROOT, `schemas/${ blockType }.json` );
+	const savePath = path.join( ROOT, `blocks/${ blockType }/src/save.js` );
+	const frontendPath = path.join( ROOT, `blocks/${ blockType }/src/frontend.js` );
 
-	if (!fs.existsSync(schemaPath) || !fs.existsSync(savePath)) {
+	if ( ! fs.existsSync( schemaPath ) || ! fs.existsSync( savePath ) ) {
 		return warnings;
 	}
 
-	const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
-	const saveCode = fs.readFileSync(savePath, 'utf8');
+	const schema = JSON.parse( fs.readFileSync( schemaPath, 'utf8' ) );
+	const saveCode = fs.readFileSync( savePath, 'utf8' );
 
 	// Load frontend code to check what's actually being read
 	let frontendCode = '';
-	if (fs.existsSync(frontendPath)) {
-		frontendCode = fs.readFileSync(frontendPath, 'utf8');
+	if ( fs.existsSync( frontendPath ) ) {
+		frontendCode = fs.readFileSync( frontendPath, 'utf8' );
 	}
 
 	// Find behavioral attributes (themeable: false, reason: behavioral or structural)
-	const behaviorAttrs = Object.entries(schema.attributes || {})
-		.filter(([_, attr]) =>
-			attr.themeable === false &&
-			(attr.reason === 'behavioral' || attr.reason === 'structural') &&
-			attr.group === 'behavior'
+	const behaviorAttrs = Object.entries( schema.attributes || {} )
+		.filter(
+			( [ _, attr ] ) =>
+				attr.themeable === false &&
+				( attr.reason === 'behavioral' || attr.reason === 'structural' ) &&
+				attr.group === 'behavior'
 		)
-		.map(([name]) => name);
+		.map( ( [ name ] ) => name );
 
 	// Check if each is referenced in save.js as data attribute
-	for (const attrName of behaviorAttrs) {
+	for ( const attrName of behaviorAttrs ) {
 		// Skip structural-only attributes (used in save.js render, not frontend JS)
-		if (STRUCTURAL_ONLY_ATTRS.has(attrName)) {
+		if ( STRUCTURAL_ONLY_ATTRS.has( attrName ) ) {
 			continue;
 		}
 
-		const dataAttrName = 'data-' + attrName.replace(/([A-Z])/g, '-$1').toLowerCase();
+		const dataAttrName = 'data-' + attrName.replace( /([A-Z])/g, '-$1' ).toLowerCase();
 
 		// Check both object notation and JSX attribute
-		const hasObjectNotation = saveCode.includes(`'${dataAttrName}':`);
-		const hasJsxAttr = saveCode.includes(`${dataAttrName}=`);
+		const hasObjectNotation = saveCode.includes( `'${ dataAttrName }':` );
+		const hasJsxAttr = saveCode.includes( `${ dataAttrName }=` );
 
-		if (!hasObjectNotation && !hasJsxAttr) {
+		if ( ! hasObjectNotation && ! hasJsxAttr ) {
 			// Only warn if frontend.js actually tries to read this attribute
 			// This prevents false positives for attributes used only in save.js
-			const frontendReads = frontendCode.includes(dataAttrName);
+			const frontendReads = frontendCode.includes( dataAttrName );
 
-			if (frontendReads) {
-				warnings.push({
+			if ( frontendReads ) {
+				warnings.push( {
 					type: 'warning',
 					block: blockType,
 					attribute: attrName,
 					message: `behavioral attribute not saved as data attribute (but frontend reads it)`,
-					fix: `Add '${dataAttrName}': attributes.${attrName} to save.js data attributes`,
-				});
+					fix: `Add '${ dataAttrName }': attributes.${ attrName } to save.js data attributes`,
+				} );
 			}
 		}
 	}
@@ -452,30 +492,30 @@ function checkBehaviorAttributesCoverage(blockType) {
 // Ensures CSS variables used in stylesheets are actually generated
 // ═══════════════════════════════════════════════════════════════════════════
 
-function checkCssVariableGeneration(blockType) {
+function checkCssVariableGeneration( blockType ) {
 	const errors = [];
 
-	const stylePath = path.join(ROOT, `css/${blockType}_hardcoded.scss`);
-	const varsPath = path.join(ROOT, `assets/css/${blockType}-variables.css`);
+	const stylePath = path.join( ROOT, `css/${ blockType }_hardcoded.scss` );
+	const varsPath = path.join( ROOT, `assets/css/${ blockType }-variables.css` );
 
-	if (!fs.existsSync(stylePath) || !fs.existsSync(varsPath)) {
+	if ( ! fs.existsSync( stylePath ) || ! fs.existsSync( varsPath ) ) {
 		return errors;
 	}
 
-	const styleCode = fs.readFileSync(stylePath, 'utf8');
-	const varsCode = fs.readFileSync(varsPath, 'utf8');
+	const styleCode = fs.readFileSync( stylePath, 'utf8' );
+	const varsCode = fs.readFileSync( varsPath, 'utf8' );
 
 	// Find all var(--block-*) usages in style.scss
 	const varUsageRegex = /var\s*\(\s*(--[\w-]+)\s*\)/g;
 	const usedVars = new Map(); // varName -> lineNum
-	const styleLines = styleCode.split('\n');
+	const styleLines = styleCode.split( '\n' );
 
 	let match;
-	while ((match = varUsageRegex.exec(styleCode)) !== null) {
-		const varName = match[1];
+	while ( ( match = varUsageRegex.exec( styleCode ) ) !== null ) {
+		const varName = match[ 1 ];
 
 		// Only check variables for this block type
-		if (!varName.startsWith(`--${blockType}`)) {
+		if ( ! varName.startsWith( `--${ blockType }` ) ) {
 			continue;
 		}
 
@@ -483,41 +523,41 @@ function checkCssVariableGeneration(blockType) {
 		let lineNum = 0;
 		const matchPos = match.index;
 		let charCount = 0;
-		for (let i = 0; i < styleLines.length; i++) {
-			charCount += styleLines[i].length + 1;
-			if (charCount > matchPos) {
+		for ( let i = 0; i < styleLines.length; i++ ) {
+			charCount += styleLines[ i ].length + 1;
+			if ( charCount > matchPos ) {
 				lineNum = i + 1;
 				break;
 			}
 		}
 
-		usedVars.set(varName, lineNum);
+		usedVars.set( varName, lineNum );
 	}
 
 	// Find all defined CSS variables in the generated file
 	const varDefRegex = /(--[\w-]+)\s*:/g;
 	const definedVars = new Set();
 
-	while ((match = varDefRegex.exec(varsCode)) !== null) {
-		definedVars.add(match[1]);
+	while ( ( match = varDefRegex.exec( varsCode ) ) !== null ) {
+		definedVars.add( match[ 1 ] );
 	}
 
 	// Check for missing variables
-	for (const [varName, lineNum] of usedVars) {
-		if (!definedVars.has(varName)) {
+	for ( const [ varName, lineNum ] of usedVars ) {
+		if ( ! definedVars.has( varName ) ) {
 			// Find the schema attribute that should generate this
-			const attrName = varNameToAttrName(varName, blockType);
+			const attrName = varNameToAttrName( varName, blockType );
 
-			errors.push({
+			errors.push( {
 				type: 'error',
 				block: blockType,
 				file: 'style.scss',
 				line: lineNum,
-				message: `uses '${varName}' but it's not generated in ${blockType}-variables.css`,
+				message: `uses '${ varName }' but it's not generated in ${ blockType }-variables.css`,
 				fix: attrName
-					? `Check schema attribute '${attrName}' has themeable:true, cssVar, and correct type handling`
+					? `Check schema attribute '${ attrName }' has themeable:true, cssVar, and correct type handling`
 					: `Add cssVar definition in schema or check object type handling in schema-compiler.js`,
-			});
+			} );
 		}
 	}
 
@@ -530,78 +570,78 @@ function checkCssVariableGeneration(blockType) {
 // This catches the bug where schema defines cssVar but save.js can't generate it
 // ═══════════════════════════════════════════════════════════════════════════
 
-function checkCssVariableMappingCompleteness(blockType) {
+function checkCssVariableMappingCompleteness( blockType ) {
 	const errors = [];
 
-	const schemaPath = path.join(ROOT, `schemas/${blockType}.json`);
-	const mappingsPath = path.join(ROOT, 'shared/src/config/css-var-mappings-generated.js');
+	const schemaPath = path.join( ROOT, `schemas/${ blockType }.json` );
+	const mappingsPath = path.join( ROOT, 'shared/src/config/css-var-mappings-generated.js' );
 
-	if (!fs.existsSync(schemaPath) || !fs.existsSync(mappingsPath)) {
+	if ( ! fs.existsSync( schemaPath ) || ! fs.existsSync( mappingsPath ) ) {
 		return errors;
 	}
 
 	// Load schema
-	const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+	const schema = JSON.parse( fs.readFileSync( schemaPath, 'utf8' ) );
 	const attributes = schema.attributes || {};
 
 	// Load CSS variable mappings
-	const mappingsCode = fs.readFileSync(mappingsPath, 'utf8');
+	const mappingsCode = fs.readFileSync( mappingsPath, 'utf8' );
 
 	// Find attributes with cssVar defined
-	const attrsWithCssVar = Object.entries(attributes)
-		.filter(([_, attr]) => attr.cssVar)
-		.map(([attrName, attr]) => ({
+	const attrsWithCssVar = Object.entries( attributes )
+		.filter( ( [ _, attr ] ) => attr.cssVar )
+		.map( ( [ attrName, attr ] ) => ( {
 			attrName,
-			cssVar: attr.cssVar.startsWith('--') ? attr.cssVar : `--${attr.cssVar}`,
+			cssVar: attr.cssVar.startsWith( '--' ) ? attr.cssVar : `--${ attr.cssVar }`,
 			reason: attr.reason || null,
 			outputsCSS: attr.outputsCSS !== false, // Default to true if not specified
-		}));
+		} ) );
 
-	const SKIP_REASONS = new Set(['behavioral', 'structural']);
+	const SKIP_REASONS = new Set( [ 'behavioral', 'structural' ] );
 
 	// For each attribute with cssVar, check if it exists in CSS_VAR_MAPPINGS
-	for (const { attrName, cssVar, reason, outputsCSS } of attrsWithCssVar) {
+	for ( const { attrName, cssVar, reason, outputsCSS } of attrsWithCssVar ) {
 		// Skip attributes explicitly marked behavioral/structural
-		if (reason && SKIP_REASONS.has(reason)) {
+		if ( reason && SKIP_REASONS.has( reason ) ) {
 			continue;
 		}
 		// Skip attributes that don't output CSS (outputsCSS: false)
-		if (!outputsCSS) {
+		if ( ! outputsCSS ) {
 			continue;
 		}
 		// Check if attribute is in the mappings for this block
 		// Pattern: blockType: { attrName: { cssVar: '--var-name', ... } }
 		const attrMappingRegex = new RegExp(
 			// Look inside the blockType object for attrName { ... cssVar: '--x' ... }
-			`${blockType}\\s*:\\s*\\{[\\s\\S]*?${attrName}\\s*:\\s*\\{[\\s\\S]*?cssVar:\\s*['"\`](--[\\w-]+)['"\`]`,
+			`${ blockType }\\s*:\\s*\\{[\\s\\S]*?${ attrName }\\s*:\\s*\\{[\\s\\S]*?cssVar:\\s*['"\`](--[\\w-]+)['"\`]`,
 			'm'
 		);
 
-		const mappingMatch = mappingsCode.match(attrMappingRegex);
+		const mappingMatch = mappingsCode.match( attrMappingRegex );
 
-		if (!mappingMatch) {
+		if ( ! mappingMatch ) {
 			// Attribute has cssVar in schema but isn't in CSS_VAR_MAPPINGS
 			// This means save.js getCssVarName() won't find it and won't generate the variable
-			errors.push({
+			errors.push( {
 				type: 'error',
 				block: blockType,
 				file: 'schema',
 				attribute: attrName,
-				message: `has cssVar '${cssVar}' in schema but no mapping in css-var-mappings-generated.js`,
+				message: `has cssVar '${ cssVar }' in schema but no mapping in css-var-mappings-generated.js`,
 				fix: `Ensure schema-compiler.js generates mapping for this attribute. Check if attribute has correct cssProperty or is object type with proper handling.`,
-			});
+			} );
 		} else {
 			// Verify the mapped CSS variable matches the schema
-			const mappedCssVar = mappingMatch[1];
-			if (mappedCssVar !== cssVar) {
-				errors.push({
+			const mappedCssVar = mappingMatch[ 1 ];
+			if ( mappedCssVar !== cssVar ) {
+				errors.push( {
 					type: 'error',
 					block: blockType,
 					file: 'schema',
 					attribute: attrName,
-					message: `cssVar mismatch: schema has '${cssVar}' but mapping has '${mappedCssVar}'`,
-					fix: `Update schema cssVar to '${mappedCssVar}' or regenerate mappings with npm run schema:build`,
-				});
+					message: `cssVar mismatch: schema has '${ cssVar }' but mapping has '${ mappedCssVar }'`,
+					fix: `Update schema cssVar to '${ mappedCssVar }' or regenerate mappings with npm run schema:build`,
+				} );
 			}
 		}
 	}
@@ -612,13 +652,15 @@ function checkCssVariableMappingCompleteness(blockType) {
 /**
  * Convert CSS variable name to likely attribute name
  * --tabs-button-border-radius -> tabButtonBorderRadius
+ * @param varName
+ * @param blockType
  */
-function varNameToAttrName(varName, blockType) {
+function varNameToAttrName( varName, blockType ) {
 	// Remove -- prefix and block prefix
-	let name = varName.replace(/^--/, '').replace(new RegExp(`^${blockType}-`), '');
+	const name = varName.replace( /^--/, '' ).replace( new RegExp( `^${ blockType }-` ), '' );
 
 	// Convert kebab-case to camelCase
-	return name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+	return name.replace( /-([a-z])/g, ( _, c ) => c.toUpperCase() );
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -626,25 +668,28 @@ function varNameToAttrName(varName, blockType) {
 // Ensures frontend-generated classes match CSS expectations
 // ═══════════════════════════════════════════════════════════════════════════
 
-function checkCssClassConcordance(blockType) {
+function checkCssClassConcordance( blockType ) {
 	const errors = [];
 
-	const frontendPath = path.join(ROOT, `blocks/${blockType}/src/frontend.js`);
-	const stylePath = path.join(ROOT, `css/${blockType}_hardcoded.scss`);
-	const themeGeneratedPath = path.join(ROOT, `blocks/${blockType}/src/_theme-generated.scss`);
+	const frontendPath = path.join( ROOT, `blocks/${ blockType }/src/frontend.js` );
+	const stylePath = path.join( ROOT, `css/${ blockType }_hardcoded.scss` );
+	const themeGeneratedPath = path.join( ROOT, `blocks/${ blockType }/src/_theme-generated.scss` );
 
 	// Require frontend and at least one CSS source
-	if (!fs.existsSync(frontendPath) || (!fs.existsSync(stylePath) && !fs.existsSync(themeGeneratedPath))) {
+	if (
+		! fs.existsSync( frontendPath ) ||
+		( ! fs.existsSync( stylePath ) && ! fs.existsSync( themeGeneratedPath ) )
+	) {
 		return errors;
 	}
 
-	const frontendCode = fs.readFileSync(frontendPath, 'utf8');
+	const frontendCode = fs.readFileSync( frontendPath, 'utf8' );
 	let styleCode = '';
-	if (fs.existsSync(stylePath)) {
-		styleCode += fs.readFileSync(stylePath, 'utf8');
+	if ( fs.existsSync( stylePath ) ) {
+		styleCode += fs.readFileSync( stylePath, 'utf8' );
 	}
-	if (fs.existsSync(themeGeneratedPath)) {
-		styleCode += '\n' + fs.readFileSync(themeGeneratedPath, 'utf8');
+	if ( fs.existsSync( themeGeneratedPath ) ) {
+		styleCode += '\n' + fs.readFileSync( themeGeneratedPath, 'utf8' );
 	}
 
 	// Extract className assignments from frontend
@@ -654,50 +699,57 @@ function checkCssClassConcordance(blockType) {
 	// Simple string literals (single and double quotes only, NOT backticks)
 	const stringClassRegex = /className\s*=\s*['"]([^'"]+)['"]/g;
 	let match;
-	while ((match = stringClassRegex.exec(frontendCode)) !== null) {
-		const classes = match[1].split(' ');
-		classes.forEach(cls => {
-			if (cls.startsWith(blockType) || cls.startsWith('toc-')) {
-				classAssignments.set(cls, 'literal');
+	while ( ( match = stringClassRegex.exec( frontendCode ) ) !== null ) {
+		const classes = match[ 1 ].split( ' ' );
+		classes.forEach( ( cls ) => {
+			if ( cls.startsWith( blockType ) || cls.startsWith( 'toc-' ) ) {
+				classAssignments.set( cls, 'literal' );
 			}
-		});
+		} );
 	}
 
 	// Template literals with variables
 	const templateClassRegex = /className\s*=\s*`([^`]+)`/g;
-	while ((match = templateClassRegex.exec(frontendCode)) !== null) {
-		const template = match[1];
+	while ( ( match = templateClassRegex.exec( frontendCode ) ) !== null ) {
+		const template = match[ 1 ];
 
 		// Check if template contains variables
-		if (template.includes('${')) {
+		if ( template.includes( '${' ) ) {
 			// Extract pattern like "toc-item toc-level-${var}" → check for "toc-item" and "toc-level-*"
 			// First, extract all static class names (not part of dynamic patterns)
 			// Split by ${ to separate static from dynamic parts
-			const parts = template.split(/\$\{[^}]*\}/);
+			const parts = template.split( /\$\{[^}]*\}/ );
 
 			// For each part, extract complete class names (those separated by spaces)
-			parts.forEach((part, index) => {
+			parts.forEach( ( part, index ) => {
 				// If this part comes before a ${, check if the last token is a partial class name
-				const beforeDynamic = index < parts.length - 1 && template.includes('${');
+				const beforeDynamic = index < parts.length - 1 && template.includes( '${' );
 
-				const tokens = part.trim().split(/\s+/).filter(c => c);
-				tokens.forEach((token, tokenIndex) => {
+				const tokens = part
+					.trim()
+					.split( /\s+/ )
+					.filter( ( c ) => c );
+				tokens.forEach( ( token, tokenIndex ) => {
 					// Skip if this is the last token in a part that comes before ${
 					// (it's likely part of a dynamic class name like "toc-h" in "toc-h${")
-					if (beforeDynamic && tokenIndex === tokens.length - 1 && !part.trim().endsWith(' ')) {
+					if (
+						beforeDynamic &&
+						tokenIndex === tokens.length - 1 &&
+						! part.trim().endsWith( ' ' )
+					) {
 						return;
 					}
 
 					// Skip if ends with hyphen (part of dynamic pattern like "toc-level-")
-					if (token.endsWith('-')) {
+					if ( token.endsWith( '-' ) ) {
 						return;
 					}
 
-					if (token.startsWith(blockType) || token.startsWith('toc-')) {
-						classAssignments.set(token, 'literal');
+					if ( token.startsWith( blockType ) || token.startsWith( 'toc-' ) ) {
+						classAssignments.set( token, 'literal' );
 					}
-				});
-			});
+				} );
+			} );
 
 			// Extract the pattern directly with regex - handle "toc-level-${ var }" and "toc-h${ var }"
 			const dynamicClassPatternWithHyphen = /([\w-]+)-\s*\$\{/g;
@@ -705,68 +757,72 @@ function checkCssClassConcordance(blockType) {
 			let dynMatch;
 
 			// Pattern with hyphen before ${ (e.g., "toc-level-${ var }")
-			while ((dynMatch = dynamicClassPatternWithHyphen.exec(template)) !== null) {
-				const prefix = dynMatch[1];
+			while ( ( dynMatch = dynamicClassPatternWithHyphen.exec( template ) ) !== null ) {
+				const prefix = dynMatch[ 1 ];
 				// Only add block-specific or toc- prefixed classes
-				if (prefix === blockType || prefix === 'toc-level' || prefix === 'toc-item-level') {
-					classAssignments.set(prefix + '-*', 'template');
+				if (
+					prefix === blockType ||
+					prefix === 'toc-level' ||
+					prefix === 'toc-item-level'
+				) {
+					classAssignments.set( prefix + '-*', 'template' );
 				}
 			}
 
 			// Pattern without hyphen before ${ (e.g., "toc-h${ var }")
-			while ((dynMatch = dynamicClassPatternNoHyphen.exec(template)) !== null) {
-				const prefix = dynMatch[1];
+			while ( ( dynMatch = dynamicClassPatternNoHyphen.exec( template ) ) !== null ) {
+				const prefix = dynMatch[ 1 ];
 				// Only add block-specific or toc- prefixed classes
-				if (prefix === 'toc-h') {
-					classAssignments.set(prefix + '*', 'template');
+				if ( prefix === 'toc-h' ) {
+					classAssignments.set( prefix + '*', 'template' );
 				}
 			}
 		} else {
 			// No variables, treat as static
-			const classes = template.split(/\s+/).filter(c => c);
-			classes.forEach(cls => {
-				if (cls.startsWith(blockType) || cls.startsWith('toc-')) {
-					classAssignments.set(cls, 'literal');
+			const classes = template.split( /\s+/ ).filter( ( c ) => c );
+			classes.forEach( ( cls ) => {
+				if ( cls.startsWith( blockType ) || cls.startsWith( 'toc-' ) ) {
+					classAssignments.set( cls, 'literal' );
 				}
-			});
+			} );
 		}
 	}
 
 	// Extract CSS class selectors from style.scss
 	const cssClasses = new Set();
 	const cssClassRegex = /\.([\w-]+)\s*[{,\s]/g;
-	while ((match = cssClassRegex.exec(styleCode)) !== null) {
-		const className = match[1];
-		if (className.startsWith(blockType) || className.startsWith('toc-')) {
-			cssClasses.add(className);
+	while ( ( match = cssClassRegex.exec( styleCode ) ) !== null ) {
+		const className = match[ 1 ];
+		if ( className.startsWith( blockType ) || className.startsWith( 'toc-' ) ) {
+			cssClasses.add( className );
 		}
 	}
 
 	// Check for mismatches
-	for (const [frontendClass, type] of classAssignments) {
-		if (type === 'literal') {
+	for ( const [ frontendClass, type ] of classAssignments ) {
+		if ( type === 'literal' ) {
 			// Exact match required
-			if (!cssClasses.has(frontendClass)) {
-				errors.push({
+			if ( ! cssClasses.has( frontendClass ) ) {
+				errors.push( {
 					type: 'error',
 					block: blockType,
 					file: 'frontend.js',
-					message: `generates class '${frontendClass}' but style.scss doesn't have it`,
-					fix: `Add .${frontendClass} { } to style.scss or check class name spelling`,
-				});
+					message: `generates class '${ frontendClass }' but style.scss doesn't have it`,
+					fix: `Add .${ frontendClass } { } to style.scss or check class name spelling`,
+				} );
 			}
-		} else if (type === 'template') {
+		} else if ( type === 'template' ) {
 			// Pattern match (check if any CSS class starts with this prefix)
-			const prefix = frontendClass.replace('*', '');
-			const hasMatch = Array.from(cssClasses).some(cls => cls.startsWith(prefix));
-			if (!hasMatch) {
-				errors.push({
+			const prefix = frontendClass.replace( '*', '' );
+			const hasMatch = Array.from( cssClasses ).some( ( cls ) => cls.startsWith( prefix ) );
+			if ( ! hasMatch ) {
+				errors.push( {
 					type: 'error',
 					block: blockType,
 					file: 'frontend.js',
-					message: `generates dynamic classes like '${frontendClass}' but no matching CSS found`,
-					fix: `Add .${prefix}* selectors to style.scss (e.g., .${prefix}1, .${prefix}2, etc.)`,
-				});
+					message: `generates dynamic classes like '${ frontendClass }' but no matching CSS found`,
+					fix: `Add .${ prefix }* selectors to style.scss (e.g., .${ prefix }1, .${ prefix }2, etc.)`,
+				} );
 			}
 		}
 	}
@@ -778,12 +834,12 @@ function checkCssClassConcordance(blockType) {
 // UTILITIES
 // ═══════════════════════════════════════════════════════════════════════════
 
-function kebabToCamel(str) {
-	return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+function kebabToCamel( str ) {
+	return str.replace( /-([a-z])/g, ( _, c ) => c.toUpperCase() );
 }
 
-function kebabCase(str) {
-	return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+function kebabCase( str ) {
+	return str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -794,74 +850,78 @@ function main() {
 	const allErrors = [];
 	const allWarnings = [];
 
-	console.log(`\n${colors.cyan}${colors.bold}Mismatch Validation${colors.reset}\n`);
+	console.log( `\n${ colors.cyan }${ colors.bold }Mismatch Validation${ colors.reset }\n` );
 
-	for (const blockType of BLOCKS) {
+	for ( const blockType of BLOCKS ) {
 		// Run all checks
-		allErrors.push(...checkDataAttributeSync(blockType));
-		allErrors.push(...checkCssVariableGeneration(blockType));
-		allErrors.push(...checkCssVariableMappingCompleteness(blockType));
-		allErrors.push(...checkCssClassConcordance(blockType));
+		allErrors.push( ...checkDataAttributeSync( blockType ) );
+		allErrors.push( ...checkCssVariableGeneration( blockType ) );
+		allErrors.push( ...checkCssVariableMappingCompleteness( blockType ) );
+		allErrors.push( ...checkCssClassConcordance( blockType ) );
 
-		const selectResults = checkSelectControlUsage(blockType);
-		allErrors.push(...selectResults.errors);
-		allWarnings.push(...selectResults.warnings);
+		const selectResults = checkSelectControlUsage( blockType );
+		allErrors.push( ...selectResults.errors );
+		allWarnings.push( ...selectResults.warnings );
 
-		allWarnings.push(...checkToggleEffects(blockType));
-		allWarnings.push(...checkBehaviorAttributesCoverage(blockType));
+		allWarnings.push( ...checkToggleEffects( blockType ) );
+		allWarnings.push( ...checkBehaviorAttributesCoverage( blockType ) );
 	}
 
 	// Report errors
-	if (allErrors.length > 0) {
-		console.log(`${colors.red}${colors.bold}ERRORS:${colors.reset}\n`);
-		for (const err of allErrors) {
+	if ( allErrors.length > 0 ) {
+		console.log( `${ colors.red }${ colors.bold }ERRORS:${ colors.reset }\n` );
+		for ( const err of allErrors ) {
 			// Format location based on available info
-			let location = `${err.block}/${err.file}`;
-			if (err.line) {
-				location += `:${err.line}`;
+			let location = `${ err.block }/${ err.file }`;
+			if ( err.line ) {
+				location += `:${ err.line }`;
 			}
-			if (err.attribute) {
-				location += ` [${err.attribute}]`;
+			if ( err.attribute ) {
+				location += ` [${ err.attribute }]`;
 			}
 
-			console.log(
-				`  ${colors.red}${location}${colors.reset} ${err.message}`
-			);
-			console.log(`  ${colors.gray}Fix: ${err.fix}${colors.reset}\n`);
+			console.log( `  ${ colors.red }${ location }${ colors.reset } ${ err.message }` );
+			console.log( `  ${ colors.gray }Fix: ${ err.fix }${ colors.reset }\n` );
 		}
 	}
 
 	// Report warnings
-	if (allWarnings.length > 0) {
-		console.log(`${colors.yellow}${colors.bold}WARNINGS:${colors.reset}\n`);
-		for (const warn of allWarnings) {
+	if ( allWarnings.length > 0 ) {
+		console.log( `${ colors.yellow }${ colors.bold }WARNINGS:${ colors.reset }\n` );
+		for ( const warn of allWarnings ) {
 			console.log(
-				`  ${colors.yellow}${warn.block}/${warn.attribute}${colors.reset} ${warn.message}`
+				`  ${ colors.yellow }${ warn.block }/${ warn.attribute }${ colors.reset } ${ warn.message }`
 			);
-			if (warn.options) {
-				console.log(`  ${colors.gray}Options: ${warn.options.join(', ')}${colors.reset}`);
+			if ( warn.options ) {
+				console.log(
+					`  ${ colors.gray }Options: ${ warn.options.join( ', ' ) }${ colors.reset }`
+				);
 			}
-			if (warn.explanation) {
-				console.log(`  ${colors.gray}${warn.explanation}${colors.reset}`);
+			if ( warn.explanation ) {
+				console.log( `  ${ colors.gray }${ warn.explanation }${ colors.reset }` );
 			}
-			console.log(`  ${colors.gray}Fix: ${warn.fix}${colors.reset}\n`);
+			console.log( `  ${ colors.gray }Fix: ${ warn.fix }${ colors.reset }\n` );
 		}
 	}
 
 	// Summary
 	const total = allErrors.length + allWarnings.length;
-	if (total === 0) {
-		console.log(`${colors.green}✅ Mismatches: No issues found${colors.reset}\n`);
+	if ( total === 0 ) {
+		console.log( `${ colors.green }✅ Mismatches: No issues found${ colors.reset }\n` );
 	} else {
 		console.log(
-			`${colors.bold}Found: ${allErrors.length} error${allErrors.length !== 1 ? 's' : ''}, ` +
-			`${allWarnings.length} warning${allWarnings.length !== 1 ? 's' : ''}${colors.reset}\n`
+			`${ colors.bold }Found: ${ allErrors.length } error${
+				allErrors.length !== 1 ? 's' : ''
+			}, ` +
+				`${ allWarnings.length } warning${ allWarnings.length !== 1 ? 's' : '' }${
+					colors.reset
+				}\n`
 		);
 	}
 
 	// Exit with error code if errors found (warnings don't break build)
-	if (allErrors.length > 0) {
-		process.exit(1);
+	if ( allErrors.length > 0 ) {
+		process.exit( 1 );
 	}
 }
 

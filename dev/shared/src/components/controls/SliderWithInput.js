@@ -4,7 +4,7 @@
  * Combined slider and number input control with optional unit selector
  * and responsive device switching support.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -21,11 +21,11 @@ import {
 /**
  * Get scale values for a given CSS property and unit
  *
- * @param {string} cssProperty - CSS property name (e.g., 'font-size', 'padding')
- * @param {string} unit - Current unit
- * @param {string} attrName - Attribute name (for rotation detection)
- * @param {*} defaultValue - Default value (for rotation detection)
- * @returns {Object} Scale values { min, max, step }
+ * @param {string} cssProperty  - CSS property name (e.g., 'font-size', 'padding')
+ * @param {string} unit         - Current unit
+ * @param {string} attrName     - Attribute name (for rotation detection)
+ * @param {*}      defaultValue - Default value (for rotation detection)
+ * @return {Object} Scale values { min, max, step }
  */
 function getUnitScale( cssProperty, unit, attrName, defaultValue ) {
 	// Check for rotation transform
@@ -54,7 +54,7 @@ import { useResponsiveDevice } from '../../hooks/useResponsiveDevice';
  * Check if value is a flat base (scalar or {value, unit} without device keys)
  *
  * @param {*} values - Value to check
- * @returns {boolean} True if flat base value
+ * @return {boolean} True if flat base value
  */
 function isFlat( values ) {
 	if ( values === null || values === undefined ) {
@@ -75,7 +75,7 @@ function isFlat( values ) {
  * Base is either the flat value or extracted from device-keyed structure
  *
  * @param {*} values - Values (flat or object with device keys)
- * @returns {*} The base value
+ * @return {*} The base value
  */
 function getBaseValue( values ) {
 	if ( isFlat( values ) ) {
@@ -99,9 +99,9 @@ function getBaseValue( values ) {
  * Get inherited value for responsive slider values
  * Supports both flat base values and object with device keys
  *
- * @param {*} values - Flat value or object with device keys { tablet, mobile, ...base }
+ * @param {*}      values - Flat value or object with device keys { tablet, mobile, ...base }
  * @param {string} device - Current device
- * @returns {Object} Object with value and inheritedFrom
+ * @return {Object} Object with value and inheritedFrom
  */
 function getInheritedSliderValue( values, device ) {
 	// Normalize value - can be number or { value, unit } object
@@ -163,9 +163,9 @@ function getInheritedSliderValue( values, device ) {
 /**
  * Parse value to extract numeric value and unit
  *
- * @param {*} value - Value to parse (number, string with unit, or object)
+ * @param {*}      value       - Value to parse (number, string with unit, or object)
  * @param {string} defaultUnit - Default unit if none found
- * @returns {Object} Object with { numericValue, unit }
+ * @return {Object} Object with { numericValue, unit }
  */
 function parseValue( value, defaultUnit = 'px' ) {
 	if ( value === null || value === undefined ) {
@@ -265,24 +265,27 @@ function parseValue( value, defaultUnit = 'px' ) {
  *
  * ============================================================================
  *
- * @param {Object}   props                Component props
- * @param {string}   props.label          Label for the control
- * @param {*}        props.value          Single value (for non-responsive mode) - see DATA STRUCTURE above
- * @param {Object}   props.values         Responsive values - see DATA STRUCTURE above
- * @param {Function} props.onChange       Callback for value changes - see DATA STRUCTURE above
- * @param {Function} props.onReset        Optional reset callback
- * @param {boolean}  props.responsive     Whether to enable responsive mode (default: false)
- * @param {Array}    props.units          Array of available units (enables unit selector)
- * @param {string}   props.cssProperty    CSS property name for automatic scale lookup (e.g., 'font-size', 'padding')
- * @param {string}   props.attrName       Attribute name (used for rotation transform detection)
- * @param {string}   props.help           Help text
- * @param {number}   props.min            Minimum value (overrides scale, default: from scale or 0)
- * @param {number}   props.max            Maximum value (overrides scale, default: from scale or 100)
- * @param {number}   props.step           Step increment (overrides scale, default: from scale or 1)
- * @param {*}        props.defaultValue   Default value for reset
- * @param {boolean}  props.withInputField Whether to show number input (default: true)
- * @param {string}   props.initialDevice  Initial device (default: 'global')
- * @returns {JSX.Element} Slider with input component
+ * @param {Object}   props                    Component props
+ * @param {string}   props.label              Label for the control
+ * @param {*}        props.value              Single value (for non-responsive mode) - see DATA STRUCTURE above
+ * @param {Object}   props.values             Responsive values - see DATA STRUCTURE above
+ * @param {Function} props.onChange           Callback for value changes - see DATA STRUCTURE above
+ * @param {Function} props.onReset            Optional reset callback
+ * @param {boolean}  props.responsive         Whether to enable responsive mode (default: false)
+ * @param {Array}    props.units              Array of available units (enables unit selector)
+ * @param {string}   props.cssProperty        CSS property name for automatic scale lookup (e.g., 'font-size', 'padding')
+ * @param {string}   props.attrName           Attribute name (used for rotation transform detection)
+ * @param {string}   props.help               Help text
+ * @param {number}   props.min                Minimum value (overrides scale, default: from scale or 0)
+ * @param {number}   props.max                Maximum value (overrides scale, default: from scale or 100)
+ * @param {number}   props.step               Step increment (overrides scale, default: from scale or 1)
+ * @param {*}        props.defaultValue       Default value for reset
+ * @param {boolean}  props.withInputField     Whether to show number input (default: true)
+ * @param {string}   props.initialDevice      Initial device (default: 'global')
+ * @param            props.canBeResponsive
+ * @param            props.onResponsiveToggle
+ * @param            props.onResponsiveReset
+ * @return {JSX.Element} Slider with input component
  */
 export function SliderWithInput( {
 	label,
@@ -367,9 +370,7 @@ export function SliderWithInput( {
 
 	// Handler for slider/number value changes
 	const handleValueChange = ( newNumericValue ) => {
-		const newValue = hasUnits
-			? { value: newNumericValue, unit: currentUnit }
-			: newNumericValue;
+		const newValue = hasUnits ? { value: newNumericValue, unit: currentUnit } : newNumericValue;
 
 		if ( useResponsiveCallback ) {
 			// Use callbackDevice: 'global' when responsive OFF, actual device when ON
@@ -384,9 +385,7 @@ export function SliderWithInput( {
 		const numericValue = parseFloat( newValue ) || 0;
 		const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || currentUnit;
 
-		const finalValue = hasUnits
-			? { value: numericValue, unit: newUnit }
-			: numericValue;
+		const finalValue = hasUnits ? { value: numericValue, unit: newUnit } : numericValue;
 
 		if ( useResponsiveCallback ) {
 			// Use callbackDevice: 'global' when responsive OFF, actual device when ON
@@ -404,13 +403,11 @@ export function SliderWithInput( {
 			} else {
 				onReset();
 			}
+		} else if ( useResponsiveCallback ) {
+			// Use callbackDevice for consistency
+			onChange( callbackDevice, undefined );
 		} else {
-			if ( useResponsiveCallback ) {
-				// Use callbackDevice for consistency
-				onChange( callbackDevice, undefined );
-			} else {
-				onChange( defaultValue );
-			}
+			onChange( defaultValue );
 		}
 	};
 
@@ -424,8 +421,11 @@ export function SliderWithInput( {
 		if ( values !== undefined ) {
 			// Responsive-capable but not in responsive mode: check base value
 			const baseValue = getBaseValue( values );
-			return baseValue === undefined || baseValue === null ||
-				JSON.stringify( baseValue ) === JSON.stringify( defaultValue );
+			return (
+				baseValue === undefined ||
+				baseValue === null ||
+				JSON.stringify( baseValue ) === JSON.stringify( defaultValue )
+			);
 		}
 		// Non-responsive: check singleValue
 		return singleValue === undefined || singleValue === defaultValue;
@@ -449,19 +449,17 @@ export function SliderWithInput( {
 		return (
 			<Flex align="center" justify="space-between" style={ { width: '100%' } }>
 				<FlexItem>
-					<span style={ { display: 'flex', alignItems: 'center' } }>
-						{ label }
-					</span>
+					<span style={ { display: 'flex', alignItems: 'center' } }>{ label }</span>
 				</FlexItem>
 				<FlexItem>
 					{ canBeResponsive ? (
-							<ResponsiveToggle
-								isEnabled={ responsiveEnabled }
-								onToggle={ onResponsiveToggle }
-								currentDevice={ device }
-								onReset={ handleResponsiveResetClick }
-								isResetDisabled={ isResetDisabled && ! responsiveEnabled }
-							/>
+						<ResponsiveToggle
+							isEnabled={ responsiveEnabled }
+							onToggle={ onResponsiveToggle }
+							currentDevice={ device }
+							onReset={ handleResponsiveResetClick }
+							isResetDisabled={ isResetDisabled && ! responsiveEnabled }
+						/>
 					) : (
 						<ResetButton onClick={ handleReset } disabled={ isResetDisabled } />
 					) }
@@ -474,11 +472,7 @@ export function SliderWithInput( {
 	const displayValue = numericValue ?? defaultValue ?? min;
 
 	return (
-		<BaseControl
-			className="gutplus-slider-with-input"
-			label={ renderLabel() }
-			help={ help }
-		>
+		<BaseControl className="gutplus-slider-with-input" label={ renderLabel() } help={ help }>
 			<div className="gutplus-slider-with-input__content">
 				{ /* Slider and native UnitControl row */ }
 				<Flex align="center" gap={ 4 }>
@@ -498,7 +492,9 @@ export function SliderWithInput( {
 							<UnitControl
 								value={ `${ displayValue }${ hasUnits ? currentUnit : '' }` }
 								onChange={ handleUnitControlChange }
-								units={ hasUnits ? units.map( ( u ) => ( { value: u, label: u } ) ) : [] }
+								units={
+									hasUnits ? units.map( ( u ) => ( { value: u, label: u } ) ) : []
+								}
 								min={ min }
 								max={ max }
 								step={ step }

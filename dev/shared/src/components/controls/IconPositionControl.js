@@ -171,8 +171,24 @@ const AlternativePositionIcons = {
 				fill="none"
 			/>
 			{ /* Text lines on the right */ }
-			<line x1="15" y1="10" x2="20" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-			<line x1="15" y1="14" x2="18" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+			<line
+				x1="15"
+				y1="10"
+				x2="20"
+				y2="10"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="15"
+				y1="14"
+				x2="18"
+				y2="14"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
 		</svg>
 	),
 
@@ -188,8 +204,24 @@ const AlternativePositionIcons = {
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			{ /* Text lines on the left */ }
-			<line x1="4" y1="10" x2="9" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-			<line x1="4" y1="14" x2="7" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+			<line
+				x1="4"
+				y1="10"
+				x2="9"
+				y2="10"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="4"
+				y1="14"
+				x2="7"
+				y2="14"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
 			{ /* Icon placeholder (square) on the right */ }
 			<rect
 				x="12"
@@ -227,8 +259,24 @@ const AlternativePositionIcons = {
 				fill="none"
 			/>
 			{ /* Text lines on the right */ }
-			<line x1="15" y1="10" x2="20" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-			<line x1="15" y1="14" x2="18" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+			<line
+				x1="15"
+				y1="10"
+				x2="20"
+				y2="10"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="15"
+				y1="14"
+				x2="18"
+				y2="14"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
 		</svg>
 	),
 
@@ -244,8 +292,24 @@ const AlternativePositionIcons = {
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			{ /* Text lines on the left */ }
-			<line x1="4" y1="10" x2="9" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-			<line x1="4" y1="14" x2="7" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+			<line
+				x1="4"
+				y1="10"
+				x2="9"
+				y2="10"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
+			<line
+				x1="4"
+				y1="14"
+				x2="7"
+				y2="14"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+			/>
 			{ /* Icon placeholder (square) on the right */ }
 			<rect
 				x="12"
@@ -264,12 +328,12 @@ const AlternativePositionIcons = {
 /**
  * IconPositionControl - Icon position selector (left/right/box-left/box-right)
  *
- * @param {Object}   props              Component props
- * @param {string}   props.label        Label for the control
- * @param {string}   props.value        Current position value
- * @param {Function} props.onChange     Callback when value changes
- * @param {boolean}  props.useAltIcons  Use alternative icons showing placeholder layout
- * @param {string}   props.blockType    Block type ('accordion', 'tabs', 'toc') to read allowed positions from schema
+ * @param {Object}   props             Component props
+ * @param {string}   props.label       Label for the control
+ * @param {string}   props.value       Current position value
+ * @param {Function} props.onChange    Callback when value changes
+ * @param {boolean}  props.useAltIcons Use alternative icons showing placeholder layout
+ * @param {string}   props.blockType   Block type ('accordion', 'tabs', 'toc') to read allowed positions from schema
  */
 export function IconPositionControl( {
 	label = 'Icon Position',

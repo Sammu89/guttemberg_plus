@@ -161,27 +161,32 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
 	const styles = getInlineStyles( responsiveDevice );
-	console.log('[ACCORDION] responsiveDevice:', responsiveDevice, 'styles.title.fontSize:', styles.title.fontSize, 'styles.title.left:', styles.title.left, 'styles.title.top:', styles.title.top);
+	console.log(
+		'[ACCORDION] responsiveDevice:',
+		responsiveDevice,
+		'styles.title.fontSize:',
+		styles.title.fontSize,
+		'styles.title.left:',
+		styles.title.left,
+		'styles.title.top:',
+		styles.title.top
+	);
 
 	// Build font-weight from formatting selection
 	const titleFormatting = effectiveValues.titleFormatting || [];
-	const fontWeight = titleFormatting.includes('bold')
-		? (effectiveValues.titleFontWeight || 400)
+	const fontWeight = titleFormatting.includes( 'bold' )
+		? effectiveValues.titleFontWeight || 400
 		: 400;
 
 	// Build font-style from formatting selection
-	const fontStyle = titleFormatting.includes('italic')
-		? 'italic'
-		: 'normal';
+	const fontStyle = titleFormatting.includes( 'italic' ) ? 'italic' : 'normal';
 
 	// Build text-decoration from formatting selection
-	const decorationLines = titleFormatting.filter(f =>
-		['underline', 'overline', 'line-through'].includes(f)
+	const decorationLines = titleFormatting.filter( ( f ) =>
+		[ 'underline', 'overline', 'line-through' ].includes( f )
 	);
 	const hasDecoration = decorationLines.length > 0;
-	const textDecorationLine = hasDecoration
-		? decorationLines.join(' ')
-		: 'none';
+	const textDecorationLine = hasDecoration ? decorationLines.join( ' ' ) : 'none';
 
 	// Build formatting styles object to merge with title styles
 	const titleFormattingStyles = {
@@ -189,30 +194,33 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		fontStyle,
 		textDecorationLine,
 		textDecorationColor: hasDecoration
-			? (effectiveValues.titleDecorationColor || 'currentColor')
+			? effectiveValues.titleDecorationColor || 'currentColor'
 			: undefined,
 		textDecorationStyle: hasDecoration
-			? (effectiveValues.titleDecorationStyle || 'solid')
+			? effectiveValues.titleDecorationStyle || 'solid'
 			: undefined,
 		textDecorationThickness: hasDecoration
-			? (effectiveValues.titleDecorationWidth || 'auto')
+			? effectiveValues.titleDecorationWidth || 'auto'
 			: undefined,
 	};
 
-	const titleTextInlineStyles = effectiveValues.titleNoLineBreak === 'nowrap'
-		? { whiteSpace: 'nowrap' }
-		: undefined;
+	const titleTextInlineStyles =
+		effectiveValues.titleNoLineBreak === 'nowrap' ? { whiteSpace: 'nowrap' } : undefined;
 
 	/**
 	 * Helper: Get responsive value based on current device
-	 * @param {*} value - Value that might be responsive (object with global/tablet/mobile keys)
+	 * @param {*}      value  - Value that might be responsive (object with global/tablet/mobile keys)
 	 * @param {string} device - Current device ('global', 'tablet', 'mobile')
 	 * @return {*} Resolved value for current device
 	 */
 	const getResponsiveValue = ( value, device ) => {
 		if ( typeof value === 'object' && value !== null && ! Array.isArray( value ) ) {
 			// Check if it's a responsive object (has global/tablet/mobile keys)
-			if ( value.global !== undefined || value.tablet !== undefined || value.mobile !== undefined ) {
+			if (
+				value.global !== undefined ||
+				value.tablet !== undefined ||
+				value.mobile !== undefined
+			) {
 				return value[ device ] !== undefined ? value[ device ] : value.global;
 			}
 		}
@@ -249,6 +257,8 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 	 *
 	 * IMPORTANT: Rotation is handled by CSS via .is-open class on parent
 	 * Do NOT apply inline rotation styles here - let CSS control it
+	 * @param source
+	 * @param state
 	 */
 	const renderSingleIcon = ( source, state ) => {
 		if ( ! source || ! source.value ) {
@@ -261,10 +271,7 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		// Render based on icon kind
 		if ( source.kind === 'char' ) {
 			return (
-				<span
-					className={ `${ baseClasses } accordion-icon-char` }
-					aria-hidden="true"
-				>
+				<span className={ `${ baseClasses } accordion-icon-char` } aria-hidden="true">
 					{ source.value }
 				</span>
 			);
@@ -283,10 +290,7 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 
 		if ( source.kind === 'library' ) {
 			return (
-				<span
-					className={ `${ baseClasses } accordion-icon-library` }
-					aria-hidden="true"
-				>
+				<span className={ `${ baseClasses } accordion-icon-library` } aria-hidden="true">
 					{ renderLibraryIcon( source.value ) }
 				</span>
 			);
@@ -335,135 +339,128 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		);
 	};
 
-	/**
-	 * Render title with optional heading wrapper
-	 * Structure matches frontend: accordion-title-wrapper > accordion-title (button-like div)
-	 */
-	const renderTitle = () => {
-		const headingLevel = effectiveValues.headingLevel;
-		const iconPosition = effectiveValues.iconPosition;
-		const titleAlignment = effectiveValues.titleAlignment || 'left';
+	/* ========== AUTO-GENERATED-RENDER-TITLE-START ========== */
+// DO NOT EDIT - This code is auto-generated from schema
+/* ========== AUTO-GENERATED-RENDER-TITLE-START ========== */
+// DO NOT EDIT - This code is auto-generated from schema
+// AUTO-GENERATED from schemas/accordion-structure-mapping-autogenerated.json
+// To modify, update the schema and run: npm run schema:build
 
-		// Determine icon position class
-		const iconPositionClass = iconPosition ? `icon-${ iconPosition }` : 'icon-right';
-		const titleAlignClass = titleAlignment ? `title-align-${ titleAlignment }` : 'title-align-left';
-		const iconElement = renderIcon( iconPosition );
-		const hasIcon = !! iconElement;
+/**
+ * Render title with optional heading wrapper
+ */
+const renderTitle = () => {
+  const headingLevel = effectiveValues.headingLevel || 'none';
+  const iconPosition = effectiveValues.iconPosition || 'right';
+  const titleAlignment = effectiveValues.titleAlignment || 'left';
+  const titleAlignClass = titleAlignment
+    ? `title-align-${ titleAlignment }`
+    : 'title-align-left';
 
-		// Build inner content based on icon position
-		let innerContent;
+  const iconElement = renderIcon();
+  const hasIcon = !! iconElement;
 
-		if ( iconPosition === 'box-left' ) {
-			innerContent = (
-				<>
-					{ hasIcon && (
-						<span className="accordion-icon-slot">
-							{ iconElement }
-						</span>
-					) }
-					<div className="accordion-title-text-wrapper">
-						<RichText
-							tagName="span"
-							value={ attributes.title || '' }
-							onChange={ ( value ) => setAttributes( { title: value } ) }
-							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-							className="accordion-title-text"
-							style={ {
-								...titleTextInlineStyles,
-								...titleFormattingStyles,
-							} }
-						/>
-					</div>
-				</>
-			);
-		} else if ( iconPosition === 'box-right' ) {
-			innerContent = (
-				<>
-					<div className="accordion-title-text-wrapper">
-						<RichText
-							tagName="span"
-							value={ attributes.title || '' }
-							onChange={ ( value ) => setAttributes( { title: value } ) }
-							placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-							className="accordion-title-text"
-							style={ {
-								...titleTextInlineStyles,
-								...titleFormattingStyles,
-							} }
-						/>
-					</div>
-					{ hasIcon && (
-						<span className="accordion-icon-slot">
-							{ iconElement }
-						</span>
-					) }
-				</>
-			);
-		} else if ( iconPosition === 'left' ) {
-			innerContent = (
-				<div className="accordion-title-inline">
-					{ hasIcon && iconElement }
-					<RichText
-						tagName="span"
-						value={ attributes.title || '' }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
-						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						className="accordion-title-text"
-						style={ {
-							...titleTextInlineStyles,
-							...titleFormattingStyles,
-						} }
-					/>
-				</div>
-			);
-		} else {
-			// Right of text (default)
-			innerContent = (
-				<div className="accordion-title-inline">
-					<RichText
-						tagName="span"
-						value={ attributes.title || '' }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
-						placeholder={ __( 'Accordion title…', 'guttemberg-plus' ) }
-						className="accordion-title-text"
-						style={ {
-							...titleTextInlineStyles,
-							...titleFormattingStyles,
-						} }
-					/>
-					{ hasIcon && iconElement }
-				</div>
-			);
-		}
+  // Build button content - icon position affects layout structure
+  let buttonChildren;
 
-		// The accordion-title div mimics the button structure from save.js
-		const titleElement = (
-			<div
-				className={ `accordion-title ${ iconPositionClass } ${ titleAlignClass }` }
-				style={ styles.title }
-			>
-				{ innerContent }
-			</div>
-		);
+  if ( iconPosition === 'box-left' ) {
+    // Extreme left: icon at far left, text with flex grows to fill
+    buttonChildren = (
+      <>
+        { hasIcon && <span className="accordion-icon-slot">{ iconElement }</span> }
+        <div className="accordion-title-text-wrapper">
+          <RichText
+            tagName="span"
+            value={ attributes.title || '' }
+            onChange={ (value) => setAttributes({ title: value }) }
+            placeholder={ __('Accordion title…', 'guttemberg-plus') }
+            className="accordion-title-text"
+            style={ {
+              ...titleTextInlineStyles,
+              ...titleFormattingStyles,
+            } }
+          />
+        </div>
+      </>
+    );
+  } else if ( iconPosition === 'box-right' ) {
+    // Extreme right: text with flex grows, icon at far right
+    buttonChildren = (
+      <>
+        <div className="accordion-title-text-wrapper">
+          <RichText
+            tagName="span"
+            value={ attributes.title || '' }
+            onChange={ (value) => setAttributes({ title: value }) }
+            placeholder={ __('Accordion title…', 'guttemberg-plus') }
+            className="accordion-title-text"
+            style={ {
+              ...titleTextInlineStyles,
+              ...titleFormattingStyles,
+            } }
+          />
+        </div>
+        { hasIcon && <span className="accordion-icon-slot">{ iconElement }</span> }
+      </>
+    );
+  } else if ( iconPosition === 'left' ) {
+    // Left of text: wrap icon+text as single group that can be aligned
+    buttonChildren = (
+      <div className="accordion-title-inline">
+        { hasIcon && iconElement }
+        <RichText
+          tagName="span"
+          value={ attributes.title || '' }
+          onChange={ (value) => setAttributes({ title: value }) }
+          placeholder={ __('Accordion title…', 'guttemberg-plus') }
+          className="accordion-title-text"
+          style={ {
+            ...titleTextInlineStyles,
+            ...titleFormattingStyles,
+          } }
+        />
+      </div>
+    );
+  } else {
+    // Right of text (default): wrap text+icon as single group that can be aligned
+    buttonChildren = (
+      <div className="accordion-title-inline">
+        <RichText
+          tagName="span"
+          value={ attributes.title || '' }
+          onChange={ (value) => setAttributes({ title: value }) }
+          placeholder={ __('Accordion title…', 'guttemberg-plus') }
+          className="accordion-title-text"
+          style={ {
+            ...titleTextInlineStyles,
+            ...titleFormattingStyles,
+          } }
+        />
+        { hasIcon && iconElement }
+      </div>
+    );
+  }
 
-		// Wrap in heading if needed - use actual heading tags for TOC detection
-		let wrappedTitle = titleElement;
-		if ( headingLevel !== 'none' ) {
-			const HeadingTag = headingLevel;
-			wrappedTitle = (
-				<HeadingTag className="accordion-heading heading-reset">
-					{ titleElement }
-				</HeadingTag>
-			);
-		}
+  const buttonContent = (
+    <button
+      type="button"
+      className={ `accordion-title ${
+        iconPosition ? `icon-${ iconPosition }` : ''
+      } ${ titleAlignClass }` }
+    >
+      { buttonChildren }
+    </button>
+  );
 
-		return (
-			<div className="accordion-title-wrapper">
-				{ wrappedTitle }
-			</div>
-		);
-	};
+  if ( headingLevel !== 'none' ) {
+    const HeadingTag = headingLevel;
+    return <HeadingTag className="accordion-heading">{ buttonContent }</HeadingTag>;
+  }
 
+  return buttonContent;
+};
+/* ========== AUTO-GENERATED-RENDER-TITLE-END ========== */
+/* ========== AUTO-GENERATED-RENDER-TITLE-END ========== */
 
 	// Validate width input - accepts pixels or percentage
 	const validateWidth = ( value ) => {
@@ -504,17 +501,23 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 	 * Data structure:
 	 * - Base (desktop): stored at root level as value.value or string
 	 * - Tablet/Mobile: stored under value.tablet / value.mobile keys
+	 * @param value
+	 * @param defaultUnit
 	 */
 	const formatDimensionValue = ( value, defaultUnit = '%' ) => {
 		if ( value === null || value === undefined ) {
 			return `100${ defaultUnit }`;
 		}
 		// Handle responsive structure - extract value for current device
-		if ( typeof value === 'object' && ( value.tablet !== undefined || value.mobile !== undefined ) ) {
+		if (
+			typeof value === 'object' &&
+			( value.tablet !== undefined || value.mobile !== undefined )
+		) {
 			// Global uses base value (value.value), tablet/mobile check their key first
-			const deviceValue = responsiveDevice === 'global'
-				? value.value
-				: ( value[ responsiveDevice ] ?? value.value );
+			const deviceValue =
+				responsiveDevice === 'global'
+					? value.value
+					: value[ responsiveDevice ] ?? value.value;
 			return formatDimensionValue( deviceValue, defaultUnit );
 		}
 		// Handle { value, unit } object format
@@ -544,7 +547,11 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 	const classNames = [ 'gutplus-accordion' ];
 
 	// Add open state class for editor preview when dual icons are active
-	const hasDifferentIcons = !! ( effectiveValues.useDifferentIcons && effectiveValues.iconActiveSource && effectiveValues.iconActiveSource.value );
+	const hasDifferentIcons = !! (
+		effectiveValues.useDifferentIcons &&
+		effectiveValues.iconActiveSource &&
+		effectiveValues.iconActiveSource.value
+	);
 	const isPreviewOpen = hasDifferentIcons && iconPreviewState === 'active';
 	if ( isPreviewOpen ) {
 		classNames.push( 'is-open' );
@@ -565,13 +572,13 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 
 	return (
 		<>
-			{/* Make Gutenberg's blue selection outline follow accordion's border-radius */}
+			{ /* Make Gutenberg's blue selection outline follow accordion's border-radius */ }
 			<style>
-				{`
+				{ `
 					.block-editor-block-list__block.is-selected.accordion-item::after {
 						border-radius: var(--accordion-border-radius, 4px) !important;
 					}
-				`}
+				` }
 			</style>
 			<InspectorControls>
 				<div className="accordion-settings-panel">
@@ -593,7 +600,7 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 					/>
 				</div>
 
-				{/* Tabbed inspector with settings and appearance panels */}
+				{ /* Tabbed inspector with settings and appearance panels */ }
 				<TabbedInspector
 					settingsContent={
 						<>
@@ -647,7 +654,10 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 							<div className="accordion-content-inner">
 								<InnerBlocks
 									templateLock={ false }
-									placeholder={ __( 'Add accordion content…', 'guttemberg-plus' ) }
+									placeholder={ __(
+										'Add accordion content…',
+										'guttemberg-plus'
+									) }
 								/>
 							</div>
 						</div>

@@ -4,7 +4,7 @@
  * Centralized utility for building horizontal alignment CSS class names.
  * Used in save.js for frontend rendering.
  *
- * @package GuttemberPlus
+ * @package
  * @since 1.0.0
  */
 
@@ -15,7 +15,5 @@
  * @return {string} The CSS class name for alignment
  */
 export const getAlignmentClass = ( alignmentValue ) => {
-	return alignmentValue
-		? `gutplus-align-${ alignmentValue }`
-		: 'gutplus-align-left';
+	return alignmentValue ? `gutplus-align-${ alignmentValue }` : 'gutplus-align-left';
 };

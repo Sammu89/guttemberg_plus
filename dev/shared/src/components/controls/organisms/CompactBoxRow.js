@@ -7,10 +7,15 @@
  * Uses native Gutenberg UnitControl for consistent UI with WordPress core.
  * Icon slot can contain: StyleIconButton, ColorSwatch, SideIcon (radius/margin/padding)
  *
- * @package guttemberg-plus
+ * @package
  */
 
-import { Flex, FlexItem, FlexBlock, __experimentalUnitControl as UnitControl } from '@wordpress/components';
+import {
+	Flex,
+	FlexItem,
+	FlexBlock,
+	__experimentalUnitControl as UnitControl,
+} from '@wordpress/components';
 import { MiniSlider } from '../atoms/MiniSlider';
 
 /**
@@ -53,9 +58,7 @@ export function CompactBoxRow( {
 		>
 			{ /* Icon slot (optional) */ }
 			{ iconSlot && (
-				<FlexItem className="gutplus-compact-box-row__icon">
-					{ iconSlot }
-				</FlexItem>
+				<FlexItem className="gutplus-compact-box-row__icon">{ iconSlot }</FlexItem>
 			) }
 
 			{ /* Combined value + unit using native Gutenberg UnitControl */ }

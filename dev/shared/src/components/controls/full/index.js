@@ -3,7 +3,7 @@
  *
  * Export all full control components from a single entry point.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 export { BorderPanel } from './BorderPanel';

@@ -3,7 +3,7 @@
  *
  * Dropdown selector for CSS units (px, em, rem, %).
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { SelectControl } from '@wordpress/components';
@@ -12,10 +12,10 @@ import { SelectControl } from '@wordpress/components';
  * UnitDropdown Component
  *
  * @param {Object}   props
- * @param {string}   props.value     - Current unit
- * @param {Function} props.onChange  - Change handler
- * @param {Array}    props.units     - Available units
- * @param {boolean}  props.disabled  - Disabled state
+ * @param {string}   props.value    - Current unit
+ * @param {Function} props.onChange - Change handler
+ * @param {Array}    props.units    - Available units
+ * @param {boolean}  props.disabled - Disabled state
  */
 export function UnitDropdown( {
 	value = 'px',

@@ -3,96 +3,87 @@
  *
  * Exports all utility functions for use across blocks
  *
- * @package GuttembergPlus
+ * @package
  * @since 1.0.0
  */
 
 // CSS Parser utilities
 export {
-  getCSSDefault,
-  getAllCSSDefaults,
-  areCSSDefaultsLoaded,
-  getCSSDefaultWithFallback,
-  getMultipleCSSDefaults
+	getCSSDefault,
+	getAllCSSDefaults,
+	areCSSDefaultsLoaded,
+	getCSSDefaultWithFallback,
+	getMultipleCSSDefaults,
 } from './css-parser';
 
 // Validation utilities
 export {
-  isValidColor,
-  validateThemeName,
-  isValidNumber,
-  isValidSpacing,
-  isValidBorderRadius,
-  isValidEnum,
-  isValidFontWeight,
-  isValidHeadingLevel,
-  isValidBorderStyle,
-  isValidIconType,
-  sanitizeAttributeValue
+	isValidColor,
+	validateThemeName,
+	isValidNumber,
+	isValidSpacing,
+	isValidBorderRadius,
+	isValidEnum,
+	isValidFontWeight,
+	isValidHeadingLevel,
+	isValidBorderStyle,
+	isValidIconType,
+	sanitizeAttributeValue,
 } from './validation';
 
 // ID Generator utilities
 export {
-  generateUniqueId,
-  generateThemeId,
-  isIdUsed,
-  markIdAsUsed,
-  clearUsedIds,
-  getUsedIdCount
+	generateUniqueId,
+	generateThemeId,
+	isIdUsed,
+	markIdAsUsed,
+	clearUsedIds,
+	getUsedIdCount,
 } from './id-generator';
 
 // Keyboard Navigation utilities
 export {
-  KEYS,
-  isActivationKey,
-  isArrowKey,
-  handleAccordionKeyboard,
-  handleTabsKeyboard,
-  getNextIndex,
-  focusElement,
-  getFocusableElements,
-  trapFocus,
-  addKeyboardListener
+	KEYS,
+	isActivationKey,
+	isArrowKey,
+	handleAccordionKeyboard,
+	handleTabsKeyboard,
+	getNextIndex,
+	focusElement,
+	getFocusableElements,
+	trapFocus,
+	addKeyboardListener,
 } from './keyboard-nav';
 
 // ARIA Helper utilities
 export {
-  getAccordionButtonAria,
-  getAccordionPanelAria,
-  getTabButtonAria,
-  getTabPanelAria,
-  getTabListAria,
-  getTOCNavAria,
-  getLiveRegionAria,
-  getContentIdFromHeaderId,
-  getHeaderIdFromContentId
+	getAccordionButtonAria,
+	getAccordionPanelAria,
+	getTabButtonAria,
+	getTabPanelAria,
+	getTabListAria,
+	getTOCNavAria,
+	getLiveRegionAria,
+	getContentIdFromHeaderId,
+	getHeaderIdFromContentId,
 } from './aria-helpers';
 
 // Debug utilities
-export {
-  debug,
-  debugError,
-  debugWarn,
-  debugTable
-} from './debug';
+export { debug, debugError, debugWarn, debugTable } from './debug';
 
 // Delta Calculator utilities
-export {
-  calculateDeltas,
-  applyDeltas,
-  getThemeableSnapshot
-} from './delta-calculator';
+export { calculateDeltas, applyDeltas, getThemeableSnapshot } from './delta-calculator';
 
 // Schema Config Builder utilities
 export {
-  getPanelConfig,
-  getAttributesByPanel,
-  validatePanelConfig,
-  getAttributeConfig,
-  getSchemaGroups,
-  getThemeableAttributes,
-  buildAttributeMapping,
-  getControlConfiguration
+	getPanelConfig,
+	getAttributesByPanel,
+	validatePanelConfig,
+	getAttributeConfig,
+	getSchemaGroups,
+	getThemeableAttributes,
+	buildAttributeMapping,
+	getControlConfiguration,
 } from './schema-config-builder';
 
 // Alignment utilities
@@ -100,39 +91,42 @@ export { getAlignmentClass } from './getAlignmentClass';
 
 // Batch Block Updater utilities
 export {
-  findBlocksUsingTheme,
-  batchUpdateCleanBlocks,
-  batchResetBlocksUsingTheme,
-  showBatchUpdateNotification
+	findBlocksUsingTheme,
+	batchUpdateCleanBlocks,
+	batchResetBlocksUsingTheme,
+	showBatchUpdateNotification,
 } from './batch-block-updater';
 
 // Responsive utilities
 export {
-  getResponsiveValue,
-  isInheritedValue,
-  setResponsiveValue,
-  generateResponsiveCSS,
-  generateMediaQueryCSS,
-  clearResponsiveValue,
-  hasResponsiveOverrides,
-  ensureResponsiveValue,
-  generateCompleteResponsiveCSS
+	getResponsiveValue,
+	isInheritedValue,
+	setResponsiveValue,
+	generateResponsiveCSS,
+	generateMediaQueryCSS,
+	clearResponsiveValue,
+	hasResponsiveOverrides,
+	ensureResponsiveValue,
+	generateCompleteResponsiveCSS,
 } from './responsive-utils';
 
 // Shadow utilities
 export {
-  buildBoxShadow,
-  buildTextShadow,
-  formatShadowValue,
-  createDefaultShadowLayer,
-  duplicateShadowLayer
+	buildBoxShadow,
+	buildTextShadow,
+	formatShadowValue,
+	createDefaultShadowLayer,
+	duplicateShadowLayer,
 } from './shadow-utils';
 
 // Reset Helper utilities
 export {
-  createComprehensiveReset,
-  hasDeviceOverrides,
-  removeDeviceOverrides,
-  isLinked,
-  getDeviceValue
+	createComprehensiveReset,
+	hasDeviceOverrides,
+	removeDeviceOverrides,
+	isLinked,
+	getDeviceValue,
 } from './reset-helpers';
+
+// Icon Renderer utilities
+export { renderSingleIcon, renderIconWrapper } from './icon-renderer';

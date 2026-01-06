@@ -34,7 +34,7 @@ const BLOCKS = [
  *
  * @param {string} oldPath - Path to the old file
  * @param {string} newPath - Path to the new file
- * @returns {boolean} - True if rename was successful
+ * @return {boolean} - True if rename was successful
  */
 function renameFile( oldPath, newPath ) {
 	if ( ! fs.existsSync( oldPath ) ) {
@@ -45,10 +45,7 @@ function renameFile( oldPath, newPath ) {
 		fs.renameSync( oldPath, newPath );
 		return true;
 	} catch ( error ) {
-		console.error(
-			`✗ Error renaming file: ${ oldPath }`,
-			error.message
-		);
+		console.error( `✗ Error renaming file: ${ oldPath }`, error.message );
 		return false;
 	}
 }
@@ -79,7 +76,7 @@ function main() {
 
 	// Only output if something happened
 	if ( successCount > 0 ) {
-		console.log( `✅ CSS renamed: ${successCount} files` );
+		console.log( `✅ CSS renamed: ${ successCount } files` );
 	}
 }
 

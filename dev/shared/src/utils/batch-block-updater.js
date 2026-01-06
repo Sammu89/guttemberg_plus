@@ -16,9 +16,9 @@ import { debug } from './debug';
 /**
  * Find all blocks of a specific type on the current page
  *
- * @param {Array} blocks - Array of blocks to search (from getBlocks())
- * @param {string} blockType - Block type to find (e.g., 'accordion', 'tabs', 'toc')
- * @param {Function} filterFn - Optional filter function(block) => boolean
+ * @param {Array}    blocks    - Array of blocks to search (from getBlocks())
+ * @param {string}   blockType - Block type to find (e.g., 'accordion', 'tabs', 'toc')
+ * @param {Function} filterFn  - Optional filter function(block) => boolean
  * @return {Array} Array of { clientId, attributes } objects
  */
 function findBlocks( blocks, blockType, filterFn = null ) {
@@ -51,8 +51,8 @@ function findBlocks( blocks, blockType, filterFn = null ) {
 /**
  * Find all blocks using a specific theme on the current page
  *
- * @param {string} blockType - Block type ('accordion', 'tabs', 'toc')
- * @param {string} themeName - Theme name to search for
+ * @param {string}  blockType - Block type ('accordion', 'tabs', 'toc')
+ * @param {string}  themeName - Theme name to search for
  * @param {boolean} cleanOnly - If true, only return blocks without customizations
  * @return {Array} Array of { clientId, attributes } objects
  */
@@ -84,17 +84,15 @@ export function findBlocksUsingTheme( blockType, themeName, cleanOnly = false ) 
  * When a theme is updated, this function finds all "clean" blocks using that theme
  * (blocks with empty customizations object) and updates them with the new theme values.
  *
- * @param {string} blockType - Block type ('accordion', 'tabs', 'toc')
- * @param {string} themeName - Theme name that was updated
+ * @param {string} blockType      - Block type ('accordion', 'tabs', 'toc')
+ * @param {string} themeName      - Theme name that was updated
  * @param {Object} newThemeValues - New complete values (defaults + theme deltas)
- * @param {Array} excludeKeys - Keys to exclude from updates (IDs, meta, etc.)
+ * @param {Array}  excludeKeys    - Keys to exclude from updates (IDs, meta, etc.)
  * @return {number} Number of blocks updated
  */
 export function batchUpdateCleanBlocks( blockType, themeName, newThemeValues, excludeKeys = [] ) {
-
 	// Find all clean blocks using this theme
 	const blocksToUpdate = findBlocksUsingTheme( blockType, themeName, true );
-
 
 	if ( blocksToUpdate.length === 0 ) {
 		return 0;
@@ -126,7 +124,6 @@ export function batchUpdateCleanBlocks( blockType, themeName, newThemeValues, ex
 		}
 	} );
 
-
 	return blocksToUpdate.length;
 }
 
@@ -136,17 +133,15 @@ export function batchUpdateCleanBlocks( blockType, themeName, newThemeValues, ex
  * When a theme is deleted, this function finds all blocks using that theme
  * and resets them to defaults.
  *
- * @param {string} blockType - Block type ('accordion', 'tabs', 'toc')
- * @param {string} themeName - Theme name that was deleted
- * @param {Object} defaults - Default values to apply
- * @param {Array} excludeKeys - Keys to exclude from reset (IDs, meta, etc.)
+ * @param {string} blockType   - Block type ('accordion', 'tabs', 'toc')
+ * @param {string} themeName   - Theme name that was deleted
+ * @param {Object} defaults    - Default values to apply
+ * @param {Array}  excludeKeys - Keys to exclude from reset (IDs, meta, etc.)
  * @return {number} Number of blocks reset
  */
 export function batchResetBlocksUsingTheme( blockType, themeName, defaults, excludeKeys = [] ) {
-
 	// Find ALL blocks using this theme (clean or customized)
 	const blocksToReset = findBlocksUsingTheme( blockType, themeName, false );
-
 
 	if ( blocksToReset.length === 0 ) {
 		return 0;
@@ -170,7 +165,6 @@ export function batchResetBlocksUsingTheme( blockType, themeName, defaults, excl
 		dispatch( 'core/block-editor' ).updateBlockAttributes( clientId, resetAttrs );
 	} );
 
-
 	return blocksToReset.length;
 }
 
@@ -179,7 +173,7 @@ export function batchResetBlocksUsingTheme( blockType, themeName, defaults, excl
  *
  * @param {string} operation - Operation type ('update' or 'delete')
  * @param {string} themeName - Theme name
- * @param {number} count - Number of blocks affected
+ * @param {number} count     - Number of blocks affected
  */
 export function showBatchUpdateNotification( operation, themeName, count ) {
 	const { createSuccessNotice } = dispatch( 'core/notices' );

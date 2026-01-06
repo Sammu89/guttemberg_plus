@@ -5,7 +5,7 @@
  * Provides a consistent interface for color selection with preview swatch,
  * text input, and popup color picker.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -57,16 +57,16 @@ import { ResetButton } from './ResetButton';
  *
  * ============================================================================
  *
- * @param {Object}   props               Component props
- * @param {string}   props.label         Label for the control
- * @param {string}   props.value         Current color value (hex, rgb, rgba, etc.) - see DATA STRUCTURE above
- * @param {Function} props.onChange      Callback when color changes - see DATA STRUCTURE above
- * @param {Function} props.onReset       Optional custom reset callback
- * @param {string}   props.defaultValue  Default color for reset
- * @param {boolean}  props.disableAlpha  Whether to disable alpha channel (default: false)
- * @param {string}   props.help          Help text below the control
- * @param {boolean}  props.showReset     Whether to show reset button (default: true)
- * @returns {JSX.Element} Color control component
+ * @param {Object}   props              Component props
+ * @param {string}   props.label        Label for the control
+ * @param {string}   props.value        Current color value (hex, rgb, rgba, etc.) - see DATA STRUCTURE above
+ * @param {Function} props.onChange     Callback when color changes - see DATA STRUCTURE above
+ * @param {Function} props.onReset      Optional custom reset callback
+ * @param {string}   props.defaultValue Default color for reset
+ * @param {boolean}  props.disableAlpha Whether to disable alpha channel (default: false)
+ * @param {string}   props.help         Help text below the control
+ * @param {boolean}  props.showReset    Whether to show reset button (default: true)
+ * @return {JSX.Element} Color control component
  */
 export function ColorControl( {
 	label,
@@ -164,7 +164,7 @@ export function ColorControl( {
 	};
 
 	// Display color (temp color when picker is open, actual value otherwise)
-	const displayColor = isPickerOpen ? tempColor : ( value || '' );
+	const displayColor = isPickerOpen ? tempColor : value || '';
 
 	// Determine if reset is disabled
 	const isResetDisabled = value === defaultValue || ( ! value && ! defaultValue );

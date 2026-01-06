@@ -56,6 +56,8 @@ export function AppearanceControl( {
 
 	/**
 	 * Build a unique key from weight and style for comparison
+	 * @param weight
+	 * @param style
 	 */
 	const buildKey = ( weight, style ) => `${ weight }-${ style }`;
 
@@ -78,6 +80,7 @@ export function AppearanceControl( {
 
 	/**
 	 * Handle selection change
+	 * @param selectedKey
 	 */
 	const handleChange = ( selectedKey ) => {
 		const selected = presets.find(

@@ -4,7 +4,7 @@
  * Color/Gradient switcher with tabs for "Classic" (solid color)
  * and "Gradient" (CSS gradient) modes.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -28,7 +28,7 @@ import { ResetButton } from './ResetButton';
  * Detect if a value is a gradient or solid color
  *
  * @param {string} value - CSS color or gradient value
- * @returns {string} 'gradient' or 'classic'
+ * @return {string} 'gradient' or 'classic'
  */
 function detectColorType( value ) {
 	if ( ! value || typeof value !== 'string' ) {
@@ -103,18 +103,18 @@ const DEFAULT_GRADIENTS = [
  * A combined color/gradient control with tabbed interface for switching
  * between solid colors and CSS gradients.
  *
- * @param {Object}   props               Component props
- * @param {string}   props.label         Label for the control
- * @param {string}   props.value         Current color or gradient value
- * @param {Function} props.onChange      Callback when value changes
- * @param {Function} props.onReset       Optional custom reset callback
- * @param {string}   props.defaultValue  Default value for reset
- * @param {Array}    props.gradients     Custom gradient presets (optional)
- * @param {Array}    props.colors        Color palette for solid colors (optional)
- * @param {boolean}  props.disableAlpha  Whether to disable alpha channel (default: false)
- * @param {string}   props.help          Help text below the control
- * @param {boolean}  props.showReset     Whether to show reset button (default: true)
- * @returns {JSX.Element} Gradient control component
+ * @param {Object}   props              Component props
+ * @param {string}   props.label        Label for the control
+ * @param {string}   props.value        Current color or gradient value
+ * @param {Function} props.onChange     Callback when value changes
+ * @param {Function} props.onReset      Optional custom reset callback
+ * @param {string}   props.defaultValue Default value for reset
+ * @param {Array}    props.gradients    Custom gradient presets (optional)
+ * @param {Array}    props.colors       Color palette for solid colors (optional)
+ * @param {boolean}  props.disableAlpha Whether to disable alpha channel (default: false)
+ * @param {string}   props.help         Help text below the control
+ * @param {boolean}  props.showReset    Whether to show reset button (default: true)
+ * @return {JSX.Element} Gradient control component
  */
 export function GradientControl( {
 	label,
@@ -236,7 +236,7 @@ export function GradientControl( {
 	};
 
 	// Display value (temp when picker is open)
-	const displayValue = isPickerOpen ? tempValue : ( value || '' );
+	const displayValue = isPickerOpen ? tempValue : value || '';
 
 	// Determine if reset is disabled
 	const isResetDisabled = value === defaultValue || ( ! value && ! defaultValue );
@@ -306,10 +306,7 @@ export function GradientControl( {
 			<Flex gap={ 2 } align="flex-start">
 				{ /* Color/gradient preview swatch */ }
 				<FlexItem>
-					<div
-						className="gutplus-gradient-control__swatch"
-						style={ getPreviewStyle() }
-					/>
+					<div className="gutplus-gradient-control__swatch" style={ getPreviewStyle() } />
 				</FlexItem>
 
 				{ /* Text input for value */ }

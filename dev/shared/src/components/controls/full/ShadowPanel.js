@@ -4,7 +4,7 @@
  * Main shadow panel component that manages multiple shadow layers.
  * Allows users to add, delete, and configure multiple box-shadow layers.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { useState } from '@wordpress/element';
@@ -53,11 +53,11 @@ import { duplicateShadowLayer } from '../../../utils/shadow-utils';
  * ============================================================================
  *
  * @param {Object}   props
- * @param {string}   props.label       - Panel label
- * @param {Array}    props.value       - Array of shadow layer objects
- * @param {Function} props.onChange    - Called with updated array when changes occur
- * @param {boolean}  props.disabled    - Disabled state
- * @param {boolean}  props.showSpread  - Whether to show spread control (default: true, false for text-shadow)
+ * @param {string}   props.label      - Panel label
+ * @param {Array}    props.value      - Array of shadow layer objects
+ * @param {Function} props.onChange   - Called with updated array when changes occur
+ * @param {boolean}  props.disabled   - Disabled state
+ * @param {boolean}  props.showSpread - Whether to show spread control (default: true, false for text-shadow)
  * @param {boolean}  props.showBlur   - Whether to show blur control (default: true, false for text-shadow)
  */
 export function ShadowPanel( {
@@ -69,9 +69,7 @@ export function ShadowPanel( {
 	showBlur = true,
 } ) {
 	// Track which layers are open/collapsed (default: first layer open)
-	const [ openLayers, setOpenLayers ] = useState(
-		value.map( ( _, index ) => index === 0 )
-	);
+	const [ openLayers, setOpenLayers ] = useState( value.map( ( _, index ) => index === 0 ) );
 
 	// Ensure openLayers array matches value array length
 	// This handles cases where value changes externally
@@ -117,9 +115,7 @@ export function ShadowPanel( {
 	 * @param {Object} updatedLayer - The updated layer object
 	 */
 	const handleUpdateLayer = ( index, updatedLayer ) => {
-		const newValue = value.map( ( layer, i ) =>
-			i === index ? updatedLayer : layer
-		);
+		const newValue = value.map( ( layer, i ) => ( i === index ? updatedLayer : layer ) );
 		onChange( newValue );
 	};
 
@@ -135,11 +131,7 @@ export function ShadowPanel( {
 	};
 
 	return (
-		<BaseControl
-			label={ label }
-			className="gutplus-shadow-panel"
-			__nextHasNoMarginBottom
-		>
+		<BaseControl label={ label } className="gutplus-shadow-panel" __nextHasNoMarginBottom>
 			<div className="gutplus-shadow-panel__layers">
 				{ value.map( ( layer, index ) => (
 					<ShadowLayer

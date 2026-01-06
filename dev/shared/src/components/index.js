@@ -3,7 +3,7 @@
  *
  * Exports all shared UI components.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 

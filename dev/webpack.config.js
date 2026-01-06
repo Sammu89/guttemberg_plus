@@ -15,7 +15,11 @@ function silenceSassDeprecations( rules = [] ) {
 		}
 
 		// Normalize use into an array of loader entries
-		const uses = Array.isArray( clonedRule.use ) ? clonedRule.use : clonedRule.use ? [ clonedRule.use ] : [];
+		const uses = Array.isArray( clonedRule.use )
+			? clonedRule.use
+			: clonedRule.use
+			? [ clonedRule.use ]
+			: [];
 		clonedRule.use = uses.map( ( useEntry ) => {
 			if ( typeof useEntry === 'string' ) {
 				// String form can't carry options; leave as-is

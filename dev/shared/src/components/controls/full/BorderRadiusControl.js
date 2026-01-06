@@ -7,7 +7,7 @@
  * Layout (linked):   [◜] [11] [px] ────●──── [🔗]
  * Layout (unlinked): 4 rows with corner icons
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { BaseControl } from '@wordpress/components';
@@ -64,15 +64,15 @@ const CORNERS = [ 'topLeft', 'topRight', 'bottomRight', 'bottomLeft' ];
  * ============================================================================
  *
  * @param {Object}   props
- * @param {string}   props.label        - Control label
- * @param {Object}   props.value        - Value object { topLeft, topRight, bottomRight, bottomLeft, unit, linked }
- * @param {Function} props.onChange     - Change handler
- * @param {Array}    props.units        - Available units
- * @param {number}   props.min          - Minimum value
- * @param {number}   props.max          - Maximum value
- * @param {boolean}  props.responsive   - Whether to show device switcher
- * @param {boolean}  props.disabled     - Disabled state
- * @param {Object}   props.attributes   - Block attributes (for reset)
+ * @param {string}   props.label         - Control label
+ * @param {Object}   props.value         - Value object { topLeft, topRight, bottomRight, bottomLeft, unit, linked }
+ * @param {Function} props.onChange      - Change handler
+ * @param {Array}    props.units         - Available units
+ * @param {number}   props.min           - Minimum value
+ * @param {number}   props.max           - Maximum value
+ * @param {boolean}  props.responsive    - Whether to show device switcher
+ * @param {boolean}  props.disabled      - Disabled state
+ * @param {Object}   props.attributes    - Block attributes (for reset)
  * @param {Function} props.setAttributes - Set attributes function (for reset)
  */
 export function BorderRadiusControl( {
@@ -91,18 +91,16 @@ export function BorderRadiusControl( {
 	const device = useResponsiveDevice();
 
 	// Create comprehensive reset handler
-	const comprehensiveReset = createComprehensiveReset({
+	const comprehensiveReset = createComprehensiveReset( {
 		attributes,
 		setAttributes,
 		attrName: 'borderRadius',
 		canBeResponsive: false, // Always-on responsive
 		isDecomposable: true,
-	});
+	} );
 
 	// Get current device value for responsive, or direct value
-	const currentValue = responsive
-		? ( value?.[ device ] ?? value?.value ?? {} )
-		: value;
+	const currentValue = responsive ? value?.[ device ] ?? value?.value ?? {} : value;
 
 	// Destructure with defaults
 	const {
@@ -152,7 +150,12 @@ export function BorderRadiusControl( {
 	const handleValueChange = ( corner, newVal ) => {
 		if ( linked ) {
 			// All corners get same value
-			updateValue( { topLeft: newVal, topRight: newVal, bottomRight: newVal, bottomLeft: newVal } );
+			updateValue( {
+				topLeft: newVal,
+				topRight: newVal,
+				bottomRight: newVal,
+				bottomLeft: newVal,
+			} );
 		} else {
 			updateValue( { [ corner ]: newVal } );
 		}
@@ -167,7 +170,12 @@ export function BorderRadiusControl( {
 	const handleLinkChange = ( newLinked ) => {
 		if ( newLinked ) {
 			// When linking, use the topLeft value for all corners
-			updateValue( { linked: true, topRight: topLeft, bottomRight: topLeft, bottomLeft: topLeft } );
+			updateValue( {
+				linked: true,
+				topRight: topLeft,
+				bottomRight: topLeft,
+				bottomLeft: topLeft,
+			} );
 		} else {
 			updateValue( { linked: false } );
 		}
@@ -176,7 +184,14 @@ export function BorderRadiusControl( {
 	return (
 		<BaseControl
 			label={
-				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
+				<div
+					style={ {
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						width: '100%',
+					} }
+				>
 					<span>{ label }</span>
 					<UtilityBar
 						isResponsive={ responsive }

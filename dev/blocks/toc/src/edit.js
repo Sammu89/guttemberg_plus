@@ -26,10 +26,7 @@ import {
 	store as blockEditorStore,
 	RichText,
 } from '@wordpress/block-editor';
-import {
-	SelectControl,
-	Button,
-} from '@wordpress/components';
+import { SelectControl, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import {
@@ -58,8 +55,15 @@ import '../../../css/toc_editor.scss';
  * @param root0.clientId
  */
 export default function Edit( { attributes, setAttributes, clientId } ) {
-
-	const { tocId, showTitle, titleText, tocItems = [], deletedHeadingIds = [], enableHierarchicalIndent, levelIndent } = attributes;
+	const {
+		tocId,
+		showTitle,
+		titleText,
+		tocItems = [],
+		deletedHeadingIds = [],
+		enableHierarchicalIndent,
+		levelIndent,
+	} = attributes;
 	const [ headings, setHeadings ] = useState( [] );
 	const [ isScanning, setIsScanning ] = useState( false );
 	const [ hasScanned, setHasScanned ] = useState( false );
@@ -70,10 +74,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const responsiveDevice = useResponsiveDevice();
 
 	// Get all blocks from the editor using Gutenberg's data API
-	const allBlocks = useSelect(
-		( select ) => select( blockEditorStore ).getBlocks(),
-		[]
-	);
+	const allBlocks = useSelect( ( select ) => select( blockEditorStore ).getBlocks(), [] );
 
 	// Generate unique ID on mount
 	useEffect( () => {
@@ -94,17 +95,20 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	 * Icons are stored separately in accordion/tabs blocks (iconTypeClosed, iconTypeOpen attributes)
 	 * and rendered in separate elements with class "accordion-icon" or similar.
 	 * The title text itself doesn't contain icons, just potential HTML formatting.
+	 * @param text
 	 */
 	const stripHtml = ( text ) => {
 		if ( ! text ) {
 			return '';
 		}
-		return text
-			// Remove HTML tags (formatting like <strong>, <em>, etc.)
-			.replace( /<[^>]*>/g, '' )
-			// Normalize whitespace
-			.replace( /\s+/g, ' ' )
-			.trim();
+		return (
+			text
+				// Remove HTML tags (formatting like <strong>, <em>, etc.)
+				.replace( /<[^>]*>/g, '' )
+				// Normalize whitespace
+				.replace( /\s+/g, ' ' )
+				.trim()
+		);
 	};
 
 	/**
@@ -273,12 +277,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				return;
 			}
 
-			const updatedItems = tocItems.filter(
-				( item ) => getItemAnchor( item ) !== anchor
-			);
-			const updatedDeleted = Array.from(
-				new Set( [ ...deletedHeadingIds, anchor ] )
-			);
+			const updatedItems = tocItems.filter( ( item ) => getItemAnchor( item ) !== anchor );
+			const updatedDeleted = Array.from( new Set( [ ...deletedHeadingIds, anchor ] ) );
 
 			setAttributes( {
 				tocItems: updatedItems,
@@ -356,7 +356,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	/**
 	 * Update item text
-	 * @param {string} anchor - Anchor of the item to update
+	 * @param {string} anchor  - Anchor of the item to update
 	 * @param {string} newText - New text value
 	 */
 	const handleUpdateItemText = useCallback(
@@ -404,7 +404,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				} else if ( currentLevel === previousLevel ) {
 					// Same level - no change
 				} else {
-					while ( hierarchyStack.length > 0 && hierarchyStack[ hierarchyStack.length - 1 ] >= currentLevel ) {
+					while (
+						hierarchyStack.length > 0 &&
+						hierarchyStack[ hierarchyStack.length - 1 ] >= currentLevel
+					) {
 						hierarchyStack.pop();
 					}
 					hierarchyStack.push( currentLevel );
@@ -547,8 +550,7 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 		text: item.text || '',
 		level: item.level || 2,
 	} ) );
-const displayHeadings =
-	curatedHeadings.length > 0 ? curatedHeadings : filteredHeadings;
+	const displayHeadings = curatedHeadings.length > 0 ? curatedHeadings : filteredHeadings;
 
 	// Build inline styles - apply width from attributes
 	// IMPORTANT: Force static positioning in editor to prevent overflow issues
@@ -562,17 +564,23 @@ const displayHeadings =
 	 * Data structure:
 	 * - Base (desktop): stored at root level as value.value or string
 	 * - Tablet/Mobile: stored under value.tablet / value.mobile keys
+	 * @param value
+	 * @param defaultUnit
 	 */
 	const formatDimensionValue = ( value, defaultUnit = '%' ) => {
 		if ( value === null || value === undefined ) {
 			return `100${ defaultUnit }`;
 		}
 		// Handle responsive structure - extract value for current device
-		if ( typeof value === 'object' && ( value.tablet !== undefined || value.mobile !== undefined ) ) {
+		if (
+			typeof value === 'object' &&
+			( value.tablet !== undefined || value.mobile !== undefined )
+		) {
 			// Global uses base value (value.value), tablet/mobile check their key first
-			const deviceValue = responsiveDevice === 'global'
-				? value.value
-				: ( value[ responsiveDevice ] ?? value.value );
+			const deviceValue =
+				responsiveDevice === 'global'
+					? value.value
+					: value[ responsiveDevice ] ?? value.value;
 			return formatDimensionValue( deviceValue, defaultUnit );
 		}
 		// Handle { value, unit } object format
@@ -618,14 +626,18 @@ const displayHeadings =
 
 	/**
 	 * Helper: Get responsive value based on current device
-	 * @param {*} value - Value that might be responsive (object with global/tablet/mobile keys)
+	 * @param {*}      value  - Value that might be responsive (object with global/tablet/mobile keys)
 	 * @param {string} device - Current device ('global', 'tablet', 'mobile')
 	 * @return {*} Resolved value for current device
 	 */
 	const getResponsiveValue = ( value, device ) => {
 		if ( typeof value === 'object' && value !== null && ! Array.isArray( value ) ) {
 			// Check if it's a responsive object (has global/tablet/mobile keys)
-			if ( value.global !== undefined || value.tablet !== undefined || value.mobile !== undefined ) {
+			if (
+				value.global !== undefined ||
+				value.tablet !== undefined ||
+				value.mobile !== undefined
+			) {
 				return value[ device ] !== undefined ? value[ device ] : value.global;
 			}
 		}
@@ -681,16 +693,32 @@ const displayHeadings =
 		// In editor, we use initiallyCollapsed for preview
 		const isCollapsed = effectiveValues.initiallyCollapsed || false;
 		const hasDifferentActiveIcon = activeSource && activeSource.value;
-		const displaySource = ! isCollapsed && hasDifferentActiveIcon ? activeSource : inactiveSource;
-		const displayPrefix = ! isCollapsed && hasDifferentActiveIcon ? 'iconActive' : 'iconInactive';
+		const displaySource =
+			! isCollapsed && hasDifferentActiveIcon ? activeSource : inactiveSource;
+		const displayPrefix =
+			! isCollapsed && hasDifferentActiveIcon ? 'iconActive' : 'iconInactive';
 
 		// Get responsive values for current device
-		const offsetX = getResponsiveValue( effectiveValues[ `${ displayPrefix }OffsetX` ], responsiveDevice ) || '0px';
-		const offsetY = getResponsiveValue( effectiveValues[ `${ displayPrefix }OffsetY` ], responsiveDevice ) || '0px';
+		const offsetX =
+			getResponsiveValue(
+				effectiveValues[ `${ displayPrefix }OffsetX` ],
+				responsiveDevice
+			) || '0px';
+		const offsetY =
+			getResponsiveValue(
+				effectiveValues[ `${ displayPrefix }OffsetY` ],
+				responsiveDevice
+			) || '0px';
 		const color = effectiveValues[ `${ displayPrefix }Color` ] || '#333333';
-		const size = getResponsiveValue( effectiveValues[ `${ displayPrefix }Size` ], responsiveDevice ) || '16px';
-		const maxSize = getResponsiveValue( effectiveValues[ `${ displayPrefix }MaxSize` ], responsiveDevice ) || '24px';
-		const rotation = ! isCollapsed ? ( effectiveValues.iconRotation || '180deg' ) : '0deg';
+		const size =
+			getResponsiveValue( effectiveValues[ `${ displayPrefix }Size` ], responsiveDevice ) ||
+			'16px';
+		const maxSize =
+			getResponsiveValue(
+				effectiveValues[ `${ displayPrefix }MaxSize` ],
+				responsiveDevice
+			) || '24px';
+		const rotation = ! isCollapsed ? effectiveValues.iconRotation || '180deg' : '0deg';
 
 		// Wrapper styles (layout only)
 		// Note: Display is handled by CSS variable (--toc-icon-display)
@@ -766,7 +794,9 @@ const displayHeadings =
 		const hasIcon = !! iconElement;
 		const iconPosition = effectiveValues.iconPosition || 'right';
 		const titleAlignment = effectiveValues.titleAlignment || 'left';
-		const titleAlignClass = titleAlignment ? `title-align-${ titleAlignment }` : 'title-align-left';
+		const titleAlignClass = titleAlignment
+			? `title-align-${ titleAlignment }`
+			: 'title-align-left';
 
 		// Build header content based on icon position
 		let buttonChildren;
@@ -774,13 +804,11 @@ const displayHeadings =
 		if ( iconPosition === 'box-left' ) {
 			buttonChildren = (
 				<>
-					{ hasIcon && (
-						<span className="toc-icon-slot">
-							{ iconElement }
-						</span>
-					) }
+					{ hasIcon && <span className="toc-icon-slot">{ iconElement }</span> }
 					<div className="toc-title-text-wrapper">
-						<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+						<span className="toc-title-text" style={ titleTextStyle }>
+							{ titleText }
+						</span>
 					</div>
 				</>
 			);
@@ -788,27 +816,29 @@ const displayHeadings =
 			buttonChildren = (
 				<>
 					<div className="toc-title-text-wrapper">
-						<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
-					</div>
-					{ hasIcon && (
-						<span className="toc-icon-slot">
-							{ iconElement }
+						<span className="toc-title-text" style={ titleTextStyle }>
+							{ titleText }
 						</span>
-					) }
+					</div>
+					{ hasIcon && <span className="toc-icon-slot">{ iconElement }</span> }
 				</>
 			);
 		} else if ( iconPosition === 'left' ) {
 			buttonChildren = (
 				<div className="toc-title-inline">
 					{ hasIcon && iconElement }
-					<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+					<span className="toc-title-text" style={ titleTextStyle }>
+						{ titleText }
+					</span>
 				</div>
 			);
 		} else {
 			// Right (default)
 			buttonChildren = (
 				<div className="toc-title-inline">
-					<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+					<span className="toc-title-text" style={ titleTextStyle }>
+						{ titleText }
+					</span>
 					{ hasIcon && iconElement }
 				</div>
 			);
@@ -819,7 +849,9 @@ const displayHeadings =
 			return (
 				<button
 					id={ buttonId }
-					className={ `toc-title toc-toggle-button ${ iconPosition ? `icon-${ iconPosition }` : '' } ${ titleAlignClass }` }
+					className={ `toc-title toc-toggle-button ${
+						iconPosition ? `icon-${ iconPosition }` : ''
+					} ${ titleAlignClass }` }
 					aria-expanded={ ! attributes.initiallyCollapsed }
 					aria-controls={ contentId }
 					type="button"
@@ -838,11 +870,10 @@ const displayHeadings =
 		// If not collapsible but showTitle is true, render as static title
 		if ( showTitle ) {
 			return (
-				<div
-					className={ `toc-title ${ titleAlignClass }` }
-					style={ styles.title }
-				>
-					<span className="toc-title-text" style={ titleTextStyle }>{ titleText }</span>
+				<div className={ `toc-title ${ titleAlignClass }` } style={ styles.title }>
+					<span className="toc-title-text" style={ titleTextStyle }>
+						{ titleText }
+					</span>
 				</div>
 			);
 		}
@@ -857,7 +888,7 @@ const displayHeadings =
 		numberingStyles[ `--toc-${ level }-numbering` ] = style;
 		numberingDataAttributes[ `data-${ level }-numbering` ] = style;
 	} );
-	const baseLevel = (() => {
+	const baseLevel = ( () => {
 		const levels = ( tocItems || [] )
 			.filter( ( item ) => item && item.level )
 			.map( ( item ) => item.level );
@@ -891,7 +922,7 @@ const displayHeadings =
 					/>
 				</div>
 
-				{/* Auto-generated panels from schema */}
+				{ /* Auto-generated panels from schema */ }
 				<SchemaPanels
 					schema={ tocSchema }
 					attributes={ attributes }
@@ -901,7 +932,7 @@ const displayHeadings =
 					cssDefaults={ allDefaults }
 				/>
 
-				{/* Global breakpoint settings */}
+				{ /* Global breakpoint settings */ }
 				<BreakpointSettings />
 
 				{ /* Customization Warning */ }
@@ -913,10 +944,8 @@ const displayHeadings =
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				{/* Header Section (accordion-like) */}
-				<div className="toc-header-wrapper">
-					{ renderHeader() }
-				</div>
+				{ /* Header Section (accordion-like) */ }
+				<div className="toc-header-wrapper">{ renderHeader() }</div>
 
 				{ /* Scan for headings button */ }
 				<div className="toc-scan-container">
@@ -951,11 +980,17 @@ const displayHeadings =
 					{ /* Results: show headings list or empty message */ }
 					{ ! hasScanned && displayHeadings.length === 0 ? (
 						<p className="toc-empty-message toc-placeholder">
-							{ __( 'Click "Scan for headings" to detect headings in your content.', 'guttemberg-plus' ) }
+							{ __(
+								'Click "Scan for headings" to detect headings in your content.',
+								'guttemberg-plus'
+							) }
 						</p>
 					) : displayHeadings.length === 0 ? (
 						<p className="toc-empty-message toc-placeholder">
-							{ __( 'No headings found. Add H2-H6 headings to your content to populate the table of contents.', 'guttemberg-plus' ) }
+							{ __(
+								'No headings found. Add H2-H6 headings to your content to populate the table of contents.',
+								'guttemberg-plus'
+							) }
 						</p>
 					) : (
 						<div className="toc-curated-wrapper">
@@ -964,34 +999,48 @@ const displayHeadings =
 								className="toc-list toc-items-editor toc-hierarchical-numbering"
 								style={ {
 									...numberingStyles,
-									'--toc-item-spacing': `${ effectiveValues.itemSpacing ?? allDefaults.itemSpacing }rem`,
+									'--toc-item-spacing': `${
+										effectiveValues.itemSpacing ?? allDefaults.itemSpacing
+									}rem`,
 								} }
 								{ ...numberingDataAttributes }
 							>
 								{ tocItems.map( ( item, index ) => {
 									const anchor = getItemAnchor( item );
 									const isHidden = item.hidden === true;
-									const headingLevelClass = item.level ? ` toc-h${ item.level }` : '';
+									const headingLevelClass = item.level
+										? ` toc-h${ item.level }`
+										: '';
 									const indentLevel = calculateEditorIndent( index );
-									const editorIndentStyle = indentLevel > 0
-										? { paddingLeft: `calc(0.75rem + ${ indentLevel } * ${ levelIndent || '1.25rem' })` }
-										: { paddingLeft: '0.75rem' };
+									const editorIndentStyle =
+										indentLevel > 0
+											? {
+													paddingLeft: `calc(0.75rem + ${ indentLevel } * ${
+														levelIndent || '1.25rem'
+													})`,
+											  }
+											: { paddingLeft: '0.75rem' };
 
 									// Get heading-level-specific styles for live preview
 									const headingKey = item.level ? `h${ item.level }` : 'h2';
 									const headingLinkStyle = {
 										color: attributes[ `${ headingKey }Color` ],
-										fontSize: attributes[ `${ headingKey }FontSize` ] ? `${ attributes[ `${ headingKey }FontSize` ] }rem` : undefined,
+										fontSize: attributes[ `${ headingKey }FontSize` ]
+											? `${ attributes[ `${ headingKey }FontSize` ] }rem`
+											: undefined,
 										fontWeight: attributes[ `${ headingKey }FontWeight` ],
 										fontStyle: attributes[ `${ headingKey }FontStyle` ],
 										textTransform: attributes[ `${ headingKey }TextTransform` ],
-										textDecoration: attributes[ `${ headingKey }TextDecoration` ],
+										textDecoration:
+											attributes[ `${ headingKey }TextDecoration` ],
 									};
 
 									return (
 										<li
 											key={ anchor || index }
-											className={ `toc-item toc-item-row${ headingLevelClass }${ isHidden ? ' toc-item-hidden' : '' }` }
+											className={ `toc-item toc-item-row${ headingLevelClass }${
+												isHidden ? ' toc-item-hidden' : ''
+											}` }
 											style={ editorIndentStyle }
 										>
 											<RichText
@@ -999,7 +1048,9 @@ const displayHeadings =
 												className="toc-link"
 												style={ headingLinkStyle }
 												value={ item.text }
-												onChange={ ( newText ) => handleUpdateItemText( anchor, newText ) }
+												onChange={ ( newText ) =>
+													handleUpdateItemText( anchor, newText )
+												}
 												placeholder={ __( 'TOC item…', 'guttemberg-plus' ) }
 												allowedFormats={ [] }
 											/>
@@ -1024,8 +1075,14 @@ const displayHeadings =
 												</button>
 												<button
 													onClick={ () => handleToggleHidden( anchor ) }
-													className={ `toc-action-button toc-hide-button${ isHidden ? ' is-hidden' : '' }` }
-													title={ isHidden ? __( 'Enable', 'guttemberg-plus' ) : __( 'Disable', 'guttemberg-plus' ) }
+													className={ `toc-action-button toc-hide-button${
+														isHidden ? ' is-hidden' : ''
+													}` }
+													title={
+														isHidden
+															? __( 'Enable', 'guttemberg-plus' )
+															: __( 'Disable', 'guttemberg-plus' )
+													}
 													type="button"
 												>
 													{ isHidden ? '◉' : '◯' }
@@ -1059,8 +1116,7 @@ const displayHeadings =
  * @param attributes
  */
 function filterHeadings( headings, attributes ) {
-	const { filterMode, includeClasses, excludeClasses, depthLimit } =
-		attributes;
+	const { filterMode, includeClasses, excludeClasses, depthLimit } = attributes;
 
 	let filtered = headings;
 
@@ -1123,10 +1179,8 @@ function renderHeadingsList( headings, effectiveValues, attributes ) {
 			className="toc-list toc-hierarchical-numbering"
 			style={ numberingStyles }
 			{ ...numberingDataAttributes }
-			data-base-level={ (() => {
-				const levels = headings
-					.filter( ( h ) => h && h.level )
-					.map( ( h ) => h.level );
+			data-base-level={ ( () => {
+				const levels = headings.filter( ( h ) => h && h.level ).map( ( h ) => h.level );
 				let minLevel = levels.length ? Math.min( ...levels ) : 1;
 				if ( ( attributes.h1NumberingStyle || 'decimal' ) === 'none' && minLevel <= 1 ) {
 					minLevel = 2;

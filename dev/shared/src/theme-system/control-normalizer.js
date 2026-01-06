@@ -286,9 +286,8 @@ export function normalizeControlValue( value, attrConfig = {} ) {
 		return input;
 	};
 
-	const normalizeScalar = control === 'RangeControl'
-		? normalizeRangeScalar
-		: normalizeSliderScalar;
+	const normalizeScalar =
+		control === 'RangeControl' ? normalizeRangeScalar : normalizeSliderScalar;
 
 	if (
 		value &&

@@ -3,7 +3,7 @@
  *
  * Exports all custom hooks for use across blocks
  *
- * @package GuttembergPlus
+ * @package
  * @since 1.0.0
  */
 

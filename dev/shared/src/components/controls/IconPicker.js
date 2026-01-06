@@ -8,7 +8,7 @@
  *
  * Output format: {kind: 'char'|'image'|'library', value: string}
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -161,7 +161,8 @@ const getLucideIcons = () => {
 			name !== 'icons' &&
 			// In lucide-react v0.562.0+, icons are objects, not functions
 			// Check if it's a valid React component (object or function)
-			( typeof LucideIcons[ name ] === 'object' || typeof LucideIcons[ name ] === 'function' ) &&
+			( typeof LucideIcons[ name ] === 'object' ||
+				typeof LucideIcons[ name ] === 'function' ) &&
 			// Icon components typically start with uppercase
 			/^[A-Z]/.test( name ) &&
 			// Exclude the *Icon duplicates (e.g., AArrowDownIcon when we have AArrowDown)
@@ -176,6 +177,9 @@ const getLucideIcons = () => {
 
 /**
  * Character Tab - Emoji/Unicode input
+ * @param root0
+ * @param root0.value
+ * @param root0.onChange
  */
 function CharacterTab( { value, onChange } ) {
 	const char = value?.kind === 'char' ? value.value : '';
@@ -223,6 +227,9 @@ function CharacterTab( { value, onChange } ) {
 
 /**
  * Image Tab - WordPress Media Library
+ * @param root0
+ * @param root0.value
+ * @param root0.onChange
  */
 function ImageTab( { value, onChange } ) {
 	const imageUrl = value?.kind === 'image' ? value.value : '';
@@ -284,6 +291,9 @@ function ImageTab( { value, onChange } ) {
 
 /**
  * Library Tab - Dashicons + Lucide icons
+ * @param root0
+ * @param root0.value
+ * @param root0.onChange
  */
 function LibraryTab( { value, onChange } ) {
 	const [ search, setSearch ] = useState( '' );
@@ -301,9 +311,7 @@ function LibraryTab( { value, onChange } ) {
 
 	const filteredIcons =
 		library === 'dashicons'
-			? DASHICONS.filter( ( icon ) =>
-					icon.toLowerCase().includes( search.toLowerCase() )
-			  )
+			? DASHICONS.filter( ( icon ) => icon.toLowerCase().includes( search.toLowerCase() ) )
 			: LUCIDE_ICONS.filter( ( icon ) =>
 					icon.toLowerCase().includes( search.toLowerCase() )
 			  );
@@ -327,11 +335,7 @@ function LibraryTab( { value, onChange } ) {
 				</ButtonGroup>
 			</div>
 
-			<SearchControl
-				value={ search }
-				onChange={ setSearch }
-				placeholder="Search icons..."
-			/>
+			<SearchControl value={ search } onChange={ setSearch } placeholder="Search icons..." />
 
 			<div className="icon-grid">
 				{ filteredIcons.slice( 0, 200 ).map( ( iconName ) => {
@@ -359,8 +363,8 @@ function LibraryTab( { value, onChange } ) {
 			) }
 			{ filteredIcons.length > 200 && (
 				<p className="results-limit">
-					Showing first 200 of { filteredIcons.length } results. Try searching
-					to narrow down.
+					Showing first 200 of { filteredIcons.length } results. Try searching to narrow
+					down.
 				</p>
 			) }
 		</div>
@@ -369,6 +373,9 @@ function LibraryTab( { value, onChange } ) {
 
 /**
  * Helper component to render Lucide icons
+ * @param root0
+ * @param root0.name
+ * @param root0.size
  */
 function LucideIcon( { name, size = 24 } ) {
 	const IconComponent = LucideIcons[ name ];
@@ -384,12 +391,12 @@ function LucideIcon( { name, size = 24 } ) {
 /**
  * Main IconPicker Component
  *
- * @param {Object} props - Component props
- * @param {string} props.label - Label for the control
- * @param {Object} props.value - Current icon value {kind, value}
+ * @param {Object}   props          - Component props
+ * @param {string}   props.label    - Label for the control
+ * @param {Object}   props.value    - Current icon value {kind, value}
  * @param {Function} props.onChange - Callback when icon changes
- * @param {string} props.help - Help text
- * @returns {JSX.Element} IconPicker component
+ * @param {string}   props.help     - Help text
+ * @return {JSX.Element} IconPicker component
  */
 export function IconPicker( { label, value, onChange, help } ) {
 	// Determine initial tab based on current value
@@ -419,7 +426,6 @@ export function IconPicker( { label, value, onChange, help } ) {
 					}
 				} }
 			</TabPanel>
-
 		</BaseControl>
 	);
 }

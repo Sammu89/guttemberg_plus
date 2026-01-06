@@ -9,7 +9,6 @@
  * @since 1.0.0
  */
 
-
 /**
  * Initialize tabs functionality
  * Runs when DOM is ready
@@ -19,8 +18,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		updateDeviceAttributes();
 		initializeTabs();
 		handleResponsiveMode();
-	} catch ( error ) {
-	}
+	} catch ( error ) {}
 } );
 
 /**
@@ -40,8 +38,7 @@ window.addEventListener( 'resize', () => {
 	try {
 		updateDeviceAttributes();
 		handleResponsiveMode();
-	} catch ( error ) {
-	}
+	} catch ( error ) {}
 } );
 
 const DEFAULT_BREAKPOINTS = {
@@ -113,8 +110,7 @@ function initializeSingleTabsBlock( block ) {
 	}
 
 	const orientation = block.getAttribute( 'data-orientation' ) || 'horizontal';
-	const activationModeRaw =
-		block.getAttribute( 'data-activation-mode' ) || 'click';
+	const activationModeRaw = block.getAttribute( 'data-activation-mode' ) || 'click';
 	const activationMode = activationModeRaw === 'hover' ? 'hover' : 'click';
 	const responsiveFallback = block.getAttribute( 'data-responsive-fallback' ) === 'true';
 
@@ -175,16 +171,14 @@ function initializeSingleTabsBlock( block ) {
 				}
 				try {
 					activateTab( block, index );
-				} catch ( error ) {
-				}
+				} catch ( error ) {}
 			} );
 
 			// Keyboard navigation
 			button.addEventListener( 'keydown', ( e ) => {
 				try {
 					handleTabKeyboard( e, button, tabButtons, orientation, activationMode, block );
-				} catch ( error ) {
-				}
+				} catch ( error ) {}
 			} );
 
 			// Focus handler for hover activation mode (keyboard users)
@@ -196,8 +190,7 @@ function initializeSingleTabsBlock( block ) {
 					}
 					try {
 						activateTab( block, index );
-					} catch ( error ) {
-					}
+					} catch ( error ) {}
 				} );
 			}
 
@@ -209,28 +202,24 @@ function initializeSingleTabsBlock( block ) {
 					}
 					try {
 						activateTab( block, index, { isHover: true } );
-					} catch ( error ) {
-					}
+					} catch ( error ) {}
 				} );
 			}
-		} catch ( error ) {
-		}
+		} catch ( error ) {}
 	} );
 
 	// Responsive accordion fallback
 	if ( responsiveFallback ) {
 		try {
 			initializeResponsiveAccordion( block );
-		} catch ( error ) {
-		}
+		} catch ( error ) {}
 	}
 
 	// Initialize horizontal scroll functionality
 	if ( orientation === 'horizontal' ) {
 		try {
 			initializeTabScroll( block );
-		} catch ( error ) {
-		}
+		} catch ( error ) {}
 	}
 }
 
@@ -340,8 +329,8 @@ function initializeTabScroll( block ) {
 /**
  * Activate a specific tab
  *
- * @param {HTMLElement} block Parent block element
- * @param {number}      index Tab index to activate
+ * @param {HTMLElement} block   Parent block element
+ * @param {number}      index   Tab index to activate
  * @param {Object}      options Optional settings for activation
  */
 function activateTab( block, index, options = {} ) {
@@ -428,7 +417,7 @@ function activateTab( block, index, options = {} ) {
  * Update tab icon based on active state
  * Handles new icon system with character, image, and library icons
  *
- * @param {HTMLElement} button Tab button element
+ * @param {HTMLElement} button   Tab button element
  * @param {boolean}     isActive Whether tab is active
  */
 function updateTabIcon( button, isActive ) {
@@ -606,7 +595,7 @@ function handleTabKeyboard( e, currentButton, allButtons, orientation, activatio
  *
  * @param {HTMLElement} panel Panel element
  */
-	// Removed animatePanelIn: relying on simple CSS state change without extra JS animation
+// Removed animatePanelIn: relying on simple CSS state change without extra JS animation
 
 /**
  * Initialize responsive accordion fallback
@@ -657,8 +646,7 @@ function initializeResponsiveAccordion( block ) {
 					panel.removeAttribute( 'hidden' );
 					animateAccordionOpen( panel );
 				}
-			} catch ( error ) {
-			}
+			} catch ( error ) {}
 		} );
 	} );
 }
@@ -729,8 +717,7 @@ function handleResponsiveMode() {
 				tabPanels.style.display = '';
 				accordionFallback.style.display = 'none';
 			}
-		} catch ( error ) {
-		}
+		} catch ( error ) {}
 	} );
 }
 

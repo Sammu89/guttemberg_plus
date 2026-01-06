@@ -12,7 +12,7 @@
  *
  * Layout order: Responsive controls → Link toggle → Reset button
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { Button, Flex, FlexItem } from '@wordpress/components';
@@ -25,18 +25,18 @@ import { ResponsiveIcon } from './icons';
  * UtilityBar Component
  *
  * @param {Object}   props
- * @param {boolean}  props.isResponsive           - Control supports responsive mode (always on)
- * @param {boolean}  props.canBeResponsive        - Responsive can be toggled on/off
- * @param {boolean}  props.isResponsiveEnabled    - Whether responsive mode is enabled (for canBeResponsive pattern)
- * @param {boolean}  props.isDecomposable         - Control has linkable sides (box controls)
- * @param {string}   props.currentDevice          - Current device state (global/tablet/mobile)
- * @param {boolean}  props.isLinked               - Whether sides are linked
- * @param {Function} props.onResponsiveToggle     - Enable/disable responsive handler
- * @param {Function} props.onLinkChange           - Link toggle handler
- * @param {Function} props.onReset                - Comprehensive reset handler
- * @param {boolean}  props.showReset              - Whether to show reset button
- * @param {boolean}  props.resetDisabled          - Disable only the reset button
- * @param {boolean}  props.disabled               - Disable all controls
+ * @param {boolean}  props.isResponsive        - Control supports responsive mode (always on)
+ * @param {boolean}  props.canBeResponsive     - Responsive can be toggled on/off
+ * @param {boolean}  props.isResponsiveEnabled - Whether responsive mode is enabled (for canBeResponsive pattern)
+ * @param {boolean}  props.isDecomposable      - Control has linkable sides (box controls)
+ * @param {string}   props.currentDevice       - Current device state (global/tablet/mobile)
+ * @param {boolean}  props.isLinked            - Whether sides are linked
+ * @param {Function} props.onResponsiveToggle  - Enable/disable responsive handler
+ * @param {Function} props.onLinkChange        - Link toggle handler
+ * @param {Function} props.onReset             - Comprehensive reset handler
+ * @param {boolean}  props.showReset           - Whether to show reset button
+ * @param {boolean}  props.resetDisabled       - Disable only the reset button
+ * @param {boolean}  props.disabled            - Disable all controls
  */
 export function UtilityBar( {
 	isResponsive = false,
@@ -76,10 +76,7 @@ export function UtilityBar( {
 
 			{ showDeviceSwitcher && (
 				<FlexItem>
-					<DeviceSwitcher
-						value={ currentDevice }
-						disabled={ disabled }
-					/>
+					<DeviceSwitcher value={ currentDevice } disabled={ disabled } />
 				</FlexItem>
 			) }
 
@@ -97,10 +94,7 @@ export function UtilityBar( {
 			{ /* Reset Button */ }
 			{ showReset && (
 				<FlexItem>
-					<ResetButton
-						onClick={ onReset }
-						disabled={ shouldDisableReset }
-					/>
+					<ResetButton onClick={ onReset } disabled={ shouldDisableReset } />
 				</FlexItem>
 			) }
 		</Flex>

@@ -3,7 +3,7 @@
  *
  * Export all molecule components from a single entry point.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 export { ValueWithUnit } from './ValueWithUnit';

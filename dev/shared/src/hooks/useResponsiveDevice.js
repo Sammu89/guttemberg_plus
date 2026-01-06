@@ -5,7 +5,7 @@
  * Returns 'global' (base state), 'tablet', or 'mobile'.
  * Global is the base state that applies to all devices unless overridden.
  *
- * @package GuttembergPlus
+ * @package
  * @since 1.0.0
  */
 

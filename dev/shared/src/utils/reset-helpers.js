@@ -13,17 +13,17 @@
  * 3. Clears all device overrides (removes `tablet`, `mobile` keys from value object)
  * 4. If canBeResponsive: Sets `responsiveEnabled[attrName]: false`
  *
- * @param {Object} options - Configuration options for the reset function
- * @param {Object} options.attributes - The attributes object (to get schema defaults)
- * @param {Function} options.setAttributes - Function to update attributes
- * @param {string} [options.attrName] - Single attribute name to reset
- * @param {string[]} [options.attrNames] - Array of attribute names to reset (for compound resets like BorderPanel)
- * @param {Object} [options.responsiveEnabled] - Current responsive enabled state object
- * @param {Function} [options.setResponsiveEnabled] - Function to update responsive enabled state
- * @param {boolean} [options.canBeResponsive=false] - Whether this control supports responsive toggle
- * @param {boolean} [options.isDecomposable=false] - Whether this control has a linked state
+ * @param {Object}   options                         - Configuration options for the reset function
+ * @param {Object}   options.attributes              - The attributes object (to get schema defaults)
+ * @param {Function} options.setAttributes           - Function to update attributes
+ * @param {string}   [options.attrName]              - Single attribute name to reset
+ * @param {string[]} [options.attrNames]             - Array of attribute names to reset (for compound resets like BorderPanel)
+ * @param {Object}   [options.responsiveEnabled]     - Current responsive enabled state object
+ * @param {Function} [options.setResponsiveEnabled]  - Function to update responsive enabled state
+ * @param {boolean}  [options.canBeResponsive=false] - Whether this control supports responsive toggle
+ * @param {boolean}  [options.isDecomposable=false]  - Whether this control has a linked state
  *
- * @returns {Function} A reset function that can be called as an onReset handler
+ * @return {Function} A reset function that can be called as an onReset handler
  *
  * @example
  * // Single decomposable attribute (e.g., SpacingControl)
@@ -61,7 +61,7 @@
  *   isDecomposable: false
  * });
  */
-export function createComprehensiveReset(options) {
+export function createComprehensiveReset( options ) {
 	const {
 		attributes,
 		setAttributes,
@@ -74,10 +74,10 @@ export function createComprehensiveReset(options) {
 	} = options;
 
 	// Normalize to array for uniform processing
-	const attributeNames = attrNames || (attrName ? [attrName] : []);
+	const attributeNames = attrNames || ( attrName ? [ attrName ] : [] );
 
-	if (attributeNames.length === 0) {
-		console.warn('createComprehensiveReset: No attribute names provided');
+	if ( attributeNames.length === 0 ) {
+		console.warn( 'createComprehensiveReset: No attribute names provided' );
 		return () => {};
 	}
 
@@ -85,42 +85,42 @@ export function createComprehensiveReset(options) {
 		const updates = {};
 
 		// Process each attribute
-		attributeNames.forEach((name) => {
-			let defaultValue = attributes[name];
+		attributeNames.forEach( ( name ) => {
+			const defaultValue = attributes[ name ];
 
 			// Handle decomposable values (need to ensure linked: true)
-			if (isDecomposable && typeof defaultValue === 'object' && defaultValue !== null) {
+			if ( isDecomposable && typeof defaultValue === 'object' && defaultValue !== null ) {
 				// Remove device overrides (tablet, mobile keys)
 				const { tablet, mobile, ...baseValue } = defaultValue;
 
 				// Set linked to true for decomposable controls
-				updates[name] = {
+				updates[ name ] = {
 					...baseValue,
 					linked: true,
 				};
-			} else if (typeof defaultValue === 'object' && defaultValue !== null) {
+			} else if ( typeof defaultValue === 'object' && defaultValue !== null ) {
 				// For non-decomposable objects, just remove device overrides
 				const { tablet, mobile, ...baseValue } = defaultValue;
-				updates[name] = baseValue;
+				updates[ name ] = baseValue;
 			} else {
 				// For primitive values, just use the default
-				updates[name] = defaultValue;
+				updates[ name ] = defaultValue;
 			}
-		});
+		} );
 
 		// Apply attribute updates
-		setAttributes(updates);
+		setAttributes( updates );
 
 		// Handle responsive state reset
-		if (canBeResponsive && setResponsiveEnabled && responsiveEnabled) {
+		if ( canBeResponsive && setResponsiveEnabled && responsiveEnabled ) {
 			const responsiveUpdates = {};
 
-			attributeNames.forEach((name) => {
+			attributeNames.forEach( ( name ) => {
 				// Disable responsive mode for each attribute
-				responsiveUpdates[name] = false;
-			});
+				responsiveUpdates[ name ] = false;
+			} );
 
-			setResponsiveEnabled(responsiveUpdates);
+			setResponsiveEnabled( responsiveUpdates );
 		}
 	};
 }
@@ -129,10 +129,10 @@ export function createComprehensiveReset(options) {
  * Helper function to check if a value has device overrides
  *
  * @param {*} value - The value to check
- * @returns {boolean} True if the value has tablet or mobile keys
+ * @return {boolean} True if the value has tablet or mobile keys
  */
-export function hasDeviceOverrides(value) {
-	if (typeof value !== 'object' || value === null) {
+export function hasDeviceOverrides( value ) {
+	if ( typeof value !== 'object' || value === null ) {
 		return false;
 	}
 
@@ -143,10 +143,10 @@ export function hasDeviceOverrides(value) {
  * Helper function to remove device overrides from a value
  *
  * @param {*} value - The value to clean
- * @returns {*} The value without device overrides
+ * @return {*} The value without device overrides
  */
-export function removeDeviceOverrides(value) {
-	if (typeof value !== 'object' || value === null) {
+export function removeDeviceOverrides( value ) {
+	if ( typeof value !== 'object' || value === null ) {
 		return value;
 	}
 
@@ -158,10 +158,10 @@ export function removeDeviceOverrides(value) {
  * Helper function to check if a value is in linked state
  *
  * @param {*} value - The value to check
- * @returns {boolean} True if the value has linked: true
+ * @return {boolean} True if the value has linked: true
  */
-export function isLinked(value) {
-	if (typeof value !== 'object' || value === null) {
+export function isLinked( value ) {
+	if ( typeof value !== 'object' || value === null ) {
 		return false;
 	}
 
@@ -171,35 +171,35 @@ export function isLinked(value) {
 /**
  * Helper function to get the base value (without device overrides)
  *
- * @param {*} value - The value to process
+ * @param {*}      value  - The value to process
  * @param {string} device - Current device ('desktop', 'tablet', 'mobile')
- * @returns {*} The appropriate value for the device
+ * @return {*} The appropriate value for the device
  */
-export function getDeviceValue(value, device = 'desktop') {
-	if (typeof value !== 'object' || value === null) {
+export function getDeviceValue( value, device = 'desktop' ) {
+	if ( typeof value !== 'object' || value === null ) {
 		return value;
 	}
 
 	// For desktop, return the base value (without device overrides)
-	if (device === 'desktop') {
-		return removeDeviceOverrides(value);
+	if ( device === 'desktop' ) {
+		return removeDeviceOverrides( value );
 	}
 
 	// For tablet/mobile, check if override exists
-	if (device === 'tablet' && 'tablet' in value) {
+	if ( device === 'tablet' && 'tablet' in value ) {
 		return value.tablet;
 	}
 
-	if (device === 'mobile') {
+	if ( device === 'mobile' ) {
 		// Mobile falls back to tablet if no mobile override
-		if ('mobile' in value) {
+		if ( 'mobile' in value ) {
 			return value.mobile;
 		}
-		if ('tablet' in value) {
+		if ( 'tablet' in value ) {
 			return value.tablet;
 		}
 	}
 
 	// Fallback to base value
-	return removeDeviceOverrides(value);
+	return removeDeviceOverrides( value );
 }

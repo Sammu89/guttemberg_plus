@@ -1,0 +1,223 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "blockType": "accordion",
+  "version": "2.0.0",
+  "description": "HTML structure definition for Accordion block - defines element hierarchy, class names, and ARIA attributes",
+  "root": "item",
+  "elements": {
+    "item": {
+      "id": "item",
+      "tag": "div",
+      "className": "gutplus-accordion",
+      "description": "Root accordion element - combines item container with block wrapper functionality",
+      "children": [
+        "titleWrapper",
+        "content"
+      ],
+      "attributes": {
+        "data-accordion-id": "{accordionId}"
+      },
+      "conditionalClass": {
+        "is-open": "{initiallyOpen}",
+        "gutplus-accordion-theme-{currentTheme}": "{currentTheme}",
+        "gutplus-align-{accordionHorizontalAlign}": "{accordionHorizontalAlign || 'left'}"
+      },
+      "appliesStyles": [
+        "borderColor",
+        "borderStyle",
+        "borderWidth",
+        "borderRadius",
+        "shadow",
+        "blockMargin",
+        "animationDuration",
+        "accordionWidth"
+      ]
+    },
+    "titleWrapper": {
+      "id": "titleWrapper",
+      "tag": "div",
+      "className": "accordion-title-wrapper",
+      "description": "Wrapper for title button providing structure and padding",
+      "children": [
+        "heading",
+        "title"
+      ],
+      "appliesStyles": []
+    },
+    "heading": {
+      "id": "heading",
+      "tag": "{headingLevel}",
+      "className": "accordion-heading",
+      "description": "Optional semantic heading wrapper (h1-h6) for title button",
+      "children": [
+        "title"
+      ],
+      "conditionalRender": "{headingLevel !== 'none'}",
+      "appliesStyles": []
+    },
+    "title": {
+      "id": "title",
+      "tag": "button",
+      "className": "accordion-title",
+      "description": "Clickable title/header button that toggles accordion visibility",
+      "children": [
+        "titleText",
+        "icon",
+        "titleContentWrapper"
+      ],
+      "attributes": {
+        "type": "button"
+      },
+      "aria": {
+        "expanded": "{!initiallyOpen}",
+        "controls": "{accordionId}-content"
+      },
+      "conditionalClass": {
+        "icon-box-left": "{iconPosition === 'box-left'}",
+        "icon-box-right": "{iconPosition === 'box-right'}",
+        "icon-left": "{iconPosition === 'left'}",
+        "icon-right": "{iconPosition === 'right' || !iconPosition}"
+      },
+      "appliesStyles": [
+        "titleColor",
+        "titleBackgroundColor",
+        "headerPadding",
+        "hoverTitleBackgroundColor",
+        "hoverTitleColor"
+      ]
+    },
+    "titleContentWrapper": {
+      "id": "titleContentWrapper",
+      "tag": "div",
+      "className": "",
+      "description": "Wrapper for title text and icon when icon position is left or right (not extreme)",
+      "children": [
+        "titleText",
+        "icon"
+      ],
+      "conditionalRender": "{iconPosition === 'left' || iconPosition === 'right' || !iconPosition}",
+      "appliesStyles": []
+    },
+    "titleText": {
+      "id": "titleText",
+      "tag": "span",
+      "className": "accordion-title-text",
+      "description": "Title text content (editable with RichText)",
+      "contentType": "RichText",
+      "source": "{title}",
+      "appliesStyles": [
+        "titleFontFamily",
+        "titleFontSize",
+        "titleFormatting",
+        "titleFontWeight",
+        "titleDecorationColor",
+        "titleDecorationStyle",
+        "titleDecorationWidth",
+        "titleLetterSpacing",
+        "titleTextTransform",
+        "titleLineHeight",
+        "titleAlignment",
+        "titleOffsetX",
+        "titleOffsetY",
+        "titleTextShadow"
+      ]
+    },
+    "icon": {
+      "id": "icon",
+      "tag": "span",
+      "className": "accordion-icon",
+      "description": "Expand/collapse icon (character or image)",
+      "conditionalRender": "{iconPosition && iconPosition !== 'none'}",
+      "attributes": {
+        "aria-hidden": "true",
+        "data-icon-inactive": "{JSON.stringify(iconInactiveSource)}",
+        "data-icon-active": "{iconActiveSource ? JSON.stringify(iconActiveSource) : null}",
+        "data-has-different-icons": "{!!iconActiveSource}"
+      },
+      "renderVariant": {
+        "condition": "iconInactiveSource.kind === 'image'",
+        "ifTrue": {
+          "tag": "img",
+          "className": "accordion-icon accordion-icon-image",
+          "attributes": {
+            "src": "{iconInactiveSource.value}",
+            "alt": "",
+            "aria-hidden": "true"
+          }
+        }
+      },
+      "appliesStyles": [
+        "iconInactiveColor",
+        "iconInactiveSize",
+        "iconInactiveMaxSize",
+        "iconInactiveOffsetX",
+        "iconInactiveOffsetY",
+        "iconActiveColor",
+        "iconActiveSize",
+        "iconActiveMaxSize",
+        "iconActiveOffsetX",
+        "iconActiveOffsetY",
+        "iconRotation"
+      ]
+    },
+    "content": {
+      "id": "content",
+      "tag": "div",
+      "className": "accordion-content",
+      "description": "Collapsible content area that expands/collapses with padding for InnerBlocks",
+      "children": [
+        "contentInner"
+      ],
+      "conditionalAttribute": {
+        "hidden": "{!initiallyOpen}"
+      },
+      "aria": {
+        "role": "region",
+        "labelledby": "{accordionId}-header"
+      },
+      "appliesStyles": [
+        "contentBackgroundColor",
+        "contentTextColor",
+        "contentFontFamily",
+        "contentFontSize",
+        "contentLineHeight",
+        "contentPadding",
+        "dividerColor",
+        "dividerWidth",
+        "dividerStyle"
+      ]
+    },
+    "contentInner": {
+      "id": "contentInner",
+      "tag": "div",
+      "className": "accordion-content-inner",
+      "description": "Inner wrapper around accordion panel content for padding and layout",
+      "contentType": "InnerBlocks",
+      "appliesStyles": []
+    }
+  },
+  "hierarchy": {
+    "root": "item",
+    "tree": {
+      "item": {
+        "titleWrapper": {
+          "heading": {
+            "title": [
+              "titleText",
+              "icon",
+              "titleContentWrapper"
+            ]
+          },
+          "title": [
+            "titleText",
+            "icon",
+            "titleContentWrapper"
+          ]
+        },
+        "content": {
+          "contentInner": []
+        }
+      }
+    }
+  }
+}

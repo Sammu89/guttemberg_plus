@@ -4,7 +4,7 @@
  * Compact device switcher (global/tablet/mobile) without text labels.
  * Just icons that are clickable. "Global" represents the base state.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { Button, ButtonGroup } from '@wordpress/components';
@@ -22,20 +22,19 @@ const devices = [
  *
  * Uses global device state - clicking any DeviceSwitcher updates all responsive controls.
  *
- * @param {Object}   props
- * @param {string}   props.value     - Current device (global, tablet, mobile)
- * @param {boolean}  props.disabled  - Disabled state
+ * @param {Object}  props
+ * @param {string}  props.value    - Current device (global, tablet, mobile)
+ * @param {boolean} props.disabled - Disabled state
  */
-export function DeviceSwitcher( {
-	value = 'global',
-	disabled = false,
-} ) {
+export function DeviceSwitcher( { value = 'global', disabled = false } ) {
 	return (
 		<ButtonGroup className="gutplus-device-switcher">
 			{ devices.map( ( device ) => (
 				<Button
 					key={ device.name }
-					className={ `gutplus-device-switcher__button ${ value === device.name ? 'is-active' : '' }` }
+					className={ `gutplus-device-switcher__button ${
+						value === device.name ? 'is-active' : ''
+					}` }
 					icon={ device.icon }
 					label={ device.label }
 					isPressed={ value === device.name }

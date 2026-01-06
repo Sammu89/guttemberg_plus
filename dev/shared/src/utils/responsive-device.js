@@ -1,7 +1,7 @@
 /**
  * Responsive device helpers (editor preview + frontend)
  *
- * @package GuttembergPlus
+ * @package
  * @since 1.0.0
  */
 
@@ -18,7 +18,7 @@ const DEFAULT_BREAKPOINTS = {
  * Get current breakpoint settings from WordPress
  * Falls back to defaults if not available
  *
- * @returns {Object} Breakpoint configuration
+ * @return {Object} Breakpoint configuration
  */
 function getBreakpoints() {
 	if ( typeof window === 'undefined' ) {
@@ -30,7 +30,7 @@ function getBreakpoints() {
 /**
  * Get device widths for viewport simulation based on user-defined breakpoints
  *
- * @returns {Object} Device widths with global (null), tablet, and mobile
+ * @return {Object} Device widths with global (null), tablet, and mobile
  */
 function getDeviceWidths() {
 	const breakpoints = getBreakpoints();
@@ -105,9 +105,7 @@ export function setGlobalResponsiveDevice( device ) {
 	// Apply viewport width simulation for realistic preview
 	applyViewportSimulation( device );
 
-	window.dispatchEvent(
-		new CustomEvent( EVENT_NAME, { detail: { device } } )
-	);
+	window.dispatchEvent( new CustomEvent( EVENT_NAME, { detail: { device } } ) );
 }
 
 export function onResponsiveDeviceChange( handler ) {

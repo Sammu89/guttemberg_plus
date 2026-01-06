@@ -47,22 +47,18 @@ export function ThemeSelector( {
 	onThemeChange,
 	sessionCache = {},
 } ) {
-
 	const [ showCreateModal, setShowCreateModal ] = useState( false );
 	const [ showRenameModal, setShowRenameModal ] = useState( false );
 	const [ newThemeName, setNewThemeName ] = useState( '' );
 
 	// Log when currentTheme prop changes (for debugging theme switching)
-	useEffect( () => {
-	}, [ currentTheme, isCustomized, themes ] );
+	useEffect( () => {}, [ currentTheme, isCustomized, themes ] );
 
 	// Handle theme change
 	const handleThemeChange = ( value ) => {
 		// Parse value - might be "themeName" or "themeName::customized"
 		const isCustomizedVariant = value.endsWith( '::customized' );
-		const themeName = isCustomizedVariant
-			? value.replace( '::customized', '' )
-			: value;
+		const themeName = isCustomizedVariant ? value.replace( '::customized', '' ) : value;
 
 		// If onThemeChange callback provided, use it (new architecture - session-only cache)
 		if ( onThemeChange ) {
@@ -125,7 +121,15 @@ export function ThemeSelector( {
 				__next40pxDefaultSize
 			/>
 
-			<div className="theme-actions" style={ { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px' } }>
+			<div
+				className="theme-actions"
+				style={ {
+					display: 'grid',
+					gridTemplateColumns: '1fr 1fr',
+					gap: '8px',
+					marginTop: '12px',
+				} }
+			>
 				<Button
 					size="small"
 					variant="secondary"
@@ -163,7 +167,13 @@ export function ThemeSelector( {
 					Delete
 				</Button>
 
-				<Button size="small" variant="tertiary" onClick={ onReset } disabled={ ! isCustomized } style={ { gridColumn: '1 / -1' } }>
+				<Button
+					size="small"
+					variant="tertiary"
+					onClick={ onReset }
+					disabled={ ! isCustomized }
+					style={ { gridColumn: '1 / -1' } }
+				>
 					Reset Modifications
 				</Button>
 			</div>

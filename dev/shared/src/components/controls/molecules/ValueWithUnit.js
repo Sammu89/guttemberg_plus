@@ -4,7 +4,7 @@
  * Uses native Gutenberg UnitControl for consistent UI.
  * Layout: [11px ▼]
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { __experimentalUnitControl as UnitControl } from '@wordpress/components';
@@ -13,15 +13,15 @@ import { __experimentalUnitControl as UnitControl } from '@wordpress/components'
  * ValueWithUnit Component
  *
  * @param {Object}   props
- * @param {number}   props.value       - Numeric value
- * @param {string}   props.unit        - CSS unit
+ * @param {number}   props.value         - Numeric value
+ * @param {string}   props.unit          - CSS unit
  * @param {Function} props.onValueChange - Value change handler
  * @param {Function} props.onUnitChange  - Unit change handler
- * @param {Array}    props.units       - Available units
- * @param {number}   props.min         - Minimum value
- * @param {number}   props.max         - Maximum value
- * @param {number}   props.step        - Step increment
- * @param {boolean}  props.disabled    - Disabled state
+ * @param {Array}    props.units         - Available units
+ * @param {number}   props.min           - Minimum value
+ * @param {number}   props.max           - Maximum value
+ * @param {number}   props.step          - Step increment
+ * @param {boolean}  props.disabled      - Disabled state
  */
 export function ValueWithUnit( {
 	value,

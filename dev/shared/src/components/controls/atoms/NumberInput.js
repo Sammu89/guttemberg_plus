@@ -3,7 +3,7 @@
  *
  * Simple number input field - the smallest unit for numeric values.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { __experimentalNumberControl as NumberControl } from '@wordpress/components';
@@ -12,13 +12,13 @@ import { __experimentalNumberControl as NumberControl } from '@wordpress/compone
  * NumberInput Component
  *
  * @param {Object}   props
- * @param {number}   props.value      - Current value
- * @param {Function} props.onChange   - Change handler
- * @param {number}   props.min        - Minimum value
- * @param {number}   props.max        - Maximum value
- * @param {number}   props.step       - Step increment
- * @param {boolean}  props.disabled   - Disabled state
- * @param {string}   props.className  - Additional CSS class
+ * @param {number}   props.value     - Current value
+ * @param {Function} props.onChange  - Change handler
+ * @param {number}   props.min       - Minimum value
+ * @param {number}   props.max       - Maximum value
+ * @param {number}   props.step      - Step increment
+ * @param {boolean}  props.disabled  - Disabled state
+ * @param {string}   props.className - Additional CSS class
  */
 export function NumberInput( {
 	value,

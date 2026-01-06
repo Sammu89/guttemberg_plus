@@ -7,7 +7,7 @@
  * Layout (linked):   [⊘ style] [11] [px] ────●──── [🔗]
  * Layout (unlinked): 4 rows with side icons
  *
- * @package guttemberg-plus
+ * @package
  */
 
 import { BaseControl } from '@wordpress/components';
@@ -25,15 +25,15 @@ const SIDES = [ 'top', 'right', 'bottom', 'left' ];
  * BorderWidthControl Component
  *
  * @param {Object}   props
- * @param {string}   props.label        - Control label
- * @param {Object}   props.value        - Value object { top, right, bottom, left, style, unit, linked }
- * @param {Function} props.onChange     - Change handler
- * @param {Array}    props.units        - Available units
- * @param {number}   props.min          - Minimum value
- * @param {number}   props.max          - Maximum value
- * @param {boolean}  props.responsive   - Whether to show device switcher
- * @param {boolean}  props.disabled     - Disabled state
- * @param {Object}   props.attributes   - Block attributes (for reset)
+ * @param {string}   props.label         - Control label
+ * @param {Object}   props.value         - Value object { top, right, bottom, left, style, unit, linked }
+ * @param {Function} props.onChange      - Change handler
+ * @param {Array}    props.units         - Available units
+ * @param {number}   props.min           - Minimum value
+ * @param {number}   props.max           - Maximum value
+ * @param {boolean}  props.responsive    - Whether to show device switcher
+ * @param {boolean}  props.disabled      - Disabled state
+ * @param {Object}   props.attributes    - Block attributes (for reset)
  * @param {Function} props.setAttributes - Set attributes function (for reset)
  */
 export function BorderWidthControl( {
@@ -51,18 +51,16 @@ export function BorderWidthControl( {
 	const device = useResponsiveDevice();
 
 	// Create comprehensive reset handler
-	const comprehensiveReset = createComprehensiveReset({
+	const comprehensiveReset = createComprehensiveReset( {
 		attributes,
 		setAttributes,
 		attrName: 'borderWidth',
 		canBeResponsive: false, // Always-on responsive
 		isDecomposable: true,
-	});
+	} );
 
 	// Get current device value for responsive, or direct value
-	const currentValue = responsive
-		? ( value?.[ device ] ?? value?.value ?? {} )
-		: value;
+	const currentValue = responsive ? value?.[ device ] ?? value?.value ?? {} : value;
 
 	// Destructure with defaults
 	const {
@@ -142,7 +140,14 @@ export function BorderWidthControl( {
 	return (
 		<BaseControl
 			label={
-				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
+				<div
+					style={ {
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						width: '100%',
+					} }
+				>
 					<span>{ label }</span>
 					<UtilityBar
 						isResponsive={ responsive }

@@ -122,9 +122,7 @@ export default function save( { attributes } ) {
 		'data-h4-numbering': h4NumberingStyle || 'decimal',
 		'data-h5-numbering': h5NumberingStyle || 'decimal',
 		'data-h6-numbering': h6NumberingStyle || 'decimal',
-		'data-toc-items': encodeURIComponent(
-			JSON.stringify( tocItems || [] )
-		),
+		'data-toc-items': encodeURIComponent( JSON.stringify( tocItems || [] ) ),
 		'data-deleted-heading-ids': ( deletedHeadingIds || [] ).join( ',' ),
 		'data-show-icon': showIcon !== false,
 		'data-icon-closed': iconTypeClosed || '▾',
@@ -150,7 +148,8 @@ export default function save( { attributes } ) {
 	const classNames = [ 'gutplus-toc', `toc-position-${ positionType }` ];
 
 	// Track heading toggle state for validation and CSS targeting
-	const headingToggleAny = includeH1 || includeH2 || includeH3 || includeH4 || includeH5 || includeH6;
+	const headingToggleAny =
+		includeH1 || includeH2 || includeH3 || includeH4 || includeH5 || includeH6;
 	if ( ! headingToggleAny ) {
 		classNames.push( 'toc-no-headings-selected' );
 	}
@@ -241,9 +240,10 @@ export default function save( { attributes } ) {
 		}
 
 		// Determine which icon to render initially (based on initiallyCollapsed and useDifferentIcons)
-		const initialSource = ( ! initiallyCollapsed ) && useDifferentIcons && activeSource && activeSource.value
-			? activeSource
-			: inactiveSource;
+		const initialSource =
+			! initiallyCollapsed && useDifferentIcons && activeSource && activeSource.value
+				? activeSource
+				: inactiveSource;
 
 		// Data attributes for frontend JS
 		const hasDifferentIcons = useDifferentIcons && activeSource && activeSource.value;
@@ -315,7 +315,9 @@ export default function save( { attributes } ) {
 		const hasIcon = !! iconElement;
 		const currentIconPosition = iconPosition || 'right';
 		const titleAlignment = effectiveValues.titleAlignment || 'left';
-		const titleAlignClass = titleAlignment ? `title-align-${ titleAlignment }` : 'title-align-left';
+		const titleAlignClass = titleAlignment
+			? `title-align-${ titleAlignment }`
+			: 'title-align-left';
 
 		// Build header content based on icon position
 		let buttonChildren;
@@ -324,11 +326,7 @@ export default function save( { attributes } ) {
 			// Extreme left: icon at far left, text with flex grows to fill
 			buttonChildren = (
 				<>
-					{ hasIcon && (
-						<span className="toc-icon-slot">
-							{ iconElement }
-						</span>
-					) }
+					{ hasIcon && <span className="toc-icon-slot">{ iconElement }</span> }
 					<div className="toc-title-text-wrapper">
 						<span className="toc-title-text">{ titleText }</span>
 					</div>
@@ -341,11 +339,7 @@ export default function save( { attributes } ) {
 					<div className="toc-title-text-wrapper">
 						<span className="toc-title-text">{ titleText }</span>
 					</div>
-					{ hasIcon && (
-						<span className="toc-icon-slot">
-							{ iconElement }
-						</span>
-					) }
+					{ hasIcon && <span className="toc-icon-slot">{ iconElement }</span> }
 				</>
 			);
 		} else if ( currentIconPosition === 'left' ) {
@@ -371,7 +365,9 @@ export default function save( { attributes } ) {
 			return (
 				<button
 					id={ buttonId }
-					className={ `toc-title toc-toggle-button ${ currentIconPosition ? `icon-${ currentIconPosition }` : '' } ${ titleAlignClass }` }
+					className={ `toc-title toc-toggle-button ${
+						currentIconPosition ? `icon-${ currentIconPosition }` : ''
+					} ${ titleAlignClass }` }
 					aria-expanded={ ! initiallyCollapsed }
 					aria-controls={ contentId }
 					type="button"
@@ -384,9 +380,7 @@ export default function save( { attributes } ) {
 		// If not collapsible but showTitle is true, render as static title
 		if ( showTitle ) {
 			return (
-				<div
-					className={ `toc-title ${ titleAlignClass }` }
-				>
+				<div className={ `toc-title ${ titleAlignClass }` }>
 					<span className="toc-title-text">{ titleText }</span>
 				</div>
 			);
@@ -397,29 +391,26 @@ export default function save( { attributes } ) {
 
 	return (
 		<div { ...blockProps }>
-			{/* Header Section (accordion-like) */}
-			<div className="toc-header-wrapper">
-				{ renderHeader() }
-			</div>
+			{ /* Header Section (accordion-like) */ }
+			<div className="toc-header-wrapper">{ renderHeader() }</div>
 
-			{/* Content Section */}
+			{ /* Content Section */ }
 			<nav
 				id={ contentId }
 				className="toc-content"
 				aria-label={ titleText || 'Table of Contents' }
 				{ ...( isCollapsible && initiallyCollapsed && { hidden: true } ) }
 			>
-			<ul
-				className="toc-list toc-hierarchical-numbering"
-				style={ {
-					margin: 0,
-				} }
-				{ ...numberingDataAttributes }
-			>
-				<li className="toc-placeholder">Loading table of contents...</li>
-			</ul>
+				<ul
+					className="toc-list toc-hierarchical-numbering"
+					style={ {
+						margin: 0,
+					} }
+					{ ...numberingDataAttributes }
+				>
+					<li className="toc-placeholder">Loading table of contents...</li>
+				</ul>
 			</nav>
-
 		</div>
 	);
 }

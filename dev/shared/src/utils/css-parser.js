@@ -54,21 +54,21 @@ export function getCSSDefault( blockType, attribute ) {
  * const defaults = getAllCSSDefaults('accordion');
  * // Returns: { titleColor: '#333333', titleFontSize: '18', ... }
  */
-	export function getAllCSSDefaults( blockType ) {
-		// Validate block type
-		const allowedTypes = [ 'accordion', 'tabs', 'toc' ];
-		if ( ! allowedTypes.includes( blockType ) ) {
-			return {};
-		}
+export function getAllCSSDefaults( blockType ) {
+	// Validate block type
+	const allowedTypes = [ 'accordion', 'tabs', 'toc' ];
+	if ( ! allowedTypes.includes( blockType ) ) {
+		return {};
+	}
 
-		// Get defaults object from window
-		const defaultsObjectName = `${ blockType }Defaults`;
-		const defaults = window[ defaultsObjectName ];
+	// Get defaults object from window
+	const defaultsObjectName = `${ blockType }Defaults`;
+	const defaults = window[ defaultsObjectName ];
 
-		// Check if defaults are available
-		if ( ! defaults || typeof defaults !== 'object' ) {
-			return {};
-		}
+	// Check if defaults are available
+	if ( ! defaults || typeof defaults !== 'object' ) {
+		return {};
+	}
 
 	// Return a copy to prevent external modifications
 	return { ...defaults };

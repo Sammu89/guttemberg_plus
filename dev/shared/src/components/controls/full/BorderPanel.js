@@ -16,10 +16,16 @@
  * - colorValue: Can be string OR object { top, right, bottom, left, linked }
  * - styleValue: Can be string OR object { top, right, bottom, left, linked }
  *
- * @package guttemberg-plus
+ * @package
  */
 
-import { BaseControl, Flex, FlexItem, FlexBlock, __experimentalUnitControl as UnitControl } from '@wordpress/components';
+import {
+	BaseControl,
+	Flex,
+	FlexItem,
+	FlexBlock,
+	__experimentalUnitControl as UnitControl,
+} from '@wordpress/components';
 import { ColorSwatch } from '../atoms/ColorSwatch';
 import { StyleIconButton } from '../atoms/StyleIconButton';
 import { SideIcon } from '../atoms/SideIcon';
@@ -123,20 +129,20 @@ const DEFAULT_VALUE = {
  *
  * ============================================================================
  *
- * @param {Object}   props
- * @param {string}   props.label               - Control label
- * @param {Object}   props.value               - Value object (width structure) - see DATA STRUCTURE above
- * @param {Function} props.onChange            - Change handler for width attribute - see DATA STRUCTURE above
- * @param {string|Object} props.colorValue     - Current border color - see DATA STRUCTURE above
- * @param {Function} props.onColorChange       - Handler for color attribute changes - see DATA STRUCTURE above
- * @param {string|Object} props.styleValue     - Current border style - see DATA STRUCTURE above
- * @param {Function} props.onStyleChange       - Handler for style attribute changes - see DATA STRUCTURE above
- * @param {number}   props.min                 - Minimum value
- * @param {number}   props.max                 - Maximum value
- * @param {number}   props.step                - Slider step
- * @param {boolean}  props.responsive          - Whether to show device switcher
- * @param {boolean}  props.disabled            - Disabled state
- * @param {boolean}  props.lockLinked          - When true, always show linked mode and hide LinkToggle
+ * @param {Object}        props
+ * @param {string}        props.label         - Control label
+ * @param {Object}        props.value         - Value object (width structure) - see DATA STRUCTURE above
+ * @param {Function}      props.onChange      - Change handler for width attribute - see DATA STRUCTURE above
+ * @param {string|Object} props.colorValue    - Current border color - see DATA STRUCTURE above
+ * @param {Function}      props.onColorChange - Handler for color attribute changes - see DATA STRUCTURE above
+ * @param {string|Object} props.styleValue    - Current border style - see DATA STRUCTURE above
+ * @param {Function}      props.onStyleChange - Handler for style attribute changes - see DATA STRUCTURE above
+ * @param {number}        props.min           - Minimum value
+ * @param {number}        props.max           - Maximum value
+ * @param {number}        props.step          - Slider step
+ * @param {boolean}       props.responsive    - Whether to show device switcher
+ * @param {boolean}       props.disabled      - Disabled state
+ * @param {boolean}       props.lockLinked    - When true, always show linked mode and hide LinkToggle
  */
 export function BorderPanel( {
 	label = 'Border',
@@ -158,9 +164,7 @@ export function BorderPanel( {
 	const device = useResponsiveDevice();
 
 	// Get current device value for responsive, or direct value
-	const currentValue = responsive
-		? ( value?.[ device ] ?? value?.value ?? DEFAULT_VALUE )
-		: value;
+	const currentValue = responsive ? value?.[ device ] ?? value?.value ?? DEFAULT_VALUE : value;
 
 	// Destructure with defaults
 	const {
@@ -247,7 +251,9 @@ export function BorderPanel( {
 
 	// Handle color change - supports per-side when unlinked
 	const handleColorChange = ( side, newColor ) => {
-		if ( ! onColorChange ) return;
+		if ( ! onColorChange ) {
+			return;
+		}
 
 		// If lockLinked or in linked mode, set all sides same
 		if ( lockLinked || linked ) {
@@ -260,19 +266,24 @@ export function BorderPanel( {
 			} );
 		} else {
 			// Unlinked mode - update specific side
-			const current = typeof colorValue === 'object' ? colorValue : {
-				top: colorValue,
-				right: colorValue,
-				bottom: colorValue,
-				left: colorValue,
-			};
+			const current =
+				typeof colorValue === 'object'
+					? colorValue
+					: {
+							top: colorValue,
+							right: colorValue,
+							bottom: colorValue,
+							left: colorValue,
+					  };
 			onColorChange( { ...current, [ side ]: newColor, linked: false } );
 		}
 	};
 
 	// Handle style change - supports per-side when unlinked
 	const handleStyleChange = ( side, newStyle ) => {
-		if ( ! onStyleChange ) return;
+		if ( ! onStyleChange ) {
+			return;
+		}
 
 		// If lockLinked or in linked mode, set all sides same
 		if ( lockLinked || linked ) {
@@ -285,12 +296,15 @@ export function BorderPanel( {
 			} );
 		} else {
 			// Unlinked mode - update specific side
-			const current = typeof styleValue === 'object' ? styleValue : {
-				top: styleValue,
-				right: styleValue,
-				bottom: styleValue,
-				left: styleValue,
-			};
+			const current =
+				typeof styleValue === 'object'
+					? styleValue
+					: {
+							top: styleValue,
+							right: styleValue,
+							bottom: styleValue,
+							left: styleValue,
+					  };
 			onStyleChange( { ...current, [ side ]: newStyle, linked: false } );
 		}
 	};
@@ -358,7 +372,14 @@ export function BorderPanel( {
 	return (
 		<BaseControl
 			label={
-				<div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } }>
+				<div
+					style={ {
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						width: '100%',
+					} }
+				>
 					<span>{ label }</span>
 					<UtilityBar
 						isResponsive={ responsive }
@@ -402,22 +423,23 @@ export function BorderPanel( {
 
 					{ /* Combined value + unit input */ }
 					<FlexItem className="gutplus-border-panel__value-unit">
-					<UnitControl
-						value={ `${ top }${ effectiveUnit }` }
-						onChange={ ( newValue ) => {
-							const numericValue = parseFloat( newValue ) || 0;
-							const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || effectiveUnit;
-							handleValueChange( 'top', numericValue );
-							if ( newUnit !== effectiveUnit ) {
-								handleUnitChange( newUnit );
-							}
-						} }
-						units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
-						min={ min }
-						max={ max }
-						step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
-						disabled={ disabled }
-					/>
+						<UnitControl
+							value={ `${ top }${ effectiveUnit }` }
+							onChange={ ( newValue ) => {
+								const numericValue = parseFloat( newValue ) || 0;
+								const newUnit =
+									newValue?.replace( /[0-9.-]/g, '' ) || effectiveUnit;
+								handleValueChange( 'top', numericValue );
+								if ( newUnit !== effectiveUnit ) {
+									handleUnitChange( newUnit );
+								}
+							} }
+							units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
+							min={ min }
+							max={ max }
+							step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
+							disabled={ disabled }
+						/>
 					</FlexItem>
 
 					{ /* Slider */ }
@@ -472,16 +494,22 @@ export function BorderPanel( {
 									value={ `${ getSideValue( side ) }${ effectiveUnit }` }
 									onChange={ ( newValue ) => {
 										const numericValue = parseFloat( newValue ) || 0;
-										const newUnit = newValue?.replace( /[0-9.-]/g, '' ) || effectiveUnit;
+										const newUnit =
+											newValue?.replace( /[0-9.-]/g, '' ) || effectiveUnit;
 										handleValueChange( side, numericValue );
 										if ( newUnit !== effectiveUnit ) {
 											handleUnitChange( newUnit );
 										}
 									} }
-									units={ borderWidthUnits.map( ( u ) => ( { value: u, label: u } ) ) }
+									units={ borderWidthUnits.map( ( u ) => ( {
+										value: u,
+										label: u,
+									} ) ) }
 									min={ min }
 									max={ max }
-									step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
+									step={
+										getUnitConfig( 'border-width', effectiveUnit )?.step ?? step
+									}
 									disabled={ disabled }
 									__next40pxDefaultSize
 								/>
@@ -494,7 +522,9 @@ export function BorderPanel( {
 									onChange={ ( newVal ) => handleValueChange( side, newVal ) }
 									min={ min }
 									max={ max }
-									step={ getUnitConfig( 'border-width', effectiveUnit )?.step ?? step }
+									step={
+										getUnitConfig( 'border-width', effectiveUnit )?.step ?? step
+									}
 									disabled={ disabled }
 								/>
 							</FlexBlock>

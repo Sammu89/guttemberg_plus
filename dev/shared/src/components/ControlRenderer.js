@@ -5,7 +5,7 @@
  * Handles conditional visibility (showWhen) and disabled states (disabledWhen).
  * This is the central component for rendering any schema-defined control.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -17,9 +17,7 @@ import {
 	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 
-import {
-	__experimentalPanelColorGradientSettings as PanelColorSettings,
-} from '@wordpress/block-editor';
+import { __experimentalPanelColorGradientSettings as PanelColorSettings } from '@wordpress/block-editor';
 
 // Import all Phase 2-4 controls
 import {
@@ -57,7 +55,7 @@ import { getAvailableUnits, isUnitlessProperty } from '../config/css-property-sc
  * Handles both simple string arrays and object arrays
  *
  * @param {Array} options - Options from config (can be strings or objects)
- * @returns {Array} Normalized options array with { label, value } objects
+ * @return {Array} Normalized options array with { label, value } objects
  */
 function normalizeOptions( options ) {
 	if ( ! Array.isArray( options ) ) {
@@ -82,7 +80,7 @@ function normalizeOptions( options ) {
  * Handles values like "18px", "1.6", etc.
  *
  * @param {*} value - Value to convert
- * @returns {number|null} Numeric value or null
+ * @return {number|null} Numeric value or null
  */
 function toNumericValue( value ) {
 	if ( value === null || value === undefined ) {
@@ -106,7 +104,7 @@ function toNumericValue( value ) {
  *
  * @param {Object} showWhen   - Condition object from schema
  * @param {Object} attributes - Current block attributes
- * @returns {boolean} Whether the control should be shown
+ * @return {boolean} Whether the control should be shown
  */
 function checkShowWhen( showWhen, attributes ) {
 	if ( ! showWhen ) {
@@ -134,7 +132,7 @@ function checkShowWhen( showWhen, attributes ) {
  *
  * @param {Object} disabledWhen - Condition object from schema
  * @param {Object} attributes   - Current block attributes
- * @returns {boolean} Whether the control should be disabled
+ * @return {boolean} Whether the control should be disabled
  */
 function checkDisabledWhen( disabledWhen, attributes ) {
 	if ( ! disabledWhen ) {
@@ -164,8 +162,8 @@ function checkDisabledWhen( disabledWhen, attributes ) {
  *   "iconActiveSource.kind === 'image'"
  *
  * @param {string} expression - JavaScript expression to evaluate
- * @param {Object} values - Effective attribute values
- * @returns {boolean} - Whether control should be shown
+ * @param {Object} values     - Effective attribute values
+ * @return {boolean} - Whether control should be shown
  */
 function evaluateConditionalRender( expression, values ) {
 	try {
@@ -194,7 +192,10 @@ function evaluateConditionalRender( expression, values ) {
 			} );
 
 			// Evaluate with context
-			const func = new Function( ...Object.keys( evalContext ), `return ${safeExpression}` );
+			const func = new Function(
+				...Object.keys( evalContext ),
+				`return ${ safeExpression }`
+			);
 			return func( ...Object.values( evalContext ) );
 		}
 
@@ -220,7 +221,7 @@ function evaluateConditionalRender( expression, values ) {
  * @param {Object}   props.theme                 Current theme object (optional)
  * @param {Object}   props.cssDefaults           CSS default values (optional)
  * @param {Object}   props.colorGradientSettings Theme colors and gradients from useMultipleOriginColorsAndGradients (optional)
- * @returns {JSX.Element|null} Rendered control or null
+ * @return {JSX.Element|null} Rendered control or null
  */
 export function ControlRenderer( {
 	attrName,
@@ -233,7 +234,6 @@ export function ControlRenderer( {
 	cssDefaults = {},
 	colorGradientSettings = {},
 } ) {
-
 	const {
 		control,
 		label,
@@ -329,23 +329,32 @@ export function ControlRenderer( {
 			} else {
 				// Value has device keys, update base while preserving overrides
 				const existingOverrides = {};
-				if ( currentValue?.tablet !== undefined ) existingOverrides.tablet = currentValue.tablet;
-				if ( currentValue?.mobile !== undefined ) existingOverrides.mobile = currentValue.mobile;
+				if ( currentValue?.tablet !== undefined ) {
+					existingOverrides.tablet = currentValue.tablet;
+				}
+				if ( currentValue?.mobile !== undefined ) {
+					existingOverrides.mobile = currentValue.mobile;
+				}
 
 				if ( isClearing ) {
-					const nextValue = Object.keys( existingOverrides ).length > 0
-						? existingOverrides
-						: undefined;
+					const nextValue =
+						Object.keys( existingOverrides ).length > 0 ? existingOverrides : undefined;
 					setAttributes( { [ attrName ]: nextValue } );
 					return;
 				}
 
 				// For scalar values, just use the new value; for objects, spread
-				const newValue = typeof value === 'object' && value !== null
-					? { ...value, ...existingOverrides }
-					: { ...( typeof value === 'object' ? value : { value } ), ...existingOverrides };
+				const newValue =
+					typeof value === 'object' && value !== null
+						? { ...value, ...existingOverrides }
+						: {
+								...( typeof value === 'object' ? value : { value } ),
+								...existingOverrides,
+						  };
 
-				setAttributes( { [ attrName ]: Object.keys( existingOverrides ).length > 0 ? newValue : value } );
+				setAttributes( {
+					[ attrName ]: Object.keys( existingOverrides ).length > 0 ? newValue : value,
+				} );
 			}
 		} else {
 			// Tablet/Mobile create device-specific overrides
@@ -355,16 +364,26 @@ export function ControlRenderer( {
 				}
 				const { tablet, mobile, ...baseValue } = currentValue;
 				const nextValue = { ...baseValue };
-				if ( device !== 'tablet' && tablet !== undefined ) nextValue.tablet = tablet;
-				if ( device !== 'mobile' && mobile !== undefined ) nextValue.mobile = mobile;
-				setAttributes( { [ attrName ]: Object.keys( nextValue ).length > 0 ? nextValue : undefined } );
+				if ( device !== 'tablet' && tablet !== undefined ) {
+					nextValue.tablet = tablet;
+				}
+				if ( device !== 'mobile' && mobile !== undefined ) {
+					nextValue.mobile = mobile;
+				}
+				setAttributes( {
+					[ attrName ]: Object.keys( nextValue ).length > 0 ? nextValue : undefined,
+				} );
 				return;
 			}
 
 			const baseValue = getBase( currentValue );
 			const existingOverrides = {};
-			if ( currentValue?.tablet !== undefined && device !== 'tablet' ) existingOverrides.tablet = currentValue.tablet;
-			if ( currentValue?.mobile !== undefined && device !== 'mobile' ) existingOverrides.mobile = currentValue.mobile;
+			if ( currentValue?.tablet !== undefined && device !== 'tablet' ) {
+				existingOverrides.tablet = currentValue.tablet;
+			}
+			if ( currentValue?.mobile !== undefined && device !== 'mobile' ) {
+				existingOverrides.mobile = currentValue.mobile;
+			}
 
 			// Build new value structure: base + existing overrides + new device override
 			let newAttrValue;
@@ -465,6 +484,7 @@ export function ControlRenderer( {
 
 	/**
 	 * Render label with customization indicator
+	 * @param labelText
 	 */
 	const renderLabel = ( labelText ) => (
 		<span style={ { display: 'flex', alignItems: 'center', gap: '6px' } }>
@@ -539,7 +559,8 @@ export function ControlRenderer( {
 
 		case 'ColorGradientControl': {
 			// Use native WordPress PanelColorGradientSettings for backgrounds (color + gradient)
-			const isGradientValue = typeof effectiveValue === 'string' && effectiveValue.includes( 'gradient' );
+			const isGradientValue =
+				typeof effectiveValue === 'string' && effectiveValue.includes( 'gradient' );
 
 			// Separate handlers to avoid clearing value when switching tabs
 			// WordPress calls the opposite handler with undefined when switching
@@ -598,7 +619,8 @@ export function ControlRenderer( {
 
 		case 'SliderWithInput': {
 			// Get units from centralizer if cssProperty is defined and units not explicitly set
-			const resolvedUnits = units ?? ( cssProperty ? getAvailableUnits( cssProperty ) : null );
+			const resolvedUnits =
+				units ?? ( cssProperty ? getAvailableUnits( cssProperty ) : null );
 
 			// Check if this attribute supports responsive (from schema)
 			// and if responsive mode is currently enabled (user toggle)
@@ -618,12 +640,12 @@ export function ControlRenderer( {
 						cssProperty={ cssProperty }
 						min={ min }
 						max={ max }
-					step={ step }
-					help={ helpText }
-					defaultValue={ normalizedDefaultValue }
-				/>
-			);
-		}
+						step={ step }
+						help={ helpText }
+						defaultValue={ normalizedDefaultValue }
+					/>
+				);
+			}
 
 			return (
 				<SliderWithInput
@@ -762,12 +784,13 @@ export function ControlRenderer( {
 		}
 
 		case 'BorderRadiusControl': {
-			const currentRadius = effectiveValue || defaultValue || {
-				topLeft: 0,
-				topRight: 0,
-				bottomRight: 0,
-				bottomLeft: 0,
-			};
+			const currentRadius = effectiveValue ||
+				defaultValue || {
+					topLeft: 0,
+					topRight: 0,
+					bottomRight: 0,
+					bottomLeft: 0,
+				};
 
 			const handleCornerChange = ( corner, value ) => {
 				const updatedRadius = {
@@ -785,7 +808,14 @@ export function ControlRenderer( {
 						{ renderLabel( finalLabel ) }
 					</h4>
 					{ helpText && (
-						<p style={ { fontSize: '12px', color: '#757575', marginTop: '4px', marginBottom: '12px' } }>
+						<p
+							style={ {
+								fontSize: '12px',
+								color: '#757575',
+								marginTop: '4px',
+								marginBottom: '12px',
+							} }
+						>
 							{ helpText }
 						</p>
 					) }
@@ -851,8 +881,8 @@ export function ControlRenderer( {
 			}
 
 			const allAttrs = Object.entries( schema?.attributes || {} );
-			const relatedAttrs = allAttrs.filter( ( [ , attr ] ) =>
-				attr.control === 'BorderPanel' && attr.controlId === controlId
+			const relatedAttrs = allAttrs.filter(
+				( [ , attr ] ) => attr.control === 'BorderPanel' && attr.controlId === controlId
 			);
 
 			// Find width, color, style by their cssProperty endings
@@ -890,19 +920,34 @@ export function ControlRenderer( {
 				<BorderPanel
 					key={ attrName }
 					label={ renderLabel( finalLabel ) }
-					value={ widthValue ?? widthAttrConfig.default ?? {
-						top: 1,
-						right: 1,
-						bottom: 1,
-						left: 1,
-						unit: 'px',
-						linked: true,
-					} }
-					onChange={ widthAttrName ? ( val ) => setAttributes( { [ widthAttrName ]: val } ) : undefined }
+					value={
+						widthValue ??
+						widthAttrConfig.default ?? {
+							top: 1,
+							right: 1,
+							bottom: 1,
+							left: 1,
+							unit: 'px',
+							linked: true,
+						}
+					}
+					onChange={
+						widthAttrName
+							? ( val ) => setAttributes( { [ widthAttrName ]: val } )
+							: undefined
+					}
 					colorValue={ colorValue }
-					onColorChange={ colorAttrName ? ( color ) => setAttributes( { [ colorAttrName ]: color } ) : undefined }
+					onColorChange={
+						colorAttrName
+							? ( color ) => setAttributes( { [ colorAttrName ]: color } )
+							: undefined
+					}
 					styleValue={ styleValue }
-					onStyleChange={ styleAttrName ? ( style ) => setAttributes( { [ styleAttrName ]: style } ) : undefined }
+					onStyleChange={
+						styleAttrName
+							? ( style ) => setAttributes( { [ styleAttrName ]: style } )
+							: undefined
+					}
 					min={ widthAttrConfig.min ?? 0 }
 					max={ widthAttrConfig.max ?? 20 }
 					step={ widthAttrConfig.step ?? 1 }
@@ -926,8 +971,9 @@ export function ControlRenderer( {
 			}
 
 			const allAttrs = Object.entries( schema?.attributes || {} );
-			const relatedAttrs = allAttrs.filter( ( [ , attr ] ) =>
-				attr.control === 'PanelColorSettings' && attr.controlId === controlId
+			const relatedAttrs = allAttrs.filter(
+				( [ , attr ] ) =>
+					attr.control === 'PanelColorSettings' && attr.controlId === controlId
 			);
 
 			// Build settings array for PanelColorGradientSettings
@@ -936,19 +982,20 @@ export function ControlRenderer( {
 
 				// Auto-detect if this is a background color
 				const isBackgroundColor =
-					colorAttrConfig.cssProperty?.includes('background') ||
+					colorAttrConfig.cssProperty?.includes( 'background' ) ||
 					colorAttrConfig.colorLabel === 'Background';
 
 				const setting = {
 					label: colorAttrConfig.colorLabel || colorAttrConfig.label || colorAttrName,
-					colorValue: colorValue,
+					colorValue,
 					onColorChange: ( color ) => setAttributes( { [ colorAttrName ]: color } ),
 				};
 
 				// Add gradient support for background colors
 				if ( isBackgroundColor ) {
 					setting.gradientValue = colorValue;
-					setting.onGradientChange = ( gradient ) => setAttributes( { [ colorAttrName ]: gradient } );
+					setting.onGradientChange = ( gradient ) =>
+						setAttributes( { [ colorAttrName ]: gradient } );
 				}
 
 				return setting;
@@ -986,15 +1033,15 @@ export function ControlRenderer( {
 					blur: { value: 24, unit: 'px' },
 					spread: { value: 0, unit: 'px' },
 					color: 'rgba(0,0,0,0.15)',
-					inset: false
-				}
+					inset: false,
+				},
 			];
 
 			// Determine which controls to show based on CSS property
 			// text-shadow doesn't support spread or blur
 			const isTextShadow = cssProperty === 'text-shadow';
-			const showSpread = !isTextShadow;
-			const showBlur = !isTextShadow;
+			const showSpread = ! isTextShadow;
+			const showBlur = ! isTextShadow;
 
 			return (
 				<ShadowPanel
@@ -1028,7 +1075,9 @@ export function ControlRenderer( {
 				<AppearanceControl
 					key={ attrName }
 					label={ renderLabel( finalLabel ) }
-					value={ effectiveValue ?? defaultValue ?? { weight: 'normal', style: 'normal' } }
+					value={
+						effectiveValue ?? defaultValue ?? { weight: 'normal', style: 'normal' }
+					}
 					onChange={ handleChange }
 					help={ helpText }
 				/>
@@ -1079,7 +1128,9 @@ export function ControlRenderer( {
 						decorationColor: attributes.titleDecorationColor || 'currentColor',
 						decorationStyle: attributes.titleDecorationStyle || 'solid',
 						decorationWidth: attributes.titleDecorationWidth || 'auto',
-						noLineBreak: ( effectiveValues?.titleNoLineBreak ?? attributes.titleNoLineBreak ) === 'nowrap',
+						noLineBreak:
+							( effectiveValues?.titleNoLineBreak ?? attributes.titleNoLineBreak ) ===
+							'nowrap',
 					} }
 					textColor={ effectiveValues?.titleColor }
 					onChange={ ( newValue ) => {

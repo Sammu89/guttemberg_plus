@@ -5,7 +5,7 @@
  * Uses WordPress TabPanel component with custom icons for each tab.
  * This provides a consistent UI pattern for block inspector controls.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -50,7 +50,7 @@ const INSPECTOR_TABS = [
  * @param {JSX.Element} props.appearanceContent Content for the Appearance tab
  * @param {string}      props.initialTabName    Initial tab to show (default: 'settings')
  * @param {Function}    props.onTabChange       Optional callback when tab changes
- * @returns {JSX.Element} Tabbed inspector component
+ * @return {JSX.Element} Tabbed inspector component
  */
 export function TabbedInspector( {
 	settingsContent,

@@ -4,24 +4,24 @@
  * Utilities for handling CSS box-shadow values with support for multiple layers.
  * Provides functions to build, format, create, and manipulate shadow layer objects.
  *
- * @package GuttembergPlus
+ * @package
  * @since 1.0.0
  */
 
 /**
  * @typedef {Object} ShadowValue
  * @property {number} value - The numeric value
- * @property {string} unit - The CSS unit (e.g., 'px', 'em', 'rem')
+ * @property {string} unit  - The CSS unit (e.g., 'px', 'em', 'rem')
  */
 
 /**
  * @typedef {Object} ShadowLayer
- * @property {ShadowValue} x - Horizontal offset
- * @property {ShadowValue} y - Vertical offset
- * @property {ShadowValue} blur - Blur radius
+ * @property {ShadowValue} x      - Horizontal offset
+ * @property {ShadowValue} y      - Vertical offset
+ * @property {ShadowValue} blur   - Blur radius
  * @property {ShadowValue} spread - Spread radius
- * @property {string} color - Shadow color (any valid CSS color)
- * @property {boolean} inset - Whether the shadow is inset
+ * @property {string}      color  - Shadow color (any valid CSS color)
+ * @property {boolean}     inset  - Whether the shadow is inset
  */
 
 /**
@@ -31,7 +31,7 @@
  * Ensures consistent output format for CSS generation.
  *
  * @param {ShadowValue|number|null|undefined} valueObj - The value to format
- * @returns {string} Formatted value with unit (e.g., "8px", "0px")
+ * @return {string} Formatted value with unit (e.g., "8px", "0px")
  *
  * @example
  * formatShadowValue({ value: 8, unit: 'px' })
@@ -45,27 +45,27 @@
  * formatShadowValue(null)
  * // Returns: "0px"
  */
-export function formatShadowValue(valueObj) {
+export function formatShadowValue( valueObj ) {
 	// Handle null/undefined - default to 0px
-	if (valueObj === null || valueObj === undefined) {
+	if ( valueObj === null || valueObj === undefined ) {
 		return '0px';
 	}
 
 	// Handle string values (e.g., "0px", "8px") - return as-is
-	if (typeof valueObj === 'string') {
+	if ( typeof valueObj === 'string' ) {
 		return valueObj;
 	}
 
 	// Handle raw number - assume px unit
-	if (typeof valueObj === 'number') {
-		return `${valueObj}px`;
+	if ( typeof valueObj === 'number' ) {
+		return `${ valueObj }px`;
 	}
 
 	// Handle structured value object
-	if (typeof valueObj === 'object' && valueObj !== null) {
+	if ( typeof valueObj === 'object' && valueObj !== null ) {
 		const value = valueObj.value ?? 0;
 		const unit = valueObj.unit ?? 'px';
-		return `${value}${unit}`;
+		return `${ value }${ unit }`;
 	}
 
 	// Fallback for unexpected types
@@ -79,7 +79,7 @@ export function formatShadowValue(valueObj) {
  * Filters out invalid layers (those without a color) and handles the inset keyword.
  *
  * @param {Array<ShadowLayer>|null|undefined} shadows - Array of shadow layer objects
- * @returns {string} CSS box-shadow value or 'none' if no valid shadows
+ * @return {string} CSS box-shadow value or 'none' if no valid shadows
  *
  * @example
  * buildBoxShadow([
@@ -115,45 +115,45 @@ export function formatShadowValue(valueObj) {
  * buildBoxShadow(null)
  * // Returns: "none"
  */
-export function buildBoxShadow(shadows) {
+export function buildBoxShadow( shadows ) {
 	// Handle null/undefined or empty array
-	if (!shadows || !Array.isArray(shadows) || shadows.length === 0) {
+	if ( ! shadows || ! Array.isArray( shadows ) || shadows.length === 0 ) {
 		return 'none';
 	}
 
 	// Filter out invalid layers (those without a color)
-	const validLayers = shadows.filter((layer) => {
+	const validLayers = shadows.filter( ( layer ) => {
 		return layer && layer.color && layer.color.trim() !== '';
-	});
+	} );
 
 	// If no valid layers, return 'none'
-	if (validLayers.length === 0) {
+	if ( validLayers.length === 0 ) {
 		return 'none';
 	}
 
 	// Build shadow string for each layer
-	const shadowStrings = validLayers.map((layer) => {
+	const shadowStrings = validLayers.map( ( layer ) => {
 		const parts = [];
 
 		// Add inset keyword if applicable
-		if (layer.inset === true) {
-			parts.push('inset');
+		if ( layer.inset === true ) {
+			parts.push( 'inset' );
 		}
 
 		// Add offset-x, offset-y, blur-radius, spread-radius
-		parts.push(formatShadowValue(layer.x));
-		parts.push(formatShadowValue(layer.y));
-		parts.push(formatShadowValue(layer.blur));
-		parts.push(formatShadowValue(layer.spread));
+		parts.push( formatShadowValue( layer.x ) );
+		parts.push( formatShadowValue( layer.y ) );
+		parts.push( formatShadowValue( layer.blur ) );
+		parts.push( formatShadowValue( layer.spread ) );
 
 		// Add color
-		parts.push(layer.color);
+		parts.push( layer.color );
 
-		return parts.join(' ');
-	});
+		return parts.join( ' ' );
+	} );
 
 	// Join multiple layers with comma-space separator
-	return shadowStrings.join(', ');
+	return shadowStrings.join( ', ' );
 }
 
 /**
@@ -163,7 +163,7 @@ export function buildBoxShadow(shadows) {
  * Compiles multiple shadow layers into a single CSS text-shadow value.
  *
  * @param {Array<ShadowLayer>|null|undefined} shadows - Array of shadow layer objects
- * @returns {string} CSS text-shadow value or 'none' if no valid shadows
+ * @return {string} CSS text-shadow value or 'none' if no valid shadows
  *
  * @example
  * buildTextShadow([
@@ -179,38 +179,38 @@ export function buildBoxShadow(shadows) {
  * buildTextShadow([])
  * // Returns: "none"
  */
-export function buildTextShadow(shadows) {
+export function buildTextShadow( shadows ) {
 	// Handle null/undefined or empty array
-	if (!shadows || !Array.isArray(shadows) || shadows.length === 0) {
+	if ( ! shadows || ! Array.isArray( shadows ) || shadows.length === 0 ) {
 		return 'none';
 	}
 
 	// Filter out invalid layers (those without a color)
-	const validLayers = shadows.filter((layer) => {
+	const validLayers = shadows.filter( ( layer ) => {
 		return layer && layer.color && layer.color.trim() !== '';
-	});
+	} );
 
 	// If no valid layers, return 'none'
-	if (validLayers.length === 0) {
+	if ( validLayers.length === 0 ) {
 		return 'none';
 	}
 
 	// Build shadow string for each layer (text-shadow format: offset-x offset-y color)
-	const shadowStrings = validLayers.map((layer) => {
+	const shadowStrings = validLayers.map( ( layer ) => {
 		const parts = [];
 
 		// Add offset-x, offset-y (NO blur, spread, or inset for text-shadow)
-		parts.push(formatShadowValue(layer.x));
-		parts.push(formatShadowValue(layer.y));
+		parts.push( formatShadowValue( layer.x ) );
+		parts.push( formatShadowValue( layer.y ) );
 
 		// Add color
-		parts.push(layer.color);
+		parts.push( layer.color );
 
-		return parts.join(' ');
-	});
+		return parts.join( ' ' );
+	} );
 
 	// Join multiple layers with comma-space separator
-	return shadowStrings.join(', ');
+	return shadowStrings.join( ', ' );
 }
 
 /**
@@ -219,7 +219,7 @@ export function buildTextShadow(shadows) {
  * Provides a standard starting point for creating new shadow layers.
  * Default values create a subtle drop shadow effect.
  *
- * @returns {ShadowLayer} A new shadow layer object with default values
+ * @return {ShadowLayer} A new shadow layer object with default values
  *
  * @example
  * const newLayer = createDefaultShadowLayer();
@@ -250,9 +250,9 @@ export function createDefaultShadowLayer() {
  * Creates a deep copy of a shadow layer and optionally adjusts the Y offset.
  * Useful for creating layered shadow effects with progressive offsets.
  *
- * @param {ShadowLayer|null|undefined} layer - The shadow layer to duplicate
- * @param {number} [offsetY=4] - Amount to add to the Y value (can be negative)
- * @returns {ShadowLayer} A new shadow layer object (duplicate with offset applied)
+ * @param {ShadowLayer|null|undefined} layer       - The shadow layer to duplicate
+ * @param {number}                     [offsetY=4] - Amount to add to the Y value (can be negative)
+ * @return {ShadowLayer} A new shadow layer object (duplicate with offset applied)
  *
  * @example
  * const original = {
@@ -279,9 +279,9 @@ export function createDefaultShadowLayer() {
  * duplicateShadowLayer(null)
  * // Returns: Default shadow layer with offsetY applied
  */
-export function duplicateShadowLayer(layer, offsetY = 4) {
+export function duplicateShadowLayer( layer, offsetY = 4 ) {
 	// Handle null/undefined - create default layer
-	if (!layer) {
+	if ( ! layer ) {
 		const defaultLayer = createDefaultShadowLayer();
 		defaultLayer.y.value += offsetY;
 		return defaultLayer;
@@ -298,7 +298,7 @@ export function duplicateShadowLayer(layer, offsetY = 4) {
 	};
 
 	// Apply Y offset
-	if (duplicate.y && typeof duplicate.y.value === 'number') {
+	if ( duplicate.y && typeof duplicate.y.value === 'number' ) {
 		duplicate.y.value += offsetY;
 	}
 

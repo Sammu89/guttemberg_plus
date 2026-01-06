@@ -41,9 +41,9 @@ function getAriaOrientation( orientation ) {
 /**
  * Tabs Save Component
  *
- * @param {Object}   props            Block props
- * @param {Object}   props.attributes Block attributes
- * @param {Array}    props.innerBlocks Array of inner block objects
+ * @param {Object} props             Block props
+ * @param {Object} props.attributes  Block attributes
+ * @param {Array}  props.innerBlocks Array of inner block objects
  * @return {JSX.Element} Save component
  */
 export default function Save( { attributes } ) {
@@ -68,36 +68,41 @@ export default function Save( { attributes } ) {
 
 	// If active content border is disabled, force content-edge vars to fall back to main border
 	if ( attributes.enableFocusBorder === false ) {
-		const activeBorderColor = attributes.tabButtonActiveBorderColor ?? allDefaults.tabButtonActiveBorderColor ?? '#dddddd';
+		const activeBorderColor =
+			attributes.tabButtonActiveBorderColor ??
+			allDefaults.tabButtonActiveBorderColor ??
+			'#dddddd';
 		const baseBorderWidth = attributes.tabButtonBorderWidth ?? 1;
-		const baseBorderStyle = attributes.tabButtonBorderStyle ?? allDefaults.tabButtonBorderStyle ?? 'solid';
+		const baseBorderStyle =
+			attributes.tabButtonBorderStyle ?? allDefaults.tabButtonBorderStyle ?? 'solid';
 
-		inlineStyles['--tabs-button-active-content-border-color'] = activeBorderColor;
-		inlineStyles['--tabs-button-active-content-border-width'] = formatCssValue(
+		inlineStyles[ '--tabs-button-active-content-border-color' ] = activeBorderColor;
+		inlineStyles[ '--tabs-button-active-content-border-width' ] = formatCssValue(
 			'tabButtonBorderWidth',
 			baseBorderWidth,
 			'tabs'
 		);
-		inlineStyles['--tabs-button-active-content-border-style'] = baseBorderStyle;
+		inlineStyles[ '--tabs-button-active-content-border-style' ] = baseBorderStyle;
 	}
 
 	// If the divider toggle is off, ignore its customizations and fall back to row border
 	if ( attributes.enableTabsListContentBorder === false ) {
-		delete inlineStyles['--tabs-list-divider-border-color'];
-		delete inlineStyles['--tabs-list-divider-border-width'];
-		delete inlineStyles['--tabs-list-divider-border-style'];
+		delete inlineStyles[ '--tabs-list-divider-border-color' ];
+		delete inlineStyles[ '--tabs-list-divider-border-width' ];
+		delete inlineStyles[ '--tabs-list-divider-border-style' ];
 
-		const rowColor = attributes.tabsRowBorderColor ?? allDefaults.tabsRowBorderColor ?? '#dddddd';
+		const rowColor =
+			attributes.tabsRowBorderColor ?? allDefaults.tabsRowBorderColor ?? '#dddddd';
 		const rowWidth = attributes.tabsRowBorderWidth ?? allDefaults.tabsRowBorderWidth ?? 0;
 		const rowStyle = attributes.tabsRowBorderStyle ?? allDefaults.tabsRowBorderStyle ?? 'solid';
 
-		inlineStyles['--tabs-list-divider-border-color'] = rowColor;
-		inlineStyles['--tabs-list-divider-border-width'] = formatCssValue(
+		inlineStyles[ '--tabs-list-divider-border-color' ] = rowColor;
+		inlineStyles[ '--tabs-list-divider-border-width' ] = formatCssValue(
 			'tabsRowBorderWidth',
 			rowWidth,
 			'tabs'
 		);
-		inlineStyles['--tabs-list-divider-border-style'] = rowStyle;
+		inlineStyles[ '--tabs-list-divider-border-style' ] = rowStyle;
 	}
 
 	const hasInlineStyles = Object.keys( inlineStyles ).length > 0;
@@ -105,6 +110,7 @@ export default function Save( { attributes } ) {
 	/**
 	 * Render icon based on new icon system
 	 * Supports character, image, and library icons
+	 * @param isActive
 	 */
 	const renderIcon = ( isActive = false ) => {
 		// Check showIcon attribute to determine visibility
@@ -121,9 +127,10 @@ export default function Save( { attributes } ) {
 		}
 
 		// Determine which icon to render (based on active state and useDifferentIcons)
-		const initialSource = isActive && useDifferentIcons && activeSource && activeSource.value
-			? activeSource
-			: inactiveSource;
+		const initialSource =
+			isActive && useDifferentIcons && activeSource && activeSource.value
+				? activeSource
+				: inactiveSource;
 
 		// Data attributes for frontend JS
 		const hasDifferentIcons = useDifferentIcons && activeSource && activeSource.value;
@@ -216,7 +223,9 @@ export default function Save( { attributes } ) {
 						tabIndex={ isSelected ? 0 : -1 }
 					>
 						{ iconPosition === 'left' && renderIcon( isSelected ) }
-						<span className="tab-title tab-button-text">{ tab.title || `Tab ${ index + 1 }` }</span>
+						<span className="tab-title tab-button-text">
+							{ tab.title || `Tab ${ index + 1 }` }
+						</span>
 						{ iconPosition === 'right' && renderIcon( isSelected ) }
 					</button>
 				);
@@ -232,11 +241,7 @@ export default function Save( { attributes } ) {
 				}
 
 				// Return button with key for React
-				return (
-					<span key={ tabId }>
-						{ buttonContent }
-					</span>
-				);
+				return <span key={ tabId }>{ buttonContent }</span>;
 			} );
 	};
 

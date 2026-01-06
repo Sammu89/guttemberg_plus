@@ -5,12 +5,12 @@
  * including loading, customization detection, session cache, and handlers.
  * This eliminates repetitive code across block edit components.
  *
- * @param {Object} config - Configuration object
- * @param {string} config.blockType - Block type ('accordion', 'tabs', 'toc')
- * @param {Object} config.schema - Block schema object
- * @param {Object} config.attributes - Current block attributes
+ * @param {Object}   config               - Configuration object
+ * @param {string}   config.blockType     - Block type ('accordion', 'tabs', 'toc')
+ * @param {Object}   config.schema        - Block schema object
+ * @param {Object}   config.attributes    - Current block attributes
  * @param {Function} config.setAttributes - WordPress setAttributes function
- * @param {Object} config.allDefaults - All defaults (schema + CSS)
+ * @param {Object}   config.allDefaults   - All defaults (schema + CSS)
  * @return {Object} Complete theme system interface
  *
  * @example
@@ -54,11 +54,7 @@ import { useEffect, useState, useMemo, useCallback, useRef } from '@wordpress/el
 import { useSelect, useDispatch, select } from '@wordpress/data';
 import { flushSync } from 'react-dom';
 import { STORE_NAME } from '../data';
-import {
-	calculateDeltas,
-	applyDeltas,
-	getThemeableSnapshot,
-} from '../utils/delta-calculator';
+import { calculateDeltas, applyDeltas, getThemeableSnapshot } from '../utils/delta-calculator';
 import {
 	batchUpdateCleanBlocks,
 	batchResetBlocksUsingTheme,
@@ -68,16 +64,15 @@ import {
 /**
  * Main theme manager hook
  *
- * @param {Object} config - Configuration object
+ * @param {Object} config               - Configuration object
+ * @param          config.blockType
+ * @param          config.schema
+ * @param          config.attributes
+ * @param          config.setAttributes
+ * @param          config.allDefaults
  * @return {Object} Theme system interface
  */
-export function useThemeManager( {
-	blockType,
-	schema,
-	attributes,
-	setAttributes,
-	allDefaults,
-} ) {
+export function useThemeManager( { blockType, schema, attributes, setAttributes, allDefaults } ) {
 	// ========================================
 	// 0. SKIP FLAG FOR AUTO-UPDATE CUSTOMIZATIONS
 	// ========================================
@@ -123,21 +118,18 @@ export function useThemeManager( {
 
 	// CRITICAL: Memoize to prevent infinite loops in effects
 	// Always exclude 'customizations' - it's a meta-attribute not in schema
-	const excludeFromCustomizationCheck = useMemo(
-		() => {
-			const schemaExclusions = Object.entries( schema.attributes )
-				.filter( ( [ , attr ] ) => attr.themeable !== true )
-				.map( ( [ key ] ) => key );
+	const excludeFromCustomizationCheck = useMemo( () => {
+		const schemaExclusions = Object.entries( schema.attributes )
+			.filter( ( [ , attr ] ) => attr.themeable !== true )
+			.map( ( [ key ] ) => key );
 
-			// Always exclude 'customizations' - it's defined in block.json, not schema
-			if ( ! schemaExclusions.includes( 'customizations' ) ) {
-				schemaExclusions.push( 'customizations' );
-			}
+		// Always exclude 'customizations' - it's defined in block.json, not schema
+		if ( ! schemaExclusions.includes( 'customizations' ) ) {
+			schemaExclusions.push( 'customizations' );
+		}
 
-			return schemaExclusions;
-		},
-		[ schema ]
-	);
+		return schemaExclusions;
+	}, [ schema ] );
 
 	// ========================================
 	// 3. CURRENT THEME & EXPECTED VALUES
@@ -212,8 +204,7 @@ export function useThemeManager( {
 
 		// Debug logging
 		if ( differences.length > 0 ) {
-			differences.forEach( ( { key, attrValue, expectedValue } ) => {
-			} );
+			differences.forEach( ( { key, attrValue, expectedValue } ) => {} );
 		}
 
 		return hasCustomizations;
@@ -290,7 +281,6 @@ export function useThemeManager( {
 			return;
 		}
 
-
 		const newCustomizations = {};
 
 		Object.keys( attributes ).forEach( ( key ) => {
@@ -344,19 +334,19 @@ export function useThemeManager( {
 	 */
 	const handleSaveNewTheme = useCallback(
 		async ( themeName ) => {
-
 			const currentThemeKey = attributes.currentTheme || '';
 			const cachedSnapshot = sessionCache[ currentThemeKey ];
-
 
 			const currentSnapshot =
 				cachedSnapshot && Object.keys( cachedSnapshot ).length > 0
 					? cachedSnapshot
 					: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 
-
-			const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-
+			const deltas = calculateDeltas(
+				currentSnapshot,
+				allDefaults,
+				excludeFromCustomizationCheck
+			);
 
 			if ( Object.keys( deltas ).length === 0 ) {
 				return;
@@ -365,7 +355,7 @@ export function useThemeManager( {
 			await createTheme( blockType, themeName, deltas );
 
 			// Wait for Redux store to update
-			await new Promise( resolve => setTimeout( resolve, 50 ) );
+			await new Promise( ( resolve ) => setTimeout( resolve, 50 ) );
 
 			const newTheme = { values: deltas };
 			const newExpectedValues = applyDeltas( allDefaults, newTheme.values || {} );
@@ -392,7 +382,6 @@ export function useThemeManager( {
 				delete updated[ themeName ];
 				return updated;
 			} );
-
 		},
 		[
 			attributes,
@@ -409,137 +398,141 @@ export function useThemeManager( {
 	/**
 	 * Update existing theme with current customizations
 	 */
-	const handleUpdateTheme = useCallback(
-		async () => {
+	const handleUpdateTheme = useCallback( async () => {
+		const currentThemeKey = attributes.currentTheme || '';
+		const cachedSnapshot = sessionCache[ currentThemeKey ];
 
-			const currentThemeKey = attributes.currentTheme || '';
-			const cachedSnapshot = sessionCache[ currentThemeKey ];
+		const currentSnapshot =
+			cachedSnapshot && Object.keys( cachedSnapshot ).length > 0
+				? cachedSnapshot
+				: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
 
-			const currentSnapshot =
-				cachedSnapshot && Object.keys( cachedSnapshot ).length > 0
-					? cachedSnapshot
-					: getThemeableSnapshot( attributes, excludeFromCustomizationCheck );
-
-			const deltas = calculateDeltas( currentSnapshot, allDefaults, excludeFromCustomizationCheck );
-
-			try {
-				await updateTheme( blockType, attributes.currentTheme, deltas );
-			} catch ( error ) {
-				if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
-					setAttributes( { currentTheme: '' } );
-					return;
-				}
-				throw error;
-			}
-
-			const updatedExpectedValues = applyDeltas( allDefaults, deltas );
-			const resetAttrs = {};
-
-			excludeFromCustomizationCheck.forEach( ( key ) => {
-				if ( attributes[ key ] !== undefined ) {
-					resetAttrs[ key ] = attributes[ key ];
-				}
-			} );
-
-			Object.keys( updatedExpectedValues ).forEach( ( key ) => {
-				if ( ! excludeFromCustomizationCheck.includes( key ) ) {
-					resetAttrs[ key ] = updatedExpectedValues[ key ];
-				}
-			} );
-
-			Object.keys( attributes ).forEach( ( key ) => {
-				if ( excludeFromCustomizationCheck.includes( key ) ) {
-					return;
-				}
-				if ( ! updatedExpectedValues.hasOwnProperty( key ) && attributes[ key ] !== undefined ) {
-					resetAttrs[ key ] = undefined;
-				}
-			} );
-
-			resetAttrs.customizations = {};
-
-			skipNextCustomizationsUpdate.current = true;
-
-			flushSync( () => {
-				setAttributes( resetAttrs );
-			} );
-
-			setSessionCache( ( prev ) => {
-				const updated = { ...prev };
-				delete updated[ currentThemeKey ];
-				return updated;
-			} );
-
-			// BATCH UPDATE: Update all other clean blocks on this page using the same theme
-			const updatedCount = batchUpdateCleanBlocks(
-				blockType,
-				attributes.currentTheme,
-				updatedExpectedValues,
-				excludeFromCustomizationCheck
-			);
-
-			// Show notification
-			if ( updatedCount > 0 ) {
-				showBatchUpdateNotification( 'update', attributes.currentTheme, updatedCount );
-			}
-
-		},
-		[
-			attributes,
-			sessionCache,
-			excludeFromCustomizationCheck,
+		const deltas = calculateDeltas(
+			currentSnapshot,
 			allDefaults,
-			updateTheme,
+			excludeFromCustomizationCheck
+		);
+
+		try {
+			await updateTheme( blockType, attributes.currentTheme, deltas );
+		} catch ( error ) {
+			if ( error?.code === 'theme_not_found' || error?.status === 404 ) {
+				setAttributes( { currentTheme: '' } );
+				return;
+			}
+			throw error;
+		}
+
+		const updatedExpectedValues = applyDeltas( allDefaults, deltas );
+		const resetAttrs = {};
+
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			if ( attributes[ key ] !== undefined ) {
+				resetAttrs[ key ] = attributes[ key ];
+			}
+		} );
+
+		Object.keys( updatedExpectedValues ).forEach( ( key ) => {
+			if ( ! excludeFromCustomizationCheck.includes( key ) ) {
+				resetAttrs[ key ] = updatedExpectedValues[ key ];
+			}
+		} );
+
+		Object.keys( attributes ).forEach( ( key ) => {
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return;
+			}
+			if (
+				! updatedExpectedValues.hasOwnProperty( key ) &&
+				attributes[ key ] !== undefined
+			) {
+				resetAttrs[ key ] = undefined;
+			}
+		} );
+
+		resetAttrs.customizations = {};
+
+		skipNextCustomizationsUpdate.current = true;
+
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
+
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
+		} );
+
+		// BATCH UPDATE: Update all other clean blocks on this page using the same theme
+		const updatedCount = batchUpdateCleanBlocks(
 			blockType,
-			setAttributes,
-		]
-	);
+			attributes.currentTheme,
+			updatedExpectedValues,
+			excludeFromCustomizationCheck
+		);
+
+		// Show notification
+		if ( updatedCount > 0 ) {
+			showBatchUpdateNotification( 'update', attributes.currentTheme, updatedCount );
+		}
+	}, [
+		attributes,
+		sessionCache,
+		excludeFromCustomizationCheck,
+		allDefaults,
+		updateTheme,
+		blockType,
+		setAttributes,
+	] );
 
 	/**
 	 * Delete theme and reset to defaults
 	 */
-	const handleDeleteTheme = useCallback(
-		async () => {
+	const handleDeleteTheme = useCallback( async () => {
+		const themeToDelete = attributes.currentTheme;
 
-			const themeToDelete = attributes.currentTheme;
+		await deleteTheme( blockType, themeToDelete );
 
-			await deleteTheme( blockType, themeToDelete );
+		const resetAttrs = { ...allDefaults };
+		resetAttrs.currentTheme = '';
 
-			const resetAttrs = { ...allDefaults };
-			resetAttrs.currentTheme = '';
-
-			excludeFromCustomizationCheck.forEach( ( key ) => {
-				if ( key !== 'currentTheme' ) {
-					delete resetAttrs[ key ];
-				}
-			} );
-
-			resetAttrs.customizations = {};
-
-			skipNextCustomizationsUpdate.current = true;
-
-			flushSync( () => {
-				setAttributes( resetAttrs );
-			} );
-
-			setSessionCache( {} );
-
-			// BATCH RESET: Reset all other blocks on this page using the deleted theme
-			const resetCount = batchResetBlocksUsingTheme(
-				blockType,
-				themeToDelete,
-				allDefaults,
-				excludeFromCustomizationCheck
-			);
-
-			// Show notification
-			if ( resetCount > 0 ) {
-				showBatchUpdateNotification( 'delete', themeToDelete, resetCount );
+		excludeFromCustomizationCheck.forEach( ( key ) => {
+			if ( key !== 'currentTheme' ) {
+				delete resetAttrs[ key ];
 			}
+		} );
 
-		},
-		[ attributes.currentTheme, deleteTheme, blockType, allDefaults, excludeFromCustomizationCheck, setAttributes ]
-	);
+		resetAttrs.customizations = {};
+
+		skipNextCustomizationsUpdate.current = true;
+
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
+
+		setSessionCache( {} );
+
+		// BATCH RESET: Reset all other blocks on this page using the deleted theme
+		const resetCount = batchResetBlocksUsingTheme(
+			blockType,
+			themeToDelete,
+			allDefaults,
+			excludeFromCustomizationCheck
+		);
+
+		// Show notification
+		if ( resetCount > 0 ) {
+			showBatchUpdateNotification( 'delete', themeToDelete, resetCount );
+		}
+	}, [
+		attributes.currentTheme,
+		deleteTheme,
+		blockType,
+		allDefaults,
+		excludeFromCustomizationCheck,
+		setAttributes,
+	] );
 
 	/**
 	 * Rename theme
@@ -555,48 +548,43 @@ export function useThemeManager( {
 	/**
 	 * Reset customizations to clean theme
 	 */
-	const handleResetCustomizations = useCallback(
-		() => {
+	const handleResetCustomizations = useCallback( () => {
+		const resetAttrs = {};
 
-			const resetAttrs = {};
+		Object.keys( attributes ).forEach( ( key ) => {
+			if ( excludeFromCustomizationCheck.includes( key ) ) {
+				return;
+			}
 
-			Object.keys( attributes ).forEach( ( key ) => {
-				if ( excludeFromCustomizationCheck.includes( key ) ) {
-					return;
-				}
+			const currentValue = attributes[ key ];
+			const expectedValue = expectedValues[ key ];
 
-				const currentValue = attributes[ key ];
-				const expectedValue = expectedValues[ key ];
+			const isCurrentlyCustomized =
+				currentValue !== null &&
+				currentValue !== undefined &&
+				currentValue !== expectedValue;
 
-				const isCurrentlyCustomized =
-					currentValue !== null &&
-					currentValue !== undefined &&
-					currentValue !== expectedValue;
+			if ( isCurrentlyCustomized ) {
+				resetAttrs[ key ] = expectedValue !== undefined ? expectedValue : undefined;
+			}
+		} );
 
-				if ( isCurrentlyCustomized ) {
-					resetAttrs[ key ] = expectedValue !== undefined ? expectedValue : undefined;
-				}
-			} );
+		resetAttrs.currentTheme = attributes.currentTheme;
+		resetAttrs.customizations = {};
 
-			resetAttrs.currentTheme = attributes.currentTheme;
-			resetAttrs.customizations = {};
+		skipNextCustomizationsUpdate.current = true;
 
-			skipNextCustomizationsUpdate.current = true;
+		flushSync( () => {
+			setAttributes( resetAttrs );
+		} );
 
-			flushSync( () => {
-				setAttributes( resetAttrs );
-			} );
-
-			const currentThemeKey = attributes.currentTheme || '';
-			setSessionCache( ( prev ) => {
-				const updated = { ...prev };
-				delete updated[ currentThemeKey ];
-				return updated;
-			} );
-
-		},
-		[ attributes, expectedValues, excludeFromCustomizationCheck, setAttributes ]
-	);
+		const currentThemeKey = attributes.currentTheme || '';
+		setSessionCache( ( prev ) => {
+			const updated = { ...prev };
+			delete updated[ currentThemeKey ];
+			return updated;
+		} );
+	}, [ attributes, expectedValues, excludeFromCustomizationCheck, setAttributes ] );
 
 	/**
 	 * Change theme (with optional customized variant)

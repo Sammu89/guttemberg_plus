@@ -5,7 +5,7 @@
  * Follows WordPress best practices for block inspector controls.
  * Each control can be individually toggled and reset.
  *
- * @package guttemberg-plus
+ * @package
  * @since 1.0.0
  */
 
@@ -31,7 +31,7 @@ import { ControlRenderer } from './ControlRenderer';
  * @param {Object}   props.effectiveValues All effective values from cascade resolution
  * @param {Object}   props.theme           Current theme object (optional)
  * @param {Object}   props.cssDefaults     CSS default values (optional)
- * @returns {JSX.Element|null} Rendered panel or null
+ * @return {JSX.Element|null} Rendered panel or null
  */
 export function ToolsPanelWrapper( {
 	groupName,
@@ -94,11 +94,7 @@ export function ToolsPanelWrapper( {
 	};
 
 	return (
-		<ToolsPanel
-			label={ groupTitle }
-			resetAll={ resetAll }
-			panelId={ `${ groupName }-panel` }
-		>
+		<ToolsPanel label={ groupTitle } resetAll={ resetAll } panelId={ `${ groupName }-panel` }>
 			{ groupAttributes.map( ( attrConfig ) => {
 				const attrName = attrConfig.name;
 				const currentValue = attributes[ attrName ];
@@ -107,7 +103,7 @@ export function ToolsPanelWrapper( {
 				// Create label for menu - include subgroup if it exists
 				const menuLabel = attrConfig.subgroup
 					? `${ attrConfig.subgroup } - ${ attrConfig.label || attrName }`
-					: ( attrConfig.label || attrName );
+					: attrConfig.label || attrName;
 
 				return (
 					<ToolsPanelItem

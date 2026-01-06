@@ -3,7 +3,7 @@
  *
  * Export all atom components from a single entry point.
  *
- * @package guttemberg-plus
+ * @package
  */
 
 export { NumberInput } from './NumberInput';

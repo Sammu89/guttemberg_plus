@@ -16,23 +16,23 @@
  */
 
 module.exports = {
-  plugins: [
-    require('cssnano')({
-      preset: [
-        'default',
-        {
-          // Disable merge-longhand to preserve decomposed shorthand + longhand patterns
-          // This prevents border-width/border-color/border-style from being merged incorrectly
-          mergeLonghand: false,
+	plugins: [
+		require( 'cssnano' )( {
+			preset: [
+				'default',
+				{
+					// Disable merge-longhand to preserve decomposed shorthand + longhand patterns
+					// This prevents border-width/border-color/border-style from being merged incorrectly
+					mergeLonghand: false,
 
-          // Keep other optimizations enabled for good minification
-          normalizeWhitespace: true,
-          colormin: true,
-          minifySelectors: true,
-          minifyFontValues: true,
-          discardComments: { removeAll: true },
-        }
-      ]
-    })
-  ]
+					// Keep other optimizations enabled for good minification
+					normalizeWhitespace: true,
+					colormin: true,
+					minifySelectors: true,
+					minifyFontValues: true,
+					discardComments: { removeAll: true },
+				},
+			],
+		} ),
+	],
 };

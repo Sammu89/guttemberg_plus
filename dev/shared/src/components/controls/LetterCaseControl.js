@@ -106,11 +106,7 @@ const LetterCaseIcons = {
  * @param {string}   props.value    Current text-transform value
  * @param {Function} props.onChange Callback when value changes
  */
-export function LetterCaseControl( {
-	label = 'Letter Case',
-	value = 'none',
-	onChange,
-} ) {
+export function LetterCaseControl( { label = 'Letter Case', value = 'none', onChange } ) {
 	const { letterCase } = sharedTemplates;
 	const caseOptions = letterCase?.options || [];
 

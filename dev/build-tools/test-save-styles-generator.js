@@ -8,30 +8,30 @@
  *
  * Run: node build-tools/test-save-styles-generator.js
  *
- * @package GuttemberPlus
+ * @package
  * @since 1.0.0
  */
 
-const fs = require('fs');
-const path = require('path');
-const { generateSample } = require('./generators/save-styles-injector');
+const fs = require( 'fs' );
+const path = require( 'path' );
+const { generateSample } = require( './generators/save-styles-injector' );
 
 // Load accordion schema
-const schemaPath = path.join(__dirname, '..', 'schemas', 'accordion.json');
-const accordionSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+const schemaPath = path.join( __dirname, '..', 'schemas', 'accordion.json' );
+const accordionSchema = JSON.parse( fs.readFileSync( schemaPath, 'utf8' ) );
 
 // Generate and display sample
-console.log(generateSample(accordionSchema, 'accordion'));
+console.log( generateSample( accordionSchema, 'accordion' ) );
 
 // Also generate for tabs and toc
-const tabsSchemaPath = path.join(__dirname, '..', 'schemas', 'tabs.json');
-const tabsSchema = JSON.parse(fs.readFileSync(tabsSchemaPath, 'utf8'));
+const tabsSchemaPath = path.join( __dirname, '..', 'schemas', 'tabs.json' );
+const tabsSchema = JSON.parse( fs.readFileSync( tabsSchemaPath, 'utf8' ) );
 
-const tocSchemaPath = path.join(__dirname, '..', 'schemas', 'toc.json');
-const tocSchema = JSON.parse(fs.readFileSync(tocSchemaPath, 'utf8'));
+const tocSchemaPath = path.join( __dirname, '..', 'schemas', 'toc.json' );
+const tocSchema = JSON.parse( fs.readFileSync( tocSchemaPath, 'utf8' ) );
 
-console.log('\n\n');
-console.log(generateSample(tabsSchema, 'tabs'));
+console.log( '\n\n' );
+console.log( generateSample( tabsSchema, 'tabs' ) );
 
-console.log('\n\n');
-console.log(generateSample(tocSchema, 'toc'));
+console.log( '\n\n' );
+console.log( generateSample( tocSchema, 'toc' ) );
