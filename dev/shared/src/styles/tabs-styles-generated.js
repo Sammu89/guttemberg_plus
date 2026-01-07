@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-06T21:39:00.684Z
+ * Generated at: 2026-01-07T22:55:13.426Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -393,7 +393,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
-    styles['--tabs-icon-rotation'] = customizations.iconRotation;
+    styles['--tabs-icon-animation-rotation'] = customizations.iconRotation;
   }
 
   if (customizations.iconInactiveColor !== undefined && customizations.iconInactiveColor !== null) {
@@ -421,27 +421,27 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconActiveColor !== undefined && customizations.iconActiveColor !== null) {
-    styles['--tabs-icon-active-color'] = customizations.iconActiveColor;
+    styles['--tabs-icon-is-open-color'] = customizations.iconActiveColor;
   }
 
   if (customizations.iconActiveRotation !== undefined && customizations.iconActiveRotation !== null) {
-    styles['--tabs-icon-active-initial-rotation'] = customizations.iconActiveRotation;
+    styles['--tabs-icon-is-open-initial-rotation'] = customizations.iconActiveRotation;
   }
 
   if (customizations.iconActiveSize !== undefined && customizations.iconActiveSize !== null) {
-    styles['--tabs-icon-active-size'] = customizations.iconActiveSize;
+    styles['--tabs-icon-is-open-size'] = customizations.iconActiveSize;
   }
 
   if (customizations.iconActiveMaxSize !== undefined && customizations.iconActiveMaxSize !== null) {
-    styles['--tabs-icon-active-max-size'] = customizations.iconActiveMaxSize;
+    styles['--tabs-icon-is-open-max-size'] = customizations.iconActiveMaxSize;
   }
 
   if (customizations.iconActiveOffsetX !== undefined && customizations.iconActiveOffsetX !== null) {
-    styles['--tabs-icon-active-offset-x'] = customizations.iconActiveOffsetX;
+    styles['--tabs-icon-is-open-offset-x'] = customizations.iconActiveOffsetX;
   }
 
   if (customizations.iconActiveOffsetY !== undefined && customizations.iconActiveOffsetY !== null) {
-    styles['--tabs-icon-active-offset-y'] = customizations.iconActiveOffsetY;
+    styles['--tabs-icon-is-open-offset-y'] = customizations.iconActiveOffsetY;
   }
 
   return styles;

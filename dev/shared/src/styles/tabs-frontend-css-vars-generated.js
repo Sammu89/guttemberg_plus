@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-06T21:39:00.685Z
+ * Generated at: 2026-01-07T22:55:13.428Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -12,7 +12,7 @@
  * @since 1.0.0
  */
 
-import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';
+import { formatCssValue, getCssVarName, decomposeObjectToSides, CSS_VAR_MAPPINGS } from '@shared/config/css-var-mappings-generated';
 
 const THEMEABLE_ATTRS = new Set(["borderColor","borderWidth","borderStyle","borderRadius","shadow","shadowHover","tabButtonFontSize","tabButtonFontWeight","tabButtonFontStyle","tabButtonTextTransform","tabButtonTextDecoration","tabButtonTextAlign","tabButtonPadding","tabButtonActiveFontWeight","tabButtonBorderColor","tabButtonActiveBorderColor","tabButtonBorderWidth","tabButtonBorderStyle","tabButtonBorderRadius","tabButtonShadow","tabButtonShadowHover","tabButtonActiveContentBorderColor","tabButtonActiveContentBorderWidth","tabButtonActiveContentBorderStyle","tabListBackgroundColor","tabsRowBorderColor","tabsRowBorderWidth","tabsRowBorderStyle","tabsRowSpacing","tabsButtonGap","tabListAlignment","tabsListContentBorderColor","tabsListContentBorderWidth","tabsListContentBorderStyle","panelBackgroundColor","panelBorderColor","panelBorderWidth","panelBorderStyle","panelBorderRadius","showIcon","iconRotation","iconInactiveColor","iconInactiveRotation","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveRotation","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY"]);
 const NON_THEMEABLE_ATTRS = new Set(["tabsWidth","tabButtonColor"]);
@@ -29,6 +29,127 @@ const NON_THEMEABLE_ATTRS = new Set(["tabsWidth","tabButtonColor"]);
  */
 export function buildFrontendCssVars(customizations, attributes) {
   const styles = {};
+
+  const expandPanelType = (cssVar, value, type) => {
+    if (!value || typeof value !== 'object') return;
+
+    const sides = ['top', 'right', 'bottom', 'left'];
+    const corners = ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'];
+    const toKebab = (str) => str.replace(/([A-Z])/g, '-$1').toLowerCase();
+
+    if (type === 'color-panel') {
+      if (value.text) styles[`${cssVar}-color`] = value.text;
+      if (value.background) styles[`${cssVar}-background`] = value.background;
+      if (value.hover) {
+        if (value.hover.text) styles[`${cssVar}-color-hover`] = value.hover.text;
+        if (value.hover.background) styles[`${cssVar}-background-hover`] = value.hover.background;
+      }
+      return;
+    }
+
+    if (type === 'typography-panel') {
+      if (value.fontFamily) styles[`${cssVar}-font-family`] = value.fontFamily;
+      if (value.fontSize) styles[`${cssVar}-font-size`] = value.fontSize;
+      if (value.lineHeight) styles[`${cssVar}-line-height`] = value.lineHeight;
+      return;
+    }
+
+    if (type === 'box-panel') {
+      if (value.padding) {
+        const p = value.padding;
+        const pUnit = p.unit || 'px';
+        sides.forEach((side) => {
+          if (p[side] !== undefined) {
+            styles[`${cssVar}-padding-${side}`] = `${p[side] || 0}${pUnit}`;
+          }
+        });
+      }
+      if (value.margin) {
+        const m = value.margin;
+        const mUnit = m.unit || 'px';
+        sides.forEach((side) => {
+          if (m[side] !== undefined) {
+            styles[`${cssVar}-margin-${side}`] = `${m[side] || 0}${mUnit}`;
+          }
+        });
+      }
+      if (value.border) {
+        const b = value.border;
+        if (b.width) {
+          const bwUnit = b.width.unit || 'px';
+          sides.forEach((side) => {
+            if (b.width[side] !== undefined) {
+              styles[`${cssVar}-border-${side}-width`] = `${b.width[side] || 0}${bwUnit}`;
+            }
+          });
+        }
+        if (b.color) {
+          sides.forEach((side) => {
+            if (b.color[side] !== undefined) {
+              styles[`${cssVar}-border-${side}-color`] = b.color[side] || 'transparent';
+            }
+          });
+        }
+        if (b.style) {
+          sides.forEach((side) => {
+            if (b.style[side] !== undefined) {
+              styles[`${cssVar}-border-${side}-style`] = b.style[side] || 'solid';
+            }
+          });
+        }
+      }
+      if (value.radius) {
+        const r = value.radius;
+        const rUnit = r.unit || 'px';
+        corners.forEach((corner) => {
+          if (r[corner] !== undefined) {
+            styles[`${cssVar}-border-${toKebab(corner)}-radius`] = `${r[corner] || 0}${rUnit}`;
+          }
+        });
+      }
+      if (value.shadow && Array.isArray(value.shadow)) {
+        const shadowStr = value.shadow.map(s => {
+          if (!s || !s.color) return null;
+          const x = s.x?.value ?? 0;
+          const y = s.y?.value ?? 0;
+          const blur = s.blur?.value ?? 0;
+          const spread = s.spread?.value ?? 0;
+          const unit = s.x?.unit || 'px';
+          const inset = s.inset ? 'inset ' : '';
+          return `${inset}${x}${unit} ${y}${unit} ${blur}${unit} ${spread}${unit} ${s.color}`;
+        }).filter(Boolean).join(', ') || 'none';
+        styles[`${cssVar}-box-shadow`] = shadowStr;
+      }
+      return;
+    }
+
+    if (type === 'border-panel') {
+      if (value.width) {
+        const w = value.width;
+        const wUnit = w.unit || 'px';
+        sides.forEach((side) => {
+          if (w[side] !== undefined) {
+            styles[`${cssVar}-border-${side}-width`] = `${w[side] || 0}${wUnit}`;
+          }
+        });
+      }
+      if (value.color) {
+        sides.forEach((side) => {
+          if (value.color[side] !== undefined) {
+            styles[`${cssVar}-border-${side}-color`] = value.color[side] || 'transparent';
+          }
+        });
+      }
+      if (value.style) {
+        sides.forEach((side) => {
+          if (value.style[side] !== undefined) {
+            styles[`${cssVar}-border-${side}-style`] = value.style[side] || 'solid';
+          }
+        });
+      }
+      return;
+    }
+  };
 
   const applyDecomposed = (attrName, value, suffix = '') => {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
@@ -47,6 +168,13 @@ export function buildFrontendCssVars(customizations, attributes) {
 
     const cssVar = getCssVarName(attrName, 'tabs');
     if (!cssVar) {
+      return;
+    }
+
+    const mapping = CSS_VAR_MAPPINGS['tabs']?.[attrName];
+    const attrType = mapping?.type;
+    if (attrType && ['color-panel', 'box-panel', 'typography-panel', 'border-panel'].includes(attrType)) {
+      expandPanelType(cssVar, value, attrType);
       return;
     }
 

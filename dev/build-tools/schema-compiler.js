@@ -403,7 +403,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 		type: 'string',
 		default: defaults.rotation || '180deg',
 		control: 'SliderWithInput',
-		cssVar: `${ cssVar }-rotation`,
+		cssVar: `${ cssVar }-animation-rotation`,
 		cssProperty: 'transform',
 		appliesTo: structureElement,
 		themeable: true,
@@ -428,7 +428,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 
 	const generateStateAttributes = ( state ) => {
 		const statePrefix = state === 'inactive' ? 'iconInactive' : 'iconActive';
-		const cssVarSuffix = state === 'inactive' ? '' : '-active';
+		const cssVarSuffix = state === 'inactive' ? '' : '-is-open';
 		const stateDefaults = state === 'inactive' ? inactiveDefaults : activeDefaults;
 		const stateLabel = state === 'inactive' ? '' : ' (Active)';
 		const orderOffset = state === 'inactive' ? 0.2 : 0.3;
@@ -679,16 +679,19 @@ function inferPanelCssVar( attrName, attr, blockType ) {
 		tocList: 'list',
 	};
 
-	const appliesTo = attr.appliesTo;
-	const elementName = appliesToMap[ appliesTo ] || appliesTo || 'block';
+	const appliesToValues = Array.isArray( attr.appliesTo ) ? attr.appliesTo : [ attr.appliesTo ];
+	const appliesTo = appliesToValues.find( Boolean );
+	const elementName = appliesToMap[ appliesTo ] || appliesTo;
 
-	// For specific attribute patterns, use descriptive names
-	// e.g., dividerBorder → divider, headerBox → header, contentBox → panel
+	if ( elementName ) {
+		return `${ blockType }-${ elementName }`;
+	}
+
+	// Fallback patterns only when appliesTo is missing/unknown
 	const attrPatterns = {
-		dividerBorder: 'divider',
 		blockBox: 'item',
 		headerBox: 'header',
-		contentBox: 'panel',
+		contentBox: 'content',
 		titleColor: 'title',
 		contentColor: 'content',
 		titleTypography: 'title',
@@ -696,7 +699,7 @@ function inferPanelCssVar( attrName, attr, blockType ) {
 		tabButtonColor: 'button',
 	};
 
-	const derivedName = attrPatterns[ attrName ] || elementName;
+	const derivedName = attrPatterns[ attrName ] || 'block';
 
 	return `${ blockType }-${ derivedName }`;
 }

@@ -126,7 +126,7 @@
           "top": "solid"
         }
       },
-      "cssVar": "accordion-divider",
+      "cssVar": "accordion-content",
       "group": "borders"
     },
     "blockBox": {
@@ -216,7 +216,7 @@
           "unit": "px"
         }
       },
-      "cssVar": "accordion-header",
+      "cssVar": "accordion-title",
       "group": "layout"
     },
     "contentBox": {
@@ -234,7 +234,7 @@
           "unit": "px"
         }
       },
-      "cssVar": "accordion-panel",
+      "cssVar": "accordion-content",
       "group": "layout"
     },
     "titleColor": {
@@ -358,7 +358,7 @@
       "type": "string",
       "default": "180deg",
       "control": "SliderWithInput",
-      "cssVar": "accordion-icon-rotation",
+      "cssVar": "accordion-icon-animation-rotation",
       "cssProperty": "transform",
       "appliesTo": "icon",
       "themeable": true,
@@ -576,7 +576,7 @@
       "type": "string",
       "default": "#333333",
       "control": "ColorControl",
-      "cssVar": "accordion-icon-active-color",
+      "cssVar": "accordion-icon-is-open-color",
       "cssProperty": "color",
       "appliesTo": "icon",
       "themeable": true,
@@ -601,7 +601,7 @@
       "type": "string",
       "default": "0deg",
       "control": "SliderWithInput",
-      "cssVar": "accordion-icon-active-initial-rotation",
+      "cssVar": "accordion-icon-is-open-initial-rotation",
       "cssProperty": "transform",
       "appliesTo": "icon",
       "themeable": true,
@@ -629,7 +629,7 @@
       "type": "string",
       "default": "16px",
       "control": "SliderWithInput",
-      "cssVar": "accordion-icon-active-size",
+      "cssVar": "accordion-icon-is-open-size",
       "cssProperty": "font-size",
       "appliesTo": "icon",
       "themeable": true,
@@ -658,7 +658,7 @@
       "type": "string",
       "default": "24px",
       "control": "SliderWithInput",
-      "cssVar": "accordion-icon-active-max-size",
+      "cssVar": "accordion-icon-is-open-max-size",
       "cssProperty": "max-width",
       "appliesTo": "icon",
       "themeable": true,
@@ -687,7 +687,7 @@
       "type": "string",
       "default": "0px",
       "control": "SliderWithInput",
-      "cssVar": "accordion-icon-active-offset-x",
+      "cssVar": "accordion-icon-is-open-offset-x",
       "cssProperty": "left",
       "appliesTo": "icon",
       "themeable": true,
@@ -715,7 +715,7 @@
       "type": "string",
       "default": "0px",
       "control": "SliderWithInput",
-      "cssVar": "accordion-icon-active-offset-y",
+      "cssVar": "accordion-icon-is-open-offset-y",
       "cssProperty": "top",
       "appliesTo": "icon",
       "themeable": true,

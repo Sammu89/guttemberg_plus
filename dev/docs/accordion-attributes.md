@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2026-01-06T21:39:00.680Z
+> Generated at: 2026-01-07T22:55:13.420Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -111,18 +111,18 @@ The following CSS custom properties are available for theming:
 | Attribute | CSS Variable |
 |-----------|-------------|
 | `showIcon` | `--accordion-icon-display` |
-| `iconRotation` | `--accordion-icon-rotation` |
+| `iconRotation` | `--accordion-icon-animation-rotation` |
 | `iconInactiveColor` | `--accordion-icon-color` |
 | `iconInactiveRotation` | `--accordion-icon-initial-rotation` |
 | `iconInactiveSize` | `--accordion-icon-size` |
 | `iconInactiveMaxSize` | `--accordion-icon-max-size` |
 | `iconInactiveOffsetX` | `--accordion-icon-offset-x` |
 | `iconInactiveOffsetY` | `--accordion-icon-offset-y` |
-| `iconActiveColor` | `--accordion-icon-active-color` |
-| `iconActiveRotation` | `--accordion-icon-active-initial-rotation` |
-| `iconActiveSize` | `--accordion-icon-active-size` |
-| `iconActiveMaxSize` | `--accordion-icon-active-max-size` |
-| `iconActiveOffsetX` | `--accordion-icon-active-offset-x` |
-| `iconActiveOffsetY` | `--accordion-icon-active-offset-y` |
+| `iconActiveColor` | `--accordion-icon-is-open-color` |
+| `iconActiveRotation` | `--accordion-icon-is-open-initial-rotation` |
+| `iconActiveSize` | `--accordion-icon-is-open-size` |
+| `iconActiveMaxSize` | `--accordion-icon-is-open-max-size` |
+| `iconActiveOffsetX` | `--accordion-icon-is-open-offset-x` |
+| `iconActiveOffsetY` | `--accordion-icon-is-open-offset-y` |
 | `animationDuration` | `--accordion-animation-duration` |
 

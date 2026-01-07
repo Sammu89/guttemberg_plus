@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2026-01-06T21:39:00.686Z
+> Generated at: 2026-01-07T22:55:13.430Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -217,19 +217,19 @@ The following CSS custom properties are available for theming:
 | `h6TextTransform` | `--toc-h6-text-transform` |
 | `h6TextDecoration` | `--toc-h6-text-decoration` |
 | `showIcon` | `--toc-icon-display` |
-| `iconRotation` | `--toc-icon-rotation` |
+| `iconRotation` | `--toc-icon-animation-rotation` |
 | `iconInactiveColor` | `--toc-icon-color` |
 | `iconInactiveRotation` | `--toc-icon-initial-rotation` |
 | `iconInactiveSize` | `--toc-icon-size` |
 | `iconInactiveMaxSize` | `--toc-icon-max-size` |
 | `iconInactiveOffsetX` | `--toc-icon-offset-x` |
 | `iconInactiveOffsetY` | `--toc-icon-offset-y` |
-| `iconActiveColor` | `--toc-icon-active-color` |
-| `iconActiveRotation` | `--toc-icon-active-initial-rotation` |
-| `iconActiveSize` | `--toc-icon-active-size` |
-| `iconActiveMaxSize` | `--toc-icon-active-max-size` |
-| `iconActiveOffsetX` | `--toc-icon-active-offset-x` |
-| `iconActiveOffsetY` | `--toc-icon-active-offset-y` |
+| `iconActiveColor` | `--toc-icon-is-open-color` |
+| `iconActiveRotation` | `--toc-icon-is-open-initial-rotation` |
+| `iconActiveSize` | `--toc-icon-is-open-size` |
+| `iconActiveMaxSize` | `--toc-icon-is-open-max-size` |
+| `iconActiveOffsetX` | `--toc-icon-is-open-offset-x` |
+| `iconActiveOffsetY` | `--toc-icon-is-open-offset-y` |
 | `titleFontSize` | `--toc-title-font-size` |
 | `titleFontWeight` | `--toc-title-font-weight` |
 | `titleFontStyle` | `--toc-title-font-style` |

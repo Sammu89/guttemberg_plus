@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2026-01-06T21:39:00.687Z
+ * Generated at: 2026-01-07T22:55:13.431Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -21,13 +21,17 @@ import { formatCssValue, getCssVarName, decomposeObjectToSides, CSS_VAR_MAPPINGS
 function expandPanelType(cssVar, value, type, styles) {
   if (!value || typeof value !== 'object') return;
 
+  const sides = ['top', 'right', 'bottom', 'left'];
+  const corners = ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'];
+  const toKebab = (str) => str.replace(/([A-Z])/g, '-$1').toLowerCase();
+
   // color-panel: { text, background, hover: { text, background } }
   if (type === 'color-panel') {
-    if (value.text) styles[`${cssVar}-text`] = value.text;
-    if (value.background) styles[`${cssVar}-bg`] = value.background;
+    if (value.text) styles[`${cssVar}-color`] = value.text;
+    if (value.background) styles[`${cssVar}-background`] = value.background;
     if (value.hover) {
-      if (value.hover.text) styles[`${cssVar}-text-hover`] = value.hover.text;
-      if (value.hover.background) styles[`${cssVar}-bg-hover`] = value.hover.background;
+      if (value.hover.text) styles[`${cssVar}-color-hover`] = value.hover.text;
+      if (value.hover.background) styles[`${cssVar}-background-hover`] = value.hover.background;
     }
     return;
   }
@@ -46,33 +50,57 @@ function expandPanelType(cssVar, value, type, styles) {
     if (value.padding) {
       const p = value.padding;
       const pUnit = p.unit || 'px';
-      styles[`${cssVar}-padding`] = `${p.top || 0}${pUnit} ${p.right || 0}${pUnit} ${p.bottom || 0}${pUnit} ${p.left || 0}${pUnit}`;
+      sides.forEach((side) => {
+        if (p[side] !== undefined) {
+          styles[`${cssVar}-padding-${side}`] = `${p[side] || 0}${pUnit}`;
+        }
+      });
     }
     // Margin
     if (value.margin) {
       const m = value.margin;
       const mUnit = m.unit || 'px';
-      styles[`${cssVar}-margin`] = `${m.top || 0}${mUnit} ${m.right || 0}${mUnit} ${m.bottom || 0}${mUnit} ${m.left || 0}${mUnit}`;
+      sides.forEach((side) => {
+        if (m[side] !== undefined) {
+          styles[`${cssVar}-margin-${side}`] = `${m[side] || 0}${mUnit}`;
+        }
+      });
     }
     // Border
     if (value.border) {
       const b = value.border;
       if (b.width) {
         const bwUnit = b.width.unit || 'px';
-        styles[`${cssVar}-border-width`] = `${b.width.top || 0}${bwUnit} ${b.width.right || 0}${bwUnit} ${b.width.bottom || 0}${bwUnit} ${b.width.left || 0}${bwUnit}`;
+        sides.forEach((side) => {
+          if (b.width[side] !== undefined) {
+            styles[`${cssVar}-border-${side}-width`] = `${b.width[side] || 0}${bwUnit}`;
+          }
+        });
       }
       if (b.color) {
-        styles[`${cssVar}-border-color`] = `${b.color.top || 'transparent'} ${b.color.right || 'transparent'} ${b.color.bottom || 'transparent'} ${b.color.left || 'transparent'}`;
+        sides.forEach((side) => {
+          if (b.color[side] !== undefined) {
+            styles[`${cssVar}-border-${side}-color`] = b.color[side] || 'transparent';
+          }
+        });
       }
       if (b.style) {
-        styles[`${cssVar}-border-style`] = `${b.style.top || 'solid'} ${b.style.right || 'solid'} ${b.style.bottom || 'solid'} ${b.style.left || 'solid'}`;
+        sides.forEach((side) => {
+          if (b.style[side] !== undefined) {
+            styles[`${cssVar}-border-${side}-style`] = b.style[side] || 'solid';
+          }
+        });
       }
     }
     // Radius
     if (value.radius) {
       const r = value.radius;
       const rUnit = r.unit || 'px';
-      styles[`${cssVar}-border-radius`] = `${r.topLeft || 0}${rUnit} ${r.topRight || 0}${rUnit} ${r.bottomRight || 0}${rUnit} ${r.bottomLeft || 0}${rUnit}`;
+      corners.forEach((corner) => {
+        if (r[corner] !== undefined) {
+          styles[`${cssVar}-border-${toKebab(corner)}-radius`] = `${r[corner] || 0}${rUnit}`;
+        }
+      });
     }
     // Shadow
     if (value.shadow && Array.isArray(value.shadow)) {
@@ -86,7 +114,7 @@ function expandPanelType(cssVar, value, type, styles) {
         const inset = s.inset ? 'inset ' : '';
         return `${inset}${x}${unit} ${y}${unit} ${blur}${unit} ${spread}${unit} ${s.color}`;
       }).filter(Boolean).join(', ') || 'none';
-      styles[`${cssVar}-shadow`] = shadowStr;
+      styles[`${cssVar}-box-shadow`] = shadowStr;
     }
     return;
   }
@@ -96,13 +124,25 @@ function expandPanelType(cssVar, value, type, styles) {
     if (value.width) {
       const w = value.width;
       const wUnit = w.unit || 'px';
-      styles[`${cssVar}-width`] = `${w.top || 0}${wUnit}`;
+      sides.forEach((side) => {
+        if (w[side] !== undefined) {
+          styles[`${cssVar}-border-${side}-width`] = `${w[side] || 0}${wUnit}`;
+        }
+      });
     }
     if (value.color) {
-      styles[`${cssVar}-color`] = value.color.top || 'transparent';
+      sides.forEach((side) => {
+        if (value.color[side] !== undefined) {
+          styles[`${cssVar}-border-${side}-color`] = value.color[side] || 'transparent';
+        }
+      });
     }
     if (value.style) {
-      styles[`${cssVar}-style`] = value.style.top || 'solid';
+      sides.forEach((side) => {
+        if (value.style[side] !== undefined) {
+          styles[`${cssVar}-border-${side}-style`] = value.style[side] || 'solid';
+        }
+      });
     }
     return;
   }

@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2026-01-06T21:39:00.687Z
+ * Generated at: 2026-01-07T22:55:13.430Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -364,7 +364,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
-    styles['--toc-icon-rotation'] = customizations.iconRotation;
+    styles['--toc-icon-animation-rotation'] = customizations.iconRotation;
   }
 
   if (customizations.iconInactiveColor !== undefined && customizations.iconInactiveColor !== null) {
@@ -392,27 +392,27 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconActiveColor !== undefined && customizations.iconActiveColor !== null) {
-    styles['--toc-icon-active-color'] = customizations.iconActiveColor;
+    styles['--toc-icon-is-open-color'] = customizations.iconActiveColor;
   }
 
   if (customizations.iconActiveRotation !== undefined && customizations.iconActiveRotation !== null) {
-    styles['--toc-icon-active-initial-rotation'] = customizations.iconActiveRotation;
+    styles['--toc-icon-is-open-initial-rotation'] = customizations.iconActiveRotation;
   }
 
   if (customizations.iconActiveSize !== undefined && customizations.iconActiveSize !== null) {
-    styles['--toc-icon-active-size'] = customizations.iconActiveSize;
+    styles['--toc-icon-is-open-size'] = customizations.iconActiveSize;
   }
 
   if (customizations.iconActiveMaxSize !== undefined && customizations.iconActiveMaxSize !== null) {
-    styles['--toc-icon-active-max-size'] = customizations.iconActiveMaxSize;
+    styles['--toc-icon-is-open-max-size'] = customizations.iconActiveMaxSize;
   }
 
   if (customizations.iconActiveOffsetX !== undefined && customizations.iconActiveOffsetX !== null) {
-    styles['--toc-icon-active-offset-x'] = customizations.iconActiveOffsetX;
+    styles['--toc-icon-is-open-offset-x'] = customizations.iconActiveOffsetX;
   }
 
   if (customizations.iconActiveOffsetY !== undefined && customizations.iconActiveOffsetY !== null) {
-    styles['--toc-icon-active-offset-y'] = customizations.iconActiveOffsetY;
+    styles['--toc-icon-is-open-offset-y'] = customizations.iconActiveOffsetY;
   }
 
   if (customizations.titleFontSize !== undefined && customizations.titleFontSize !== null) {

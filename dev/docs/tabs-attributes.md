@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/tabs.json`
-> Generated at: 2026-01-06T21:39:00.683Z
+> Generated at: 2026-01-07T22:55:13.425Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -192,17 +192,17 @@ The following CSS custom properties are available for theming:
 | `panelBorderStyle` | `--tabs-panel-border-style` |
 | `panelBorderRadius` | `--tabs-panel-border-radius` |
 | `showIcon` | `--tabs-icon-display` |
-| `iconRotation` | `--tabs-icon-rotation` |
+| `iconRotation` | `--tabs-icon-animation-rotation` |
 | `iconInactiveColor` | `--tabs-icon-color` |
 | `iconInactiveRotation` | `--tabs-icon-initial-rotation` |
 | `iconInactiveSize` | `--tabs-icon-size` |
 | `iconInactiveMaxSize` | `--tabs-icon-max-size` |
 | `iconInactiveOffsetX` | `--tabs-icon-offset-x` |
 | `iconInactiveOffsetY` | `--tabs-icon-offset-y` |
-| `iconActiveColor` | `--tabs-icon-active-color` |
-| `iconActiveRotation` | `--tabs-icon-active-initial-rotation` |
-| `iconActiveSize` | `--tabs-icon-active-size` |
-| `iconActiveMaxSize` | `--tabs-icon-active-max-size` |
-| `iconActiveOffsetX` | `--tabs-icon-active-offset-x` |
-| `iconActiveOffsetY` | `--tabs-icon-active-offset-y` |
+| `iconActiveColor` | `--tabs-icon-is-open-color` |
+| `iconActiveRotation` | `--tabs-icon-is-open-initial-rotation` |
+| `iconActiveSize` | `--tabs-icon-is-open-size` |
+| `iconActiveMaxSize` | `--tabs-icon-is-open-max-size` |
+| `iconActiveOffsetX` | `--tabs-icon-is-open-offset-x` |
+| `iconActiveOffsetY` | `--tabs-icon-is-open-offset-y` |
 

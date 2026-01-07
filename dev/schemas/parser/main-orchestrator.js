@@ -93,6 +93,18 @@ function createComprehensiveSchema( mergedSchema ) {
 		}
 	} );
 
+	// Normalize cssVar values to include leading '--' (legacy macros omit it)
+	Object.entries( expandedAttributes ).forEach( ( [ , attr ] ) => {
+		if ( attr.cssVar && ! attr.cssVar.startsWith( '--' ) ) {
+			attr.cssVar = `--${ attr.cssVar }`;
+		}
+		if ( Array.isArray( attr.cssVarVariants ) ) {
+			attr.cssVarVariants = attr.cssVarVariants.map( ( name ) =>
+				name && name.startsWith( '--' ) ? name : `--${ name }`
+			);
+		}
+	} );
+
 	// Step 3: Apply responsive variants to all responsive attributes
 	console.log( `[Comprehensive Expander] Applying responsive variants...` );
 	const withResponsive = applyResponsiveVariants( expandedAttributes, blockType );

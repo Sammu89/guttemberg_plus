@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2026-01-06T21:39:00.680Z
+ * Generated at: 2026-01-07T22:55:13.420Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -89,7 +89,7 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconRotation !== undefined && customizations.iconRotation !== null) {
-    styles['--accordion-icon-rotation'] = customizations.iconRotation;
+    styles['--accordion-icon-animation-rotation'] = customizations.iconRotation;
   }
 
   if (customizations.iconInactiveColor !== undefined && customizations.iconInactiveColor !== null) {
@@ -117,27 +117,27 @@ export function buildFrontendStyles(customizations) {
   }
 
   if (customizations.iconActiveColor !== undefined && customizations.iconActiveColor !== null) {
-    styles['--accordion-icon-active-color'] = customizations.iconActiveColor;
+    styles['--accordion-icon-is-open-color'] = customizations.iconActiveColor;
   }
 
   if (customizations.iconActiveRotation !== undefined && customizations.iconActiveRotation !== null) {
-    styles['--accordion-icon-active-initial-rotation'] = customizations.iconActiveRotation;
+    styles['--accordion-icon-is-open-initial-rotation'] = customizations.iconActiveRotation;
   }
 
   if (customizations.iconActiveSize !== undefined && customizations.iconActiveSize !== null) {
-    styles['--accordion-icon-active-size'] = customizations.iconActiveSize;
+    styles['--accordion-icon-is-open-size'] = customizations.iconActiveSize;
   }
 
   if (customizations.iconActiveMaxSize !== undefined && customizations.iconActiveMaxSize !== null) {
-    styles['--accordion-icon-active-max-size'] = customizations.iconActiveMaxSize;
+    styles['--accordion-icon-is-open-max-size'] = customizations.iconActiveMaxSize;
   }
 
   if (customizations.iconActiveOffsetX !== undefined && customizations.iconActiveOffsetX !== null) {
-    styles['--accordion-icon-active-offset-x'] = customizations.iconActiveOffsetX;
+    styles['--accordion-icon-is-open-offset-x'] = customizations.iconActiveOffsetX;
   }
 
   if (customizations.iconActiveOffsetY !== undefined && customizations.iconActiveOffsetY !== null) {
-    styles['--accordion-icon-active-offset-y'] = customizations.iconActiveOffsetY;
+    styles['--accordion-icon-is-open-offset-y'] = customizations.iconActiveOffsetY;
   }
 
   if (customizations.animationDuration !== undefined && customizations.animationDuration !== null) {
