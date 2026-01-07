@@ -506,13 +506,358 @@ export function ControlRenderer( {
 		</span>
 	);
 
-	// Skip attributes without a defined control
-	if ( ! control ) {
+	// Skip attributes that explicitly set renderControl: false
+	if ( attrConfig.renderControl === false ) {
 		return null;
 	}
 
-	// Skip attributes that explicitly set renderControl: false
-	if ( attrConfig.renderControl === false ) {
+	// Handle panel types (composite controls) when no explicit control is defined
+	const attrType = attrConfig.type;
+	if ( ! control && attrType ) {
+		switch ( attrType ) {
+			case 'color-panel': {
+				// Render color panel with text, background, and optional hover states
+				const colorValue = effectiveValue ?? attrConfig.default ?? {};
+				const hasHover = attrConfig.states?.includes( 'hover' );
+				const labelPrefix = attrConfig.subgroup || attrName;
+
+				const settings = [];
+
+				// Base text color
+				settings.push( {
+					label: `${ labelPrefix } Text`,
+					colorValue: colorValue.text,
+					onColorChange: ( color ) => {
+						setAttributes( {
+							[ attrName ]: { ...colorValue, text: color },
+						} );
+					},
+				} );
+
+				// Base background color (with gradient support)
+				const bgIsGradient = typeof colorValue.background === 'string' && colorValue.background?.includes( 'gradient' );
+				settings.push( {
+					label: `${ labelPrefix } Background`,
+					colorValue: bgIsGradient ? undefined : colorValue.background,
+					gradientValue: bgIsGradient ? colorValue.background : undefined,
+					onColorChange: ( color ) => {
+						if ( color !== undefined ) {
+							setAttributes( {
+								[ attrName ]: { ...colorValue, background: color },
+							} );
+						}
+					},
+					onGradientChange: ( gradient ) => {
+						if ( gradient !== undefined ) {
+							setAttributes( {
+								[ attrName ]: { ...colorValue, background: gradient },
+							} );
+						}
+					},
+				} );
+
+				// Hover states if defined
+				if ( hasHover ) {
+					const hoverValues = colorValue.hover || {};
+					settings.push( {
+						label: `${ labelPrefix } Hover Text`,
+						colorValue: hoverValues.text,
+						onColorChange: ( color ) => {
+							setAttributes( {
+								[ attrName ]: {
+									...colorValue,
+									hover: { ...hoverValues, text: color },
+								},
+							} );
+						},
+					} );
+
+					const hoverBgIsGradient = typeof hoverValues.background === 'string' && hoverValues.background?.includes( 'gradient' );
+					settings.push( {
+						label: `${ labelPrefix } Hover Background`,
+						colorValue: hoverBgIsGradient ? undefined : hoverValues.background,
+						gradientValue: hoverBgIsGradient ? hoverValues.background : undefined,
+						onColorChange: ( color ) => {
+							if ( color !== undefined ) {
+								setAttributes( {
+									[ attrName ]: {
+										...colorValue,
+										hover: { ...hoverValues, background: color },
+									},
+								} );
+							}
+						},
+						onGradientChange: ( gradient ) => {
+							if ( gradient !== undefined ) {
+								setAttributes( {
+									[ attrName ]: {
+										...colorValue,
+										hover: { ...hoverValues, background: gradient },
+									},
+								} );
+							}
+						},
+					} );
+				}
+
+				return (
+					<PanelColorSettings
+						key={ attrName }
+						__experimentalIsRenderedInSidebar
+						enableAlpha
+						settings={ settings }
+					/>
+				);
+			}
+
+			case 'box-panel': {
+				// Render box panel with border, radius, shadow, padding, margin fields
+				const boxValue = effectiveValue ?? attrConfig.default ?? {};
+				const fields = attrConfig.fields || [];
+				const elements = [];
+
+				// Border field
+				if ( fields.includes( 'border' ) ) {
+					const borderValue = boxValue.border || {};
+					elements.push(
+						<BorderPanel
+							key={ `${ attrName }-border` }
+							label="Border"
+							value={ borderValue.width || { top: 0, right: 0, bottom: 0, left: 0, unit: 'px' } }
+							onChange={ ( width ) => {
+								setAttributes( {
+									[ attrName ]: {
+										...boxValue,
+										border: { ...borderValue, width },
+									},
+								} );
+							} }
+							colorValue={ borderValue.color?.top || '#dddddd' }
+							onColorChange={ ( color ) => {
+								setAttributes( {
+									[ attrName ]: {
+										...boxValue,
+										border: {
+											...borderValue,
+											color: { top: color, right: color, bottom: color, left: color },
+										},
+									},
+								} );
+							} }
+							styleValue={ borderValue.style?.top || 'solid' }
+							onStyleChange={ ( style ) => {
+								setAttributes( {
+									[ attrName ]: {
+										...boxValue,
+										border: {
+											...borderValue,
+											style: { top: style, right: style, bottom: style, left: style },
+										},
+									},
+								} );
+							} }
+						/>
+					);
+				}
+
+				// Radius field
+				if ( fields.includes( 'radius' ) ) {
+					const radiusValue = boxValue.radius || { topLeft: 0, topRight: 0, bottomRight: 0, bottomLeft: 0, unit: 'px' };
+					elements.push(
+						<BorderRadiusControl
+							key={ `${ attrName }-radius` }
+							label="Border Radius"
+							value={ radiusValue }
+							onChange={ ( radius ) => {
+								setAttributes( {
+									[ attrName ]: { ...boxValue, radius },
+								} );
+							} }
+							units={ [ 'px', 'rem', '%' ] }
+						/>
+					);
+				}
+
+				// Shadow field
+				if ( fields.includes( 'shadow' ) ) {
+					elements.push(
+						<ShadowPanel
+							key={ `${ attrName }-shadow` }
+							label="Shadow"
+							value={ boxValue.shadow || [] }
+							onChange={ ( shadow ) => {
+								setAttributes( {
+									[ attrName ]: { ...boxValue, shadow },
+								} );
+							} }
+						/>
+					);
+				}
+
+				// Padding field
+				if ( fields.includes( 'padding' ) ) {
+					const paddingValue = boxValue.padding || { top: 0, right: 0, bottom: 0, left: 0, unit: 'px' };
+					elements.push(
+						<SpacingControl
+							key={ `${ attrName }-padding` }
+							label="Padding"
+							type="padding"
+							value={ paddingValue }
+							onChange={ ( padding ) => {
+								setAttributes( {
+									[ attrName ]: { ...boxValue, padding },
+								} );
+							} }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					);
+				}
+
+				// Margin field
+				if ( fields.includes( 'margin' ) ) {
+					const marginValue = boxValue.margin || { top: 0, right: 0, bottom: 0, left: 0, unit: 'px' };
+					elements.push(
+						<SpacingControl
+							key={ `${ attrName }-margin` }
+							label="Margin"
+							type="margin"
+							value={ marginValue }
+							onChange={ ( margin ) => {
+								setAttributes( {
+									[ attrName ]: { ...boxValue, margin },
+								} );
+							} }
+							units={ [ 'px', 'em', 'rem' ] }
+							sides={ [ 'top', 'bottom' ] }
+						/>
+					);
+				}
+
+				return elements.length > 0 ? <>{ elements }</> : null;
+			}
+
+			case 'border-panel': {
+				// Render single border panel (e.g., divider)
+				const borderValue = effectiveValue ?? attrConfig.default ?? {};
+				const fields = attrConfig.fields || [ 'top', 'right', 'bottom', 'left' ];
+				const side = fields[ 0 ] || 'top'; // Usually single side for dividers
+
+				return (
+					<BorderPanel
+						key={ attrName }
+						label={ attrConfig.subgroup || 'Border' }
+						value={ {
+							top: borderValue.width?.[ side ] || 0,
+							right: borderValue.width?.[ side ] || 0,
+							bottom: borderValue.width?.[ side ] || 0,
+							left: borderValue.width?.[ side ] || 0,
+							unit: borderValue.width?.unit || 'px',
+							linked: true,
+						} }
+						onChange={ ( width ) => {
+							const newWidth = { ...borderValue.width };
+							fields.forEach( ( f ) => {
+								newWidth[ f ] = width.top;
+							} );
+							newWidth.unit = width.unit;
+							setAttributes( {
+								[ attrName ]: { ...borderValue, width: newWidth },
+							} );
+						} }
+						colorValue={ borderValue.color?.[ side ] || '#dddddd' }
+						onColorChange={ ( color ) => {
+							const newColor = { ...borderValue.color };
+							fields.forEach( ( f ) => {
+								newColor[ f ] = color;
+							} );
+							setAttributes( {
+								[ attrName ]: { ...borderValue, color: newColor },
+							} );
+						} }
+						styleValue={ borderValue.style?.[ side ] || 'solid' }
+						onStyleChange={ ( style ) => {
+							const newStyle = { ...borderValue.style };
+							fields.forEach( ( f ) => {
+								newStyle[ f ] = style;
+							} );
+							setAttributes( {
+								[ attrName ]: { ...borderValue, style: newStyle },
+							} );
+						} }
+						lockLinked={ true }
+					/>
+				);
+			}
+
+			case 'typography-panel': {
+				// Render typography controls
+				const typoValue = effectiveValue ?? attrConfig.default ?? {};
+				const fields = attrConfig.fields || [ 'fontFamily', 'fontSize', 'lineHeight' ];
+				const elements = [];
+
+				if ( fields.includes( 'fontFamily' ) ) {
+					elements.push(
+						<FontFamilyControl
+							key={ `${ attrName }-fontFamily` }
+							label="Font Family"
+							value={ typoValue.fontFamily || '' }
+							onChange={ ( fontFamily ) => {
+								setAttributes( {
+									[ attrName ]: { ...typoValue, fontFamily },
+								} );
+							} }
+						/>
+					);
+				}
+
+				if ( fields.includes( 'fontSize' ) ) {
+					elements.push(
+						<SliderWithInput
+							key={ `${ attrName }-fontSize` }
+							label="Font Size"
+							value={ typoValue.fontSize || '16px' }
+							onChange={ ( fontSize ) => {
+								setAttributes( {
+									[ attrName ]: { ...typoValue, fontSize },
+								} );
+							} }
+							min={ 8 }
+							max={ 72 }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					);
+				}
+
+				if ( fields.includes( 'lineHeight' ) ) {
+					elements.push(
+						<SliderWithInput
+							key={ `${ attrName }-lineHeight` }
+							label="Line Height"
+							value={ typoValue.lineHeight || '1.5' }
+							onChange={ ( lineHeight ) => {
+								setAttributes( {
+									[ attrName ]: { ...typoValue, lineHeight },
+								} );
+							} }
+							min={ 0.5 }
+							max={ 3 }
+							step={ 0.1 }
+							units={ [ '', 'px', 'em' ] }
+						/>
+					);
+				}
+
+				return elements.length > 0 ? <>{ elements }</> : null;
+			}
+
+			default:
+				// Unknown panel type - skip rendering
+				return null;
+		}
+	}
+
+	// Skip attributes without a defined control (and not a panel type)
+	if ( ! control ) {
 		return null;
 	}
 

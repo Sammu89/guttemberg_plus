@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2026-01-06T20:03:28.318Z
+ * Generated at: 2026-01-06T21:39:00.682Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -15,7 +15,7 @@
 import { formatCssValue, getCssVarName, decomposeObjectToSides } from '@shared/config/css-var-mappings-generated';
 
 const THEMEABLE_ATTRS = new Set(["showIcon","iconRotation","iconInactiveColor","iconInactiveRotation","iconInactiveSize","iconInactiveMaxSize","iconInactiveOffsetX","iconInactiveOffsetY","iconActiveColor","iconActiveRotation","iconActiveSize","iconActiveMaxSize","iconActiveOffsetX","iconActiveOffsetY","animationDuration"]);
-const NON_THEMEABLE_ATTRS = new Set(["contentTypography","titleTypography","accordionWidth"]);
+const NON_THEMEABLE_ATTRS = new Set(["dividerBorder","blockBox","headerBox","contentBox","titleColor","contentColor","contentTypography","titleTypography","accordionWidth"]);
 
 /**
  * Build inline CSS variables for frontend save output.

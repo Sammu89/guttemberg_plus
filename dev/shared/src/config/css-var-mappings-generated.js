@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/*.json
- * Generated at: 2026-01-06T20:03:28.340Z
+ * Generated at: 2026-01-06T21:39:00.689Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -90,6 +90,12 @@ function buildTextShadow(shadows) {
  */
 export const CSS_VAR_MAPPINGS = {
   accordion: {
+    dividerBorder: { cssVar: '--accordion-divider', unit: null, defaultUnit: null, type: 'border-panel', cssProperty: null, dependsOn: null, variants: null },
+    blockBox: { cssVar: '--accordion-item', unit: null, defaultUnit: null, type: 'box-panel', cssProperty: null, dependsOn: null, variants: null },
+    headerBox: { cssVar: '--accordion-header', unit: null, defaultUnit: null, type: 'box-panel', cssProperty: null, dependsOn: null, variants: null },
+    contentBox: { cssVar: '--accordion-panel', unit: null, defaultUnit: null, type: 'box-panel', cssProperty: null, dependsOn: null, variants: null },
+    titleColor: { cssVar: '--accordion-title', unit: null, defaultUnit: null, type: 'color-panel', cssProperty: null, dependsOn: null, variants: null },
+    contentColor: { cssVar: '--accordion-content', unit: null, defaultUnit: null, type: 'color-panel', cssProperty: null, dependsOn: null, variants: null },
     contentTypography: { cssVar: '--accordion-content', unit: null, defaultUnit: null, type: 'typography-panel', cssProperty: null, dependsOn: null, variants: null },
     titleTypography: { cssVar: '--accordion-title', unit: null, defaultUnit: null, type: 'typography-panel', cssProperty: null, dependsOn: null, variants: null },
     showIcon: { cssVar: '--accordion-icon-display', unit: null, defaultUnit: null, type: 'boolean', cssProperty: 'display', dependsOn: null, variants: null },

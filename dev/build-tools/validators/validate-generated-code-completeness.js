@@ -41,13 +41,23 @@ function extractGeneratedCode(fileContent, markerName) {
 /**
  * Check if element is rendered in code section
  */
-function isElementInCode(code, elementId, elementDef) {
+function isElementInCode(code, elementId, elementDef, fullFileContent = null) {
 	if (!code) return false;
+
+	// Special handling for slot elements - they become InnerBlocks in React
+	if (elementDef.isSlot || elementDef.tag === 'slot') {
+		// Slots map to InnerBlocks (edit) or InnerBlocks.Content (save)
+		return code.includes('InnerBlocks');
+	}
 
 	// Check by className
 	if (elementDef.classes && elementDef.classes.length > 0) {
 		const classPattern = elementDef.classes[0]; // Primary class
 		if (code.includes(classPattern)) {
+			return true;
+		}
+		// Also check full file for root elements (class may be applied via blockProps)
+		if (fullFileContent && fullFileContent.includes(classPattern)) {
 			return true;
 		}
 	}
@@ -191,7 +201,7 @@ function validateGeneratedFile(blockType, mode) {
 				return;
 			}
 
-			if (!isElementInCode(allGeneratedCode, elementId, elementDef)) {
+			if (!isElementInCode(allGeneratedCode, elementId, elementDef, fileContent)) {
 				errors.push(`Element "${elementId}" from structure mapping NOT found in generated ${fileName} code`);
 			}
 

@@ -1304,6 +1304,7 @@
     },
     "tabIcon": {
       "type": "icon-panel",
+      "group": "icon",
       "cssVar": "tabs-icon",
       "appliesToElement": "tabIcon",
       "default": {

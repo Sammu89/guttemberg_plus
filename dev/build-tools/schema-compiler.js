@@ -644,7 +644,89 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 }
 
 /**
+ * Auto-infer cssVar for panel-type attributes
+ * Uses appliesTo field and blockType to derive a sensible CSS variable name
+ *
+ * @param {string} attrName  - Attribute name (e.g., 'titleColor', 'blockBox')
+ * @param {Object} attr      - Attribute definition
+ * @param {string} blockType - Block type (accordion, tabs, toc)
+ * @return {string} - CSS variable name (without -- prefix)
+ */
+function inferPanelCssVar( attrName, attr, blockType ) {
+	// If cssVar is already defined, use it
+	if ( attr.cssVar ) {
+		return attr.cssVar;
+	}
+
+	// Map appliesTo to CSS element names
+	const appliesToMap = {
+		// Accordion
+		title: 'title',
+		content: 'content',
+		item: 'item',
+		icon: 'icon',
+		contentInner: 'content',
+		titleText: 'title',
+		// Tabs
+		tabButton: 'button',
+		tabPanel: 'panel',
+		tabsList: 'list',
+		tabIcon: 'icon',
+		wrapper: 'wrapper',
+		// TOC
+		tocTitle: 'title',
+		tocLink: 'link',
+		tocList: 'list',
+	};
+
+	const appliesTo = attr.appliesTo;
+	const elementName = appliesToMap[ appliesTo ] || appliesTo || 'block';
+
+	// For specific attribute patterns, use descriptive names
+	// e.g., dividerBorder → divider, headerBox → header, contentBox → panel
+	const attrPatterns = {
+		dividerBorder: 'divider',
+		blockBox: 'item',
+		headerBox: 'header',
+		contentBox: 'panel',
+		titleColor: 'title',
+		contentColor: 'content',
+		titleTypography: 'title',
+		contentTypography: 'content',
+		tabButtonColor: 'button',
+	};
+
+	const derivedName = attrPatterns[ attrName ] || elementName;
+
+	return `${ blockType }-${ derivedName }`;
+}
+
+/**
+ * Auto-infer group for panel-type attributes based on type
+ *
+ * @param {string} panelType - Panel type (color-panel, box-panel, etc.)
+ * @param {Object} attr      - Attribute definition
+ * @return {string} - Group name
+ */
+function inferPanelGroup( panelType, attr ) {
+	if ( attr.group ) {
+		return attr.group;
+	}
+
+	const groupMap = {
+		'color-panel': 'colors',
+		'typography-panel': 'typography',
+		'border-panel': 'borders',
+		'box-panel': attr.fields?.includes( 'padding' ) ? 'layout' : 'borders',
+		'icon-panel': 'icon',
+	};
+
+	return groupMap[ panelType ] || 'appearance';
+}
+
+/**
  * Process schema attributes to expand icon-panel macros
+ * and auto-infer cssVar/group for panel-type attributes
  *
  * @param {Object} attributes - Schema attributes object
  * @param {string} blockType  - The block type
@@ -653,11 +735,31 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 function processAttributes( attributes, blockType ) {
 	const processed = {};
 
+	// Panel types that need cssVar auto-inference
+	const panelTypes = [ 'color-panel', 'box-panel', 'typography-panel', 'border-panel', 'icon-panel' ];
+
 	for ( const [ name, attr ] of Object.entries( attributes ) ) {
 		if ( attr.type === 'icon-panel' ) {
-			// Expand icon-panel macro
+			// Expand icon-panel macro (uses cssVar from attr or needs it defined)
+			// Auto-infer cssVar if not provided
+			if ( ! attr.cssVar ) {
+				attr.cssVar = inferPanelCssVar( name, attr, blockType );
+			}
+			if ( ! attr.group ) {
+				attr.group = inferPanelGroup( attr.type, attr );
+			}
 			const expanded = expandIconPanelMacro( name, attr, blockType );
 			Object.assign( processed, expanded );
+		} else if ( panelTypes.includes( attr.type ) ) {
+			// Other panel types - auto-infer cssVar and group
+			const processedAttr = { ...attr };
+			if ( ! processedAttr.cssVar ) {
+				processedAttr.cssVar = inferPanelCssVar( name, processedAttr, blockType );
+			}
+			if ( ! processedAttr.group ) {
+				processedAttr.group = inferPanelGroup( processedAttr.type, processedAttr );
+			}
+			processed[ name ] = processedAttr;
 		} else {
 			// Regular attribute - keep as is
 			processed[ name ] = attr;

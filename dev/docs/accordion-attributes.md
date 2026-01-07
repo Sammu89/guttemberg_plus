@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2026-01-06T20:03:28.313Z
+> Generated at: 2026-01-06T21:39:00.680Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -16,16 +16,39 @@ Complete theme and appearance configuration for Accordion blocks
 - **Block Type:** `accordion`
 - **Version:** 1.0.0
 
-## Other
+## Borders
+
+Block borders, radius, shadows, and divider settings
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
 | `dividerBorder` | border-panel | _object_ | No (N/A) |  |
 | `blockBox` | box-panel | _object_ | No (N/A) |  |
+
+## Layout
+
+Spacing and padding settings
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
 | `headerBox` | box-panel | _object_ | No (N/A) |  |
 | `contentBox` | box-panel | _object_ | No (N/A) |  |
+
+## Colors
+
+Header and panel color settings
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
 | `titleColor` | color-panel | _object_ | No (N/A) |  |
 | `contentColor` | color-panel | _object_ | No (N/A) |  |
+
+## Typography
+
+Font settings for header and content
+
+| Attribute | Type | Default | Themeable | Description |
+|-----------|------|---------|-----------|-------------|
 | `contentTypography` | typography-panel | `undefined` | No (N/A) |  |
 | `titleTypography` | typography-panel | `undefined` | No (N/A) |  |
 

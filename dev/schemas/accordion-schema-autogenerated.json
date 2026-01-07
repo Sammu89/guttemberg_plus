@@ -125,7 +125,9 @@
         "style": {
           "top": "solid"
         }
-      }
+      },
+      "cssVar": "accordion-divider",
+      "group": "borders"
     },
     "blockBox": {
       "type": "box-panel",
@@ -195,7 +197,9 @@
           "left": 0,
           "unit": "em"
         }
-      }
+      },
+      "cssVar": "accordion-item",
+      "group": "borders"
     },
     "headerBox": {
       "type": "box-panel",
@@ -211,7 +215,9 @@
           "left": 16,
           "unit": "px"
         }
-      }
+      },
+      "cssVar": "accordion-header",
+      "group": "layout"
     },
     "contentBox": {
       "type": "box-panel",
@@ -227,7 +233,9 @@
           "left": 16,
           "unit": "px"
         }
-      }
+      },
+      "cssVar": "accordion-panel",
+      "group": "layout"
     },
     "titleColor": {
       "type": "color-panel",
@@ -244,7 +252,9 @@
           "text": "#000000",
           "background": "#e8e8e8"
         }
-      }
+      },
+      "cssVar": "accordion-title",
+      "group": "colors"
     },
     "contentColor": {
       "type": "color-panel",
@@ -253,7 +263,9 @@
       "default": {
         "text": "#333333",
         "background": "#ffffff"
-      }
+      },
+      "cssVar": "accordion-content",
+      "group": "colors"
     },
     "contentTypography": {
       "type": "typography-panel",
@@ -264,7 +276,8 @@
         "fontFamily",
         "fontSize",
         "lineHeight"
-      ]
+      ],
+      "group": "typography"
     },
     "titleTypography": {
       "type": "typography-panel",
@@ -279,7 +292,8 @@
       "states": [
         "base",
         "hover"
-      ]
+      ],
+      "group": "typography"
     },
     "showIcon": {
       "type": "boolean",

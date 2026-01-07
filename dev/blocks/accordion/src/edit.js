@@ -170,16 +170,6 @@ const getInlineStyles = (responsiveDevice = 'global') => {
 /* ========== AUTO-GENERATED-STYLES-END ========== */
 
 	const styles = getInlineStyles( responsiveDevice );
-	console.log(
-		'[ACCORDION] responsiveDevice:',
-		responsiveDevice,
-		'styles.title.fontSize:',
-		styles.title.fontSize,
-		'styles.title.left:',
-		styles.title.left,
-		'styles.title.top:',
-		styles.title.top
-	);
 
 	// Build font-weight from formatting selection
 	const titleFormatting = effectiveValues.titleFormatting || [];
@@ -492,7 +482,7 @@ const renderTitle = () => {
 
 	const blockContentJSX = (
 		<div { ...blockProps }>
-			{ renderTitle() }
+			<div className="accordion-title-wrapper">{ renderTitle() }</div>
 
 			<div className="accordion-content" style={ { ...styles.content } }>
 				<div className="accordion-content-inner">

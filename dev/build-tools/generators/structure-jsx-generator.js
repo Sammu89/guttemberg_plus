@@ -547,7 +547,7 @@ function generateAccordionBlockContent(structureMapping, mode) {
     code += `
 	const blockContentJSX = (
 		<div { ...blockProps }>
-			{ renderTitle() }
+			<div className="${titleWrapperEl.classes[0]}">{ renderTitle() }</div>
 
 			<div className="${contentEl.classes[0]}" style={ { ...styles.content } }>
 				<div className="${contentInnerEl.classes[0]}">
