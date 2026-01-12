@@ -81,8 +81,14 @@ function normalizeDefaultValue( attr ) {
 
 function buildVarChain( attr, device, blockType ) {
 	const state = attr.state || 'base';
-	const baseVar =
+	let baseVar =
 		attr.cssVar || buildCssVarName( blockType, attr.element, attr.cssProperty, state );
+
+	// Ensure CSS variable has -- prefix
+	if ( ! baseVar.startsWith( '--' ) ) {
+		baseVar = `--${ baseVar }`;
+	}
+
 	const variants = Array.isArray( attr.cssVarVariants )
 		? attr.cssVarVariants
 		: [ baseVar, `${ baseVar }-tablet`, `${ baseVar }-mobile` ];
@@ -168,7 +174,9 @@ function generateRootVariables( attributes ) {
 			return;
 		}
 		seen.add( attr.cssVar );
-		lines.push( `  ${ attr.cssVar }: ${ value };` );
+		// Ensure CSS variable has -- prefix
+		const cssVarName = attr.cssVar.startsWith( '--' ) ? attr.cssVar : `--${ attr.cssVar }`;
+		lines.push( `  ${ cssVarName }: ${ value };` );
 	} );
 
 	if ( lines.length === 0 ) {

@@ -106,7 +106,8 @@ export function buildFrontendCssVars(customizations, attributes) {
         const pUnit = p.unit || 'px';
         sides.forEach((side) => {
           if (p[side] !== undefined) {
-            styles[\`\${cssVar}-padding-\${side}\`] = \`\${p[side] || 0}\${pUnit}\`;
+            const sideValue = typeof p[side] === 'object' ? p[side].value : p[side];
+            styles[\`\${cssVar}-padding-\${side}\`] = \`\${sideValue || 0}\${pUnit}\`;
           }
         });
       }
@@ -115,7 +116,8 @@ export function buildFrontendCssVars(customizations, attributes) {
         const mUnit = m.unit || 'px';
         sides.forEach((side) => {
           if (m[side] !== undefined) {
-            styles[\`\${cssVar}-margin-\${side}\`] = \`\${m[side] || 0}\${mUnit}\`;
+            const sideValue = typeof m[side] === 'object' ? m[side].value : m[side];
+            styles[\`\${cssVar}-margin-\${side}\`] = \`\${sideValue || 0}\${mUnit}\`;
           }
         });
       }
@@ -125,23 +127,38 @@ export function buildFrontendCssVars(customizations, attributes) {
           const bwUnit = b.width.unit || 'px';
           sides.forEach((side) => {
             if (b.width[side] !== undefined) {
-              styles[\`\${cssVar}-border-\${side}-width\`] = \`\${b.width[side] || 0}\${bwUnit}\`;
+              const sideValue = typeof b.width[side] === 'object' ? b.width[side].value : b.width[side];
+              styles[\`\${cssVar}-border-\${side}-width\`] = \`\${sideValue || 0}\${bwUnit}\`;
             }
           });
         }
         if (b.color) {
-          sides.forEach((side) => {
-            if (b.color[side] !== undefined) {
-              styles[\`\${cssVar}-border-\${side}-color\`] = b.color[side] || 'transparent';
-            }
-          });
+          if (typeof b.color === 'string') {
+            sides.forEach((side) => {
+              styles[\`\${cssVar}-border-\${side}-color\`] = b.color;
+            });
+          } else {
+            sides.forEach((side) => {
+              if (b.color[side] !== undefined) {
+                const sideColor = typeof b.color[side] === 'object' ? b.color[side].value : b.color[side];
+                styles[\`\${cssVar}-border-\${side}-color\`] = sideColor || 'transparent';
+              }
+            });
+          }
         }
         if (b.style) {
-          sides.forEach((side) => {
-            if (b.style[side] !== undefined) {
-              styles[\`\${cssVar}-border-\${side}-style\`] = b.style[side] || 'solid';
-            }
-          });
+          if (typeof b.style === 'string') {
+            sides.forEach((side) => {
+              styles[\`\${cssVar}-border-\${side}-style\`] = b.style;
+            });
+          } else {
+            sides.forEach((side) => {
+              if (b.style[side] !== undefined) {
+                const sideStyle = typeof b.style[side] === 'object' ? b.style[side].value : b.style[side];
+                styles[\`\${cssVar}-border-\${side}-style\`] = sideStyle || 'solid';
+              }
+            });
+          }
         }
       }
       if (value.radius) {
@@ -149,7 +166,8 @@ export function buildFrontendCssVars(customizations, attributes) {
         const rUnit = r.unit || 'px';
         corners.forEach((corner) => {
           if (r[corner] !== undefined) {
-            styles[\`\${cssVar}-border-\${toKebab(corner)}-radius\`] = \`\${r[corner] || 0}\${rUnit}\`;
+            const cornerValue = typeof r[corner] === 'object' ? r[corner].value : r[corner];
+            styles[\`\${cssVar}-border-\${toKebab(corner)}-radius\`] = \`\${cornerValue || 0}\${rUnit}\`;
           }
         });
       }
@@ -175,23 +193,38 @@ export function buildFrontendCssVars(customizations, attributes) {
         const wUnit = w.unit || 'px';
         sides.forEach((side) => {
           if (w[side] !== undefined) {
-            styles[\`\${cssVar}-border-\${side}-width\`] = \`\${w[side] || 0}\${wUnit}\`;
+            const sideValue = typeof w[side] === 'object' ? w[side].value : w[side];
+            styles[\`\${cssVar}-border-\${side}-width\`] = \`\${sideValue || 0}\${wUnit}\`;
           }
         });
       }
       if (value.color) {
-        sides.forEach((side) => {
-          if (value.color[side] !== undefined) {
-            styles[\`\${cssVar}-border-\${side}-color\`] = value.color[side] || 'transparent';
-          }
-        });
+        if (typeof value.color === 'string') {
+          sides.forEach((side) => {
+            styles[\`\${cssVar}-border-\${side}-color\`] = value.color;
+          });
+        } else {
+          sides.forEach((side) => {
+            if (value.color[side] !== undefined) {
+              const sideColor = typeof value.color[side] === 'object' ? value.color[side].value : value.color[side];
+              styles[\`\${cssVar}-border-\${side}-color\`] = sideColor || 'transparent';
+            }
+          });
+        }
       }
       if (value.style) {
-        sides.forEach((side) => {
-          if (value.style[side] !== undefined) {
-            styles[\`\${cssVar}-border-\${side}-style\`] = value.style[side] || 'solid';
-          }
-        });
+        if (typeof value.style === 'string') {
+          sides.forEach((side) => {
+            styles[\`\${cssVar}-border-\${side}-style\`] = value.style;
+          });
+        } else {
+          sides.forEach((side) => {
+            if (value.style[side] !== undefined) {
+              const sideStyle = typeof value.style[side] === 'object' ? value.style[side].value : value.style[side];
+              styles[\`\${cssVar}-border-\${side}-style\`] = sideStyle || 'solid';
+            }
+          });
+        }
       }
       return;
     }

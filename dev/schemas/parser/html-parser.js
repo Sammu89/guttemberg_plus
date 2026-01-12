@@ -283,6 +283,17 @@ function parseHTMLTemplate( htmlFilePath ) {
 					content: node.innerHTML,
 					node,
 				};
+
+				// IMPORTANT: Extract data-el elements from inside slot definition
+				// This allows CSS variables to target elements defined in slots
+				// Parse the innerHTML as a new DOM to extract elements
+				const slotContentDOM = new JSDOM( `<div>${ node.innerHTML }</div>` );
+				const slotRoot = slotContentDOM.window.document.body.firstElementChild;
+				if ( slotRoot ) {
+					Array.from( slotRoot.children ).forEach( ( child ) => {
+						traverse( child, null );
+					} );
+				}
 			} else {
 				// Injection: <template data-slot="name"></template>
 				// This is a placeholder for where the slot content should be injected
@@ -492,6 +503,14 @@ function parseHTMLTemplate( htmlFilePath ) {
 	if ( templateRoot ) {
 		traverse( templateRoot );
 	}
+
+	// IMPORTANT: Also traverse top-level <template data-slot> definitions
+	// These are slot definitions that appear as siblings to the main structure
+	// (e.g., tabs and TOC blocks define slots at root level)
+	const topLevelSlots = document.querySelectorAll( 'body > template[data-slot]' );
+	topLevelSlots.forEach( ( slotTemplate ) => {
+		traverse( slotTemplate, null );
+	} );
 
 	return {
 		elements,

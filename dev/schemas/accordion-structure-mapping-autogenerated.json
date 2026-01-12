@@ -231,6 +231,14 @@
         "trueContent": "\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        ",
         "falseContent": "\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        ",
         "node": {}
+      },
+      {
+        "type": "conditional",
+        "expression": "iconInactiveSource.kind === 'image'",
+        "isElse": false,
+        "trueContent": "\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        ",
+        "falseContent": "\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        ",
+        "node": {}
       }
     ],
     "placeholders": [

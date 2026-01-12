@@ -34,8 +34,7 @@
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
 	outline: none;
-	border-width: var(--accordion-border-width, 1px);
-	box-shadow: var(--accordion-shadow, none);
+	// Border and shadow styles come from auto-generated accordion_variables.scss
 
 	// Alignment classes - horizontal margins for block positioning
 	&.gutplus-align-left {

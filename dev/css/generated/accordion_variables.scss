@@ -1,31 +1,37 @@
 /**
  * AUTO-GENERATED - DO NOT EDIT
  * Source: comprehensive schema for accordion
- * Generated: 2026-01-04T21:01:40.346Z
+ * Generated: 2026-01-12T22:58:21.019Z
  */
 
 :root {
+  --accordion-animation-duration: 250ms;
+  --accordion-content-background: #ffffff;
   --accordion-content-border-top-color: #dddddd;
   --accordion-content-border-top-style: solid;
   --accordion-content-border-top-width: 0px;
+  --accordion-content-color: #333333;
+  --accordion-content-font-family: inherit;
+  --accordion-content-font-size: 1rem;
+  --accordion-content-line-height: 1.4;
   --accordion-content-padding-bottom: 16px;
   --accordion-content-padding-left: 16px;
   --accordion-content-padding-right: 16px;
   --accordion-content-padding-top: 16px;
   --accordion-icon-animation-rotation: 180deg;
   --accordion-icon-color: #333333;
-  --accordion-icon-color-is-open: #333333;
   --accordion-icon-display: inline-grid;
   --accordion-icon-initial-rotation: 0deg;
-  --accordion-icon-initial-rotation-is-open: 0deg;
+  --accordion-icon-is-open-color: #333333;
+  --accordion-icon-is-open-initial-rotation: 0deg;
+  --accordion-icon-is-open-max-size: 24px;
+  --accordion-icon-is-open-offset-x: 0px;
+  --accordion-icon-is-open-offset-y: 0px;
+  --accordion-icon-is-open-size: 16px;
   --accordion-icon-max-size: 24px;
-  --accordion-icon-max-size-is-open: 24px;
   --accordion-icon-offset-x: 0px;
-  --accordion-icon-offset-x-is-open: 0px;
   --accordion-icon-offset-y: 0px;
-  --accordion-icon-offset-y-is-open: 0px;
   --accordion-icon-size: 16px;
-  --accordion-icon-size-is-open: 16px;
   --accordion-item-border-bottom-color: #dddddd;
   --accordion-item-border-bottom-left-radius: 4px;
   --accordion-item-border-bottom-right-radius: 4px;
@@ -46,27 +52,21 @@
   --accordion-item-margin-left: 0em;
   --accordion-item-margin-right: 0em;
   --accordion-item-margin-top: 1em;
+  --accordion-title-background: #f5f5f5;
+  --accordion-title-background-hover: #e8e8e8;
+  --accordion-title-color: #333333;
+  --accordion-title-color-hover: #000000;
+  --accordion-title-font-family: inherit;
+  --accordion-title-font-family-hover: inherit;
+  --accordion-title-font-size: 1rem;
+  --accordion-title-font-size-hover: 1rem;
+  --accordion-title-line-height: 1.4;
+  --accordion-title-line-height-hover: 1.4;
   --accordion-title-padding-bottom: 12px;
   --accordion-title-padding-left: 16px;
   --accordion-title-padding-right: 16px;
   --accordion-title-padding-top: 12px;
-  accordion-animation-duration: 250ms;
-  accordion-content-background: #ffffff;
-  accordion-content-color: #333333;
-  accordion-content-font-family: inherit;
-  accordion-content-font-size: 1rem;
-  accordion-content-line-height: 1.4;
-  accordion-title-background: #f5f5f5;
-  accordion-title-background-hover: #e8e8e8;
-  accordion-title-color: #333333;
-  accordion-title-color-hover: #000000;
-  accordion-title-font-family: inherit;
-  accordion-title-font-family-hover: inherit;
-  accordion-title-font-size: 1rem;
-  accordion-title-font-size-hover: 1rem;
-  accordion-title-line-height: 1.4;
-  accordion-title-line-height-hover: 1.4;
-  accordion-width: 100%;
+  --accordion-width: 100%;
 }
 
 
@@ -82,16 +82,18 @@
   padding-right: var(--accordion-content-padding-right);
   padding-bottom: var(--accordion-content-padding-bottom);
   padding-left: var(--accordion-content-padding-left);
-  color: var(accordion-content-color);
-  background: var(accordion-content-background);
+  color: var(--accordion-content-color);
+  background: var(--accordion-content-background);
 }
 
 .accordion-icon {
   display: var(--accordion-icon-display);
-  color: var(--accordion-icon-color);
-  transform: translate(var(--accordion-icon-offset-x), var(--accordion-icon-offset-y)) rotate(var(--accordion-icon-initial-rotation));
-  font-size: var(--accordion-icon-size);
-  max-width: var(--accordion-icon-max-size);
+  transform: var(--accordion-icon-is-open-initial-rotation);
+  color: var(--accordion-icon-is-open-color);
+  font-size: var(--accordion-icon-is-open-size);
+  max-width: var(--accordion-icon-is-open-max-size);
+  left: var(--accordion-icon-is-open-offset-x);
+  top: var(--accordion-icon-is-open-offset-y);
 }
 
 .gutplus-accordion {
@@ -116,8 +118,8 @@
   border-bottom-right-radius: var(--accordion-item-border-bottom-right-radius);
   border-bottom-left-radius: var(--accordion-item-border-bottom-left-radius);
   box-shadow: var(--accordion-item-box-shadow);
-  transition-duration: var(accordion-animation-duration);
-  width: var(accordion-width);
+  transition-duration: var(--accordion-animation-duration);
+  width: var(--accordion-width);
 }
 
 .accordion-title {
@@ -125,22 +127,14 @@
   padding-right: var(--accordion-title-padding-right);
   padding-bottom: var(--accordion-title-padding-bottom);
   padding-left: var(--accordion-title-padding-left);
-  color: var(accordion-title-color);
-  background: var(accordion-title-background);
-}
-
-/* is-open state */
-.gutplus-accordion.is-open .accordion-icon {
-  color: var(--accordion-icon-color-is-open);
-  transform: translate(var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x)), var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)));
-  font-size: var(--accordion-icon-size-is-open);
-  max-width: var(--accordion-icon-max-size-is-open);
+  color: var(--accordion-title-color);
+  background: var(--accordion-title-background);
 }
 
 /* hover state */
 .accordion-title:hover {
-  color: var(accordion-title-color-hover);
-  background: var(accordion-title-background-hover);
+  color: var(--accordion-title-color-hover);
+  background: var(--accordion-title-background-hover);
 }
 
 
@@ -156,9 +150,11 @@
 }
 
 [data-gutplus-device="tablet"] .accordion-icon {
-  transform: translate(var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)), var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))) rotate(var(--accordion-icon-initial-rotation));
-  font-size: var(--accordion-icon-size-tablet, var(--accordion-icon-size));
-  max-width: var(--accordion-icon-max-size-tablet, var(--accordion-icon-max-size));
+  transform: var(--accordion-icon-is-open-initial-rotation-tablet, var(--accordion-icon-is-open-initial-rotation));
+  font-size: var(--accordion-icon-is-open-size-tablet, var(--accordion-icon-is-open-size));
+  max-width: var(--accordion-icon-is-open-max-size-tablet, var(--accordion-icon-is-open-max-size));
+  left: var(--accordion-icon-is-open-offset-x-tablet, var(--accordion-icon-is-open-offset-x));
+  top: var(--accordion-icon-is-open-offset-y-tablet, var(--accordion-icon-is-open-offset-y));
 }
 
 [data-gutplus-device="tablet"] .gutplus-accordion {
@@ -166,7 +162,7 @@
   margin-right: var(--accordion-item-margin-right-tablet, var(--accordion-item-margin-right));
   margin-bottom: var(--accordion-item-margin-bottom-tablet, var(--accordion-item-margin-bottom));
   margin-left: var(--accordion-item-margin-left-tablet, var(--accordion-item-margin-left));
-  width: var(accordion-width-tablet, var(accordion-width));
+  width: var(--accordion-width-tablet, var(--accordion-width));
 }
 
 [data-gutplus-device="tablet"] .accordion-title {
@@ -174,13 +170,6 @@
   padding-right: var(--accordion-title-padding-right-tablet, var(--accordion-title-padding-right));
   padding-bottom: var(--accordion-title-padding-bottom-tablet, var(--accordion-title-padding-bottom));
   padding-left: var(--accordion-title-padding-left-tablet, var(--accordion-title-padding-left));
-}
-
-/* is-open state */
-[data-gutplus-device="tablet"] .gutplus-accordion.is-open .accordion-icon {
-  transform: translate(var(--accordion-icon-offset-x-is-open-tablet, var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)))), var(--accordion-icon-offset-y-is-open-tablet, var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)));
-  font-size: var(--accordion-icon-size-is-open-tablet, var(--accordion-icon-size-is-open));
-  max-width: var(--accordion-icon-max-size-is-open-tablet, var(--accordion-icon-max-size-is-open));
 }
 
 
@@ -196,9 +185,11 @@
 }
 
 [data-gutplus-device="mobile"] .accordion-icon {
-  transform: translate(var(--accordion-icon-offset-x-mobile, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x))), var(--accordion-icon-offset-y-mobile, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y)))) rotate(var(--accordion-icon-initial-rotation));
-  font-size: var(--accordion-icon-size-mobile, var(--accordion-icon-size-tablet, var(--accordion-icon-size)));
-  max-width: var(--accordion-icon-max-size-mobile, var(--accordion-icon-max-size-tablet, var(--accordion-icon-max-size)));
+  transform: var(--accordion-icon-is-open-initial-rotation-mobile, var(--accordion-icon-is-open-initial-rotation-tablet, var(--accordion-icon-is-open-initial-rotation)));
+  font-size: var(--accordion-icon-is-open-size-mobile, var(--accordion-icon-is-open-size-tablet, var(--accordion-icon-is-open-size)));
+  max-width: var(--accordion-icon-is-open-max-size-mobile, var(--accordion-icon-is-open-max-size-tablet, var(--accordion-icon-is-open-max-size)));
+  left: var(--accordion-icon-is-open-offset-x-mobile, var(--accordion-icon-is-open-offset-x-tablet, var(--accordion-icon-is-open-offset-x)));
+  top: var(--accordion-icon-is-open-offset-y-mobile, var(--accordion-icon-is-open-offset-y-tablet, var(--accordion-icon-is-open-offset-y)));
 }
 
 [data-gutplus-device="mobile"] .gutplus-accordion {
@@ -206,7 +197,7 @@
   margin-right: var(--accordion-item-margin-right-mobile, var(--accordion-item-margin-right-tablet, var(--accordion-item-margin-right)));
   margin-bottom: var(--accordion-item-margin-bottom-mobile, var(--accordion-item-margin-bottom-tablet, var(--accordion-item-margin-bottom)));
   margin-left: var(--accordion-item-margin-left-mobile, var(--accordion-item-margin-left-tablet, var(--accordion-item-margin-left)));
-  width: var(accordion-width-mobile, var(accordion-width-tablet, var(accordion-width)));
+  width: var(--accordion-width-mobile, var(--accordion-width-tablet, var(--accordion-width)));
 }
 
 [data-gutplus-device="mobile"] .accordion-title {
@@ -214,12 +205,5 @@
   padding-right: var(--accordion-title-padding-right-mobile, var(--accordion-title-padding-right-tablet, var(--accordion-title-padding-right)));
   padding-bottom: var(--accordion-title-padding-bottom-mobile, var(--accordion-title-padding-bottom-tablet, var(--accordion-title-padding-bottom)));
   padding-left: var(--accordion-title-padding-left-mobile, var(--accordion-title-padding-left-tablet, var(--accordion-title-padding-left)));
-}
-
-/* is-open state */
-[data-gutplus-device="mobile"] .gutplus-accordion.is-open .accordion-icon {
-  transform: translate(var(--accordion-icon-offset-x-is-open-mobile, var(--accordion-icon-offset-x-is-open-tablet, var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x-mobile, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)))))), var(--accordion-icon-offset-y-is-open-mobile, var(--accordion-icon-offset-y-is-open-tablet, var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y-mobile, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))))))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)));
-  font-size: var(--accordion-icon-size-is-open-mobile, var(--accordion-icon-size-is-open-tablet, var(--accordion-icon-size-is-open)));
-  max-width: var(--accordion-icon-max-size-is-open-mobile, var(--accordion-icon-max-size-is-open-tablet, var(--accordion-icon-max-size-is-open)));
 }
 

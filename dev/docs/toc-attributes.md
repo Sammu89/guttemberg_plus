@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/toc.json`
-> Generated at: 2026-01-07T22:55:13.430Z
+> Generated at: 2026-01-12T22:58:19.413Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`

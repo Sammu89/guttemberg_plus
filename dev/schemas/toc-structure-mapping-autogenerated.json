@@ -69,6 +69,124 @@
         "children": [],
         "parent": "content",
         "isSlot": false
+      },
+      "listItem": {
+        "id": "listItem",
+        "selector": ".toc-item",
+        "tag": "li",
+        "classes": [
+          "toc-item"
+        ],
+        "attributes": {},
+        "children": [
+          "h1Link",
+          "h2Link",
+          "h3Link",
+          "h4Link",
+          "h5Link",
+          "h6Link",
+          "link",
+          "nestedList"
+        ],
+        "parent": null,
+        "isSlot": false
+      },
+      "h1Link": {
+        "id": "h1Link",
+        "selector": ".toc-link",
+        "tag": "a",
+        "classes": [
+          "toc-link"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
+      },
+      "h2Link": {
+        "id": "h2Link",
+        "selector": ".toc-link",
+        "tag": "a",
+        "classes": [
+          "toc-link"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
+      },
+      "h3Link": {
+        "id": "h3Link",
+        "selector": ".toc-link",
+        "tag": "a",
+        "classes": [
+          "toc-link"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
+      },
+      "h4Link": {
+        "id": "h4Link",
+        "selector": ".toc-link",
+        "tag": "a",
+        "classes": [
+          "toc-link"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
+      },
+      "h5Link": {
+        "id": "h5Link",
+        "selector": ".toc-link",
+        "tag": "a",
+        "classes": [
+          "toc-link"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
+      },
+      "h6Link": {
+        "id": "h6Link",
+        "selector": ".toc-link",
+        "tag": "a",
+        "classes": [
+          "toc-link"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
+      },
+      "link": {
+        "id": "link",
+        "selector": ".toc-link",
+        "tag": "a",
+        "classes": [
+          "toc-link"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
+      },
+      "nestedList": {
+        "id": "nestedList",
+        "selector": ".toc-list",
+        "tag": "ul",
+        "classes": [
+          "toc-list",
+          "toc-hierarchical-numbering"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "listItem",
+        "isSlot": false
       }
     },
     "variations": {
@@ -87,17 +205,83 @@
             "isDefault": true
           }
         }
+      },
+      "headingLevel": {
+        "type": "switch",
+        "expression": "headingLevel",
+        "cases": {
+          "1": {
+            "value": "1",
+            "content": "\n            <a class=\"toc-link\" data-el=\"h1Link\"></a>\n          ",
+            "isDefault": false
+          },
+          "2": {
+            "value": "2",
+            "content": "\n            <a class=\"toc-link\" data-el=\"h2Link\"></a>\n          ",
+            "isDefault": false
+          },
+          "3": {
+            "value": "3",
+            "content": "\n            <a class=\"toc-link\" data-el=\"h3Link\"></a>\n          ",
+            "isDefault": false
+          },
+          "4": {
+            "value": "4",
+            "content": "\n            <a class=\"toc-link\" data-el=\"h4Link\"></a>\n          ",
+            "isDefault": false
+          },
+          "5": {
+            "value": "5",
+            "content": "\n            <a class=\"toc-link\" data-el=\"h5Link\"></a>\n          ",
+            "isDefault": false
+          },
+          "6": {
+            "value": "6",
+            "content": "\n            <a class=\"toc-link\" data-el=\"h6Link\"></a>\n          ",
+            "isDefault": false
+          },
+          "default": {
+            "value": "default",
+            "content": "\n            <a class=\"toc-link\" data-el=\"link\"></a>\n          ",
+            "isDefault": true
+          }
+        }
+      },
+      "hasChildren": {
+        "condition": "hasChildren",
+        "trueStructure": "\n          <ul class=\"toc-list toc-hierarchical-numbering\" data-el=\"nestedList\">\n            <template data-slot=\"tocItems\"></template>\n          </ul>\n        ",
+        "falseStructure": null
       }
     },
     "slots": {
       "tocItems": {
         "name": "tocItems",
+        "content": "\n      <li class=\"toc-item\" data-el=\"listItem\">\n        <template data-switch=\"headingLevel\">\n          <template data-case=\"1\">\n            <a class=\"toc-link\" data-el=\"h1Link\"></a>\n          </template>\n          <template data-case=\"2\">\n            <a class=\"toc-link\" data-el=\"h2Link\"></a>\n          </template>\n          <template data-case=\"3\">\n            <a class=\"toc-link\" data-el=\"h3Link\"></a>\n          </template>\n          <template data-case=\"4\">\n            <a class=\"toc-link\" data-el=\"h4Link\"></a>\n          </template>\n          <template data-case=\"5\">\n            <a class=\"toc-link\" data-el=\"h5Link\"></a>\n          </template>\n          <template data-case=\"6\">\n            <a class=\"toc-link\" data-el=\"h6Link\"></a>\n          </template>\n          <template data-default=\"\">\n            <a class=\"toc-link\" data-el=\"link\"></a>\n          </template>\n        </template>\n\n        <template data-when=\"hasChildren\">\n          <ul class=\"toc-list toc-hierarchical-numbering\" data-el=\"nestedList\">\n            <template data-slot=\"tocItems\"></template>\n          </ul>\n        </template>\n      </li>\n    ",
+        "node": {},
         "injections": [
+          {},
           {}
         ]
       }
     },
-    "conditions": [],
+    "conditions": [
+      {
+        "type": "conditional",
+        "expression": "hasChildren",
+        "isElse": false,
+        "trueContent": "\n          <ul class=\"toc-list toc-hierarchical-numbering\" data-el=\"nestedList\">\n            <template data-slot=\"tocItems\"></template>\n          </ul>\n        ",
+        "falseContent": null,
+        "node": {}
+      },
+      {
+        "type": "conditional",
+        "expression": "hasChildren",
+        "isElse": false,
+        "trueContent": "\n          <ul class=\"toc-list toc-hierarchical-numbering\" data-el=\"nestedList\">\n            <template data-slot=\"tocItems\"></template>\n          </ul>\n        ",
+        "falseContent": null,
+        "node": {}
+      }
+    ],
     "placeholders": [
       "headingLevel"
     ],

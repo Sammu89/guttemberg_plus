@@ -83,7 +83,9 @@ function expandPanelType(cssVar, value, type, styles) {
       const pUnit = p.unit || 'px';
       sides.forEach((side) => {
         if (p[side] !== undefined) {
-          styles[\`\${cssVar}-padding-\${side}\`] = \`\${p[side] || 0}\${pUnit}\`;
+          // Extract value from object if in unlinked mode: { value: 2 }
+          const sideValue = typeof p[side] === 'object' ? p[side].value : p[side];
+          styles[\`\${cssVar}-padding-\${side}\`] = \`\${sideValue || 0}\${pUnit}\`;
         }
       });
     }
@@ -93,7 +95,9 @@ function expandPanelType(cssVar, value, type, styles) {
       const mUnit = m.unit || 'px';
       sides.forEach((side) => {
         if (m[side] !== undefined) {
-          styles[\`\${cssVar}-margin-\${side}\`] = \`\${m[side] || 0}\${mUnit}\`;
+          // Extract value from object if in unlinked mode
+          const sideValue = typeof m[side] === 'object' ? m[side].value : m[side];
+          styles[\`\${cssVar}-margin-\${side}\`] = \`\${sideValue || 0}\${mUnit}\`;
         }
       });
     }
@@ -104,23 +108,45 @@ function expandPanelType(cssVar, value, type, styles) {
         const bwUnit = b.width.unit || 'px';
         sides.forEach((side) => {
           if (b.width[side] !== undefined) {
-            styles[\`\${cssVar}-border-\${side}-width\`] = \`\${b.width[side] || 0}\${bwUnit}\`;
+            // Extract value from object if in unlinked mode
+            const sideValue = typeof b.width[side] === 'object' ? b.width[side].value : b.width[side];
+            styles[\`\${cssVar}-border-\${side}-width\`] = \`\${sideValue || 0}\${bwUnit}\`;
           }
         });
       }
       if (b.color) {
-        sides.forEach((side) => {
-          if (b.color[side] !== undefined) {
-            styles[\`\${cssVar}-border-\${side}-color\`] = b.color[side] || 'transparent';
-          }
-        });
+        // Color can be a string (all sides same) or object (per-side)
+        if (typeof b.color === 'string') {
+          // String: apply to all sides
+          sides.forEach((side) => {
+            styles[\`\${cssVar}-border-\${side}-color\`] = b.color;
+          });
+        } else {
+          // Object: extract per-side values
+          sides.forEach((side) => {
+            if (b.color[side] !== undefined) {
+              const sideColor = typeof b.color[side] === 'object' ? b.color[side].value : b.color[side];
+              styles[\`\${cssVar}-border-\${side}-color\`] = sideColor || 'transparent';
+            }
+          });
+        }
       }
       if (b.style) {
-        sides.forEach((side) => {
-          if (b.style[side] !== undefined) {
-            styles[\`\${cssVar}-border-\${side}-style\`] = b.style[side] || 'solid';
-          }
-        });
+        // Style can be a string (all sides same) or object (per-side)
+        if (typeof b.style === 'string') {
+          // String: apply to all sides
+          sides.forEach((side) => {
+            styles[\`\${cssVar}-border-\${side}-style\`] = b.style;
+          });
+        } else {
+          // Object: extract per-side values
+          sides.forEach((side) => {
+            if (b.style[side] !== undefined) {
+              const sideStyle = typeof b.style[side] === 'object' ? b.style[side].value : b.style[side];
+              styles[\`\${cssVar}-border-\${side}-style\`] = sideStyle || 'solid';
+            }
+          });
+        }
       }
     }
     // Radius
@@ -129,7 +155,9 @@ function expandPanelType(cssVar, value, type, styles) {
       const rUnit = r.unit || 'px';
       corners.forEach((corner) => {
         if (r[corner] !== undefined) {
-          styles[\`\${cssVar}-border-\${toKebab(corner)}-radius\`] = \`\${r[corner] || 0}\${rUnit}\`;
+          // Extract value from object if in unlinked mode
+          const cornerValue = typeof r[corner] === 'object' ? r[corner].value : r[corner];
+          styles[\`\${cssVar}-border-\${toKebab(corner)}-radius\`] = \`\${cornerValue || 0}\${rUnit}\`;
         }
       });
     }
@@ -157,23 +185,45 @@ function expandPanelType(cssVar, value, type, styles) {
       const wUnit = w.unit || 'px';
       sides.forEach((side) => {
         if (w[side] !== undefined) {
-          styles[\`\${cssVar}-border-\${side}-width\`] = \`\${w[side] || 0}\${wUnit}\`;
+          // Extract value from object if in unlinked mode: { value: 2 }
+          const sideValue = typeof w[side] === 'object' ? w[side].value : w[side];
+          styles[\`\${cssVar}-border-\${side}-width\`] = \`\${sideValue || 0}\${wUnit}\`;
         }
       });
     }
     if (value.color) {
-      sides.forEach((side) => {
-        if (value.color[side] !== undefined) {
-          styles[\`\${cssVar}-border-\${side}-color\`] = value.color[side] || 'transparent';
-        }
-      });
+      // Color can be a string (all sides same) or object (per-side)
+      if (typeof value.color === 'string') {
+        // String: apply to all sides
+        sides.forEach((side) => {
+          styles[\`\${cssVar}-border-\${side}-color\`] = value.color;
+        });
+      } else {
+        // Object: extract per-side values
+        sides.forEach((side) => {
+          if (value.color[side] !== undefined) {
+            const sideColor = typeof value.color[side] === 'object' ? value.color[side].value : value.color[side];
+            styles[\`\${cssVar}-border-\${side}-color\`] = sideColor || 'transparent';
+          }
+        });
+      }
     }
     if (value.style) {
-      sides.forEach((side) => {
-        if (value.style[side] !== undefined) {
-          styles[\`\${cssVar}-border-\${side}-style\`] = value.style[side] || 'solid';
-        }
-      });
+      // Style can be a string (all sides same) or object (per-side)
+      if (typeof value.style === 'string') {
+        // String: apply to all sides
+        sides.forEach((side) => {
+          styles[\`\${cssVar}-border-\${side}-style\`] = value.style;
+        });
+      } else {
+        // Object: extract per-side values
+        sides.forEach((side) => {
+          if (value.style[side] !== undefined) {
+            const sideStyle = typeof value.style[side] === 'object' ? value.style[side].value : value.style[side];
+            styles[\`\${cssVar}-border-\${side}-style\`] = sideStyle || 'solid';
+          }
+        });
+      }
     }
     return;
   }

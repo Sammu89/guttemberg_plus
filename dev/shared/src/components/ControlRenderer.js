@@ -615,6 +615,38 @@ export function ControlRenderer( {
 				const boxValue = effectiveValue ?? attrConfig.default ?? {};
 				const fields = attrConfig.fields || [];
 				const elements = [];
+				const normalizeSideScalar = ( val, fallback ) => {
+					if ( val === null || val === undefined ) {
+						return fallback;
+					}
+					if ( typeof val === 'string' ) {
+						return val;
+					}
+					if ( typeof val === 'object' ) {
+						if ( val.value !== undefined ) {
+							return val.value;
+						}
+						if ( val.top !== undefined ) {
+							return normalizeSideScalar( val.top, fallback );
+						}
+					}
+					return fallback;
+				};
+				const normalizeSideObject = ( value, fallback ) => {
+					if ( value && typeof value === 'object' && ! Array.isArray( value ) ) {
+						return {
+							top: normalizeSideScalar( value.top, fallback ),
+							right: normalizeSideScalar( value.right ?? value.top, fallback ),
+							bottom: normalizeSideScalar( value.bottom ?? value.top, fallback ),
+							left: normalizeSideScalar( value.left ?? value.top, fallback ),
+							linked: value.linked,
+						};
+					}
+					if ( typeof value === 'string' ) {
+						return { top: value, right: value, bottom: value, left: value, linked: true };
+					}
+					return { top: fallback, right: fallback, bottom: fallback, left: fallback, linked: true };
+				};
 
 				// Border field
 				if ( fields.includes( 'border' ) ) {
@@ -632,26 +664,28 @@ export function ControlRenderer( {
 									},
 								} );
 							} }
-							colorValue={ borderValue.color?.top || '#dddddd' }
+							colorValue={ borderValue.color ?? '#dddddd' }
 							onColorChange={ ( color ) => {
+								const nextColor = normalizeSideObject( color, '#dddddd' );
 								setAttributes( {
 									[ attrName ]: {
 										...boxValue,
 										border: {
 											...borderValue,
-											color: { top: color, right: color, bottom: color, left: color },
+											color: nextColor,
 										},
 									},
 								} );
 							} }
-							styleValue={ borderValue.style?.top || 'solid' }
+							styleValue={ borderValue.style ?? 'solid' }
 							onStyleChange={ ( style ) => {
+								const nextStyle = normalizeSideObject( style, 'solid' );
 								setAttributes( {
 									[ attrName ]: {
 										...boxValue,
 										border: {
 											...borderValue,
-											style: { top: style, right: style, bottom: style, left: style },
+											style: nextStyle,
 										},
 									},
 								} );
@@ -741,6 +775,27 @@ export function ControlRenderer( {
 				const borderValue = effectiveValue ?? attrConfig.default ?? {};
 				const fields = attrConfig.fields || [ 'top', 'right', 'bottom', 'left' ];
 				const side = fields[ 0 ] || 'top'; // Usually single side for dividers
+				const resolveSideScalar = ( val, fallback ) => {
+					if ( val === null || val === undefined ) {
+						return fallback;
+					}
+					if ( typeof val === 'string' ) {
+						return val;
+					}
+					if ( typeof val === 'object' ) {
+						if ( val.value !== undefined ) {
+							return val.value;
+						}
+						if ( val.top !== undefined ) {
+							return resolveSideScalar( val.top, fallback );
+						}
+					}
+					return fallback;
+				};
+				const rawColor = borderValue.color?.[ side ] ?? borderValue.color;
+				const rawStyle = borderValue.style?.[ side ] ?? borderValue.style;
+				const colorValue = resolveSideScalar( rawColor, '#dddddd' );
+				const styleValue = resolveSideScalar( rawStyle, 'solid' );
 
 				return (
 					<BorderPanel
@@ -764,21 +819,23 @@ export function ControlRenderer( {
 								[ attrName ]: { ...borderValue, width: newWidth },
 							} );
 						} }
-						colorValue={ borderValue.color?.[ side ] || '#dddddd' }
+						colorValue={ colorValue }
 						onColorChange={ ( color ) => {
-							const newColor = { ...borderValue.color };
+							const nextColor = resolveSideScalar( color, '#dddddd' );
+							const newColor = { ...( borderValue.color || {} ) };
 							fields.forEach( ( f ) => {
-								newColor[ f ] = color;
+								newColor[ f ] = nextColor;
 							} );
 							setAttributes( {
 								[ attrName ]: { ...borderValue, color: newColor },
 							} );
 						} }
-						styleValue={ borderValue.style?.[ side ] || 'solid' }
+						styleValue={ styleValue }
 						onStyleChange={ ( style ) => {
-							const newStyle = { ...borderValue.style };
+							const nextStyle = resolveSideScalar( style, 'solid' );
+							const newStyle = { ...( borderValue.style || {} ) };
 							fields.forEach( ( f ) => {
-								newStyle[ f ] = style;
+								newStyle[ f ] = nextStyle;
 							} );
 							setAttributes( {
 								[ attrName ]: { ...borderValue, style: newStyle },

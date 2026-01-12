@@ -42,21 +42,73 @@
         "children": [],
         "parent": "wrapper",
         "isSlot": false
+      },
+      "tabButton": {
+        "id": "tabButton",
+        "selector": ".tab-button",
+        "tag": "button",
+        "classes": [
+          "tab-button"
+        ],
+        "attributes": {
+          "role": "tab"
+        },
+        "children": [
+          "tabButtonText"
+        ],
+        "parent": null,
+        "isSlot": false
+      },
+      "tabButtonText": {
+        "id": "tabButtonText",
+        "selector": ".tab-button-text",
+        "tag": "span",
+        "classes": [
+          "tab-button-text"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "tabButton",
+        "isSlot": false
+      },
+      "tabPanel": {
+        "id": "tabPanel",
+        "selector": ".tab-panel",
+        "tag": "div",
+        "classes": [
+          "tab-panel"
+        ],
+        "attributes": {
+          "role": "tabpanel"
+        },
+        "children": [
+          "panelSlot"
+        ],
+        "parent": null,
+        "isSlot": false
+      },
+      "panelSlot": {
+        "id": "panelSlot",
+        "selector": null,
+        "tag": "slot",
+        "classes": [],
+        "attributes": {},
+        "children": [],
+        "parent": "tabPanel",
+        "isSlot": true
       }
     },
     "variations": {},
     "slots": {
       "tabButtons": {
         "name": "tabButtons",
-        "injections": [
-          {}
-        ]
+        "content": "\n      <button class=\"tab-button\" data-el=\"tabButton\" role=\"tab\">\n        <span class=\"tab-button-text\" data-el=\"tabButtonText\"></span>\n      </button>\n    ",
+        "node": {}
       },
       "tabPanels": {
         "name": "tabPanels",
-        "injections": [
-          {}
-        ]
+        "content": "\n      <div class=\"tab-panel\" data-el=\"tabPanel\" role=\"tabpanel\">\n        <slot data-el=\"panelSlot\"></slot>\n      </div>\n    ",
+        "node": {}
       }
     },
     "conditions": [],

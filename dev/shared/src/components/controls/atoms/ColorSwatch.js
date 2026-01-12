@@ -69,7 +69,26 @@ export function ColorSwatch( { value = '#000000', onChange, disabled = false } )
 					onClose={ () => setIsOpen( false ) }
 				>
 					<div style={ { padding: '8px' } }>
-						<ColorPicker color={ value } onChange={ onChange } enableAlpha />
+						<ColorPicker
+							color={ value }
+							onChange={ ( color ) => {
+								let nextColor = value;
+								if ( typeof color === 'string' ) {
+									nextColor = color;
+								} else if ( color?.hex ) {
+									if ( color.rgb && color.rgb.a < 1 ) {
+										const { r, g, b, a } = color.rgb;
+										nextColor = `rgba(${ r }, ${ g }, ${ b }, ${ a })`;
+									} else {
+										nextColor = color.hex;
+									}
+								} else if ( color?.source === 'hex' && color.hex ) {
+									nextColor = `#${ color.hex }`;
+								}
+								onChange?.( nextColor );
+							} }
+							enableAlpha
+						/>
 					</div>
 				</Popover>
 			) }

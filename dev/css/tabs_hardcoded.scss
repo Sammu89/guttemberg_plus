@@ -21,16 +21,10 @@
 /* Block wrapper */
 .gutplus-tabs {
 	overflow: clip;
-	border: var(--tabs-border-width) var(--tabs-border-style) var(--tabs-border-color);
-	border-radius: var(--tabs-border-radius);
-	box-shadow: var(--tabs-border-shadow);
 	transition: box-shadow 0.2s ease;
 	margin-top: 1em;
 	margin-bottom: 1em;
-
-	&:hover {
-		box-shadow: var(--tabs-border-shadow-hover);
-	}
+	// Border, border-radius, and box-shadow styles come from auto-generated tabs_variables.scss
 
 	// Alignment classes
 	&.gutplus-align-left {
@@ -114,7 +108,6 @@
 	overflow-x: auto;
 	overflow-y: visible;
 	flex-wrap: nowrap; /* Changed from wrap to nowrap for horizontal scrolling */
-	border: var(--tabs-row-border-width) var(--tabs-row-border-style) var(--tabs-row-border-color);
 	/* Horizontal orientation padding: top is user-controlled, left/right are 0.5rem */
 	/* Bottom padding removed to allow seamless connection with content panel */
 	padding-left: 0.5rem;
@@ -124,6 +117,7 @@
 	outline: none !important;
 	/* Divider border - bottom edge on horizontal (controlled by enableDividerBorder toggle) */
 	border-bottom: var(--tabs-list-divider-border-width) var(--tabs-list-divider-border-style) var(--tabs-list-divider-border-color);
+	// Other border styles come from auto-generated tabs_variables.scss
 	/* Hide scrollbar but keep functionality */
 	scrollbar-width: none; /* Firefox */
 	-ms-overflow-style: none; /* IE/Edge */
@@ -144,7 +138,6 @@
 	/* Base vertical - shared by both left and right */
 	&[role="tablist"][aria-orientation="vertical"] {
 		flex-direction: column;
-		border-bottom: none;
 		/* Vertical orientation padding: top/bottom use row spacing var, left/right depend on orientation */
 		padding-top: var(--tabs-row-spacing);
 		padding-bottom: var(--tabs-row-spacing);
@@ -191,9 +184,6 @@
 	text-transform: var(--tabs-button-text-transform);
 	text-decoration: var(--tabs-button-text-decoration);
 	text-align: var(--tabs-button-text-align);
-	border: var(--tabs-button-border-width) var(--tabs-button-border-style) var(--tabs-button-border-color);
-	border-radius: var(--tabs-button-border-radius);
-	box-shadow: var(--tabs-button-border-shadow);
 	cursor: pointer;
 	white-space: nowrap;
 	transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
@@ -202,6 +192,7 @@
 	width: auto;
 	position: relative;
 	z-index: 1;
+	// Border, border-radius, and box-shadow styles come from auto-generated tabs_variables.scss
 
 	/* Stretch buttons to full width when toggle is enabled (horizontal only) */
 	.gutplus-tabs[data-orientation="horizontal"][data-stretch-buttons="true"] & {
@@ -493,13 +484,12 @@
 /* Tab panel */
 .tab-panel {
 	background-color: var(--tabs-panel-bg);
-	border: var(--tabs-panel-border-width) var(--tabs-panel-border-style) var(--tabs-panel-border-color);
-	border-radius: var(--tabs-panel-border-radius);
 	padding: 1.5rem;
 	height: 100%;
 	box-sizing: border-box;
 	overflow: hidden;
 	outline: none !important;
+	// Border and border-radius styles come from auto-generated tabs_variables.scss
 	&[hidden] {
 		display: none;
 	}
