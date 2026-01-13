@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/toc.json
- * Generated at: 2026-01-12T22:58:19.406Z
+ * Generated at: 2026-01-12T23:37:48.503Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -140,7 +140,7 @@ export const tocAttributes = {
     default: {"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},
   },
   titleColor: {
-    type: 'string',
+    type: 'object',
     default: {"text":"#333333","background":"transparent","hover":{"text":"#000000","background":"transparent"}},
   },
   unifiedLinkColors: {
@@ -148,7 +148,7 @@ export const tocAttributes = {
     default: true,
   },
   linkColor: {
-    type: 'string',
+    type: 'object',
     default: {"text":"#0073aa","hover":{"text":"#005177"},"visited":{"text":"#0073aa"},"active":{"text":"#005177"}},
   },
   h1NumberingStyle: {
@@ -176,7 +176,7 @@ export const tocAttributes = {
     default: 'decimal',
   },
   h1Color: {
-    type: 'string',
+    type: 'object',
     default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h1FontSize: {
@@ -200,7 +200,7 @@ export const tocAttributes = {
     default: 'none',
   },
   h2Color: {
-    type: 'string',
+    type: 'object',
     default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h2FontSize: {
@@ -224,7 +224,7 @@ export const tocAttributes = {
     default: 'none',
   },
   h3Color: {
-    type: 'string',
+    type: 'object',
     default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h3FontSize: {
@@ -248,7 +248,7 @@ export const tocAttributes = {
     default: 'none',
   },
   h4Color: {
-    type: 'string',
+    type: 'object',
     default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h4FontSize: {
@@ -272,7 +272,7 @@ export const tocAttributes = {
     default: 'none',
   },
   h5Color: {
-    type: 'string',
+    type: 'object',
     default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h5FontSize: {
@@ -296,7 +296,7 @@ export const tocAttributes = {
     default: 'none',
   },
   h6Color: {
-    type: 'string',
+    type: 'object',
     default: {"text":"inherit","hover":{"text":"inherit"},"visited":{"text":"inherit"},"active":{"text":"inherit"}},
   },
   h6FontSize: {

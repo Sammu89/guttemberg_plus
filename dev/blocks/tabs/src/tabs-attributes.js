@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/tabs.json
- * Generated at: 2026-01-12T22:58:19.375Z
+ * Generated at: 2026-01-12T23:37:48.476Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -88,7 +88,7 @@ export const tabsAttributes = {
     default: 'none',
   },
   tabButtonColor: {
-    type: 'string',
+    type: 'object',
     default: {"text":"#666666","background":"#f5f5f5","hover":{"text":"#333333","background":"#e8e8e8"},"active":{"text":"#333333","background":"#ffffff"}},
   },
   tabButtonFontSize: {

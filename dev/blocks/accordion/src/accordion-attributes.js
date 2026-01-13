@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/accordion.json
- * Generated at: 2026-01-12T22:58:19.343Z
+ * Generated at: 2026-01-12T23:37:48.449Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
@@ -20,35 +20,35 @@
  */
 export const accordionAttributes = {
   dividerBorder: {
-    type: 'string',
+    type: 'object',
     default: {"width":{"top":0,"unit":"px"},"color":{"top":"#dddddd"},"style":{"top":"solid"}},
   },
   blockBox: {
-    type: 'string',
+    type: 'object',
     default: {"border":{"width":{"top":1,"right":1,"bottom":1,"left":1,"unit":"px"},"color":{"top":"#dddddd","right":"#dddddd","bottom":"#dddddd","left":"#dddddd"},"style":{"top":"solid","right":"solid","bottom":"solid","left":"solid"}},"radius":{"topLeft":4,"topRight":4,"bottomRight":4,"bottomLeft":4,"unit":"px"},"shadow":[{"x":{"value":0,"unit":"px"},"y":{"value":8,"unit":"px"},"blur":{"value":24,"unit":"px"},"spread":{"value":0,"unit":"px"},"color":"rgba(0,0,0,0.15)","inset":false}],"margin":{"top":1,"right":0,"bottom":1,"left":0,"unit":"em"}},
   },
   headerBox: {
-    type: 'string',
+    type: 'object',
     default: {"padding":{"top":12,"right":16,"bottom":12,"left":16,"unit":"px"}},
   },
   contentBox: {
-    type: 'string',
+    type: 'object',
     default: {"padding":{"top":16,"right":16,"bottom":16,"left":16,"unit":"px"}},
   },
   titleColor: {
-    type: 'string',
+    type: 'object',
     default: {"text":"#333333","background":"#f5f5f5","hover":{"text":"#000000","background":"#e8e8e8"}},
   },
   contentColor: {
-    type: 'string',
+    type: 'object',
     default: {"text":"#333333","background":"#ffffff"},
   },
   contentTypography: {
-    type: 'string',
+    type: 'object',
     default: null,
   },
   titleTypography: {
-    type: 'string',
+    type: 'object',
     default: null,
   },
   showIcon: {

@@ -1695,6 +1695,8 @@ function generateBlockAttributes( blockType, schema ) {
 			wpType = 'object';
 		} else if ( attr.type === 'array' ) {
 			wpType = 'array';
+		} else if ( [ 'box-panel', 'border-panel', 'color-panel', 'typography-panel', 'icon-panel' ].includes( attr.type ) ) {
+			wpType = 'object';
 		}
 
 		// Format default value for JavaScript
