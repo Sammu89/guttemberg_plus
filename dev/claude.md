@@ -9,32 +9,71 @@ Advanced customizable blocks with theme system for WordPress block editor.
 
 ```
 guttemberg-plus/
-├── schemas/              ← Single source of truth (JSON schemas)
-│   ├── accordion.json
-│   ├── tabs.json
-│   └── toc.json
-├── blocks/               ← WordPress blocks
-│   ├── accordion/
-│   ├── tabs/
-│   └── toc/
-├── shared/               ← Shared components, utilities, theme system
-│   ├── src/
-│   │   ├── components/   ← React components (ThemeSelector, ColorPanel, etc.)
-│   │   ├── data/         ← Redux store for theme management
-│   │   ├── utils/        ← Delta calculator, cascade resolver
-│   │   ├── theme-system/ ← Theme mechanics
-│   │   ├── types/        ← TypeScript types (auto-generated)
-│   │   ├── validators/   ← Zod schemas (auto-generated)
-│   │   └── config/       ← Exclusions (auto-generated)
-├── php/                  ← Backend
-│   ├── theme-storage.php       ← Database operations
-│   ├── theme-rest-api.php      ← REST API endpoints
-│   ├── theme-css-generator.php ← Tier 2 CSS generation
-│   └── css-defaults/           ← Auto-generated from schemas
-├── build-tools/
-│   └── schema-compiler.js      ← Generates 24 files from schemas
-├── assets/css/           ← Auto-generated CSS variables
-└── docs/                 ← Auto-generated documentation
+├── dev/                        ← Development files
+│   ├── schemas/                ← Schema system (Single source of truth)
+│   │   ├── blocks/             ← Minimal schemas (human-edited)
+│   │   │   ├── accordion.json
+│   │   │   ├── tabs.json
+│   │   │   └── toc.json
+│   │   ├── generated/          ← Comprehensive schemas (auto-generated)
+│   │   │   ├── accordion.json
+│   │   │   ├── tabs.json
+│   │   │   └── toc.json
+│   │   ├── parsers/            ← Schema expansion & generation
+│   │   ├── *-structure.html    ← HTML templates
+│   │   └── shared-templates.json
+│   │
+│   ├── blocks/                 ← WordPress blocks (no src/ subdirectory)
+│   │   ├── accordion/
+│   │   │   ├── attributes.js   ← AUTO-GENERATED
+│   │   │   ├── index.js
+│   │   │   ├── edit.js
+│   │   │   ├── save.js
+│   │   │   └── frontend.js
+│   │   ├── tabs/
+│   │   └── toc/
+│   │
+│   ├── shared/                 ← Shared components (no src/ subdirectory)
+│   │   ├── components/
+│   │   ├── config/             ← AUTO-GENERATED
+│   │   ├── data/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   ├── theme-system/
+│   │   ├── styles/             ← AUTO-GENERATED
+│   │   ├── types/              ← AUTO-GENERATED
+│   │   └── validators/         ← AUTO-GENERATED
+│   │
+│   ├── styles/                 ← SCSS styles
+│   │   └── blocks/
+│   │       ├── accordion/
+│   │       │   ├── editor.scss
+│   │       │   ├── frontend.scss
+│   │       │   └── variables.scss  ← AUTO-GENERATED
+│   │       ├── tabs/
+│   │       └── toc/
+│   │
+│   ├── tools/                  ← Build tools (was build-tools/)
+│   │   ├── build.js            ← Main orchestrator
+│   │   ├── generators/
+│   │   └── validators/
+│   │
+│   └── docs/
+│       ├── api/                ← AUTO-GENERATED
+│       └── architecture/
+│
+├── server/                     ← PHP backend (was php/ and includes/)
+│   ├── api/
+│   │   ├── themes.php
+│   │   └── css.php
+│   ├── storage/
+│   │   └── themes.php
+│   ├── css-defaults/
+│   │   └── css-mappings-generated.php
+│   ├── init.php
+│   └── security.php
+│
+└── guttemberg-plus.php
 ```
 
 ---
@@ -61,18 +100,43 @@ guttemberg-plus/
 
 ---
 
-## 🏗️ Architecture: Schema-First
+## 🏗️ Architecture: Comprehensive Schema System
 
-**Single Source of Truth:** Everything is defined in 3 JSON schema files.
+**Two-Level Schema Architecture:**
+
+1. **Minimal Schemas** (human-edited) - `schemas/blocks/*.json`
+2. **Comprehensive Schemas** (auto-generated) - `schemas/generated/*.json`
 
 ```
-schemas/accordion.json  →  [schema-compiler.js]  →  24 auto-generated files
-schemas/tabs.json       →                        →  (attributes, types, CSS, PHP, docs)
-schemas/toc.json        →                        →
+Minimal Schema + HTML Structure
+        ↓
+[Schema Orchestrator]
+  • Merge structure into schema
+  • Expand macros (box-panel, color-panel, etc.)
+  • Generate CSS variable names
+  • Apply responsive variants
+  • Build composite attributes
+        ↓
+Comprehensive Schema
+        ↓
+[Build Tools]
+        ↓
+12 auto-generated files
 ```
+
+**Build Pipeline:**
+```bash
+npm run schema:build  # Runs tools/build.js
+```
+
+**Step 1:** Generate comprehensive schemas (3 files)
+**Step 2:** Generate block attributes (3 files)
+**Step 3:** Generate CSS variables (6 files)
 
 **Benefits:**
-- ✅ No manual synchronization needed
+- ✅ Macro expansion (box-panel → 15+ attributes)
+- ✅ Auto-generated CSS variable names
+- ✅ Responsive variants (mobile/tablet/desktop)
 - ✅ Type-safe (TypeScript + Zod)
 - ✅ Zero duplication
 - ✅ Single edit updates everything
@@ -83,16 +147,16 @@ schemas/toc.json        →                        →
 
 ### Quick Start
 
-**1. Edit the schema file:**
+**1. Edit the minimal schema file:**
 ```bash
 # For accordion attributes:
-schemas/accordion.json
+schemas/blocks/accordion.json
 
 # For tabs attributes:
-schemas/tabs.json
+schemas/blocks/tabs.json
 
 # For TOC attributes:
-schemas/toc.json
+schemas/blocks/toc.json
 ```
 
 **2. Add your attribute:**
@@ -167,22 +231,33 @@ npm run build         # Compiles WordPress blocks (~10s)
 
 ### What Gets Auto-Generated
 
-When you run `npm run schema:build`, **24 files** are created:
+When you run `npm run schema:build`, **12 files** are created:
 
-- **Block attributes** (3) - `blocks/*/src/*-attributes.js`
-- **TypeScript types** (3) - `shared/src/types/*-theme.ts`
-- **Zod validators** (3) - `shared/src/validators/*-schema.ts`
-- **PHP defaults** (3) - `php/css-defaults/*.php`
-- **CSS variables** (3) - `assets/css/*-generated.css`
-- **Exclusions** (4) - `shared/src/config/*-exclusions.js`
-- **PHP mappings** (1) - `php/css-defaults/css-mappings-generated.php`
-- **Documentation** (3) - `docs/*-attributes.md`
+**Comprehensive Schemas (3):**
+- `schemas/generated/accordion.json`
+- `schemas/generated/tabs.json`
+- `schemas/generated/toc.json`
+
+**Block Attributes (3):**
+- `blocks/accordion/attributes.js`
+- `blocks/tabs/attributes.js`
+- `blocks/toc/attributes.js`
+
+**CSS Variables - Editor SCSS (3):**
+- `styles/blocks/accordion/variables.scss`
+- `styles/blocks/tabs/variables.scss`
+- `styles/blocks/toc/variables.scss`
+
+**CSS Variables - Frontend JS (3):**
+- `shared/styles/accordion-frontend-css-vars-generated.js`
+- `shared/styles/tabs-frontend-css-vars-generated.js`
+- `shared/styles/toc-frontend-css-vars-generated.js`
 
 **⚠️ NEVER edit these files manually** - they're regenerated on every build.
 
 ### Example: Adding a Color Attribute
 
-**Edit:** `schemas/accordion.json`
+**Edit:** `schemas/blocks/accordion.json`
 
 ```json
 "highlightColor": {
@@ -356,19 +431,23 @@ npm run start
 ```
 
 ### Working with Schemas
-1. **Edit** schema file (`schemas/*.json`)
-2. **Run** `npm run schema:build`
-3. **Verify** generated files updated
-4. **Build** `npm run build`
+1. **Edit** minimal schema file (`schemas/blocks/*.json`)
+2. **Run** `npm run schema:build` (generates comprehensive schemas + 12 files)
+3. **Verify** comprehensive schema generated (`schemas/generated/*.json`)
+4. **Build** `npm run build` (compiles WordPress blocks)
 5. **Test** in WordPress editor
 
 ### Git Workflow
 **Commit:**
-- ✅ `schemas/*.json` (source of truth)
+- ✅ Minimal schemas (`schemas/blocks/*.json`) - source of truth
+- ✅ HTML structures (`schemas/*-structure.html`)
 - ✅ All generated files (tracked for deployment)
 
 **On pull:**
 - Run `npm run build` to ensure everything is in sync
+
+**After merge conflicts:**
+- Always run `npm run schema:build && npm run build`
 
 ---
 
@@ -387,24 +466,29 @@ npm run start
 
 ## 🔌 PHP Integration
 
-### Theme Storage (`php/theme-storage.php`)
+### Theme Storage (`server/storage/themes.php`)
 - `get_block_themes()` - Fetch all themes for a block
 - `create_block_theme()` - Save new theme
 - `update_block_theme()` - Update existing theme
 - `delete_block_theme()` - Delete theme
 - `rename_block_theme()` - Rename theme
 
-### CSS Generation (`php/theme-css-generator.php`)
-- Uses **auto-generated mappings** from schemas
+### CSS Generation (`server/api/css.php`)
+- Uses **auto-generated mappings** from comprehensive schemas
 - Generates Tier 2 CSS classes
 - Injected into `<head>` on page load
 - Only loads CSS for blocks actually on page
 
-### REST API (`php/theme-rest-api.php`)
+### REST API (`server/api/themes.php`)
 - Handles CRUD operations via WordPress REST API
 - Validates theme names
 - Manages permissions
 - Returns JSON responses
+
+### Block Registration (`server/init.php`)
+- Registers all blocks with WordPress
+- Enqueues block assets
+- Handles block.json metadata
 
 ---
 
@@ -413,15 +497,17 @@ npm run start
 ### Accordion Block
 ```
 blocks/accordion/
-├── src/
-│   ├── index.js           ← Block registration
-│   ├── edit.js            ← Editor component
-│   ├── save.js            ← Frontend rendering
-│   ├── frontend.js        ← Frontend JavaScript
-│   ├── style.scss         ← Frontend styles
-│   ├── editor.scss        ← Editor-only styles
-│   └── accordion-attributes.js  ← AUTO-GENERATED from schema
+├── attributes.js          ← AUTO-GENERATED from comprehensive schema
+├── index.js               ← Block registration
+├── edit.js                ← Editor component
+├── save.js                ← Frontend rendering (save to database)
+├── frontend.js            ← Frontend JavaScript (interactivity)
 └── block.json             ← Block metadata
+
+styles/blocks/accordion/
+├── editor.scss            ← Editor-only styles
+├── frontend.scss          ← Frontend styles (hardcoded)
+└── variables.scss         ← AUTO-GENERATED CSS variables
 ```
 
 Same structure for **tabs** and **toc** blocks.
@@ -431,21 +517,24 @@ Same structure for **tabs** and **toc** blocks.
 ## 🎯 Common Tasks
 
 ### Adding a New Block
-1. Create schema: `schemas/newblock.json`
-2. Add to `BLOCKS` array in `build-tools/schema-compiler.js`
-3. Create block directory: `blocks/newblock/`
-4. Add block files (index.js, edit.js, save.js, etc.)
-5. Run `npm run schema:build && npm run build`
+1. Create minimal schema: `schemas/blocks/newblock.json`
+2. Create HTML structure: `schemas/newblock-structure.html`
+3. Add to `BLOCKS` array in `tools/build.js`
+4. Create block directory: `blocks/newblock/`
+5. Add block files (index.js, edit.js, save.js, etc.)
+6. Create styles directory: `styles/blocks/newblock/`
+7. Add editor.scss and frontend.scss
+8. Run `npm run schema:build && npm run build`
 
 ### Changing Default Values
-1. Edit `schemas/{block}.json` → change `default` field
+1. Edit `schemas/blocks/{block}.json` → change `default` field
 2. Run `npm run schema:build && npm run build`
 3. New blocks use new default (existing blocks unchanged)
 
 ### Adding UI Control
-1. Edit schema → add attribute with `control` field
+1. Edit minimal schema → add attribute with `control` field
 2. Run `npm run schema:build && npm run build`
-3. Control appears in editor sidebar automatically
+3. Control appears in editor sidebar automatically via SchemaPanels.js
 
 ### Debugging Theme Issues
 1. Check browser console for errors
@@ -459,16 +548,20 @@ Same structure for **tabs** and **toc** blocks.
 ## ⚠️ Important Rules
 
 ### DO ✅
-- Edit `schemas/*.json` for any attribute changes
+- Edit `schemas/blocks/*.json` for any attribute changes
 - Run `npm run schema:build` after schema edits
-- Run full `npm run build` before testing
-- Commit schemas and generated files together
+- Run full `npm run build` before testing in WordPress
+- Commit minimal schemas and generated files together
+- Use macros (box-panel, color-panel) for related attributes
+- Keep HTML structure files updated when changing markup
 
 ### DON'T ❌
-- Edit auto-generated files manually (they're overwritten)
+- Edit comprehensive schemas (`schemas/generated/`) - they're regenerated
+- Edit auto-generated files (attributes.js, variables.scss, etc.)
 - Skip `npm run schema:build` after schema changes
-- Edit CSS defaults in PHP files (use schemas)
+- Edit CSS variables manually (use schemas)
 - Edit block attributes manually (use schemas)
+- Create nested attributes (use flat atomic attributes)
 
 ---
 
@@ -498,9 +591,20 @@ Same structure for **tabs** and **toc** blocks.
 
 ## 📖 Documentation
 
-- **Auto-generated:** `docs/{block}-attributes.md` (from schemas)
-- **Schema examples:** See `schemas/*.json`
-- **Architecture:** This file (claude.md)
+**Auto-Generated:**
+- `docs/api/accordion.md` - Accordion block API
+- `docs/api/tabs.md` - Tabs block API
+- `docs/api/toc.md` - TOC block API
+
+**Architecture:**
+- `docs/architecture/overview.md` - System overview
+- `docs/architecture/cascade-system.md` - CSS cascade details
+- `docs/architecture/theme-system.md` - Theme system internals
+
+**Schema System:**
+- `schemas/README.md` - Schema documentation
+- `tools/README-SCHEMA-VALIDATION.md` - Schema validation
+- This file (CLAUDE.md) - Main project documentation
 
 ---
 
@@ -523,8 +627,35 @@ Same structure for **tabs** and **toc** blocks.
 ---
 
 **Quick Reference:**
-- Schema location: `schemas/{block}.json`
-- Build command: `npm run schema:build && npm run build`
-- Generated files: 24 (never edit manually)
-- Block types: accordion, tabs, toc
-- Theme storage: wp_options table (delta-based)
+- **Minimal schemas:** `schemas/blocks/{block}.json` (you edit this)
+- **Comprehensive schemas:** `schemas/generated/{block}.json` (auto-generated)
+- **Build command:** `npm run schema:build && npm run build`
+- **Generated files:** 12 files (never edit manually)
+- **Block types:** accordion, tabs, toc
+- **Theme storage:** wp_options table (delta-based)
+- **PHP backend:** `server/` directory
+- **Dev files:** `dev/` directory
+
+---
+
+## 🎯 Macro Types
+
+Available macros for minimal schemas:
+
+- **`box-panel`** - Padding, margin, width, height, gap (+ responsive)
+- **`border-panel`** - Width, style, color, radius (all sides + responsive)
+- **`color-panel`** - Color, hover, background, background-hover
+- **`typography-panel`** - Font family, size, weight, line-height, etc.
+- **`icon-panel`** - Icon, size, color, position, rotation, spacing
+
+Example:
+```json
+"headerBox": {
+  "type": "box-panel",
+  "label": "Header Box",
+  "description": "Spacing and dimensions for header",
+  "themeable": true
+}
+```
+
+This expands to 15+ atomic attributes automatically!
