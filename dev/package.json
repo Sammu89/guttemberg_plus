@@ -21,13 +21,17 @@
     "url": "https://github.com/yourusername/guttemberg-plus/issues"
   },
   "scripts": {
-    "validate:sync": "node build-tools/validators/validate-schema-code-sync.js && node build-tools/validators/validate-generated-code-completeness.js",
-    "validate:sync:warn": "node build-tools/validators/validate-schema-code-sync.js --warn-only && node build-tools/validators/validate-generated-code-completeness.js --warn-only",
-    "schema:build": "node build-tools/schema-compiler.js",
-    "schema:build:warn": "node build-tools/schema-compiler.js --warn-only",
-    "prebuild": "npm run schema:build:warn && npm run validate:sync:warn",
+    "validate:sync": "node tools/validators/code-completeness.js",
+    "validate:sync:warn": "node tools/validators/code-completeness.js --warn-only",
+    "validate:inline-styles": "node tools/validators/validate-inline-styles-generation.js",
+    "validate:inline-styles:warn": "node tools/validators/validate-inline-styles-generation.js --warn-only",
+    "validate:all": "npm run validate:sync && npm run validate:inline-styles",
+    "validate:all:warn": "npm run validate:sync:warn && npm run validate:inline-styles:warn",
+    "schema:build": "node tools/build.js",
+    "schema:build:warn": "node tools/build.js --warn-only",
+    "prebuild": "npm run schema:build:warn && npm run validate:all:warn",
     "build": "wp-scripts build",
-    "postbuild": "node build-tools/rename-css-files.js && node build-tools/prompt-dist.js",
+    "postbuild": "node tools/rename-css-files.js && node tools/prompt-dist.js",
     "dist": "DIST_YES=1 npm run build",
     "dist:win": "set DIST_YES=1&& npm run build",
     "prestart": "npm run schema:build",
@@ -41,6 +45,7 @@
   "devDependencies": {
     "@wordpress/icons": "^11.4.0",
     "@wordpress/scripts": "^27.0.0",
+    "baseline-browser-mapping": "^2.9.14",
     "jsdom": "^27.4.0"
   },
   "engines": {

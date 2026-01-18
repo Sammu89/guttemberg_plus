@@ -9,26 +9,35 @@ rem ========================================
 
 :MENU
 cls
-echo ========================================
-echo     Developer Tools Menu
-echo     Repo: %cd%
-echo ========================================
 echo.
-echo [1] Claude Code (dangerously skip permissions)
-echo [2] Codex --yolo
-echo [3] Git: Update LOCAL from SERVER
-echo [4] Git: Update SERVER from LOCAL
-echo [5] Run npm run build
-echo [0] Exit
+echo  ********************************************
+echo  *                                          *
+echo  *         Developer Tools Menu             *
+echo  *                                          *
+echo  ********************************************
+echo    Repository: %cd%
+echo.
+echo  ********************************************
+echo  *                                          *
+echo  *  [1] Claude Code (dangerously)           *
+echo  *  [2] Codex (--yolo)                      *
+echo  *  [3] Gemini CLI (--yolo)                 *
+echo  *  [4] Git: Update LOCAL from SERVER       *
+echo  *  [5] Git: Update SERVER from LOCAL       *
+echo  *  [6] Run npm run build                   *
+echo  *  [0] Exit                                *
+echo  *                                          *
+echo  ********************************************
 echo.
 set "CHOICE="
-set /p CHOICE="Select an option (0-5): "
+set /p CHOICE="Select an option (0-6): "
 
 if "%CHOICE%"=="1" goto CLAUDE
 if "%CHOICE%"=="2" goto CODEX
-if "%CHOICE%"=="3" goto GIT_PULL
-if "%CHOICE%"=="4" goto GIT_PUSH
-if "%CHOICE%"=="5" goto NPM_BUILD
+if "%CHOICE%"=="3" goto GEMINI
+if "%CHOICE%"=="4" goto GIT_PULL
+if "%CHOICE%"=="5" goto GIT_PUSH
+if "%CHOICE%"=="6" goto NPM_BUILD
 if "%CHOICE%"=="0" goto END
 echo Invalid choice.
 pause
@@ -62,7 +71,20 @@ pause
 goto MENU
 
 rem ========================================
-rem Option 3: Git Pull (Force Local to Match Remote)
+rem Option 3: Gemini CLI
+rem ========================================
+:GEMINI
+echo.
+echo ========================================
+echo  Starting Gemini CLI --yolo...
+echo ========================================
+echo.
+gemini --yolo
+pause
+goto MENU
+
+rem ========================================
+rem Option 4: Git Pull (Force Local to Match Remote)
 rem ========================================
 :GIT_PULL
 echo.
@@ -101,7 +123,7 @@ pause
 goto MENU
 
 rem ========================================
-rem Option 4: Git Push (Update Remote from Local)
+rem Option 5: Git Push (Update Remote from Local)
 rem ========================================
 :GIT_PUSH
 echo.
@@ -167,7 +189,7 @@ pause
 goto MENU
 
 rem ========================================
-rem Option 5: NPM Build
+rem Option 6: NPM Build
 rem ========================================
 :NPM_BUILD
 echo.

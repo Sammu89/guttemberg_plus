@@ -60,12 +60,6 @@
 		"iconPosition": {
 			"type": "string"
 		},
-		"iconTypeClosed": {
-			"type": "string"
-		},
-		"iconTypeOpen": {
-			"type": "string"
-		},
 		"iconSize": {
 			"type": "number"
 		},

@@ -1,0 +1,397 @@
+/**
+ * TOC Block - Editor Styles
+ *
+ * Includes all frontend styles plus editor-specific overrides.
+ * This ensures the editor matches the frontend appearance.
+ *
+ * @package
+ * @since 1.0.0
+ */
+
+/* Import frontend styles */
+@import './frontend.scss';
+
+/* Editor-specific overrides and additions */
+
+/* Gutplus TOC alignment for editor */
+.gutplus-toc {
+	margin-top: 1em !important;
+	margin-bottom: 1em !important;
+	overflow: hidden !important;
+
+	/* Fix list padding visualization in editor */
+	.toc-list {
+		padding-left: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--toc-item-spacing, 0.5rem);
+
+		/* Fix nested level padding */
+		ul {
+			padding-left: var(--toc-level-indent, 1.25rem);
+			margin-top: 0;
+			display: flex;
+			flex-direction: column;
+			gap: var(--toc-item-spacing, 0.5rem);
+		}
+	}
+
+	/* Icon preview in editor */
+	.toc-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--toc-icon-color, #666666);
+		font-size: var(--toc-icon-size, 1.25rem);
+	}
+
+	/* Header wrapper styles for editor */
+	.toc-header-wrapper {
+		margin: 0 0 1rem 0;
+	}
+
+	/* Title alignment preview in editor */
+	.toc-title {
+		&.title-align-left {
+			text-align: left;
+			justify-content: flex-start;
+		}
+
+		&.title-align-center {
+			text-align: center;
+			justify-content: center;
+		}
+
+		&.title-align-right {
+			text-align: right;
+			justify-content: flex-end;
+		}
+	}
+
+	/* EDITOR ONLY: Override sticky/fixed positioning to keep block in normal flow */
+	/* Prevents TOC from overlapping other blocks while editing */
+	&.toc-position-sticky,
+	&.toc-position-fixed {
+		position: static !important;
+		top: auto !important;
+		right: auto !important;
+		z-index: auto !important;
+		max-width: none !important;
+	}
+
+	&.gutplus-align-left {
+		margin-left: 0 !important;
+		margin-right: auto !important;
+	}
+
+	&.gutplus-align-center {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
+	&.gutplus-align-right {
+		margin-left: auto !important;
+		margin-right: 0 !important;
+	}
+
+	/* Scan for headings button */
+	.toc-scan-container {
+		.components-button {
+			background-color: #0073aa;
+			color: #fff;
+			border: none;
+			padding: 0.625rem 1rem;
+			font-size: 0.875rem;
+			font-weight: 500;
+			border-radius: 0.25rem;
+			transition: background-color 0.2s ease;
+
+			&:hover:not(:disabled) {
+				background-color: #005a87;
+				color: #fff;
+			}
+
+			&:focus {
+				box-shadow: 0 0 0 2px #0073aa;
+			}
+
+			&:disabled {
+				opacity: 0.7;
+				cursor: not-allowed;
+			}
+
+			&.is-busy {
+				background-color: #555;
+			}
+		}
+	}
+
+	/* Empty message styling */
+	.toc-empty-message {
+		text-align: center;
+		padding: 1rem;
+		margin: 0;
+		font-size: 0.8125rem;
+		color: #757575;
+		font-style: italic;
+	}
+}
+
+/* Filter panel description text */
+.toc-filter-description {
+	margin-bottom: 1rem;
+	color: #757575;
+	font-size: 0.75rem;
+}
+
+/* Divider in settings */
+.toc-settings-divider {
+	margin: 1rem 0;
+	border-top: 1px solid #ddd;
+}
+
+/* Scan container spacing */
+.toc-scan-container {
+	margin-bottom: 0.75rem;
+
+	.components-button {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+.toc-curated-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+/* Editor-only outline for inner paragraph items */
+.gutplus-toc .block-editor-block-list__layout > [data-type="core/paragraph"] {
+	border: 1px dashed #d0d0d0;
+	border-radius: 4px;
+	padding: 6px 8px;
+}
+
+.toc-reset-deleted {
+	margin-left: 0.5rem;
+}
+
+/* TOC link - keep text-decoration in CSS */
+.toc-link {
+	text-decoration: none;
+}
+
+/* TOC items editor view */
+.toc-items-editor {
+	list-style-position: inside;
+	padding-left: 0; // Counters don't need padding
+	margin: 0;
+
+	&.toc-hierarchical-numbering {
+		counter-reset: toc-h1 toc-h2 toc-h3 toc-h4 toc-h5 toc-h6;
+	}
+}
+
+/* TOC item row with link and actions */
+.toc-item-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0;
+	margin: 0;
+	border: 1px dashed #d0d0d0;
+	border-radius: 4px;
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+
+	&:hover {
+		border-color: #007cba;
+		background-color: rgba(0, 124, 186, 0.04);
+	}
+
+	.toc-link {
+		flex: 1;
+		color: var(--toc-link-color, #0073aa);
+		text-decoration: none;
+		cursor: text; // Allow text selection in editor
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	/* Heading-level-specific styling in editor (H1-H6) */
+	&.toc-h1 .toc-link {
+		font-size: var(--toc-h1-font-size, 1.5rem);
+		font-weight: var(--toc-h1-font-weight, 700);
+		font-style: var(--toc-h1-font-style, normal);
+		text-transform: var(--toc-h1-text-transform, none);
+		text-decoration: var(--toc-h1-text-decoration, none);
+		color: var(--toc-h1-color, #0073aa);
+	}
+
+	&.toc-h2 .toc-link {
+		font-size: var(--toc-h2-font-size, 1.25rem);
+		font-weight: var(--toc-h2-font-weight, 600);
+		font-style: var(--toc-h2-font-style, normal);
+		text-transform: var(--toc-h2-text-transform, none);
+		text-decoration: var(--toc-h2-text-decoration, none);
+		color: var(--toc-h2-color, #0073aa);
+	}
+
+	&.toc-h3 .toc-link {
+		font-size: var(--toc-h3-font-size, 1.125rem);
+		font-weight: var(--toc-h3-font-weight, 500);
+		font-style: var(--toc-h3-font-style, normal);
+		text-transform: var(--toc-h3-text-transform, none);
+		text-decoration: var(--toc-h3-text-decoration, none);
+		color: var(--toc-h3-color, #0073aa);
+	}
+
+	&.toc-h4 .toc-link {
+		font-size: var(--toc-h4-font-size, 1rem);
+		font-weight: var(--toc-h4-font-weight, normal);
+		font-style: var(--toc-h4-font-style, normal);
+		text-transform: var(--toc-h4-text-transform, none);
+		text-decoration: var(--toc-h4-text-decoration, none);
+		color: var(--toc-h4-color, #0073aa);
+	}
+
+	&.toc-h5 .toc-link {
+		font-size: var(--toc-h5-font-size, 0.9375rem);
+		font-weight: var(--toc-h5-font-weight, normal);
+		font-style: var(--toc-h5-font-style, normal);
+		text-transform: var(--toc-h5-text-transform, none);
+		text-decoration: var(--toc-h5-text-decoration, none);
+		color: var(--toc-h5-color, #0073aa);
+	}
+
+	&.toc-h6 .toc-link {
+		font-size: var(--toc-h6-font-size, 0.875rem);
+		font-weight: var(--toc-h6-font-weight, normal);
+		font-style: var(--toc-h6-font-style, normal);
+		text-transform: var(--toc-h6-text-transform, none);
+		text-decoration: var(--toc-h6-text-decoration, none);
+		color: var(--toc-h6-color, #0073aa);
+	}
+}
+
+/* TOC item action buttons - hidden by default, shown on hover */
+.toc-item-actions {
+	display: none;
+	flex-direction: row;
+	gap: 2px;
+	flex-shrink: 0;
+}
+
+.toc-item-row:hover .toc-item-actions {
+	display: flex;
+}
+
+/* TOC action buttons */
+.toc-action-button {
+	min-width: 1.25rem;
+	min-height: 1.25rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	padding: 2px 4px;
+	font-size: 0.75rem;
+	font-weight: bold;
+	line-height: 1;
+	border-radius: 2px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	border: 1px solid;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+
+	&:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+
+	&.toc-move-button {
+		background-color: #607D8B;
+		color: #fff;
+		border-color: #546E7A;
+
+		&:hover:not(:disabled) {
+			background-color: #546E7A;
+			border-color: #455A64;
+		}
+
+		&:active:not(:disabled) {
+			background-color: #455A64;
+			border-color: #37474F;
+		}
+	}
+
+	&.toc-hide-button {
+		background-color: #FF9800;
+		color: #fff;
+		border-color: #F57C00;
+		font-size: 0.625rem;
+
+		&:hover:not(:disabled) {
+			background-color: #F57C00;
+			border-color: #E65100;
+		}
+
+		&:active:not(:disabled) {
+			background-color: #E65100;
+			border-color: #BF360C;
+		}
+
+		&.is-hidden {
+			background-color: #9E9E9E;
+			border-color: #757575;
+
+			&:hover:not(:disabled) {
+				background-color: #757575;
+				border-color: #616161;
+			}
+		}
+	}
+
+	&.toc-delete-button {
+		background-color: #f44336;
+		color: #fff;
+		border-color: #da190b;
+
+		&:hover:not(:disabled) {
+			background-color: #da190b;
+			border-color: #ba0000;
+		}
+
+		&:active:not(:disabled) {
+			background-color: #ba0000;
+			border-color: #980000;
+		}
+	}
+}
+
+/* Hidden TOC item styling */
+.toc-item-row.toc-item-hidden {
+	opacity: 0.5;
+	background-color: rgba(0, 0, 0, 0.05);
+	border-style: dotted;
+
+	.toc-link {
+		text-decoration: line-through;
+		color: #999;
+	}
+
+	.toc-item-actions {
+		display: flex; /* Always show actions for hidden items */
+	}
+}
+
+/* Disable icon animations in editor to prevent lag when adjusting settings */
+.toc-icon-wrapper,
+.toc-icon,
+.toc-icon-image {
+	transition: none !important;
+}

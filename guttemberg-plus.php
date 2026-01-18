@@ -97,16 +97,16 @@ add_action( 'plugins_loaded', 'guttemberg_plus_load_textdomain' );
 /**
  * Load backend PHP files
  */
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-storage.php';
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-rest-api.php';
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-css-generator.php';
+require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/storage/themes.php';
+require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/api/themes.php';
+require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/api/css.php';
 
 /**
  * Load plugin core
  * Note: Asset enqueuing handled by block.json (WordPress 5.8+ standard)
  */
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'includes/security.php';
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'includes/block-registration.php';
+require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/security.php';
+require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/init.php';
 
 /**
  * Plugin activation hook

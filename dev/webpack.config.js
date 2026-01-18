@@ -59,7 +59,7 @@ const sharedConfig = {
 	},
 	resolve: {
 		alias: {
-			'@shared': path.resolve( __dirname, 'shared/src' ),
+			'@shared': path.resolve( __dirname, 'shared' ),
 			'@blocks': path.resolve( __dirname, 'blocks' ),
 			'@assets': path.resolve( __dirname, 'assets' ),
 		},
@@ -85,21 +85,21 @@ module.exports = {
 	...sharedConfig,
 	entry: {
 		// Accordion block
-		'blocks/accordion/index': path.resolve( __dirname, 'blocks/accordion/src/index.js' ),
-		'blocks/accordion/frontend': path.resolve( __dirname, 'blocks/accordion/src/frontend.js' ),
-		'blocks/accordion/accordion': path.resolve( __dirname, 'css/accordion_hardcoded.scss' ),
+		'blocks/accordion/index': path.resolve( __dirname, 'blocks/accordion/index.js' ),
+		'blocks/accordion/frontend': path.resolve( __dirname, 'blocks/accordion/frontend.js' ),
+		'blocks/accordion/accordion': path.resolve( __dirname, 'styles/blocks/accordion/frontend.scss' ),
 
 		// Tabs block
-		'blocks/tabs/index': path.resolve( __dirname, 'blocks/tabs/src/index.js' ),
-		'blocks/tabs/frontend': path.resolve( __dirname, 'blocks/tabs/src/frontend.js' ),
-		'blocks/tabs/tabs': path.resolve( __dirname, 'css/tabs_hardcoded.scss' ),
+		'blocks/tabs/index': path.resolve( __dirname, 'blocks/tabs/index.js' ),
+		'blocks/tabs/frontend': path.resolve( __dirname, 'blocks/tabs/frontend.js' ),
+		'blocks/tabs/tabs': path.resolve( __dirname, 'styles/blocks/tabs/frontend.scss' ),
 
 		// TOC block
-		'blocks/toc/index': path.resolve( __dirname, 'blocks/toc/src/index.js' ),
-		'blocks/toc/frontend': path.resolve( __dirname, 'blocks/toc/src/frontend.js' ),
-		'blocks/toc/toc': path.resolve( __dirname, 'css/toc_hardcoded.scss' ),
+		'blocks/toc/index': path.resolve( __dirname, 'blocks/toc/index.js' ),
+		'blocks/toc/frontend': path.resolve( __dirname, 'blocks/toc/frontend.js' ),
+		'blocks/toc/toc': path.resolve( __dirname, 'styles/blocks/toc/frontend.scss' ),
 
 		// Shared infrastructure
-		'shared/index': path.resolve( __dirname, 'shared/src/index.js' ),
+		'shared/index': path.resolve( __dirname, 'shared/index.js' ),
 	},
 };

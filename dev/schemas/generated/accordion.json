@@ -1,0 +1,3669 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Accordion Block Theme Configuration Schema (minified)",
+  "version": "1.0.0",
+  "description": "Complete theme and appearance configuration for Accordion blocks",
+  "blockType": "accordion",
+  "blockName": "Accordion",
+  "tabs": [
+    {
+      "name": "appearance",
+      "order": 1,
+      "groups": [
+        {
+          "title": "Borders",
+          "description": "Block borders, radius, shadows, and divider settings",
+          "order": 2,
+          "initialOpen": false,
+          "subgroups": [
+            {
+              "name": "External",
+              "order": 1
+            },
+            {
+              "name": "Divider",
+              "order": 2
+            }
+          ],
+          "id": "borders"
+        },
+        {
+          "title": "Layout",
+          "description": "Spacing and padding settings",
+          "order": 3,
+          "initialOpen": false,
+          "subgroups": [],
+          "id": "layout"
+        },
+        {
+          "title": "Colors",
+          "description": "Header and panel color settings",
+          "order": 4,
+          "initialOpen": false,
+          "subgroups": [
+            {
+              "name": "Header",
+              "order": 1
+            },
+            {
+              "name": "Header - Hover",
+              "order": 2
+            },
+            {
+              "name": "Panel",
+              "order": 3
+            }
+          ],
+          "id": "colors"
+        },
+        {
+          "title": "Typography",
+          "description": "Font settings for header and content",
+          "order": 5,
+          "initialOpen": false,
+          "subgroups": [
+            {
+              "name": "Header",
+              "order": 1
+            },
+            {
+              "name": "Content",
+              "order": 2
+            }
+          ],
+          "id": "typography"
+        },
+        {
+          "title": "Icon",
+          "description": "Icon appearance and behavior",
+          "order": 6,
+          "initialOpen": false,
+          "subgroups": [],
+          "id": "icon"
+        },
+        {
+          "title": "Animation",
+          "description": "Open/close animation settings",
+          "order": 7,
+          "initialOpen": false,
+          "subgroups": [],
+          "id": "animation"
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "order": 2,
+      "groups": [
+        {
+          "title": "Block Options",
+          "description": "Structural and layout options for the accordion block",
+          "order": 1,
+          "initialOpen": true,
+          "subgroups": [],
+          "id": "blockOptions"
+        }
+      ]
+    }
+  ],
+  "attributes": {
+    "divider-border-border-width-top": {
+      "type": "string",
+      "default": "0px",
+      "label": "Border Width (Top)",
+      "description": "Border width on the top side",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "content",
+      "cssProperty": "border-top-width",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Divider",
+      "cssVar": "--accordion-content-border-top-width"
+    },
+    "divider-border-border-color-top": {
+      "type": "string",
+      "default": "#dddddd",
+      "label": "Border Color (Top)",
+      "description": "Border color on the top side",
+      "group": "borders",
+      "control": "ColorControl",
+      "element": "content",
+      "cssProperty": "border-top-color",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Divider",
+      "cssVar": "--accordion-content-border-top-color"
+    },
+    "divider-border-border-style-top": {
+      "type": "string",
+      "default": "solid",
+      "label": "Border Style (Top)",
+      "description": "Border style on the top side",
+      "group": "borders",
+      "control": "SelectControl",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        },
+        {
+          "value": "double",
+          "label": "Double"
+        }
+      ],
+      "element": "content",
+      "cssProperty": "border-top-style",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Divider",
+      "cssVar": "--accordion-content-border-top-style"
+    },
+    "block-box-border-width-top": {
+      "type": "string",
+      "default": "1px",
+      "label": "Border Width (Top)",
+      "description": "Border width on the top side",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-top-width",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-top-width"
+    },
+    "block-box-border-color-top": {
+      "type": "string",
+      "default": "#dddddd",
+      "label": "Border Color (Top)",
+      "description": "Border color on the top side",
+      "group": "borders",
+      "control": "ColorControl",
+      "element": "item",
+      "cssProperty": "border-top-color",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-top-color"
+    },
+    "block-box-border-style-top": {
+      "type": "string",
+      "default": "solid",
+      "label": "Border Style (Top)",
+      "description": "Border style on the top side",
+      "group": "borders",
+      "control": "SelectControl",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        },
+        {
+          "value": "double",
+          "label": "Double"
+        }
+      ],
+      "element": "item",
+      "cssProperty": "border-top-style",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-top-style"
+    },
+    "block-box-border-width-right": {
+      "type": "string",
+      "default": "1px",
+      "label": "Border Width (Right)",
+      "description": "Border width on the right side",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-right-width",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-right-width"
+    },
+    "block-box-border-color-right": {
+      "type": "string",
+      "default": "#dddddd",
+      "label": "Border Color (Right)",
+      "description": "Border color on the right side",
+      "group": "borders",
+      "control": "ColorControl",
+      "element": "item",
+      "cssProperty": "border-right-color",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-right-color"
+    },
+    "block-box-border-style-right": {
+      "type": "string",
+      "default": "solid",
+      "label": "Border Style (Right)",
+      "description": "Border style on the right side",
+      "group": "borders",
+      "control": "SelectControl",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        },
+        {
+          "value": "double",
+          "label": "Double"
+        }
+      ],
+      "element": "item",
+      "cssProperty": "border-right-style",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-right-style"
+    },
+    "block-box-border-width-bottom": {
+      "type": "string",
+      "default": "1px",
+      "label": "Border Width (Bottom)",
+      "description": "Border width on the bottom side",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-bottom-width",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-bottom-width"
+    },
+    "block-box-border-color-bottom": {
+      "type": "string",
+      "default": "#dddddd",
+      "label": "Border Color (Bottom)",
+      "description": "Border color on the bottom side",
+      "group": "borders",
+      "control": "ColorControl",
+      "element": "item",
+      "cssProperty": "border-bottom-color",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-bottom-color"
+    },
+    "block-box-border-style-bottom": {
+      "type": "string",
+      "default": "solid",
+      "label": "Border Style (Bottom)",
+      "description": "Border style on the bottom side",
+      "group": "borders",
+      "control": "SelectControl",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        },
+        {
+          "value": "double",
+          "label": "Double"
+        }
+      ],
+      "element": "item",
+      "cssProperty": "border-bottom-style",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-bottom-style"
+    },
+    "block-box-border-width-left": {
+      "type": "string",
+      "default": "1px",
+      "label": "Border Width (Left)",
+      "description": "Border width on the left side",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-left-width",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-left-width"
+    },
+    "block-box-border-color-left": {
+      "type": "string",
+      "default": "#dddddd",
+      "label": "Border Color (Left)",
+      "description": "Border color on the left side",
+      "group": "borders",
+      "control": "ColorControl",
+      "element": "item",
+      "cssProperty": "border-left-color",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-left-color"
+    },
+    "block-box-border-style-left": {
+      "type": "string",
+      "default": "solid",
+      "label": "Border Style (Left)",
+      "description": "Border style on the left side",
+      "group": "borders",
+      "control": "SelectControl",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        },
+        {
+          "value": "double",
+          "label": "Double"
+        }
+      ],
+      "element": "item",
+      "cssProperty": "border-left-style",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-left-style"
+    },
+    "block-box-margin-top": {
+      "type": "string",
+      "default": "1em",
+      "label": "Margin (Top)",
+      "description": "Margin on the top side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "margin-top",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-item-margin-top",
+      "cssVarVariants": [
+        "--accordion-item-margin-top",
+        "--accordion-item-margin-top-tablet",
+        "--accordion-item-margin-top-mobile"
+      ]
+    },
+    "block-box-margin-right": {
+      "type": "string",
+      "default": "0em",
+      "label": "Margin (Right)",
+      "description": "Margin on the right side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "margin-right",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-item-margin-right",
+      "cssVarVariants": [
+        "--accordion-item-margin-right",
+        "--accordion-item-margin-right-tablet",
+        "--accordion-item-margin-right-mobile"
+      ]
+    },
+    "block-box-margin-bottom": {
+      "type": "string",
+      "default": "1em",
+      "label": "Margin (Bottom)",
+      "description": "Margin on the bottom side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "margin-bottom",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-item-margin-bottom",
+      "cssVarVariants": [
+        "--accordion-item-margin-bottom",
+        "--accordion-item-margin-bottom-tablet",
+        "--accordion-item-margin-bottom-mobile"
+      ]
+    },
+    "block-box-margin-left": {
+      "type": "string",
+      "default": "0em",
+      "label": "Margin (Left)",
+      "description": "Margin on the left side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "margin-left",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-item-margin-left",
+      "cssVarVariants": [
+        "--accordion-item-margin-left",
+        "--accordion-item-margin-left-tablet",
+        "--accordion-item-margin-left-mobile"
+      ]
+    },
+    "block-box-border-radius-top-left": {
+      "type": "string",
+      "default": "4px",
+      "label": "Border Radius (top Left)",
+      "description": "Border radius on the top left corner",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-top-left-radius",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-top-left-radius"
+    },
+    "block-box-border-radius-top-right": {
+      "type": "string",
+      "default": "4px",
+      "label": "Border Radius (top Right)",
+      "description": "Border radius on the top right corner",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-top-right-radius",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-top-right-radius"
+    },
+    "block-box-border-radius-bottom-right": {
+      "type": "string",
+      "default": "4px",
+      "label": "Border Radius (bottom Right)",
+      "description": "Border radius on the bottom right corner",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-bottom-right-radius",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-bottom-right-radius"
+    },
+    "block-box-border-radius-bottom-left": {
+      "type": "string",
+      "default": "4px",
+      "label": "Border Radius (bottom Left)",
+      "description": "Border radius on the bottom left corner",
+      "group": "borders",
+      "control": "SliderWithInput",
+      "element": "item",
+      "cssProperty": "border-bottom-left-radius",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-border-bottom-left-radius"
+    },
+    "block-box-shadow": {
+      "type": "array",
+      "default": [
+        {
+          "x": {
+            "value": 0,
+            "unit": "px"
+          },
+          "y": {
+            "value": 8,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 24,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          },
+          "color": "rgba(0,0,0,0.15)",
+          "inset": false
+        }
+      ],
+      "label": "Box Shadow",
+      "description": "Box shadow settings",
+      "group": "borders",
+      "control": "ShadowPanel",
+      "element": "item",
+      "cssProperty": "box-shadow",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "External",
+      "cssVar": "--accordion-item-box-shadow"
+    },
+    "header-box-padding-top": {
+      "type": "string",
+      "default": "12px",
+      "label": "Padding (Top)",
+      "description": "Padding on the top side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "title",
+      "cssProperty": "padding-top",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-title-padding-top",
+      "cssVarVariants": [
+        "--accordion-title-padding-top",
+        "--accordion-title-padding-top-tablet",
+        "--accordion-title-padding-top-mobile"
+      ]
+    },
+    "header-box-padding-right": {
+      "type": "string",
+      "default": "16px",
+      "label": "Padding (Right)",
+      "description": "Padding on the right side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "title",
+      "cssProperty": "padding-right",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-title-padding-right",
+      "cssVarVariants": [
+        "--accordion-title-padding-right",
+        "--accordion-title-padding-right-tablet",
+        "--accordion-title-padding-right-mobile"
+      ]
+    },
+    "header-box-padding-bottom": {
+      "type": "string",
+      "default": "12px",
+      "label": "Padding (Bottom)",
+      "description": "Padding on the bottom side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "title",
+      "cssProperty": "padding-bottom",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-title-padding-bottom",
+      "cssVarVariants": [
+        "--accordion-title-padding-bottom",
+        "--accordion-title-padding-bottom-tablet",
+        "--accordion-title-padding-bottom-mobile"
+      ]
+    },
+    "header-box-padding-left": {
+      "type": "string",
+      "default": "16px",
+      "label": "Padding (Left)",
+      "description": "Padding on the left side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "title",
+      "cssProperty": "padding-left",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-title-padding-left",
+      "cssVarVariants": [
+        "--accordion-title-padding-left",
+        "--accordion-title-padding-left-tablet",
+        "--accordion-title-padding-left-mobile"
+      ]
+    },
+    "content-box-padding-top": {
+      "type": "string",
+      "default": "16px",
+      "label": "Padding (Top)",
+      "description": "Padding on the top side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "contentInner",
+      "cssProperty": "padding-top",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-contentInner-padding-top",
+      "cssVarVariants": [
+        "--accordion-contentInner-padding-top",
+        "--accordion-contentInner-padding-top-tablet",
+        "--accordion-contentInner-padding-top-mobile"
+      ]
+    },
+    "content-box-padding-right": {
+      "type": "string",
+      "default": "16px",
+      "label": "Padding (Right)",
+      "description": "Padding on the right side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "contentInner",
+      "cssProperty": "padding-right",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-contentInner-padding-right",
+      "cssVarVariants": [
+        "--accordion-contentInner-padding-right",
+        "--accordion-contentInner-padding-right-tablet",
+        "--accordion-contentInner-padding-right-mobile"
+      ]
+    },
+    "content-box-padding-bottom": {
+      "type": "string",
+      "default": "16px",
+      "label": "Padding (Bottom)",
+      "description": "Padding on the bottom side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "contentInner",
+      "cssProperty": "padding-bottom",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-contentInner-padding-bottom",
+      "cssVarVariants": [
+        "--accordion-contentInner-padding-bottom",
+        "--accordion-contentInner-padding-bottom-tablet",
+        "--accordion-contentInner-padding-bottom-mobile"
+      ]
+    },
+    "content-box-padding-left": {
+      "type": "string",
+      "default": "16px",
+      "label": "Padding (Left)",
+      "description": "Padding on the left side",
+      "group": "layout",
+      "control": "SliderWithInput",
+      "element": "contentInner",
+      "cssProperty": "padding-left",
+      "themeable": true,
+      "outputsCSS": true,
+      "responsive": true,
+      "cssVar": "--accordion-contentInner-padding-left",
+      "cssVarVariants": [
+        "--accordion-contentInner-padding-left",
+        "--accordion-contentInner-padding-left-tablet",
+        "--accordion-contentInner-padding-left-mobile"
+      ]
+    },
+    "title-color-text": {
+      "type": "string",
+      "default": "#333333",
+      "label": "Text",
+      "description": "Text color",
+      "group": "colors",
+      "control": "ColorPicker",
+      "element": "title",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Header",
+      "cssProperty": "color",
+      "cssVar": "--accordion-title-color"
+    },
+    "title-color-background": {
+      "type": "string",
+      "default": "#f5f5f5",
+      "label": "Background",
+      "description": "Background color",
+      "group": "colors",
+      "control": "ColorGradientControl",
+      "element": "title",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Header",
+      "cssProperty": "background",
+      "cssVar": "--accordion-title-background"
+    },
+    "title-color-text-hover": {
+      "type": "string",
+      "default": "#000000",
+      "label": "Text",
+      "description": "Text color",
+      "group": "colors",
+      "control": "ColorPicker",
+      "element": "title",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Header - Hover",
+      "cssProperty": "color",
+      "cssVar": "--accordion-title-color-hover",
+      "state": "hover"
+    },
+    "title-color-background-hover": {
+      "type": "string",
+      "default": "#e8e8e8",
+      "label": "Background",
+      "description": "Background color",
+      "group": "colors",
+      "control": "ColorGradientControl",
+      "element": "title",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Header - Hover",
+      "cssProperty": "background",
+      "cssVar": "--accordion-title-background-hover",
+      "state": "hover"
+    },
+    "content-color-text": {
+      "type": "string",
+      "default": "#333333",
+      "label": "Text",
+      "description": "Text color",
+      "group": "colors",
+      "control": "ColorPicker",
+      "element": "content",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Panel",
+      "cssProperty": "color",
+      "cssVar": "--accordion-content-color"
+    },
+    "content-color-background": {
+      "type": "string",
+      "default": "#ffffff",
+      "label": "Background",
+      "description": "Background color",
+      "group": "colors",
+      "control": "ColorGradientControl",
+      "element": "content",
+      "themeable": true,
+      "outputsCSS": true,
+      "subgroup": "Panel",
+      "cssProperty": "background",
+      "cssVar": "--accordion-content-background"
+    },
+    "content-typography-font-family": {
+      "type": "string",
+      "default": "inherit",
+      "label": "Font Family",
+      "group": "typography",
+      "control": "FontFamilyControl",
+      "themeable": true,
+      "subgroup": "Content",
+      "cssVar": "--accordion-content-font-family",
+      "cssProperty": "font-family"
+    },
+    "content-typography-font-size": {
+      "type": "string",
+      "default": "16px",
+      "label": "Font Size",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Content",
+      "cssVar": "--accordion-content-font-size",
+      "cssProperty": "font-size",
+      "responsive": true,
+      "cssVarVariants": [
+        "--accordion-content-font-size",
+        "--accordion-content-font-size-tablet",
+        "--accordion-content-font-size-mobile"
+      ]
+    },
+    "content-typography-line-height": {
+      "type": "number",
+      "default": "1.5",
+      "label": "Line Height",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Content",
+      "cssVar": "--accordion-content-line-height",
+      "cssProperty": "line-height"
+    },
+    "content-typography-font-weight": {
+      "type": "number",
+      "default": "400",
+      "label": "Font Weight",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Content",
+      "cssVar": "--accordion-content-font-weight",
+      "cssProperty": "font-weight",
+      "min": 100,
+      "max": 900,
+      "step": 100
+    },
+    "content-typography-letter-spacing": {
+      "type": "string",
+      "default": "normal",
+      "label": "Letter Spacing",
+      "description": "Space between letters",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Content",
+      "cssVar": "--accordion-content-letter-spacing",
+      "cssProperty": "letter-spacing"
+    },
+    "content-typography-text-transform": {
+      "type": "string",
+      "default": "none",
+      "label": "Letter Case",
+      "description": "Text transformation",
+      "group": "typography",
+      "control": "LetterCaseControl",
+      "themeable": true,
+      "subgroup": "Content",
+      "cssVar": "--accordion-content-text-transform",
+      "cssProperty": "text-transform"
+    },
+    "content-typography-text-decoration": {
+      "type": "string",
+      "default": "none",
+      "label": "Text Decoration",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Content",
+      "cssVar": "--accordion-content-text-decoration-line",
+      "cssProperty": "text-decoration-line"
+    },
+    "title-typography-font-family": {
+      "type": "string",
+      "default": "inherit",
+      "label": "Font Family",
+      "group": "typography",
+      "control": "FontFamilyControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-font-family",
+      "cssProperty": "font-family"
+    },
+    "title-typography-font-size": {
+      "type": "string",
+      "default": "18px",
+      "label": "Font Size",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-font-size",
+      "cssProperty": "font-size",
+      "responsive": true,
+      "cssVarVariants": [
+        "--accordion-title-font-size",
+        "--accordion-title-font-size-tablet",
+        "--accordion-title-font-size-mobile"
+      ]
+    },
+    "title-typography-formatting": {
+      "type": "array",
+      "default": [],
+      "label": "Text formatting",
+      "description": "Bold, italic, underline, overline, line-through)",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "outputsCSS": false
+    },
+    "title-typography-no-line-break": {
+      "type": "string",
+      "default": "normal",
+      "label": "Text in single line",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-white-space",
+      "cssProperty": "white-space"
+    },
+    "title-typography-font-weight": {
+      "type": "number",
+      "default": "600",
+      "label": "Font Weight",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-font-weight",
+      "cssProperty": "font-weight",
+      "min": 100,
+      "max": 900,
+      "step": 100
+    },
+    "title-typography-decoration-color": {
+      "type": "string",
+      "default": "currentColor",
+      "label": "Decoration Color",
+      "description": "Color for text decorations",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-decoration-color",
+      "cssProperty": "text-decoration-color"
+    },
+    "title-typography-decoration-style": {
+      "type": "string",
+      "default": "solid",
+      "label": "Decoration Style",
+      "description": "Style for text decorations",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-decoration-style",
+      "cssProperty": "text-decoration-style",
+      "options": [
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        },
+        {
+          "value": "wavy",
+          "label": "Wavy"
+        },
+        {
+          "value": "double",
+          "label": "Double"
+        }
+      ]
+    },
+    "title-typography-decoration-width": {
+      "type": "string",
+      "default": "auto",
+      "label": "Decoration Width",
+      "description": "Thickness of text decorations",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-decoration-width",
+      "cssProperty": "text-decoration-thickness"
+    },
+    "title-typography-letter-spacing": {
+      "type": "string",
+      "default": "normal",
+      "label": "Letter Spacing",
+      "description": "Space between letters",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-letter-spacing",
+      "cssProperty": "letter-spacing"
+    },
+    "title-typography-text-transform": {
+      "type": "string",
+      "default": "none",
+      "label": "Letter Case",
+      "description": "Text transformation",
+      "group": "typography",
+      "control": "LetterCaseControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-text-transform",
+      "cssProperty": "text-transform"
+    },
+    "title-typography-text-decoration": {
+      "type": "string",
+      "default": "none",
+      "label": "Text Decoration",
+      "group": "typography",
+      "control": "FormattingControl",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-text-decoration-line",
+      "cssProperty": "text-decoration-line"
+    },
+    "title-typography-line-height": {
+      "type": "number",
+      "default": "1.4",
+      "label": "Line Height",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-line-height",
+      "cssProperty": "line-height"
+    },
+    "title-typography-offset-x": {
+      "type": "string",
+      "default": "0px",
+      "label": "Horizontal Offset (X)",
+      "description": "Move text left/right (negative = left, positive = right)",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-offset-x",
+      "cssProperty": "left",
+      "responsive": true,
+      "cssVarVariants": [
+        "--accordion-title-offset-x",
+        "--accordion-title-offset-x-tablet",
+        "--accordion-title-offset-x-mobile"
+      ]
+    },
+    "title-typography-offset-y": {
+      "type": "string",
+      "default": "0px",
+      "label": "Vertical Offset (Y)",
+      "description": "Move text up/down (negative = up, positive = down)",
+      "group": "typography",
+      "control": "SliderWithInput",
+      "themeable": true,
+      "subgroup": "Header",
+      "cssVar": "--accordion-title-offset-y",
+      "cssProperty": "top",
+      "responsive": true,
+      "cssVarVariants": [
+        "--accordion-title-offset-y",
+        "--accordion-title-offset-y-tablet",
+        "--accordion-title-offset-y-mobile"
+      ]
+    },
+    "titleAlignment": {
+      "type": "string",
+      "default": "left",
+      "cssVar": "--accordion-title-alignment",
+      "cssProperty": "text-align",
+      "group": "typography",
+      "subgroup": "Header",
+      "label": "Title Alignment",
+      "description": "Horizontal alignment of the title text",
+      "themeable": true,
+      "control": "SelectControl",
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "order": 100,
+      "outputsCSS": true,
+      "element": "titleText"
+    },
+    "title-icon-show": {
+      "type": "boolean",
+      "default": true,
+      "control": "ToggleControl",
+      "cssProperty": "display",
+      "cssVar": "--accordion-icon-display",
+      "element": "icon",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": true,
+      "group": "icon",
+      "panelId": "titleIcon",
+      "label": "Show Icon",
+      "description": "Display icon in the block",
+      "cssValueMap": {
+        "true": "inline-grid",
+        "false": "none"
+      }
+    },
+    "title-icon-use-different-icons": {
+      "type": "boolean",
+      "default": false,
+      "control": "ToggleControl",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": false,
+      "group": "icon",
+      "label": "Different Icons for Open/Close",
+      "description": "Use different icons for open and closed states"
+    },
+    "title-icon-position": {
+      "type": "string",
+      "default": "right",
+      "control": "IconPositionControl",
+      "allowedPositions": [
+        "left",
+        "right",
+        "box-left",
+        "box-right"
+      ],
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": false,
+      "group": "icon",
+      "label": "Icon Position",
+      "description": "Position of the icon relative to title"
+    },
+    "title-icon-animation-rotation": {
+      "type": "string",
+      "default": "180deg",
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-icon-animation-rotation",
+      "element": "icon",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Animation Rotation",
+      "description": "Rotation delta added when the accordion opens",
+      "min": -180,
+      "max": 180,
+      "step": 1,
+      "unit": "deg"
+    },
+    "title-icon-source": {
+      "type": "object",
+      "default": {
+        "kind": "char",
+        "value": "▾"
+      },
+      "control": "IconPicker",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": false,
+      "group": "icon",
+      "label": "Icon",
+      "description": "Icon when closed"
+    },
+    "title-icon-color": {
+      "type": "string",
+      "default": "#333333",
+      "control": "ColorControl",
+      "cssProperty": "color",
+      "cssVar": "--accordion-icon-color",
+      "element": "icon",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Color",
+      "description": "Icon color (for character/library icons)"
+    },
+    "title-icon-initial-rotation": {
+      "type": "string",
+      "default": "0deg",
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-icon-initial-rotation",
+      "element": "icon",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Initial Rotation",
+      "description": "Rotation applied before animation for the inactive icon",
+      "min": -180,
+      "max": 180,
+      "step": 1,
+      "unit": "deg"
+    },
+    "title-icon-transform": {
+      "type": "string",
+      "cssProperty": "transform",
+      "cssValueByDevice": {
+        "desktop": "translate(var(--accordion-icon-offset-x), var(--accordion-icon-offset-y)) rotate(var(--accordion-icon-initial-rotation))",
+        "tablet": "translate(var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)), var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))) rotate(var(--accordion-icon-initial-rotation))",
+        "mobile": "translate(var(--accordion-icon-offset-x-mobile, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x))), var(--accordion-icon-offset-y-mobile, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y)))) rotate(var(--accordion-icon-initial-rotation))"
+      },
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon"
+    },
+    "title-icon-size": {
+      "type": "string",
+      "default": "16px",
+      "control": "SliderWithInput",
+      "cssProperty": "font-size",
+      "cssVar": "--accordion-icon-size",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Size",
+      "description": "Icon size (for character/library icons)",
+      "min": 8,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "cssVarVariants": [
+        "--accordion-icon-size",
+        "--accordion-icon-size-tablet",
+        "--accordion-icon-size-mobile"
+      ]
+    },
+    "title-icon-max-size": {
+      "type": "string",
+      "default": "24px",
+      "control": "SliderWithInput",
+      "cssProperty": "max-width",
+      "cssVar": "--accordion-icon-max-size",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Max Size",
+      "description": "Maximum icon size (for image icons)",
+      "min": 8,
+      "max": 128,
+      "step": 1,
+      "unit": "px",
+      "cssVarVariants": [
+        "--accordion-icon-max-size",
+        "--accordion-icon-max-size-tablet",
+        "--accordion-icon-max-size-mobile"
+      ]
+    },
+    "title-icon-offset-x": {
+      "type": "string",
+      "default": "0px",
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-icon-offset-x",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Offset X",
+      "description": "Horizontal translate offset of icon",
+      "min": -100,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "cssVarVariants": [
+        "--accordion-icon-offset-x",
+        "--accordion-icon-offset-x-tablet",
+        "--accordion-icon-offset-x-mobile"
+      ]
+    },
+    "title-icon-offset-y": {
+      "type": "string",
+      "default": "0px",
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-icon-offset-y",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Offset Y",
+      "description": "Vertical translate offset of icon",
+      "min": -100,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "cssVarVariants": [
+        "--accordion-icon-offset-y",
+        "--accordion-icon-offset-y-tablet",
+        "--accordion-icon-offset-y-mobile"
+      ]
+    },
+    "title-icon-source-is-open": {
+      "type": "object",
+      "default": {
+        "kind": "char",
+        "value": "▾"
+      },
+      "control": "IconPicker",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": false,
+      "group": "icon",
+      "label": "Icon (Open)",
+      "description": "Icon when open",
+      "state": "is-open"
+    },
+    "title-icon-color-is-open": {
+      "type": "string",
+      "default": "#333333",
+      "control": "ColorControl",
+      "cssProperty": "color",
+      "cssVar": "--accordion-icon-color-is-open",
+      "element": "icon",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Color (Open)",
+      "description": "Icon color (for character/library icons)",
+      "state": "is-open"
+    },
+    "title-icon-initial-rotation-is-open": {
+      "type": "string",
+      "default": "0deg",
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-icon-initial-rotation-is-open",
+      "element": "icon",
+      "themeable": true,
+      "responsive": false,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Initial Rotation (Open)",
+      "description": "Rotation applied before animation for the is-open icon",
+      "min": -180,
+      "max": 180,
+      "step": 1,
+      "unit": "deg",
+      "state": "is-open"
+    },
+    "title-icon-transform-is-open": {
+      "type": "string",
+      "cssProperty": "transform",
+      "cssValueByDevice": {
+        "desktop": "translate(var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x)), var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)))",
+        "tablet": "translate(var(--accordion-icon-offset-x-is-open-tablet, var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)))), var(--accordion-icon-offset-y-is-open-tablet, var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)))",
+        "mobile": "translate(var(--accordion-icon-offset-x-is-open-mobile, var(--accordion-icon-offset-x-is-open-tablet, var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x-mobile, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)))))), var(--accordion-icon-offset-y-is-open-mobile, var(--accordion-icon-offset-y-is-open-tablet, var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y-mobile, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))))))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)))"
+      },
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "state": "is-open"
+    },
+    "title-icon-size-is-open": {
+      "type": "string",
+      "default": "16px",
+      "control": "SliderWithInput",
+      "cssProperty": "font-size",
+      "cssVar": "--accordion-icon-size-is-open",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Size (Open)",
+      "description": "Icon size (for character/library icons)",
+      "min": 8,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "state": "is-open",
+      "cssVarVariants": [
+        "--accordion-icon-size-is-open",
+        "--accordion-icon-size-is-open-tablet",
+        "--accordion-icon-size-is-open-mobile"
+      ]
+    },
+    "title-icon-max-size-is-open": {
+      "type": "string",
+      "default": "24px",
+      "control": "SliderWithInput",
+      "cssProperty": "max-width",
+      "cssVar": "--accordion-icon-max-size-is-open",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Max Size (Open)",
+      "description": "Maximum icon size (for image icons)",
+      "min": 8,
+      "max": 128,
+      "step": 1,
+      "unit": "px",
+      "state": "is-open",
+      "cssVarVariants": [
+        "--accordion-icon-max-size-is-open",
+        "--accordion-icon-max-size-is-open-tablet",
+        "--accordion-icon-max-size-is-open-mobile"
+      ]
+    },
+    "title-icon-offset-x-is-open": {
+      "type": "string",
+      "default": "0px",
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-icon-offset-x-is-open",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Offset X (Open)",
+      "description": "Horizontal translate offset of icon",
+      "min": -100,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "state": "is-open",
+      "cssVarVariants": [
+        "--accordion-icon-offset-x-is-open",
+        "--accordion-icon-offset-x-is-open-tablet",
+        "--accordion-icon-offset-x-is-open-mobile"
+      ]
+    },
+    "title-icon-offset-y-is-open": {
+      "type": "string",
+      "default": "0px",
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-icon-offset-y-is-open",
+      "element": "icon",
+      "themeable": true,
+      "responsive": true,
+      "outputsCSS": true,
+      "group": "icon",
+      "label": "Offset Y (Open)",
+      "description": "Vertical translate offset of icon",
+      "min": -100,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "state": "is-open",
+      "cssVarVariants": [
+        "--accordion-icon-offset-y-is-open",
+        "--accordion-icon-offset-y-is-open-tablet",
+        "--accordion-icon-offset-y-is-open-mobile"
+      ]
+    },
+    "animationType": {
+      "type": "string",
+      "default": "slide",
+      "label": "Animation",
+      "description": "How the accordion opens and closes",
+      "group": "animation",
+      "order": 1,
+      "control": "SelectControl",
+      "options": [
+        {
+          "label": "Slide",
+          "value": "slide"
+        },
+        {
+          "label": "Slide + Fade",
+          "value": "slideFade"
+        },
+        {
+          "label": "None",
+          "value": "none"
+        }
+      ],
+      "themeable": true,
+      "outputsCSS": false
+    },
+    "animationDuration": {
+      "type": "string",
+      "default": "250ms",
+      "label": "Duration",
+      "description": "Animation duration in milliseconds",
+      "group": "animation",
+      "order": 2,
+      "control": "SliderWithInput",
+      "min": 0,
+      "max": 2000,
+      "step": 50,
+      "cssVar": "--accordion-animation-duration",
+      "cssProperty": "transition-duration",
+      "themeable": true,
+      "element": "item"
+    },
+    "accordionWidth": {
+      "type": "string",
+      "default": "100%",
+      "label": "Block Width",
+      "description": "Accordion container width",
+      "group": "blockOptions",
+      "order": 1,
+      "control": "SliderWithInput",
+      "cssVar": "--accordion-width",
+      "cssProperty": "width",
+      "responsive": true,
+      "themeable": false,
+      "element": "item",
+      "cssVarVariants": [
+        "--accordion-width",
+        "--accordion-width-tablet",
+        "--accordion-width-mobile"
+      ]
+    },
+    "headingLevel": {
+      "type": "string",
+      "default": "none",
+      "label": "Heading Level",
+      "description": "Semantic HTML heading level for accessibility",
+      "group": "blockOptions",
+      "order": 2,
+      "control": "HeadingLevel",
+      "themeable": false,
+      "outputsCSS": false
+    },
+    "accordionHorizontalAlign": {
+      "type": "string",
+      "default": "center",
+      "label": "Block Alignment",
+      "description": "Horizontal alignment of the accordion",
+      "group": "blockOptions",
+      "order": 3,
+      "control": "AlignmentControl",
+      "alignmentType": "block",
+      "themeable": false
+    },
+    "initiallyOpen": {
+      "type": "boolean",
+      "default": false,
+      "label": "Open by Default",
+      "description": "Whether accordion is open on page load",
+      "group": "blockOptions",
+      "order": 4,
+      "control": "ToggleControl",
+      "themeable": false
+    },
+    "accordionId": {
+      "type": "string",
+      "default": "",
+      "label": "Accordion ID",
+      "description": "Unique identifier for the accordion block",
+      "group": "blockOptions",
+      "order": 5,
+      "themeable": false,
+      "outputsCSS": false,
+      "visibleOnSidebar": false
+    },
+    "blockId": {
+      "type": "string",
+      "default": "",
+      "label": "Block ID",
+      "description": "Block-specific identification",
+      "group": "blockOptions",
+      "order": 6,
+      "themeable": false,
+      "outputsCSS": false,
+      "visibleOnSidebar": false
+    },
+    "content": {
+      "type": "string",
+      "default": "",
+      "label": "Content",
+      "description": "The accordion content (rich text)",
+      "group": "blockOptions",
+      "order": 7,
+      "themeable": false,
+      "outputsCSS": false,
+      "visibleOnSidebar": false
+    },
+    "currentTheme": {
+      "type": "string",
+      "default": "",
+      "label": "Theme",
+      "description": "Currently active theme name (empty = Default)",
+      "group": "blockOptions",
+      "order": 8,
+      "themeable": false,
+      "outputsCSS": false,
+      "visibleOnSidebar": false
+    },
+    "customizations": {
+      "type": "object",
+      "default": {},
+      "label": "Customizations",
+      "description": "Block-specific customizations (Tier 3 CSS)",
+      "group": "blockOptions",
+      "order": 9,
+      "themeable": false,
+      "outputsCSS": false,
+      "visibleOnSidebar": false
+    },
+    "title": {
+      "type": "string",
+      "default": "Accordion Title",
+      "label": "Title",
+      "description": "The accordion title text",
+      "group": "blockOptions",
+      "order": 10,
+      "themeable": false,
+      "outputsCSS": false,
+      "visibleOnSidebar": false
+    },
+    "uniqueId": {
+      "type": "string",
+      "default": "",
+      "label": "Unique ID",
+      "description": "Auto-generated unique block identifier",
+      "group": "blockOptions",
+      "order": 11,
+      "themeable": false,
+      "outputsCSS": false,
+      "visibleOnSidebar": false
+    },
+    "content-border-top": {
+      "type": "composite",
+      "element": "content",
+      "cssProperty": "border-top",
+      "compositeOf": [
+        "divider-border-border-width-top",
+        "divider-border-border-style-top",
+        "divider-border-border-color-top"
+      ],
+      "outputsCSS": false
+    },
+    "item-margin": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "margin",
+      "compositeOf": [
+        "block-box-margin-top",
+        "block-box-margin-right",
+        "block-box-margin-bottom",
+        "block-box-margin-left"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-width": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-width",
+      "compositeOf": [
+        "block-box-border-width-top",
+        "block-box-border-width-right",
+        "block-box-border-width-bottom",
+        "block-box-border-width-left"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-style": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-style",
+      "compositeOf": [
+        "block-box-border-style-top",
+        "block-box-border-style-right",
+        "block-box-border-style-bottom",
+        "block-box-border-style-left"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-color": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-color",
+      "compositeOf": [
+        "block-box-border-color-top",
+        "block-box-border-color-right",
+        "block-box-border-color-bottom",
+        "block-box-border-color-left"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-top": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-top",
+      "compositeOf": [
+        "block-box-border-width-top",
+        "block-box-border-style-top",
+        "block-box-border-color-top"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-right": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-right",
+      "compositeOf": [
+        "block-box-border-width-right",
+        "block-box-border-style-right",
+        "block-box-border-color-right"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-bottom": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-bottom",
+      "compositeOf": [
+        "block-box-border-width-bottom",
+        "block-box-border-style-bottom",
+        "block-box-border-color-bottom"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-left": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-left",
+      "compositeOf": [
+        "block-box-border-width-left",
+        "block-box-border-style-left",
+        "block-box-border-color-left"
+      ],
+      "outputsCSS": false
+    },
+    "item-border": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border",
+      "compositeOf": [
+        "item-border-top",
+        "item-border-right",
+        "item-border-bottom",
+        "item-border-left"
+      ],
+      "outputsCSS": false
+    },
+    "item-border-radius": {
+      "type": "composite",
+      "element": "item",
+      "cssProperty": "border-radius",
+      "compositeOf": [
+        "block-box-border-radius-top-left",
+        "block-box-border-radius-top-right",
+        "block-box-border-radius-bottom-right",
+        "block-box-border-radius-bottom-left"
+      ],
+      "outputsCSS": false
+    },
+    "title-padding": {
+      "type": "composite",
+      "element": "title",
+      "cssProperty": "padding",
+      "compositeOf": [
+        "header-box-padding-top",
+        "header-box-padding-right",
+        "header-box-padding-bottom",
+        "header-box-padding-left"
+      ],
+      "outputsCSS": false
+    },
+    "content-inner-padding": {
+      "type": "composite",
+      "element": "contentInner",
+      "cssProperty": "padding",
+      "compositeOf": [
+        "content-box-padding-top",
+        "content-box-padding-right",
+        "content-box-padding-bottom",
+        "content-box-padding-left"
+      ],
+      "outputsCSS": false
+    }
+  },
+  "groups": {
+    "borders": {
+      "title": "Borders",
+      "description": "Block borders, radius, shadows, and divider settings",
+      "order": 2,
+      "initialOpen": false,
+      "tab": "appearance",
+      "subgroups": [
+        {
+          "name": "External",
+          "order": 1
+        },
+        {
+          "name": "Divider",
+          "order": 2
+        }
+      ]
+    },
+    "layout": {
+      "title": "Layout",
+      "description": "Spacing and padding settings",
+      "order": 3,
+      "initialOpen": false,
+      "tab": "appearance",
+      "subgroups": []
+    },
+    "colors": {
+      "title": "Colors",
+      "description": "Header and panel color settings",
+      "order": 4,
+      "initialOpen": false,
+      "tab": "appearance",
+      "subgroups": [
+        {
+          "name": "Header",
+          "order": 1
+        },
+        {
+          "name": "Header - Hover",
+          "order": 2
+        },
+        {
+          "name": "Panel",
+          "order": 3
+        }
+      ]
+    },
+    "typography": {
+      "title": "Typography",
+      "description": "Font settings for header and content",
+      "order": 5,
+      "initialOpen": false,
+      "tab": "appearance",
+      "subgroups": [
+        {
+          "name": "Header",
+          "order": 1
+        },
+        {
+          "name": "Content",
+          "order": 2
+        }
+      ]
+    },
+    "icon": {
+      "title": "Icon",
+      "description": "Icon appearance and behavior",
+      "order": 6,
+      "initialOpen": false,
+      "tab": "appearance",
+      "subgroups": []
+    },
+    "animation": {
+      "title": "Animation",
+      "description": "Open/close animation settings",
+      "order": 7,
+      "initialOpen": false,
+      "tab": "appearance",
+      "subgroups": []
+    },
+    "blockOptions": {
+      "title": "Block Options",
+      "description": "Structural and layout options for the accordion block",
+      "order": 1,
+      "initialOpen": true,
+      "tab": "settings",
+      "subgroups": []
+    }
+  },
+  "structure": {
+    "elements": {
+      "item": {
+        "id": "item",
+        "selector": ".gutplus-accordion",
+        "tag": "div",
+        "classes": [
+          "gutplus-accordion"
+        ],
+        "attributes": {},
+        "children": [
+          "titleWrapper",
+          "title",
+          "icon",
+          "icon",
+          "content"
+        ],
+        "parent": null,
+        "isSlot": false
+      },
+      "titleWrapper": {
+        "id": "titleWrapper",
+        "selector": ".accordion-title-wrapper",
+        "tag": "div",
+        "classes": [
+          "accordion-title-wrapper"
+        ],
+        "attributes": {},
+        "children": [
+          "heading"
+        ],
+        "parent": "item",
+        "isSlot": false
+      },
+      "heading": {
+        "id": "heading",
+        "selector": ".accordion-heading",
+        "tag": "h{headinglevel}",
+        "classes": [
+          "accordion-heading"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "titleWrapper",
+        "isSlot": false
+      },
+      "title": {
+        "id": "title",
+        "selector": ".accordion-title",
+        "tag": "button",
+        "classes": [
+          "accordion-title"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "children": [
+          "iconSlot",
+          "titleTextWrapper",
+          "titleTextWrapper",
+          "iconSlot",
+          "titleInline"
+        ],
+        "parent": "item",
+        "isSlot": false
+      },
+      "iconSlot": {
+        "id": "iconSlot",
+        "selector": ".accordion-icon-slot",
+        "tag": "span",
+        "classes": [
+          "accordion-icon-slot"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "title",
+        "isSlot": false
+      },
+      "titleTextWrapper": {
+        "id": "titleTextWrapper",
+        "selector": ".accordion-title-text-wrapper",
+        "tag": "div",
+        "classes": [
+          "accordion-title-text-wrapper"
+        ],
+        "attributes": {},
+        "children": [
+          "titleText"
+        ],
+        "parent": "title",
+        "isSlot": false
+      },
+      "titleText": {
+        "id": "titleText",
+        "selector": ".accordion-title-text",
+        "tag": "span",
+        "classes": [
+          "accordion-title-text"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "titleInline",
+        "isSlot": false
+      },
+      "titleInline": {
+        "id": "titleInline",
+        "selector": ".accordion-title-inline",
+        "tag": "div",
+        "classes": [
+          "accordion-title-inline"
+        ],
+        "attributes": {},
+        "children": [
+          "titleText"
+        ],
+        "parent": "title",
+        "isSlot": false
+      },
+      "icon": {
+        "id": "icon",
+        "selector": ".accordion-icon",
+        "tag": "span",
+        "classes": [
+          "accordion-icon",
+          "accordion-icon-char"
+        ],
+        "attributes": {},
+        "children": [],
+        "parent": "item",
+        "isSlot": false
+      },
+      "content": {
+        "id": "content",
+        "selector": ".accordion-content",
+        "tag": "div",
+        "classes": [
+          "accordion-content"
+        ],
+        "attributes": {},
+        "children": [
+          "contentInner"
+        ],
+        "parent": "item",
+        "isSlot": false
+      },
+      "contentInner": {
+        "id": "contentInner",
+        "selector": ".accordion-content-inner",
+        "tag": "div",
+        "classes": [
+          "accordion-content-inner"
+        ],
+        "attributes": {},
+        "children": [
+          "contentSlot"
+        ],
+        "parent": "content",
+        "isSlot": false
+      },
+      "contentSlot": {
+        "id": "contentSlot",
+        "selector": null,
+        "tag": "slot",
+        "classes": [],
+        "attributes": {},
+        "children": [],
+        "parent": "contentInner",
+        "isSlot": true
+      }
+    },
+    "variations": {
+      "headingLevel !== 'none'": {
+        "condition": "headingLevel !== 'none'",
+        "trueStructure": "\n          <h{headinglevel} class=\"accordion-heading\" data-el=\"heading\">\n            <template data-slot=\"titleButton\"></template>\n          </h{headinglevel}>\n        ",
+        "falseStructure": null
+      },
+      "iconPosition": {
+        "type": "switch",
+        "expression": "iconPosition",
+        "cases": {
+          "box-left": {
+            "value": "box-left",
+            "content": "\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n            ",
+            "isDefault": false
+          },
+          "box-right": {
+            "value": "box-right",
+            "content": "\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n            ",
+            "isDefault": false
+          },
+          "default": {
+            "value": "default",
+            "content": "\n              <div class=\"accordion-title-inline\" data-el=\"titleInline\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n                <template data-slot=\"iconMarkup\"></template>\n              </div>\n            ",
+            "isDefault": true
+          }
+        }
+      },
+      "iconInactiveSource.kind === 'image'": {
+        "condition": "iconInactiveSource.kind === 'image'",
+        "trueStructure": "\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        ",
+        "falseStructure": null
+      }
+    },
+    "slots": {
+      "titleButton": {
+        "name": "titleButton",
+        "content": "\n        <button class=\"accordion-title\" data-el=\"title\" type=\"button\">\n          <template data-switch=\"iconPosition\">\n            <template data-case=\"box-left\">\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n            </template>\n            <template data-case=\"box-right\">\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n            </template>\n            <template data-default=\"\">\n              <div class=\"accordion-title-inline\" data-el=\"titleInline\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n                <template data-slot=\"iconMarkup\"></template>\n              </div>\n            </template>\n          </template>\n        </button>\n      ",
+        "node": {}
+      },
+      "iconMarkup": {
+        "name": "iconMarkup",
+        "content": "\n        <template data-when=\"iconInactiveSource.kind === 'image'\">\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        </template>\n        <template data-else=\"\">\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        </template>\n      ",
+        "node": {}
+      }
+    },
+    "conditions": [
+      {
+        "type": "conditional",
+        "expression": "headingLevel !== 'none'",
+        "isElse": false,
+        "trueContent": "\n          <h{headinglevel} class=\"accordion-heading\" data-el=\"heading\">\n            <template data-slot=\"titleButton\"></template>\n          </h{headinglevel}>\n        ",
+        "falseContent": "\n          <template data-slot=\"titleButton\"></template>\n        ",
+        "node": {}
+      },
+      {
+        "type": "conditional",
+        "expression": "iconInactiveSource.kind === 'image'",
+        "isElse": false,
+        "trueContent": "\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        ",
+        "falseContent": "\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        ",
+        "node": {}
+      },
+      {
+        "type": "conditional",
+        "expression": "iconInactiveSource.kind === 'image'",
+        "isElse": false,
+        "trueContent": "\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        ",
+        "falseContent": "\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        ",
+        "node": {}
+      }
+    ],
+    "placeholders": [
+      "headingLevel"
+    ],
+    "template": "<!-- Template: Accordion Structure -->\n    <div class=\"gutplus-accordion\" data-el=\"item\">\n      <div class=\"accordion-title-wrapper\" data-el=\"titleWrapper\">\n        <template data-when=\"headingLevel !== 'none'\">\n          <h{headingLevel} class=\"accordion-heading\" data-el=\"heading\">\n            <template data-slot=\"titleButton\"></template>\n          </h{headingLevel}>\n        </template>\n        <template data-else>\n          <template data-slot=\"titleButton\"></template>\n        </template>\n      </div>\n\n      <template data-slot=\"titleButton\">\n        <button class=\"accordion-title\" data-el=\"title\" type=\"button\">\n          <template data-switch=\"iconPosition\">\n            <template data-case=\"box-left\">\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n            </template>\n            <template data-case=\"box-right\">\n              <div class=\"accordion-title-text-wrapper\" data-el=\"titleTextWrapper\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n              </div>\n              <span class=\"accordion-icon-slot\" data-el=\"iconSlot\">\n                <template data-slot=\"iconMarkup\"></template>\n              </span>\n            </template>\n            <template data-default>\n              <div class=\"accordion-title-inline\" data-el=\"titleInline\">\n                <span class=\"accordion-title-text\" data-el=\"titleText\"></span>\n                <template data-slot=\"iconMarkup\"></template>\n              </div>\n            </template>\n          </template>\n        </button>\n      </template>\n\n      <template data-slot=\"iconMarkup\">\n        <template data-when=\"iconInactiveSource.kind === 'image'\">\n          <img class=\"accordion-icon accordion-icon-image\" data-el=\"icon\" alt=\"\">\n        </template>\n        <template data-else>\n          <span class=\"accordion-icon accordion-icon-char\" data-el=\"icon\"></span>\n        </template>\n      </template>\n\n      <div class=\"accordion-content\" data-el=\"content\">\n        <div class=\"accordion-content-inner\" data-el=\"contentInner\">\n          <slot data-el=\"contentSlot\"></slot>\n        </div>\n      </div>\n    </div>\n<!-- End Template: Accordion Structure -->\n  <section id=\"instructions\">\n    <h2>Instructions</h2>\n    <pre>\nTemplate syntax:\n- data-el defines the element id used by the generator.\n- class defines the selector (first class is the selector).\n- Use <template data-slot=\"name\"> to define reusable fragments and\n  <template data-slot=\"name\"></template> where you want to inject them.\n- Use <template data-when=\"expression\"> for conditional branches and\n  <template data-else> for fallback.\n- Use <template data-switch=\"expr\"> with child <template data-case=\"value\">\n  and <template data-default> for variations.\n- Curly-brace placeholders (e.g., {headingLevel}) are string substitutions.\n- <slot> is a leaf placeholder for InnerBlocks or dynamic content.\n    </pre>\n  </section>\n"
+  },
+  "defaultValues": {
+    "divider-border-border-width-top": "0px",
+    "divider-border-border-color-top": "#dddddd",
+    "divider-border-border-style-top": "solid",
+    "block-box-border-width-top": "1px",
+    "block-box-border-color-top": "#dddddd",
+    "block-box-border-style-top": "solid",
+    "block-box-border-width-right": "1px",
+    "block-box-border-color-right": "#dddddd",
+    "block-box-border-style-right": "solid",
+    "block-box-border-width-bottom": "1px",
+    "block-box-border-color-bottom": "#dddddd",
+    "block-box-border-style-bottom": "solid",
+    "block-box-border-width-left": "1px",
+    "block-box-border-color-left": "#dddddd",
+    "block-box-border-style-left": "solid",
+    "block-box-margin-top": "1em",
+    "block-box-margin-right": "0em",
+    "block-box-margin-bottom": "1em",
+    "block-box-margin-left": "0em",
+    "block-box-border-radius-top-left": "4px",
+    "block-box-border-radius-top-right": "4px",
+    "block-box-border-radius-bottom-right": "4px",
+    "block-box-border-radius-bottom-left": "4px",
+    "block-box-shadow": [
+      {
+        "x": {
+          "value": 0,
+          "unit": "px"
+        },
+        "y": {
+          "value": 8,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 24,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "px"
+        },
+        "color": "rgba(0,0,0,0.15)",
+        "inset": false
+      }
+    ],
+    "header-box-padding-top": "12px",
+    "header-box-padding-right": "16px",
+    "header-box-padding-bottom": "12px",
+    "header-box-padding-left": "16px",
+    "content-box-padding-top": "16px",
+    "content-box-padding-right": "16px",
+    "content-box-padding-bottom": "16px",
+    "content-box-padding-left": "16px",
+    "title-color-text": "#333333",
+    "title-color-background": "#f5f5f5",
+    "title-color-text-hover": "#000000",
+    "title-color-background-hover": "#e8e8e8",
+    "content-color-text": "#333333",
+    "content-color-background": "#ffffff",
+    "content-typography-font-family": "inherit",
+    "content-typography-font-size": "16px",
+    "content-typography-line-height": "1.5",
+    "content-typography-font-weight": "400",
+    "content-typography-letter-spacing": "normal",
+    "content-typography-text-transform": "none",
+    "content-typography-text-decoration": "none",
+    "title-typography-font-family": "inherit",
+    "title-typography-font-size": "18px",
+    "title-typography-formatting": [],
+    "title-typography-no-line-break": "normal",
+    "title-typography-font-weight": "600",
+    "title-typography-decoration-color": "currentColor",
+    "title-typography-decoration-style": "solid",
+    "title-typography-decoration-width": "auto",
+    "title-typography-letter-spacing": "normal",
+    "title-typography-text-transform": "none",
+    "title-typography-text-decoration": "none",
+    "title-typography-line-height": "1.4",
+    "title-typography-offset-x": "0px",
+    "title-typography-offset-y": "0px",
+    "titleAlignment": "left",
+    "title-icon-show": true,
+    "title-icon-use-different-icons": false,
+    "title-icon-position": "right",
+    "title-icon-animation-rotation": "180deg",
+    "title-icon-source": {
+      "kind": "char",
+      "value": "▾"
+    },
+    "title-icon-color": "#333333",
+    "title-icon-initial-rotation": "0deg",
+    "title-icon-size": "16px",
+    "title-icon-max-size": "24px",
+    "title-icon-offset-x": "0px",
+    "title-icon-offset-y": "0px",
+    "title-icon-source-is-open": {
+      "kind": "char",
+      "value": "▾"
+    },
+    "title-icon-color-is-open": "#333333",
+    "title-icon-initial-rotation-is-open": "0deg",
+    "title-icon-size-is-open": "16px",
+    "title-icon-max-size-is-open": "24px",
+    "title-icon-offset-x-is-open": "0px",
+    "title-icon-offset-y-is-open": "0px",
+    "animationType": "slide",
+    "animationDuration": "250ms",
+    "accordionWidth": "100%",
+    "headingLevel": "none",
+    "accordionHorizontalAlign": "center",
+    "initiallyOpen": false,
+    "accordionId": "",
+    "blockId": "",
+    "content": "",
+    "currentTheme": "",
+    "customizations": {},
+    "title": "Accordion Title",
+    "uniqueId": ""
+  },
+  "cssVarMap": {
+    "--accordion-content-border-top-width": {
+      "attribute": "divider-border-border-width-top",
+      "element": "content",
+      "selector": ".accordion-content",
+      "cssProperty": "border-top-width",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-border-top-color": {
+      "attribute": "divider-border-border-color-top",
+      "element": "content",
+      "selector": ".accordion-content",
+      "cssProperty": "border-top-color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-border-top-style": {
+      "attribute": "divider-border-border-style-top",
+      "element": "content",
+      "selector": ".accordion-content",
+      "cssProperty": "border-top-style",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-top-width": {
+      "attribute": "block-box-border-width-top",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-top-width",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-top-color": {
+      "attribute": "block-box-border-color-top",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-top-color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-top-style": {
+      "attribute": "block-box-border-style-top",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-top-style",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-right-width": {
+      "attribute": "block-box-border-width-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-right-width",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-right-color": {
+      "attribute": "block-box-border-color-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-right-color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-right-style": {
+      "attribute": "block-box-border-style-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-right-style",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-bottom-width": {
+      "attribute": "block-box-border-width-bottom",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-bottom-width",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-bottom-color": {
+      "attribute": "block-box-border-color-bottom",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-bottom-color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-bottom-style": {
+      "attribute": "block-box-border-style-bottom",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-bottom-style",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-left-width": {
+      "attribute": "block-box-border-width-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-left-width",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-left-color": {
+      "attribute": "block-box-border-color-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-left-color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-left-style": {
+      "attribute": "block-box-border-style-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-left-style",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-margin-top": {
+      "attribute": "block-box-margin-top",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-top",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-top-tablet": {
+      "attribute": "block-box-margin-top",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-top",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-top-mobile": {
+      "attribute": "block-box-margin-top",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-top",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-right": {
+      "attribute": "block-box-margin-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-right",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-right-tablet": {
+      "attribute": "block-box-margin-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-right",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-right-mobile": {
+      "attribute": "block-box-margin-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-right",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-bottom": {
+      "attribute": "block-box-margin-bottom",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-bottom",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-bottom-tablet": {
+      "attribute": "block-box-margin-bottom",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-bottom",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-bottom-mobile": {
+      "attribute": "block-box-margin-bottom",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-bottom",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-left": {
+      "attribute": "block-box-margin-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-left",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-left-tablet": {
+      "attribute": "block-box-margin-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-left",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-margin-left-mobile": {
+      "attribute": "block-box-margin-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "margin-left",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-item-border-top-left-radius": {
+      "attribute": "block-box-border-radius-top-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-top-left-radius",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-top-right-radius": {
+      "attribute": "block-box-border-radius-top-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-top-right-radius",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-bottom-right-radius": {
+      "attribute": "block-box-border-radius-bottom-right",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-bottom-right-radius",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-border-bottom-left-radius": {
+      "attribute": "block-box-border-radius-bottom-left",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "border-bottom-left-radius",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-item-box-shadow": {
+      "attribute": "block-box-shadow",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "box-shadow",
+      "state": "base",
+      "responsive": false,
+      "type": "array"
+    },
+    "--accordion-title-padding-top": {
+      "attribute": "header-box-padding-top",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-top",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-top-tablet": {
+      "attribute": "header-box-padding-top",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-top",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-top-mobile": {
+      "attribute": "header-box-padding-top",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-top",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-right": {
+      "attribute": "header-box-padding-right",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-right",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-right-tablet": {
+      "attribute": "header-box-padding-right",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-right",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-right-mobile": {
+      "attribute": "header-box-padding-right",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-right",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-bottom": {
+      "attribute": "header-box-padding-bottom",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-bottom",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-bottom-tablet": {
+      "attribute": "header-box-padding-bottom",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-bottom",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-bottom-mobile": {
+      "attribute": "header-box-padding-bottom",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-bottom",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-left": {
+      "attribute": "header-box-padding-left",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-left",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-left-tablet": {
+      "attribute": "header-box-padding-left",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-left",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-padding-left-mobile": {
+      "attribute": "header-box-padding-left",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "padding-left",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-top": {
+      "attribute": "content-box-padding-top",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-top",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-top-tablet": {
+      "attribute": "content-box-padding-top",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-top",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-top-mobile": {
+      "attribute": "content-box-padding-top",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-top",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-right": {
+      "attribute": "content-box-padding-right",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-right",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-right-tablet": {
+      "attribute": "content-box-padding-right",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-right",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-right-mobile": {
+      "attribute": "content-box-padding-right",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-right",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-bottom": {
+      "attribute": "content-box-padding-bottom",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-bottom",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-bottom-tablet": {
+      "attribute": "content-box-padding-bottom",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-bottom",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-bottom-mobile": {
+      "attribute": "content-box-padding-bottom",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-bottom",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-left": {
+      "attribute": "content-box-padding-left",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-left",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-left-tablet": {
+      "attribute": "content-box-padding-left",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-left",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-contentInner-padding-left-mobile": {
+      "attribute": "content-box-padding-left",
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "cssProperty": "padding-left",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-color": {
+      "attribute": "title-color-text",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-background": {
+      "attribute": "title-color-background",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "background",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-color-hover": {
+      "attribute": "title-color-text-hover",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "color",
+      "state": "hover",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-background-hover": {
+      "attribute": "title-color-background-hover",
+      "element": "title",
+      "selector": ".accordion-title",
+      "cssProperty": "background",
+      "state": "hover",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-color": {
+      "attribute": "content-color-text",
+      "element": "content",
+      "selector": ".accordion-content",
+      "cssProperty": "color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-background": {
+      "attribute": "content-color-background",
+      "element": "content",
+      "selector": ".accordion-content",
+      "cssProperty": "background",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-font-family": {
+      "attribute": "content-typography-font-family",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-family",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-font-size": {
+      "attribute": "content-typography-font-size",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-size",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-content-font-size-tablet": {
+      "attribute": "content-typography-font-size",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-size",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-content-font-size-mobile": {
+      "attribute": "content-typography-font-size",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-size",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-content-line-height": {
+      "attribute": "content-typography-line-height",
+      "element": null,
+      "selector": null,
+      "cssProperty": "line-height",
+      "state": "base",
+      "responsive": false,
+      "type": "number"
+    },
+    "--accordion-content-font-weight": {
+      "attribute": "content-typography-font-weight",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-weight",
+      "state": "base",
+      "responsive": false,
+      "type": "number"
+    },
+    "--accordion-content-letter-spacing": {
+      "attribute": "content-typography-letter-spacing",
+      "element": null,
+      "selector": null,
+      "cssProperty": "letter-spacing",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-text-transform": {
+      "attribute": "content-typography-text-transform",
+      "element": null,
+      "selector": null,
+      "cssProperty": "text-transform",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-content-text-decoration-line": {
+      "attribute": "content-typography-text-decoration",
+      "element": null,
+      "selector": null,
+      "cssProperty": "text-decoration-line",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-font-family": {
+      "attribute": "title-typography-font-family",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-family",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-font-size": {
+      "attribute": "title-typography-font-size",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-size",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-font-size-tablet": {
+      "attribute": "title-typography-font-size",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-size",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-font-size-mobile": {
+      "attribute": "title-typography-font-size",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-size",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-white-space": {
+      "attribute": "title-typography-no-line-break",
+      "element": null,
+      "selector": null,
+      "cssProperty": "white-space",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-font-weight": {
+      "attribute": "title-typography-font-weight",
+      "element": null,
+      "selector": null,
+      "cssProperty": "font-weight",
+      "state": "base",
+      "responsive": false,
+      "type": "number"
+    },
+    "--accordion-title-decoration-color": {
+      "attribute": "title-typography-decoration-color",
+      "element": null,
+      "selector": null,
+      "cssProperty": "text-decoration-color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-decoration-style": {
+      "attribute": "title-typography-decoration-style",
+      "element": null,
+      "selector": null,
+      "cssProperty": "text-decoration-style",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-decoration-width": {
+      "attribute": "title-typography-decoration-width",
+      "element": null,
+      "selector": null,
+      "cssProperty": "text-decoration-thickness",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-letter-spacing": {
+      "attribute": "title-typography-letter-spacing",
+      "element": null,
+      "selector": null,
+      "cssProperty": "letter-spacing",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-text-transform": {
+      "attribute": "title-typography-text-transform",
+      "element": null,
+      "selector": null,
+      "cssProperty": "text-transform",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-text-decoration-line": {
+      "attribute": "title-typography-text-decoration",
+      "element": null,
+      "selector": null,
+      "cssProperty": "text-decoration-line",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-title-line-height": {
+      "attribute": "title-typography-line-height",
+      "element": null,
+      "selector": null,
+      "cssProperty": "line-height",
+      "state": "base",
+      "responsive": false,
+      "type": "number"
+    },
+    "--accordion-title-offset-x": {
+      "attribute": "title-typography-offset-x",
+      "element": null,
+      "selector": null,
+      "cssProperty": "left",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-offset-x-tablet": {
+      "attribute": "title-typography-offset-x",
+      "element": null,
+      "selector": null,
+      "cssProperty": "left",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-offset-x-mobile": {
+      "attribute": "title-typography-offset-x",
+      "element": null,
+      "selector": null,
+      "cssProperty": "left",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-offset-y": {
+      "attribute": "title-typography-offset-y",
+      "element": null,
+      "selector": null,
+      "cssProperty": "top",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-offset-y-tablet": {
+      "attribute": "title-typography-offset-y",
+      "element": null,
+      "selector": null,
+      "cssProperty": "top",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-offset-y-mobile": {
+      "attribute": "title-typography-offset-y",
+      "element": null,
+      "selector": null,
+      "cssProperty": "top",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-title-alignment": {
+      "attribute": "titleAlignment",
+      "element": "titleText",
+      "selector": ".accordion-title-text",
+      "cssProperty": "text-align",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-icon-display": {
+      "attribute": "title-icon-show",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "display",
+      "state": "base",
+      "responsive": false,
+      "type": "boolean"
+    },
+    "--accordion-icon-animation-rotation": {
+      "attribute": "title-icon-animation-rotation",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-icon-color": {
+      "attribute": "title-icon-color",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "color",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-icon-initial-rotation": {
+      "attribute": "title-icon-initial-rotation",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-icon-size": {
+      "attribute": "title-icon-size",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "font-size",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-size-tablet": {
+      "attribute": "title-icon-size",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "font-size",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-size-mobile": {
+      "attribute": "title-icon-size",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "font-size",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-max-size": {
+      "attribute": "title-icon-max-size",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "max-width",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-max-size-tablet": {
+      "attribute": "title-icon-max-size",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "max-width",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-max-size-mobile": {
+      "attribute": "title-icon-max-size",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "max-width",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-x": {
+      "attribute": "title-icon-offset-x",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-x-tablet": {
+      "attribute": "title-icon-offset-x",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-x-mobile": {
+      "attribute": "title-icon-offset-x",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-y": {
+      "attribute": "title-icon-offset-y",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-y-tablet": {
+      "attribute": "title-icon-offset-y",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-y-mobile": {
+      "attribute": "title-icon-offset-y",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-color-is-open": {
+      "attribute": "title-icon-color-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "color",
+      "state": "is-open",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-icon-initial-rotation-is-open": {
+      "attribute": "title-icon-initial-rotation-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "is-open",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-icon-size-is-open": {
+      "attribute": "title-icon-size-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "font-size",
+      "state": "is-open",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-size-is-open-tablet": {
+      "attribute": "title-icon-size-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "font-size",
+      "state": "is-open",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-size-is-open-mobile": {
+      "attribute": "title-icon-size-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "font-size",
+      "state": "is-open",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-max-size-is-open": {
+      "attribute": "title-icon-max-size-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "max-width",
+      "state": "is-open",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-max-size-is-open-tablet": {
+      "attribute": "title-icon-max-size-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "max-width",
+      "state": "is-open",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-max-size-is-open-mobile": {
+      "attribute": "title-icon-max-size-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": "max-width",
+      "state": "is-open",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-x-is-open": {
+      "attribute": "title-icon-offset-x-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "is-open",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-x-is-open-tablet": {
+      "attribute": "title-icon-offset-x-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "is-open",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-x-is-open-mobile": {
+      "attribute": "title-icon-offset-x-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "is-open",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-y-is-open": {
+      "attribute": "title-icon-offset-y-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "is-open",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-y-is-open-tablet": {
+      "attribute": "title-icon-offset-y-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "is-open",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-icon-offset-y-is-open-mobile": {
+      "attribute": "title-icon-offset-y-is-open",
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "cssProperty": null,
+      "state": "is-open",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-animation-duration": {
+      "attribute": "animationDuration",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "transition-duration",
+      "state": "base",
+      "responsive": false,
+      "type": "string"
+    },
+    "--accordion-width": {
+      "attribute": "accordionWidth",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "width",
+      "state": "base",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-width-tablet": {
+      "attribute": "accordionWidth",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "width",
+      "state": "base",
+      "device": "tablet",
+      "responsive": true,
+      "type": "string"
+    },
+    "--accordion-width-mobile": {
+      "attribute": "accordionWidth",
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "cssProperty": "width",
+      "state": "base",
+      "device": "mobile",
+      "responsive": true,
+      "type": "string"
+    }
+  },
+  "selectorVarMap": {
+    ".accordion-content": [
+      "--accordion-content-border-top-width",
+      "--accordion-content-border-top-color",
+      "--accordion-content-border-top-style",
+      "--accordion-content-color",
+      "--accordion-content-background"
+    ],
+    ".gutplus-accordion": [
+      "--accordion-item-border-top-width",
+      "--accordion-item-border-top-color",
+      "--accordion-item-border-top-style",
+      "--accordion-item-border-right-width",
+      "--accordion-item-border-right-color",
+      "--accordion-item-border-right-style",
+      "--accordion-item-border-bottom-width",
+      "--accordion-item-border-bottom-color",
+      "--accordion-item-border-bottom-style",
+      "--accordion-item-border-left-width",
+      "--accordion-item-border-left-color",
+      "--accordion-item-border-left-style",
+      "--accordion-item-margin-top",
+      "--accordion-item-margin-right",
+      "--accordion-item-margin-bottom",
+      "--accordion-item-margin-left",
+      "--accordion-item-border-top-left-radius",
+      "--accordion-item-border-top-right-radius",
+      "--accordion-item-border-bottom-right-radius",
+      "--accordion-item-border-bottom-left-radius",
+      "--accordion-item-box-shadow",
+      "--accordion-animation-duration",
+      "--accordion-width"
+    ],
+    ".accordion-title": [
+      "--accordion-title-padding-top",
+      "--accordion-title-padding-right",
+      "--accordion-title-padding-bottom",
+      "--accordion-title-padding-left",
+      "--accordion-title-color",
+      "--accordion-title-background",
+      "--accordion-title-color-hover",
+      "--accordion-title-background-hover"
+    ],
+    ".accordion-content-inner": [
+      "--accordion-contentInner-padding-top",
+      "--accordion-contentInner-padding-right",
+      "--accordion-contentInner-padding-bottom",
+      "--accordion-contentInner-padding-left"
+    ],
+    ".accordion-title-text": [
+      "--accordion-title-alignment"
+    ],
+    ".accordion-icon": [
+      "--accordion-icon-display",
+      "--accordion-icon-animation-rotation",
+      "--accordion-icon-color",
+      "--accordion-icon-initial-rotation",
+      "--accordion-icon-size",
+      "--accordion-icon-max-size",
+      "--accordion-icon-offset-x",
+      "--accordion-icon-offset-y",
+      "--accordion-icon-color-is-open",
+      "--accordion-icon-initial-rotation-is-open",
+      "--accordion-icon-size-is-open",
+      "--accordion-icon-max-size-is-open",
+      "--accordion-icon-offset-x-is-open",
+      "--accordion-icon-offset-y-is-open"
+    ]
+  },
+  "responsiveSelectors": [
+    {
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "state": "base",
+      "device": "tablet",
+      "cssVars": [
+        "--accordion-item-margin-top-tablet",
+        "--accordion-item-margin-right-tablet",
+        "--accordion-item-margin-bottom-tablet",
+        "--accordion-item-margin-left-tablet",
+        "--accordion-width-tablet"
+      ]
+    },
+    {
+      "element": "item",
+      "selector": ".gutplus-accordion",
+      "state": "base",
+      "device": "mobile",
+      "cssVars": [
+        "--accordion-item-margin-top-mobile",
+        "--accordion-item-margin-right-mobile",
+        "--accordion-item-margin-bottom-mobile",
+        "--accordion-item-margin-left-mobile",
+        "--accordion-width-mobile"
+      ]
+    },
+    {
+      "element": "title",
+      "selector": ".accordion-title",
+      "state": "base",
+      "device": "tablet",
+      "cssVars": [
+        "--accordion-title-padding-top-tablet",
+        "--accordion-title-padding-right-tablet",
+        "--accordion-title-padding-bottom-tablet",
+        "--accordion-title-padding-left-tablet"
+      ]
+    },
+    {
+      "element": "title",
+      "selector": ".accordion-title",
+      "state": "base",
+      "device": "mobile",
+      "cssVars": [
+        "--accordion-title-padding-top-mobile",
+        "--accordion-title-padding-right-mobile",
+        "--accordion-title-padding-bottom-mobile",
+        "--accordion-title-padding-left-mobile"
+      ]
+    },
+    {
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "state": "base",
+      "device": "tablet",
+      "cssVars": [
+        "--accordion-contentInner-padding-top-tablet",
+        "--accordion-contentInner-padding-right-tablet",
+        "--accordion-contentInner-padding-bottom-tablet",
+        "--accordion-contentInner-padding-left-tablet"
+      ]
+    },
+    {
+      "element": "contentInner",
+      "selector": ".accordion-content-inner",
+      "state": "base",
+      "device": "mobile",
+      "cssVars": [
+        "--accordion-contentInner-padding-top-mobile",
+        "--accordion-contentInner-padding-right-mobile",
+        "--accordion-contentInner-padding-bottom-mobile",
+        "--accordion-contentInner-padding-left-mobile"
+      ]
+    },
+    {
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "state": "base",
+      "device": "tablet",
+      "cssVars": [
+        "undefined-tablet",
+        "--accordion-icon-size-tablet",
+        "--accordion-icon-max-size-tablet"
+      ]
+    },
+    {
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "state": "base",
+      "device": "mobile",
+      "cssVars": [
+        "undefined-mobile",
+        "--accordion-icon-size-mobile",
+        "--accordion-icon-max-size-mobile"
+      ]
+    },
+    {
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "state": "is-open",
+      "device": "tablet",
+      "cssVars": [
+        "undefined-tablet",
+        "--accordion-icon-size-is-open-tablet",
+        "--accordion-icon-max-size-is-open-tablet"
+      ]
+    },
+    {
+      "element": "icon",
+      "selector": ".accordion-icon",
+      "state": "is-open",
+      "device": "mobile",
+      "cssVars": [
+        "undefined-mobile",
+        "--accordion-icon-size-is-open-mobile",
+        "--accordion-icon-max-size-is-open-mobile"
+      ]
+    }
+  ],
+  "_meta": {
+    "generated": "2026-01-18T17:06:14.324Z",
+    "generator": "comprehensive-expander.js",
+    "version": "2.0.0",
+    "totalAttributes": 106,
+    "totalDefaults": 91,
+    "totalCssVars": 125,
+    "totalSelectors": 6,
+    "totalResponsiveSelectors": 10
+  }
+}

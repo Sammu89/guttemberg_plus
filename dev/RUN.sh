@@ -54,20 +54,26 @@ REMOTE=${REMOTE:-origin}
 # ========================================
 while true; do
   clear
-  echo "========================================"
-  echo "     Developer Tools Menu"
+  echo "********************************************"
+  echo "*                                          *"
+  echo "*         Developer Tools Menu             *"
+  echo "*                                          *"
+  echo "********************************************"
   show_repo_info
-  echo "========================================"
+  echo "********************************************"
+  echo "*                                          *"
+  echo "*  [1] Claude Code (dangerously)           *"
+  echo "*  [2] Codex (--yolo)                      *"
+  echo "*  [3] Gemini CLI (--yolo)                 *"
+  echo "*  [4] Git: Update LOCAL from SERVER       *"
+  echo "*  [5] Git: Update SERVER from LOCAL       *"
+  echo "*  [6] Run npm run build (from script dir) *"
+  echo "*  [7] Change git root target              *"
+  echo "*  [0] Exit                                *"
+  echo "*                                          *"
+  echo "********************************************"
   echo
-  echo "[1] Claude Code (dangerously skip permissions)"
-  echo "[2] Codex --yolo"
-  echo "[3] Git: Update LOCAL from SERVER"
-  echo "[4] Git: Update SERVER from LOCAL"
-  echo "[5] Run npm run build (from script dir)"
-  echo "[6] Change git root target"
-  echo "[0] Exit"
-  echo
-  read -rp "Select an option (0-6): " CHOICE
+  read -rp "Select an option (0-7): " CHOICE
 
   case "$CHOICE" in
     1)
@@ -99,7 +105,20 @@ while true; do
 
     3)
       # ========================================
-      # Option 3: Git Pull (Force Local to Match Remote)
+      # Option 3: Gemini CLI
+      # ========================================
+      echo
+      echo "========================================"
+      echo " Starting Gemini CLI --yolo..."
+      echo "========================================"
+      echo
+      gemini --yolo
+      pause
+      ;;
+
+    4)
+      # ========================================
+      # Option 4: Git Pull (Force Local to Match Remote)
       # ========================================
       echo
       echo "========================================"
@@ -140,9 +159,9 @@ while true; do
       pause
       ;;
 
-    4)
+    5)
       # ========================================
-      # Option 4: Git Push (Update Remote from Local)
+      # Option 5: Git Push (Update Remote from Local)
       # ========================================
       echo
       echo "========================================"
@@ -207,9 +226,9 @@ while true; do
       pause
       ;;
 
-    5)
+    6)
       # ========================================
-      # Option 5: NPM Build
+      # Option 6: NPM Build
       # ========================================
       echo
       echo "========================================"
@@ -235,7 +254,7 @@ while true; do
       pause
       ;;
 
-    6)
+    7)
       change_repo_dir
       pause
       ;;
@@ -243,7 +262,7 @@ while true; do
     0)
       # ========================================
       # Exit
-      # ========================================
+      ========================================
       echo
       echo "Goodbye!"
       exit 0

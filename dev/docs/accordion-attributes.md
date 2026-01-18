@@ -2,7 +2,7 @@
 
 > **AUTO-GENERATED FILE - DO NOT EDIT MANUALLY**
 > Generated from: `schemas/accordion.json`
-> Generated at: 2026-01-12T23:37:48.459Z
+> Generated at: 2026-01-18T11:42:00.931Z
 >
 > This file is regenerated on every build. Any manual changes will be lost.
 > To modify this file, update the source schema and run: `npm run schema:build`
@@ -22,8 +22,8 @@ Block borders, radius, shadows, and divider settings
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `dividerBorder` | border-panel | _object_ | No (N/A) |  |
-| `blockBox` | box-panel | _object_ | No (N/A) |  |
+| `dividerBorder` | border-panel | _object_ | Yes |  |
+| `blockBox` | box-panel | _object_ | Yes |  |
 
 ## Layout
 
@@ -31,8 +31,8 @@ Spacing and padding settings
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `headerBox` | box-panel | _object_ | No (N/A) |  |
-| `contentBox` | box-panel | _object_ | No (N/A) |  |
+| `headerBox` | box-panel | _object_ | Yes |  |
+| `contentBox` | box-panel | _object_ | Yes |  |
 
 ## Colors
 
@@ -49,8 +49,22 @@ Font settings for header and content
 
 | Attribute | Type | Default | Themeable | Description |
 |-----------|------|---------|-----------|-------------|
-| `contentTypography` | typography-panel | `undefined` | No (N/A) |  |
-| `titleTypography` | typography-panel | `undefined` | No (N/A) |  |
+| `contentTypography` | typography-panel | _object_ | No (N/A) |  |
+| `titleFontFamily` | string | `inherit` | Yes |  |
+| `titleFontSize` | string | `18px` | Yes |  |
+| `titleFormatting` | array | _object_ | Yes |  |
+| `titleNoLineBreak` | string | `normal` | Yes |  |
+| `titleFontWeight` | string | `600` | Yes |  |
+| `titleDecorationColor` | string | `currentColor` | Yes |  |
+| `titleDecorationStyle` | string | `solid` | Yes |  |
+| `titleDecorationWidth` | string | `auto` | Yes |  |
+| `titleLetterSpacing` | string | `normal` | Yes |  |
+| `titleTextTransform` | string | `none` | Yes |  |
+| `titleTextDecoration` | string | `none` | Yes |  |
+| `titleLineHeight` | string | `1.4` | Yes |  |
+| `titleOffsetX` | string | `0px` | Yes |  |
+| `titleOffsetY` | string | `0px` | Yes |  |
+| `titleAlignment` | string | `left` | Yes | Horizontal alignment of the title text |
 
 ## Icon
 
@@ -110,6 +124,24 @@ The following CSS custom properties are available for theming:
 
 | Attribute | CSS Variable |
 |-----------|-------------|
+| `dividerBorder` | `--accordion-content` |
+| `blockBox` | `--accordion-item` |
+| `headerBox` | `--accordion-title` |
+| `contentBox` | `--accordion-contentInner` |
+| `titleFontFamily` | `--accordion-title-font-family` |
+| `titleFontSize` | `--accordion-title-font-size` |
+| `titleNoLineBreak` | `--accordion-title-white-space` |
+| `titleFontWeight` | `--accordion-title-font-weight` |
+| `titleDecorationColor` | `--accordion-title-decoration-color` |
+| `titleDecorationStyle` | `--accordion-title-decoration-style` |
+| `titleDecorationWidth` | `--accordion-title-decoration-width` |
+| `titleLetterSpacing` | `--accordion-title-letter-spacing` |
+| `titleTextTransform` | `--accordion-title-text-transform` |
+| `titleTextDecoration` | `--accordion-title-text-decoration-line` |
+| `titleLineHeight` | `--accordion-title-line-height` |
+| `titleOffsetX` | `--accordion-title-offset-x` |
+| `titleOffsetY` | `--accordion-title-offset-y` |
+| `titleAlignment` | `--accordion-title-alignment` |
 | `showIcon` | `--accordion-icon-display` |
 | `iconRotation` | `--accordion-icon-animation-rotation` |
 | `iconInactiveColor` | `--accordion-icon-color` |

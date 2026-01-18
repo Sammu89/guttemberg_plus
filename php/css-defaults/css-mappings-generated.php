@@ -3,7 +3,7 @@
  * Auto-generated CSS Variable Mappings
  *
  * This mapping array is auto-generated from schema files.
- * Generated at: 2026-01-07T22:55:13.433Z
+ * Generated at: 2026-01-18T11:42:01.002Z
  *
  * This file is used by theme-css-generator.php for:
  * - Mapping attribute names to CSS variable names
@@ -23,6 +23,24 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 $mappings = array(
     'accordion' => array(
+      'dividerBorder' => array( 'cssVar' => 'accordion-content', 'unit' => null, 'defaultUnit' => null, 'type' => 'border-panel' ),
+      'blockBox' => array( 'cssVar' => 'accordion-item', 'unit' => null, 'defaultUnit' => null, 'type' => 'box-panel' ),
+      'headerBox' => array( 'cssVar' => 'accordion-title', 'unit' => null, 'defaultUnit' => null, 'type' => 'box-panel' ),
+      'contentBox' => array( 'cssVar' => 'accordion-contentInner', 'unit' => null, 'defaultUnit' => null, 'type' => 'box-panel' ),
+      'titleFontFamily' => array( 'cssVar' => 'accordion-title-font-family', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleFontSize' => array( 'cssVar' => 'accordion-title-font-size', 'unit' => 'px', 'defaultUnit' => 'px', 'type' => 'string' ),
+      'titleNoLineBreak' => array( 'cssVar' => 'accordion-title-white-space', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleFontWeight' => array( 'cssVar' => 'accordion-title-font-weight', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleDecorationColor' => array( 'cssVar' => 'accordion-title-decoration-color', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleDecorationStyle' => array( 'cssVar' => 'accordion-title-decoration-style', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleDecorationWidth' => array( 'cssVar' => 'accordion-title-decoration-width', 'unit' => null, 'defaultUnit' => 'px', 'type' => 'string' ),
+      'titleLetterSpacing' => array( 'cssVar' => 'accordion-title-letter-spacing', 'unit' => 'px', 'defaultUnit' => 'px', 'type' => 'string' ),
+      'titleTextTransform' => array( 'cssVar' => 'accordion-title-text-transform', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleTextDecoration' => array( 'cssVar' => 'accordion-title-text-decoration-line', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleLineHeight' => array( 'cssVar' => 'accordion-title-line-height', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
+      'titleOffsetX' => array( 'cssVar' => 'accordion-title-offset-x', 'unit' => 'px', 'defaultUnit' => 'px', 'type' => 'string' ),
+      'titleOffsetY' => array( 'cssVar' => 'accordion-title-offset-y', 'unit' => 'px', 'defaultUnit' => 'px', 'type' => 'string' ),
+      'titleAlignment' => array( 'cssVar' => 'accordion-title-alignment', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
       'showIcon' => array( 'cssVar' => 'accordion-icon-display', 'unit' => null, 'defaultUnit' => null, 'type' => 'boolean' ),
       'iconRotation' => array( 'cssVar' => 'accordion-icon-animation-rotation', 'unit' => 'deg', 'defaultUnit' => 'deg', 'type' => 'string' ),
       'iconInactiveColor' => array( 'cssVar' => 'accordion-icon-color', 'unit' => null, 'defaultUnit' => null, 'type' => 'string' ),
