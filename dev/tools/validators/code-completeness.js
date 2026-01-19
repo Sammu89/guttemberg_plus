@@ -183,7 +183,7 @@ function validateGeneratedFile(blockType, mode) {
 	const warnings = [];
 
 	const fileName = mode === 'save' ? 'save.js' : 'edit.js';
-	const filePath = path.join(BLOCKS_DIR, blockType, 'src', fileName);
+	const filePath = path.join(BLOCKS_DIR, blockType, fileName);
 
 	if (!fs.existsSync(filePath)) {
 		errors.push(`File not found: ${filePath}`);

@@ -2,296 +2,464 @@
  * Editor CSS Vars for Tabs Block
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
- * Generated from: schemas/tabs.json
- * Generated at: 2026-01-18T11:42:00.962Z
+ * Generated from: schemas/generated/tabs.json
+ * Generated at: 2026-01-19T16:38:17.071Z
  *
- * This file is regenerated on every build. Any manual changes will be lost.
- * To modify this file, update the source schema and run: npm run schema:build
+ * This file converts atomic block attributes to inline CSS variables for editor preview.
+ * Attributes are flat (e.g., "title-color", "title-padding-top") not nested objects.
  *
  * @package GuttemberPlus
- * @since 1.0.0
+ * @since 2.0.0
  */
-
-import { formatCssValue, getCssVarName, decomposeObjectToSides, CSS_VAR_MAPPINGS } from '@shared/config/css-var-mappings-generated';
 
 /**
- * Expand panel-type values into individual CSS variables
- * Handles color-panel, box-panel, typography-panel, border-panel
- *
- * Typography fields auto-generated from schema: 
+ * Format shadow value (box-shadow or text-shadow)
  */
-function expandPanelType(cssVar, value, type, styles) {
-  if (!value || typeof value !== 'object') return;
+function formatShadowValue(shadows, cssProperty) {
+	if (!shadows || !Array.isArray(shadows) || shadows.length === 0) {
+		return 'none';
+	}
 
-  const sides = ['top', 'right', 'bottom', 'left'];
-  const corners = ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'];
-  const toKebab = (str) => str.replace(/([A-Z])/g, '-$1').toLowerCase();
+	const validLayers = shadows.filter(layer => layer && layer.color && layer.color.trim() !== '');
+	if (validLayers.length === 0) {
+		return 'none';
+	}
 
-  // color-panel: { text, background, hover: { text, background } }
-  if (type === 'color-panel') {
-    if (value.text) styles[`${cssVar}-color`] = value.text;
-    if (value.background) styles[`${cssVar}-background`] = value.background;
-    if (value.hover) {
-      if (value.hover.text) styles[`${cssVar}-color-hover`] = value.hover.text;
-      if (value.hover.background) styles[`${cssVar}-background-hover`] = value.hover.background;
-    }
-    return;
-  }
+	const formatValue = (valueObj) => {
+		if (valueObj === null || valueObj === undefined) return '0px';
+		if (typeof valueObj === 'string') return valueObj;
+		if (typeof valueObj === 'number') return `${valueObj}px`;
+		if (typeof valueObj === 'object' && valueObj !== null) {
+			const value = valueObj.value ?? 0;
+			const unit = valueObj.unit ?? 'px';
+			return `${value}${unit}`;
+		}
+		return '0px';
+	};
 
-  // typography-panel: DYNAMICALLY GENERATED from schema fields
-  if (type === 'typography-panel') {
+	const shadowStrings = validLayers.map(layer => {
+		const parts = [];
+		if (cssProperty === 'box-shadow' && layer.inset === true) {
+			parts.push('inset');
+		}
+		parts.push(formatValue(layer.x));
+		parts.push(formatValue(layer.y));
+		if (cssProperty === 'box-shadow') {
+			parts.push(formatValue(layer.blur));
+			parts.push(formatValue(layer.spread));
+		} else if (layer.blur) {
+			parts.push(formatValue(layer.blur));
+		}
+		parts.push(layer.color);
+		return parts.join(' ');
+	});
 
-    // Hover states
-    if (value.hover) {
-
-    }
-    return;
-  }
-
-  // box-panel: { border, radius, shadow, padding, margin }
-  if (type === 'box-panel') {
-    // Padding
-    if (value.padding) {
-      const p = value.padding;
-      const pUnit = p.unit || 'px';
-      sides.forEach((side) => {
-        if (p[side] !== undefined) {
-          // Extract value from object if in unlinked mode: { value: 2 }
-          const sideValue = typeof p[side] === 'object' ? p[side].value : p[side];
-          styles[`${cssVar}-padding-${side}`] = `${sideValue || 0}${pUnit}`;
-        }
-      });
-    }
-    // Margin
-    if (value.margin) {
-      const m = value.margin;
-      const mUnit = m.unit || 'px';
-      sides.forEach((side) => {
-        if (m[side] !== undefined) {
-          // Extract value from object if in unlinked mode
-          const sideValue = typeof m[side] === 'object' ? m[side].value : m[side];
-          styles[`${cssVar}-margin-${side}`] = `${sideValue || 0}${mUnit}`;
-        }
-      });
-    }
-    // Border
-    if (value.border) {
-      const b = value.border;
-      if (b.width) {
-        const bwUnit = b.width.unit || 'px';
-        sides.forEach((side) => {
-          if (b.width[side] !== undefined) {
-            // Extract value from object if in unlinked mode
-            const sideValue = typeof b.width[side] === 'object' ? b.width[side].value : b.width[side];
-            styles[`${cssVar}-border-${side}-width`] = `${sideValue || 0}${bwUnit}`;
-          }
-        });
-      }
-      if (b.color) {
-        // Color can be a string (all sides same) or object (per-side)
-        if (typeof b.color === 'string') {
-          // String: apply to all sides
-          sides.forEach((side) => {
-            styles[`${cssVar}-border-${side}-color`] = b.color;
-          });
-        } else {
-          // Object: extract per-side values
-          sides.forEach((side) => {
-            if (b.color[side] !== undefined) {
-              const sideColor = typeof b.color[side] === 'object' ? b.color[side].value : b.color[side];
-              styles[`${cssVar}-border-${side}-color`] = sideColor || 'transparent';
-            }
-          });
-        }
-      }
-      if (b.style) {
-        // Style can be a string (all sides same) or object (per-side)
-        if (typeof b.style === 'string') {
-          // String: apply to all sides
-          sides.forEach((side) => {
-            styles[`${cssVar}-border-${side}-style`] = b.style;
-          });
-        } else {
-          // Object: extract per-side values
-          sides.forEach((side) => {
-            if (b.style[side] !== undefined) {
-              const sideStyle = typeof b.style[side] === 'object' ? b.style[side].value : b.style[side];
-              styles[`${cssVar}-border-${side}-style`] = sideStyle || 'solid';
-            }
-          });
-        }
-      }
-    }
-    // Radius
-    if (value.radius) {
-      const r = value.radius;
-      const rUnit = r.unit || 'px';
-      corners.forEach((corner) => {
-        if (r[corner] !== undefined) {
-          // Extract value from object if in unlinked mode
-          const cornerValue = typeof r[corner] === 'object' ? r[corner].value : r[corner];
-          styles[`${cssVar}-border-${toKebab(corner)}-radius`] = `${cornerValue || 0}${rUnit}`;
-        }
-      });
-    }
-    // Shadow
-    if (value.shadow && Array.isArray(value.shadow)) {
-      const shadowStr = value.shadow.map(s => {
-        if (!s || !s.color) return null;
-        const x = s.x?.value ?? 0;
-        const y = s.y?.value ?? 0;
-        const blur = s.blur?.value ?? 0;
-        const spread = s.spread?.value ?? 0;
-        const unit = s.x?.unit || 'px';
-        const inset = s.inset ? 'inset ' : '';
-        return `${inset}${x}${unit} ${y}${unit} ${blur}${unit} ${spread}${unit} ${s.color}`;
-      }).filter(Boolean).join(', ') || 'none';
-      styles[`${cssVar}-box-shadow`] = shadowStr;
-    }
-    return;
-  }
-
-  // border-panel: { width, color, style }
-  if (type === 'border-panel') {
-    if (value.width) {
-      const w = value.width;
-      const wUnit = w.unit || 'px';
-      sides.forEach((side) => {
-        if (w[side] !== undefined) {
-          // Extract value from object if in unlinked mode: { value: 2 }
-          const sideValue = typeof w[side] === 'object' ? w[side].value : w[side];
-          styles[`${cssVar}-border-${side}-width`] = `${sideValue || 0}${wUnit}`;
-        }
-      });
-    }
-    if (value.color) {
-      // Color can be a string (all sides same) or object (per-side)
-      if (typeof value.color === 'string') {
-        // String: apply to all sides
-        sides.forEach((side) => {
-          styles[`${cssVar}-border-${side}-color`] = value.color;
-        });
-      } else {
-        // Object: extract per-side values
-        sides.forEach((side) => {
-          if (value.color[side] !== undefined) {
-            const sideColor = typeof value.color[side] === 'object' ? value.color[side].value : value.color[side];
-            styles[`${cssVar}-border-${side}-color`] = sideColor || 'transparent';
-          }
-        });
-      }
-    }
-    if (value.style) {
-      // Style can be a string (all sides same) or object (per-side)
-      if (typeof value.style === 'string') {
-        // String: apply to all sides
-        sides.forEach((side) => {
-          styles[`${cssVar}-border-${side}-style`] = value.style;
-        });
-      } else {
-        // Object: extract per-side values
-        sides.forEach((side) => {
-          if (value.style[side] !== undefined) {
-            const sideStyle = typeof value.style[side] === 'object' ? value.style[side].value : value.style[side];
-            styles[`${cssVar}-border-${side}-style`] = sideStyle || 'solid';
-          }
-        });
-      }
-    }
-    return;
-  }
+	return shadowStrings.join(', ');
 }
 
 /**
  * Build inline CSS variables for editor preview
- * Emits base + device-specific overrides for responsive attributes.
  *
- * @param {Object} effectiveValues - Effective values (defaults + theme + customizations)
- * @returns {Object} CSS variable map for inline styles
+ * Takes atomic attribute values and converts them to CSS custom properties.
+ * Only includes attributes that have cssVar defined and outputsCSS !== false.
+ *
+ * @param {Object} attributes - Block attributes (atomic, flat structure)
+ * @return {Object} Object of CSS variables to apply as inline styles
  */
-export function buildEditorCssVars(effectiveValues) {
-  const styles = {};
+export function buildEditorCssVars(attributes) {
+	const cssVars = {};
+	const attrs = attributes || {};
 
-  if (!effectiveValues || typeof effectiveValues !== 'object') {
-    return styles;
-  }
+	// Map each atomic attribute to its CSS variable
+	// borderColor → --tabs-border-color
+	if (attrs['borderColor'] !== undefined && attrs['borderColor'] !== null) {
+		cssVars['--tabs-border-color'] = attrs['borderColor'];
+	}
 
-  const applyDecomposed = (attrName, value, suffix = '') => {
-    if (!value || typeof value !== 'object' || Array.isArray(value)) {
-      return;
-    }
-    const decomposed = decomposeObjectToSides(attrName, value, 'tabs', suffix);
-    if (Object.keys(decomposed).length > 0) {
-      Object.assign(styles, decomposed);
-    }
-  };
+	// borderRadius → --tabs-border-radius
+	if (attrs['borderRadius'] !== undefined && attrs['borderRadius'] !== null) {
+		cssVars['--tabs-border-radius'] = attrs['borderRadius'];
+	}
 
-  Object.entries(effectiveValues).forEach(([attrName, value]) => {
-    if (value === null || value === undefined) {
-      return;
-    }
+	// shadow → --tabs-border-shadow
+	if (attrs['shadow'] !== undefined && attrs['shadow'] !== null) {
+		cssVars['--tabs-border-shadow'] = formatShadowValue(attrs['shadow'], 'box-shadow');
+	}
 
-    const cssVar = getCssVarName(attrName, 'tabs');
-    if (!cssVar) {
-      return;
-    }
+	// shadowHover → --tabs-border-shadow-hover
+	if (attrs['shadowHover'] !== undefined && attrs['shadowHover'] !== null) {
+		cssVars['--tabs-border-shadow-hover'] = formatShadowValue(attrs['shadowHover'], 'box-shadow');
+	}
 
-    // Check if this is a panel-type attribute
-    const mapping = CSS_VAR_MAPPINGS['tabs']?.[attrName];
-    const attrType = mapping?.type;
-    if (attrType && ['color-panel', 'box-panel', 'typography-panel', 'border-panel'].includes(attrType)) {
-      expandPanelType(cssVar, value, attrType, styles);
-      return;
-    }
+	// borderStyle → --tabs-border-style
+	if (attrs['borderStyle'] !== undefined && attrs['borderStyle'] !== null) {
+		cssVars['--tabs-border-style'] = attrs['borderStyle'];
+	}
 
-    const isResponsiveValue = value && typeof value === 'object' &&
-      (value.tablet !== undefined || value.mobile !== undefined);
+	// borderWidth → --tabs-border-width
+	if (attrs['borderWidth'] !== undefined && attrs['borderWidth'] !== null) {
+		cssVars['--tabs-border-width'] = attrs['borderWidth'];
+	}
 
-    if (isResponsiveValue) {
-      // Extract base value - skip if only device overrides exist
-      let baseValue = value.value !== undefined ? value.value : value;
-      if (typeof baseValue === 'number' && value.unit !== undefined) {
-        baseValue = { value: baseValue, unit: value.unit };
-      }
-      // Only output base if it's not a responsive container object
-      const isResponsiveContainer = baseValue && typeof baseValue === 'object' &&
-        (baseValue.tablet !== undefined || baseValue.mobile !== undefined);
-      if (!isResponsiveContainer && baseValue !== null && baseValue !== undefined) {
-        const formattedBase = formatCssValue(attrName, baseValue, 'tabs');
-        if (formattedBase !== null && formattedBase !== 'undefined' &&
-            !(typeof formattedBase === 'string' && formattedBase.startsWith('undefined'))) {
-          styles[cssVar] = formattedBase;
-        }
-        applyDecomposed(attrName, baseValue, '');
-      }
+	// tabButtonActiveBorderColor → --tabs-button-active-border-color
+	if (attrs['tabButtonActiveBorderColor'] !== undefined && attrs['tabButtonActiveBorderColor'] !== null) {
+		cssVars['--tabs-button-active-border-color'] = attrs['tabButtonActiveBorderColor'];
+	}
 
-      if (value.tablet !== undefined && value.tablet !== null) {
-        const formattedTablet = formatCssValue(attrName, value.tablet, 'tabs');
-        if (formattedTablet !== null && formattedTablet !== 'undefined' &&
-            !(typeof formattedTablet === 'string' && formattedTablet.startsWith('undefined'))) {
-          styles[`${cssVar}-tablet`] = formattedTablet;
-        }
-        applyDecomposed(attrName, value.tablet, '-tablet');
-      }
+	// tabButtonActiveContentBorderColor → --tabs-button-active-content-border-color
+	if (attrs['tabButtonActiveContentBorderColor'] !== undefined && attrs['tabButtonActiveContentBorderColor'] !== null) {
+		cssVars['--tabs-button-active-content-border-color'] = attrs['tabButtonActiveContentBorderColor'];
+	}
 
-      if (value.mobile !== undefined && value.mobile !== null) {
-        const formattedMobile = formatCssValue(attrName, value.mobile, 'tabs');
-        if (formattedMobile !== null && formattedMobile !== 'undefined' &&
-            !(typeof formattedMobile === 'string' && formattedMobile.startsWith('undefined'))) {
-          styles[`${cssVar}-mobile`] = formattedMobile;
-        }
-        applyDecomposed(attrName, value.mobile, '-mobile');
-      }
-      return;
-    }
+	// tabButtonActiveContentBorderStyle → --tabs-button-active-content-border-style
+	if (attrs['tabButtonActiveContentBorderStyle'] !== undefined && attrs['tabButtonActiveContentBorderStyle'] !== null) {
+		cssVars['--tabs-button-active-content-border-style'] = attrs['tabButtonActiveContentBorderStyle'];
+	}
 
-    const formattedValue = formatCssValue(attrName, value, 'tabs');
-    if (formattedValue !== null && formattedValue !== 'undefined' &&
-        !(typeof formattedValue === 'string' && formattedValue.startsWith('undefined'))) {
-      styles[cssVar] = formattedValue;
-    }
-    applyDecomposed(attrName, value, '');
-  });
+	// tabButtonActiveContentBorderWidth → --tabs-button-active-content-border-width
+	if (attrs['tabButtonActiveContentBorderWidth'] !== undefined && attrs['tabButtonActiveContentBorderWidth'] !== null) {
+		cssVars['--tabs-button-active-content-border-width'] = attrs['tabButtonActiveContentBorderWidth'];
+	}
 
-  return styles;
+	// tabButtonActiveFontWeight → --tabs-button-active-font-weight
+	if (attrs['tabButtonActiveFontWeight'] !== undefined && attrs['tabButtonActiveFontWeight'] !== null) {
+		cssVars['--tabs-button-active-font-weight'] = attrs['tabButtonActiveFontWeight'];
+	}
+
+	// tab-button-color-background → --tabs-button-background
+	if (attrs['tab-button-color-background'] !== undefined && attrs['tab-button-color-background'] !== null) {
+		cssVars['--tabs-button-background'] = attrs['tab-button-color-background'];
+	}
+
+	// tab-button-color-background-active → --tabs-button-background-active
+	if (attrs['tab-button-color-background-active'] !== undefined && attrs['tab-button-color-background-active'] !== null) {
+		cssVars['--tabs-button-background-active'] = attrs['tab-button-color-background-active'];
+	}
+
+	// tab-button-color-background-hover → --tabs-button-background-hover
+	if (attrs['tab-button-color-background-hover'] !== undefined && attrs['tab-button-color-background-hover'] !== null) {
+		cssVars['--tabs-button-background-hover'] = attrs['tab-button-color-background-hover'];
+	}
+
+	// tabButtonBorderColor → --tabs-button-border-color
+	if (attrs['tabButtonBorderColor'] !== undefined && attrs['tabButtonBorderColor'] !== null) {
+		cssVars['--tabs-button-border-color'] = attrs['tabButtonBorderColor'];
+	}
+
+	// tabButtonBorderRadius → --tabs-button-border-radius
+	if (attrs['tabButtonBorderRadius'] !== undefined && attrs['tabButtonBorderRadius'] !== null) {
+		cssVars['--tabs-button-border-radius'] = attrs['tabButtonBorderRadius'];
+	}
+
+	// tabButtonShadow → --tabs-button-border-shadow
+	if (attrs['tabButtonShadow'] !== undefined && attrs['tabButtonShadow'] !== null) {
+		cssVars['--tabs-button-border-shadow'] = formatShadowValue(attrs['tabButtonShadow'], 'box-shadow');
+	}
+
+	// tabButtonShadowHover → --tabs-button-border-shadow-hover
+	if (attrs['tabButtonShadowHover'] !== undefined && attrs['tabButtonShadowHover'] !== null) {
+		cssVars['--tabs-button-border-shadow-hover'] = formatShadowValue(attrs['tabButtonShadowHover'], 'box-shadow');
+	}
+
+	// tabButtonBorderStyle → --tabs-button-border-style
+	if (attrs['tabButtonBorderStyle'] !== undefined && attrs['tabButtonBorderStyle'] !== null) {
+		cssVars['--tabs-button-border-style'] = attrs['tabButtonBorderStyle'];
+	}
+
+	// tabButtonBorderWidth → --tabs-button-border-width
+	if (attrs['tabButtonBorderWidth'] !== undefined && attrs['tabButtonBorderWidth'] !== null) {
+		cssVars['--tabs-button-border-width'] = attrs['tabButtonBorderWidth'];
+	}
+
+	// tab-button-color-text → --tabs-button-color
+	if (attrs['tab-button-color-text'] !== undefined && attrs['tab-button-color-text'] !== null) {
+		cssVars['--tabs-button-color'] = attrs['tab-button-color-text'];
+	}
+
+	// tab-button-color-text-active → --tabs-button-color-active
+	if (attrs['tab-button-color-text-active'] !== undefined && attrs['tab-button-color-text-active'] !== null) {
+		cssVars['--tabs-button-color-active'] = attrs['tab-button-color-text-active'];
+	}
+
+	// tab-button-color-text-hover → --tabs-button-color-hover
+	if (attrs['tab-button-color-text-hover'] !== undefined && attrs['tab-button-color-text-hover'] !== null) {
+		cssVars['--tabs-button-color-hover'] = attrs['tab-button-color-text-hover'];
+	}
+
+	// tabButtonFontSize → --tabs-button-font-size
+	if (attrs['tabButtonFontSize'] !== undefined && attrs['tabButtonFontSize'] !== null) {
+		cssVars['--tabs-button-font-size'] = attrs['tabButtonFontSize'];
+	}
+
+	// tabButtonFontStyle → --tabs-button-font-style
+	if (attrs['tabButtonFontStyle'] !== undefined && attrs['tabButtonFontStyle'] !== null) {
+		cssVars['--tabs-button-font-style'] = attrs['tabButtonFontStyle'];
+	}
+
+	// tabButtonFontWeight → --tabs-button-font-weight
+	if (attrs['tabButtonFontWeight'] !== undefined && attrs['tabButtonFontWeight'] !== null) {
+		cssVars['--tabs-button-font-weight'] = attrs['tabButtonFontWeight'];
+	}
+
+	// tabsButtonGap → --tabs-button-gap
+	if (attrs['tabsButtonGap'] !== undefined && attrs['tabsButtonGap'] !== null) {
+		cssVars['--tabs-button-gap'] = attrs['tabsButtonGap'];
+	}
+
+	// tabButtonPadding → --tabs-button-padding
+	if (attrs['tabButtonPadding'] !== undefined && attrs['tabButtonPadding'] !== null) {
+		cssVars['--tabs-button-padding'] = attrs['tabButtonPadding'];
+	}
+
+	// tabButtonTextAlign → --tabs-button-text-align
+	if (attrs['tabButtonTextAlign'] !== undefined && attrs['tabButtonTextAlign'] !== null) {
+		cssVars['--tabs-button-text-align'] = attrs['tabButtonTextAlign'];
+	}
+
+	// tabButtonTextDecoration → --tabs-button-text-decoration
+	if (attrs['tabButtonTextDecoration'] !== undefined && attrs['tabButtonTextDecoration'] !== null) {
+		cssVars['--tabs-button-text-decoration'] = attrs['tabButtonTextDecoration'];
+	}
+
+	// tabButtonTextTransform → --tabs-button-text-transform
+	if (attrs['tabButtonTextTransform'] !== undefined && attrs['tabButtonTextTransform'] !== null) {
+		cssVars['--tabs-button-text-transform'] = attrs['tabButtonTextTransform'];
+	}
+
+	// tab-icon-animation-rotation → --tabs-icon-animation-rotation
+	if (attrs['tab-icon-animation-rotation'] !== undefined && attrs['tab-icon-animation-rotation'] !== null) {
+		cssVars['--tabs-icon-animation-rotation'] = attrs['tab-icon-animation-rotation'];
+	}
+
+	// tab-icon-color → --tabs-icon-color
+	if (attrs['tab-icon-color'] !== undefined && attrs['tab-icon-color'] !== null) {
+		cssVars['--tabs-icon-color'] = attrs['tab-icon-color'];
+	}
+
+	// tab-icon-color-is-open → --tabs-icon-color-is-open
+	if (attrs['tab-icon-color-is-open'] !== undefined && attrs['tab-icon-color-is-open'] !== null) {
+		cssVars['--tabs-icon-color-is-open'] = attrs['tab-icon-color-is-open'];
+	}
+
+	// tab-icon-show → --tabs-icon-display
+	if (attrs['tab-icon-show'] !== undefined && attrs['tab-icon-show'] !== null) {
+		cssVars['--tabs-icon-display'] = attrs['tab-icon-show'];
+	}
+
+	// tab-icon-initial-rotation → --tabs-icon-initial-rotation
+	if (attrs['tab-icon-initial-rotation'] !== undefined && attrs['tab-icon-initial-rotation'] !== null) {
+		cssVars['--tabs-icon-initial-rotation'] = attrs['tab-icon-initial-rotation'];
+	}
+
+	// tab-icon-initial-rotation-is-open → --tabs-icon-initial-rotation-is-open
+	if (attrs['tab-icon-initial-rotation-is-open'] !== undefined && attrs['tab-icon-initial-rotation-is-open'] !== null) {
+		cssVars['--tabs-icon-initial-rotation-is-open'] = attrs['tab-icon-initial-rotation-is-open'];
+	}
+
+	// tab-icon-max-size → --tabs-icon-max-size
+	if (attrs['tab-icon-max-size'] !== undefined && attrs['tab-icon-max-size'] !== null) {
+		cssVars['--tabs-icon-max-size'] = attrs['tab-icon-max-size'];
+	}
+
+	// tab-icon-max-size-is-open → --tabs-icon-max-size-is-open
+	if (attrs['tab-icon-max-size-is-open'] !== undefined && attrs['tab-icon-max-size-is-open'] !== null) {
+		cssVars['--tabs-icon-max-size-is-open'] = attrs['tab-icon-max-size-is-open'];
+	}
+
+	// tab-icon-max-size-is-open → --tabs-icon-max-size-is-open-mobile
+	if (attrs['tab-icon-max-size-is-open'] !== undefined && attrs['tab-icon-max-size-is-open'] !== null) {
+		cssVars['--tabs-icon-max-size-is-open-mobile'] = attrs['tab-icon-max-size-is-open'];
+	}
+
+	// tab-icon-max-size-is-open → --tabs-icon-max-size-is-open-tablet
+	if (attrs['tab-icon-max-size-is-open'] !== undefined && attrs['tab-icon-max-size-is-open'] !== null) {
+		cssVars['--tabs-icon-max-size-is-open-tablet'] = attrs['tab-icon-max-size-is-open'];
+	}
+
+	// tab-icon-max-size → --tabs-icon-max-size-mobile
+	if (attrs['tab-icon-max-size'] !== undefined && attrs['tab-icon-max-size'] !== null) {
+		cssVars['--tabs-icon-max-size-mobile'] = attrs['tab-icon-max-size'];
+	}
+
+	// tab-icon-max-size → --tabs-icon-max-size-tablet
+	if (attrs['tab-icon-max-size'] !== undefined && attrs['tab-icon-max-size'] !== null) {
+		cssVars['--tabs-icon-max-size-tablet'] = attrs['tab-icon-max-size'];
+	}
+
+	// tab-icon-offset-x → --tabs-icon-offset-x
+	if (attrs['tab-icon-offset-x'] !== undefined && attrs['tab-icon-offset-x'] !== null) {
+		cssVars['--tabs-icon-offset-x'] = attrs['tab-icon-offset-x'];
+	}
+
+	// tab-icon-offset-x-is-open → --tabs-icon-offset-x-is-open
+	if (attrs['tab-icon-offset-x-is-open'] !== undefined && attrs['tab-icon-offset-x-is-open'] !== null) {
+		cssVars['--tabs-icon-offset-x-is-open'] = attrs['tab-icon-offset-x-is-open'];
+	}
+
+	// tab-icon-offset-x-is-open → --tabs-icon-offset-x-is-open-mobile
+	if (attrs['tab-icon-offset-x-is-open'] !== undefined && attrs['tab-icon-offset-x-is-open'] !== null) {
+		cssVars['--tabs-icon-offset-x-is-open-mobile'] = attrs['tab-icon-offset-x-is-open'];
+	}
+
+	// tab-icon-offset-x-is-open → --tabs-icon-offset-x-is-open-tablet
+	if (attrs['tab-icon-offset-x-is-open'] !== undefined && attrs['tab-icon-offset-x-is-open'] !== null) {
+		cssVars['--tabs-icon-offset-x-is-open-tablet'] = attrs['tab-icon-offset-x-is-open'];
+	}
+
+	// tab-icon-offset-x → --tabs-icon-offset-x-mobile
+	if (attrs['tab-icon-offset-x'] !== undefined && attrs['tab-icon-offset-x'] !== null) {
+		cssVars['--tabs-icon-offset-x-mobile'] = attrs['tab-icon-offset-x'];
+	}
+
+	// tab-icon-offset-x → --tabs-icon-offset-x-tablet
+	if (attrs['tab-icon-offset-x'] !== undefined && attrs['tab-icon-offset-x'] !== null) {
+		cssVars['--tabs-icon-offset-x-tablet'] = attrs['tab-icon-offset-x'];
+	}
+
+	// tab-icon-offset-y → --tabs-icon-offset-y
+	if (attrs['tab-icon-offset-y'] !== undefined && attrs['tab-icon-offset-y'] !== null) {
+		cssVars['--tabs-icon-offset-y'] = attrs['tab-icon-offset-y'];
+	}
+
+	// tab-icon-offset-y-is-open → --tabs-icon-offset-y-is-open
+	if (attrs['tab-icon-offset-y-is-open'] !== undefined && attrs['tab-icon-offset-y-is-open'] !== null) {
+		cssVars['--tabs-icon-offset-y-is-open'] = attrs['tab-icon-offset-y-is-open'];
+	}
+
+	// tab-icon-offset-y-is-open → --tabs-icon-offset-y-is-open-mobile
+	if (attrs['tab-icon-offset-y-is-open'] !== undefined && attrs['tab-icon-offset-y-is-open'] !== null) {
+		cssVars['--tabs-icon-offset-y-is-open-mobile'] = attrs['tab-icon-offset-y-is-open'];
+	}
+
+	// tab-icon-offset-y-is-open → --tabs-icon-offset-y-is-open-tablet
+	if (attrs['tab-icon-offset-y-is-open'] !== undefined && attrs['tab-icon-offset-y-is-open'] !== null) {
+		cssVars['--tabs-icon-offset-y-is-open-tablet'] = attrs['tab-icon-offset-y-is-open'];
+	}
+
+	// tab-icon-offset-y → --tabs-icon-offset-y-mobile
+	if (attrs['tab-icon-offset-y'] !== undefined && attrs['tab-icon-offset-y'] !== null) {
+		cssVars['--tabs-icon-offset-y-mobile'] = attrs['tab-icon-offset-y'];
+	}
+
+	// tab-icon-offset-y → --tabs-icon-offset-y-tablet
+	if (attrs['tab-icon-offset-y'] !== undefined && attrs['tab-icon-offset-y'] !== null) {
+		cssVars['--tabs-icon-offset-y-tablet'] = attrs['tab-icon-offset-y'];
+	}
+
+	// tab-icon-size → --tabs-icon-size
+	if (attrs['tab-icon-size'] !== undefined && attrs['tab-icon-size'] !== null) {
+		cssVars['--tabs-icon-size'] = attrs['tab-icon-size'];
+	}
+
+	// tab-icon-size-is-open → --tabs-icon-size-is-open
+	if (attrs['tab-icon-size-is-open'] !== undefined && attrs['tab-icon-size-is-open'] !== null) {
+		cssVars['--tabs-icon-size-is-open'] = attrs['tab-icon-size-is-open'];
+	}
+
+	// tab-icon-size-is-open → --tabs-icon-size-is-open-mobile
+	if (attrs['tab-icon-size-is-open'] !== undefined && attrs['tab-icon-size-is-open'] !== null) {
+		cssVars['--tabs-icon-size-is-open-mobile'] = attrs['tab-icon-size-is-open'];
+	}
+
+	// tab-icon-size-is-open → --tabs-icon-size-is-open-tablet
+	if (attrs['tab-icon-size-is-open'] !== undefined && attrs['tab-icon-size-is-open'] !== null) {
+		cssVars['--tabs-icon-size-is-open-tablet'] = attrs['tab-icon-size-is-open'];
+	}
+
+	// tab-icon-size → --tabs-icon-size-mobile
+	if (attrs['tab-icon-size'] !== undefined && attrs['tab-icon-size'] !== null) {
+		cssVars['--tabs-icon-size-mobile'] = attrs['tab-icon-size'];
+	}
+
+	// tab-icon-size → --tabs-icon-size-tablet
+	if (attrs['tab-icon-size'] !== undefined && attrs['tab-icon-size'] !== null) {
+		cssVars['--tabs-icon-size-tablet'] = attrs['tab-icon-size'];
+	}
+
+	// tabListAlignment → --tabs-list-align
+	if (attrs['tabListAlignment'] !== undefined && attrs['tabListAlignment'] !== null) {
+		cssVars['--tabs-list-align'] = attrs['tabListAlignment'];
+	}
+
+	// tabListBackgroundColor → --tabs-list-bg
+	if (attrs['tabListBackgroundColor'] !== undefined && attrs['tabListBackgroundColor'] !== null) {
+		cssVars['--tabs-list-bg'] = attrs['tabListBackgroundColor'];
+	}
+
+	// tabsListContentBorderColor → --tabs-list-divider-border-color
+	if (attrs['tabsListContentBorderColor'] !== undefined && attrs['tabsListContentBorderColor'] !== null) {
+		cssVars['--tabs-list-divider-border-color'] = attrs['tabsListContentBorderColor'];
+	}
+
+	// tabsListContentBorderStyle → --tabs-list-divider-border-style
+	if (attrs['tabsListContentBorderStyle'] !== undefined && attrs['tabsListContentBorderStyle'] !== null) {
+		cssVars['--tabs-list-divider-border-style'] = attrs['tabsListContentBorderStyle'];
+	}
+
+	// tabsListContentBorderWidth → --tabs-list-divider-border-width
+	if (attrs['tabsListContentBorderWidth'] !== undefined && attrs['tabsListContentBorderWidth'] !== null) {
+		cssVars['--tabs-list-divider-border-width'] = attrs['tabsListContentBorderWidth'];
+	}
+
+	// panelBackgroundColor → --tabs-panel-bg
+	if (attrs['panelBackgroundColor'] !== undefined && attrs['panelBackgroundColor'] !== null) {
+		cssVars['--tabs-panel-bg'] = attrs['panelBackgroundColor'];
+	}
+
+	// panelBorderColor → --tabs-panel-border-color
+	if (attrs['panelBorderColor'] !== undefined && attrs['panelBorderColor'] !== null) {
+		cssVars['--tabs-panel-border-color'] = attrs['panelBorderColor'];
+	}
+
+	// panelBorderRadius → --tabs-panel-border-radius
+	if (attrs['panelBorderRadius'] !== undefined && attrs['panelBorderRadius'] !== null) {
+		cssVars['--tabs-panel-border-radius'] = attrs['panelBorderRadius'];
+	}
+
+	// panelBorderStyle → --tabs-panel-border-style
+	if (attrs['panelBorderStyle'] !== undefined && attrs['panelBorderStyle'] !== null) {
+		cssVars['--tabs-panel-border-style'] = attrs['panelBorderStyle'];
+	}
+
+	// panelBorderWidth → --tabs-panel-border-width
+	if (attrs['panelBorderWidth'] !== undefined && attrs['panelBorderWidth'] !== null) {
+		cssVars['--tabs-panel-border-width'] = attrs['panelBorderWidth'];
+	}
+
+	// tabsRowBorderColor → --tabs-row-border-color
+	if (attrs['tabsRowBorderColor'] !== undefined && attrs['tabsRowBorderColor'] !== null) {
+		cssVars['--tabs-row-border-color'] = attrs['tabsRowBorderColor'];
+	}
+
+	// tabsRowBorderStyle → --tabs-row-border-style
+	if (attrs['tabsRowBorderStyle'] !== undefined && attrs['tabsRowBorderStyle'] !== null) {
+		cssVars['--tabs-row-border-style'] = attrs['tabsRowBorderStyle'];
+	}
+
+	// tabsRowBorderWidth → --tabs-row-border-width
+	if (attrs['tabsRowBorderWidth'] !== undefined && attrs['tabsRowBorderWidth'] !== null) {
+		cssVars['--tabs-row-border-width'] = attrs['tabsRowBorderWidth'];
+	}
+
+	// tabsRowSpacing → --tabs-row-spacing
+	if (attrs['tabsRowSpacing'] !== undefined && attrs['tabsRowSpacing'] !== null) {
+		cssVars['--tabs-row-spacing'] = attrs['tabsRowSpacing'];
+	}
+
+	// tabsWidth → --tabs-width
+	if (attrs['tabsWidth'] !== undefined && attrs['tabsWidth'] !== null) {
+		cssVars['--tabs-width'] = attrs['tabsWidth'];
+	}
+
+	// tabsWidth → --tabs-width-mobile
+	if (attrs['tabsWidth'] !== undefined && attrs['tabsWidth'] !== null) {
+		cssVars['--tabs-width-mobile'] = attrs['tabsWidth'];
+	}
+
+	// tabsWidth → --tabs-width-tablet
+	if (attrs['tabsWidth'] !== undefined && attrs['tabsWidth'] !== null) {
+		cssVars['--tabs-width-tablet'] = attrs['tabsWidth'];
+	}
+
+	return cssVars;
 }

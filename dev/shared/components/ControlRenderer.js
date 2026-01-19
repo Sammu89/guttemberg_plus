@@ -1271,8 +1271,9 @@ export function ControlRenderer( {
 		}
 
 		case 'BorderPanel': {
-			// Only render if this attribute has the order field
-			if ( attrConfig.order === undefined ) {
+			// Only render if this attribute has renderControl: true
+			// (First width attribute in a border group has this flag)
+			if ( attrConfig.renderControl !== true ) {
 				return null;
 			}
 
@@ -1287,75 +1288,327 @@ export function ControlRenderer( {
 				( [ , attr ] ) => attr.control === 'BorderPanel' && attr.controlId === controlId
 			);
 
-			// Find width, color, style by their cssProperty endings
-			const widthAttr = relatedAttrs.find( ( [ , attr ] ) =>
-				attr.cssProperty?.endsWith( 'width' )
-			);
-			const colorAttr = relatedAttrs.find( ( [ , attr ] ) =>
-				attr.cssProperty?.endsWith( 'color' )
-			);
-			const styleAttr = relatedAttrs.find( ( [ , attr ] ) =>
-				attr.cssProperty?.endsWith( 'style' )
-			);
+			// Find all 4 sides for width, color, and style
+			const sides = [ 'top', 'right', 'bottom', 'left' ];
+			const widthAttrs = {};
+			const colorAttrs = {};
+			const styleAttrs = {};
 
-			const widthAttrName = widthAttr?.[ 0 ];
-			const colorAttrName = colorAttr?.[ 0 ];
-			const styleAttrName = styleAttr?.[ 0 ];
+			sides.forEach( ( side ) => {
+				widthAttrs[ side ] = relatedAttrs.find(
+					( [ , attr ] ) => attr.cssProperty === `border-${ side }-width`
+				);
+				colorAttrs[ side ] = relatedAttrs.find(
+					( [ , attr ] ) => attr.cssProperty === `border-${ side }-color`
+				);
+				styleAttrs[ side ] = relatedAttrs.find(
+					( [ , attr ] ) => attr.cssProperty === `border-${ side }-style`
+				);
+			} );
 
-			// Validate we found all 3
-			if ( ! widthAttrName || ! colorAttrName || ! styleAttrName ) {
-				return null;
-			}
+			// Build width value object from all 4 sides
+			const widthValue = {
+				top: effectiveValues?.[ widthAttrs.top?.[ 0 ] ] ?? widthAttrs.top?.[ 1 ]?.default ?? '1px',
+				right:
+					effectiveValues?.[ widthAttrs.right?.[ 0 ] ] ??
+					widthAttrs.right?.[ 1 ]?.default ??
+					'1px',
+				bottom:
+					effectiveValues?.[ widthAttrs.bottom?.[ 0 ] ] ??
+					widthAttrs.bottom?.[ 1 ]?.default ??
+					'1px',
+				left:
+					effectiveValues?.[ widthAttrs.left?.[ 0 ] ] ?? widthAttrs.left?.[ 1 ]?.default ?? '1px',
+			};
 
-			// Get values and config
-			const widthAttrConfig = widthAttr[ 1 ];
-			const widthValue = effectiveValues?.[ widthAttrName ];
-			const colorValue = effectiveValues?.[ colorAttrName ] ?? '#dddddd';
-			const styleValue = effectiveValues?.[ styleAttrName ] ?? 'solid';
+			// Extract unit from first width value (they should all use the same unit)
+			const firstWidthVal = widthValue.top || '1px';
+			const unitMatch = String( firstWidthVal ).match( /[a-z%]+$/i );
+			widthValue.unit = unitMatch ? unitMatch[ 0 ] : 'px';
 
-			// Detect single-side vs all-sides from cssProperty
-			const isSingleSideBorder = widthAttrConfig.cssProperty?.match(
-				/^border-(top|right|bottom|left)-width$/
-			);
+			// Parse numeric values (remove units)
+			sides.forEach( ( side ) => {
+				const val = String( widthValue[ side ] );
+				const numMatch = val.match( /^([0-9.]+)/ );
+				widthValue[ side ] = numMatch ? parseFloat( numMatch[ 1 ] ) : 0;
+			} );
+
+			// Build color value - can be string (all same) or object (per-side)
+			const colorTop = effectiveValues?.[ colorAttrs.top?.[ 0 ] ] ?? colorAttrs.top?.[ 1 ]?.default ?? '#dddddd';
+			const colorRight = effectiveValues?.[ colorAttrs.right?.[ 0 ] ] ?? colorAttrs.right?.[ 1 ]?.default ?? '#dddddd';
+			const colorBottom = effectiveValues?.[ colorAttrs.bottom?.[ 0 ] ] ?? colorAttrs.bottom?.[ 1 ]?.default ?? '#dddddd';
+			const colorLeft = effectiveValues?.[ colorAttrs.left?.[ 0 ] ] ?? colorAttrs.left?.[ 1 ]?.default ?? '#dddddd';
+
+			// Check if all colors are the same
+			const allColorsSame = colorTop === colorRight && colorTop === colorBottom && colorTop === colorLeft;
+			const colorValue = allColorsSame ? colorTop : { top: colorTop, right: colorRight, bottom: colorBottom, left: colorLeft };
+
+			// Build style value - can be string (all same) or object (per-side)
+			const styleTop = effectiveValues?.[ styleAttrs.top?.[ 0 ] ] ?? styleAttrs.top?.[ 1 ]?.default ?? 'solid';
+			const styleRight = effectiveValues?.[ styleAttrs.right?.[ 0 ] ] ?? styleAttrs.right?.[ 1 ]?.default ?? 'solid';
+			const styleBottom = effectiveValues?.[ styleAttrs.bottom?.[ 0 ] ] ?? styleAttrs.bottom?.[ 1 ]?.default ?? 'solid';
+			const styleLeft = effectiveValues?.[ styleAttrs.left?.[ 0 ] ] ?? styleAttrs.left?.[ 1 ]?.default ?? 'solid';
+
+			// Check if all styles are the same
+			const allStylesSame = styleTop === styleRight && styleTop === styleBottom && styleTop === styleLeft;
+			const styleValue = allStylesSame ? styleTop : { top: styleTop, right: styleRight, bottom: styleBottom, left: styleLeft };
+
+			// Handle width change - update all 4 side attributes
+			const handleWidthChange = ( newWidth ) => {
+				const updates = {};
+				sides.forEach( ( side ) => {
+					const attrName = widthAttrs[ side ]?.[ 0 ];
+					if ( attrName ) {
+						// Add unit back to value
+						updates[ attrName ] = `${ newWidth[ side ] }${ newWidth.unit || 'px' }`;
+					}
+				} );
+				setAttributes( updates );
+			};
+
+			// Handle color change - update all 4 side attributes
+			const handleColorChange = ( newColor ) => {
+				const updates = {};
+				if ( typeof newColor === 'string' ) {
+					// Same color for all sides
+					sides.forEach( ( side ) => {
+						const attrName = colorAttrs[ side ]?.[ 0 ];
+						if ( attrName ) {
+							updates[ attrName ] = newColor;
+						}
+					} );
+				} else {
+					// Per-side colors
+					sides.forEach( ( side ) => {
+						const attrName = colorAttrs[ side ]?.[ 0 ];
+						if ( attrName && newColor[ side ] !== undefined ) {
+							updates[ attrName ] = newColor[ side ];
+						}
+					} );
+				}
+				setAttributes( updates );
+			};
+
+			// Handle style change - update all 4 side attributes
+			const handleStyleChange = ( newStyle ) => {
+				const updates = {};
+				if ( typeof newStyle === 'string' ) {
+					// Same style for all sides
+					sides.forEach( ( side ) => {
+						const attrName = styleAttrs[ side ]?.[ 0 ];
+						if ( attrName ) {
+							updates[ attrName ] = newStyle;
+						}
+					} );
+				} else {
+					// Per-side styles
+					sides.forEach( ( side ) => {
+						const attrName = styleAttrs[ side ]?.[ 0 ];
+						if ( attrName && newStyle[ side ] !== undefined ) {
+							updates[ attrName ] = newStyle[ side ];
+						}
+					} );
+				}
+				setAttributes( updates );
+			};
 
 			return (
 				<BorderPanel
 					key={ attrName }
-					label={ renderLabel( finalLabel ) }
-					value={
-						widthValue ??
-						widthAttrConfig.default ?? {
-							top: 1,
-							right: 1,
-							bottom: 1,
-							left: 1,
-							unit: 'px',
-							linked: true,
-						}
-					}
-					onChange={
-						widthAttrName
-							? ( val ) => setAttributes( { [ widthAttrName ]: val } )
-							: undefined
-					}
+					label={ renderLabel( 'Border' ) }
+					value={ widthValue }
+					onChange={ handleWidthChange }
 					colorValue={ colorValue }
-					onColorChange={
-						colorAttrName
-							? ( color ) => setAttributes( { [ colorAttrName ]: color } )
-							: undefined
-					}
+					onColorChange={ handleColorChange }
 					styleValue={ styleValue }
-					onStyleChange={
-						styleAttrName
-							? ( style ) => setAttributes( { [ styleAttrName ]: style } )
-							: undefined
-					}
-					min={ widthAttrConfig.min ?? 0 }
-					max={ widthAttrConfig.max ?? 20 }
-					step={ widthAttrConfig.step ?? 1 }
-					responsive={ widthAttrConfig.responsive }
+					onStyleChange={ handleStyleChange }
+					min={ 0 }
+					max={ 20 }
+					step={ 1 }
 					disabled={ isDisabled }
-					lockLinked={ isSingleSideBorder }
+				/>
+			);
+		}
+
+		case 'RadiusControl': {
+			// Only render if this attribute has renderControl: true
+			// (First corner attribute in a radius group has this flag)
+			if ( attrConfig.renderControl !== true ) {
+				return null;
+			}
+
+			// Find related attributes by controlId
+			const controlId = attrConfig.controlId;
+			if ( ! controlId ) {
+				return null;
+			}
+
+			const allAttrs = Object.entries( schema?.attributes || {} );
+			const relatedAttrs = allAttrs.filter(
+				( [ , attr ] ) => attr.control === 'RadiusControl' && attr.controlId === controlId
+			);
+
+			// Find all 4 corners by their cssProperty endings
+			const corners = {
+				topLeft: relatedAttrs.find( ( [ , attr ] ) =>
+					attr.cssProperty?.endsWith( 'top-left-radius' )
+				),
+				topRight: relatedAttrs.find( ( [ , attr ] ) =>
+					attr.cssProperty?.endsWith( 'top-right-radius' )
+				),
+				bottomRight: relatedAttrs.find( ( [ , attr ] ) =>
+					attr.cssProperty?.endsWith( 'bottom-right-radius' )
+				),
+				bottomLeft: relatedAttrs.find( ( [ , attr ] ) =>
+					attr.cssProperty?.endsWith( 'bottom-left-radius' )
+				),
+			};
+
+			const topLeftAttrName = corners.topLeft?.[ 0 ];
+			const topRightAttrName = corners.topRight?.[ 0 ];
+			const bottomRightAttrName = corners.bottomRight?.[ 0 ];
+			const bottomLeftAttrName = corners.bottomLeft?.[ 0 ];
+
+			// Validate we found all 4 corners
+			if ( ! topLeftAttrName || ! topRightAttrName || ! bottomRightAttrName || ! bottomLeftAttrName ) {
+				return null;
+			}
+
+			// Get raw values from effectiveValues
+			const topLeftRaw =
+				effectiveValues?.[ topLeftAttrName ] ?? corners.topLeft[ 1 ].default ?? '0px';
+			const topRightRaw =
+				effectiveValues?.[ topRightAttrName ] ?? corners.topRight[ 1 ].default ?? '0px';
+			const bottomRightRaw =
+				effectiveValues?.[ bottomRightAttrName ] ?? corners.bottomRight[ 1 ].default ?? '0px';
+			const bottomLeftRaw =
+				effectiveValues?.[ bottomLeftAttrName ] ?? corners.bottomLeft[ 1 ].default ?? '0px';
+
+			// Extract unit from first corner value (they should all use the same unit)
+			const firstVal = topLeftRaw || '0px';
+			const unitMatch = String( firstVal ).match( /[a-z%]+$/i );
+			const unit = unitMatch ? unitMatch[ 0 ] : 'px';
+
+			// Parse numeric values (remove units)
+			const parseValue = ( val ) => {
+				const str = String( val );
+				const numMatch = str.match( /^([0-9.]+)/ );
+				return numMatch ? parseFloat( numMatch[ 1 ] ) : 0;
+			};
+
+			// Build radius value object for BorderRadiusControl
+			const radiusValue = {
+				topLeft: parseValue( topLeftRaw ),
+				topRight: parseValue( topRightRaw ),
+				bottomRight: parseValue( bottomRightRaw ),
+				bottomLeft: parseValue( bottomLeftRaw ),
+				unit,
+			};
+
+			// Handle radius change - update all 4 corner attributes
+			const handleRadiusChange = ( newRadius ) => {
+				const updates = {
+					[ topLeftAttrName ]: `${ newRadius.topLeft }${ newRadius.unit || 'px' }`,
+					[ topRightAttrName ]: `${ newRadius.topRight }${ newRadius.unit || 'px' }`,
+					[ bottomRightAttrName ]: `${ newRadius.bottomRight }${ newRadius.unit || 'px' }`,
+					[ bottomLeftAttrName ]: `${ newRadius.bottomLeft }${ newRadius.unit || 'px' }`,
+				};
+				setAttributes( updates );
+			};
+
+			return (
+				<BorderRadiusControl
+					key={ attrName }
+					label={ renderLabel( 'Border Radius' ) }
+					value={ radiusValue }
+					onChange={ handleRadiusChange }
+					units={ [ 'px', 'rem', '%', 'em' ] }
+					disabled={ isDisabled }
+				/>
+			);
+		}
+
+		case 'SpacingControl': {
+			// Only render if this attribute has renderControl: true
+			// (First side attribute in a spacing group has this flag)
+			if ( attrConfig.renderControl !== true ) {
+				return null;
+			}
+
+			// Find related attributes by controlId
+			const controlId = attrConfig.controlId;
+			if ( ! controlId ) {
+				return null;
+			}
+
+			const allAttrs = Object.entries( schema?.attributes || {} );
+			const relatedAttrs = allAttrs.filter(
+				( [ , attr ] ) => attr.control === 'SpacingControl' && attr.controlId === controlId
+			);
+
+			// Find all 4 sides
+			const sides = [ 'top', 'right', 'bottom', 'left' ];
+			const sideAttrs = {};
+
+			sides.forEach( ( side ) => {
+				const attrEntry = relatedAttrs.find(
+					( [ , attr ] ) =>
+						attr.cssProperty === `padding-${ side }` || attr.cssProperty === `margin-${ side }`
+				);
+				sideAttrs[ side ] = attrEntry;
+			} );
+
+			// Determine if this is padding or margin
+			const isPadding = attrConfig.cssProperty?.startsWith( 'padding' );
+			const spacingType = isPadding ? 'padding' : 'margin';
+			const spacingLabel = isPadding ? 'Padding' : 'Margin';
+
+			// Build spacing value object from all 4 sides
+			const spacingValue = {};
+			sides.forEach( ( side ) => {
+				const attrName = sideAttrs[ side ]?.[ 0 ];
+				const attrDef = sideAttrs[ side ]?.[ 1 ];
+				const rawValue =
+					effectiveValues?.[ attrName ] ?? attrDef?.default ?? '0px';
+
+				// Parse numeric value
+				const str = String( rawValue );
+				const numMatch = str.match( /^([0-9.]+)/ );
+				spacingValue[ side ] = numMatch ? parseFloat( numMatch[ 1 ] ) : 0;
+			} );
+
+			// Extract unit from first side value
+			const firstAttrName = sideAttrs.top?.[ 0 ];
+			const firstRawValue =
+				effectiveValues?.[ firstAttrName ] ?? sideAttrs.top?.[ 1 ]?.default ?? '0px';
+			const unitMatch = String( firstRawValue ).match( /[a-z%]+$/i );
+			spacingValue.unit = unitMatch ? unitMatch[ 0 ] : 'px';
+
+			// Handle spacing change - update all 4 side attributes
+			const handleSpacingChange = ( newSpacing ) => {
+				const updates = {};
+				sides.forEach( ( side ) => {
+					const attrName = sideAttrs[ side ]?.[ 0 ];
+					if ( attrName ) {
+						updates[ attrName ] = `${ newSpacing[ side ] }${ newSpacing.unit || 'px' }`;
+					}
+				} );
+				setAttributes( updates );
+			};
+
+			// For margin, only show top/bottom sides
+			const allowedSides = isPadding ? sides : [ 'top', 'bottom' ];
+
+			return (
+				<SpacingControl
+					key={ attrName }
+					label={ renderLabel( spacingLabel ) }
+					type={ spacingType }
+					value={ spacingValue }
+					onChange={ handleSpacingChange }
+					units={ [ 'px', 'em', 'rem', '%' ] }
+					sides={ allowedSides }
+					disabled={ isDisabled }
 				/>
 			);
 		}
@@ -1521,20 +1774,28 @@ export function ControlRenderer( {
 		}
 
 		case 'FormattingControl': {
-			const formattingBase = attrName.replace( /Formatting$/, '' );
-			const fontWeightKey = `${ formattingBase }FontWeight`;
-			const decorationColorKey = `${ formattingBase }DecorationColor`;
-			const decorationStyleKey = `${ formattingBase }DecorationStyle`;
-			const decorationWidthKey = `${ formattingBase }DecorationWidth`;
-			const noLineBreakKey = `${ formattingBase }NoLineBreak`;
-			const textDecorationKey = `${ formattingBase }TextDecoration`;
+			// attrName is kebab-case like "title-typography-formatting"
+			// Strip "-formatting" to get base like "title-typography"
+			const formattingBase = attrName.replace( /-formatting$/i, '' );
+
+			// Build kebab-case attribute names
+			const fontWeightKey = `${ formattingBase }-font-weight`;
+			const decorationColorKey = `${ formattingBase }-decoration-color`;
+			const decorationStyleKey = `${ formattingBase }-decoration-style`;
+			const decorationWidthKey = `${ formattingBase }-decoration-width`;
+			const noLineBreakKey = `${ formattingBase }-no-line-break`;
+			const textDecorationKey = `${ formattingBase }-text-decoration`;
 			const decorationKeys = [ 'underline', 'overline', 'line-through' ];
+
+			// Get formatting value - ensure it's always an array
+			const formattingValue = attributes[ attrName ];
+			const formattingArray = Array.isArray( formattingValue ) ? formattingValue : [];
 
 			return (
 				<FormattingControl
 					key={ attrName }
 					value={ {
-						formatting: attributes[ attrName ] || [],
+						formatting: formattingArray,
 						fontWeight: attributes[ fontWeightKey ] || 400,
 						decorationColor: attributes[ decorationColorKey ] || 'currentColor',
 						decorationStyle: attributes[ decorationStyleKey ] || 'solid',
@@ -1545,14 +1806,16 @@ export function ControlRenderer( {
 					} }
 					textColor={ effectiveValues?.titleColor }
 					onChange={ ( newValue ) => {
-						const decorationLines = newValue.formatting.filter( ( value ) =>
+						// Ensure newValue.formatting is an array before filtering
+						const formatting = Array.isArray( newValue.formatting ) ? newValue.formatting : [];
+						const decorationLines = formatting.filter( ( value ) =>
 							decorationKeys.includes( value )
 						);
 						const decorationLineValue =
 							decorationLines.length > 0 ? decorationLines.join( ' ' ) : 'none';
 
 						setAttributes( {
-							[ attrName ]: newValue.formatting,
+							[ attrName ]: formatting,
 							[ fontWeightKey ]: newValue.fontWeight,
 							[ decorationColorKey ]: newValue.decorationColor,
 							[ decorationStyleKey ]: newValue.decorationStyle,

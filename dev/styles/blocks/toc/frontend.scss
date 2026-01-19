@@ -10,6 +10,9 @@
 
 @use './variables';
 
+// Import auto-generated SCSS that applies CSS variables to selectors
+@import './generated/styles-generated.scss';
+
 /* Reset all heading margins */
 .gutplus-toc {
 	h1, h2, h3, h4, h5, h6 {

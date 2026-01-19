@@ -29,6 +29,7 @@ const PATHS = {
 	generators: {
 		attributes: path.join(__dirname, 'generators', 'attributes.js'),
 		cssVarsEditor: path.join(__dirname, 'generators', 'css-vars-editor.js'),
+		cssVarsEditorJs: path.join(__dirname, 'generators', 'css-vars-editor-js.js'),
 		cssVarsFrontend: path.join(__dirname, 'generators', 'css-vars-frontend.js'),
 	}
 };
@@ -295,6 +296,41 @@ async function generateCssVariables() {
 		}
 	}
 
+	// Generate editor CSS variables (JavaScript) - for inline styles in editor
+	if (!fileExists(PATHS.generators.cssVarsEditorJs)) {
+		logWarning('Editor CSS vars JS generator not found - skipping');
+		logInfo(`Expected: ${PATHS.generators.cssVarsEditorJs}`);
+	} else {
+		try {
+			logInfo('\nGenerating editor CSS variables (JavaScript for inline styles)...');
+			const { generateAllEditorCssVarsJs } = require(PATHS.generators.cssVarsEditorJs);
+
+			const outputDir = path.join(ROOT_DIR, 'shared', 'styles');
+			const results = generateAllEditorCssVarsJs(BLOCKS, PATHS.schemas.generated, outputDir);
+
+			// Report results
+			if (results.success.length > 0) {
+				results.success.forEach(({ blockType, varCount }) => {
+					logSuccess(`Generated ${blockType}-css-vars-generated.js (${varCount} CSS vars)`);
+				});
+				totalGenerated += results.success.length;
+			}
+
+			if (results.failed.length > 0) {
+				results.failed.forEach(({ blockType, error }) => {
+					logError(`Failed to generate ${blockType}: ${error}`);
+				});
+			}
+
+			logInfo(`  Total editor JS CSS vars: ${results.totalVars}`);
+		} catch (error) {
+			logError(`Editor CSS vars JS generation failed: ${error.message}`);
+			if (process.env.DEBUG) {
+				console.error(error.stack);
+			}
+		}
+	}
+
 	// Generate frontend CSS variables (JavaScript)
 	if (!fileExists(PATHS.generators.cssVarsFrontend)) {
 		logWarning('Frontend CSS vars generator not found - skipping');
@@ -333,6 +369,74 @@ async function generateCssVariables() {
 	return totalGenerated;
 }
 
+/**
+ * Step 4: Generate SCSS Selector Rules
+ *
+ * This step generates SCSS files that apply CSS variables to DOM selectors.
+ * This is the critical missing step that actually applies the variables to elements.
+ */
+async function generateScssRules() {
+	logStep(4, 'Generating SCSS Selector Rules');
+
+	const scssGeneratorPath = path.join(ROOT_DIR, 'schemas', 'parsers', 'expansors', 'scss-generator.js');
+
+	if (!fileExists(scssGeneratorPath)) {
+		logWarning('SCSS generator not found - skipping');
+		logInfo(`Expected: ${scssGeneratorPath}`);
+		return 0;
+	}
+
+	const { generateAndWriteSCSS } = require(scssGeneratorPath);
+
+	let successCount = 0;
+	let errorCount = 0;
+
+	for (const block of BLOCKS) {
+		try {
+			logInfo(`\nGenerating SCSS rules for ${block}...`);
+
+			// Load comprehensive schema
+			const schemaPath = path.join(PATHS.schemas.generated, `${block}.json`);
+			if (!fileExists(schemaPath)) {
+				logError(`Comprehensive schema not found: ${schemaPath}`);
+				errorCount++;
+				continue;
+			}
+
+			const comprehensiveSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+
+			// Create output directory if needed
+			const outputDir = path.join(ROOT_DIR, 'styles', 'blocks', block, 'generated');
+			ensureDir(outputDir);
+
+			// Generate SCSS file
+			const outputPath = path.join(outputDir, 'styles-generated.scss');
+			generateAndWriteSCSS(comprehensiveSchema, outputPath);
+
+			logSuccess(`Generated ${block}/generated/styles-generated.scss`);
+			logInfo(`  Output: ${path.relative(ROOT_DIR, outputPath)}`);
+
+			successCount++;
+		} catch (error) {
+			logError(`Failed to generate SCSS for ${block}: ${error.message}`);
+			if (process.env.DEBUG) {
+				console.error(error.stack);
+			}
+			errorCount++;
+		}
+	}
+
+	// Summary
+	console.log(`\n${'-'.repeat(60)}`);
+	logInfo(`Generated ${successCount} SCSS file(s), ${errorCount} failed`);
+
+	if (errorCount > 0) {
+		throw new Error(`Failed to generate ${errorCount} SCSS file(s)`);
+	}
+
+	return successCount;
+}
+
 // ============================================================================
 // Main Build Pipeline
 // ============================================================================
@@ -357,6 +461,9 @@ async function build() {
 
 		// Step 3: Generate CSS variables (Phase 5)
 		totalGenerated += await generateCssVariables();
+
+		// Step 4: Generate SCSS selector rules (applies CSS vars to DOM)
+		totalGenerated += await generateScssRules();
 
 		// Success summary
 		const duration = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -399,4 +506,5 @@ module.exports = {
 	generateComprehensiveSchemas,
 	generateBlockAttributes,
 	generateCssVariables,
+	generateScssRules,
 };

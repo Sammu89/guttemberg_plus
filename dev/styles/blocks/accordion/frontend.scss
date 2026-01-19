@@ -10,6 +10,9 @@
 
 @use './variables';
 
+// Import auto-generated SCSS that applies CSS variables to selectors
+@import './generated/styles-generated.scss';
+
 /* Reset all heading margins */
 .gutplus-accordion {
 	h1, h2, h3, h4, h5, h6 {
@@ -19,7 +22,7 @@
 
 /* Accordion item - now the root element
  * .gutplus-accordion is the block root
- * Border styles come from _theme-generated.scss via CSS variables
+ * Border styles come from auto-generated SCSS via CSS variables
  *
  * IMPORTANT: Block margin uses separate margin-top/margin-bottom properties
  * to avoid conflicting with horizontal alignment (margin-left/margin-right).
@@ -30,7 +33,7 @@
 	overflow: hidden;
 	transition: box-shadow 0.2s ease;
 	outline: none;
-	// Border and shadow styles come from auto-generated accordion_variables.scss
+	// CSS variables applied via generated/styles-generated.scss
 
 	// Alignment classes - horizontal margins for block positioning
 	&.gutplus-align-left {
@@ -67,6 +70,7 @@
 	box-sizing: border-box;
 	gap: 0.5rem;
 	text-align: left;
+	// CSS variables applied via generated/styles-generated.scss
 
 	&.title-align-center {
 		justify-content: center;

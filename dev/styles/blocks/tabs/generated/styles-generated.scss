@@ -1,0 +1,145 @@
+/**
+ * AUTO-GENERATED - DO NOT EDIT
+ * Source: comprehensive schema for tabs
+ * Generated: 2026-01-19T16:38:17.122Z
+ */
+
+:root {
+  --tabs-border-shadow: none;
+  --tabs-border-shadow-hover: none;
+  --tabs-border-width: 0;
+  --tabs-button-active-content-border-color: #ffffff;
+  --tabs-button-active-content-border-style: solid;
+  --tabs-button-active-content-border-width: 1;
+  --tabs-button-active-font-weight: bold;
+  --tabs-button-background: #f5f5f5;
+  --tabs-button-background-active: #ffffff;
+  --tabs-button-background-hover: #e8e8e8;
+  --tabs-button-border-shadow: none;
+  --tabs-button-border-shadow-hover: none;
+  --tabs-button-border-width: 1;
+  --tabs-button-color: #666666;
+  --tabs-button-color-active: #333333;
+  --tabs-button-color-hover: #333333;
+  --tabs-button-font-size: 1rem;
+  --tabs-button-font-style: normal;
+  --tabs-button-font-weight: 500;
+  --tabs-button-gap: 0.5rem;
+  --tabs-button-padding: 0.75rem;
+  --tabs-button-text-align: center;
+  --tabs-button-text-decoration: none;
+  --tabs-button-text-transform: none;
+  --tabs-icon-animation-rotation: 180deg;
+  --tabs-icon-color: #333333;
+  --tabs-icon-color-is-open: #333333;
+  --tabs-icon-display: inline-grid;
+  --tabs-icon-initial-rotation: 0deg;
+  --tabs-icon-initial-rotation-is-open: 0deg;
+  --tabs-icon-max-size: 24px;
+  --tabs-icon-max-size-is-open: 24px;
+  --tabs-icon-offset-x: 0px;
+  --tabs-icon-offset-x-is-open: 0px;
+  --tabs-icon-offset-y: 0px;
+  --tabs-icon-offset-y-is-open: 0px;
+  --tabs-icon-size: 16px;
+  --tabs-icon-size-is-open: 16px;
+  --tabs-list-align: flex-start;
+  --tabs-list-bg: transparent;
+  --tabs-list-divider-border-color: transparent;
+  --tabs-list-divider-border-style: solid;
+  --tabs-list-divider-border-width: 1;
+  --tabs-panel-bg: #ffffff;
+  --tabs-panel-border-width: 1;
+  --tabs-row-border-width: 0;
+  --tabs-row-spacing: 0.5rem;
+  --tabs-width: 100%;
+}
+
+
+/* ========================================
+   DESKTOP
+   ======================================== */
+
+.tab-button {
+  color: var(--tabs-button-color);
+  background: var(--tabs-button-background);
+  text-align: var(--tabs-button-text-align);
+  padding: var(--tabs-button-padding);
+  border-color: var(--tabs-button-border-color);
+  border-width: var(--tabs-button-border-width);
+  border-style: var(--tabs-button-border-style);
+  border-radius: var(--tabs-button-border-radius);
+  box-shadow: var(--tabs-button-border-shadow);
+}
+
+.tab-button-text {
+  font-size: var(--tabs-button-font-size);
+  font-weight: var(--tabs-button-font-weight);
+  font-style: var(--tabs-button-font-style);
+  text-transform: var(--tabs-button-text-transform);
+  text-decoration: var(--tabs-button-text-decoration);
+}
+
+.tab-panel {
+  background-color: var(--tabs-panel-bg);
+  border-color: var(--tabs-panel-border-color);
+  border-width: var(--tabs-panel-border-width);
+  border-style: var(--tabs-panel-border-style);
+  border-radius: var(--tabs-panel-border-radius);
+}
+
+.tabs-list {
+  background-color: var(--tabs-list-bg);
+  border-color: var(--tabs-row-border-color);
+  border-width: var(--tabs-row-border-width);
+  border-style: var(--tabs-row-border-style);
+  gap: var(--tabs-button-gap);
+  justify-content: var(--tabs-list-align);
+}
+
+.gutplus-tabs {
+  width: var(--tabs-width);
+  border-color: var(--tabs-border-color);
+  border-width: var(--tabs-border-width);
+  border-style: var(--tabs-border-style);
+  border-radius: var(--tabs-border-radius);
+  box-shadow: var(--tabs-border-shadow);
+}
+
+/* hover state */
+.tab-button:hover {
+  color: var(--tabs-button-color-hover);
+  background: var(--tabs-button-background-hover);
+  box-shadow: var(--tabs-button-border-shadow-hover);
+}
+
+.gutplus-tabs:hover {
+  box-shadow: var(--tabs-border-shadow-hover);
+}
+
+/* active state */
+.tab-button:active {
+  color: var(--tabs-button-color-active);
+  background: var(--tabs-button-background-active);
+  font-weight: var(--tabs-button-active-font-weight);
+  border-color: var(--tabs-button-active-border-color);
+}
+
+
+/* ========================================
+   TABLET
+   ======================================== */
+
+[data-gutplus-device="tablet"] .gutplus-tabs {
+  width: var(--tabs-width-tablet, var(--tabs-width));
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+[data-gutplus-device="mobile"] .gutplus-tabs {
+  width: var(--tabs-width-mobile, var(--tabs-width-tablet, var(--tabs-width)));
+}
+

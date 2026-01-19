@@ -29,14 +29,78 @@ function getGeneratedHeader(blockType) {
 }
 
 /**
+ * Format shadow value (box-shadow or text-shadow)
+ * @param {Array} shadows - Array of shadow layer objects
+ * @param {string} cssProperty - CSS property name ('box-shadow' or 'text-shadow')
+ * @return {string} Formatted CSS shadow value
+ */
+function formatShadowValue(shadows, cssProperty) {
+	if (!shadows || !Array.isArray(shadows) || shadows.length === 0) {
+		return 'none';
+	}
+
+	// Filter valid layers (those with a color)
+	const validLayers = shadows.filter(layer => layer && layer.color && layer.color.trim() !== '');
+	if (validLayers.length === 0) {
+		return 'none';
+	}
+
+	const formatValue = (valueObj) => {
+		if (valueObj === null || valueObj === undefined) return '0px';
+		if (typeof valueObj === 'string') return valueObj;
+		if (typeof valueObj === 'number') return `${valueObj}px`;
+		if (typeof valueObj === 'object' && valueObj !== null) {
+			const value = valueObj.value ?? 0;
+			const unit = valueObj.unit ?? 'px';
+			return `${value}${unit}`;
+		}
+		return '0px';
+	};
+
+	const shadowStrings = validLayers.map(layer => {
+		const parts = [];
+
+		// box-shadow supports inset, text-shadow doesn't
+		if (cssProperty === 'box-shadow' && layer.inset === true) {
+			parts.push('inset');
+		}
+
+		// Add offsets
+		parts.push(formatValue(layer.x));
+		parts.push(formatValue(layer.y));
+
+		// box-shadow has blur and spread, text-shadow only has blur
+		if (cssProperty === 'box-shadow') {
+			parts.push(formatValue(layer.blur));
+			parts.push(formatValue(layer.spread));
+		} else if (layer.blur) {
+			parts.push(formatValue(layer.blur));
+		}
+
+		// Add color
+		parts.push(layer.color);
+
+		return parts.join(' ');
+	});
+
+	return shadowStrings.join(', ');
+}
+
+/**
  * Format CSS value with unit
  * @param {*} value - Value to format
  * @param {string} type - Attribute type
+ * @param {string} cssProperty - CSS property name (for special handling)
  * @return {string} Formatted CSS value
  */
-function formatCssValue(value, type) {
+function formatCssValue(value, type, cssProperty) {
 	if (value === null || value === undefined) {
 		return null;
+	}
+
+	// Handle shadow arrays (box-shadow, text-shadow)
+	if (type === 'array' && (cssProperty === 'box-shadow' || cssProperty === 'text-shadow')) {
+		return formatShadowValue(value, cssProperty);
 	}
 
 	// Handle string values (colors, keywords, etc.)
@@ -94,8 +158,8 @@ function generateEditorCssVarsScss(blockType, schema) {
 			defaultValue = attrDef.default;
 		}
 
-		// Format value
-		const formattedValue = formatCssValue(defaultValue, attrDef.type);
+		// Format value (pass cssProperty for special handling of shadows)
+		const formattedValue = formatCssValue(defaultValue, attrDef.type, attrDef.cssProperty);
 
 		if (formattedValue !== null) {
 			cssVars[cssVarName] = formattedValue;

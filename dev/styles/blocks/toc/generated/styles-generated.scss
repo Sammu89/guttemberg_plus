@@ -1,0 +1,331 @@
+/**
+ * AUTO-GENERATED - DO NOT EDIT
+ * Source: comprehensive schema for toc
+ * Generated: 2026-01-19T16:38:17.126Z
+ */
+
+:root {
+  --toc-border-shadow: none;
+  --toc-border-shadow-hover: none;
+  --toc-border-width: 1;
+  --toc-h1-color: inherit;
+  --toc-h1-color-active: inherit;
+  --toc-h1-color-hover: inherit;
+  --toc-h1-color-visited: inherit;
+  --toc-h1-font-size: 1.5rem;
+  --toc-h1-font-style: normal;
+  --toc-h1-font-weight: 700;
+  --toc-h1-text-decoration: none;
+  --toc-h1-text-transform: none;
+  --toc-h2-color: inherit;
+  --toc-h2-color-active: inherit;
+  --toc-h2-color-hover: inherit;
+  --toc-h2-color-visited: inherit;
+  --toc-h2-font-size: 1.25rem;
+  --toc-h2-font-style: normal;
+  --toc-h2-font-weight: 600;
+  --toc-h2-text-decoration: none;
+  --toc-h2-text-transform: none;
+  --toc-h3-color: inherit;
+  --toc-h3-color-active: inherit;
+  --toc-h3-color-hover: inherit;
+  --toc-h3-color-visited: inherit;
+  --toc-h3-font-size: 1.125rem;
+  --toc-h3-font-style: normal;
+  --toc-h3-font-weight: 500;
+  --toc-h3-text-decoration: none;
+  --toc-h3-text-transform: none;
+  --toc-h4-color: inherit;
+  --toc-h4-color-active: inherit;
+  --toc-h4-color-hover: inherit;
+  --toc-h4-color-visited: inherit;
+  --toc-h4-font-size: 1rem;
+  --toc-h4-font-style: normal;
+  --toc-h4-font-weight: normal;
+  --toc-h4-text-decoration: none;
+  --toc-h4-text-transform: none;
+  --toc-h5-color: inherit;
+  --toc-h5-color-active: inherit;
+  --toc-h5-color-hover: inherit;
+  --toc-h5-color-visited: inherit;
+  --toc-h5-font-size: 0.9375rem;
+  --toc-h5-font-style: normal;
+  --toc-h5-font-weight: normal;
+  --toc-h5-text-decoration: none;
+  --toc-h5-text-transform: none;
+  --toc-h6-color: inherit;
+  --toc-h6-color-active: inherit;
+  --toc-h6-color-hover: inherit;
+  --toc-h6-color-visited: inherit;
+  --toc-h6-font-size: 0.875rem;
+  --toc-h6-font-style: normal;
+  --toc-h6-font-weight: normal;
+  --toc-h6-text-decoration: none;
+  --toc-h6-text-transform: none;
+  --toc-icon-animation-rotation: 180deg;
+  --toc-icon-color: #333333;
+  --toc-icon-color-is-open: #333333;
+  --toc-icon-display: inline-grid;
+  --toc-icon-initial-rotation: 0deg;
+  --toc-icon-initial-rotation-is-open: 0deg;
+  --toc-icon-max-size: 24px;
+  --toc-icon-max-size-is-open: 24px;
+  --toc-icon-offset-x: 0px;
+  --toc-icon-offset-x-is-open: 0px;
+  --toc-icon-offset-y: 0px;
+  --toc-icon-offset-y-is-open: 0px;
+  --toc-icon-size: 16px;
+  --toc-icon-size-is-open: 16px;
+  --toc-item-spacing: 0.5rem;
+  --toc-level-indent: 1.25rem;
+  --toc-link-color: #0073aa;
+  --toc-link-color-active: #005177;
+  --toc-link-color-hover: #005177;
+  --toc-link-color-visited: #0073aa;
+  --toc-position-top: 6.25rem;
+  --toc-title-alignment: left;
+  --toc-title-background: transparent;
+  --toc-title-background-hover: transparent;
+  --toc-title-color: #333333;
+  --toc-title-color-hover: #000000;
+  --toc-title-font-size: 1.25rem;
+  --toc-title-font-style: normal;
+  --toc-title-font-weight: 700;
+  --toc-title-text-decoration: none;
+  --toc-title-text-transform: none;
+  --toc-width: 100%;
+  --toc-wrapper-background-color: #ffffff;
+  --toc-wrapper-padding: 1.25rem;
+  --toc-z-index: 100;
+}
+
+
+/* ========================================
+   DESKTOP
+   ======================================== */
+
+.toc-content {
+  padding: var(--toc-wrapper-padding);
+}
+
+.toc-link {
+  color: var(--toc-h1-color);
+  font-size: var(--toc-h1-font-size);
+  font-weight: var(--toc-h1-font-weight);
+  font-style: var(--toc-h1-font-style);
+  text-transform: var(--toc-h1-text-transform);
+  text-decoration: var(--toc-h1-text-decoration);
+}
+
+.toc-link {
+  color: var(--toc-h2-color);
+  font-size: var(--toc-h2-font-size);
+  font-weight: var(--toc-h2-font-weight);
+  font-style: var(--toc-h2-font-style);
+  text-transform: var(--toc-h2-text-transform);
+  text-decoration: var(--toc-h2-text-decoration);
+}
+
+.toc-link {
+  color: var(--toc-h3-color);
+  font-size: var(--toc-h3-font-size);
+  font-weight: var(--toc-h3-font-weight);
+  font-style: var(--toc-h3-font-style);
+  text-transform: var(--toc-h3-text-transform);
+  text-decoration: var(--toc-h3-text-decoration);
+}
+
+.toc-link {
+  color: var(--toc-h4-color);
+  font-size: var(--toc-h4-font-size);
+  font-weight: var(--toc-h4-font-weight);
+  font-style: var(--toc-h4-font-style);
+  text-transform: var(--toc-h4-text-transform);
+  text-decoration: var(--toc-h4-text-decoration);
+}
+
+.toc-link {
+  color: var(--toc-h5-color);
+  font-size: var(--toc-h5-font-size);
+  font-weight: var(--toc-h5-font-weight);
+  font-style: var(--toc-h5-font-style);
+  text-transform: var(--toc-h5-text-transform);
+  text-decoration: var(--toc-h5-text-decoration);
+}
+
+.toc-link {
+  color: var(--toc-h6-color);
+  font-size: var(--toc-h6-font-size);
+  font-weight: var(--toc-h6-font-weight);
+  font-style: var(--toc-h6-font-style);
+  text-transform: var(--toc-h6-text-transform);
+  text-decoration: var(--toc-h6-text-decoration);
+}
+
+.toc-link {
+  color: var(--toc-link-color);
+}
+
+.toc-list {
+  gap: var(--toc-item-spacing);
+  margin-left: var(--toc-level-indent);
+}
+
+.toc-list {
+  gap: var(--toc-item-spacing);
+  margin-left: var(--toc-level-indent);
+}
+
+.toc-title {
+  color: var(--toc-title-color);
+  background: var(--toc-title-background);
+  font-size: var(--toc-title-font-size);
+  font-weight: var(--toc-title-font-weight);
+  font-style: var(--toc-title-font-style);
+  text-transform: var(--toc-title-text-transform);
+  text-decoration: var(--toc-title-text-decoration);
+  text-align: var(--toc-title-alignment);
+}
+
+.toc-title {
+  color: var(--toc-title-color);
+  background: var(--toc-title-background);
+  font-size: var(--toc-title-font-size);
+  font-weight: var(--toc-title-font-weight);
+  font-style: var(--toc-title-font-style);
+  text-transform: var(--toc-title-text-transform);
+  text-decoration: var(--toc-title-text-decoration);
+  text-align: var(--toc-title-alignment);
+}
+
+.gutplus-toc {
+  width: var(--toc-width);
+  background-color: var(--toc-wrapper-background-color);
+  border-color: var(--toc-border-color);
+  border-width: var(--toc-border-width);
+  border-style: var(--toc-border-style);
+  border-radius: var(--toc-border-radius);
+  box-shadow: var(--toc-border-shadow);
+  top: var(--toc-position-top);
+  z-index: var(--toc-z-index);
+}
+
+/* hover state */
+.toc-link:hover {
+  color: var(--toc-h1-color-hover);
+}
+
+.toc-link:hover {
+  color: var(--toc-h2-color-hover);
+}
+
+.toc-link:hover {
+  color: var(--toc-h3-color-hover);
+}
+
+.toc-link:hover {
+  color: var(--toc-h4-color-hover);
+}
+
+.toc-link:hover {
+  color: var(--toc-h5-color-hover);
+}
+
+.toc-link:hover {
+  color: var(--toc-h6-color-hover);
+}
+
+.toc-link:hover {
+  color: var(--toc-link-color-hover);
+}
+
+.toc-title:hover {
+  color: var(--toc-title-color-hover);
+  background: var(--toc-title-background-hover);
+}
+
+.toc-title:hover {
+  color: var(--toc-title-color-hover);
+  background: var(--toc-title-background-hover);
+}
+
+.gutplus-toc:hover {
+  box-shadow: var(--toc-border-shadow-hover);
+}
+
+/* active state */
+.toc-link:active {
+  color: var(--toc-h1-color-active);
+}
+
+.toc-link:active {
+  color: var(--toc-h2-color-active);
+}
+
+.toc-link:active {
+  color: var(--toc-h3-color-active);
+}
+
+.toc-link:active {
+  color: var(--toc-h4-color-active);
+}
+
+.toc-link:active {
+  color: var(--toc-h5-color-active);
+}
+
+.toc-link:active {
+  color: var(--toc-h6-color-active);
+}
+
+.toc-link:active {
+  color: var(--toc-link-color-active);
+}
+
+/* visited state */
+.toc-link:visited {
+  color: var(--toc-h1-color-visited);
+}
+
+.toc-link:visited {
+  color: var(--toc-h2-color-visited);
+}
+
+.toc-link:visited {
+  color: var(--toc-h3-color-visited);
+}
+
+.toc-link:visited {
+  color: var(--toc-h4-color-visited);
+}
+
+.toc-link:visited {
+  color: var(--toc-h5-color-visited);
+}
+
+.toc-link:visited {
+  color: var(--toc-h6-color-visited);
+}
+
+.toc-link:visited {
+  color: var(--toc-link-color-visited);
+}
+
+
+/* ========================================
+   TABLET
+   ======================================== */
+
+[data-gutplus-device="tablet"] .gutplus-toc {
+  width: var(--toc-width-tablet, var(--toc-width));
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+[data-gutplus-device="mobile"] .gutplus-toc {
+  width: var(--toc-width-mobile, var(--toc-width-tablet, var(--toc-width)));
+}
+

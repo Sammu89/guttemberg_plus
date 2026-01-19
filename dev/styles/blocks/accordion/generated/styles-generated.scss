@@ -1,0 +1,244 @@
+/**
+ * AUTO-GENERATED - DO NOT EDIT
+ * Source: comprehensive schema for accordion
+ * Generated: 2026-01-19T16:38:17.116Z
+ */
+
+:root {
+  --accordion-animation-duration: 250ms;
+  --accordion-content-background: #ffffff;
+  --accordion-content-border-top-color: #dddddd;
+  --accordion-content-border-top-style: solid;
+  --accordion-content-border-top-width: 0px;
+  --accordion-content-color: #333333;
+  --accordion-content-font-family: inherit;
+  --accordion-content-font-size: 16px;
+  --accordion-content-font-weight: 400;
+  --accordion-content-letter-spacing: normal;
+  --accordion-content-line-height: 1.5;
+  --accordion-content-text-decoration-line: none;
+  --accordion-content-text-transform: none;
+  --accordion-contentInner-padding-bottom: 16px;
+  --accordion-contentInner-padding-left: 16px;
+  --accordion-contentInner-padding-right: 16px;
+  --accordion-contentInner-padding-top: 16px;
+  --accordion-icon-animation-rotation: 180deg;
+  --accordion-icon-color: #333333;
+  --accordion-icon-color-is-open: #333333;
+  --accordion-icon-display: inline-grid;
+  --accordion-icon-initial-rotation: 0deg;
+  --accordion-icon-initial-rotation-is-open: 0deg;
+  --accordion-icon-max-size: 24px;
+  --accordion-icon-max-size-is-open: 24px;
+  --accordion-icon-offset-x: 0px;
+  --accordion-icon-offset-x-is-open: 0px;
+  --accordion-icon-offset-y: 0px;
+  --accordion-icon-offset-y-is-open: 0px;
+  --accordion-icon-size: 16px;
+  --accordion-icon-size-is-open: 16px;
+  --accordion-item-border-bottom-color: #dddddd;
+  --accordion-item-border-bottom-left-radius: 4px;
+  --accordion-item-border-bottom-right-radius: 4px;
+  --accordion-item-border-bottom-style: solid;
+  --accordion-item-border-bottom-width: 1px;
+  --accordion-item-border-left-color: #dddddd;
+  --accordion-item-border-left-style: solid;
+  --accordion-item-border-left-width: 1px;
+  --accordion-item-border-right-color: #dddddd;
+  --accordion-item-border-right-style: solid;
+  --accordion-item-border-right-width: 1px;
+  --accordion-item-border-top-color: #dddddd;
+  --accordion-item-border-top-left-radius: 4px;
+  --accordion-item-border-top-right-radius: 4px;
+  --accordion-item-border-top-style: solid;
+  --accordion-item-border-top-width: 1px;
+  --accordion-item-margin-bottom: 1em;
+  --accordion-item-margin-left: 0em;
+  --accordion-item-margin-right: 0em;
+  --accordion-item-margin-top: 1em;
+  --accordion-title-alignment: left;
+  --accordion-title-background: #f5f5f5;
+  --accordion-title-background-hover: #e8e8e8;
+  --accordion-title-color: #333333;
+  --accordion-title-color-hover: #000000;
+  --accordion-title-decoration-color: currentColor;
+  --accordion-title-decoration-style: solid;
+  --accordion-title-decoration-width: auto;
+  --accordion-title-font-family: inherit;
+  --accordion-title-font-size: 18px;
+  --accordion-title-font-weight: 600;
+  --accordion-title-letter-spacing: normal;
+  --accordion-title-line-height: 1.4;
+  --accordion-title-offset-x: 0px;
+  --accordion-title-offset-y: 0px;
+  --accordion-title-padding-bottom: 12px;
+  --accordion-title-padding-left: 16px;
+  --accordion-title-padding-right: 16px;
+  --accordion-title-padding-top: 12px;
+  --accordion-title-text-decoration-line: none;
+  --accordion-title-text-transform: none;
+  --accordion-title-white-space: normal;
+  --accordion-width: 100%;
+}
+
+
+/* ========================================
+   DESKTOP
+   ======================================== */
+
+.accordion-content {
+  border-top-width: var(--accordion-content-border-top-width);
+  border-top-color: var(--accordion-content-border-top-color);
+  border-top-style: var(--accordion-content-border-top-style);
+  color: var(--accordion-content-color);
+  background: var(--accordion-content-background);
+}
+
+.accordion-content-inner {
+  padding-top: var(--accordion-contentInner-padding-top);
+  padding-right: var(--accordion-contentInner-padding-right);
+  padding-bottom: var(--accordion-contentInner-padding-bottom);
+  padding-left: var(--accordion-contentInner-padding-left);
+}
+
+.accordion-icon {
+  display: var(--accordion-icon-display);
+  color: var(--accordion-icon-color);
+  transform: translate(var(--accordion-icon-offset-x), var(--accordion-icon-offset-y)) rotate(var(--accordion-icon-initial-rotation));
+  font-size: var(--accordion-icon-size);
+  max-width: var(--accordion-icon-max-size);
+}
+
+.gutplus-accordion {
+  border-top-width: var(--accordion-item-border-top-width);
+  border-top-color: var(--accordion-item-border-top-color);
+  border-top-style: var(--accordion-item-border-top-style);
+  border-right-width: var(--accordion-item-border-right-width);
+  border-right-color: var(--accordion-item-border-right-color);
+  border-right-style: var(--accordion-item-border-right-style);
+  border-bottom-width: var(--accordion-item-border-bottom-width);
+  border-bottom-color: var(--accordion-item-border-bottom-color);
+  border-bottom-style: var(--accordion-item-border-bottom-style);
+  border-left-width: var(--accordion-item-border-left-width);
+  border-left-color: var(--accordion-item-border-left-color);
+  border-left-style: var(--accordion-item-border-left-style);
+  margin-top: var(--accordion-item-margin-top);
+  margin-right: var(--accordion-item-margin-right);
+  margin-bottom: var(--accordion-item-margin-bottom);
+  margin-left: var(--accordion-item-margin-left);
+  border-top-left-radius: var(--accordion-item-border-top-left-radius);
+  border-top-right-radius: var(--accordion-item-border-top-right-radius);
+  border-bottom-right-radius: var(--accordion-item-border-bottom-right-radius);
+  border-bottom-left-radius: var(--accordion-item-border-bottom-left-radius);
+  box-shadow: var(--accordion-item-box-shadow);
+  transition-duration: var(--accordion-animation-duration);
+  width: var(--accordion-width);
+}
+
+.accordion-title {
+  padding-top: var(--accordion-title-padding-top);
+  padding-right: var(--accordion-title-padding-right);
+  padding-bottom: var(--accordion-title-padding-bottom);
+  padding-left: var(--accordion-title-padding-left);
+  color: var(--accordion-title-color);
+  background: var(--accordion-title-background);
+}
+
+.accordion-title-text {
+  text-align: var(--accordion-title-alignment);
+}
+
+/* is-open state */
+.gutplus-accordion.is-open .accordion-icon {
+  color: var(--accordion-icon-color-is-open);
+  transform: translate(var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x)), var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)));
+  font-size: var(--accordion-icon-size-is-open);
+  max-width: var(--accordion-icon-max-size-is-open);
+}
+
+/* hover state */
+.accordion-title:hover {
+  color: var(--accordion-title-color-hover);
+  background: var(--accordion-title-background-hover);
+}
+
+
+/* ========================================
+   TABLET
+   ======================================== */
+
+[data-gutplus-device="tablet"] .accordion-content-inner {
+  padding-top: var(--accordion-contentInner-padding-top-tablet, var(--accordion-contentInner-padding-top));
+  padding-right: var(--accordion-contentInner-padding-right-tablet, var(--accordion-contentInner-padding-right));
+  padding-bottom: var(--accordion-contentInner-padding-bottom-tablet, var(--accordion-contentInner-padding-bottom));
+  padding-left: var(--accordion-contentInner-padding-left-tablet, var(--accordion-contentInner-padding-left));
+}
+
+[data-gutplus-device="tablet"] .accordion-icon {
+  transform: translate(var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)), var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))) rotate(var(--accordion-icon-initial-rotation));
+  font-size: var(--accordion-icon-size-tablet, var(--accordion-icon-size));
+  max-width: var(--accordion-icon-max-size-tablet, var(--accordion-icon-max-size));
+}
+
+[data-gutplus-device="tablet"] .gutplus-accordion {
+  margin-top: var(--accordion-item-margin-top-tablet, var(--accordion-item-margin-top));
+  margin-right: var(--accordion-item-margin-right-tablet, var(--accordion-item-margin-right));
+  margin-bottom: var(--accordion-item-margin-bottom-tablet, var(--accordion-item-margin-bottom));
+  margin-left: var(--accordion-item-margin-left-tablet, var(--accordion-item-margin-left));
+  width: var(--accordion-width-tablet, var(--accordion-width));
+}
+
+[data-gutplus-device="tablet"] .accordion-title {
+  padding-top: var(--accordion-title-padding-top-tablet, var(--accordion-title-padding-top));
+  padding-right: var(--accordion-title-padding-right-tablet, var(--accordion-title-padding-right));
+  padding-bottom: var(--accordion-title-padding-bottom-tablet, var(--accordion-title-padding-bottom));
+  padding-left: var(--accordion-title-padding-left-tablet, var(--accordion-title-padding-left));
+}
+
+/* is-open state */
+[data-gutplus-device="tablet"] .gutplus-accordion.is-open .accordion-icon {
+  transform: translate(var(--accordion-icon-offset-x-is-open-tablet, var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)))), var(--accordion-icon-offset-y-is-open-tablet, var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)));
+  font-size: var(--accordion-icon-size-is-open-tablet, var(--accordion-icon-size-is-open));
+  max-width: var(--accordion-icon-max-size-is-open-tablet, var(--accordion-icon-max-size-is-open));
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+[data-gutplus-device="mobile"] .accordion-content-inner {
+  padding-top: var(--accordion-contentInner-padding-top-mobile, var(--accordion-contentInner-padding-top-tablet, var(--accordion-contentInner-padding-top)));
+  padding-right: var(--accordion-contentInner-padding-right-mobile, var(--accordion-contentInner-padding-right-tablet, var(--accordion-contentInner-padding-right)));
+  padding-bottom: var(--accordion-contentInner-padding-bottom-mobile, var(--accordion-contentInner-padding-bottom-tablet, var(--accordion-contentInner-padding-bottom)));
+  padding-left: var(--accordion-contentInner-padding-left-mobile, var(--accordion-contentInner-padding-left-tablet, var(--accordion-contentInner-padding-left)));
+}
+
+[data-gutplus-device="mobile"] .accordion-icon {
+  transform: translate(var(--accordion-icon-offset-x-mobile, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x))), var(--accordion-icon-offset-y-mobile, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y)))) rotate(var(--accordion-icon-initial-rotation));
+  font-size: var(--accordion-icon-size-mobile, var(--accordion-icon-size-tablet, var(--accordion-icon-size)));
+  max-width: var(--accordion-icon-max-size-mobile, var(--accordion-icon-max-size-tablet, var(--accordion-icon-max-size)));
+}
+
+[data-gutplus-device="mobile"] .gutplus-accordion {
+  margin-top: var(--accordion-item-margin-top-mobile, var(--accordion-item-margin-top-tablet, var(--accordion-item-margin-top)));
+  margin-right: var(--accordion-item-margin-right-mobile, var(--accordion-item-margin-right-tablet, var(--accordion-item-margin-right)));
+  margin-bottom: var(--accordion-item-margin-bottom-mobile, var(--accordion-item-margin-bottom-tablet, var(--accordion-item-margin-bottom)));
+  margin-left: var(--accordion-item-margin-left-mobile, var(--accordion-item-margin-left-tablet, var(--accordion-item-margin-left)));
+  width: var(--accordion-width-mobile, var(--accordion-width-tablet, var(--accordion-width)));
+}
+
+[data-gutplus-device="mobile"] .accordion-title {
+  padding-top: var(--accordion-title-padding-top-mobile, var(--accordion-title-padding-top-tablet, var(--accordion-title-padding-top)));
+  padding-right: var(--accordion-title-padding-right-mobile, var(--accordion-title-padding-right-tablet, var(--accordion-title-padding-right)));
+  padding-bottom: var(--accordion-title-padding-bottom-mobile, var(--accordion-title-padding-bottom-tablet, var(--accordion-title-padding-bottom)));
+  padding-left: var(--accordion-title-padding-left-mobile, var(--accordion-title-padding-left-tablet, var(--accordion-title-padding-left)));
+}
+
+/* is-open state */
+[data-gutplus-device="mobile"] .gutplus-accordion.is-open .accordion-icon {
+  transform: translate(var(--accordion-icon-offset-x-is-open-mobile, var(--accordion-icon-offset-x-is-open-tablet, var(--accordion-icon-offset-x-is-open, var(--accordion-icon-offset-x-mobile, var(--accordion-icon-offset-x-tablet, var(--accordion-icon-offset-x)))))), var(--accordion-icon-offset-y-is-open-mobile, var(--accordion-icon-offset-y-is-open-tablet, var(--accordion-icon-offset-y-is-open, var(--accordion-icon-offset-y-mobile, var(--accordion-icon-offset-y-tablet, var(--accordion-icon-offset-y))))))) rotate(calc(var(--accordion-icon-initial-rotation-is-open, var(--accordion-icon-initial-rotation)) + var(--accordion-icon-animation-rotation)));
+  font-size: var(--accordion-icon-size-is-open-mobile, var(--accordion-icon-size-is-open-tablet, var(--accordion-icon-size-is-open)));
+  max-width: var(--accordion-icon-max-size-is-open-mobile, var(--accordion-icon-max-size-is-open-tablet, var(--accordion-icon-max-size-is-open)));
+}
+

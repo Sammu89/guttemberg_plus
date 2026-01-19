@@ -84,6 +84,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 		type: 'boolean',
 		default: true,
 		control: 'ToggleControl',
+		renderControl: false, // Rendered by IconPanel composite control
 		cssProperty: 'display',
 		cssVar: `${ cssVarPrefix }-display`,
 		element: structureElement,
@@ -109,6 +110,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 		type: 'boolean',
 		default: false,
 		control: 'ToggleControl',
+		renderControl: false, // Rendered by IconPanel composite control
 		themeable: true,
 		responsive: false,
 		outputsCSS: false,
@@ -125,6 +127,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 		type: 'string',
 		default: defaults.position || 'right',
 		control: 'IconPositionControl',
+		renderControl: false, // Rendered by IconPanel composite control
 		allowedPositions,
 		themeable: true,
 		responsive: false,
@@ -142,6 +145,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 		type: 'string',
 		default: defaults.animationRotation || defaults.rotation || '180deg',
 		control: 'SliderWithInput',
+		renderControl: false, // Rendered by IconPanel composite control
 		cssVar: `${ cssVarPrefix }-animation-rotation`,
 		element: structureElement,
 		themeable: true,
@@ -242,6 +246,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 				type: 'object',
 				default: normalizedSource,
 				control: 'IconPicker',
+				renderControl: false, // Rendered by IconPanel composite control
 				themeable: true,
 				responsive: false,
 				outputsCSS: false,
@@ -255,6 +260,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 				type: 'string',
 				default: getDefault( 'color' ) || '#333333',
 				control: 'ColorControl',
+				renderControl: false, // Rendered by IconPanel composite control
 				cssProperty: 'color',
 				cssVar: `${ cssVarPrefix }-color${ stateVarSuffix }`,
 				element: structureElement,
@@ -271,6 +277,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 				type: 'string',
 				default: getDefault( 'initialRotation' ) || getDefault( 'rotation' ) || '0deg',
 				control: 'SliderWithInput',
+				renderControl: false, // Rendered by IconPanel composite control
 				cssVar: `${ cssVarPrefix }-initial-rotation${ stateVarSuffix }`,
 				element: structureElement,
 				themeable: true,
@@ -288,6 +295,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 
 			[ buildAttrName( baseName, 'Transform', state ) ]: {
 				type: 'string',
+				renderControl: false, // Rendered by IconPanel composite control
 				cssProperty: 'transform',
 				cssValueByDevice: transformValueByDevice,
 				element: structureElement,
@@ -302,6 +310,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 				type: 'string',
 				default: getDefault( 'size' ) || '16px',
 				control: 'SliderWithInput',
+				renderControl: false, // Rendered by IconPanel composite control
 				cssProperty: 'font-size',
 				cssVar: `${ cssVarPrefix }-size${ stateVarSuffix }`,
 				element: structureElement,
@@ -322,6 +331,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 				type: 'string',
 				default: getDefault( 'maxSize' ) || '24px',
 				control: 'SliderWithInput',
+				renderControl: false, // Rendered by IconPanel composite control
 				cssProperty: 'max-width',
 				cssVar: `${ cssVarPrefix }-max-size${ stateVarSuffix }`,
 				element: structureElement,
@@ -342,6 +352,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 				type: 'string',
 				default: getDefault( 'offsetX' ) || '0px',
 				control: 'SliderWithInput',
+				renderControl: false, // Rendered by IconPanel composite control
 				cssVar: `${ cssVarPrefix }-offset-x${ stateVarSuffix }`,
 				element: structureElement,
 				themeable: true,
@@ -361,6 +372,7 @@ function expandIconPanelMacro( macroName, macro, blockType ) {
 				type: 'string',
 				default: getDefault( 'offsetY' ) || '0px',
 				control: 'SliderWithInput',
+				renderControl: false, // Rendered by IconPanel composite control
 				cssVar: `${ cssVarPrefix }-offset-y${ stateVarSuffix }`,
 				element: structureElement,
 				themeable: true,

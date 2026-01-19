@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED - DO NOT EDIT MANUALLY
  * Generated from: schemas/generated/accordion.json
- * Generated at: 2026-01-18T17:06:14.395Z
+ * Generated at: 2026-01-19T16:38:17.035Z
  *
  * This file contains atomic, flat attributes in kebab-case format.
  * Each attribute represents a single configurable property.

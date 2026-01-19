@@ -73,7 +73,11 @@ function expandColorPanelMacro( macroName, macro, blockType ) {
 				? `${ subgroupBase } - ${ getStateLabel( state ) }`
 				: undefined );
 
-		fields.forEach( ( fieldKey ) => {
+		// Use PanelColorSettings composite control
+		// All color fields in this state share the same controlId
+		const controlId = state === 'base' ? baseName : `${ baseName }-${ state }`;
+
+		fields.forEach( ( fieldKey, index ) => {
 			const def = FIELD_DEFS[ fieldKey ];
 			if ( ! def ) {
 				throw new Error( `Unknown color field: ${ fieldKey }` );
@@ -82,6 +86,7 @@ function expandColorPanelMacro( macroName, macro, blockType ) {
 			const attrName = buildKebabName( baseName, def.suffix, state === 'base' ? '' : state );
 			const fieldDefault = stateDefaults[ fieldKey ];
 			const propertyOverride = properties[ fieldKey ];
+			const isFirst = index === 0;
 
 			const entry = {
 				type: def.type,
@@ -89,11 +94,16 @@ function expandColorPanelMacro( macroName, macro, blockType ) {
 				label: def.label,
 				description: def.description,
 				group,
-				control: def.control,
+				control: 'PanelColorSettings',
+				controlId: controlId,
+				renderControl: isFirst, // Only render PanelColorSettings once for all fields
 				element,
 				themeable,
 				outputsCSS: true,
 			};
+
+			// Add colorLabel for PanelColorSettings to identify each setting
+			entry.colorLabel = def.label;
 
 			if ( subgroup ) {
 				entry.subgroup = subgroup;

@@ -131,15 +131,19 @@ function expandBoxPanelMacro( macroName, macro, blockType ) {
 
 	if ( fields.includes( 'padding' ) ) {
 		const paddingDefaults = normalizeSideUnitValues( defaults.padding, '0px', 'px' );
-		SIDES.forEach( ( side ) => {
+		const paddingControlId = `${ baseName }Padding`;
+		SIDES.forEach( ( side, index ) => {
 			const sideLabel = capitalize( side );
+			const isFirst = index === 0;
 			const entry = {
 				type: 'string',
 				default: paddingDefaults[ side ],
 				label: `Padding (${ sideLabel })`,
 				description: `Padding on the ${ side } side`,
 				group: 'layout',
-				control: 'SliderWithInput',
+				control: 'SpacingControl',
+				controlId: paddingControlId,
+				renderControl: isFirst,
 				element,
 				cssProperty: `padding-${ side }`,
 				themeable,
@@ -159,15 +163,19 @@ function expandBoxPanelMacro( macroName, macro, blockType ) {
 
 	if ( fields.includes( 'margin' ) ) {
 		const marginDefaults = normalizeSideUnitValues( defaults.margin, '0px', 'px' );
-		SIDES.forEach( ( side ) => {
+		const marginControlId = `${ baseName }Margin`;
+		SIDES.forEach( ( side, index ) => {
 			const sideLabel = capitalize( side );
+			const isFirst = index === 0;
 			const entry = {
 				type: 'string',
 				default: marginDefaults[ side ],
 				label: `Margin (${ sideLabel })`,
 				description: `Margin on the ${ side } side`,
 				group: 'layout',
-				control: 'SliderWithInput',
+				control: 'SpacingControl',
+				controlId: marginControlId,
+				renderControl: isFirst,
 				element,
 				cssProperty: `margin-${ side }`,
 				themeable,
@@ -191,16 +199,21 @@ function expandBoxPanelMacro( macroName, macro, blockType ) {
 			'0px',
 			'px'
 		);
-		CORNERS.forEach( ( corner ) => {
+		// Generate radius attributes with unified RadiusControl (link/unlink support)
+		const radiusControlId = `${ baseName }Radius`;
+		CORNERS.forEach( ( corner, index ) => {
 			const cornerLabel = corner.replace( /([A-Z])/g, ' $1' ).trim();
 			const cornerKebab = kebabFromCamel( corner );
+			const isFirst = index === 0;
 			const entry = {
 				type: 'string',
 				default: radiusDefaults[ corner ],
 				label: `Border Radius (${ cornerLabel })`,
 				description: `Border radius on the ${ cornerLabel.toLowerCase() } corner`,
 				group: 'borders',
-				control: 'SliderWithInput',
+				control: 'RadiusControl',
+				controlId: radiusControlId,
+				renderControl: isFirst, // Only render RadiusControl once (on first corner)
 				element,
 				cssProperty: `border-${ cornerKebab }-radius`,
 				themeable,

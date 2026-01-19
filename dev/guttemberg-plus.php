@@ -97,16 +97,47 @@ add_action( 'plugins_loaded', 'guttemberg_plus_load_textdomain' );
 /**
  * Load backend PHP files
  */
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-storage.php';
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-rest-api.php';
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'php/theme-css-generator.php';
+$guttemberg_plus_required_files = array(
+	GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/storage/themes.php',
+	GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/api/themes.php',
+	GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/api/css.php',
+	GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/security.php',
+	GUTTEMBERG_PLUS_PLUGIN_DIR . 'server/init.php',
+);
+
+$guttemberg_plus_missing_files = array();
+foreach ( $guttemberg_plus_required_files as $guttemberg_plus_file ) {
+	if ( ! file_exists( $guttemberg_plus_file ) ) {
+		$guttemberg_plus_missing_files[] = basename( $guttemberg_plus_file );
+	} else {
+		require_once $guttemberg_plus_file;
+	}
+}
+
+if ( ! empty( $guttemberg_plus_missing_files ) ) {
+	add_action( 'admin_notices', 'guttemberg_plus_missing_files_notice' );
+	return;
+}
 
 /**
- * Load plugin core
- * Note: Asset enqueuing handled by block.json (WordPress 5.8+ standard)
+ * Missing files notice
  */
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'includes/security.php';
-require_once GUTTEMBERG_PLUS_PLUGIN_DIR . 'includes/block-registration.php';
+function guttemberg_plus_missing_files_notice() {
+	global $guttemberg_plus_missing_files;
+	?>
+	<div class="notice notice-error">
+		<p>
+			<?php
+			printf(
+				/* translators: %s: List of missing files */
+				esc_html__( 'Guttemberg Plus is missing required files: %s', 'guttemberg-plus' ),
+				esc_html( implode( ', ', $guttemberg_plus_missing_files ) )
+			);
+			?>
+		</p>
+	</div>
+	<?php
+}
 
 /**
  * Plugin activation hook

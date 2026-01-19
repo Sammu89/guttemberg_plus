@@ -107,8 +107,13 @@ function expandBorderPanelMacro( macroName, macro, blockType ) {
 	const colorDefaults = normalizeSideValues( defaults.color, '#dddddd' );
 	const styleDefaults = normalizeSideValues( defaults.style, 'solid' );
 
-	sides.forEach( ( side ) => {
+	// BorderPanel requires all width/color/style attributes to share the same controlId
+	// The panel renders ALL sides together in one unified control
+	const controlId = baseName; // e.g., "block-box" or "divider"
+
+	sides.forEach( ( side, index ) => {
 		const sideLabel = capitalize( side );
+		const isFirst = index === 0;
 
 		const widthEntry = {
 			type: 'string',
@@ -116,7 +121,9 @@ function expandBorderPanelMacro( macroName, macro, blockType ) {
 			label: `Border Width (${ sideLabel })`,
 			description: `Border width on the ${ side } side`,
 			group,
-			control: 'SliderWithInput',
+			control: 'BorderPanel',
+			controlId: controlId,
+			renderControl: isFirst, // Only render BorderPanel once (on first side's width)
 			element,
 			cssProperty: `border-${ side }-width`,
 			themeable,
@@ -129,7 +136,9 @@ function expandBorderPanelMacro( macroName, macro, blockType ) {
 			label: `Border Color (${ sideLabel })`,
 			description: `Border color on the ${ side } side`,
 			group,
-			control: 'ColorControl',
+			control: 'BorderPanel',
+			controlId: controlId,
+			renderControl: false, // Part of BorderPanel, don't render separately
 			element,
 			cssProperty: `border-${ side }-color`,
 			themeable,
@@ -142,7 +151,9 @@ function expandBorderPanelMacro( macroName, macro, blockType ) {
 			label: `Border Style (${ sideLabel })`,
 			description: `Border style on the ${ side } side`,
 			group,
-			control: 'SelectControl',
+			control: 'BorderPanel',
+			controlId: controlId,
+			renderControl: false, // Part of BorderPanel, don't render separately
 			options: BORDER_STYLE_OPTIONS,
 			element,
 			cssProperty: `border-${ side }-style`,

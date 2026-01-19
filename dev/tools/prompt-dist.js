@@ -20,10 +20,9 @@ const copyTargets = [
 	'guttemberg-plus.php',
 	'uninstall.php',
 	'LICENSE',
-	'php',
-	'includes',
-	'build',
-	'blocks',
+	'server',    // PHP backend (was 'php' and 'includes')
+	'build',     // Compiled assets
+	'blocks',    // Only block.json files (filtered)
 ];
 
 function prompt( question ) {
@@ -67,7 +66,7 @@ function shouldCopy( src ) {
 
 	// Don't ship PHP test harnesses
 	if (
-		rel.startsWith( `php${ path.sep }` ) &&
+		rel.startsWith( `server${ path.sep }` ) &&
 		! isDir &&
 		path.basename( rel ).startsWith( 'test-' )
 	) {
@@ -123,6 +122,13 @@ async function buildDist() {
 		}
 	}
 	console.log( `✅ Distribution copied to ${ TARGET_ROOT }` );
+
+	// Clean up dev/build folder after successful copy
+	const devBuildPath = path.join( ROOT, 'build' );
+	if ( fs.existsSync( devBuildPath ) ) {
+		await fs.promises.rm( devBuildPath, { recursive: true, force: true } );
+		console.log( '✅ Cleaned up dev/build folder' );
+	}
 }
 
 ( async () => {

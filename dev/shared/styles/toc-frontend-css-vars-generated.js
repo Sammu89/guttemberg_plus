@@ -3,7 +3,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: schemas/generated/toc.json
- * Generated at: 2026-01-18T17:06:14.421Z
+ * Generated at: 2026-01-19T16:38:17.107Z
  *
  * This file is regenerated on every build. Any manual changes will be lost.
  * To modify this file, update the source schema and run: npm run schema:build
